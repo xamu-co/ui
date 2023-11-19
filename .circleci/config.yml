@@ -69,7 +69,7 @@ jobs:
                   name: Lint & check
                   command: yarn lint
 
-    build_release:
+    prepare_release:
         <<: *defaults
         steps:
             - checkout
@@ -108,14 +108,19 @@ workflows:
             - check_code:
                   requires:
                       - pre_build
-            - build_release:
+            - prepare_release:
                   context: npm-deploy
                   requires:
                       - check_code
+                  filters:
+                      branches:
+                          only:
+                              - master
+                              - next
             - approve_release:
                   type: approval
                   requires:
-                      - build_release
+                      - prepare_release
                   filters:
                       branches:
                           only:

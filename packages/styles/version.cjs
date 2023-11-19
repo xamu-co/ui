@@ -2,5 +2,5 @@ const update = require("../../scripts/update-version.cjs");
 
 (async () => {
 	// Update packages that depent on this one
-	await update(["components-vue", "components-svelte"], true);
+	await update(["components-vue"], true);
 })();
