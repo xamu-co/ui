@@ -1,0 +1,141 @@
+@use "../utils/module" as utils;
+
+/// # Flexbox layout
+/// Flexbox layout system
+/// ```css
+///  .flx
+///
+///  /** or inline */
+///  .flx.--display-inline
+/// ```
+/// This layout makes use of the global flx union
+///
+/// ## Requirements:
+/// None
+///
+/// ## Modifiers:
+/// ### Row flex flow
+/// Row direction and wrapping behavior.
+/// ```css
+///  .flx.--flxRow
+///
+///  /** it can be reversed */
+///  .flx.--flxRowReverse
+///
+///  /** or allow content wrapping */
+///  .flx.--flxRow-wrap
+///  .flx.--flxRowReverse-wrap
+/// ```
+/// ### Column flex flow
+/// Column direction and wrapping behavior.
+/// ```css
+///  .flx.--flxColumn
+///
+///  /** it can be reversed */
+///  .flx.--flxColumnReverse
+///
+///  /** or allow content wrapping */
+///  .flx.--flxColumn-wrap
+///  .flx.--flxColumnReverse-wrap
+/// ```
+///
+/// ## Unions:
+/// None
+///
+/// @group layout-flex
+/// @example njk
+///  <div class="flx --flxColumn">
+///   TODO: flexbox example
+///  </div>
+
+// flexbox container
+@mixin flex {
+	@layer definitions {
+		.#{utils.$layout-flexbox} {
+			@include utils.extend-device-interactions {
+				display: flex;
+
+				@layer defaults {
+					& {
+						// @defaults gap
+						gap: 1rem;
+					}
+				}
+			}
+
+			// flexbox row container
+			//
+			// @group Modifiers
+			&.#{utils.$prefix-default}--flxRow {
+				&,
+				&-wrap,
+				&-reverse,
+				&-nowrap {
+					@include utils.extend-viewports-classes {
+						flex-direction: row;
+					}
+				}
+			}
+			&.#{utils.$prefix-default}--flxRowReverse {
+				&,
+				&-wrap,
+				&-reverse,
+				&-nowrap {
+					@include utils.extend-viewports-classes {
+						flex-direction: row-reverse;
+					}
+				}
+			}
+
+			// flexbox flex container
+			//
+			// @group Modifiers
+			&.#{utils.$prefix-default}--flxColumn {
+				&,
+				&-wrap,
+				&-reverse,
+				&-nowrap {
+					@include utils.extend-viewports-classes {
+						flex-direction: column;
+					}
+				}
+			}
+			&.#{utils.$prefix-default}--flxColumnReverse {
+				&,
+				&-wrap,
+				&-reverse,
+				&-nowrap {
+					@include utils.extend-viewports-classes {
+						flex-direction: column-reverse;
+					}
+				}
+			}
+
+			// an union could be a shorter solution, but is a huge breaking change
+			&.#{utils.$prefix-default}--flxRow,
+			&.#{utils.$prefix-default}--flxColumn,
+			&.#{utils.$prefix-default}--flxRowReverse,
+			&.#{utils.$prefix-default}--flxColumnReverse {
+				&-wrap {
+					@include utils.extend-viewports-classes {
+						flex-wrap: wrap;
+					}
+				}
+
+				&-reverse {
+					@include utils.extend-viewports-classes {
+						flex-wrap: wrap-reverse;
+					}
+				}
+
+				// default
+				&,
+				&-nowrap {
+					@include utils.extend-viewports-classes {
+						flex-wrap: nowrap;
+					}
+				}
+			}
+		}
+	}
+}

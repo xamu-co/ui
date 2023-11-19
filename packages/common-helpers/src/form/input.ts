@@ -1,0 +1,224 @@
+import type { IconName } from "@fortawesome/fontawesome-common-types";
+import _ from "lodash";
+
+import type {
+	iFormInput,
+	iFormInputDefault,
+	iFormValue,
+	iSelectOption,
+	tFormAutocomplete,
+	tFormIcon,
+} from "@open-xamu-co/ui-common-types";
+import { eFormType, eFormTypeSimple, eFormTypeComplex } from "@open-xamu-co/ui-common-enums";
+
+import { toSelectOption } from "../format.js";
+
+/**
+ * get form input icon
+ */
+function getIcon(
+	icon?: IconName | tFormIcon,
+	type?: eFormTypeSimple | eFormTypeComplex
+): tFormIcon {
+	if (icon) return Array.isArray(icon) ? icon : [icon, {}];
+
+	switch (type) {
+		case eFormType.NEW_PASSWORD:
+		case eFormType.PASSWORD:
+			return ["lock", {}];
+		case eFormType.EMAIL:
+			return ["at", {}];
+		case eFormType.PHONE:
+			return ["phone-flip", {}];
+		case eFormType.CELLPHONE:
+			return ["mobile-screen-button", {}];
+		case eFormType.ID:
+			return ["id-card", {}];
+	}
+
+	return [undefined, {}];
+}
+/**
+ * get form input default
+ */
+function getDefault<V extends iFormValue = iFormValue>(
+	type?: eFormTypeSimple | eFormTypeComplex,
+	defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]]
+): V | V[] {
+	switch (type) {
+		case eFormType.LOCATION:
+			// 3 values
+			return Array(3).fill("");
+		case eFormType.ID:
+		case eFormType.PHONE:
+		case eFormType.CELLPHONE:
+		case eFormType.NEW_PASSWORD:
+			// 2 values
+			return Array(2).fill("");
+		default:
+			// 1 value
+			if (!defaults) return Array(1).fill("")[0];
+
+			return Array(defaults.length).fill("");
+	}
+}
+
+export class FormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFormTypeSimple>
+	implements iFormInputDefault<T>
+{
+	// public
+	public type!: T;
+	// public readonly
+	public readonly required!: boolean;
+	public readonly options!: iSelectOption[];
+	public readonly placeholder!: string;
+	public readonly icon!: tFormIcon;
+	public readonly autocomplete!: tFormAutocomplete;
+	public readonly min!: number;
+	public readonly max!: number;
+
+	constructor(formInput: iFormInputDefault<T>) {
+		this.required = formInput.required ?? false;
+		this.options = formInput.options?.map(toSelectOption) ?? [];
+		this.min = formInput.min ?? 1;
+
+		// max cannot be lower than min or more than options if they exist
+		const maxValue = this.options.length || formInput.max || 9e9;
+
+		this.max = maxValue < this.min ? this.min : maxValue;
+
+		if (formInput.type) this.type = formInput.type;
+		if (formInput.placeholder) this.placeholder = formInput.placeholder;
+		if (formInput.icon) this.icon = getIcon(formInput.icon, formInput.type);
+		if (formInput.autocomplete) this.autocomplete = formInput.autocomplete;
+	}
+}
+
+export class FormInput<V extends iFormValue = iFormValue>
+	extends FormInputDefault<eFormTypeSimple | eFormTypeComplex>
+	implements iFormInput<V>
+{
+	// private
+	private _values!: (V | V[])[];
+	private _defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]];
+	/** Rerender component */
+	private _rerender?: () => void;
+	// public readonly
+	public readonly name!: string;
+	public readonly title!: string;
+	public readonly multiple!: boolean;
+
+	constructor(
+		formInput: iFormInput<V>,
+		private _onUpdatedValues?: (updatedValues: (V | V[])[]) => void
+	) {
+		super(formInput);
+
+		const values = Array(this.min).fill(getDefault(formInput.type, formInput.defaults));
+
+		this._values = formInput.values ?? values;
+		this.name = formInput.name;
+		this.multiple = formInput.multiple ?? false;
+
+		if (formInput.defaults) this._defaults = formInput.defaults;
+		if (formInput.title) this.title = formInput.title;
+	}
+
+	get values(): (V | V[])[] {
+		return this._values;
+	}
+	set values(updatedValues: (V | V[])[] | undefined) {
+		if (updatedValues === undefined) {
+			// set defaults
+			this._values = Array(this.min).fill(getDefault(this.type, this.defaults));
+		} else {
+			this._values = updatedValues;
+			// run hook on values change
+			this._onUpdatedValues?.(this._values);
+		}
+	}
+
+	get defaults(): [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]] | undefined {
+		return this._defaults;
+	}
+	set defaults(
+		updatedDefaults: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]] | undefined
+	) {
+		this._defaults = updatedDefaults;
+		// rerender on defaults change
+		this._rerender?.();
+	}
+
+	/**
+	 * set rerender function
+	 */
+	public setRerender(rerender: () => void) {
+		this._rerender = rerender;
+
+		return this;
+	}
+
+	/**
+	 * add new model to the models
+	 */
+	public addValue(newValue: V | V[] = getDefault(this.type, this.defaults)) {
+		if (this.values.length < this.max) {
+			this.values = [...this.values, newValue];
+		}
+
+		return this;
+	}
+	/**
+	 * remove the given value from the values
+	 */
+	public removeValue(index: number) {
+		if (this.values.length > this.min) {
+			this.values = this.values.toSpliced(index, 1);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Clone this object
+	 */
+	public clone(
+		overrides?: Omit<iFormInput<V>, "name"> & { name?: string },
+		onUpdatedValues: ((updatedValues: (V | V[])[]) => void) | undefined = this._onUpdatedValues
+	) {
+		return new FormInput(
+			{
+				...this,
+				values: this._values,
+				defaults: this._defaults,
+				...overrides,
+			},
+			onUpdatedValues
+		);
+	}
+
+	/**
+	 * Get simple object
+	 */
+	public getObject<Vi extends iFormValue = iFormValue>(input: FormInput<Vi>): iFormInput<Vi> {
+		return {
+			required: input.required,
+			type: input.type,
+			options: input.options,
+			placeholder: input.placeholder,
+			icon: input.icon,
+			autocomplete: input.autocomplete,
+			min: input.min,
+			max: input.max,
+			name: input.name,
+			values: input.values,
+			defaults: input.defaults,
+			title: input.title,
+			multiple: input.multiple,
+		};
+	}
+
+	public isEqual(other: FormInput): boolean {
+		return _.isEqual(this.getObject(this), this.getObject(other));
+	}
+}

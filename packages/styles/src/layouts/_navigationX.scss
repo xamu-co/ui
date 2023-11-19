@@ -1,0 +1,330 @@
+@use "../utils/module" as utils;
+
+// Main navigation
+// this element is expected to be an <nav> wrapper
+//
+// @name Columns
+// @group Layouts
+@mixin navigation-x {
+	@layer definitions {
+		.#{utils.$layout-navigation-x} {
+			width: 100%;
+
+			@include utils.flex-box(column, nowrap, center, stretch);
+
+			// box-sizing: border-box;
+
+			// es barra de navegacion principal
+			//
+			// @group Modifiers
+			&:not(.#{utils.$prefix-default}--sub) {
+				&:not(.#{utils.$prefix-default}--relative) {
+					z-index: 16;
+				}
+				&,
+				.#{utils.$layout-navigation-x}-wrapper {
+					height: 5rem;
+					transition:
+						all 0.3s ease-out,
+						padding 0s;
+				}
+
+				// tema de la barra de navegacion principal
+				//
+				// @group ConditionalModifiers
+				&.#{utils.$prefix-default}--tm-lightComplement {
+					--sh: #{utils.color(primary-complement, 0.7)};
+				}
+				&.#{utils.$prefix-default}--tm-light,
+				&.#{utils.$prefix-default}--tm-lightComplement {
+					.#{utils.$layout-navigation-x}-list-item {
+						> *,
+						> * > * {
+							&:not(.#{utils.$status-is-active}):not(:hover) {
+								&:not(.#{utils.$status-is-route-exact}),
+								&.#{utils.$status-is-route-exact}.#{utils.$status-no-route},
+								&.#{utils.$status-is-route-exact}.#{utils.$status-no-route-exact} {
+									&.#{utils.$component-link}[class*="--tm-light"] {
+										text-shadow: 1px 1px 1px
+											var(--sh, #{utils.color(dark, 0.3)});
+									}
+
+									&.#{utils.$prefix-default-with-separator
+										+ utils.$component-button}Link {
+										@if utils.$allow-responsive {
+											@media (min-width: (utils.$querie-tablet + 1)) {
+												text-shadow: 1px 1px 1px
+													var(--sh, #{utils.color(dark, 0.3)});
+											}
+										}
+									}
+								}
+							}
+							&.#{utils.$status-is-active},
+							&.#{utils.$status-is-route-exact}:not(.#{utils.$status-no-route}):not(
+									.#{utils.$status-no-route-exact}
+								) {
+								&.#{utils.$component-button} {
+									text-shadow: 1px 1px 1px var(--sh, #{utils.color(dark, 0.3)});
+								}
+							}
+						}
+						> .#{utils.$status-toggle-dropdown}.#{utils.$status-is-active}:not(:hover) {
+							&.#{utils.$component-link}[class*="--tm-light"] {
+								text-shadow: none;
+							}
+							&.#{utils.$component-button-link} {
+								@if utils.$allow-responsive {
+									@media (min-width: (utils.$querie-tablet + 1)) {
+										text-shadow: none;
+									}
+								}
+							}
+							&.#{utils.$component-button} {
+								text-shadow: none;
+							}
+						}
+
+						@if utils.$allow-responsive {
+							// desktop only, use hover
+							@media (min-width: (utils.$querie-tablet + 1)) {
+								&:hover
+									> .#{utils.$status-toggle-dropdown}:not(
+										.#{utils.$status-only-active}
+									) {
+									&:not(.#{utils.$status-is-active}):not(:hover) {
+										&:not(.#{utils.$status-is-route-exact}),
+										&.#{utils.$status-is-route-exact}.#{utils.$status-no-route},
+										&.#{utils.$status-is-route-exact}.#{utils.$status-no-route-exact} {
+											&.#{utils.$component-link}[class*="--tm-light"] {
+												text-shadow: none;
+											}
+
+											&.#{utils.$prefix-default-with-separator
+												+ utils.$component-button}Link {
+												text-shadow: none;
+											}
+										}
+									}
+									&.#{utils.$status-is-active},
+									&.#{utils.$status-is-route-exact}:not(
+											.#{utils.$status-no-route}
+										):not(.#{utils.$status-no-route-exact}) {
+										&.#{utils.$prefix-default-with-separator
+											+ utils.$component-button} {
+											text-shadow: none;
+										}
+									}
+								}
+							}
+
+							// mobile only, use focus
+							@media (max-width: utils.$querie-tablet) {
+								&:focus-within:not(.#{utils.$status-no-focus})
+									> .#{utils.$status-toggle-dropdown}:not(
+										.#{utils.$status-only-active}
+									) {
+									&:not(.#{utils.$status-is-active}):not(:hover) {
+										&:not(.#{utils.$status-is-route-exact}),
+										&.#{utils.$status-is-route-exact}.#{utils.$status-no-route},
+										&.#{utils.$status-is-route-exact}.#{utils.$status-no-route-exact} {
+											&.#{utils.$component-link}[class*="--tm-light"] {
+												text-shadow: none;
+											}
+										}
+									}
+									&.#{utils.$status-is-active},
+									&.#{utils.$status-is-route-exact}:not(
+											.#{utils.$status-no-route}
+										):not(.#{utils.$status-no-route-exact}) {
+										&.#{utils.$prefix-default-with-separator
+											+ utils.$component-button} {
+											text-shadow: none;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				// default theme
+				&:not([class*="--tm-"]),
+				&.#{utils.$prefix-default}--tm-secondary {
+					> .#{utils.$layout-navigation-x}-wrapper {
+						background: utils.color(light);
+					}
+					&:not(.#{utils.$prefix-default}--relative)
+						> .#{utils.$layout-navigation-x}-wrapper {
+						box-shadow: 0 0.4rem 2.4rem utils.color(dark, 0.05);
+					}
+				}
+			}
+
+			// es barra de navegacion secundaria
+			//
+			// @group Modifiers
+			&.#{utils.$prefix-default}--sub {
+				position: absolute;
+				left: 0;
+				top: 100%;
+
+				// margin: 0;
+				height: 2.4rem;
+				border-top: 2px solid transparent;
+				border-bottom: 2px solid transparent;
+
+				// tema de la barra de navegacion secundaria
+				//
+				// @group ConditionalModifiers
+				&.#{utils.$prefix-default}--tm-light .#{utils.$layout-navigation-x}-list-item {
+					> *,
+					> * > * {
+						&.#{utils.$component-link},
+						&.#{utils.$component-button-link} {
+							&:not(:hover):not(.#{utils.$status-is-active}) {
+								&:not(.#{utils.$status-is-route-exact}),
+								&.#{utils.$status-is-route-exact}.#{utils.$status-no-route},
+								&.#{utils.$status-is-route-exact}.#{utils.$status-no-route-exact} {
+									text-shadow: 1px 1px 1px var(--sh, #{utils.color(dark, 0.3)});
+								}
+							}
+						}
+					}
+					> .#{utils.$status-toggle-dropdown}.#{utils.$status-is-active} {
+						&.#{utils.$component-link},
+						&.#{utils.$component-button-link} {
+							text-shadow: none;
+						}
+					}
+
+					@if utils.$allow-responsive {
+						// desktop only, use hover
+						@media (min-width: (utils.$querie-tablet + 1)) {
+							&:hover
+								> .#{utils.$status-toggle-dropdown}:not(
+									.#{utils.$status-only-active}
+								) {
+								&.#{utils.$component-link},
+								&.#{utils.$component-button-link} {
+									text-shadow: none;
+								}
+							}
+						}
+
+						// mobile only, use focus
+						@media (max-width: utils.$querie-tablet) {
+							&:focus-within:not(.#{utils.$status-no-focus})
+								> .#{utils.$status-toggle-dropdown}:not(
+									.#{utils.$status-only-active}
+								) {
+								&.#{utils.$component-link},
+								&.#{utils.$component-button-link} {
+									text-shadow: none;
+								}
+							}
+						}
+					}
+				}
+				&.#{utils.$prefix-default}--tm-primary-complement
+					.#{utils.$layout-navigation-x}-list-item {
+					> *,
+					> * > * {
+						&.#{utils.$component-link},
+						&.#{utils.$component-button-link} {
+							&:hover,
+							&.#{utils.$status-is-active},
+							&.#{utils.$status-is-route-exact}:not(.#{utils.$status-no-route}):not(
+									.#{utils.$status-no-route-exact}
+								) {
+								text-shadow: 1px 1px 1px var(--sh, #{utils.color(dark, 0.3)});
+							}
+						}
+					}
+					> .#{utils.$status-toggle-dropdown}.#{utils.$status-is-active} {
+						&.#{utils.$component-link},
+						&.#{utils.$component-button-link} {
+							text-shadow: 1px 1px 1px var(--sh, #{utils.color(dark, 0.3)});
+						}
+					}
+
+					@if utils.$allow-responsive {
+						// desktop only, use hover
+						@media (min-width: (utils.$querie-tablet + 1)) {
+							&:hover
+								> .#{utils.$status-toggle-dropdown}:not(
+									.#{utils.$status-only-active}
+								) {
+								&.#{utils.$component-link},
+								&.#{utils.$component-button-link} {
+									text-shadow: 1px 1px 1px var(--sh, #{utils.color(dark, 0.3)});
+								}
+							}
+						}
+
+						// mobile only, use focus
+						@media (max-width: utils.$querie-tablet) {
+							&:focus-within:not(.#{utils.$status-no-focus})
+								> .#{utils.$status-toggle-dropdown}:not(
+									.#{utils.$status-only-active}
+								) {
+								&.#{utils.$component-link},
+								&.#{utils.$component-button-link} {
+									text-shadow: 1px 1px 1px var(--sh, #{utils.color(dark, 0.3)});
+								}
+							}
+						}
+					}
+				}
+
+				// default theme
+				&:not([class*="--tm-"]),
+				&.#{utils.$prefix-default}--tm-secondary {
+					border-bottom-color: utils.color(secondary, 0.05);
+				}
+			}
+		}
+
+		// Navigation wrapper
+		.#{utils.$layout-navigation-x}-wrapper {
+			&,
+			> .#{utils.$layout-holder} {
+				width: 100%;
+				height: 100%;
+				position: static;
+
+				@include utils.flex-box(row, nowrap, space-between, center);
+			}
+		}
+
+		// Navigation nav list
+		// this element is expected to be an <ul> or <ol> list
+		ul,
+		ol {
+			&.#{utils.$layout-navigation-x}-list {
+				position: static;
+
+				@include utils.flex-box(row, nowrap, center, center);
+
+				&,
+				> * {
+					&:not(:first-child) {
+						margin-left: 1rem;
+
+						@if utils.$allow-responsive {
+							@media (max-width: utils.$querie-smartphone) {
+								margin-left: 0.4rem;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Navigation nav list item
+		// this element is expected to be an <li> list item
+		li.#{utils.$layout-navigation-x}-list-item {
+			@include utils.flex-box(column, nowrap, center, flex-start);
+		}
+	}
+}

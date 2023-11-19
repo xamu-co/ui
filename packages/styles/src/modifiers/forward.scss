@@ -1,0 +1,39 @@
+// color
+@forward "color/background";
+@forward "color/border";
+@forward "color/striped";
+
+// flexbox
+@forward "flexbox/align";
+@forward "flexbox/growth";
+@forward "flexbox/justify";
+@forward "flexbox/place-items";
+
+// size
+@forward "size/gap";
+@forward "size/gaping";
+@forward "size/height";
+@forward "size/margin";
+@forward "size/padding";
+@forward "size/width";
+
+// text
+@forward "text/align";
+@forward "text/color";
+@forward "text/shadow";
+@forward "text/size";
+@forward "text/spacing";
+@forward "text/style";
+@forward "text/transform";
+@forward "text/weight";
+@forward "text/wrap";
+
+// others
+@forward "vertical-align";
+@forward "box-sizing";
+@forward "border";
+@forward "float";
+@forward "display";
+@forward "order";
+@forward "position";
+@forward "zindex";

@@ -1,0 +1,18 @@
+@use "module";
+
+// emoji item
+//
+// @group Components
+@mixin emoji {
+	@layer definitions {
+		.#{module.$component-emoji} {
+			display: inline;
+			width: 1.4em;
+			height: 1.4em;
+			margin-bottom: -0.3em;
+			font-size: inherit;
+			user-select: none; // unselectable
+			touch-action: manipulation; // disables tap zoom
+		}
+	}
+}

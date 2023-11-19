@@ -1,0 +1,104 @@
+@use "module";
+@use "sass:meta";
+
+// Toggle button
+// this element is expected to be an <button>, <a> or <label> element
+// aditionally you have to provide a fas(solid) far(regular) icons
+//
+// @group Components
+@mixin button-toggle {
+	@layer definitions {
+		.#{module.$component-button-toggle} {
+			@include module.action-styles;
+			@include module.action-round-styles;
+			@include module.action-aligment-styles;
+			@include module.action-gaping-styles;
+			@include module.action-alert-styles;
+			@include module.action-size-styles;
+			@include module.action-border-styles;
+			@include module.action-capitalize-styles;
+			@include module.action-disabled-styles;
+
+			--cl-a: var(--cl);
+
+			&.#{module.$status-is-alert}:after {
+				background-color: var(--bg, transparent);
+			}
+
+			&.#{module.$status-is-alert},
+			&.#{module.$status-is-active},
+			&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+					.#{module.$status-no-route-exact}
+				) {
+				// hide regular
+				&,
+				.#{module.$component-button-toggle}-icon {
+					i.#{module.$component-icon},
+					.#{module.$component-svg} {
+						&:first-of-type {
+							--fa-display: none;
+
+							display: none;
+
+							&:first-child + * {
+								margin-left: 0;
+							}
+						}
+					}
+				}
+			}
+			&:not(.#{module.$status-is-alert}):not(.#{module.$status-is-active}) {
+				&:not(.#{module.$status-is-route-exact}),
+				&.#{module.$status-is-route-exact}.#{module.$status-no-route},
+				&.#{module.$status-is-route-exact}.#{module.$status-no-route-exact} {
+					// hide solid
+					&,
+					.#{module.$component-button-toggle}-icon {
+						i.#{module.$component-icon},
+						.#{module.$component-svg} {
+							&:last-of-type {
+								--fa-display: none;
+
+								display: none;
+							}
+						}
+					}
+				}
+			}
+
+			// button theme
+			// first value is the bgColor
+			// second value is the textColor
+			//
+			// @group Modifiers
+			@include module.extend-themes using($name, $value, $is-default) {
+				--cl: #{module.color($name)};
+				--bg: #{module.color($name, 0.1)};
+
+				&:hover {
+					--bc: #{module.color($name, 0.3)};
+				}
+				&.#{module.$status-is-alert},
+				&.#{module.$status-is-active} {
+					--bg: #{module.color($name, 0.5)};
+				}
+				&.#{module.$status-is-alert}:after {
+					--bc: #{module.color($name)};
+					--bg: #{module.color(light)};
+				}
+				&.#{module.$status-is-route-exact} {
+					&:not(.#{module.$status-no-route}):not(.#{module.$status-no-route-exact}) {
+						--cl: #{module.color(light)};
+						--bg: #{module.color($name, 0.5)};
+						--bc: #{module.color(light, 0.3)};
+					}
+				}
+			}
+
+			> span {
+				display: block;
+				line-height: 1em;
+			}
+		}
+	}
+}

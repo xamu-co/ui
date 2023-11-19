@@ -1,0 +1,39 @@
+@use "utils/module" as utils;
+@use "base/module" as base;
+@use "modifiers/module" as modifiers;
+@use "pseudos/module" as pseudos;
+@use "components/module" as components;
+@use "layouts/module" as layouts;
+
+/**
+	MAIN STYLESHEET
+
+	project definitions
+	base layout ruling
+	module concatenation
+*/
+
+@media only screen {
+	// BASE
+	@include base.all;
+
+	// MODIFIERS
+	@if utils.$allow-modifiers {
+		@include modifiers.all;
+	}
+
+	// PSEUDOS
+	@if utils.$allow-pseudos {
+		@include pseudos.all;
+	}
+
+	// COMPONENTS
+	@if utils.$allow-components {
+		@include components.all;
+	}
+
+	// LAYOUTS
+	@if utils.$allow-layouts {
+		@include layouts.all;
+	}
+}

@@ -1,0 +1,62 @@
+@use "../utils/module" as utils;
+
+@mixin navigation-y {
+	@layer definitions {
+		nav.#{utils.$layout-navigation-y} {
+			background-color: utils.color(light, 0.9);
+			width: auto;
+
+			// flex: 0 0 auto;
+			@include utils.flex-box(row, nowrap, flex-start, stretch);
+		}
+
+		.#{utils.$layout-navigation-y}-menu {
+			min-height: 100%;
+			height: auto;
+			box-sizing: border-box;
+
+			// box-sizing: border-box;
+
+			// es barra de navegacion principal
+			//
+			// @group Statuses
+			&:not(.#{utils.$prefix-default}--sub) {
+				@include utils.flex-box(column, nowrap, space-between, center);
+				ul.#{utils.$layout-navigation-y}-menu-list,
+				ol.#{utils.$layout-navigation-y}-menu-list {
+					align-items: center;
+				}
+			}
+
+			// es barra de navegacion secundaria
+			//
+			// @group Statuses
+
+			&.#{utils.$prefix-default}--sub {
+				@if utils.$allow-responsive {
+					@media (min-width: (utils.$querie-tablet + 1)) {
+						overflow: hidden;
+
+						@include utils.flex-box(column, nowrap, space-between, flex-start);
+					}
+				}
+			}
+		}
+
+		// Navigation nav list
+		// this element is expected to be an <ul> or <ol> list
+		ul,
+		ol {
+			&.#{utils.$layout-navigation-y}-menu-list {
+				@include utils.flex-box(column, nowrap, center, flex-start);
+
+				&,
+				> * {
+					&:not(:first-child) {
+						margin-top: 1rem;
+					}
+				}
+			}
+		}
+	}
+}

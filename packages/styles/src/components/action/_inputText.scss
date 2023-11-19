@@ -1,0 +1,126 @@
+@use "module";
+@use "sass:meta";
+
+// Envuelve cada vista
+// this element is expected to be an <input> or <textarea> tag but the text type
+//
+// @group Components
+@mixin input-text {
+	@layer definitions {
+		.#{module.$component-input-text} {
+			@include module.action-styles;
+			@include module.action-border-styles;
+			@include module.action-disabled-styles;
+
+			width: 100%;
+			display: block;
+			padding: 0 0.8rem;
+
+			@include module.flex-box(column, nowrap, center, center);
+
+			@at-root textarea#{&} {
+				min-height: 6rem;
+				padding-top: 0.4rem;
+				padding-bottom: 0.4rem;
+
+				// form-sizing: content;
+				// max-lines: 100;
+			}
+
+			&:not(textarea) {
+				@include module.action-size-styles;
+
+				i.#{module.$component-icon},
+				.#{module.$component-svg} {
+					position: absolute;
+					top: 50%;
+					left: 0.8rem;
+					z-index: 1;
+					transform: translateY(-50%);
+				}
+
+				input {
+					background-color: transparent;
+					width: 100%;
+					height: 100%;
+					padding-left: 1.6rem;
+					font-weight: inherit;
+					box-sizing: border-box;
+
+					&[placeholder],
+					&:placeholder-shown {
+						text-overflow: ellipsis;
+					}
+				}
+			}
+
+			@layer defaults {
+				& {
+					// @defaults txtAlign
+					text-align: left;
+				}
+
+				// theme
+				//
+				// @group Modifiers
+				@include module.extend-themes using($name, $value, $is-default) {
+					--bg: #{module.color($name, 0.1)};
+					--bc: #{module.color($name, 0.05)};
+					--cl: #{module.color($name)};
+					--cl-a: #{module.color($name, 0.5)};
+				}
+
+				// theme overrides
+				//
+				// @group Modifiers
+				&.#{module.$prefix-default}--tm-light {
+					--bg: #{module.color(light, 0.3)};
+					--bc: #{module.color(light, 0.7)};
+					--cl-a: #{module.color(light, 0.7)};
+
+					text-shadow: 1px 1px 1px module.color(dark, 0.3);
+				}
+			}
+
+			// invalid
+			&.#{module.$status-is-invalid} {
+				--bg: #{module.color(danger, 0.1)};
+				--bc: #{module.color(danger, 0.05)};
+				--cl: #{module.color(danger)};
+				--cl-a: #{module.color(danger, 0.3)};
+			}
+
+			&:hover:not(:focus, :focus-within) {
+				--bc: var(--cl-a);
+			}
+
+			&:focus,
+			&:focus-within {
+				--bc: var(--cl);
+			}
+
+			// theme overrides
+			//
+			// @group Modifiers
+			&.#{module.$prefix-default}--tm-light {
+				&:hover:not(:focus, :focus-within) {
+					--bc: var(--cl);
+				}
+
+				&:focus,
+				&:focus-within {
+					--bg: #{module.color(primary, 0.3)};
+					--bc: #{module.color(primary)};
+				}
+			}
+
+			&::placeholder,
+			input::placeholder,
+			input:placeholder-shown ~ i.#{module.$component-icon},
+			input:placeholder-shown ~ .#{module.$component-svg} path {
+				color: var(--cl-a);
+				fill: var(--cl-a);
+			}
+		}
+	}
+}

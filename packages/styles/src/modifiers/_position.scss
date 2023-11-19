@@ -1,0 +1,44 @@
+@use "../utils/module" as utils;
+
+// positon
+//
+// @group Modifiers
+@mixin position {
+	@layer modifiers {
+		.#{utils.$prefix-default}--position {
+			&-fixed {
+				@include utils.extend-viewports-classes {
+					position: fixed;
+				}
+			}
+
+			&-sticky {
+				@include utils.extend-viewports-classes {
+					position: sticky;
+					left: 0;
+					top: 0;
+				}
+			}
+
+			&-relative {
+				@include utils.extend-viewports-classes {
+					position: relative;
+				}
+			}
+
+			&-absolute {
+				@include utils.extend-viewports-classes {
+					position: absolute;
+				}
+			}
+
+			// default
+			&,
+			&-static {
+				@include utils.extend-viewports-classes {
+					position: static;
+				}
+			}
+		}
+	}
+}

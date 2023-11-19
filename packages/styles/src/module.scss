@@ -1,0 +1,12 @@
+/**
+	MAIN ENTRYPOINT
+
+	No css printed here, only forwards
+*/
+
+@forward "utils/module" as utils-*;
+@forward "base/module" as base-*;
+@forward "modifiers/module" as modifiers-*;
+@forward "pseudos/module" as pseudos-*;
+@forward "components/module" as components-*;
+@forward "layouts/module" as layouts-*;

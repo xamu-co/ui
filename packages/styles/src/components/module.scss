@@ -1,0 +1,80 @@
+@forward "forward";
+@use "../utils/module";
+@use "forward";
+
+// all components
+@mixin all {
+	// icon components
+	@if module.$component-emoji {
+		@include forward.emoji;
+	}
+
+	@if module.$component-icon {
+		@include forward.icon;
+	}
+
+	@if module.$component-svg {
+		@include forward.svg;
+	}
+
+	// action components
+	@if module.$component-box {
+		@include forward.box;
+	}
+
+	@if module.$allow-button {
+		@if module.$component-button-toggle {
+			@include forward.button-toggle;
+		}
+
+		@if module.$component-button-y {
+			@include forward.button-y;
+		}
+
+		@if module.$component-button {
+			@include forward.button;
+		}
+	}
+
+	@if module.$allow-input {
+		@if module.$component-input-checkbox {
+			@include forward.input-checkbox;
+		}
+
+		@if module.$component-input-radio {
+			@include forward.input-radio;
+		}
+
+		@if module.$component-input-select {
+			@include forward.input-select;
+		}
+
+		@if module.$component-input-text {
+			@include forward.input-text;
+		}
+
+		@if module.$component-input-color {
+			@include forward.input-color;
+		}
+	}
+
+	@if module.$component-link {
+		@include forward.link;
+	}
+
+	// avatar components
+	@if module.$allow-avatar {
+		@if module.$component-avatar-aureo {
+			@include forward.avatar-aureo;
+		}
+
+		@if module.$component-avatar {
+			@include forward.avatar;
+		}
+	}
+
+	// other components
+	@if module.$component-background {
+		@include forward.background;
+	}
+}

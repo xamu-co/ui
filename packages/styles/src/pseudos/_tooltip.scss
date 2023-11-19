@@ -1,0 +1,210 @@
+@use "../utils/module" as utils;
+
+// tooltip
+//
+// @group Pseudos
+@mixin tooltip {
+	[data-#{utils.$pseudo-tooltip}] {
+		overflow: visible;
+
+		&::before {
+			content: attr(data-#{utils.$pseudo-tooltip});
+			width: max-content;
+			white-space: pre-line;
+			pointer-events: none;
+			display: none;
+			overflow: hidden;
+			z-index: 15;
+			position: absolute;
+
+			// vertical-align: bottom;
+			color: utils.color(light);
+			padding: 0 0.4rem;
+			text-align: center;
+			font-size: 0.7rem;
+			opacity: 0;
+			border-radius: 0.4rem * utils.strip-unit(utils.$size-radius);
+			font-weight: utils.weight();
+			box-shadow: 3px 3px 9px utils.color(dark, 0.3);
+			box-sizing: content-box;
+			border: 2px solid utils.color(light, 0.1);
+			background: utils.color(dark);
+		}
+
+		&:hover {
+			@media (any-pointer: coarse) {
+				// dektop only
+				cursor: pointer;
+
+				&::before {
+					display: block;
+					opacity: 1;
+				}
+			}
+
+			&[disabled]:not([disabled="false"]),
+			&.#{utils.$status-is-route-exact}:not(.#{utils.$status-no-route}):not(
+					.#{utils.$status-no-route-exact}
+				),
+			&[class*="toggle--"].#{utils.$status-only-active}.#{utils.$status-is-active} {
+				&::before {
+					display: none;
+				}
+			}
+		}
+
+		// tooltip bgColor
+		//
+		// @group PseudoModifiers
+		&[data-#{utils.$pseudo-tooltip}-bg="light"]:before {
+			color: utils.$color-text;
+		}
+		&[data-#{utils.$pseudo-tooltip}-bg="lightComplement"]:before {
+			color: utils.color(primary-complement);
+			background: utils.color(light);
+		}
+		&[data-#{utils.$pseudo-tooltip}-bg="secondary-complement"]:before {
+			background: utils.color(secondary);
+		}
+
+		@each $name, $color in utils.$colors {
+			&[data-#{utils.$pseudo-tooltip}-bg="#{$name}"]:before {
+				background: utils.color($name);
+			}
+			&[data-#{utils.$pseudo-tooltip}-color="#{$name}"]:before {
+				color: utils.color($name);
+			}
+		}
+
+		// tooltip text behavior
+		//
+		// @group PseudoModifiers
+		&[data-#{utils.$pseudo-tooltip}-text]:before {
+			max-width: 40ch;
+		}
+
+		// default text behavior
+		&:not([data-#{utils.$pseudo-tooltip}-text]):before {
+			white-space: nowrap;
+			text-transform: capitalize;
+		}
+
+		// tooltip position
+		//
+		// @group PseudoModifiers
+		// top position
+		&[data-#{utils.$pseudo-tooltip}-top="left"],
+		&[data-#{utils.$pseudo-tooltip}-p="top-left"] {
+			&::before {
+				top: 0;
+				left: 0;
+				transform: translateY(calc(-100% - 0.4em));
+			}
+		}
+		&[data-#{utils.$pseudo-tooltip}-top="right"],
+		&[data-#{utils.$pseudo-tooltip}-p="top-right"] {
+			&::before {
+				top: 0;
+				right: 0;
+				transform: translateY(calc(-100% - 0.4em));
+			}
+		}
+		&[data-#{utils.$pseudo-tooltip}-top],
+		&[data-#{utils.$pseudo-tooltip}-p="top"],
+		&[data-#{utils.$pseudo-tooltip}-position="top"] {
+			&::before {
+				top: 0;
+				left: 50%;
+				transform: translate(-50%, calc(-100% - 0.4em));
+			}
+		}
+
+		// right position
+		&[data-#{utils.$pseudo-tooltip}-right="top"],
+		&[data-#{utils.$pseudo-tooltip}-p="right-top"] {
+			&::before {
+				top: 0;
+				right: 0;
+				transform: translateX(calc(100% + 0.4em));
+			}
+		}
+		&[data-#{utils.$pseudo-tooltip}-right="bottom"],
+		&[data-#{utils.$pseudo-tooltip}-p="right-bottom"] {
+			&::before {
+				bottom: 0;
+				right: 0;
+				transform: translateX(calc(100% + 0.4em));
+			}
+		}
+		&[data-#{utils.$pseudo-tooltip}-right],
+		&[data-#{utils.$pseudo-tooltip}-p="right"],
+		&[data-#{utils.$pseudo-tooltip}-position="right"] {
+			&::before {
+				top: 50%;
+				right: 0;
+				transform: translate(calc(100% + 0.4em), -50%);
+			}
+		}
+
+		// left position
+		&[data-#{utils.$pseudo-tooltip}-left="top"],
+		&[data-#{utils.$pseudo-tooltip}-p="left-top"] {
+			&::before {
+				top: 0;
+				left: 0;
+				transform: translateX(calc(-100% - 0.4em));
+			}
+		}
+		&[data-#{utils.$pseudo-tooltip}-left="bottom"],
+		&[data-#{utils.$pseudo-tooltip}-p="left-bottom"] {
+			&::before {
+				bottom: 0;
+				left: 0;
+				transform: translateX(calc(-100% - 0.4em));
+			}
+		}
+		&[data-#{utils.$pseudo-tooltip}-left],
+		&[data-#{utils.$pseudo-tooltip}-p="left"],
+		&[data-#{utils.$pseudo-tooltip}-position="left"] {
+			&::before {
+				top: 50%;
+				left: 0;
+				transform: translate(calc(-100% - 0.4em), -50%);
+			}
+		}
+
+		// bottom position
+		&[data-#{utils.$pseudo-tooltip}-bottom="left"],
+		&[data-#{utils.$pseudo-tooltip}-p="bottom-left"] {
+			&::before {
+				bottom: 0;
+				left: 0;
+				transform: translateY(calc(100% + 0.4em));
+			}
+		}
+		&[data-#{utils.$pseudo-tooltip}-bottom="right"],
+		&[data-#{utils.$pseudo-tooltip}-p="bottom-right"] {
+			&::before {
+				bottom: 0;
+				right: 0;
+				transform: translateY(calc(100% + 0.4em));
+			}
+		}
+
+		// default value
+		&[data-#{utils.$pseudo-tooltip}-bottom],
+		&[data-#{utils.$pseudo-tooltip}-p="bottom"],
+		&[data-#{utils.$pseudo-tooltip}-position="bottom"],
+		&:not([data-#{utils.$pseudo-tooltip}-position]):not([data-#{utils.$pseudo-tooltip}-p]):not(
+				[data-#{utils.$pseudo-tooltip}-bottom]
+			):not([data-#{utils.$pseudo-tooltip}-top]):not(
+				[data-#{utils.$pseudo-tooltip}-left]
+			):not([data-#{utils.$pseudo-tooltip}-right]) {
+			&::before {
+				bottom: 0;
+				left: 50%;
+				transform: translate(-50%, calc(100% + 0.4em));
+			}
+		}
+	}
+}

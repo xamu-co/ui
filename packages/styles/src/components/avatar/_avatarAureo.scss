@@ -1,0 +1,34 @@
+@use "module";
+
+// avatar with gold ratio
+// not exactly but it keeps his proportion
+// This was created before "ratio" was supported
+//
+// @group Components
+@mixin avatar-aureo {
+	@layer definitions {
+		.#{module.$component-avatar-aureo} {
+			width: 100%;
+			height: auto;
+
+			@include module.avatar-styles;
+
+			&::before {
+				content: "";
+				display: block;
+				width: 100%;
+				height: 0;
+				padding-bottom: 62%; // proporcion aurea
+				z-index: -1;
+			}
+
+			> *:first-child {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+}

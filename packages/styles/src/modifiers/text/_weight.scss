@@ -1,0 +1,35 @@
+@use "module";
+
+// font weight
+//
+// @group Modifiers
+@mixin text-weight {
+	@layer modifiers {
+		.#{module.$prefix-default}--txtWeight {
+			&-light {
+				@include module.extend-viewports-classes {
+					font-weight: module.weight(light);
+				}
+			}
+
+			&-bold {
+				@include module.extend-viewports-classes {
+					font-weight: module.weight(bold);
+				}
+			}
+
+			&-black {
+				@include module.extend-viewports-classes {
+					font-weight: module.weight(black);
+				}
+			}
+
+			&,
+			&-regular {
+				@include module.extend-viewports-classes {
+					font-weight: module.weight();
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,37 @@
+@use "../utils/module" as utils;
+
+// Text block layout
+//
+// @group layout
+@mixin text {
+	@layer defaults {
+		.#{utils.$layout-text} {
+			// @defaults txtWrap, txtColor, maxWidth, txtAlign
+			text-align: left;
+			white-space: pre-line;
+			max-width: utils.$size-max-text-width;
+
+			* {
+				line-height: utils.$size-line-height-lg;
+			}
+		}
+	}
+
+	@layer definitions {
+		.#{utils.$layout-text} {
+			// Childs
+			img {
+				max-width: 100%;
+				height: auto;
+			}
+
+			// Text block component
+			//
+			// @group Components
+			&.#{utils.$prefix-default}--box,
+			&.#{utils.$prefix-default}--miniBox {
+				padding: 0.4rem 1rem;
+			}
+		}
+	}
+}

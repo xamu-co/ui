@@ -1,0 +1,26 @@
+@use "module";
+
+// Text color
+@mixin text-shadow {
+	@layer modifiers {
+		.#{module.$prefix-default}--txtShadow {
+			// default, not in colors
+			@include module.extend-viewports-classes {
+				text-shadow: 1px 1px 1px module.color(dark, 0.3);
+			}
+
+			// no default
+			@include module.extend-colors($shade: true) using($name, $value, $is-default) {
+				@include module.extend-viewports-classes {
+					text-shadow: 1px 1px 1px $value;
+				}
+			}
+
+			&-none {
+				@include module.extend-viewports-classes {
+					text-shadow: none;
+				}
+			}
+		}
+	}
+}

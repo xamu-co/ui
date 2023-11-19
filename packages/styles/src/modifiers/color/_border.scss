@@ -1,0 +1,29 @@
+@use "module";
+
+// Border color
+// color based modifiers
+//
+// @group Modifiers
+@mixin border-color {
+	@layer modifiers {
+		.#{module.$prefix-default}--bdrColor {
+			// default color, not plain
+			@include module.extend-viewports-classes {
+				border-color: module.color(secondary, 0.1);
+			}
+
+			// no default
+			@include module.extend-colors($shade: true) using($name, $value, $is-default) {
+				@include module.extend-viewports-classes {
+					border-color: $value;
+				}
+			}
+
+			&-none {
+				@include module.extend-viewports-classes {
+					border-color: transparent;
+				}
+			}
+		}
+	}
+}

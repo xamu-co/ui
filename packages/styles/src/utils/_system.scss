@@ -1,0 +1,125 @@
+@use "sass:color";
+@use "sass:math";
+@use "sass:meta";
+@use "sass:string";
+@use "sass:list";
+
+// layer order
+@layer resets, defaults, definitions, modifiers;
+
+// return default primary color complement
+@function primary($color) {
+	@return darken(color.adjust($color, $red: -90deg, $green: -90deg, $blue: -90deg), 10);
+}
+
+// return default secondary color complement
+@function secondary($color) {
+	@return color.adjust($color, $red: 60deg, $blue: -90deg);
+}
+
+// return value with dash
+@function dashed($string) {
+	@return if($string == "", $string, $string + "-");
+}
+
+// coverts color to rgb, making it compatible with custom vars and opacity
+@function to-rgb($color) {
+	@return red($color) + ", " + green($color) + ", " + blue($color);
+}
+
+// busca y elimina la string dada
+@function str-replace($string, $search, $replace: "") {
+	$index: string.index($string, $search);
+
+	@if $index {
+		$start: string.slice($string, 1, $index - 1);
+		$end: str-replace(
+			string.slice($string, $index + string.length($search)),
+			$search,
+			$replace
+		);
+
+		@return $start + $replace + $end;
+	}
+
+	@return $string;
+}
+
+// Convert angle
+// @author Chris Eppstein
+// @param {Number} $value - Value to convert
+// @param {String} $unit - Unit to convert to
+// @return {Number} Converted angle
+@function convert-angle($value, $unit) {
+	$convertable-units: deg grad turn rad;
+	$conversion-factors: 1 math.div(10grad, 9deg) math.div(1turn, 360deg)
+		math.div(3.1416rad, 180deg);
+
+	@if list.index($convertable-units, unit($value)) and list.index($convertable-units, $unit) {
+		@return math.div(
+			$value,
+			nth($conversion-factors, list.index($convertable-units, unit($value))) *
+				nth($conversion-factors, list.index($convertable-units, $unit))
+		);
+	}
+
+	@warn "Cannot convert `#{unit($value)}` to `#{$unit}`.";
+}
+
+// Test if `$value` is an angle
+// @param {*} $value - Value to test
+// @return {Bool} Result
+@function is-direction($value) {
+	$is-direction: list.index(
+		(
+			to top,
+			to top right,
+			to right top,
+			to right,
+			to bottom right,
+			to right bottom,
+			to bottom,
+			to bottom left,
+			to left bottom,
+			to left,
+			to left top,
+			to top left
+		),
+		$value
+	);
+	$is-angle: meta.type-of($value) == "number" and
+		list.index("deg" "grad" "turn" "rad", math.unit($value));
+
+	@return $is-direction or $is-angle;
+}
+
+// Convert a direction to legacy syntax
+// @param {Keyword | Angle} $value - Value to convert
+// @require {function} is-direction
+// @require {function} convert-angle
+@function legacy-direction($value) {
+	@if is-direction($value) == false {
+		@warn "Cannot convert `#{$value}` to legacy syntax because it doesn't seem to be an angle or a direction";
+	}
+
+	$conversion-map: (
+		to top: bottom,
+		to top right: bottom left,
+		to right top: left bottom,
+		to right: left,
+		to bottom right: top left,
+		to right bottom: left top,
+		to bottom: top,
+		to bottom left: top right,
+		to left bottom: right top,
+		to left: right,
+		to left top: right bottom,
+		to top left: bottom right
+	);
+
+	@if map-has-key($conversion-map, $value) {
+		@return map-get($conversion-map, $value);
+	}
+
+	@return 90deg - convert-angle($value, "deg");
+}

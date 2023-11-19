@@ -1,0 +1,32 @@
+@use "../utils/module" as utils;
+
+// vertical align
+@mixin vertical-align {
+	@layer modifiers {
+		.#{utils.$prefix-default}--vAlign {
+			&-middle {
+				@include utils.extend-viewports-classes {
+					vertical-align: middle;
+				}
+			}
+
+			&-bottom {
+				@include utils.extend-viewports-classes {
+					vertical-align: bottom;
+				}
+			}
+
+			// default
+			&,
+			&-top,
+			&-sub,
+			&-baseline,
+			&-text-top,
+			&-text-bottom {
+				@include utils.extend-viewports-classes {
+					vertical-align: baseline;
+				}
+			}
+		}
+	}
+}

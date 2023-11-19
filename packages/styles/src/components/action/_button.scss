@@ -1,0 +1,40 @@
+@use "module";
+
+// Default button element
+// this element is expected to be an <button>, <a> or <label> element
+// bttn instead of btn to avoid collision with bootstrap
+//
+// @group Components
+// button round handling
+@mixin button {
+	@layer definitions {
+		.#{module.$component-button} {
+			@include module.action-styles;
+			@include module.action-round-styles;
+			@include module.action-aligment-styles;
+			@include module.action-gaping-styles;
+			@include module.action-theme-union-styles;
+			@include module.action-size-styles;
+			@include module.action-border-styles;
+			@include module.action-capitalize-styles;
+			@include module.action-disabled-styles(false);
+
+			@at-root :not([class*="#{module.$status-toggle}"])
+					> :not([class*="#{module.$status-toggle}"])#{&} {
+				// round button
+				//
+				// @group Modifiers
+				&.#{module.$prefix-default}--round {
+					@include module.extend-viewports-classes(true, true) {
+						:not(:only-child) {
+							&:not(:last-child),
+							&:not(:nth-child(2)) {
+								display: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

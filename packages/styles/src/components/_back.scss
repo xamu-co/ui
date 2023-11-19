@@ -1,0 +1,110 @@
+@use "../utils/module" as utils;
+
+// back component
+//
+// @group Components
+@mixin background {
+	@layer definitions {
+		.#{utils.$component-background} {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: 50% 50%;
+			transition: background 0.3s ease-out;
+			position: absolute;
+
+			// Overlay
+			// Act as content overlay
+			//
+			// @group Modifiers
+			&.#{utils.$prefix-default}--overlay {
+				z-index: 10;
+				display: none;
+
+				~ * {
+					transition: all 0.3s ease-out;
+				}
+				&.#{utils.$status-is-active} {
+					@include utils.flex-box(row, nowrap, center, center);
+
+					~ * {
+						opacity: 0.3;
+						pointer-events: none;
+					}
+				}
+			}
+
+			// Header
+			// Enhance header background
+			//
+			// @group Modifiers
+			&.#{utils.$prefix-default}--header {
+				top: -5rem;
+				height: auto;
+				bottom: 0;
+				background-color: utils.color(secondary);
+
+				@if utils.$allow-responsive {
+					@media (min-width: (utils.$querie-tablet + 1)) {
+						background-attachment: fixed;
+
+						@supports (-webkit-overflow-scrolling: touch) {
+							// ios fix
+							background-attachment: scroll;
+						}
+
+						&::before {
+							height: 7.4rem;
+							background: transparent;
+
+							@include utils.linear-gradient(
+								to bottom,
+								color(dark, 0.3),
+								transparent
+							);
+						}
+
+						&::after {
+							width: 70%;
+							display: block;
+						}
+					}
+				}
+
+				&::before {
+					display: block;
+					background: utils.color(dark, 0.3);
+				}
+
+				&::after {
+					display: none;
+
+					@include utils.linear-gradient(to right, color(dark, 0.5), transparent);
+				}
+
+				&::before,
+				&::after {
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+				}
+			}
+
+			img,
+			video {
+				width: 100%;
+				height: 100%;
+				display: block;
+				object-fit: cover;
+				object-position: 50% 50%;
+			}
+		}
+	}
+}

@@ -1,0 +1,18 @@
+@use "module";
+
+// icon components
+//
+// @group Components
+// this element is expected to be an <i> tag
+@mixin icon {
+	@layer definitions {
+		i.#{module.$component-icon} {
+			@include module.icon-styles;
+			@include module.flex-box(row, nowrap, center, center, inline-flex);
+
+			&::before {
+				text-align: center;
+			}
+		}
+	}
+}

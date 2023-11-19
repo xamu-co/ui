@@ -1,0 +1,41 @@
+/// # Global modifiers
+/// These modify the behavior of any element
+///
+/// **.--globalModifierName-value{}**
+/// ```css
+///  .--maxWidth-none{}
+/// ```
+/// Just like the component modifiers but these work in any element
+/// Some modifier could be conditionated to the presence of another one
+/// ```css
+///  .--theme-light.--shadow{}
+/// ```
+///
+/// @group modifiers
+/// @example njk
+///  <div class="flx --flxColumn">
+///   TODO: modifier example
+///  </div>
+
+/// # Global unions
+/// Condense most common modifiers of rules that require multiple parameters
+///
+/// **.--globalUnionName-firstValue-SecondValue{}**
+/// ```css
+///  .--flxAlign-center-stretch{}
+/// ```
+/// As any other union but work in any element
+/// If both values are equal the could be merged
+/// ```css
+///  /** Long version */
+///  .--flxAlign-center-center{}
+///
+///  /** Short version */
+///  .--flxAlign-center{}
+/// ```
+///
+/// @group unions
+/// @example njk
+///  <div class="flx --flxColumn">
+///   TODO: union example
+///  </div>

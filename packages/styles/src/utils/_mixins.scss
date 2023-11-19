@@ -1,0 +1,283 @@
+@use "system";
+@use "variables";
+@use "sass:meta";
+@use "sass:math";
+@use "sass:string";
+
+/*
+	A personal collection of usefull mixins
+	I created the flexbox one and consider it the most useful
+	Some of them are not that necesary cuz the were mean for prefixing, but autoprefixer solves that already
+	
+	assumes variables have already been imported
+*/
+
+// viewport extend
+@mixin extend-viewports-classes(
+	$desktop-first: variables.$allow-responsive-classes-desktop-first,
+	$all-viewports: variables.$allow-responsive-classes-all-viewports,
+	$omit-media: false
+) {
+	@content;
+
+	@if variables.$allow-responsive-classes {
+		// conditionally set viewports
+		$local-viewports: if($all-viewports, variables.$viewports, variables.$common-viewports);
+
+		@each $name, $viewport in $local-viewports {
+			// to allow nesting this mixin within modifiers that affect other modifiers
+			@if $omit-media {
+				// mobile first
+				// default: class selector
+				&\:#{$name} {
+					@content;
+				}
+
+				// desktop first
+				@if $desktop-first {
+					// default: class selector
+					&\:#{$name}-inv {
+						@content;
+					}
+				}
+			} @else {
+				// mobile first
+				@media (min-width: ($viewport + 1)) {
+					// default: class selector
+					&\:#{$name} {
+						@content;
+					}
+				}
+
+				// desktop first
+				@if $desktop-first {
+					@media (max-width: $viewport) {
+						// default: class selector
+						&\:#{$name}-inv {
+							@content;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// alternative for attrs
+// needs improvements
+@mixin extend-viewports-attrs(
+	$desktop-first: variables.$allow-responsive-classes-desktop-first,
+	$all-viewports: variables.$allow-responsive-classes-all-viewports
+) {
+	@content;
+
+	@if variables.$allow-responsive-classes {
+		// conditionally set viewports
+		$local-viewports: if($all-viewports, variables.$viewports, variables.$common-viewports);
+
+		@each $name, $viewport in $local-viewports {
+			@each $selector in & {
+				$not: string.slice(#{$selector}, string.length(#{$selector})) == ")";
+				$minus: if($not, -4, -3);
+				$new-selector: system.str-replace(
+					system.str-replace(#{$selector}, "=", '="'),
+					"]",
+					'"]'
+				);
+
+				// mobile first
+				@media (min-width: ($viewport + 1)) {
+					// attr selector support
+					$end: if($not, '"])', '"]');
+
+					@at-root #{string.slice($new-selector, 1, $minus) + "\:" + $name + $end} {
+						@content;
+					}
+				}
+
+				// desktop first
+				@if $desktop-first {
+					@media (max-width: $viewport) {
+						// attr selector support
+						$end: if($not, '-inv"])', '-inv"]');
+
+						@at-root #{string.slice($new-selector, 1, $minus) + "\:" + $name + $end} {
+							@content;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// device type extend
+@mixin extend-device-interactions($touch: false) {
+	@content;
+
+	@if variables.$allow-responsive-classes {
+		@each $selector in & {
+			// desktop only
+			@media (any-pointer: coarse) {
+				@at-root .hover\:#{system.str-replace(#{$selector},".")} {
+					@content;
+				}
+			}
+
+			@if $touch {
+				// mobile only
+				@media (hover: none) {
+					@at-root .touch\:#{system.str-replace(#{$selector},".")} {
+						@content;
+					}
+				}
+			}
+		}
+	}
+}
+
+// Create modifiers based on map
+@mixin extend-maps($map, $selector, $default: false, $default-condition: null) {
+	@each $name, $value in $map {
+		$resolve-selector: meta.call($selector, $name);
+
+		@if $default and $name == $default {
+			// first to be overriden, default
+			&#{$default-condition} {
+				@content ($name, $value, true);
+			}
+		}
+		&#{$resolve-selector} {
+			@content ($name, $value, false);
+		}
+	}
+}
+
+// ease the use of modifier extend for colors
+// relies on extend-maps
+@function color-selector($name) {
+	@return "-#{$name}";
+}
+
+@mixin extend-colors($default: null, $shade: false) {
+	@include extend-maps(variables.$colors, meta.get-function("color-selector"), $default)
+		using($name, $value, $is-default) {
+		// plain color
+		@content ($name, $value, $is-default);
+
+		// shades of color
+		@if not $is-default and $shade {
+			@for $i from 1 through 9 {
+				&#{$i} {
+					@content ($name, rgba($value, math.div($i, 10)),false);
+				}
+			}
+		}
+	}
+}
+
+// ease the use of modifier extend for sizes
+// relies on extend-maps
+@function size-selector($name) {
+	@return ".#{variables.$prefix-default}--size-#{$name}";
+}
+
+@mixin extend-sizes(
+	$default: md,
+	$all-viewports: false,
+	$selector: meta.get-function("size-selector"),
+	$default-selector: ':not([class*="--size-"])'
+) {
+	$i: 0; // unit
+
+	@include extend-maps(variables.$font-sizes, $selector, $default, $default-selector)
+		using($name, $value, $is-default) {
+		$unit: if($i > 1, $i, 2);
+
+		@if $is-default {
+			@content ($value, $unit);
+		} @else {
+			@include extend-viewports-classes($all-viewports: $all-viewports) {
+				@content ($value, $unit);
+			}
+
+			$i: $i + 1;
+		}
+	}
+}
+
+// simple theme
+@function theme-selector($name) {
+	@return ".#{variables.$prefix-default}--tm-#{$name}";
+}
+
+@mixin extend-themes($default: secondary) {
+	@include extend-maps(
+			variables.$colors,
+			meta.get-function("theme-selector"),
+			$default,
+			':not([class*="--tm-"])'
+		)
+		using($name, $value, $is-default) {
+		@content ($name, $value, $is-default);
+	}
+}
+
+// union theme
+@mixin extend-unions($theme-default: secondary, $base-default: light) {
+	// theme color - base color
+	@each $theme, $theme-value in variables.$theme-colors {
+		@each $base, $base-value in variables.$base-colors {
+			@if $theme == $theme-default and $base == $base-default {
+				// first to be overriden, default
+				&:not([class*="--tm-"]) {
+					@content ($theme, $theme-value, $base, $base-value, true);
+				}
+			}
+			&.#{variables.$prefix-default}--tm-#{$theme}-#{$base} {
+				@content ($theme, $theme-value, $base, $base-value, false);
+			}
+		}
+	}
+
+	// base color - theme color
+	@each $base, $base-value in variables.$base-colors {
+		@each $theme, $theme-value in variables.$theme-colors {
+			&.#{variables.$prefix-default}--tm-#{$base}-#{$theme} {
+				@content ($base, $base-value, $theme, $theme-value, false);
+			}
+		}
+	}
+
+	// light & dark
+	&.#{variables.$prefix-default}--tm-light-dark {
+		@content (light, variables.$color-light, dark, variables.$color-dark, false);
+	}
+
+	// dark & light
+	&.#{variables.$prefix-default}--tm-dark-light {
+		@content (dark, variables.$color-dark, light, variables.$color-light, false);
+	}
+}
+
+// flexbox en una sola linea
+// ej: row, nowrap, space-around, strecth
+@mixin flex-box($t, $m, $j, $a, $d: flex) {
+	display: $d;
+	flex-flow: $t $m;
+	justify-content: $j;
+	align-items: $a;
+}
+
+// Mixin printing a linear-gradient
+// @access public
+// @param {String | List | Angle} $direction - Linear gradient direction
+// @param {Arglist} $color-stops - List of color-stops composing the gradient
+@mixin linear-gradient($direction, $color-stops...) {
+	@if system.is-direction($direction) == false {
+		$color-stops: ($direction, $color-stops);
+		$direction: 180deg;
+	}
+
+	background-image: linear-gradient($direction, $color-stops);
+}

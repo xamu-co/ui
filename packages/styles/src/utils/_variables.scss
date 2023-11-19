@@ -1,0 +1,215 @@
+@use "system";
+@use "sass:map";
+
+// PREFIXES
+$prefix-default: "" !default;
+$prefix-default-with-separator: system.dashed($prefix-default) !default;
+
+// ALLOWANCES
+$allow-reset: true !default;
+$allow-initialize: true !default;
+$allow-animations: true !default;
+$allow-modifiers: true !default;
+$allow-pseudos: true !default;
+$allow-components: true !default;
+$allow-layouts: true !default;
+
+// ALLOWANCES, CLASSES
+$allow-input: $prefix-default-with-separator + "i" !default; // input base class
+$allow-button: $prefix-default-with-separator + "bttn" !default; // button base class
+$allow-avatar: $prefix-default-with-separator + "avatar" !default; // avatar base class
+
+// ALLOWANCES, RESPONSIVE
+$allow-responsive: true !default; // responsive & media queries
+$allow-responsive-classes: $allow-responsive !default; // responsive class modifiers
+$allow-responsive-classes-desktop-first: false !default; // include desktop first class modifiers
+$allow-responsive-classes-all-viewports: false !default; // use all viewports
+
+// FONT FAMILIES
+$font-default: ("Poppins", sans-serif) !default;
+$font-code: ("Courier New", courier, monospace) !default;
+$font-icons: "Font Awesome 5 Free" !default;
+
+// FONT SIZES
+$font-size-md: 1rem !default; // main font size
+$font-size-xs: $font-size-md * 0.7 !default; // extra small
+$font-size-sm: $font-size-md * 0.85 !default; // small
+$font-size-lg: $font-size-md * 1.4 !default; // large
+$font-size-xl: $font-size-md * 2.2 !default; // extra large
+$font-size-xx: $font-size-md * 3.6 !default; // extra extra large
+$font-size-mx: $font-size-md * 4.8 !default; // maximum
+
+// FONT WEIGHTS
+$font-weight-light: 200 !default;
+$font-weight-regular: 400 !default;
+$font-weight-bold: 600 !default;
+$font-weight-black: 800 !default;
+
+// COLORS, theme
+$color-primary: #f39c12 !default; // primary theme colors
+$color-primary-complement: system.primary($color-primary) !default;
+$color-secondary: #0f47af !default; // secondary theme colors
+$color-secondary-complement: system.secondary($color-secondary) !default;
+$color-danger: #e74c3c !default;
+$color-success: #259c21 !default;
+
+// COLORS, base
+$color-light: #fff !default;
+$color-dark: #000 !default;
+
+// COLORS, utils
+$color-bg: $color-light !default;
+$color-text: $color-secondary-complement !default; // used over bg
+$color-select-bg: $color-secondary !default;
+$color-select-txt: $color-light !default;
+
+// MEDIA QUERIES
+$querie-smartwatch: 358px !default; // xs
+$querie-smartphone: 576px !default; // sm
+$querie-tablet: 768px !default; // md
+$querie-desktop: 1080px !default; // lg
+$querie-tv: 1280px !default; // xl
+
+// SIZES
+$size-px: 1080, 480, 440, 220, 180, 90 !default;
+$size-px-default: 1200 !default;
+$size-min-column-size: $font-size-md * 18 !default; // min column size, 280px aprox
+$size-max-text-width: 66ch !default; // max text block width, 780px aprox
+$size-line-height: 1.2em !default; // main line height
+$size-line-height-lg: $size-line-height * 1.2 !default;
+$size-line-height-xl: $size-line-height-lg * 1.2 !default;
+$size-view-top-buffer: 5rem !default;
+
+// SIZES, border radius
+$size-radius: $font-size-md !default;
+$size-radius-action: $size-radius !default;
+$size-radius-avatar: $size-radius !default;
+$size-radius-box: $size-radius !default;
+$size-radius-table: $size-radius !default;
+
+// PSEUDO NAMES
+$pseudo-tooltip: $prefix-default-with-separator + "tooltip" !default;
+
+// BUTTON CLASSES
+$component-button: $allow-button !default; // button base class
+$component-button-link: $allow-button + "Link" !default;
+$component-button-toggle: $allow-button + "Toggle" !default;
+$component-button-y: $allow-button + "Y" !default;
+
+// INPUT CLASSES
+$component-input-checkbox: $allow-input + "Checkbox" !default;
+$component-input-radio: $allow-input + "Radio" !default;
+$component-input-select: $allow-input + "Select" !default;
+$component-input-text: $allow-input + "Txt" !default;
+$component-input-color: $allow-input + "Color" !default;
+
+// AVATAR CLASSES
+$component-avatar: $allow-avatar !default; // avatar base class
+$component-avatar-aureo: $allow-avatar + "Aureo" !default;
+
+// OTHER COMPONENT CLASSES
+$component-background: $prefix-default-with-separator + "back" !default;
+$component-box: $prefix-default-with-separator + "box" !default;
+$component-emoji: $prefix-default-with-separator + "emoji" !default;
+$component-icon: $prefix-default-with-separator + "icon" !default;
+$component-link: $prefix-default-with-separator + "link" !default;
+$component-svg: $prefix-default-with-separator + "svg" !default;
+
+// LAYOUT CLASSES
+$layout-columns: $prefix-default-with-separator + "cols" !default;
+$layout-dropdown: $prefix-default-with-separator + "dropdown" !default;
+$layout-flexbox: $prefix-default-with-separator + "flx" !default;
+$layout-float: $prefix-default-with-separator + "float" !default;
+$layout-grid: $prefix-default-with-separator + "grd" !default;
+$layout-holder: $prefix-default-with-separator + "holder" !default;
+$layout-list: $prefix-default-with-separator + "list" !default;
+$layout-navigation-x: $prefix-default-with-separator + "navigationX" !default;
+$layout-navigation-y: $prefix-default-with-separator + "navigationY" !default;
+$layout-scroll: $prefix-default-with-separator + "scroll" !default;
+$layout-table: $prefix-default-with-separator + "tbl" !default;
+$layout-text: $prefix-default-with-separator + "txt" !default;
+$layout-view: $prefix-default-with-separator + "view" !default;
+$layout-modal: $prefix-default-with-separator + "modal" !default;
+
+// STATUS CLASSES, IS
+$status-is: $prefix-default-with-separator + "is" + "--" !default; // is
+$status-is-active: $status-is + "active" !default;
+$status-is-alert: $status-is + "alert" !default;
+$status-is-animated: $status-is + "animated" !default;
+$status-is-invalid: $status-is + "invalid" !default;
+$status-is-route: $status-is + "route" !default;
+$status-is-route-exact: $status-is + "routeExact" !default;
+$status-is-selected: $status-is + "selected" !default;
+
+// STATUS CLASSES, NO
+$status-no: $prefix-default-with-separator + "no" + "--" !default; // no
+$status-no-focus: $status-no + "focus" !default;
+$status-no-hover: $status-no + "hover" !default;
+$status-no-route: $status-no + "route" !default;
+$status-no-route-exact: $status-no + "routeExact" !default;
+
+// STATUS CLASSES, HAS
+$status-has: $prefix-default-with-separator + "has" + "--" !default; // has
+$status-has-items: $status-has + "items" !default;
+
+// STATUS CLASSES, ONLY
+$status-only: $prefix-default-with-separator + "only" + "--" !default; // only
+$status-only-active: $status-only + "active" !default;
+
+// STATUS CLASSES, TOGGLE
+$status-toggle: $prefix-default-with-separator + "toggle" + "--" !default; // toggle
+$status-toggle-dropdown: $status-toggle + "dropdown" !default;
+$status-toggle-list: $status-toggle + "list" !default;
+$fonts: (
+	default: $font-default,
+	code: $font-code,
+	icons: $font-icons,
+);
+$font-sizes: (
+	xs: $font-size-xs,
+	sm: $font-size-sm,
+	md: $font-size-md,
+	lg: $font-size-lg,
+	xl: $font-size-xl,
+	xx: $font-size-xx,
+	mx: $font-size-mx,
+);
+$font-weights: (
+	light: $font-weight-light,
+	regular: $font-weight-regular,
+	bold: $font-weight-bold,
+	black: $font-weight-black,
+);
+$theme-colors: (
+	primary: $color-primary,
+	primary-complement: $color-primary-complement,
+	secondary: $color-secondary,
+	secondary-complement: $color-secondary-complement,
+	danger: $color-danger,
+	success: $color-success,
+);
+$base-colors: (
+	light: $color-light,
+	dark: $color-dark,
+);
+$colors: map.merge($theme-colors, $base-colors);
+$common-viewports: (
+	sm: $querie-smartphone,
+	md: $querie-tablet,
+	xl: $querie-tv,
+);
+$viewports: (
+	xs: $querie-smartwatch,
+	sm: $querie-smartphone,
+	md: $querie-tablet,
+	lg: $querie-desktop,
+	xl: $querie-tv,
+);
+
+// element sizes
+$element-sizes: (
+	xs: $font-size-md * 2,
+	sm: $font-size-md * 3,
+	md: $font-size-md * 6,
+	lg: $font-size-md * 9,
+);

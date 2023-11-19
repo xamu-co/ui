@@ -1,0 +1,129 @@
+// Forward here to minimize imports
+@forward "../../utils/module";
+@use "../../utils/module";
+@use "sass:math";
+@use "sass:string";
+
+// Gutters
+@mixin extend-gutters($property) {
+	@for $i from 1 through 20 {
+		$value: math.div($i, 3);
+
+		// all sides
+		&-#{$i * 5} {
+			@include module.extend-viewports-classes {
+				#{$property}: $value * 1rem;
+			}
+		}
+
+		// X axis
+		&X-#{$i * 5} {
+			@include module.extend-viewports-classes {
+				#{$property}-left: $value * 1rem;
+				#{$property}-right: $value * 1rem;
+			}
+		}
+
+		// Y axis
+		&Y-#{$i * 5} {
+			@include module.extend-viewports-classes {
+				#{$property}-top: $value * 1rem;
+				#{$property}-bottom: $value * 1rem;
+			}
+		}
+	}
+
+	// property directions
+	//
+	// @group GlobalModifiers
+	$directions: top, right, bottom, left;
+
+	@each $direction in $directions {
+		// property direction defaults
+		&#{module.capitalize($direction)} {
+			@include module.extend-viewports-classes {
+				#{$property}-#{$direction}: 1rem;
+			}
+
+			@for $i from 1 through 20 {
+				&-#{$i * 5} {
+					@include module.extend-viewports-classes {
+						#{$property}-#{$direction}: math.div($i, 3) * 1rem;
+					}
+				}
+			}
+		}
+	}
+}
+
+// Dimensions
+@mixin extend-dimension($property) {
+	&-quarter {
+		@include module.extend-viewports-classes {
+			#{$property}: 25%;
+		}
+	}
+
+	&-third {
+		@include module.extend-viewports-classes {
+			#{$property}: 33%;
+		}
+	}
+
+	&-half {
+		@include module.extend-viewports-classes {
+			#{$property}: 50%;
+		}
+	}
+
+	&-none {
+		@include module.extend-viewports-classes {
+			#{$property}: none;
+		}
+	}
+
+	// 100% size
+	&-100,
+	&-full {
+		@include module.extend-viewports-classes {
+			#{$property}: 100%;
+		}
+	}
+
+	@each $size in module.$size-px {
+		&-#{$size} {
+			@include module.extend-viewports-classes {
+				#{$property}: math.round(math.div($size, 15)) * 1rem;
+			}
+		}
+	}
+}
+
+// Viewport based dimensions
+// --maxWidth, --maxHeight, --minWidth, --minHeight
+@mixin extend-dimension-viewport($property, $model) {
+	$vm: "v" + string.slice($model, 1, 1);
+	$unit: if($vm == "vh", 1vh, 1vw);
+
+	// default viewport based constrains
+	&#{module.capitalize($vm)} {
+		@include module.extend-viewports-classes {
+			#{$property}: 25 * $unit;
+		}
+
+		@for $i from 3 through 10 {
+			&-#{$i * 10} {
+				@include module.extend-viewports-classes {
+					#{$property}: ($i * 10) * $unit;
+				}
+			}
+		}
+	}
+}
+
+// All dimensions
+@mixin extend-dimensions($property) {
+	@include extend-dimension($property);
+	@include extend-dimension-viewport($property, width);
+	@include extend-dimension-viewport($property, height);
+}

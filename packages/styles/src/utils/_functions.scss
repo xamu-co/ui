@@ -1,0 +1,54 @@
+@use "sass:string";
+@use "sass:map";
+@use "sass:math";
+@use "system";
+@use "variables";
+
+/*
+	Useful functions
+	
+	assumes variables have already been imported
+*/
+
+// Remove the unit of a length
+// @param {Number} $number - Number to remove unit from
+// @return {Number} - Unitless number
+@function strip-unit($number) {
+	@if type-of($number) == "number" and not unitless($number) {
+		@return math.div($number, ($number * 0 + 1));
+	}
+
+	@return $number;
+}
+
+// retorna la fuente del mapa de fuentes
+@function family($font-name: primary) {
+	@return map.get(variables.$fonts, $font-name);
+}
+
+// returns the size from the map of sizes
+@function size($font-size: md) {
+	@return map.get(variables.$font-sizes, $font-size);
+}
+
+// returns the weight from the map of weights
+@function weight($font-weight: regular) {
+	@return map.get(variables.$font-weights, $font-weight);
+}
+
+// retorna el color del mapa de colores
+@function color($color-name, $rgb: false) {
+	@if $rgb {
+		$color: system.to-rgb(map.get(variables.$colors, $color-name));
+
+		@return unquote("rgba(" + $color + "," + $rgb + ")");
+	} @else {
+		@return map.get(variables.$colors, $color-name);
+	}
+}
+
+// Capitalize string
+// https://gist.github.com/pascalduez/10011785
+@function capitalize($string) {
+	@return string.to-upper-case(string.slice($string, 1, 1)) + string.slice($string, 2);
+}

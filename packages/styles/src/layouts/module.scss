@@ -1,0 +1,63 @@
+@forward "forward";
+@use "../utils/module";
+@use "forward";
+
+// all layouts
+@mixin all {
+	@if module.$layout-columns {
+		@include forward.columns;
+	}
+
+	@if module.$layout-flexbox {
+		@include forward.flex;
+	}
+
+	@if module.$layout-float {
+		@include forward.float;
+	}
+
+	@if module.$layout-grid {
+		@include forward.grid;
+	}
+
+	// override layouts
+	@if module.$layout-dropdown {
+		@include forward.dropdown;
+	}
+
+	@if module.$layout-modal {
+		@include forward.modal;
+	}
+
+	@if module.$layout-holder {
+		@include forward.holder;
+	}
+
+	@if module.$layout-list {
+		@include forward.list;
+	}
+
+	@if module.$layout-navigation-x {
+		@include forward.navigation-x;
+	}
+
+	@if module.$layout-navigation-y {
+		@include forward.navigation-y;
+	}
+
+	@if module.$layout-scroll {
+		@include forward.scroll;
+	}
+
+	@if module.$layout-table {
+		@include forward.table;
+	}
+
+	@if module.$layout-text {
+		@include forward.text;
+	}
+
+	@if module.$layout-view {
+		@include forward.view;
+	}
+}

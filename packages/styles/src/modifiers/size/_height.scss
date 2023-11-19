@@ -1,0 +1,59 @@
+@use "sass:math";
+@use "module";
+
+@mixin height-size {
+	@layer modifiers {
+		.#{module.$prefix-default}--height {
+			@include module.extend-dimensions(height);
+
+			// default
+			@include module.extend-viewports-classes {
+				height: 100%;
+			}
+
+			&-fit {
+				@include module.extend-viewports-classes {
+					height: fit-content;
+				}
+			}
+
+			&-max {
+				@include module.extend-viewports-classes {
+					height: max-content;
+				}
+			}
+
+			&-min {
+				@include module.extend-viewports-classes {
+					height: min-content;
+				}
+			}
+		}
+
+		.#{module.$prefix-default}--minHeight {
+			@include module.extend-dimensions(min-height);
+
+			// default
+			&,
+			&-#{module.$size-px-default} {
+				@include module.extend-viewports-classes {
+					// 1200 = 75rem
+					min-height: math.div(module.$size-px-default, 16) * 1rem;
+				}
+			}
+		}
+
+		.#{module.$prefix-default}--maxHeight {
+			@include module.extend-dimensions(max-height);
+
+			// default
+			&,
+			&-#{module.$size-px-default} {
+				@include module.extend-viewports-classes {
+					// 1200 = 75rem
+					max-height: math.div(module.$size-px-default, 16) * 1rem;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,22 @@
+@use "../utils/module" as utils;
+
+// box sizing
+@mixin box-sizing {
+	@layer modifiers {
+		.#{utils.$prefix-default}--boxSizing {
+			&-content {
+				@include utils.extend-viewports-classes {
+					box-sizing: content-box;
+				}
+			}
+
+			// default
+			&,
+			&-box {
+				@include utils.extend-viewports-classes {
+					box-sizing: border-box;
+				}
+			}
+		}
+	}
+}

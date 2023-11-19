@@ -1,0 +1,109 @@
+@use "../utils/module" as utils;
+
+// list element
+//
+// @name Columns
+// @group Layouts
+@mixin list {
+	@layer definitions {
+		.#{utils.$status-toggle-list} {
+			display: block;
+
+			@include utils.flex-box(row, nowrap, space-between, center);
+			i.#{utils.$component-icon},
+			.#{utils.$component-svg} {
+				width: 1.8rem;
+			}
+		}
+
+		nav.#{utils.$layout-list} {
+			> input[type^="c"] {
+				display: none;
+			}
+			&.#{utils.$status-is-active},
+			> input[type^="c"]:checked ~ {
+				.#{utils.$status-toggle-list} {
+					font-weight: utils.weight(bold);
+					margin-bottom: 1rem;
+					i.#{utils.$component-icon},
+					.#{utils.$component-svg} {
+						transform: rotate(180deg);
+					}
+				}
+				.#{utils.$status-toggle-list} + {
+					ul.#{utils.$layout-list}-group,
+					ol.#{utils.$layout-list}-group {
+						max-height: none;
+					}
+				}
+			}
+
+			.#{utils.$status-toggle-list} + {
+				ul.#{utils.$layout-list}-group,
+				ol.#{utils.$layout-list}-group {
+					max-height: 0;
+					overflow: hidden;
+
+					> li {
+						width: 100%;
+					}
+				}
+			}
+		}
+
+		// .list-title
+		span.#{utils.$layout-list}-title {
+			display: block;
+			margin-bottom: 1rem;
+		}
+
+		ul,
+		ol {
+			// .list-group
+			&.#{utils.$layout-list}-group {
+				overflow: visible;
+
+				// flow direction
+				//
+				// @group Modifiers
+				&.#{utils.$prefix-default}--flow-row {
+					@include utils.flex-box(row, nowrap, flex-start, center);
+
+					> li:not(:last-child) {
+						margin-right: 1rem;
+					}
+				}
+
+				// default flow
+				&:not([class*="--flow"]),
+				&.#{utils.$prefix-default}--flow-column {
+					// Flow
+					@include utils.flex-box(column, nowrap, flex-start, stretch);
+
+					> *:not(:last-child) {
+						margin-bottom: 0.4rem;
+					}
+				}
+
+				> li {
+					text-align: left;
+					white-space: pre-line;
+
+					@layer defaults {
+						// @defaults txtAlign, txtWrap
+						* {
+							text-align: left;
+							white-space: pre-line;
+						}
+					}
+
+					a,
+					label,
+					button {
+						line-height: utils.$size-line-height-lg;
+					}
+				}
+			}
+		}
+	}
+}

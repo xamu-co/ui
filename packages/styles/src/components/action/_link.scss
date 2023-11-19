@@ -1,0 +1,130 @@
+@use "module";
+@use "sass:meta";
+
+// Default link element
+// this element is expected to be an <a> tag
+//
+// @group Components
+@mixin link {
+	@layer definitions {
+		.#{module.$component-link} {
+			@include module.action-styles;
+			@include module.action-aligment-styles;
+			@include module.action-gaping-styles;
+			@include module.action-alert-styles;
+			@include module.action-capitalize-styles;
+			@include module.action-disabled-styles;
+
+			// display: inline-block;
+			--bg: transparent;
+
+			&.#{module.$status-is-alert}:after {
+				--bc: var(--cl-h, var(--cl-a));
+
+				background-color: var(--cl, var(--bg));
+			}
+			&.#{module.$status-is-active},
+			&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+					.#{module.$status-no-route-exact}
+				) {
+				color: var(--cl-a);
+			}
+
+			// hover status
+			&.#{module.$status-toggle-dropdown}.#{module.$status-is-active} {
+				color: var(--cl-h, var(--cl-a));
+			}
+			&:not(.#{module.$status-is-active}) {
+				&:not(.#{module.$status-is-route-exact}),
+				&.#{module.$status-is-route-exact}.#{module.$status-no-route},
+				&.#{module.$status-is-route-exact}.#{module.$status-no-route-exact} {
+					&:hover {
+						color: var(--cl-h, var(--cl-a));
+					}
+				}
+			}
+
+			// shadow
+			&.#{module.$prefix-default}--shadow {
+				&:hover,
+				&.#{module.$status-is-active},
+				&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+						.#{module.$status-no-route-exact}
+					) {
+					text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
+				}
+			}
+
+			// link theme
+			//
+			// @group Modifiers
+			@include module.extend-themes using($name, $value, $is-default) {
+				--cl: #{module.color($name)};
+				--cl-a: #{module.color($name, 0.7)};
+				--cl-h: #{module.color($name, 0.5)};
+
+				&.#{module.$status-is-alert}:after {
+					--cl-h: #{module.color(light, 0.5)};
+				}
+			}
+
+			// theme overrides
+			//
+			// @group Modifiers
+			&.#{module.$prefix-default}--tm-light {
+				--cl-a: #{module.color(primary)};
+			}
+			&.#{module.$prefix-default}--tm-dark {
+				--cl-a: #{module.color(primary)};
+			}
+
+			// link round handling
+			&.#{module.$prefix-default}--round {
+				@include module.extend-viewports-classes(true, true) {
+					i.#{module.$component-icon},
+					.#{module.$component-svg} {
+						&:last-child {
+							--fa-display: none;
+
+							display: none;
+						}
+					}
+				}
+			}
+
+			@if module.$allow-responsive {
+				// desktop only, use hover
+				@media (min-width: (module.$querie-tablet + 1)) {
+					// hover status
+					@at-root *:hover
+							> .#{module.$status-toggle-dropdown}:not(
+								.#{module.$status-only-active}
+							)#{&} {
+						color: var(--cl-h, var(--cl-a));
+
+						// link shadow
+						&.#{module.$prefix-default}--shadow {
+							text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
+						}
+					}
+				}
+
+				// mobile only, use focus
+				@media (max-width: module.$querie-tablet) {
+					// focus status
+					@at-root *:focus-within:not(.#{module.$status-no-focus})
+							> .#{module.$status-toggle-dropdown}:not(
+								.#{module.$status-only-active}
+							)#{&} {
+						color: var(--cl-h, var(--cl-a));
+
+						// link shadow
+						&.#{module.$prefix-default}--shadow {
+							text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,123 @@
+@use "module";
+
+// flexbox justify content
+//
+// @group Modifiers
+@mixin flex-justify {
+	@layer modifiers {
+		.#{module.$prefix-default}--flxJustify {
+			&-end {
+				@include module.extend-viewports-classes {
+					justify-content: flex-end;
+					&.#{module.$layout-grid} {
+						justify-items: flex-end;
+					}
+				}
+			}
+
+			&-start {
+				@include module.extend-viewports-classes {
+					justify-content: flex-start;
+					&.#{module.$layout-grid} {
+						justify-items: flex-start;
+					}
+				}
+			}
+
+			&-around {
+				@include module.extend-viewports-classes {
+					justify-content: space-around;
+					&.#{module.$layout-grid} {
+						justify-items: space-around;
+					}
+				}
+			}
+
+			&-evenly {
+				@include module.extend-viewports-classes {
+					justify-content: space-around; // for unsupported browsers
+					justify-content: space-evenly;
+					&.#{module.$layout-grid} {
+						justify-items: space-around; // for unsupported browsers
+						justify-items: space-evenly;
+					}
+				}
+			}
+
+			&-between {
+				@include module.extend-viewports-classes {
+					justify-content: space-between;
+					&.#{module.$layout-grid} {
+						justify-items: space-between;
+					}
+				}
+			}
+
+			&-stretch {
+				@include module.extend-viewports-classes {
+					justify-content: stretch;
+					&.#{module.$layout-grid} {
+						justify-items: stretch;
+					}
+				}
+			}
+
+			// default
+			&,
+			&-center {
+				@include module.extend-viewports-classes {
+					justify-content: center;
+					&.#{module.$layout-grid} {
+						justify-items: center;
+					}
+				}
+			}
+		}
+
+		.#{module.$prefix-default}--flxJustifySelf {
+			&-end {
+				@include module.extend-viewports-classes {
+					justify-self: flex-end;
+				}
+			}
+
+			&-start {
+				@include module.extend-viewports-classes {
+					justify-self: flex-start;
+				}
+			}
+
+			&-around {
+				@include module.extend-viewports-classes {
+					justify-self: space-around;
+				}
+			}
+
+			&-evenly {
+				@include module.extend-viewports-classes {
+					justify-self: space-around; // for unsupported browsers
+				}
+			}
+
+			&-between {
+				@include module.extend-viewports-classes {
+					justify-self: space-between;
+				}
+			}
+
+			&-stretch {
+				@include module.extend-viewports-classes {
+					justify-self: stretch;
+				}
+			}
+
+			// default
+			&,
+			&-center {
+				@include module.extend-viewports-classes {
+					justify-self: center;
+				}
+			}
+		}
+	}
+}

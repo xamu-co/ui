@@ -1,0 +1,28 @@
+@use "module";
+@use "sass:math";
+
+// text spacing
+//
+// @group Modifiers
+@mixin text-spacing {
+	@layer modifiers {
+		.#{module.$prefix-default}--txtSpacing {
+			&,
+			&-normal {
+				@include module.extend-viewports-classes {
+					letter-spacing: normal;
+				}
+			}
+
+			@for $i from 0 through 6 {
+				$value: math.div($i, 3) * 1em;
+
+				&-#{$i * 5} {
+					@include module.extend-viewports-classes {
+						letter-spacing: $value;
+					}
+				}
+			}
+		}
+	}
+}

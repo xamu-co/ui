@@ -1,0 +1,62 @@
+@use "module";
+
+// input-color element
+//
+// @group Components
+@mixin input-color {
+	@layer definitions {
+		.#{module.$component-input-color} {
+			@include module.action-styles;
+
+			@include module.action-size-styles(false) using ($size) {
+				width: $size;
+			}
+
+			@include module.action-border-styles;
+			@include module.action-disabled-styles;
+
+			display: block;
+			overflow: hidden;
+			cursor: pointer;
+
+			&::-webkit-color-swatch-wrapper {
+				padding: 0;
+			}
+
+			&::-webkit-color-swatch {
+				border: none;
+				border-radius: 50%;
+				width: 50%;
+				height: 50%;
+			}
+
+			&::-moz-color-swatch {
+				border: none;
+				border-radius: 50%;
+				width: 50%;
+				height: 50%;
+			}
+
+			@layer defaults {
+				// theme
+				//
+				// @group Modifiers
+				@include module.extend-themes using($name, $value, $is-default) {
+					--bg: #{module.color($name, 0.1)};
+					--bc: #{module.color($name, 0.05)};
+					--cl: #{module.color($name)};
+					--cl-a: #{module.color($name, 0.5)};
+				}
+			}
+
+			&:hover:not(:focus, :focus-within) {
+				--bc: var(--cl-a);
+			}
+
+			&:focus,
+			&:focus-within {
+				--bc: var(--cl);
+			}
+		}
+	}
+}

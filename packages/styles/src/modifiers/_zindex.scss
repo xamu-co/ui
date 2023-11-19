@@ -1,0 +1,22 @@
+@use "../utils/module" as utils;
+
+// z index
+//
+// @group Modifiers
+@mixin z-index {
+	@layer modifiers {
+		.#{utils.$prefix-default}--index {
+			@include utils.extend-viewports-classes {
+				z-index: 999;
+			}
+
+			@for $i from 1 through 10 {
+				&-#{$i} {
+					@include utils.extend-viewports-classes {
+						z-index: $i;
+					}
+				}
+			}
+		}
+	}
+}

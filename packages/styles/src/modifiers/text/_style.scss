@@ -1,0 +1,30 @@
+@use "module";
+
+// text style
+//
+// @group Modifiers
+@mixin text-style {
+	@layer modifiers {
+		.#{module.$prefix-default}--txtStyle {
+			&-normal {
+				@include module.extend-viewports-classes {
+					font-style: normal;
+				}
+			}
+
+			&-oblique {
+				@include module.extend-viewports-classes {
+					font-style: oblique;
+				}
+			}
+
+			// default
+			&,
+			&-italic {
+				@include module.extend-viewports-classes {
+					font-style: italic;
+				}
+			}
+		}
+	}
+}

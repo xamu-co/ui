@@ -1,0 +1,66 @@
+@forward "forward";
+@use "forward";
+
+// color modifiers
+@mixin color {
+	@include forward.background-color;
+	@include forward.border-color;
+	@include forward.striped-color;
+}
+
+// flexbox modifiers
+@mixin flex {
+	// flexbox
+	@include forward.flex-align;
+	@include forward.flex-growth;
+	@include forward.flex-justify;
+	@include forward.flex-place-items;
+}
+
+// size modifiers
+@mixin size {
+	@include forward.gap-size;
+	@include forward.gaping-size;
+	@include forward.height-size;
+	@include forward.margin-size;
+	@include forward.padding-size;
+	@include forward.width-size;
+}
+
+// text modifiers
+@mixin text {
+	@include forward.text-align;
+	@include forward.text-color;
+	@include forward.text-shadow;
+	@include forward.text-size;
+	@include forward.text-spacing;
+	@include forward.text-style;
+	@include forward.text-transform;
+	@include forward.text-weight;
+	@include forward.text-wrap;
+}
+
+// all modifiers
+@mixin all {
+	// color
+	@include color;
+
+	// flexbox
+	@include flex;
+
+	// size
+	@include size;
+
+	// text
+	@include text;
+
+	// others
+	@include forward.vertical-align;
+	@include forward.box-sizing;
+	@include forward.border;
+	@include forward.clearfix;
+	@include forward.display;
+	@include forward.order;
+	@include forward.position;
+	@include forward.z-index;
+}

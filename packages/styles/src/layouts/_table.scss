@@ -1,0 +1,267 @@
+@use "../utils/module" as utils;
+@use "sass:meta";
+@use "sass:math";
+
+// Table
+// tbl instead of table to not crash with other libraries such as bootstrap
+@mixin table {
+	@layer definitions {
+		table.#{utils.$layout-table} {
+			table-layout: fixed;
+			border-collapse: collapse;
+			box-sizing: border-box;
+			border-spacing: 0;
+
+			@layer defaults {
+				tr {
+					&:not(.#{utils.$status-no-hover}) {
+						th,
+						td {
+							// @defaults txtAlign
+							text-align: left;
+						}
+					}
+				}
+			}
+
+			img {
+				display: initial;
+			}
+
+			thead {
+				z-index: 3;
+
+				tr {
+					&:not(.#{utils.$status-no-hover}) {
+						th,
+						td {
+							&.#{utils.$status-is-selected} {
+								font-weight: utils.weight(bold);
+							}
+							*:not(i.#{utils.$component-icon}) {
+								font-weight: inherit;
+							}
+						}
+					}
+				}
+			}
+
+			thead,
+			tbody {
+				width: 100%;
+
+				tr {
+					border-bottom: 2px solid transparent;
+					transition: all 0.1s ease-out;
+
+					&:not(.#{utils.$status-no-hover}) {
+						th,
+						td {
+							padding: 0.4rem 1rem;
+							transition: color 0.1s ease-out;
+							font-weight: utils.weight();
+						}
+
+						td {
+							min-width: math.div(utils.$size-min-column-size, 5);
+						}
+					}
+
+					th,
+					td {
+						box-sizing: border-box;
+
+						&,
+						> * {
+							vertical-align: middle;
+						}
+
+						&::before {
+							content: "";
+							display: block;
+							width: 100%;
+							height: 100%;
+							position: absolute;
+							top: 0;
+							left: 0;
+							z-index: 0;
+							pointer-events: none;
+							transition: all 0.1s ease-out;
+							border-top: 2px solid transparent;
+							border-bottom: 2px solid transparent;
+							box-sizing: border-box;
+						}
+
+						$radius-table: 0.7rem * utils.strip-unit(utils.$size-radius-table);
+
+						&:first-child::before {
+							border-top-left-radius: $radius-table;
+							border-bottom-left-radius: $radius-table;
+							border-left: 2px solid transparent;
+						}
+
+						&:last-child {
+							&,
+							&.#{utils.$prefix-default}--sticky {
+								&::before {
+									border-top-right-radius: $radius-table;
+									border-bottom-right-radius: $radius-table;
+									border-right: 2px solid transparent;
+								}
+							}
+						}
+
+						&.#{utils.$prefix-default}--sticky {
+							position: sticky;
+							z-index: 2;
+							left: 0;
+							width: 0%; // fit width to content
+
+							&:empty {
+								padding: 0.4rem;
+								pointer-events: none;
+							}
+
+							&:last-child {
+								right: 0;
+								z-index: 3;
+							}
+						}
+					}
+				}
+			}
+
+			// table theme
+			//
+			// @group Modifiers
+			@include utils.extend-unions
+				using($theme, $theme-value, $base, $base-value, $is-default) {
+				thead {
+					tr {
+						&:not(.#{utils.$status-no-hover}) {
+							color: utils.color($theme, 0.6);
+
+							&:hover {
+								> th::before,
+								> td::before {
+									border-color: utils.color($theme, 0.05);
+								}
+							}
+
+							> th,
+							> td {
+								&.#{utils.$status-is-selected} {
+									color: utils.color($theme);
+								}
+
+								&::before {
+									background: utils.color($theme, 0.1);
+								}
+							}
+						}
+					}
+				}
+
+				tbody {
+					tr {
+						&:not(.#{utils.$status-no-hover}) {
+							&.#{utils.$status-is-selected} {
+								&:hover {
+									> th::before,
+									> td::before {
+										border-color: utils.color($theme, 0.3);
+									}
+								}
+
+								> th::before,
+								> td::before {
+									border-color: utils.color($theme, 0.1);
+								}
+							}
+							&:hover,
+							&.#{utils.$status-is-selected} {
+								> th,
+								> td {
+									&::before {
+										color: utils.color($theme);
+										background: utils.color($theme, 0.1);
+									}
+								}
+							}
+						}
+					}
+				}
+
+				thead,
+				tbody {
+					tr {
+						th,
+						td {
+							&.#{utils.$prefix-default}--sticky {
+								background: utils.color($base);
+							}
+						}
+					}
+				}
+			}
+
+			@if utils.$allow-responsive {
+				@media (max-width: utils.$querie-tablet) {
+					// TODO: fix this
+					&.#{utils.$prefix-default}--collapseOnMobile {
+						&,
+						thead,
+						tbody,
+						th,
+						td,
+						tr {
+							display: block;
+						}
+
+						thead {
+							position: absolute;
+							top: -9999px;
+							left: -9999px;
+						}
+
+						tbody {
+							th,
+							td {
+								/* Behave  like a "row" */
+								// border: none;
+								// border-bottom: 1px solid #eee;
+								// position: relative;
+								// padding-left: 50%;
+								@include utils.flex-box(row, nowrap, flex-start, center);
+
+								&[data-column]::before {
+									content: attr(data-column);
+								}
+
+								&::before {
+									/* Now like a table header */
+									content: "Column";
+									width: 30%;
+
+									// position: absolute;
+									// /* Top/left values mimic padding */
+									// top: 6px;
+									// left: 6px;
+									// width: 45%;
+									flex: 0 0 auto;
+									height: 100%;
+									padding-right: 1rem;
+									white-space: pre-line;
+									overflow: hidden;
+									text-overflow: ellipsis;
+
+									@include utils.flex-box(row, nowrap, flex-start, center);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

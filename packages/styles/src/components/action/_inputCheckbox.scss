@@ -1,0 +1,22 @@
+@use "module";
+
+// checkbox input
+//
+// @group Components
+@mixin input-checkbox {
+	@layer definitions {
+		.#{module.$component-input-checkbox} {
+			@at-root input[type^="c"]#{&} {
+				@include module.action-toggle-styles;
+
+				+ label::after {
+					border-radius: 0.7rem * module.$radius-action;
+				}
+
+				&:checked + label::after {
+					content: "\f00c";
+				}
+			}
+		}
+	}
+}

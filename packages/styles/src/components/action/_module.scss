@@ -1,0 +1,350 @@
+// Forward here to minimize imports
+@forward "../../utils/module";
+@use "../../utils/module";
+@use "sass:meta";
+@use "sass:math";
+
+$radius-action: module.strip-unit(module.$size-radius-action);
+
+@mixin action-styles {
+	color: var(--cl, transparent); // should inherit?
+	background-color: var(--bg, transparent);
+	border-color: var(--bc, transparent); // by default
+	border-style: solid;
+	text-shadow: none;
+	box-sizing: border-box;
+	font-size: 1em;
+}
+
+// button defaults & round modifier
+//
+// @group SharedStyles
+@mixin action-round-styles {
+	@at-root :not([class*="#{module.$status-toggle}"])
+			> :not([class*="#{module.$status-toggle}"])#{&} {
+		// round button
+		//
+		// @group Modifiers
+		&.#{module.$prefix-default}--round {
+			@include module.extend-viewports-classes(true, true) {
+				i.#{module.$component-icon},
+				.#{module.$component-svg} {
+					+ span {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+
+	// button & buttonToggle shared styles
+	//
+	// @group SharedStyles
+	@include module.extend-sizes using($size, $unit) {
+		&.#{module.$prefix-default}--round {
+			@include module.extend-viewports-classes(
+				module.$allow-responsive-classes-desktop-first,
+				true,
+				true
+			) {
+				padding: 0; // button padding
+				width: $size * 2.4;
+			}
+		}
+	}
+}
+
+// content alignment
+//
+// @group SharedStyles,
+@mixin action-aligment-styles {
+	flex: 0 0 auto;
+
+	@include module.flex-box(row, nowrap, center, center, inline-flex);
+}
+
+// content gaping behavior
+//
+// @group SharedStyles
+@mixin action-gaping-styles {
+	> * + * {
+		margin-left: 0.4em;
+	}
+	&.#{module.$prefix-default}--round {
+		@include module.extend-viewports-classes(true, true) {
+			> * + * {
+				margin-left: 0;
+			}
+		}
+	}
+}
+
+// is alert
+//
+// @group SharedStyles
+@mixin action-alert-styles {
+	&.#{module.$status-is-alert}:after {
+		content: "";
+		display: block;
+		width: 1rem;
+		height: 1rem;
+		position: absolute;
+		right: -0.4rem;
+		bottom: -0.4rem;
+		border-width: 4px;
+		border-style: solid;
+		border-radius: 50% * $radius-action;
+		box-sizing: border-box;
+		border-color: var(--bc, transparent);
+	}
+}
+
+// buttons & select themes
+// Invalid state does not make sense on selects
+//
+// @group SharedStyles
+@mixin action-theme-union-styles {
+	// first value is the bgColor
+	// second value is the textColor
+	//
+	// @group Unions
+	@layer defaults {
+		@include module.extend-unions using($theme, $theme-value, $base, $base-value, $is-default) {
+			--cl: #{module.color($base)};
+			--bg: #{module.color($theme)};
+
+			&:hover,
+			&:focus {
+				&:not(.#{module.$status-is-active}) {
+					&:not(.#{module.$status-is-route}),
+					&.#{module.$status-is-route}.#{module.$status-no-route} {
+						--cl: #{module.color($base, 0.7)};
+						--bc: #{module.color($base, 0.3)};
+					}
+				}
+				&.#{module.$status-is-active},
+				&.#{module.$status-is-route}:not(.#{module.$status-no-route}) {
+					--cl: #{module.color($theme, 0.7)};
+				}
+			}
+
+			&:disabled,
+			&[disabled]:not([disabled="false"]) {
+				--cl: #{module.color($theme, 0.3)};
+			}
+		}
+	}
+
+	// invalid
+	&.#{module.$status-is-invalid} {
+		--bg: #{module.color(danger)};
+
+		&:hover,
+		&:focus {
+			&.#{module.$status-is-active},
+			&.#{module.$status-is-route}:not(.#{module.$status-no-route}) {
+				--cl: #{module.color(danger, 0.7)};
+			}
+		}
+
+		&:disabled,
+		&[disabled]:not([disabled="false"]) {
+			--cl: #{module.color(danger, 0.3)};
+		}
+	}
+
+	// OVERRIDE: dejar en el final
+	&.#{module.$status-is-active},
+	&.#{module.$status-is-route}:not(.#{module.$status-no-route}),
+	&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+			.#{module.$status-no-route-exact}
+		) {
+		--cl: var(--bg);
+		--bc: var(--cl);
+	}
+
+	&.#{module.$status-is-active},
+	&.#{module.$status-is-route}:not(.#{module.$status-no-route}) {
+		&:hover,
+		&:focus {
+			--bc: var(--cl);
+		}
+	}
+
+	&:disabled,
+	&[disabled]:not([disabled="false"]) {
+		--bc: var(--cl);
+	}
+
+	&.#{module.$status-is-active},
+	&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+			.#{module.$status-no-route-exact}
+		),
+	&.#{module.$status-is-route}:not(.#{module.$status-no-route}),
+	&:disabled,
+	&[disabled]:not([disabled="false"]) {
+		background-color: var(--bg-a, transparent);
+	}
+}
+
+// button size
+// this is the default value
+//
+// @group SharedStyles
+@mixin action-size-styles($with-padding: true) {
+	// text, select, button & buttonToggle shared styles
+	//
+	// @group SharedStyles
+	@include module.extend-sizes($all-viewports: true) using($size, $is-default) {
+		height: $size * 2.4; // button size: height/width
+
+		@if $with-padding {
+			padding: 0 #{$size * 0.8}; // button padding
+		}
+
+		@content ($size * 2.4);
+	}
+}
+
+// button borders
+//
+// @group SharedStyles
+@mixin action-border-styles {
+	@include module.extend-sizes using($size, $unit) {
+		border-radius: $size * $radius-action;
+		border-width: $unit * 1px;
+
+		@content ($size * $radius-action);
+	}
+}
+
+// capitalize
+//
+// @group SharedStyles
+@mixin action-capitalize-styles {
+	@layer defaults {
+		// @defaults txtTransform
+		&,
+		> :not(.#{module.$component-icon}) {
+			::first-letter {
+				text-transform: capitalize;
+			}
+		}
+	}
+}
+
+// disabled behavior
+//
+// @group SharedStyles
+@mixin action-disabled-styles($with-opacity: true) {
+	&:disabled,
+	&[disabled]:not([disabled="false"]) {
+		pointer-events: none;
+
+		@if $with-opacity {
+			opacity: 0.3;
+		}
+	}
+}
+
+// Toggle input
+// radio & checkbox
+//
+// @group SharedStyles
+@mixin action-toggle-styles {
+	display: none;
+
+	+ label {
+		color: var(--cl, transparent);
+
+		&::after {
+			content: "";
+			vertical-align: middle;
+			display: inline-block;
+			width: 1.8rem;
+			height: 1.8rem;
+			border-width: 2px;
+			border-style: solid;
+			font-family: module.family(icons);
+			font-weight: 900;
+			text-align: center;
+			line-height: 1.7rem;
+			box-sizing: border-box;
+			flex: 0 0 auto;
+			background-color: var(--bg, transparent);
+			border-color: var(--bc, transparent);
+			font-size: 1rem;
+		}
+
+		> * {
+			margin-right: 0.4em;
+		}
+	}
+
+	&:checked + label {
+		font-weight: module.weight(bold);
+	}
+
+	&:disabled,
+	&[disabled]:not([disabled="false"]) {
+		+ label {
+			opacity: 0.3;
+			pointer-events: none;
+		}
+	}
+
+	&:not(:disabled),
+	&[disabled="false"] {
+		+ label:hover {
+			cursor: pointer;
+		}
+	}
+
+	// Full width
+	//
+	// @group Modifiers
+	&.#{module.$prefix-default}--full + label {
+		width: 100%;
+
+		@include module.flex-box(row, nowrap, space-between, center);
+	}
+
+	// Radio theme
+	//
+	// @group Modifiers
+	@layer defaults {
+		@include module.extend-themes using($name, $value, $is-default) {
+			+ label {
+				--cl: #{$value};
+				--bg: #{module.color($name, 0.1)};
+				--bc: #{module.color($name, 0.1)};
+
+				&:hover {
+					--cl: #{module.color($name, 0.7)};
+					--bc: #{module.color($name, 0.3)};
+				}
+			}
+
+			&:checked + label {
+				--bg: #{module.color($name, 0.5)};
+			}
+		}
+	}
+
+	&.#{module.$status-is-invalid} {
+		+ label {
+			--cl: #{module.color(danger)};
+			--bg: #{module.color(danger, 0.1)};
+			--bc: #{module.color(danger, 0.1)};
+
+			&:hover {
+				--cl: #{module.color(danger, 0.7)};
+				--bc: #{module.color(danger, 0.3)};
+			}
+		}
+
+		&:checked + label {
+			--bg: #{module.color(danger, 0.5)};
+		}
+	}
+}

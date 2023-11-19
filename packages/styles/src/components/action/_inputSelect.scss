@@ -1,0 +1,85 @@
+@use "module";
+@use "sass:meta";
+@use "../../utils/system";
+
+$select-path-start: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16.478' height='10'%3E%3Cpath d='M7.598 9.736L.265 2.403c-.354-.354-.354-.927 0-1.28L1.12.267c.354-.352.925-.352 1.28 0l5.836 5.8 5.84-5.812c.354-.352.925-.352 1.28 0l.855.855c.354.354.354.927 0 1.28L8.875 9.734c-.353.352-.923.352-1.277.002z'";
+$select-path-up: "#{$select-path-start} fill='%23";
+$select-path-down: "#{$select-path-start} transform='rotate(180 8.236 5)' fill='%23";
+$select-path-end: "'/%3E%3C/svg%3E";
+
+// select or datalist
+//
+// @group Components
+@mixin input-select {
+	@layer definitions {
+		.#{module.$component-input-select} {
+			@include module.action-styles;
+			@include module.action-theme-union-styles;
+			@include module.action-size-styles;
+			@include module.action-border-styles;
+			@include module.action-capitalize-styles;
+			@include module.action-disabled-styles(false);
+
+			width: 100%;
+			display: inline-block;
+			background-repeat: no-repeat;
+			background-size: auto 0.4em;
+			appearance: none;
+
+			&::-ms-expand {
+				display: none;
+			}
+
+			// Theme
+			//
+			// @group Unions
+			@layer defaults {
+				@include module.extend-unions
+					using($theme, $theme-value, $base, $base-value, $is-default) {
+					//chevron-light down
+					background-image: url("#{$select-path-down}#{system.str-replace(#{$base-value}, '#')}#{$select-path-end}");
+
+					&:hover {
+						//chevron-light down-hover
+						background-image: url("#{$select-path-down}#{system.str-replace(#{$base-value}, '#')}' opacity='0.7#{$select-path-end}");
+					}
+
+					&:focus {
+						//chevron-light up
+						background-image: url("#{$select-path-up}#{system.str-replace(#{$base-value}, '#')}#{$select-path-end}");
+					}
+
+					&:focus:hover,
+					&:focus-within:hover {
+						//chevron-light up-hover
+						background-image: url("#{$select-path-up}#{system.str-replace(#{$base-value}, '#')}' opacity='0.7#{$select-path-end}");
+					}
+
+					&:disabled,
+					&[disabled]:not([disabled="false"]) {
+						//chevron-primary down
+						background-image: url("#{$select-path-down}#{system.str-replace(#{$theme-value}, '#')}' opacity='0.3#{$select-path-end}");
+					}
+				}
+			}
+
+			&.#{module.$status-is-invalid} {
+				&:disabled,
+				&[disabled]:not([disabled="false"]) {
+					//chevron-danger down
+					background-image: url("#{$select-path-down}#{system.str-replace(#{module.$color-danger}, '#')}' opacity='0.3#{$select-path-end}");
+				}
+			}
+
+			// size
+			@include module.extend-sizes using($size, $unit) {
+				padding: 0 #{$size * 2.2} 0 #{$size * 0.8};
+				background-position: calc(100% - #{$size * 0.8}) 50%;
+			}
+
+			option {
+				border: none;
+			}
+		}
+	}
+}

@@ -1,0 +1,295 @@
+@use "module";
+
+/// # Dropdown layout
+/// Multipurpose dropdown
+/// ```css
+///  .dropdown
+/// ```
+///
+/// ## Requirements:
+///
+/// ### Toggle
+/// It requires a toggler as previous sibling element to trigger the opening
+/// ```css
+///  .toggle--dropdown
+/// ```
+/// Or with action components:
+/// ```html
+///  <div class="flx --flxColumn --flx-center --pY-100">
+///   <x-link toggle="dropdown">trigger</x-link>
+///   <ul class="dropdown flx --flxColumn --flx-start --gapingY-5">
+///    <li>
+///     <a href="#" class="link">aguacate</a>
+///    </li>
+///    <li>
+///     <a href="#" class="link">cereza</a>
+///    </li>
+///    <li>
+///     <a href="#" class="link">platano</a>
+///    </li>
+///   </ul>
+///  </div>
+/// ```
+/// If an icon is provided this will rotate accordignly.
+/// It is recomended that this points to the oposite direction where the dropdown is located.
+/// ```html
+///  <div class="flx --flxColumn --flx-center --pY-100">
+///   <a href="#" class="toggle--dropdown link">
+///    <span>trigger</span>
+///    <i class="icon fa-chevron-up fas"></i>
+///   </a>
+///   <ul class="dropdown flx --flxColumn --flx-start --gapingY-5">
+///    <li>
+///     <a href="#" class="link">aguacate</a>
+///    </li>
+///    <li>
+///     <a href="#" class="link">cereza</a>
+///    </li>
+///    <li>
+///     <a href="#" class="link">platano</a>
+///    </li>
+///   </ul>
+///  </div>
+/// ```
+///
+/// ## Modifiers:
+/// None
+///
+/// ## Unions:
+/// ### Position
+/// This component can be aligned at almost any position, the default being bottom-left.
+/// The second value is optional and fallbacks to center.
+/// ```css
+///  .dropdown.--position-bottom-left
+/// ```
+///
+/// @group layout-dropdown
+/// @example njk
+///  {% extends "dropdown.njk" %}
+
+@mixin dropdown {
+	@layer definitions {
+		.#{module.$status-toggle-dropdown} {
+			&.#{module.$status-is-active},
+			&:not(.#{module.$status-only-active}):hover {
+				@include module.dropdown-toggle-styles;
+			}
+		}
+
+		// hover devices only any size (mostly desktop)
+		// use hover
+		@media (any-pointer: coarse) {
+			*:hover > .#{module.$status-toggle-dropdown}:not(.#{module.$status-only-active}),
+			.#{module.$status-toggle-dropdown}:not(.#{module.$status-only-active}):hover:not(
+					.#{module.$status-no-hover}
+				) {
+				@include module.dropdown-toggle-styles;
+			}
+		}
+
+		@if module.$allow-responsive {
+			// tablet with no hover only (tablets & mobile devices)
+			// use focus & .is--active class
+			@media (max-width: module.$querie-tablet) and (hover: none) {
+				.#{module.$status-toggle-dropdown}:not(
+						.#{module.$status-only-active}
+					):focus-within:not(.#{module.$status-no-focus}) {
+					@include module.dropdown-toggle-styles;
+				}
+			}
+		}
+
+		.#{module.$layout-dropdown} {
+			z-index: 10;
+			position: absolute;
+
+			&::before {
+				content: "";
+				position: absolute;
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+
+			&,
+			&.#{module.$layout-flexbox},
+			&.#{module.$layout-grid} {
+				display: none;
+			}
+			&.#{module.$layout-flexbox},
+			&.#{module.$layout-grid} {
+				&.#{module.$prefix-default}--display-inline {
+					@include module.extend-viewports-classes {
+						display: none;
+					}
+				}
+			}
+
+			&.#{module.$status-is-active} {
+				@include module.dropdown-visible-styles;
+			}
+
+			&:not(.#{module.$status-has-items}),
+			&-item {
+				background: module.color(light);
+				box-shadow: 3px 3px 9px module.color(dark, 0.3);
+
+				@layer defaults {
+					& {
+						// @defaults txtSize
+						font-size: module.size(sm);
+					}
+				}
+
+				// size
+				@include module.extend-sizes using($size, $unit) {
+					padding: ($size * 0.7) $size;
+					border-radius: $size * (module.strip-unit(module.$size-radius-box) + 0.333);
+				}
+			}
+
+			// Position
+			//
+			// @group Modifiers
+			// Right
+			&.#{module.$prefix-default}--position-right {
+				&,
+				&-top,
+				&-center,
+				&-bottom {
+					@include module.extend-viewports-classes {
+						left: calc(100% + 0.4rem);
+
+						&::before {
+							left: -0.4rem;
+							top: 0;
+						}
+					}
+				}
+			}
+
+			// Left
+			&.#{module.$prefix-default}--position-left {
+				&,
+				&-top,
+				&-center,
+				&-bottom {
+					@include module.extend-viewports-classes {
+						right: calc(100% + 0.4rem);
+
+						&::before {
+							right: -0.4rem;
+							top: 0;
+						}
+					}
+				}
+			}
+
+			// Right & Left
+			&.#{module.$prefix-default}--position-right,
+			&.#{module.$prefix-default}--position-left {
+				&-center {
+					@include module.extend-viewports-classes {
+						top: 50%;
+						transform: translateY(-50%);
+					}
+				}
+
+				&-bottom {
+					@include module.extend-viewports-classes {
+						bottom: -1rem;
+					}
+				}
+
+				// Default right position
+				&,
+				&-top {
+					@include module.extend-viewports-classes {
+						top: -1rem;
+					}
+				}
+			}
+
+			// Top
+			&.#{module.$prefix-default}--position-top {
+				&,
+				&-left,
+				&-right,
+				&-center {
+					@include module.extend-viewports-classes {
+						bottom: calc(100% + 0.4rem);
+
+						&::before {
+							left: 0;
+							bottom: -0.4rem;
+						}
+					}
+				}
+			}
+
+			// Bottom
+			&.#{module.$prefix-default}--position-bottom {
+				&,
+				&-left,
+				&-right,
+				&-center {
+					@include module.extend-viewports-classes {
+						top: calc(100% + 0.4rem);
+
+						&::before {
+							right: 0;
+							top: -0.4rem;
+						}
+					}
+				}
+			}
+
+			// Top & Bottom
+			&.#{module.$prefix-default}--position-top,
+			&.#{module.$prefix-default}--position-bottom {
+				&-right {
+					@include module.extend-viewports-classes {
+						right: -0.7rem;
+					}
+				}
+
+				&-center {
+					@include module.extend-viewports-classes {
+						left: 50%;
+						transform: translateX(-50%);
+					}
+				}
+
+				// Default bottom position
+				&,
+				&-left {
+					@include module.extend-viewports-classes {
+						left: -0.7rem;
+					}
+				}
+			}
+
+			// default: bottom-left
+			&:not([class*="--position"]) {
+				// Position
+				left: -0.7rem;
+				top: calc(100% + 0.4rem);
+
+				&::before {
+					right: 0;
+					top: -0.4rem;
+				}
+			}
+
+			li {
+				&:not(:first-child) {
+					padding-top: 0.2rem;
+				}
+
+				&:not(:last-child) {
+					padding-bottom: 0.2rem;
+				}
+			}
+		}
+	}
+}

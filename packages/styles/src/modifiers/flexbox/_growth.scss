@@ -1,0 +1,27 @@
+@use "module";
+
+// flex growth and shrink
+//
+// @group Modifiers
+@mixin flex-growth {
+	@layer modifiers {
+		.#{module.$prefix-default}--flx {
+			&-fit {
+				@include module.extend-viewports-classes {
+					flex: 0 0 auto;
+					max-width: 100%;
+					max-height: 100%;
+				}
+			}
+
+			&,
+			&-auto {
+				@include module.extend-viewports-classes {
+					flex: 1 1 auto;
+					max-width: 100%;
+					max-height: 100%;
+				}
+			}
+		}
+	}
+}

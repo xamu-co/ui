@@ -1,0 +1,395 @@
+@use "module";
+
+// flexbox shortcuts: Set justify-content & align-items
+//
+// @group Modifiers
+@mixin flex-place-items {
+	@layer modifiers {
+		.#{module.$prefix-default}--flx {
+			//  Justify Space between...
+			//
+			// @group GlobalUnions
+			&-between {
+				@include module.extend-viewports-classes {
+					align-items: center;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-content: space-between;
+						&.#{module.$layout-grid} {
+							justify-items: space-between;
+						}
+					}
+				}
+			}
+
+			//  Justify space around...
+			//
+			// @group GlobalUnions
+			&-around {
+				@include module.extend-viewports-classes {
+					align-items: center;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-content: space-around;
+						&.#{module.$layout-grid} {
+							justify-items: space-around;
+						}
+					}
+				}
+			}
+
+			//  Justify stretch...
+			//
+			// @group GlobalUnions
+			&-stretch {
+				@include module.extend-viewports-classes {
+					align-items: center;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-content: stretch;
+						&.#{module.$layout-grid} {
+							justify-items: stretch;
+						}
+					}
+				}
+			}
+
+			//  Justify space evenly...
+			//
+			// @group GlobalUnions
+			&-evenly {
+				@include module.extend-viewports-classes {
+					align-items: center;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-content: space-around; // for unsupported browsers
+						justify-content: space-evenly;
+						&.#{module.$layout-grid} {
+							justify-items: space-around; // for unsupported browsers
+							justify-items: space-evenly;
+						}
+					}
+				}
+			}
+
+			// Justify center...
+			//
+			// @group GlobalUnions
+			&-center {
+				@include module.extend-viewports-classes {
+					align-items: center;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-content: center;
+						&.#{module.$layout-grid} {
+							justify-items: center;
+						}
+					}
+				}
+			}
+
+			//  Justify flex start...
+			//
+			// @group GlobalUnions
+			&-start {
+				// default
+				@include module.extend-viewports-classes {
+					align-items: flex-start;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-content: flex-start;
+						&.#{module.$layout-grid} {
+							justify-items: flex-start;
+						}
+					}
+				}
+			}
+
+			// Justify flex-end...
+			//
+			// @group GlobalUnions
+			&-end {
+				// default
+				@include module.extend-viewports-classes {
+					align-items: flex-end;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-content: flex-end;
+						&.#{module.$layout-grid} {
+							justify-items: flex-end;
+						}
+					}
+				}
+			}
+
+			&-start,
+			&-center,
+			&-end,
+			&-stretch,
+			&-between,
+			&-around,
+			&-evenly {
+				&-start {
+					@include module.extend-viewports-classes {
+						align-items: flex-start;
+					}
+				}
+
+				&-center {
+					@include module.extend-viewports-classes {
+						align-items: center;
+					}
+				}
+
+				&-end {
+					@include module.extend-viewports-classes {
+						align-items: flex-end;
+					}
+				}
+
+				&-stretch {
+					@include module.extend-viewports-classes {
+						align-items: stretch;
+					}
+				}
+
+				&-baseline {
+					@include module.extend-viewports-classes {
+						align-items: baseline;
+					}
+				}
+			}
+		}
+		.#{module.$prefix-default}--flxSelf {
+			//  Justify Space between...
+			//
+			// @group GlobalUnions
+			&-between {
+				@include module.extend-viewports-classes {
+					align-self: center;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-self: space-between;
+					}
+				}
+			}
+
+			//  Justify space around...
+			//
+			// @group GlobalUnions
+			&-around {
+				@include module.extend-viewports-classes {
+					align-self: center;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-self: space-around;
+					}
+				}
+			}
+
+			//  Justify stretch...
+			//
+			// @group GlobalUnions
+			&-stretch {
+				@include module.extend-viewports-classes {
+					align-self: center;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-self: stretch;
+					}
+				}
+			}
+
+			//  Justify space evenly...
+			//
+			// @group GlobalUnions
+			&-evenly {
+				@include module.extend-viewports-classes {
+					align-self: center;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-self: space-around; // for unsupported browsers
+						justify-self: space-evenly;
+					}
+				}
+			}
+
+			// Justify center...
+			//
+			// @group GlobalUnions
+			&-center {
+				@include module.extend-viewports-classes {
+					align-self: center;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-self: center;
+					}
+				}
+			}
+
+			//  Justify flex start...
+			//
+			// @group GlobalUnions
+			&-start {
+				// default
+				@include module.extend-viewports-classes {
+					align-self: flex-start;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-self: flex-start;
+					}
+				}
+			}
+
+			// Justify flex-end...
+			//
+			// @group GlobalUnions
+			&-end {
+				// default
+				@include module.extend-viewports-classes {
+					align-self: flex-end;
+				}
+
+				&,
+				&-stretch,
+				&-baseline,
+				&-start,
+				&-center,
+				&-end {
+					@include module.extend-viewports-classes {
+						justify-self: flex-end;
+					}
+				}
+			}
+
+			&-start,
+			&-center,
+			&-end,
+			&-stretch,
+			&-between,
+			&-around,
+			&-evenly {
+				&-start {
+					@include module.extend-viewports-classes {
+						align-self: flex-start;
+					}
+				}
+
+				&-center {
+					@include module.extend-viewports-classes {
+						align-self: center;
+					}
+				}
+
+				&-end {
+					@include module.extend-viewports-classes {
+						align-self: flex-end;
+					}
+				}
+
+				&-stretch {
+					@include module.extend-viewports-classes {
+						align-self: stretch;
+					}
+				}
+
+				&-baseline {
+					@include module.extend-viewports-classes {
+						align-self: baseline;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,84 @@
+@use "module";
+@use "sass:math";
+
+// grid Gap
+// both dimension
+//
+// @group GlobalModifiers
+// gap using margin
+// both axis
+// this class applies to any container, not just flex containers, so it can't be polyfilled
+//
+// @group GlobalModifiers
+@mixin gap-size {
+	@layer modifiers {
+		.#{module.$prefix-default}--gap {
+			// flex, column & grid only
+			// 15, 1rem
+			@include module.extend-viewports-classes {
+				gap: 1rem;
+			}
+
+			&-0,
+			&-none {
+				@include module.extend-viewports-classes {
+					gap: 0;
+				}
+			}
+
+			&X {
+				// flex, column & grid only, X axis
+				// 15, 1rem
+				@include module.extend-viewports-classes {
+					column-gap: 1rem;
+				}
+
+				&-0,
+				&-none {
+					@include module.extend-viewports-classes {
+						column-gap: 0;
+					}
+				}
+			}
+
+			&Y {
+				// flex, column & grid only, Y axis
+				// 15, 1rem
+				@include module.extend-viewports-classes {
+					row-gap: 1rem;
+				}
+
+				&-0,
+				&-none {
+					@include module.extend-viewports-classes {
+						row-gap: 0;
+					}
+				}
+			}
+
+			@for $i from 1 through 10 {
+				$value: math.div($i, 3) * 1rem;
+
+				// grid Gap, future flex gap
+				&-#{$i * 5} {
+					// flex, column & grid only
+					@include module.extend-viewports-classes {
+						gap: $value;
+					}
+				}
+				&X-#{$i * 5} {
+					// flex, column & grid only, X axis
+					@include module.extend-viewports-classes {
+						column-gap: $value;
+					}
+				}
+				&Y-#{$i * 5} {
+					// flex, column & grid only, Y axis
+					@include module.extend-viewports-classes {
+						row-gap: $value;
+					}
+				}
+			}
+		}
+	}
+}

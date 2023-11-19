@@ -1,0 +1,29 @@
+// Forward here to minimize imports
+@forward "../../utils/module";
+@use "../../utils/module";
+
+@mixin dropdown-visible-styles {
+	display: block;
+	&.#{module.$layout-flexbox} {
+		display: flex;
+		&.#{module.$prefix-default}--display-inline {
+			@include module.extend-viewports-classes {
+				display: inline-flex;
+			}
+		}
+	}
+	&.#{module.$layout-grid} {
+		display: grid;
+		&.#{module.$prefix-default}--display-inline {
+			@include module.extend-viewports-classes {
+				display: inline-grid;
+			}
+		}
+	}
+}
+
+@mixin dropdown-toggle-styles {
+	+ .#{module.$layout-dropdown} {
+		@include dropdown-visible-styles;
+	}
+}

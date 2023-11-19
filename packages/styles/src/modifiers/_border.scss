@@ -1,0 +1,42 @@
+@use "../utils/module" as utils;
+@use "sass:meta";
+
+@function border-selector($name) {
+	@return "-#{$name}, ";
+}
+
+// border
+@mixin border {
+	@layer modifiers {
+		.#{utils.$prefix-default}--bdr {
+			&,
+			&.#{utils.$prefix-default}--size {
+				@include utils.extend-sizes(
+						$selector: meta.get-function("border-selector"),
+						$default-selector: null
+					)
+					using($size, $unit) {
+					border-width: $unit * 1px;
+
+					@layer defaults {
+						& {
+							border-style: solid;
+							border-color: transparent;
+						}
+					}
+				}
+			}
+
+			// borderStyle
+			//
+			// @group Modifiers
+			&-dashed {
+				border-style: dashed;
+			}
+
+			&-solid {
+				border-style: solid;
+			}
+		}
+	}
+}

@@ -1,0 +1,35 @@
+@use "../utils/module" as utils;
+
+// Float &  clear
+//
+// @group Modifiers
+@mixin clearfix {
+	@layer modifiers {
+		// clear
+		//
+		// @group GlobalModifiers
+		.#{utils.$prefix-default}--clear {
+			@include utils.extend-viewports-classes {
+				clear: both;
+			}
+		}
+
+		// float
+		//
+		// @group GlobalModifiers
+		.#{utils.$prefix-default}--float {
+			&-right {
+				@include utils.extend-viewports-classes {
+					float: left;
+				}
+			}
+
+			&,
+			&-left {
+				@include utils.extend-viewports-classes {
+					float: left;
+				}
+			}
+		}
+	}
+}

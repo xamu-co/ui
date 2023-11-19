@@ -1,0 +1,65 @@
+@use "../utils/module" as utils;
+@use "sass:math";
+
+/// # Column layout
+/// Useful for representing columns layouts like in old newspapers
+/// ```css
+///  .cols
+/// ```
+/// Aditionally it defines a max column width making it automatically responsive no matter the ammout of columns
+///
+/// ## Requirements:
+/// None
+///
+/// ## Modifiers:
+/// ### Column count
+/// Columns range goes from 2 to 12, 2 is the default.
+/// ```css
+///  .cols.--count-2
+/// ```
+///
+/// ## Unions:
+/// None
+///
+/// @group layout-column
+/// @example njk
+///  {% extends "columns.njk" %}
+
+@mixin columns {
+	@layer definitions {
+		.#{utils.$layout-columns} {
+			@include utils.extend-device-interactions {
+				overflow: visible;
+				column-gap: var(--gy, var(--g, 2rem));
+
+				> * {
+					// margin: 0;
+					// display: inline-block;
+					break-inside: avoid;
+				}
+
+				@layer defaults {
+					// @defaults gaping
+					> *:not(:last-child) {
+						margin-bottom: var(--gx, var(--g, 2rem));
+					}
+				}
+			}
+
+			@for $i from 2 through 12 {
+				&.#{utils.$prefix-default}--count-#{$i} {
+					@include utils.extend-viewports-classes {
+						columns: (math.div(utils.$size-min-column-size, $i) * 3) $i;
+					}
+				}
+			}
+
+			// default
+			&.#{utils.$prefix-default}--count,
+			&:not([class*="--count"]) {
+				// Count
+				columns: (math.div(utils.$size-min-column-size, 2) * 3) 2;
+			}
+		}
+	}
+}

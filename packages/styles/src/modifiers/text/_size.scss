@@ -1,0 +1,25 @@
+@use "module";
+
+// text size
+//
+// @group Modifiers
+@mixin text-size {
+	@layer modifiers {
+		.#{module.$prefix-default}--txtSize {
+			&,
+			&-normal {
+				@include module.extend-viewports-classes {
+					font-size: module.size();
+				}
+			}
+
+			@each $name, $size in module.$font-sizes {
+				&-#{$name} {
+					@include module.extend-viewports-classes {
+						font-size: $size;
+					}
+				}
+			}
+		}
+	}
+}

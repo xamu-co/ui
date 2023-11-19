@@ -1,0 +1,44 @@
+@use "../utils/module" as utils;
+
+// float container
+@mixin float {
+	@layer definitions {
+		.#{utils.$layout-float} {
+			@include utils.extend-device-interactions {
+				display: block;
+
+				@layer defaults {
+					> * {
+						// @defaults float
+						float: left;
+					}
+				}
+			}
+
+			&.#{utils.$prefix-default}--floatDir {
+				&-right {
+					@include utils.extend-viewports-classes {
+						@layer defaults {
+							> * {
+								// @defaults float
+								float: right;
+							}
+						}
+					}
+				}
+
+				&,
+				&-left {
+					@include utils.extend-viewports-classes {
+						@layer defaults {
+							> * {
+								// @defaults float
+								float: left;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

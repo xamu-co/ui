@@ -1,0 +1,86 @@
+@use "../utils/module" as utils;
+
+// Display
+//
+// @group Modifiers
+@mixin display {
+	@layer modifiers {
+		.#{utils.$prefix-default}--display {
+			&,
+			&-block {
+				@include utils.extend-viewports-classes {
+					display: block;
+				}
+			}
+
+			&-inline {
+				@include utils.extend-viewports-classes {
+					display: inline;
+
+					&.#{utils.$layout-flexbox} {
+						display: inline-flex;
+						position: static; // why? (27/03/2021)
+					}
+					&.#{utils.$layout-grid} {
+						display: inline-grid;
+						width: max-content;
+						max-width: 100%;
+					}
+				}
+			}
+		}
+
+		.#{utils.$prefix-default}--overflow {
+			&,
+			&-visible {
+				@include utils.extend-viewports-classes {
+					overflow: visible;
+				}
+			}
+
+			&-hidden {
+				@include utils.extend-viewports-classes {
+					overflow: hidden;
+				}
+			}
+		}
+
+		.#{utils.$prefix-default}--hidden {
+			// hide visually only
+			@include utils.extend-viewports-classes(true, true) {
+				width: 0.1px;
+				height: 0.1px;
+				opacity: 0;
+				overflow: hidden;
+				position: absolute;
+				z-index: -1;
+			}
+
+			&-full {
+				@include utils.extend-viewports-classes(true, true) {
+					display: none !important;
+				}
+			}
+		}
+
+		a,
+		label,
+		button {
+			> .#{utils.$prefix-default}--hidden {
+				@include utils.extend-viewports-classes(true, true) {
+					& + * {
+						margin-left: 0;
+					}
+				}
+
+				&-full {
+					@include utils.extend-viewports-classes(true, true) {
+						& + * {
+							margin-left: 0;
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,76 @@
+@use "module";
+
+// margin
+@mixin margin-size {
+	@layer modifiers {
+		.#{module.$prefix-default}--m {
+			@include module.extend-gutters(margin);
+
+			@include module.extend-viewports-classes {
+				margin: 1rem;
+
+				&-center {
+					margin: 0 auto;
+				}
+			}
+
+			// box margins
+			// X axis
+			//
+			// @group GlobalModifiers
+			&X {
+				&-left {
+					@include module.extend-viewports-classes {
+						margin-left: 0;
+						margin-right: auto;
+					}
+				}
+
+				&-right {
+					@include module.extend-viewports-classes {
+						margin-left: auto;
+						margin-right: 0;
+					}
+				}
+
+				// default
+				&,
+				&-center {
+					@include module.extend-viewports-classes {
+						margin-left: auto;
+						margin-right: auto;
+					}
+				}
+			}
+
+			// box margins
+			// Y axis
+			//
+			// @group GlobalModifiers
+			&Y {
+				&-top {
+					@include module.extend-viewports-classes {
+						margin-top: 0;
+						margin-bottom: auto;
+					}
+				}
+
+				&-bottom {
+					@include module.extend-viewports-classes {
+						margin-top: auto;
+						margin-bottom: 0;
+					}
+				}
+
+				// default, not usual but there is cases where it works
+				&,
+				&-center {
+					@include module.extend-viewports-classes {
+						margin-top: auto;
+						margin-bottom: auto;
+					}
+				}
+			}
+		}
+	}
+}

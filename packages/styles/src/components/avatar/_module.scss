@@ -1,0 +1,55 @@
+// Forward here to minimize imports
+@forward "../../utils/module";
+@use "../../utils/module";
+
+// avatar & avatarAureo shared styles
+//
+// @group SharedStyles
+@mixin avatar-styles {
+	display: block;
+	overflow: hidden;
+	flex: 0 0 auto;
+	background-color: module.color(light);
+	box-sizing: border-box;
+
+	// avatar size
+	//
+	// @group Modifiers
+	@include module.extend-sizes using($size, $unit) {
+		border-radius: $size * module.strip-unit(module.$size-radius-avatar);
+	}
+
+	img {
+		object-fit: cover;
+		object-position: 50% 50%;
+	}
+
+	// action avatar
+	@at-root {
+		a#{&},
+		button#{&},
+		label#{&} {
+			&:hover,
+			&.#{module.$status-is-active},
+			&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+					.#{module.$status-no-route-exact}
+				) {
+				// box-shadow: 1px 1px 3px module.color(dark, 0.2);
+				img {
+					opacity: 0.7;
+				}
+			}
+
+			// avatar border
+			//
+			// @group Modifiers
+			&:not(:hover),
+			&:not(.#{module.$status-is-active}),
+			&:not(.#{module.$status-is-route-exact}),
+			&.#{module.$status-is-route-exact}.#{module.$status-no-route},
+			&.#{module.$status-is-route-exact}.#{module.$status-no-route-exact} {
+				border-color: transparent;
+			}
+		}
+	}
+}
