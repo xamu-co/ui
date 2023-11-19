@@ -10,6 +10,7 @@
     "packages/common-types",
     "packages/common-helpers",
     "packages/components-vue",
+    "packages/components-svelte",
     "packages/nuxt"
   ],
   "private": true,

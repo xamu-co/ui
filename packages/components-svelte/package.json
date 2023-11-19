@@ -1,0 +1,96 @@
+{
+	"name": "@open-xamu-co/ui-components-svelte",
+	"version": "0.0.1",
+	"description": "Svelte component system for the xamu project",
+	"scripts": {
+		"i": "yarn --frozen-lockfile",
+		"dev": "vite dev",
+		"build": "vite build && yarn package",
+		"preview": "vite preview",
+		"package": "svelte-kit sync && svelte-package && publint",
+		"prepublishOnly": "yarn package",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test": "vitest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/xamu-co/ui.git"
+	},
+	"keywords": [
+		"svelte",
+		"component",
+		"system"
+	],
+	"author": "@xamu-co",
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/xamu-co/ui/issues"
+	},
+	"homepage": "https://github.com/xamu-co/ui/packages/svelte#readme",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"svelte": "./dist/index.js",
+			"default": "./dist/index.js"
+		},
+		"./BaseWrapper.svelte": {
+			"types": "./dist/base/Wrapper.svelte.d.ts",
+			"svelte": "./dist/base/Wrapper.svelte"
+		},
+		"./BaseImg.svelte": {
+			"types": "./dist/base/Img.svelte.d.ts",
+			"svelte": "./dist/base/Img.svelte"
+		},
+		"./Icon.svelte": {
+			"types": "./dist/icon/Simple.svelte.d.ts",
+			"svelte": "./dist/icon/Simple.svelte"
+		},
+		"./IconFa.svelte": {
+			"types": "./dist/icon/Fa.svelte.d.ts",
+			"svelte": "./dist/icon/Fa.svelte"
+		},
+		"./Loader.svelte": {
+			"types": "./dist/loader/Simple.svelte.d.ts",
+			"svelte": "./dist/loader/Simple.svelte"
+		}
+	},
+	"files": [
+		"CHANGELOG.md",
+		"README.md",
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"types": "./dist/index.d.ts",
+	"engines": {
+		"node": ">=16.19.0",
+		"yarn": ">=1.22.4"
+	},
+	"dependencies": {
+		"@open-xamu-co/ui-common-enums": "link:../common-enums",
+		"@open-xamu-co/ui-common-helpers": "link:../common-helpers"
+	},
+	"devDependencies": {
+		"@fortawesome/fontawesome-common-types": "^6.4.0",
+		"@open-xamu-co/ui-common-types": "link:../common-types",
+		"@open-xamu-co/ui-styles": "link:../styles",
+		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/kit": "^1.20.4",
+		"@sveltejs/package": "^2.0.0",
+		"publint": "^0.1.9",
+		"svelte-check": "^3.4.3",
+		"svelte-preprocess": "^5.0.4",
+		"tslib": "^2.4.1",
+		"vite": "^4.4.2",
+		"vitest": "^0.32.2"
+	},
+	"peerDependencies": {
+		"svelte": "^4"
+	}
+}

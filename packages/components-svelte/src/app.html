@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Svelte components playground</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex, nofollow" />
+		<link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin="anonymous" />
+		<link rel="dns-prefetch" href="https://fonts.googleapis.com/" />
+		<link rel="preconnect" href="https://unpkg.com/" crossorigin="anonymous" />
+		<link rel="dns-prefetch" href="https://unpkg.com/" />
+		<link
+			rel="preload"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap"
+		/>
+		<link
+			rel="preload"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
+			href="https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css"
+		/>
+		%sveltekit.head%
+	</head>
+	<noscript>This app requires javascript to work</noscript>
+
+	<body class="--height-full" data-sveltekit-preload-data="hover">
+		<main id="#appex" class="flx --flxColumn --flx-center-start --minHeight-full">
+			%sveltekit.body%
+		</main>
+	</body>
+</html>
