@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v1.2.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v1.2.2...@open-xamu-co/ui-styles-v1.2.3) (2023-11-19)
+
+
+### Bug Fixes
+
+* no dist ([009b9b8](https://github.com/xamu-co/ui/commit/009b9b84dc4d29dc4ba558d6fc7bcad84acbf663))
+
 # [@open-xamu-co/ui-styles-v1.2.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v1.2.1...@open-xamu-co/ui-styles-v1.2.2) (2023-11-19)
 
 
