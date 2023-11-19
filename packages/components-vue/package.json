@@ -1,6 +1,6 @@
 {
   "name": "@open-xamu-co/ui-components-vue",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vue component system for the xamu project",
   "scripts": {
     "i": "yarn --frozen-lockfile",
@@ -134,8 +134,8 @@
     }
   },
   "dependencies": {
-    "@open-xamu-co/ui-common-enums": "^1.0.1",
-    "@open-xamu-co/ui-common-helpers": "^1.0.1",
+    "@open-xamu-co/ui-common-enums": "^1.0.2",
+    "@open-xamu-co/ui-common-helpers": "^1.0.2",
     "lodash": "^4.17.21",
     "nanoid": "^4.0.2",
     "validator": "^13.11.0",
@@ -143,8 +143,8 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-common-types": "^6.4.0",
-    "@open-xamu-co/ui-common-types": "^1.0.1",
-    "@open-xamu-co/ui-styles": "^1.2.2",
+    "@open-xamu-co/ui-common-types": "^1.0.2",
+    "@open-xamu-co/ui-styles": "^1.2.3",
     "@types/lodash": "^4.14.192",
     "@types/node": "^18.17.17",
     "@types/validator": "^13.11.1",
