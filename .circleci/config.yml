@@ -69,21 +69,15 @@ jobs:
                   name: Lint & check
                   command: yarn lint
 
-    prepare_release:
+    dry_release:
         <<: *defaults
         steps:
             - checkout
             - attach_workspace:
                   at: ~/repo
             - run:
-                  name: Check release & build distributables
+                  name: Dry release
                   command: yarn release:dry
-                  environment:
-                      BUILD: 1
-            - persist_to_workspace:
-                  root: ~/repo
-                  paths:
-                      - packages/**/dist
 
     release:
         <<: *defaults
@@ -94,6 +88,10 @@ jobs:
             - run:
                   name: Release to npm
                   command: yarn release
+            - persist_to_workspace:
+                  root: ~/repo
+                  paths:
+                      - packages/**/dist
 
 workflows:
     check_and_release_workflow:
@@ -108,7 +106,7 @@ workflows:
             - check_code:
                   requires:
                       - pre_build
-            - prepare_release:
+            - dry_release:
                   context: npm-deploy
                   requires:
                       - check_code
@@ -120,7 +118,7 @@ workflows:
             - approve_release:
                   type: approval
                   requires:
-                      - prepare_release
+                      - dry_release
                   filters:
                       branches:
                           only:
