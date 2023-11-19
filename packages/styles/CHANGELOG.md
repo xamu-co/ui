@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v1.2.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v1.2.1...@open-xamu-co/ui-styles-v1.2.2) (2023-11-19)
+
+
+### Bug Fixes
+
+* remove svelte from script ([73afcbf](https://github.com/xamu-co/ui/commit/73afcbfdaf79cd7a6e572e499b2f977f70d2d768))
+
 # [@open-xamu-co/ui-styles-v1.2.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v1.2.0...@open-xamu-co/ui-styles-v1.2.1) (2023-11-19)
 
 
