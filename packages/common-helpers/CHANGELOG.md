@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v1.0.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v1.0.1...@open-xamu-co/ui-common-helpers-v1.0.2) (2023-11-19)
+
+
+### Bug Fixes
+
+* no dist ([009b9b8](https://github.com/xamu-co/ui/commit/009b9b84dc4d29dc4ba558d6fc7bcad84acbf663))
+
 # [@open-xamu-co/ui-common-helpers-v1.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v1.0.0...@open-xamu-co/ui-common-helpers-v1.0.1) (2023-11-19)
 
 
