@@ -1,0 +1,57 @@
+{
+  "name": "@open-xamu-co/ui-common-enums",
+  "version": "0.0.1",
+  "description": "Xamu shared enums",
+  "author": "@xamu-co",
+  "type": "module",
+  "main": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xamu-co/ui.git"
+  },
+  "keywords": [
+    "ts",
+    "js",
+    "enum"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xamu-co/ui/issues"
+  },
+  "homepage": "https://github.com/xamu-co/ui#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:esm": "tsc",
+    "build:cjs": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
+    "build": "rimraf dist && yarn build:esm && yarn build:cjs",
+    "prepare": "yarn build"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.22.6",
+    "@babel/core": "^7.22.8",
+    "@babel/preset-env": "^7.22.7",
+    "@babel/preset-typescript": "^7.22.5"
+  },
+  "engines": {
+    "node": ">=16.19.0",
+    "yarn": ">=1.22.4"
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}

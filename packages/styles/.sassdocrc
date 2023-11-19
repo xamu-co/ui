@@ -1,0 +1,186 @@
+theme: herman
+groups:
+  Layouts:
+    layouts: About layouts
+    layout-flex: Flexbox
+    layout-grid: Grid
+    layout-column: Column
+    layout-dropdown: Dropdown
+  Components:
+    components: About components
+  Modifiers:
+    modifiers: About modifiers
+    modifier-flex: flex justify-align
+  Unions:
+    unions: About unions
+    union-flex: flex justify-align
+  Pseudo components:
+    pseudos: About pseudos
+  Animations:
+    animations: About animations
+herman:
+  extraDocs:
+    - './SETUP.md'
+  displayColors:
+    - hex
+    - rgba
+  customCSS: './dist/index.min.css'
+  nunjucks:
+    templatePath: './templates'
+trackingCode: '<style type="text/css">
+  @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap);
+  :root{
+    font-family: "Poppins", sans-serif;
+  }
+  [data-nav-toggle] {
+    color: #0f47af;
+  }
+  [data-nav-toggle]:active,
+  [data-nav-toggle]:focus,
+  [data-nav-toggle]:hover,
+  [data-nav-toggle][aria-pressed=true] {
+    color: rgba(0, 0, 0, 0.7);
+  }
+  input[type="text"] {
+    background: #fff;
+    color: rgba(0, 0, 0, 0.7);
+    border-radius: 30px;
+    border: 0;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  .code-header {
+    color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(15, 71, 175, 0.2);
+  }
+  code,
+  pre {
+    font-family: "Courier New", Courier, monospace;
+    white-space: pre-wrap;
+  }
+  .hljs-pre,
+  .text-block pre {
+    background-color: rgba(15, 71, 175, 0.1);
+    border: 1px solid rgba(15, 71, 175, 0.3);
+    color: #a743a9;
+  }
+  .hljs-name,
+  .hljs-section,
+  .hljs-selector-class,
+  .hljs-selector-id,
+  .hljs-title {
+    color: #0f47af; /** blue, basic highlight */
+  }
+  .hljs-bullet,
+  .hljs-link,
+  .hljs-meta,
+  .hljs-meta
+  .hljs-keyword,
+  .hljs-selector-attr,
+  .hljs-selector-pseudo,
+  .hljs-subst,
+  .hljs-symbol {
+    color: #f39c12; /** warning */
+  }
+  .hljs-attr,
+  .hljs-attribute,
+  .hljs-class
+  .hljs-title,
+  .hljs-template-variable,
+  .hljs-type,
+  .hljs-variable {
+    color: #d35400; /** warning v2 */
+    color: #61320f; /** warning v2 */
+    color: #ff806a; /** warning */
+  }
+  .hljs-addition,
+  .hljs-keyword,
+  .hljs-selector-tag {
+    color: #ef518c; /** success */
+  }
+  .hljs-doctag,
+  .hljs-literal,
+  .hljs-meta
+  .hljs-meta-string,
+  .hljs-number,
+  .hljs-regexp,
+  .hljs-string {
+    color: #008a65; /** success v2 */
+    color: #16a085; /** success v2 */
+  }
+  .project-link:link,
+  .project-link:visited {
+    color: #0f47af;
+    border-color: #0f47af;
+  }
+  .project-link:hover {
+    color: #fff;
+    background-color: #0f47af;
+  }
+  .project-name:link,
+  .project-name:visited,
+  .breadcrumb a:link,
+  .breadcrumb a:visited,
+  .text-block [href]:not(:hover):link,
+  .text-block [href]:not(:hover):visited {
+    color: #0f47af;
+    text-decoration: none;
+  }
+  .text-block,
+  .project-name:hover,
+  .breadcrumb a:hover,
+  .text-block [href]:hover {
+    color: rgba(0, 0, 0, 0.7);
+  }
+  .breadcrumb{
+    background: rgba(15, 71, 175, 0.1);
+  }
+  [data-region=banner] {
+    box-shadow: none;
+    border-bottom-color: #f39c12;
+  }
+  [data-region=banner]:before {
+    border-top-color: #f39c12;
+  }
+  [data-region=nav] {
+    background: #f39c12;
+  }
+  .nav-home + ul > .nav-item:first-child {
+    margin-top: 1rem;
+  }
+  .nav-title {
+    color: #61320f;
+    padding-top: 10px;
+    margin: 1.5rem 0 1rem;
+  }
+  .nav-item {
+    font-weight: 300;
+  }
+  .nav-title,
+  .nav-item {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+  }
+  .nav-item,
+  .nav-subsection > ul > .nav-subsection > ul > .nav-item {
+    font-size: 0.9em;
+  }
+  .nav-subsection > ul > .nav-subsection > ul > .nav-item:first-child{
+    font-weight: bold;
+  }
+  .nav-subsection > ul > .nav-subsection > ul > .nav-item:not(:first-child){
+    font-style: italic;
+    font-weight: 300;
+  }
+  [data-nav]:link:before,
+  [data-nav]:visited:before {
+    background: #0f47af;
+    bottom: -5px;
+  }
+  .code-block {
+    max-height: 28rem !important;
+  }
+  .example-code > .code-block:first-child {
+    display: none !important;
+  }
+</style>'

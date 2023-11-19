@@ -1,0 +1,108 @@
+{
+	"name": "@open-xamu-co/ui-styles",
+	"version": "1.0.0",
+	"description": "Style system for the xamu project",
+	"scripts": {
+		"i": "yarn --frozen-lockfile",
+		"format": "copy-files-from-to && prettier dist/*.formatted.css --no-config --write",
+		"sass": "sass src/index.scss dist/index.css",
+		"postcss": "postcss dist/index.css -o dist/index.min.css --no-map",
+		"css:compile": "yarn sass && yarn postcss --verbose && yarn format",
+		"build": "yarn css:compile && yarn docs:compile",
+		"build:prod": "cross-env NODE_ENV=production yarn css:compile && yarn docs:compile",
+		"watch": "yarn sass --watch",
+		"lint": "stylelint src/{*,**/*,**/**/*}.{css,scss} --syntax=scss && prettier src/{*,**/*,**/**/*}.{css,scss} --check",
+		"prepare": "npm run css:compile",
+		"docs:compile": "sassdoc src/{**/{_*,summary},**/**/{_*,summary}}.scss --dest docs",
+		"docs:serve": "yarn serve docs",
+		"docs": "yarn docs:compile && start http://localhost:5000 && yarn serve docs"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/xamu-co/ui.git"
+	},
+	"keywords": [
+		"style",
+		"css",
+		"style",
+		"system",
+		"sass",
+		"postcss",
+		"csso"
+	],
+	"author": "@xamu-co",
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/xamu-co/ui/issues"
+	},
+	"homepage": "https://github.com/xamu-co/ui#readme",
+	"main": "dist/index.css",
+	"style": "dist/index.min.css",
+	"browser": "dist/index.min.css",
+	"source": "src/index.scss",
+	"exports": {
+		".": {
+			"import": "./dist/index.min.css",
+			"require": "./dist/index.min.css",
+			"style": "./dist/index.min.css",
+			"sass": "./src/index.scss"
+		},
+		"./dist/*": {
+			"import": "./dist/*",
+			"require": "./dist/*",
+			"style": "./dist/*"
+		},
+		"./src/*": {
+			"import": "./src/*",
+			"require": "./src/*",
+			"sass": "./src/*"
+		},
+		"./utils": {
+			"import": "./src/utils/module",
+			"require": "./src/utils/module",
+			"sass": "./src/utils/module"
+		},
+		"./postcss": {
+			"require": "./src/postcss.js",
+			"default": "./src/postcss.js"
+		}
+	},
+	"dependencies": {
+		"sassdoc": "^2.7.3",
+		"sassdoc-theme-herman": "^4.0.0",
+		"serve": "^11.3.2"
+	},
+	"devDependencies": {
+		"copy-files-from-to": "^3.2.0",
+		"cross-env": "^7.0.3",
+		"cssnano": "^6.0.1",
+		"cssnano-preset-advanced": "^6.0.1",
+		"postcss": "^8.2.10",
+		"postcss-cli": "^8.3.1",
+		"postcss-merge-at-rules": "^1.0.1",
+		"postcss-merge-selectors": "vis97c/postcss-merge-selectors",
+		"postcss-precision": "vis97c/postcss-precision",
+		"postcss-preset-env": "^8.4.1",
+		"postcss-sort-media-queries": "^5.2.0",
+		"sass": "^1.60.0"
+	},
+	"engines": {
+		"node": ">=16.19.0",
+		"yarn": ">=1.22.4"
+	},
+	"browserslist": [
+		"defaults"
+	],
+	"copyFiles": [
+		{
+			"from": "dist/index.min.css",
+			"to": "dist/index.formatted.css"
+		}
+	],
+	"copyFilesSettings": {
+		"whenFileExists": "overwrite"
+	}
+}

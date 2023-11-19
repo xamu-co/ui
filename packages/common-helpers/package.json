@@ -1,0 +1,98 @@
+{
+  "name": "@open-xamu-co/ui-common-helpers",
+  "version": "0.0.1",
+  "description": "Xamu shared helpers",
+  "author": "@xamu-co",
+  "type": "module",
+  "main": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/esm/index.js"
+    },
+    "./i18n": {
+      "types": "./dist/esm/i18n.d.ts",
+      "require": "./dist/i18n.js",
+      "import": "./dist/esm/i18n.js"
+    },
+    "./utils": {
+      "types": "./dist/esm/utils.d.ts",
+      "require": "./dist/utils.js",
+      "import": "./dist/esm/utils.js"
+    },
+    "./swal": {
+      "types": "./dist/esm/swal.d.ts",
+      "require": "./dist/swal.js",
+      "import": "./dist/esm/swal.js"
+    },
+    "./form": {
+      "types": "./dist/esm/form/composable.d.ts",
+      "require": "./dist/form/composable.js",
+      "import": "./dist/esm/form/composable.js"
+    },
+    "./en": {
+      "types": "./dist/esm/locale/en.d.ts",
+      "import": "./dist/esm/locale/en.js",
+      "require": "./dist/locale/en.js"
+    },
+    "./es": {
+      "types": "./dist/esm/locale/es.d.ts",
+      "import": "./dist/esm/locale/es.js",
+      "require": "./dist/locale/es.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xamu-co/ui.git"
+  },
+  "keywords": [
+    "ts",
+    "js",
+    "helpers"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xamu-co/ui/issues"
+  },
+  "homepage": "https://github.com/xamu-co/ui#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:esm": "tsc",
+    "build:cjs": "babel {src,src/**} --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
+    "build": "rimraf dist && yarn build:esm && yarn build:cjs"
+  },
+  "dependencies": {
+    "@open-xamu-co/ui-common-enums": "link:../common-enums",
+    "core-js": "^3.24.1",
+    "lodash": "^4.17.21",
+    "sweetalert2": "^11.7.5",
+    "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "@open-xamu-co/ui-common-types": "link:../common-types",
+    "@babel/cli": "^7.22.6",
+    "@babel/core": "^7.22.8",
+    "@babel/preset-env": "^7.22.7",
+    "@babel/preset-typescript": "^7.22.5",
+    "@types/lodash": "^4.14.192",
+    "@types/node": "^18.14.0",
+    "@types/validator": "^13.11.1"
+  },
+  "engines": {
+    "node": ">=16.19.0",
+    "yarn": ">=1.22.4"
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}

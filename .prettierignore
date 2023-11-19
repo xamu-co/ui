@@ -1,0 +1,11 @@
+dist
+node_modules
+.yarn
+*.svg
+CHANGELOG.md
+index.css
+index.min.css
+.nuxt
+.svelte-kit
+*.json
+.*rc

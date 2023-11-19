@@ -1,0 +1,28 @@
+{
+   "compilerOptions": {
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext",
+      "target": "es2015",
+      "esModuleInterop": true,
+      "allowJs": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "baseUrl": ".",
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true,
+      "rootDir": "src",
+      "lib": [
+         "ESNext",
+         "ESNext.AsyncIterable",
+         "DOM"
+      ],
+      "experimentalDecorators": true
+   },
+   "include": [
+      "./src/**/*"
+   ],
+   "exclude": [
+      "node_modules",
+      "dist"
+   ]
+}

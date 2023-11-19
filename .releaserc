@@ -1,0 +1,29 @@
+{
+  "branches": [
+    "master",
+    {
+      "name": "next",
+      "prerelease": true
+    }
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogTitle": "Xamu UI"
+      }
+    ],
+    "@semantic-release/npm",
+    "@semantic-release/github",
+    "@semantic-release/git",
+    [
+      "@semantic-release/exec",
+      {
+        "successCmd": "node version.cjs tag=${nextRelease.version}"
+      }
+    ]
+  ],
+  "extends": "semantic-release-monorepo"
+}

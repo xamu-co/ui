@@ -1,0 +1,33 @@
+<link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+   {% set avatar1 = ['aguacate', 'cereza'] %}
+   {% set avatar2 = ['aguacate', 'cereza', 'platano'] %}
+   <div class="flx --flxColumn">
+      <div class="txt --txtAlignFlex-start">
+         <h4>Displaying two columns</h4>
+         <p>just
+            <b class="--txtColor-secondary --txtStyle">.cols</b>
+            or
+            <b class="--txtColor-secondary --txtStyle">.cols.--count</b>
+            or
+            <b class="--txtColor-secondary --txtStyle">.cols.--count-2</b>
+         </p>
+      </div>
+      <div class="cols --width">
+         {% for avatar in['aguacate', 'cereza'] %}
+            <a href="#" class="avatarAureo --size-lg">
+               <img src="https://picsum.photos/seed/{{ avatar }}/400/300" alt="Random" loading="lazy"></a>
+            {% endfor %}
+         </div>
+         <div class="txt --txtAlignFlex-start">
+            <h4>Displaying three columns</h4>
+            <p>
+               <b class="--txtColor-secondary --txtStyle">.cols.--count-3</b>
+            </p>
+         </div>
+         <div class="cols --count-3 --width">
+            {% for avatar in['aguacate', 'cereza', 'platano'] %}
+               <a href="#" class="avatarAureo --size-lg">
+                  <img src="https://picsum.photos/seed/{{ avatar }}/400/300" alt="Random" loading="lazy"></a>
+               {% endfor %}
+            </div>
+         </div>

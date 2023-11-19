@@ -1,0 +1,92 @@
+{
+  "name": "@open-xamu-co/ui",
+  "version": "0.0.1",
+  "description": "Shared dependencies for the xamu apps",
+  "author": "@open-xamu-co",
+  "type": "module",
+  "workspaces": [
+    "packages/styles",
+    "packages/common-enums",
+    "packages/common-types",
+    "packages/common-helpers",
+    "packages/components-vue",
+    "packages/nuxt"
+  ],
+  "private": true,
+  "scripts": {
+    "lint:eslint": "eslint --ext .ts,.js,.vue,.svelte --ignore-path .gitignore .",
+    "lint:prettier": "prettier . --check --ignore-unknown",
+    "lint": "yarn lint:eslint && yarn lint:prettier",
+    "p:styles": "yarn workspace @open-xamu-co/ui-styles",
+    "p:helpers": "yarn workspace @open-xamu-co/ui-common-helpers",
+    "p:enums": "yarn workspace @open-xamu-co/ui-common-enums",
+    "p:types": "yarn workspace @open-xamu-co/ui-common-types",
+    "p:eslint": "yarn workspace @open-xamu-co/eslint-config",
+    "p:vue": "yarn workspace @open-xamu-co/ui-components-vue",
+    "p:svelte": "yarn workspace @open-xamu-co/ui-components-svelte",
+    "p:nuxt": "yarn workspace @open-xamu-co/ui-nuxt",
+    "dev:svelte": "yarn p:svelte dev",
+    "dev:vue": "yarn p:vue dev",
+    "build": "yarn workspaces run build",
+    "build:nuxt": "yarn p:vue build && yarn p:nuxt cleanup && yarn p:nuxt build",
+    "build:css": "yarn p:styles css:compile",
+    "release": "yarn workspaces run semantic-release",
+    "release:dry": "yarn workspaces run semantic-release --dry-run"
+  },
+  "engines": {
+    "node": ">=16.19.0",
+    "yarn": ">=1.22.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
+    "@open-xamu-co/eslint-config": "^3.0.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^9.0.0",
+    "@types/node": "^18.14.0",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-svelte": "^2.32.4",
+    "eslint-plugin-vue": "^9.15.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "^3.0.0",
+    "prettier-plugin-svelte": "^3.0.0",
+    "rimraf": "^3.0.2",
+    "semantic-release": "^17.1.1",
+    "semantic-release-monorepo": "^7.0.5",
+    "stylelint": "^15.10.2",
+    "stylelint-config-standard-scss": "^10.0.0",
+    "stylelint-prettier": "^4.0.0",
+    "svelte": "^4.0.5",
+    "typescript": "^5.1.6",
+    "vue": "^3.3.4"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "yarn check --integrity && lint-staged"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,ts,vue,svelte}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix",
+      "prettier --write"
+    ]
+  }
+}
