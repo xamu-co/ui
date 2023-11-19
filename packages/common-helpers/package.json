@@ -1,6 +1,6 @@
 {
   "name": "@open-xamu-co/ui-common-helpers",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Xamu shared helpers",
   "author": "@xamu-co",
   "type": "module",
@@ -72,14 +72,14 @@
     "build": "rimraf dist && yarn build:esm && yarn build:cjs"
   },
   "dependencies": {
-    "@open-xamu-co/ui-common-enums": "link:../common-enums",
+    "@open-xamu-co/ui-common-enums": "^1.0.0",
     "core-js": "^3.24.1",
     "lodash": "^4.17.21",
     "sweetalert2": "^11.7.5",
     "validator": "^13.11.0"
   },
   "devDependencies": {
-    "@open-xamu-co/ui-common-types": "link:../common-types",
+    "@open-xamu-co/ui-common-types": "^1.0.0",
     "@babel/cli": "^7.22.6",
     "@babel/core": "^7.22.8",
     "@babel/preset-env": "^7.22.7",
