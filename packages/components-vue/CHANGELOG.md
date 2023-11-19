@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v1.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v1.0.0...@open-xamu-co/ui-components-vue-v1.0.1) (2023-11-19)
+
+
+### Bug Fixes
+
+* allow version update error ([066050b](https://github.com/xamu-co/ui/commit/066050bbc18b9d840a5530aaa152ce2ad5dc0e10))
+
 # @open-xamu-co/ui-components-vue-v1.0.0 (2023-11-19)
 
 
