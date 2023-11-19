@@ -1,10 +1,6 @@
-<p align="center">
-<a href="https://www.npmjs.com/package/@open-xamu-co/ui-styles">
-<img src="https://img.shields.io/npm/v/@open-xamu-co/ui-styles.svg?sanitize=true" alt="Version">
-</a>
-</p>
-
 # Xamu UI, style system
+
+[![npm (scoped)](https://img.shields.io/npm/v/%40open-xamu-co/ui-styles)](https://github.com/xamu-co/ui/tree/dev/packages/styles) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/xamu-co/ui/tree/dev.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/xamu-co/ui/tree/dev)
 
 These are the basic guidelines behind this project.
 
