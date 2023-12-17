@@ -33,10 +33,14 @@
 </template>
 
 <script setup lang="ts" generic="T extends iFormValue">
-	import { WritableComputedRef } from "vue";
+	import type { WritableComputedRef } from "vue";
 
 	import type { iFormValue } from "@open-xamu-co/ui-common-types";
-	import { FormInput as FormInputClass, useForm, useI18n } from "@open-xamu-co/ui-common-helpers";
+	import {
+		type FormInput as FormInputClass,
+		useForm,
+		useI18n,
+	} from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
 	import ActionLink from "../action/Link.vue";

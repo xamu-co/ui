@@ -1,8 +1,8 @@
 import {
-	Plugin,
-	Component as VueComponent,
-	DefineComponent,
-	FunctionalComponent,
+	type Plugin,
+	type Component as VueComponent,
+	type DefineComponent,
+	type FunctionalComponent,
 	defineCustomElement,
 } from "vue";
 import _ from "lodash";
@@ -11,9 +11,9 @@ import type { tPropertyMapping, iPluginOptions } from "@open-xamu-co/ui-common-t
 import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";
 
-import * as components from "./components";
+import * as components from ".";
 
-export const xamuPlugin: Plugin<
+export const XamuPlugin: Plugin<
 	iPluginOptions<VueComponent | FunctionalComponent | DefineComponent>
 > = {
 	install(V, options) {

@@ -3,7 +3,7 @@
 ```
  npm i --ignore-scripts
  # or
- yarn--ignore-scripts
+ yarn --ignore-scripts
 ```
 
 # Development

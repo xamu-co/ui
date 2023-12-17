@@ -49,7 +49,7 @@
 
 	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
-	import { FormInput as FormInputClass, useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { type FormInput as FormInputClass, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import FormInput from "./Input.vue";
 	import LoaderContentFetch from "../loader/ContentFetch.vue";

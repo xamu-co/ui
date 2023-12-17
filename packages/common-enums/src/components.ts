@@ -6,7 +6,7 @@ export const componentNames = [
 	"BaseSelect",
 	"BaseWrapper",
 	// icon
-	"IconSimple",
+	"Icon",
 	"IconFa",
 	// action
 	"ActionButton",
@@ -18,24 +18,24 @@ export const componentNames = [
 	"InputText",
 	"InputToggle",
 	// select
-	"SelectSimple",
+	"Select",
 	"SelectFilter",
 	// value
-	"ValueSimple",
+	"Value",
 	"ValueComplex",
 	// box
 	"BoxAction",
 	"BoxMessage",
 	// loader
-	"LoaderSimple",
+	"Loader",
 	"LoaderContent",
 	"LoaderContentFetch",
 	// pagination
-	"PaginationSimple",
+	"Pagination",
 	"PaginationContent",
 	// form
 	"FormInput",
-	"FormSimple",
+	"Form",
 	"FormStages",
 	// singletons
 	"Modal",

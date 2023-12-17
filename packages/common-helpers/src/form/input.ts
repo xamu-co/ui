@@ -186,15 +186,13 @@ export class FormInput<V extends iFormValue = iFormValue>
 		overrides?: Omit<iFormInput<V>, "name"> & { name?: string },
 		onUpdatedValues: ((updatedValues: (V | V[])[]) => void) | undefined = this._onUpdatedValues
 	) {
-		return new FormInput(
-			{
-				...this,
-				values: this._values,
-				defaults: this._defaults,
-				...overrides,
-			},
-			onUpdatedValues
-		);
+		const oldFormInput: iFormInput<V> = {
+			...this,
+			values: this._values,
+			defaults: this._defaults,
+		};
+
+		return new FormInput({ ...oldFormInput, ...overrides }, onUpdatedValues);
 	}
 
 	/**

@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-	import { RendererElement, computed, onMounted, onUnmounted, ref, watch } from "vue";
+	import { type RendererElement, computed, onMounted, onUnmounted, ref, watch } from "vue";
 
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
