@@ -103,7 +103,7 @@
 
 	import type { iInvalidInput, tProps } from "@open-xamu-co/ui-common-types";
 	import {
-		FormInput as FormInputClass,
+		type FormInput as FormInputClass,
 		useI18n,
 		useUtils,
 	} from "@open-xamu-co/ui-common-helpers";

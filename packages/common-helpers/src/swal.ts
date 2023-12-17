@@ -37,7 +37,12 @@ export default function useSwal(options: iPluginOptions = {}, overrides: SweetAl
 			denyButton: "link",
 		},
 	};
-	const swalDefaultsOverrides = { ...swalDefaults, ...swal?.overrides, ...overrides };
+	const swalDefaultsOverrides: SweetAlertOptions = Object.assign(
+		{},
+		swalDefaults,
+		swal?.overrides,
+		overrides
+	);
 	const Swal = <tSwal>DefaultSwal.mixin(swalDefaultsOverrides);
 	const swalFirePreventDefaults: SweetAlertOptions = {
 		icon: "warning",
@@ -65,13 +70,13 @@ export default function useSwal(options: iPluginOptions = {}, overrides: SweetAl
 	const swalFireLoaderOverrides = { ...swalFireLoaderDefaults, ...swal?.loaderOverrides };
 
 	Swal.firePrevent = function <T>(firePreventOverrides: SweetAlertOptions = {}) {
-		const overrides = { ...swalFirePreventOverrides, ...firePreventOverrides };
+		const overrides = Object.assign({}, swalFirePreventOverrides, firePreventOverrides);
 
 		return <Promise<SweetAlertResult<Awaited<T>>>>Swal.fire(overrides);
 	};
 
 	Swal.fireLoader = function <T>(fireLoaderOverrides: SweetAlertOptions = {}) {
-		const overrides = { ...swalFireLoaderOverrides, ...fireLoaderOverrides };
+		const overrides = Object.assign({}, swalFireLoaderOverrides, fireLoaderOverrides);
 
 		return <Promise<SweetAlertResult<Awaited<T>>>>Swal.fire(overrides);
 	};

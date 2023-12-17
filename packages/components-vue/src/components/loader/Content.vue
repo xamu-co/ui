@@ -51,9 +51,9 @@
 
 <script setup lang="ts">
 	import {
-		Component as VueComponent,
-		FunctionalComponent,
-		DefineComponent,
+		type Component as VueComponent,
+		type FunctionalComponent,
+		type DefineComponent,
 		Transition,
 	} from "vue";
 

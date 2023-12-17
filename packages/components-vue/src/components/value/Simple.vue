@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed, inject, RendererElement } from "vue";
+	import { computed, inject, type RendererElement } from "vue";
 	import validator from "validator";
 
 	import type {

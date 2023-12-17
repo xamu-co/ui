@@ -63,7 +63,7 @@
 
 	import useHelpers from "../composables/helpers";
 
-	import { PropType } from "vue";
+	import type { PropType } from "vue";
 
 	/**
 	 * Slider principal.

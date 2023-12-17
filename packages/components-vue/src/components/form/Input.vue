@@ -277,7 +277,11 @@
 
 	import type { iInvalidInput, iSelectOption } from "@open-xamu-co/ui-common-types";
 	import { eFormType as eFT } from "@open-xamu-co/ui-common-enums";
-	import { FormInput as FormInputClass, useI18n, useForm } from "@open-xamu-co/ui-common-helpers";
+	import {
+		type FormInput as FormInputClass,
+		useI18n,
+		useForm,
+	} from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
 	import ActionButton from "../action/Button.vue";

@@ -4,11 +4,11 @@
 #
 version: 2.1
 orbs:
-    node: circleci/node@5.1.0
+    node: circleci/node@5.1.1
 defaults: &defaults
     working_directory: ~/repo
     docker:
-        - image: cimg/node:16.19.0
+        - image: cimg/node:18.19.0
 
 jobs:
     setup:
@@ -17,12 +17,28 @@ jobs:
             - checkout
             # Download and cache dependencies
             - node/install-packages:
+                  cache-version: v2
                   pkg-manager: yarn
             - persist_to_workspace:
                   root: ~/repo
                   paths:
                       - node_modules
                       - packages/**/node_modules
+
+    pre_build:
+        <<: *defaults
+        steps:
+            - checkout
+            - attach_workspace:
+                  at: ~/repo
+            - run:
+                  name: Pre-build distributables
+                  command: yarn build
+            - persist_to_workspace:
+                  root: ~/repo
+                  paths:
+                      - packages/**/dist
+                      - packages/nuxt/.nuxt
 
     check_commit_message:
         <<: *defaults
@@ -38,26 +54,6 @@ jobs:
             - run:
                   name: Lint commit message
                   command: echo "$COMMIT_MESSAGE" | npx commitlint
-
-    pre_build:
-        <<: *defaults
-        steps:
-            - checkout
-            - attach_workspace:
-                  at: ~/repo
-            - run:
-                  name: Pre-build distributables
-                  command: |
-                      yarn p:styles css:compile
-                      yarn p:enums build
-                      yarn p:helpers build
-                      yarn p:vue build:types
-                      yarn p:nuxt nuxi prepare
-            - persist_to_workspace:
-                  root: ~/repo
-                  paths:
-                      - packages/**/dist
-                      - packages/nuxt/.nuxt
 
     check_code:
         <<: *defaults

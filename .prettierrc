@@ -7,16 +7,5 @@
 	"requirePragma": false,
 	"insertPragma": false,
 	"htmlWhitespaceSensitivity": "ignore",
-	"vueIndentScriptAndStyle": true,
-	"plugins": [
-		"prettier-plugin-svelte"
-	],
-	"overrides": [
-		{
-			"files": "*.svelte",
-			"options": {
-				"parser": "svelte"
-			}
-		}
-	]
+	"vueIndentScriptAndStyle": true
 }

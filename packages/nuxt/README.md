@@ -6,7 +6,9 @@
 
 ```bash
 # run before development
-$ yarn cleanup
+$ yarn build
 # or from the root
-$ yarn p:nuxt cleanup
+$ yarn p:nuxt build
 ```
+
+preserveSymlinks could break the module

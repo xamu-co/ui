@@ -3,9 +3,9 @@
 </template>
 
 <script setup lang="ts">
-	import { PropType, computed, inject, Component as VueComponent } from "vue";
+	import { type PropType, computed, inject, type Component as VueComponent } from "vue";
 
-	import { iPluginOptions } from "@open-xamu-co/ui-common-types";
+	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 
 	/**
 	 * Img Prototype
