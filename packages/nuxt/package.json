@@ -1,6 +1,6 @@
 {
   "name": "@open-xamu-co/ui-nuxt",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Nuxt 3 module for the xamu project",
   "repository": {
     "type": "git",
@@ -46,7 +46,7 @@
     "@nuxt/kit": "^3.8.2",
     "@open-xamu-co/ui-common-enums": "^2.0.0",
     "@open-xamu-co/ui-common-helpers": "^2.0.0",
-    "@open-xamu-co/ui-components-vue": "^2.0.0",
+    "@open-xamu-co/ui-components-vue": "^2.0.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
