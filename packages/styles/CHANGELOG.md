@@ -1,5 +1,17 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v2.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v1.2.3...@open-xamu-co/ui-styles-v2.0.0) (2023-12-18)
+
+
+### Bug Fixes
+
+* broken vue lib ([b87f4b6](https://github.com/xamu-co/ui/commit/b87f4b658a627e22f504e069804ff89b0cbdb573))
+
+
+### BREAKING CHANGES
+
+* renamed vue exports
+
 # [@open-xamu-co/ui-styles-v1.2.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v1.2.2...@open-xamu-co/ui-styles-v1.2.3) (2023-11-19)
 
 
