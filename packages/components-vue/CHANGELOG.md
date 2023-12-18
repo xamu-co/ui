@@ -1,5 +1,17 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v2.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v1.0.2...@open-xamu-co/ui-components-vue-v2.0.0) (2023-12-18)
+
+
+### Bug Fixes
+
+* broken vue lib ([b87f4b6](https://github.com/xamu-co/ui/commit/b87f4b658a627e22f504e069804ff89b0cbdb573))
+
+
+### BREAKING CHANGES
+
+* renamed vue exports
+
 # [@open-xamu-co/ui-components-vue-v1.0.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v1.0.1...@open-xamu-co/ui-components-vue-v1.0.2) (2023-11-19)
 
 
