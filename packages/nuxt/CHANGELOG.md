@@ -1,5 +1,17 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v2.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.0.0...@open-xamu-co/ui-nuxt-v2.1.0) (2023-12-18)
+
+
+### Bug Fixes
+
+* bump styles in nuxt module ([3c5f5d1](https://github.com/xamu-co/ui/commit/3c5f5d10211a176ca641924c7d78d5dc200d7971))
+
+
+### Features
+
+* better nuxt module readme ([d4f7ccb](https://github.com/xamu-co/ui/commit/d4f7ccbac943f14ddb2148804902eda58380d68c))
+
 # [@open-xamu-co/ui-nuxt-v2.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v1.1.2...@open-xamu-co/ui-nuxt-v2.0.0) (2023-12-18)
 
 
