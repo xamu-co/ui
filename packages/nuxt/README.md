@@ -56,6 +56,8 @@ export default defineNuxtConfig({
 | fontAwesomePro     | boolean                                                                                                       | false                                                          | A boolean value indicating whether to use the Pro version of Font Awesome (regular and light styles).                                                                                                 |
 | first              | number                                                                                                        | 10                                                             | The default pagination limit.                                                                                                                                                                         |
 
+Used types can be imported from `@open-xamu-co/ui-common-types` or `@open-xamu-co/ui-common-enums`
+
 ## Development
 
 ```bash

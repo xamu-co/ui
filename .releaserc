@@ -21,7 +21,6 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "yarn build",
         "successCmd": "node version.cjs tag=${nextRelease.version}"
       }
     ]

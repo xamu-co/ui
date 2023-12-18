@@ -25,23 +25,6 @@ jobs:
                       - node_modules
                       - packages/**/node_modules
 
-    pre_build:
-        <<: *defaults
-        steps:
-            - checkout
-            - attach_workspace:
-                  at: ~/repo
-            - run:
-                  name: Pre-build distributables
-                  command: yarn build
-            - store_artifacts:
-                  path: packages/nuxt/dist
-            - persist_to_workspace:
-                  root: ~/repo
-                  paths:
-                      - packages/**/dist
-                      - packages/nuxt/.nuxt
-
     check_commit_message:
         <<: *defaults
         steps:
@@ -56,6 +39,21 @@ jobs:
             - run:
                   name: Lint commit message
                   command: echo "$COMMIT_MESSAGE" | npx commitlint
+
+    build:
+        <<: *defaults
+        steps:
+            - checkout
+            - attach_workspace:
+                  at: ~/repo
+            - run:
+                  name: Pre-build distributables
+                  command: yarn build
+            - persist_to_workspace:
+                  root: ~/repo
+                  paths:
+                      - packages/**/dist
+                      - packages/nuxt/.nuxt
 
     check_code:
         <<: *defaults
@@ -76,6 +74,8 @@ jobs:
             - run:
                   name: Dry release
                   command: yarn release:dry
+            - store_artifacts:
+                  path: packages/nuxt/dist
 
     release:
         <<: *defaults
@@ -86,10 +86,6 @@ jobs:
             - run:
                   name: Release to npm
                   command: yarn release
-            - persist_to_workspace:
-                  root: ~/repo
-                  paths:
-                      - packages/**/dist
 
 workflows:
     check_and_release_workflow:
@@ -98,12 +94,12 @@ workflows:
             - check_commit_message:
                   requires:
                       - setup
-            - pre_build:
+            - build:
                   requires:
                       - check_commit_message
             - check_code:
                   requires:
-                      - pre_build
+                      - build
             - dry_release:
                   context: npm-deploy
                   requires:
