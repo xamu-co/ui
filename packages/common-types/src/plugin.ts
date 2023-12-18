@@ -23,6 +23,8 @@ export type tSupportedLangs =
 export interface iPluginOptions<ComponentType = unknown> {
 	/**
 	 * Use web components
+	 *
+	 * @default false
 	 */
 	webComponents?: boolean;
 	/**
@@ -105,14 +107,20 @@ export interface iPluginOptions<ComponentType = unknown> {
 	country?: string;
 	/**
 	 * Disable automatic animations
+	 *
+	 * @default false
 	 */
 	disableAutoAnimate?: boolean;
 	/**
 	 * Use pro Font Awesome icons (regular, light)
+	 *
+	 * @default false
 	 */
 	fontAwesomePro?: boolean;
 	/**
 	 * Default pagination limit
+	 *
+	 * @default 10
 	 */
 	first?: number;
 }
