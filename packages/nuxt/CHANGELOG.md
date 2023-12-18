@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v2.1.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.1.0...@open-xamu-co/ui-nuxt-v2.1.1) (2023-12-18)
+
+
+### Bug Fixes
+
+* omit build on release step ([484e482](https://github.com/xamu-co/ui/commit/484e482ee56f7924eb39a7810059e991f717fb7d))
+
 # [@open-xamu-co/ui-nuxt-v2.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.0.0...@open-xamu-co/ui-nuxt-v2.1.0) (2023-12-18)
 
 
