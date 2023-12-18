@@ -39,11 +39,12 @@ export default defineNuxtModule<iNuxtOptions>({
 		lang: "en",
 		first: 10,
 	},
-	async setup(moduleOptions) {
+	async setup(moduleOptions, nuxt) {
 		const { globalComponents, componentPrefix, image } = moduleOptions;
 		const { resolve } = createResolver(import.meta.url);
 		const runtimePath = resolve("./runtime");
 
+		nuxt.options.build.transpile.push("@open-xamu-co/ui-components-vue");
 		// Register components config plugin
 		addPlugin(resolve(runtimePath, "plugins", "config"));
 
