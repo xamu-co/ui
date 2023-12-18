@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v2.1.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.1.1...@open-xamu-co/ui-nuxt-v2.1.2) (2023-12-18)
+
+
+### Bug Fixes
+
+* remove prepack script ([b8b7d7a](https://github.com/xamu-co/ui/commit/b8b7d7a7ce4c8bb74074e73063ed48153175b7da))
+
 # [@open-xamu-co/ui-nuxt-v2.1.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.1.0...@open-xamu-co/ui-nuxt-v2.1.1) (2023-12-18)
 
 
