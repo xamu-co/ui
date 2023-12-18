@@ -34,10 +34,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "yarn prepack && nuxt-module-build build",
+    "build": "yarn build:prepack && nuxt-module-build build",
+    "build:prepack": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
-    "prepack": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "test": "vitest run",
     "test:watch": "vitest watch"
   },
