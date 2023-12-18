@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v2.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v2.0.0...@open-xamu-co/ui-common-types-v2.1.0) (2023-12-18)
+
+
+### Features
+
+* better nuxt module readme ([d4f7ccb](https://github.com/xamu-co/ui/commit/d4f7ccbac943f14ddb2148804902eda58380d68c))
+
 # [@open-xamu-co/ui-common-types-v2.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v1.0.2...@open-xamu-co/ui-common-types-v2.0.0) (2023-12-18)
 
 
