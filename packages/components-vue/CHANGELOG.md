@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v2.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v2.0.0...@open-xamu-co/ui-components-vue-v2.0.1) (2023-12-18)
+
+
+### Bug Fixes
+
+* transpile components on nuxt module ([9b28776](https://github.com/xamu-co/ui/commit/9b2877681d17cbe7f9fe6cbd16d85a883ea0c957))
+
 # [@open-xamu-co/ui-components-vue-v2.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v1.0.2...@open-xamu-co/ui-components-vue-v2.0.0) (2023-12-18)
 
 
