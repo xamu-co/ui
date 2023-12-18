@@ -2,7 +2,7 @@ import { computed } from "vue";
 
 import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
-import { iUseModifiersProps } from "../types/props";
+import type { iUseModifiersProps } from "../types/props";
 import useHelpers from "../composables/helpers";
 
 /**

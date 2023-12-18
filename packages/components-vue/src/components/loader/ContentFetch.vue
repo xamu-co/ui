@@ -18,9 +18,9 @@
 	import {
 		ref,
 		watch,
-		Component as VueComponent,
-		FunctionalComponent,
-		DefineComponent,
+		type Component as VueComponent,
+		type FunctionalComponent,
+		type DefineComponent,
 	} from "vue";
 	import _ from "lodash";
 

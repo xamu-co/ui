@@ -6,6 +6,5 @@ CHANGELOG.md
 index.css
 index.min.css
 .nuxt
-.svelte-kit
 *.json
 .*rc

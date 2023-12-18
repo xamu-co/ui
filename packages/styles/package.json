@@ -7,12 +7,11 @@
 		"format": "copy-files-from-to && prettier dist/*.formatted.css --no-config --write",
 		"sass": "sass src/index.scss dist/index.css",
 		"postcss": "postcss dist/index.css -o dist/index.min.css --no-map",
-		"css:compile": "yarn sass && yarn postcss --verbose && yarn format",
-		"build": "yarn css:compile && yarn docs:compile",
-		"build:prod": "cross-env NODE_ENV=production yarn css:compile && yarn docs:compile",
+		"build": "yarn sass && yarn postcss --verbose",
+		"build:prod": "cross-env NODE_ENV=production yarn build && yarn docs:compile",
 		"watch": "yarn sass --watch",
 		"lint": "stylelint src/{*,**/*,**/**/*}.{css,scss} --syntax=scss && prettier src/{*,**/*,**/**/*}.{css,scss} --check",
-		"prepare": "npm run css:compile",
+		"prepare": "yarn build",
 		"docs:compile": "sassdoc src/{**/{_*,summary},**/**/{_*,summary}}.scss --dest docs",
 		"docs:serve": "yarn serve docs",
 		"docs": "yarn docs:compile && start http://localhost:5000 && yarn serve docs"
@@ -72,7 +71,7 @@
 	},
 	"dependencies": {
 		"sassdoc": "^2.7.3",
-		"sassdoc-theme-herman": "^4.0.0",
+		"sassdoc-theme-herman": "^5.0.1",
 		"serve": "^11.3.2"
 	},
 	"devDependencies": {
@@ -90,7 +89,7 @@
 		"sass": "^1.60.0"
 	},
 	"engines": {
-		"node": ">=16.19.0",
+		"node": ">=18",
 		"yarn": ">=1.22.4"
 	},
 	"browserslist": [

@@ -25,6 +25,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
+        "verbatimModuleSyntax": true,
         /* Bundler mode */
         "esModuleInterop": true,
         "moduleResolution": "Bundler",
@@ -39,8 +40,7 @@
         "src/**/**/*.vue",
     ],
     "exclude": [
-        "src/main.ts",
-        "src/app.vue",
+        "playground",
     ],
     "references": [
         {

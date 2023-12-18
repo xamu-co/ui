@@ -4,7 +4,7 @@ import type { tProp, tThemeModifier, tThemeTuple } from "@open-xamu-co/ui-common
 import { useUtils } from "@open-xamu-co/ui-common-helpers";
 import { eColors } from "@open-xamu-co/ui-common-enums";
 
-import { iUseThemeProps, iUseThemeTooltipProps } from "../types/props";
+import type { iUseThemeProps, iUseThemeTooltipProps } from "../types/props";
 import useHelpers from "../composables/helpers";
 
 type tThemes = [tThemeModifier, tThemeModifier];
@@ -44,7 +44,7 @@ export default function useTheme(props: iAllUseThemeProps) {
 					"data-tooltip-text": props.tooltipAsText ?? true,
 					"data-tooltip-bg": themeValues.value[0],
 					"data-tooltip-color": hasColor ? themeValues.value[1] : undefined,
-			  }
+				}
 			: null;
 	});
 

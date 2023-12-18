@@ -9,7 +9,7 @@
 						Also please remember to not version anything within this playground
 					</p>
 				</div>
-				<XamuActionButtonLink>{{ text }}</XamuActionButtonLink>
+				<XamuActionButtonLink @click="count">{{ text }}</XamuActionButtonLink>
 			</div>
 		</div>
 	</div>
@@ -18,7 +18,14 @@
 <script setup lang="ts">
 	import { ref } from "vue";
 
+	const counter = ref(0);
 	const text = ref("This is a button link component");
+
+	function count() {
+		counter.value++;
+
+		alert(`You clicked ${counter.value} times`);
+	}
 </script>
 
 <style>

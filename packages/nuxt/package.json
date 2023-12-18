@@ -34,32 +34,35 @@
     "dist"
   ],
   "scripts": {
-    "build": "nuxt-module-build",
+    "build": "yarn prepack && nuxt-module-build build",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "prepack": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "test": "vitest run",
-    "test:watch": "vitest watch",
-    "cleanup": "nuxi cleanup && nuxi prepare"
+    "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@nuxt/image": "^1.0.0-rc.3",
-    "@nuxt/kit": "^3.7.3",
+    "@nuxt/image": "^1.1.0",
+    "@nuxt/kit": "^3.8.2",
     "@open-xamu-co/ui-common-enums": "^1.0.2",
     "@open-xamu-co/ui-common-helpers": "^1.0.2",
     "@open-xamu-co/ui-components-vue": "^1.0.2",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@nuxt/devtools": "latest",
-    "@nuxt/module-builder": "^0.5.1",
-    "@nuxt/schema": "^3.7.3",
-    "@nuxt/test-utils": "^3.7.3",
+    "@nuxt/devtools": "^1.0.6",
+    "@nuxt/module-builder": "^0.5.4",
+    "@nuxt/schema": "^3.8.2",
+    "@nuxt/test-utils": "^3.8.1",
     "@open-xamu-co/ui-common-types": "^1.0.2",
+    "@open-xamu-co/ui-styles": "^1.2.3",
     "@types/lodash": "^4.14.192",
     "@types/node": "^18.17.17",
-    "nuxt": "^3.7.3",
+    "nuxt": "^3.8.2",
     "vitest": "^0.33.0"
   },
   "engines": {
-    "node": ">=16.19.0",
+    "node": ">=18",
     "yarn": ">=1.22.4"
   }
 }

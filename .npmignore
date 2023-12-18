@@ -4,6 +4,7 @@
 docs
 src
 node_modules
+playground
 
 # files
 .releaserc
@@ -13,3 +14,4 @@ package-lock.json
 *.lock
 *.tsbuildinfo
 *.log
+*.html

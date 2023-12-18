@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "my-module-playground",
+  "type": "module",
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "generate": "nuxi generate"
+  },
+  "dependencies": {
+    "@open-xamu-co/ui-common-helpers": "*",
+    "@open-xamu-co/ui-styles": "*"
+  },
+  "devDependencies": {
+    "nuxt": "latest"
+  }
+}

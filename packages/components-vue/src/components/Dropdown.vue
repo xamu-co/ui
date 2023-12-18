@@ -26,9 +26,9 @@
 		watch,
 		onMounted,
 		onUnmounted,
-		Component as VueComponent,
-		DefineComponent,
-		FunctionalComponent,
+		type Component as VueComponent,
+		type DefineComponent,
+		type FunctionalComponent,
 	} from "vue";
 
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";

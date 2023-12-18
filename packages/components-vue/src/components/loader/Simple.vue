@@ -30,7 +30,7 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import { CSSProperties } from "vue";
+	import type { CSSProperties } from "vue";
 
 	interface iLoaderSimpleProps extends iUseThemeProps {
 		label?: string;

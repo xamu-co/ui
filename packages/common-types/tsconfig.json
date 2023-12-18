@@ -16,7 +16,8 @@
          "ESNext.AsyncIterable",
          "DOM"
       ],
-      "experimentalDecorators": true
+      "experimentalDecorators": true,
+      "verbatimModuleSyntax": true,
    },
    "include": [
       "./src/**/*"

@@ -126,7 +126,7 @@
 	/>
 </template>
 <script setup lang="ts">
-	import { RendererElement } from "vue";
+	import type { RendererElement } from "vue";
 	import _ from "lodash";
 
 	import type {

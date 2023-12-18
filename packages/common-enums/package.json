@@ -48,7 +48,7 @@
     "@babel/preset-typescript": "^7.22.5"
   },
   "engines": {
-    "node": ">=16.19.0",
+    "node": ">=18",
     "yarn": ">=1.22.4"
   },
   "browserslist": [

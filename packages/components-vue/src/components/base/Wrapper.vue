@@ -6,7 +6,12 @@
 </template>
 
 <script setup lang="ts">
-	import { Component as VueComponent, FunctionalComponent, DefineComponent, PropType } from "vue";
+	import type {
+		Component as VueComponent,
+		FunctionalComponent,
+		DefineComponent,
+		PropType,
+	} from "vue";
 
 	/**
 	 * Wrapper Component

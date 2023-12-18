@@ -28,10 +28,10 @@
   },
   "homepage": "https://github.com/xamu-co/ui/packages/vue#readme",
   "type": "module",
-  "main": "dist/plugin.mjs",
-  "types": "dist/plugin.d.ts",
-  "typings": "dist/plugin.d.ts",
-  "module": "dist/plugin.mjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "module": "dist/index.js",
   "files": [
     "CHANGELOG.md",
     "README.md",
@@ -39,98 +39,14 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./plugin": {
       "types": "./dist/plugin.d.ts",
-      "import": "./dist/plugin.mjs",
+      "import": "./dist/plugin.js",
       "require": "./dist/plugin.cjs"
-    },
-    "./components": {
-      "types": "./dist/components/index.d.ts",
-      "import": "./dist/components/index.mjs",
-      "require": "./dist/components/index.cjs"
-    },
-    "./Base*.vue": {
-      "types": "./dist/components/base/*.vue.d.ts",
-      "import": "./dist/components/base/*.vue.mjs",
-      "require": "./dist/components/base/*.vue.cjs",
-      "vue": "./src/components/base/*.vue"
-    },
-    "./Icon*.vue": {
-      "types": "./dist/components/icon/*.vue.d.ts",
-      "import": "./dist/components/icon/*.vue.mjs",
-      "require": "./dist/components/icon/*.vue.cjs",
-      "vue": "./src/components/icon/*.vue"
-    },
-    "./Action*.vue": {
-      "types": "./dist/components/action/*.vue.d.ts",
-      "import": "./dist/components/action/*.vue.mjs",
-      "require": "./dist/components/action/*.vue.cjs",
-      "vue": "./src/components/action/*.vue"
-    },
-    "./Input*.vue": {
-      "types": "./dist/components/input/*.vue.d.ts",
-      "import": "./dist/components/input/*.vue.mjs",
-      "require": "./dist/components/input/*.vue.cjs",
-      "vue": "./src/components/input/*.vue"
-    },
-    "./Select*.vue": {
-      "types": "./dist/components/select/*.vue.d.ts",
-      "import": "./dist/components/select/*.vue.mjs",
-      "require": "./dist/components/select/*.vue.cjs",
-      "vue": "./src/components/select/*.vue"
-    },
-    "./Value*.vue": {
-      "types": "./dist/components/value/*.vue.d.ts",
-      "import": "./dist/components/value/*.vue.mjs",
-      "require": "./dist/components/value/*.vue.cjs",
-      "vue": "./src/components/value/*.vue"
-    },
-    "./Loader*.vue": {
-      "types": "./dist/components/loader/*.vue.d.ts",
-      "import": "./dist/components/loader/*.vue.mjs",
-      "require": "./dist/components/loader/*.vue.cjs",
-      "vue": "./src/components/loader/*.vue"
-    },
-    "./Box*.vue": {
-      "types": "./dist/components/box/*.vue.d.ts",
-      "import": "./dist/components/box/*.vue.mjs",
-      "require": "./dist/components/box/*.vue.cjs",
-      "vue": "./src/components/box/*.vue"
-    },
-    "./Pagination*.vue": {
-      "types": "./dist/components/pagination/*.vue.d.ts",
-      "import": "./dist/components/pagination/*.vue.mjs",
-      "require": "./dist/components/pagination/*.vue.cjs",
-      "vue": "./src/components/pagination/*.vue"
-    },
-    "./Form*.vue": {
-      "types": "./dist/components/form/*.vue.d.ts",
-      "import": "./dist/components/form/*.vue.mjs",
-      "require": "./dist/components/form/*.vue.cjs",
-      "vue": "./src/components/form/*.vue"
-    },
-    "./Modal.vue": {
-      "types": "./dist/components/Modal.vue.d.ts",
-      "import": "./dist/components/Modal.vue.mjs",
-      "require": "./dist/components/Modal.vue.cjs",
-      "vue": "./src/components/Modal.vue"
-    },
-    "./Dropdown.vue": {
-      "types": "./dist/components/Dropdown.vue.d.ts",
-      "import": "./dist/components/Dropdown.vue.mjs",
-      "require": "./dist/components/Dropdown.vue.cjs",
-      "vue": "./src/components/Dropdown.vue"
-    },
-    "./Table.vue": {
-      "types": "./dist/components/Table.vue.d.ts",
-      "import": "./dist/components/Table.vue.mjs",
-      "require": "./dist/components/Table.vue.cjs",
-      "vue": "./src/components/Table.vue"
-    },
-    "./Slider.vue": {
-      "types": "./dist/components/Slider.vue.d.ts",
-      "import": "./dist/components/Slider.vue.mjs",
-      "require": "./dist/components/Slider.vue.cjs",
-      "vue": "./src/components/Slider.vue"
     }
   },
   "dependencies": {
@@ -149,14 +65,12 @@
     "@types/node": "^18.17.17",
     "@types/validator": "^13.11.1",
     "@vitejs/plugin-vue": "^4.2.1",
-    "vite": "^4.4.2",
+    "vite": "^5.0.10",
+    "vue": "^3.3.12",
     "vue-tsc": "^1.6.4"
   },
-  "peerDependencies": {
-    "vue": "^3.3.0"
-  },
   "engines": {
-    "node": ">=16.19.0",
+    "node": ">=18",
     "yarn": ">=1.22.4"
   }
 }
