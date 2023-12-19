@@ -146,3 +146,42 @@ export interface iFormInput<V extends iFormValue = iFormValue>
 	 */
 	multiple?: boolean;
 }
+
+/**
+ * Sended form values
+ */
+export interface iFormResponse<R = any> {
+	response: R;
+	invalidInputs: iInvalidInput[];
+	/**
+	 * If the request had any error (validation/request itself).
+	 */
+	withErrors: boolean;
+	/**
+	 * If the request had any error.
+	 */
+	requestHadErrors: boolean;
+	/**
+	 * If the validation had any error.
+	 */
+	validationHadErrors: boolean;
+	/**
+	 * Errors payload,
+	 * 401 will be reported but not failed
+	 */
+	errors?: any;
+	/**
+	 * Swal target
+	 */
+	modalTarget?: HTMLElement | string;
+}
+
+export interface iFetchResponse<R = any> {
+	data: R | null;
+	errors?: any;
+	[x: string]: any;
+}
+
+export type tResponseFn<T, V extends Record<string, any> = Record<string, any>> = (
+	values: V
+) => Promise<iFetchResponse<T>>;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { DefineComponent, FunctionalComponent, Component as VueComponent } from "vue";
 import {
 	defineNuxtModule,
@@ -5,6 +6,7 @@ import {
 	addComponent,
 	createResolver,
 	installModule,
+	addImports,
 } from "@nuxt/kit";
 import _ from "lodash";
 import type { ModuleOptions as NuxtImageOptions } from "@nuxt/image";
@@ -16,7 +18,7 @@ import { componentNames } from "@open-xamu-co/ui-common-enums";
 /**
  * Nuxt specific configuration
  */
-interface iNuxtOptions
+interface ModuleOptions
 	extends iPluginOptions<VueComponent | FunctionalComponent | DefineComponent> {
 	/**
 	 * Nuxt image plugin options
@@ -24,7 +26,18 @@ interface iNuxtOptions
 	image?: Partial<NuxtImageOptions>;
 }
 
-export default defineNuxtModule<iNuxtOptions>({
+declare module "nuxt/schema" {
+	interface AppConfigInput {
+		xamu?: ModuleOptions;
+	}
+}
+declare module "@nuxt/schema" {
+	interface AppConfigInput {
+		xamu?: ModuleOptions;
+	}
+}
+
+export default defineNuxtModule<ModuleOptions>({
 	meta: {
 		name: "@open-xamu-co/ui-nuxt",
 		configKey: "xamu",
@@ -45,6 +58,8 @@ export default defineNuxtModule<iNuxtOptions>({
 		const runtimePath = resolve("./runtime");
 
 		nuxt.options.build.transpile.push("@open-xamu-co/ui-components-vue");
+		// @ts-ignore
+		nuxt.options.appConfig.xamu = moduleOptions;
 		// Register components config plugin
 		addPlugin(resolve(runtimePath, "plugins", "config"));
 
@@ -56,18 +71,25 @@ export default defineNuxtModule<iNuxtOptions>({
 			...image,
 		});
 
-		// Filter and register components
-		const components = Array.isArray(globalComponents) ? globalComponents : componentNames;
+		// Filter and register components if enabled
+		if (globalComponents) {
+			const components = Array.isArray(globalComponents) ? globalComponents : componentNames;
 
-		if (!globalComponents) return;
-
-		components.forEach((name) => {
-			addComponent({
-				name: _.capitalize(_.camelCase(componentPrefix)) + name,
-				filePath: "@open-xamu-co/ui-components-vue",
-				export: name,
-				mode: "all",
+			components.forEach((name) => {
+				addComponent({
+					name: _.capitalize(_.camelCase(componentPrefix)) + name,
+					filePath: "@open-xamu-co/ui-components-vue",
+					export: name,
+					mode: "all",
+				});
 			});
+		}
+
+		// Theme composable
+		addImports({
+			name: "useTheme",
+			as: "useTheme",
+			from: "@open-xamu-co/ui-components-vue",
 		});
 	},
 });

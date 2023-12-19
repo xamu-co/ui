@@ -7,8 +7,6 @@ import { eColors } from "@open-xamu-co/ui-common-enums";
 import type { iUseThemeProps, iUseThemeTooltipProps } from "../types/props";
 import useHelpers from "../composables/helpers";
 
-type tThemes = [tThemeModifier, tThemeModifier];
-
 interface iAllUseThemeProps extends iUseThemeProps, iUseThemeTooltipProps {
 	/**
 	 * Theme as union
@@ -30,7 +28,15 @@ export default function useTheme(props: iAllUseThemeProps) {
 	});
 	/** TODO: make theme classes reactive */
 	const themeClasses = computed<string[]>(() => {
-		return props.theme ? getThemeClasses(themeValues.value) : [];
+		if (!props.theme) return [];
+
+		let values = themeValues.value;
+
+		values[1] = values[1] || eColors.LIGHT;
+
+		if (!props.themeAsUnion) values = [values[0]];
+
+		return GMC([values.join("-")], { modifier: "tm", divider: "-" });
 	});
 	const tooltipAttributes = computed(() => {
 		const tooltipText = props.tooltip && getPropData(props.tooltip);
@@ -49,7 +55,7 @@ export default function useTheme(props: iAllUseThemeProps) {
 	});
 
 	/** Return theme tuple */
-	function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemes {
+	function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemeTuple {
 		if (Array.isArray(values)) {
 			return [values[0], values[1] || eColors.LIGHT];
 		} else if (typeof values === "object" && values !== null) {
@@ -60,14 +66,6 @@ export default function useTheme(props: iAllUseThemeProps) {
 		}
 
 		return getThemeValues([values]);
-	}
-	/** Returns the theme classes */
-	function getThemeClasses(values: tThemeTuple): string[] {
-		values[1] = values[1] || eColors.LIGHT;
-
-		if (!props.themeAsUnion) values = [values[0]];
-
-		return GMC([values.join("-")], { modifier: "tm", divider: "-" });
 	}
 
 	return { themeValues, themeClasses, tooltipAttributes };
