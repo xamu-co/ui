@@ -83,6 +83,50 @@ function getPropData<T extends string>(prop: tProp<T>, index = 0): T | undefined
 }
 
 /**
+ * create a new formdata object
+ *
+ * @export
+ * @param {object} object object with the payload
+ * @returns {FormData} fomrdata object from object
+ */
+function createFormData(object: Record<string, any>) {
+	const formData = new FormData();
+
+	for (const key in object) {
+		const isFile =
+			Array.isArray(object[key]) && object[key].every((entry: any) => entry instanceof File);
+
+		if (!isFile) {
+			formData.append(key, object[key]);
+
+			continue;
+		}
+
+		// as file Input
+		object[key].forEach((file: any) => formData.append(`${key}[]`, file));
+	}
+
+	return formData;
+}
+
+/**
+ * create a new urlSearchParams object
+ *
+ * @export
+ * @param {object} object object with the payload
+ * @returns {URLSearchParams} urlSearchParams object from object
+ */
+function createUrlSearchParams(object: Record<string, any>) {
+	const urlSearchParams = new URLSearchParams();
+
+	for (const key in object) {
+		urlSearchParams.append(key, object[key]);
+	}
+
+	return urlSearchParams;
+}
+
+/**
  * Utils Composable
  *
  * @composable
@@ -97,5 +141,7 @@ export default function useUtils(_options: iPluginOptions = {}) {
 		getClassesString,
 		getModifierClasses,
 		getPropData,
+		createFormData,
+		createUrlSearchParams,
 	};
 }

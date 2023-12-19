@@ -11,43 +11,6 @@ import { eFormType, eFormTypeComplex, eFormTypeSimple } from "@open-xamu-co/ui-c
 import { FormInput } from "./input.js";
 
 /**
- * Sended form values
- */
-export interface iFormResponse<R = any> {
-	response: R;
-	invalidInputs: iInvalidInput[];
-	/**
-	 * If the request had any error (validation/request itself).
-	 */
-	withErrors: boolean;
-	/**
-	 * If the request had any error.
-	 */
-	requestHadErrors: boolean;
-	/**
-	 * If the validation had any error.
-	 */
-	validationHadErrors: boolean;
-	/**
-	 * Errors payload,
-	 * 401 will be reported but not failed
-	 */
-	errors?: any;
-	/**
-	 * Swal target
-	 */
-	modalTarget?: HTMLElement | string;
-}
-
-export interface iFetchResponse<R = any> {
-	data: R | null;
-	errors?: any;
-	[x: string]: any;
-}
-
-export type tResponseFn<T, V> = (values: V) => Promise<iFetchResponse<T>>;
-
-/**
  * Wheter or not value is empty
  * @param value any value
  * @returns {boolean}

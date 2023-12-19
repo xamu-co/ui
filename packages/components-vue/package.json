@@ -47,6 +47,11 @@
 			"types": "./dist/plugin.d.ts",
 			"import": "./dist/plugin.js",
 			"require": "./dist/plugin.cjs"
+		},
+		"./theme": {
+			"types": "./dist/composables/theme.d.ts",
+			"import": "./dist/theme.js",
+			"require": "./dist/theme.cjs"
 		}
 	},
 	"dependencies": {
