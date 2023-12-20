@@ -38,8 +38,7 @@
   "scripts": {
     "build:esm": "tsc",
     "build:cjs": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
-    "build": "rimraf dist && yarn build:esm && yarn build:cjs",
-    "prepare": "yarn build"
+    "build": "rimraf dist && yarn build:esm && yarn build:cjs"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.6",

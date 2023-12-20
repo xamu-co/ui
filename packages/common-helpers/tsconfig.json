@@ -15,6 +15,7 @@
       "skipLibCheck": true,
       "outDir": "./dist/esm",
       "rootDir": "src",
+      "verbatimModuleSyntax": true,
       "types": [
          "node"
       ],

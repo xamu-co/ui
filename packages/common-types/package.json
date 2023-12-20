@@ -31,9 +31,7 @@
     "build:legacy": "rimraf dist && tsc --outDir dist --declaration --emitDeclarationOnly"
   },
   "dependencies": {
-    "@open-xamu-co/ui-common-enums": "link:../common-enums"
-  },
-  "devDependencies": {
+    "@open-xamu-co/ui-common-enums": "link:../common-enums",
     "@fortawesome/fontawesome-common-types": "^6.4.0",
     "sweetalert2": "^11.7.5"
   },
