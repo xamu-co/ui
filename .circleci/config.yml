@@ -47,7 +47,7 @@ jobs:
             - attach_workspace:
                   at: ~/repo
             - run:
-                  name: Pre-build distributables
+                  name: Build distributables
                   command: yarn build
             - persist_to_workspace:
                   root: ~/repo

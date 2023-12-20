@@ -11,7 +11,6 @@
 		"build:prod": "cross-env NODE_ENV=production yarn build && yarn docs:compile",
 		"watch": "yarn sass --watch",
 		"lint": "stylelint src/{*,**/*,**/**/*}.{css,scss} --syntax=scss && prettier src/{*,**/*,**/**/*}.{css,scss} --check",
-		"prepare": "yarn build",
 		"docs:compile": "sassdoc src/{**/{_*,summary},**/**/{_*,summary}}.scss --dest docs",
 		"docs:serve": "yarn serve docs",
 		"docs": "yarn docs:compile && start http://localhost:5000 && yarn serve docs"
