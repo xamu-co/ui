@@ -3,7 +3,7 @@
 		v-slot="countries"
 		:theme="theme"
 		:promise="((withLocationInput && !defaultCountry) || withPhoneInput) && getCountries"
-		class="flx --flxColumn --flx-start-stretch --gap-10 --gap:md --maxWidth-full"
+		class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
 		:fallback="[]"
 		:el="noForm ? 'fieldset' : 'form'"
 	>
@@ -172,7 +172,7 @@
 	watch(
 		() => props.make,
 		(newMake, oldMake) => {
-			if (oldMake && newMake?.every((input, index) => input.isEqual(oldMake[index]))) return;
+			if (!oldMake || newMake?.every((input, index) => input.isEqual(oldMake[index]))) return;
 
 			emit("update:model-value", newMake);
 		},
