@@ -238,6 +238,10 @@ export interface iLocaleTable {
 		table_updated: string;
 		/** @example "The item may not have been updated | The items may not have been updated" */
 		table_possibly_not_updated: string;
+		/** @example "Successfull update" */
+		table_created: string;
+		/** @example "The item may not have been created | The items may not have been created" */
+		table_possibly_not_created: string;
 		/** @example "Successfull cloning" */
 		table_cloned: string;
 		/** @example "The item may not have been cloned | The items may not have been cloned" */

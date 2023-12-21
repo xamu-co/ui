@@ -24,9 +24,9 @@
 <script setup lang="ts">
 	import { computed, watch } from "vue";
 
-	import type { iSelectOption } from "@open-xamu-co/ui-common-types";
+	import type { iFormOption } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
-	import { toSelectOption } from "@open-xamu-co/ui-common-helpers";
+	import { toOption } from "@open-xamu-co/ui-common-helpers";
 
 	import type { iSelectProps } from "../../types/props";
 	import useUUID from "../../composables/uuid";
@@ -57,8 +57,8 @@
 	const { uuid } = useUUID();
 
 	const randomId = uuid().replace("-", "").substring(0, 8);
-	const selectOptions = computed<iSelectOption[]>(() => {
-		return (props.options ?? []).map(toSelectOption);
+	const selectOptions = computed<iFormOption[]>(() => {
+		return (props.options ?? []).map(toOption);
 	});
 	const selectId = computed(() => {
 		return props.id ?? `select${randomId}`;

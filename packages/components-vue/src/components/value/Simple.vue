@@ -69,17 +69,17 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="P extends Record<string, any>, T">
 	import { computed, inject, type RendererElement } from "vue";
 	import validator from "validator";
 
 	import type {
-		iSelectOption,
 		tProps,
 		tThemeTuple,
 		tProp,
 		tThemeModifier,
 		iPluginOptions,
+		iProperty,
 	} from "@open-xamu-co/ui-common-types";
 	import { timeAgo, useI18n } from "@open-xamu-co/ui-common-helpers";
 
@@ -92,15 +92,15 @@
 	import type { iUseThemeProps } from "../../types/props";
 	import useHelpers from "../../composables/helpers";
 
-	interface iValueSimpleProps extends iUseThemeProps {
+	interface iValueSimpleProps<Pi extends Record<string, any>, Ti> extends iUseThemeProps {
 		/**
 		 * Cell value
 		 */
-		value: unknown;
+		value: Ti;
 		/**
 		 * Cell column property
 		 */
-		property?: iSelectOption;
+		property?: iProperty<Pi>;
 		readOnly?: boolean;
 		classes?: tProps<string>;
 		modalTarget?: string | RendererElement;
@@ -114,7 +114,7 @@
 	 */
 
 	defineOptions({ name: "ValueSimple", inheritAttrs: false });
-	defineProps<iValueSimpleProps>();
+	defineProps<iValueSimpleProps<P, T>>();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const { t } = useHelpers(useI18n);
