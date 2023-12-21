@@ -1,4 +1,7 @@
-import DefaultSwal, { SweetAlertOptions, SweetAlertResult } from "sweetalert2/dist/sweetalert2.js";
+import DefaultSwal, {
+	type SweetAlertOptions,
+	type SweetAlertResult,
+} from "sweetalert2/dist/sweetalert2.js";
 
 import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 

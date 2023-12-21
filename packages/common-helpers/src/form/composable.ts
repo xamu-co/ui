@@ -40,12 +40,12 @@ export default function useForm(options: iPluginOptions = {}) {
 		request: tResponseFn<R, RV>,
 		inputs: RV | FormInput[] = [],
 		event?: Event
-	): Promise<iFormResponse<R | null>> {
+	): Promise<iFormResponse<R>> {
 		const { values, invalidInputs } = getFormValues<RV>(inputs);
 		const modalTarget = (event?.target as HTMLElement)?.closest("dialog") || "body";
 		let errors;
 		let requestHadErrors = false;
-		let newResponse: iFetchResponse<R | null> = { data: null };
+		let newResponse: iFetchResponse<R> = {};
 
 		if (!invalidInputs.length) {
 			try {
