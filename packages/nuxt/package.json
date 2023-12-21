@@ -49,7 +49,8 @@
     "@open-xamu-co/ui-components-vue": "link:../components-vue",
     "@open-xamu-co/ui-common-types": "link:../common-types",
     "@types/lodash": "^4.14.192",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "sweetalert2": "^11.7.5"
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.0.6",
