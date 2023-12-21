@@ -108,6 +108,11 @@ export class FormInput<V extends iFormValue = iFormValue>
 	public readonly title!: string;
 	public readonly multiple!: boolean;
 
+	/**
+	 * Form input constructor
+	 * @param formInput the base object to create an input form from
+	 * @param _onUpdatedValues hook that is called when the values are updated
+	 */
 	constructor(
 		formInput: iFormInput<V>,
 		private _onUpdatedValues?: (updatedValues: (V | V[])[]) => void

@@ -151,7 +151,7 @@ export interface iFormInput<V extends iFormValue = iFormValue>
  * Sended form values
  */
 export interface iFormResponse<R = any> {
-	response: R;
+	response?: R;
 	invalidInputs: iInvalidInput[];
 	/**
 	 * If the request had any error (validation/request itself).
@@ -177,7 +177,7 @@ export interface iFormResponse<R = any> {
 }
 
 export interface iFetchResponse<R = any> {
-	data: R | null;
+	data?: R;
 	errors?: any;
 	[x: string]: any;
 }
