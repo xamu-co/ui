@@ -1,5 +1,5 @@
 import type {
-	iSelectOption,
+	iFormOption,
 	tFormAutocomplete,
 	tIndicative,
 	tProp,
@@ -85,7 +85,7 @@ export interface iInputProps extends iInputLikeProps {
 }
 
 export interface iSelectProps extends iInputLikeProps {
-	options?: Array<string | number | iSelectOption>;
+	options?: Array<string | number | iFormOption>;
 	/**
 	 * Multiple fields
 	 */

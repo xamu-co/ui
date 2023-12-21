@@ -2,10 +2,9 @@ import type { IconName } from "@fortawesome/fontawesome-common-types";
 
 import { eFormTypeComplex, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
 
-export interface iSelectOption {
-	value: string | number;
-	alias?: string;
-	selected?: boolean;
+import type { iSelectOption } from "./values.js";
+
+export interface iFormOption extends iSelectOption {
 	/**
 	 * Font awesome icon
 	 */
@@ -17,7 +16,7 @@ export interface iSelectOption {
 	placeholder?: string;
 }
 
-export interface iIndicative extends iSelectOption {
+export interface iIndicative extends iFormOption {
 	code: string;
 	number: number;
 }
@@ -104,7 +103,7 @@ export type iFormValue = string | number | boolean | File;
 export interface iFormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFormTypeSimple> {
 	required?: boolean;
 	type?: T;
-	options?: (string | number | iSelectOption)[];
+	options?: (string | number | iFormOption)[];
 	/**
 	 * String without the dots
 	 */

@@ -161,6 +161,9 @@ export const localeTable: iLocaleTable = {
 		table_updated: "Successfull update",
 		table_possibly_not_updated:
 			"The item may not have been updated | The items may not have been updated",
+		table_created: "Successfull create",
+		table_possibly_not_created:
+			"The item may not have been created | The items may not have been created",
 		table_cloned: "Successfull cloning",
 		table_possibly_not_cloned:
 			"The item may not have been cloned | The items may not have been cloned",

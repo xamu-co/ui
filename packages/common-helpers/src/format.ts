@@ -1,11 +1,11 @@
-import type { iSelectOption } from "@open-xamu-co/ui-common-types";
+import type { iFormOption, iSelectOption } from "@open-xamu-co/ui-common-types";
 
 /**
- * create iSelectOption from compatible values
+ * create iSelectOption or iFormOption from compatible values
  */
-export function toSelectOption<T extends iSelectOption = iSelectOption>(
+export function toOption<T extends iSelectOption | iFormOption = iSelectOption>(
 	option: string | number | T
-): iSelectOption | T {
+): T extends iFormOption ? iFormOption : iSelectOption {
 	if (typeof option === "object" && option !== null) return option;
 
 	return { value: option };
@@ -27,6 +27,8 @@ export function formatAsCurrency(x: number): string {
 
 /**
  * Get localized time ago string
+ *
+ * Uses Intl js api
  * @param date
  * @param locale
  * @returns

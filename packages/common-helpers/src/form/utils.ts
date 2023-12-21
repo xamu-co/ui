@@ -214,7 +214,7 @@ export function getFormValues<V extends Record<string, any>>(
 
 	const values: V = getFormInputsValues(inputs);
 	const invalidInputs = getFormInputsInvalids(inputs).filter(({ name }) => {
-		return (values as Record<string, unknown>)[name] !== undefined;
+		return values[name] !== undefined;
 	});
 
 	return {

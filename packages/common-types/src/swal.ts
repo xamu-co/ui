@@ -9,8 +9,10 @@ import DefaultSwal, {
  * Do not deestructure this
  */
 export type tSwal = typeof DefaultSwal & {
-	firePrevent: <T = unknown>(options: SweetAlertOptions) => Promise<SweetAlertResult<Awaited<T>>>;
+	firePrevent: <T = unknown>(
+		options?: SweetAlertOptions
+	) => Promise<SweetAlertResult<Awaited<T>>>;
 	firePreventDefaults: SweetAlertOptions;
-	fireLoader: <T = unknown>(options: SweetAlertOptions) => Promise<SweetAlertResult<Awaited<T>>>;
+	fireLoader: <T = unknown>(options?: SweetAlertOptions) => Promise<SweetAlertResult<Awaited<T>>>;
 	fireLoaderDefaults: SweetAlertOptions;
 };

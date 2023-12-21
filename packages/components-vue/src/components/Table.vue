@@ -120,7 +120,7 @@
 										:theme="theme"
 										:title="t('table_select')"
 									/>
-									<span :title="node.id">
+									<span :title="String(node.id ?? nodeIndex)">
 										{{
 											node.id && typeof node.id === "number"
 												? node.id
@@ -151,6 +151,7 @@
 										classes,
 										modalTarget: valueRootRef,
 										refresh,
+										omitRefresh,
 									}"
 								/>
 							</td>
@@ -240,7 +241,7 @@
 													name:
 														childrenName ||
 														childrenCountKey ||
-														node.id.split('/')[0],
+														String(node.id ?? nodeIndex).split('/')[0],
 												})
 											"
 											tooltip-position="right"
@@ -311,6 +312,8 @@
 	import _ from "lodash";
 
 	import type {
+		iNodeFn,
+		iProperty,
 		iSelectOption,
 		tProp,
 		tProps,
@@ -318,7 +321,7 @@
 		tThemeTuple,
 	} from "@open-xamu-co/ui-common-types";
 	import { eColors } from "@open-xamu-co/ui-common-enums";
-	import { toSelectOption, useSwal, useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { toOption, useSwal, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "./icon/Fa.vue";
 	import ActionLink from "./action/Link.vue";
@@ -333,7 +336,7 @@
 	import useTheme from "../composables/theme";
 	import useHelpers from "../composables/helpers";
 
-	export interface iTableProps<Ti> extends iUseThemeProps {
+	export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
 		/**
 		 * Table nodes
 		 * an array of nodes
@@ -347,7 +350,7 @@
 		 *
 		 * @old columns
 		 */
-		properties?: iSelectOption[];
+		properties?: iProperty<Ti>[];
 		/**
 		 * read only table
 		 * @old editable(inverse)
@@ -360,19 +363,21 @@
 		/**
 		 * Function used to update a node
 		 */
-		updateNode?: (n: Ti) => boolean | undefined | Promise<boolean | undefined>;
+		updateNode?: iNodeFn<Ti>;
 		/**
 		 * Function used to delete a node
 		 */
-		deleteNode?: (n: Ti) => boolean | undefined | Promise<boolean | undefined>;
+		deleteNode?: iNodeFn<Ti>;
 		/**
 		 * Function used to duplicate a node
 		 */
-		cloneNode?: (n: Ti) => boolean | undefined | Promise<boolean | undefined>;
+		cloneNode?: iNodeFn<Ti>;
 		/**
 		 * Function used to create a node children
+		 *
+		 * Useful to display the add button for the slot contents
 		 */
-		createNodeChildren?: (n: Ti) => boolean | undefined | Promise<boolean | undefined>;
+		createNodeChildren?: iNodeFn<Ti>;
 		/**
 		 * Content clasess
 		 */
@@ -457,8 +462,8 @@
 				return 0;
 			})
 			.map(([key]) => {
-				const options = (props.properties || []).map(toSelectOption);
-				const property = toSelectOption(options.find((p) => p.value === key) || key);
+				const options = (props.properties || []).map(toOption);
+				const property = toOption(options.find((p) => p.value === key) || key);
 				const aliasKey = _.snakeCase(key);
 
 				return {
@@ -515,7 +520,7 @@
 
 	/**
 	 * Updates given node
-	 * sometimes it could fail but still clone (api issue)
+	 * sometimes it could fail but still update (api issue)
 	 */
 	async function updateNodeAndRefresh(node: T) {
 		// display loader
@@ -598,7 +603,7 @@
 
 		if (!value) return;
 
-		// close modal
+		// close dropdown/modal
 		setModel(false);
 		// display loader
 		Swal.fireLoader({});
