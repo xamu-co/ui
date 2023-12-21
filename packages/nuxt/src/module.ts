@@ -7,6 +7,7 @@ import {
 	createResolver,
 	installModule,
 	addImports,
+	addImportsDir,
 } from "@nuxt/kit";
 import _ from "lodash";
 import type { ModuleOptions as NuxtImageOptions } from "@nuxt/image";
@@ -91,5 +92,8 @@ export default defineNuxtModule<ModuleOptions>({
 			as: "useTheme",
 			from: "@open-xamu-co/ui-components-vue",
 		});
+
+		// Other composables, config required
+		addImportsDir(resolve(runtimePath, "composables"));
 	},
 });

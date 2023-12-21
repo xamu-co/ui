@@ -3,16 +3,9 @@ import DefaultSwal, {
 	type SweetAlertResult,
 } from "sweetalert2/dist/sweetalert2.js";
 
-import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
+import type { iPluginOptions, tSwal } from "@open-xamu-co/ui-common-types";
 
 import useI18n from "./i18n.js";
-
-type tSwal = typeof DefaultSwal & {
-	firePrevent: <T = unknown>(options: SweetAlertOptions) => Promise<SweetAlertResult<Awaited<T>>>;
-	firePreventDefaults: SweetAlertOptions;
-	fireLoader: <T = unknown>(options: SweetAlertOptions) => Promise<SweetAlertResult<Awaited<T>>>;
-	fireLoaderDefaults: SweetAlertOptions;
-};
 
 /**
  * Swal composable
