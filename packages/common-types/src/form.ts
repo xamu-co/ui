@@ -149,7 +149,7 @@ export interface iFormInput<V extends iFormValue = iFormValue>
 /**
  * Sended form values
  */
-export interface iFormResponse<R = any> {
+export interface iFormResponse<R = any, T = any> {
 	response?: R;
 	invalidInputs: iInvalidInput[];
 	/**
@@ -172,7 +172,7 @@ export interface iFormResponse<R = any> {
 	/**
 	 * Swal target
 	 */
-	modalTarget?: HTMLElement | string;
+	modalTarget?: T;
 }
 
 export interface iFetchResponse<R = any> {

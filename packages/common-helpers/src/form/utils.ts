@@ -1,4 +1,4 @@
-import validator from "validator";
+import isEmail from "validator/lib/isEmail.js";
 
 import type {
 	iFormInputDefault,
@@ -50,7 +50,7 @@ export function isValidValue<V extends iFormValue = iFormValue>(
 		case eFormType.NEW_PASSWORD:
 			return Array.isArray(value) && value[0] === value[1];
 		case eFormType.EMAIL:
-			return typeof value === "string" && validator.isEmail(value);
+			return typeof value === "string" && isEmail(value);
 		default:
 			return true;
 	}
