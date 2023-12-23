@@ -40,7 +40,7 @@ export default function useForm(options: iPluginOptions = {}) {
 		request: tResponseFn<R, RV>,
 		inputs: RV | FormInput[] = [],
 		event?: Event
-	): Promise<iFormResponse<R>> {
+	): Promise<iFormResponse<R, HTMLElement | string>> {
 		const { values, invalidInputs } = getFormValues<RV>(inputs);
 		const modalTarget = (event?.target as HTMLElement)?.closest("dialog") || "body";
 		let errors;
