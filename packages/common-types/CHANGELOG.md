@@ -1,5 +1,13 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.1...@open-xamu-co/ui-common-types-v3.0.0-next.2) (2023-12-26)
+
+
+### Bug Fixes
+
+* swal type import ([9421153](https://github.com/xamu-co/ui/commit/9421153a152f69c5b3c36cdf76a133f691030708))
+* types missconfigured dependencies ([b619e84](https://github.com/xamu-co/ui/commit/b619e8455818750b7a0d8ebfe50f7289728b9319))
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v2.1.0...@open-xamu-co/ui-common-types-v3.0.0-next.1) (2023-12-26)
 
 
