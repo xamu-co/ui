@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v2.2.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.1.3...@open-xamu-co/ui-nuxt-v2.2.0-next.1) (2023-12-26)
+
+
+### Bug Fixes
+
+* required types as dependencies ([f360fc1](https://github.com/xamu-co/ui/commit/f360fc17446208a9a5e045dc56ff43bc207d5580))
+
+
+### Features
+
+* useSwal composable ([fd4616a](https://github.com/xamu-co/ui/commit/fd4616a62e61b1bf23d1f566b2269331d8bfac68))
+* vue theme composable ([463ebc1](https://github.com/xamu-co/ui/commit/463ebc19da06dfff9060421b228bcb1aca584afc))
+
 # [@open-xamu-co/ui-nuxt-v2.1.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.1.2...@open-xamu-co/ui-nuxt-v2.1.3) (2023-12-18)
 
 
