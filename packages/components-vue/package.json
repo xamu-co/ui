@@ -56,9 +56,9 @@
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-common-types": "^6.4.0",
-		"@open-xamu-co/ui-common-enums": "^2.0.0",
-		"@open-xamu-co/ui-common-helpers": "^2.0.0",
-		"@open-xamu-co/ui-common-types": "^2.1.0",
+		"@open-xamu-co/ui-common-enums": "^2.0.1-next.1",
+		"@open-xamu-co/ui-common-helpers": "^3.0.0-next.1",
+		"@open-xamu-co/ui-common-types": "^3.0.0-next.1",
 		"@types/lodash": "^4.14.192",
 		"@types/validator": "^13.11.1",
 		"lodash": "^4.17.21",
