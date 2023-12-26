@@ -1,7 +1,4 @@
-import DefaultSwal, {
-	type SweetAlertOptions,
-	type SweetAlertResult,
-} from "sweetalert2/dist/sweetalert2.js";
+import DefaultSwal, { type SweetAlertOptions, type SweetAlertResult } from "sweetalert2";
 
 /**
  * Extended SweetAlert2 class

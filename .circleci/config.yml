@@ -17,7 +17,7 @@ jobs:
             - checkout
             # Download and cache dependencies
             - node/install-packages:
-                  cache-version: v3
+                  cache-version: v4
                   pkg-manager: yarn
             - persist_to_workspace:
                   root: ~/repo
