@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v2.0.1...@open-xamu-co/ui-components-vue-v3.0.0-next.1) (2023-12-26)
+
+
+### Bug Fixes
+
+* make prop breaking form ([acc4fa0](https://github.com/xamu-co/ui/commit/acc4fa0704e3354408762b2f127d5c7b056e048e))
+* required types as dependencies ([f360fc1](https://github.com/xamu-co/ui/commit/f360fc17446208a9a5e045dc56ff43bc207d5580))
+
+
+### Features
+
+* form option type ([0fdfb53](https://github.com/xamu-co/ui/commit/0fdfb53640f02138f9a48e36ce10552dc1d7ade5))
+* useSwal composable ([fd4616a](https://github.com/xamu-co/ui/commit/fd4616a62e61b1bf23d1f566b2269331d8bfac68))
+* vue theme composable ([463ebc1](https://github.com/xamu-co/ui/commit/463ebc19da06dfff9060421b228bcb1aca584afc))
+
+
+### BREAKING CHANGES
+
+* select option type is now simpler and form require the new form type instead
+
 # [@open-xamu-co/ui-components-vue-v2.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v2.0.0...@open-xamu-co/ui-components-vue-v2.0.1) (2023-12-18)
 
 
