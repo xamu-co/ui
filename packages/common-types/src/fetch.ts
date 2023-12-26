@@ -1,3 +1,5 @@
+import type { eOrders } from "@open-xamu-co/ui-common-enums";
+
 export type tOrderBy = [string, ("desc" | "asc")?];
 
 export interface iPageEdge<T, C extends string | number = string> {
@@ -5,19 +7,21 @@ export interface iPageEdge<T, C extends string | number = string> {
 	node: T;
 }
 
+export interface iPageInfo<C extends string | number = string> {
+	nextCursor?: C;
+	previousCursor?: C;
+	hasNextPage: boolean;
+	hasPreviousPage: boolean;
+	path?: string;
+}
+
 export interface iPage<T, C extends string | number = string> {
 	edges: iPageEdge<T, C>[];
-	pageInfo: {
-		nextCursor?: C;
-		previousCursor?: C;
-		hasNextPage: boolean;
-		hasPreviousPage: boolean;
-		path?: string;
-	};
+	pageInfo: iPageInfo<C>;
 	totalCount: number;
 }
 
-export interface iPagination {
+export interface iPagination<O extends tOrderBy | Record<string, eOrders> = tOrderBy> {
 	/**
 	 * Identificador del elemento donde empieza la paginacion
 	 *
@@ -34,7 +38,7 @@ export interface iPagination {
 	 * ej: ["id", "asc" ], order ascendente de id
 	 * ej: ["id", "desc" ], order descendente de id
 	 */
-	orderBy?: tOrderBy;
+	orderBy?: O;
 }
 
 /**

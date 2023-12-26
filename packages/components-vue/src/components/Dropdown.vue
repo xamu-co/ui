@@ -1,5 +1,5 @@
 <template>
-	<BaseWrapper :wrap="!!$slots.toggle">
+	<BaseWrapper :wrap="!!$slots.toggle" :el="el">
 		<div
 			v-if="$slots.toggle"
 			ref="toggleRef"

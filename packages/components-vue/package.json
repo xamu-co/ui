@@ -47,22 +47,29 @@
 			"types": "./dist/plugin.d.ts",
 			"import": "./dist/plugin.js",
 			"require": "./dist/plugin.cjs"
+		},
+		"./theme": {
+			"types": "./dist/composables/theme.d.ts",
+			"import": "./dist/theme.js",
+			"require": "./dist/theme.cjs"
 		}
 	},
 	"dependencies": {
+		"@fortawesome/fontawesome-common-types": "^6.4.0",
 		"@open-xamu-co/ui-common-enums": "^2.0.0",
 		"@open-xamu-co/ui-common-helpers": "^2.0.0",
+		"@open-xamu-co/ui-common-types": "^2.1.0",
+		"@types/lodash": "^4.14.192",
+		"@types/validator": "^13.11.1",
 		"lodash": "^4.17.21",
 		"nanoid": "^4.0.2",
+		"sweetalert2": "^11.7.5",
 		"validator": "^13.11.0"
 	},
 	"devDependencies": {
-		"@fortawesome/fontawesome-common-types": "^6.4.0",
-		"@open-xamu-co/ui-common-types": "^2.1.0",
 		"@open-xamu-co/ui-styles": "^2.0.1",
 		"@types/lodash": "^4.14.192",
 		"@types/node": "^18.17.17",
-		"@types/validator": "^13.11.1",
 		"@vitejs/plugin-vue": "^4.2.1",
 		"vite": "^5.0.10",
 		"vue": "^3.3.12",

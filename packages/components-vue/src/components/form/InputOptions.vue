@@ -1,14 +1,11 @@
 <template>
-	<slot
-		v-if="!!input.options?.length"
-		v-bind="{ options: input.options.map(toSelectOption) }"
-	></slot>
+	<slot v-if="!!input.options?.length" v-bind="{ options: input.options.map(toOption) }"></slot>
 	<p v-else class="--txtColor-danger">{{ t("form_required_options") }}</p>
 </template>
 
 <script setup lang="ts">
 	import type { iFormInput } from "@open-xamu-co/ui-common-types";
-	import { toSelectOption, useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import useHelpers from "../../composables/helpers";
 

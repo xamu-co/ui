@@ -6,13 +6,13 @@
 		:title="value.length ? t('table_quantity', value.length) : ''"
 	>
 		<ActionButton
-			v-if="!readOnly && createFn"
+			v-if="!readOnly && property?.createNode"
 			:theme="theme"
 			:tooltip="t('table_create_new')"
 			tooltip-as-text
 			tooltip-position="bottom"
 			round
-			@click="triggerUpdate(createFn())"
+			@click="createNodeAndRefresh"
 		>
 			<IconFa name="plus" />
 		</ActionButton>
@@ -52,7 +52,7 @@
 			</Modal>
 			<span v-else>{{ value.join(", ") }}</span>
 		</template>
-		<span v-else-if="!createFn">-</span>
+		<span v-else-if="!property?.createNode">-</span>
 	</div>
 	<!-- Object only -->
 	<Modal
@@ -125,18 +125,18 @@
 		v-bind="{ value, property, readOnly, theme, modalTheme, classes, modalTarget }"
 	/>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" generic="P extends Record<string, any>, T">
 	import type { RendererElement } from "vue";
 	import _ from "lodash";
 
 	import type {
-		iSelectOption,
+		iProperty,
 		tProp,
 		tProps,
 		tThemeModifier,
 		tThemeTuple,
 	} from "@open-xamu-co/ui-common-types";
-	import { useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
 	import ActionLink from "../action/Link.vue";
@@ -150,23 +150,22 @@
 	import useTheme from "../../composables/theme";
 	import useHelpers from "../../composables/helpers";
 
-	interface iValueComplexProps extends iUseThemeProps {
+	interface iValueComplexProps<Pi extends Record<string, any>, Ti> extends iUseThemeProps {
 		/**
 		 * Cell value
 		 */
-		value: unknown;
+		value: Ti;
 		/**
 		 * Cell column property
 		 */
-		property?: iSelectOption;
+		property?: iProperty<Pi>;
 		/**
-		 * Cell node
+		 * Cell node, aka parent node
+		 *
+		 * The value prop will be a property of this node
 		 */
-		node?: Record<string, unknown>;
+		node?: Pi;
 		readOnly?: boolean;
-		readFn?: () => Promise<boolean>;
-		createFn?: () => Promise<boolean>;
-		deleteFn?: () => Promise<boolean>;
 		classes?: tProps<string>;
 		/**
 		 * Refresh the content
@@ -174,6 +173,10 @@
 		refresh?: () => unknown;
 		modalTarget?: string | RendererElement;
 		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
+		/**
+		 * Prevent node functions from triggering refresh event (useful with firebase hydration)
+		 */
+		omitRefresh?: boolean;
 	}
 
 	/**
@@ -184,21 +187,50 @@
 
 	defineOptions({ name: "ValueComplex", inheritAttrs: false });
 
-	const props = defineProps<iValueComplexProps>();
+	const props = defineProps<iValueComplexProps<P, T>>();
 
 	const { themeValues } = useTheme(props);
 	const { t } = useHelpers(useI18n);
+	const Swal = useHelpers(useSwal);
 
-	function remapValues(values: unknown[]) {
+	function remapValues(values: unknown[]): Record<string, any>[] {
 		return values.map((value) => {
 			return typeof value === "object" && value !== null ? value : { value };
 		});
 	}
 
-	async function triggerUpdate(promise?: Promise<boolean>) {
-		if (!(await promise)) return;
+	/**
+	 * Creates given node
+	 * sometimes it could fail but still create (api issue)
+	 */
+	async function createNodeAndRefresh() {
+		// display loader
+		Swal.fireLoader({});
 
-		props.refresh?.();
+		// run process
+		const created = await props.property?.createNode?.(props.node);
+
+		// unfinished task
+		if (created === undefined) {
+			if (Swal.isLoading()) Swal.close();
+
+			return;
+		}
+
+		if (created) {
+			Swal.fire({
+				icon: "success",
+				title: t("swal.table_created"),
+			});
+		} else {
+			Swal.fire({
+				icon: "warning",
+				title: t("swal.table_created"),
+				text: t("swal.table_possibly_not_created"),
+			});
+		}
+
+		if (!props.omitRefresh) props.refresh?.();
 	}
 
 	function sort(data: Record<string, any>) {

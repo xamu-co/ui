@@ -1,4 +1,4 @@
-import validator from "validator";
+import isEmail from "validator/lib/isEmail.js";
 
 import type {
 	iFormInputDefault,
@@ -9,43 +9,6 @@ import type {
 import { eFormType, eFormTypeComplex, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
 
 import { FormInput } from "./input.js";
-
-/**
- * Sended form values
- */
-export interface iFormResponse<R = any> {
-	response: R;
-	invalidInputs: iInvalidInput[];
-	/**
-	 * If the request had any error (validation/request itself).
-	 */
-	withErrors: boolean;
-	/**
-	 * If the request had any error.
-	 */
-	requestHadErrors: boolean;
-	/**
-	 * If the validation had any error.
-	 */
-	validationHadErrors: boolean;
-	/**
-	 * Errors payload,
-	 * 401 will be reported but not failed
-	 */
-	errors?: any;
-	/**
-	 * Swal target
-	 */
-	modalTarget?: HTMLElement | string;
-}
-
-export interface iFetchResponse<R = any> {
-	data: R | null;
-	errors?: any;
-	[x: string]: any;
-}
-
-export type tResponseFn<T, V> = (values: V) => Promise<iFetchResponse<T>>;
 
 /**
  * Wheter or not value is empty
@@ -87,7 +50,7 @@ export function isValidValue<V extends iFormValue = iFormValue>(
 		case eFormType.NEW_PASSWORD:
 			return Array.isArray(value) && value[0] === value[1];
 		case eFormType.EMAIL:
-			return typeof value === "string" && validator.isEmail(value);
+			return typeof value === "string" && isEmail(value);
 		default:
 			return true;
 	}
@@ -251,7 +214,7 @@ export function getFormValues<V extends Record<string, any>>(
 
 	const values: V = getFormInputsValues(inputs);
 	const invalidInputs = getFormInputsInvalids(inputs).filter(({ name }) => {
-		return (values as Record<string, unknown>)[name] !== undefined;
+		return values[name] !== undefined;
 	});
 
 	return {

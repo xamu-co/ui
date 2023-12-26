@@ -1,6 +1,7 @@
 import type {
-	iSelectOption,
+	iFormOption,
 	tFormAutocomplete,
+	tIndicative,
 	tProp,
 	tProps,
 	tPropsModifier,
@@ -60,7 +61,7 @@ export interface iActionProps {
 	toggle?: tProp<"dropdown" | "list">;
 	round?: string | tPropsModifier<string>;
 	toggleState?: tProps<string>;
-	indicative?: `${string}+${number}`;
+	indicative?: tIndicative;
 	whatsapp?: boolean;
 	download?: string;
 }
@@ -84,7 +85,7 @@ export interface iInputProps extends iInputLikeProps {
 }
 
 export interface iSelectProps extends iInputLikeProps {
-	options?: Array<string | number | iSelectOption>;
+	options?: Array<string | number | iFormOption>;
 	/**
 	 * Multiple fields
 	 */

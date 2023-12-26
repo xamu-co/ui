@@ -1,4 +1,9 @@
-import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
+import type {
+	iFetchResponse,
+	iFormResponse,
+	iPluginOptions,
+	tResponseFn,
+} from "@open-xamu-co/ui-common-types";
 
 import useI18n from "../i18n.js";
 import useUtils from "../utils.js";
@@ -8,12 +13,9 @@ import {
 	getFormInputsValues,
 	getFormValues,
 	getInputSuffixes,
-	iFetchResponse,
-	iFormResponse,
 	isValidFormInputValue,
 	isValidValue,
 	notEmptyValue,
-	tResponseFn,
 } from "./utils.js";
 import { FormInput } from "./input.js";
 
@@ -30,7 +32,7 @@ export default function useForm(options: iPluginOptions = {}) {
 	/**
 	 * Wraps callback function with common error handling
 	 *
-	 * @param inputs array of iFormFactoryInput or actual data object
+	 * @param inputs array of FormInput or actual data object
 	 * @param callback actual request
 	 * @returns {object} response with errors
 	 */
@@ -38,18 +40,16 @@ export default function useForm(options: iPluginOptions = {}) {
 		request: tResponseFn<R, RV>,
 		inputs: RV | FormInput[] = [],
 		event?: Event
-	): Promise<iFormResponse<R | null>> {
+	): Promise<iFormResponse<R, HTMLElement | string>> {
 		const { values, invalidInputs } = getFormValues<RV>(inputs);
 		const modalTarget = (event?.target as HTMLElement)?.closest("dialog") || "body";
 		let errors;
 		let requestHadErrors = false;
-		let newResponse: iFetchResponse<R | null> = { data: null };
+		let newResponse: iFetchResponse<R> = {};
 
 		if (!invalidInputs.length) {
 			try {
-				if (isBrowser) {
-					Swal.fireLoader({ target: modalTarget });
-				}
+				if (isBrowser) Swal.fireLoader({ target: modalTarget });
 
 				newResponse = await request(values);
 

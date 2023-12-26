@@ -11,7 +11,7 @@ import type {
 } from "@open-xamu-co/ui-common-types";
 import { eFormType, eFormTypeSimple, eFormTypeComplex } from "@open-xamu-co/ui-common-enums";
 
-import { toSelectOption } from "../format.js";
+import { toOption } from "../format.js";
 
 /**
  * get form input icon
@@ -79,7 +79,7 @@ export class FormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFo
 
 	constructor(formInput: iFormInputDefault<T>) {
 		this.required = formInput.required ?? false;
-		this.options = formInput.options?.map(toSelectOption) ?? [];
+		this.options = formInput.options?.map(toOption) ?? [];
 		this.min = formInput.min ?? 1;
 
 		// max cannot be lower than min or more than options if they exist
@@ -108,6 +108,11 @@ export class FormInput<V extends iFormValue = iFormValue>
 	public readonly title!: string;
 	public readonly multiple!: boolean;
 
+	/**
+	 * Form input constructor
+	 * @param formInput the base object to create an input form from
+	 * @param _onUpdatedValues hook that is called when the values are updated
+	 */
 	constructor(
 		formInput: iFormInput<V>,
 		private _onUpdatedValues?: (updatedValues: (V | V[])[]) => void

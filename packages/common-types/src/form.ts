@@ -2,10 +2,9 @@ import type { IconName } from "@fortawesome/fontawesome-common-types";
 
 import { eFormTypeComplex, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
 
-export interface iSelectOption {
-	value: string | number;
-	alias?: string;
-	selected?: boolean;
+import type { iSelectOption } from "./values.js";
+
+export interface iFormOption extends iSelectOption {
 	/**
 	 * Font awesome icon
 	 */
@@ -17,7 +16,7 @@ export interface iSelectOption {
 	placeholder?: string;
 }
 
-export interface iIndicative extends iSelectOption {
+export interface iIndicative extends iFormOption {
 	code: string;
 	number: number;
 }
@@ -104,7 +103,7 @@ export type iFormValue = string | number | boolean | File;
 export interface iFormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFormTypeSimple> {
 	required?: boolean;
 	type?: T;
-	options?: (string | number | iSelectOption)[];
+	options?: (string | number | iFormOption)[];
 	/**
 	 * String without the dots
 	 */
@@ -146,3 +145,42 @@ export interface iFormInput<V extends iFormValue = iFormValue>
 	 */
 	multiple?: boolean;
 }
+
+/**
+ * Sended form values
+ */
+export interface iFormResponse<R = any, T = any> {
+	response?: R;
+	invalidInputs: iInvalidInput[];
+	/**
+	 * If the request had any error (validation/request itself).
+	 */
+	withErrors: boolean;
+	/**
+	 * If the request had any error.
+	 */
+	requestHadErrors: boolean;
+	/**
+	 * If the validation had any error.
+	 */
+	validationHadErrors: boolean;
+	/**
+	 * Errors payload,
+	 * 401 will be reported but not failed
+	 */
+	errors?: any;
+	/**
+	 * Swal target
+	 */
+	modalTarget?: T;
+}
+
+export interface iFetchResponse<R = any> {
+	data?: R;
+	errors?: any;
+	[x: string]: any;
+}
+
+export type tResponseFn<T, V extends Record<string, any> = Record<string, any>> = (
+	values: V
+) => Promise<iFetchResponse<T>>;

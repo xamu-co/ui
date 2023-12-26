@@ -162,6 +162,9 @@ export const localeTable: iLocaleTable = {
 		table_updated: "Actualizacion exitosa",
 		table_possibly_not_updated:
 			"El elemento pudo no haber sido actualizado | Los elementos pudieron no haber sido actualizados",
+		table_created: "Creacion exitosa",
+		table_possibly_not_created:
+			"El elemento pudo no haber sido creado | Los elementos pudieron no haber sido creados",
 		table_cloned: "Clonacion exitosa",
 		table_possibly_not_cloned:
 			"El elemento pudo no haber sido clonado | Los elementos pudieron no haber sido clonados",

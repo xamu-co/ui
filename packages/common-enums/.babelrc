@@ -6,7 +6,17 @@
          {
             "useBuiltIns": "usage",
             "corejs": 3,
-            "targets": "last 2 versions, > 0.5%, ie >= 11"
+            "targets": "defaults"
+         }
+      ]
+   ],
+   "plugins": [
+      [
+         "replace-import-extension",
+         {
+            "extMapping": {
+               ".js": ".cjs"
+            }
          }
       ]
    ]

@@ -6,3 +6,5 @@ export * from "./props.js";
 export * from "./locale.js";
 export * from "./plugin.js";
 export * from "./fetch.js";
+export * from "./swal.js";
+export * from "./values.js";

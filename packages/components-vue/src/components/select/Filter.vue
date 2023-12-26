@@ -57,8 +57,8 @@
 	import { computed, ref } from "vue";
 	import _ from "lodash";
 
-	import type { iFormIconProps, iSelectOption } from "@open-xamu-co/ui-common-types";
-	import { toSelectOption, useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
+	import type { iFormIconProps, iFormOption } from "@open-xamu-co/ui-common-types";
+	import { toOption, useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import SelectSimple from "./Simple.vue";
 	import InputText from "../input/Text.vue";
@@ -108,8 +108,8 @@
 	const selectFilterName = computed(() => {
 		return props.name ?? `select-filter${randomId}`;
 	});
-	const selectOptions = computed<iSelectOption[]>(() => {
-		return (props.options ?? []).map(toSelectOption);
+	const selectOptions = computed<iFormOption[]>(() => {
+		return (props.options ?? []).map(toOption);
 	});
 	const textModel = ref<string | number>(props.modelValue || "");
 	/**
