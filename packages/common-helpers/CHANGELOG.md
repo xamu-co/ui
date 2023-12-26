@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.1...@open-xamu-co/ui-common-helpers-v3.0.0-next.2) (2023-12-26)
+
+
+### Bug Fixes
+
+* types missconfigured dependencies ([b619e84](https://github.com/xamu-co/ui/commit/b619e8455818750b7a0d8ebfe50f7289728b9319))
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v2.0.0...@open-xamu-co/ui-common-helpers-v3.0.0-next.1) (2023-12-26)
 
 
