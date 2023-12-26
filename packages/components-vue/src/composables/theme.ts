@@ -1,4 +1,4 @@
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 
 import type { tProp, tThemeModifier, tThemeTuple } from "@open-xamu-co/ui-common-types";
 import { useUtils } from "@open-xamu-co/ui-common-helpers";
@@ -15,6 +15,20 @@ interface iAllUseThemeProps extends iUseThemeProps, iUseThemeTooltipProps {
 	themeAsUnion?: boolean;
 }
 
+/** Return theme tuple */
+function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemeTuple {
+	if (Array.isArray(values)) {
+		return [values[0], values[1] || eColors.LIGHT];
+	} else if (typeof values === "object" && values !== null) {
+		const themeArr = Object.entries(values).filter(([, value]) => value);
+
+		// There could be multiple valid theme combinations, but we are only returning the first one
+		return getThemeValues([themeArr[0][0] as tThemeModifier]);
+	}
+
+	return getThemeValues([values]);
+}
+
 /**
  * Theme composable
  *
@@ -23,10 +37,7 @@ interface iAllUseThemeProps extends iUseThemeProps, iUseThemeTooltipProps {
 export default function useTheme(props: iAllUseThemeProps) {
 	const { getModifierClasses: GMC, getPropData } = useHelpers(useUtils);
 
-	const themeValues = computed(() => {
-		return getThemeValues(props.theme || eColors.SECONDARY);
-	});
-	/** TODO: make theme classes reactive */
+	const themeValues = ref(getThemeValues(props.theme || eColors.SECONDARY));
 	const themeClasses = computed<string[]>(() => {
 		if (!props.theme) return [];
 
@@ -54,19 +65,12 @@ export default function useTheme(props: iAllUseThemeProps) {
 			: null;
 	});
 
-	/** Return theme tuple */
-	function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemeTuple {
-		if (Array.isArray(values)) {
-			return [values[0], values[1] || eColors.LIGHT];
-		} else if (typeof values === "object" && values !== null) {
-			const themeArr = Object.entries(values).filter(([_key, value]) => value);
-
-			// There could be multiple valid theme combinations, but we are only returning the first one
-			return getThemeValues([themeArr[0][0] as tThemeModifier]);
-		}
-
-		return getThemeValues([values]);
-	}
+	// lifecycle
+	watch(
+		() => props.theme,
+		(newTheme) => (themeValues.value = getThemeValues(newTheme || eColors.SECONDARY)),
+		{ immediate: false }
+	);
 
 	return { themeValues, themeClasses, tooltipAttributes };
 }

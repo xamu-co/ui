@@ -33,6 +33,12 @@
 			// hover status
 			&.#{module.$status-toggle-dropdown}.#{module.$status-is-active} {
 				color: var(--cl-h, var(--cl-a));
+
+				// shadow
+				&.#{module.$prefix-default}--shadow {
+					color: module.color(light);
+					text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
+				}
 			}
 			&:not(.#{module.$status-is-active}) {
 				&:not(.#{module.$status-is-route-exact}),
@@ -40,18 +46,13 @@
 				&.#{module.$status-is-route-exact}.#{module.$status-no-route-exact} {
 					&:hover {
 						color: var(--cl-h, var(--cl-a));
-					}
-				}
-			}
 
-			// shadow
-			&.#{module.$prefix-default}--shadow {
-				&:hover,
-				&.#{module.$status-is-active},
-				&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
-						.#{module.$status-no-route-exact}
-					) {
-					text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
+						// shadow
+						&.#{module.$prefix-default}--shadow {
+							color: module.color(light);
+							text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
+						}
+					}
 				}
 			}
 
@@ -104,6 +105,7 @@
 
 						// link shadow
 						&.#{module.$prefix-default}--shadow {
+							color: module.color(light);
 							text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
 						}
 					}
@@ -120,6 +122,7 @@
 
 						// link shadow
 						&.#{module.$prefix-default}--shadow {
+							color: module.color(light);
 							text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
 						}
 					}
