@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v2.0.2-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.0.1...@open-xamu-co/ui-styles-v2.0.2-next.1) (2023-12-26)
+
+
+### Bug Fixes
+
+* required types as dependencies ([f360fc1](https://github.com/xamu-co/ui/commit/f360fc17446208a9a5e045dc56ff43bc207d5580))
+
 # [@open-xamu-co/ui-styles-v2.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.0.0...@open-xamu-co/ui-styles-v2.0.1) (2023-12-18)
 
 
