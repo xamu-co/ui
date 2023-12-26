@@ -1,5 +1,13 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v2.0.1-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v2.0.0...@open-xamu-co/ui-common-enums-v2.0.1-next.1) (2023-12-26)
+
+
+### Bug Fixes
+
+* commonjs exports ([62f9112](https://github.com/xamu-co/ui/commit/62f9112259db263b3475f10df535bdd7b2d21987))
+* required types as dependencies ([f360fc1](https://github.com/xamu-co/ui/commit/f360fc17446208a9a5e045dc56ff43bc207d5580))
+
 # [@open-xamu-co/ui-common-enums-v2.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v1.0.2...@open-xamu-co/ui-common-enums-v2.0.0) (2023-12-18)
 
 
