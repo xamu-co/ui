@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v2.0.0...@open-xamu-co/ui-common-helpers-v3.0.0-next.1) (2023-12-26)
+
+
+### Bug Fixes
+
+* commonjs exports ([62f9112](https://github.com/xamu-co/ui/commit/62f9112259db263b3475f10df535bdd7b2d21987))
+* required types as dependencies ([f360fc1](https://github.com/xamu-co/ui/commit/f360fc17446208a9a5e045dc56ff43bc207d5580))
+* set response as optional on form response type ([efea53f](https://github.com/xamu-co/ui/commit/efea53fed52b457af858d3ec7cb4db98a3781e04))
+
+
+### Features
+
+* form option type ([0fdfb53](https://github.com/xamu-co/ui/commit/0fdfb53640f02138f9a48e36ce10552dc1d7ade5))
+* useSwal composable ([fd4616a](https://github.com/xamu-co/ui/commit/fd4616a62e61b1bf23d1f566b2269331d8bfac68))
+* vue theme composable ([463ebc1](https://github.com/xamu-co/ui/commit/463ebc19da06dfff9060421b228bcb1aca584afc))
+
+
+### BREAKING CHANGES
+
+* select option type is now simpler and form require the new form type instead
+
 # [@open-xamu-co/ui-common-helpers-v2.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v1.0.2...@open-xamu-co/ui-common-helpers-v2.0.0) (2023-12-18)
 
 
