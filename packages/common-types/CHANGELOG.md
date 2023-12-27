@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.2...@open-xamu-co/ui-common-types-v3.0.0-next.3) (2023-12-27)
+
+
+### Bug Fixes
+
+* make pagination order flexible ([90f9709](https://github.com/xamu-co/ui/commit/90f970934fdd186e102f68dab16d5808f81f5770))
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.1...@open-xamu-co/ui-common-types-v3.0.0-next.2) (2023-12-26)
 
 
