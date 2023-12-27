@@ -1,5 +1,3 @@
-import type { eOrders } from "@open-xamu-co/ui-common-enums";
-
 export type tOrderBy = [string, ("desc" | "asc")?];
 
 export interface iPageEdge<T, C extends string | number = string> {
@@ -21,7 +19,7 @@ export interface iPage<T, C extends string | number = string> {
 	totalCount: number;
 }
 
-export interface iPagination<O extends tOrderBy | Record<string, eOrders> = tOrderBy> {
+export interface iPagination<O = tOrderBy> {
 	/**
 	 * Identificador del elemento donde empieza la paginacion
 	 *
