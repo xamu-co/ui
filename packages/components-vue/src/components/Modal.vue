@@ -12,7 +12,7 @@
 				]"
 				v-bind="$attrs"
 			>
-				<slot name="modal-header" v-bind="{ model }">
+				<slot name="modal-header" v-bind="{ setModel, model }">
 					<div v-if="title" class="flx --flxRow --flx-between-center">
 						<div class="txt --gaping-none">
 							<h5>{{ title }}</h5>
@@ -27,8 +27,8 @@
 						</ActionLink>
 					</div>
 				</slot>
-				<div class="scroll --vertical"><slot v-bind="{ model }"></slot></div>
-				<slot name="modal-footer" v-bind="{ model }">
+				<div class="scroll --vertical"><slot v-bind="{ setModel, model }"></slot></div>
+				<slot name="modal-footer" v-bind="{ setModel, model }">
 					<div v-if="!hideFooter" class="flx --flxRow --flx-end-center">
 						<ActionButton
 							v-if="saveButtonOptions.visible"
@@ -74,7 +74,7 @@
 			</LoaderSimple>
 		</dialog>
 	</Teleport>
-	<slot v-else v-bind="{ model }"></slot>
+	<slot v-else v-bind="{ setModel, model }"></slot>
 </template>
 
 <script setup lang="ts">
