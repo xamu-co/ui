@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.2...@open-xamu-co/ui-components-vue-v3.0.0-next.3) (2024-01-07)
+
+
+### Bug Fixes
+
+* pass setModel in all modal slots ([d391336](https://github.com/xamu-co/ui/commit/d39133631ad5a1c7d0ef8d462692db4443029a85))
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.1...@open-xamu-co/ui-components-vue-v3.0.0-next.2) (2023-12-26)
 
 
