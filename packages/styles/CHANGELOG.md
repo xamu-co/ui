@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v2.0.2-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.0.2-next.1...@open-xamu-co/ui-styles-v2.0.2-next.2) (2024-01-08)
+
+
+### Bug Fixes
+
+* prefer prop based identifiers over uuid ([af94b72](https://github.com/xamu-co/ui/commit/af94b72d1590b3b25415bacb5fc83bc5136b194d))
+
 # [@open-xamu-co/ui-styles-v2.0.2-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.0.1...@open-xamu-co/ui-styles-v2.0.2-next.1) (2023-12-26)
 
 
