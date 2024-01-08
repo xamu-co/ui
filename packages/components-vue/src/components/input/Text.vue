@@ -5,6 +5,7 @@
 				v-model="model"
 				v-bind="{
 					..._.omit($attrs, 'class'),
+					..._.omit(props, 'modelValue'),
 					type: textarea ? 'textarea' : inputType,
 					placeholder,
 					disabled,

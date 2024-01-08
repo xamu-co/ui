@@ -11,39 +11,18 @@
 				&-right {
 					@include module.extend-viewports-classes {
 						align-items: flex-end;
-
-						@layer defaults {
-							* > * {
-								// @defaults txtAlignFlx
-								align-items: flex-end;
-							}
-						}
 					}
 				}
 
 				&-center {
 					@include module.extend-viewports-classes {
 						align-items: center;
-
-						@layer defaults {
-							* > * {
-								// @defaults txtAlignFlx
-								align-items: center;
-							}
-						}
 					}
 				}
 
 				&-justify {
 					@include module.extend-viewports-classes {
 						align-items: stretch;
-
-						@layer defaults {
-							* > * {
-								// @defaults txtAlignFlx
-								align-items: stretch;
-							}
-						}
 					}
 				}
 
@@ -52,13 +31,6 @@
 				&-left {
 					@include module.extend-viewports-classes {
 						align-items: flex-start;
-
-						@layer defaults {
-							* > * {
-								// @defaults txtAlignFlx
-								align-items: flex-start;
-							}
-						}
 					}
 				}
 

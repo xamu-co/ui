@@ -2,11 +2,13 @@
 	<BaseSelect
 		:class="getClassesString([modifiersClasses, stateClasses, themeClasses])"
 		class="iSelect"
-		v-bind="{ ...$attrs, options, required, disabled }"
+		v-bind="{ ...$attrs, ..._.omit(props, 'modelValue'), options, required, disabled }"
 	/>
 </template>
 
 <script setup lang="ts">
+	import _ from "lodash";
+
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseSelect from "../base/Select.vue";

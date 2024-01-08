@@ -12,7 +12,7 @@
 			required,
 			disabled: disabled || undefined,
 			tabindex: (disabled && '-1') || undefined,
-			...(useChecked ? { checked: modelValue ?? $attrs.checked } : { value: modelValue }),
+			...(useChecked ? { checked: modelValue ?? !!$attrs.checked } : { value: modelValue }),
 		}"
 		@input="handleInput"
 	/>
@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
+	import _ from "lodash";
 
 	import type { iInputProps } from "../../types/props";
 	import useUUID from "../../composables/uuid";
@@ -52,8 +53,11 @@
 	const useChecked = computed(() => {
 		return props.type === "checkbox" || props.type === "radio";
 	});
+	/** Prefer a predictable identifier */
 	const inputId = computed(() => {
-		return props.id ?? `input${randomId}`;
+		const seed = _.deburr(props.id || props.name || props.placeholder || props.title);
+
+		return `input_${seed.replace(" ", "") || randomId}`;
 	});
 
 	function handleInput(e: Event) {

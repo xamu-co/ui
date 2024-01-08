@@ -43,6 +43,7 @@
 			style="display: none"
 			v-bind="{
 				...$attrs,
+				..._.omit(props, 'modelValue'),
 				type: 'file',
 				accept: (accept ?? ['image/*']).join(','),
 				multiple: maxAmount > 1,

@@ -11,7 +11,7 @@
 				])
 			"
 			class="--full"
-			v-bind="{ ...$attrs, type: inputType, disabled }"
+			v-bind="{ ...$attrs, ..._.omit(props, 'modelValue'), type: inputType, disabled }"
 		>
 			<!-- Do not hide, since this is used by a pseudo element -->
 			<label :for="id" class="flx --flxRow --flx-start-center --gap-none">

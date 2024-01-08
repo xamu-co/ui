@@ -5,6 +5,7 @@
 			v-model="model"
 			v-bind="{
 				...$attrs,
+				..._.omit(props, 'modelValue'),
 				options: selectOptions.map(({ value, alias }) => ({
 					alias,
 					value: alias ?? value,
@@ -25,6 +26,7 @@
 			v-model="textModel"
 			:list="selectFilterName"
 			v-bind="{
+				..._.omit(props, 'modelValue'),
 				type: 'text',
 				placeholder: t('select_filter_options'),
 				disabled: (!!model && !isInvalid) || disabled,
@@ -105,8 +107,11 @@
 
 	const randomId = uuid().replace("-", "").substring(0, 8);
 	const supportsDatalist = ref(true);
+	/** Prefer a predictable identifier */
 	const selectFilterName = computed(() => {
-		return props.name ?? `select-filter${randomId}`;
+		const seed = _.deburr(props.id || props.name || props.placeholder || props.title);
+
+		return `select-filter_${seed.replace(" ", "") || randomId}`;
 	});
 	const selectOptions = computed<iFormOption[]>(() => {
 		return (props.options ?? []).map(toOption);

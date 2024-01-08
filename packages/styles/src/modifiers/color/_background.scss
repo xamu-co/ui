@@ -16,6 +16,7 @@
 			&-none {
 				@include module.extend-viewports-classes {
 					background-color: transparent;
+					background-image: unset;
 				}
 			}
 		}

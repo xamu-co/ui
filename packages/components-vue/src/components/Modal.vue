@@ -1,6 +1,6 @@
 <template>
 	<slot v-if="$slots.toggle" name="toggle" v-bind="{ toggleModal, model }"></slot>
-	<Teleport v-if="!disabled" :id="randomId" :key="randomId" :to="target || 'body'">
+	<Teleport v-if="!disabled" :id="modalId" :key="modalId" :to="target || 'body'">
 		<dialog ref="modalRef" @close="closeAndResetModal" @mousedown="clickOutside">
 			<div
 				v-show="!loading && !hide"
@@ -83,6 +83,7 @@
 
 <script setup lang="ts">
 	import { type RendererElement, computed, onMounted, onUnmounted, ref, watch } from "vue";
+	import _ from "lodash";
 
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
@@ -172,6 +173,12 @@
 	const modalRef = ref<HTMLDialogElement>();
 	/** Are the requirements for the modal are taking longer than usual? */
 	const loadingTooLong = ref(false);
+	/** Prefer a predictable identifier */
+	const modalId = computed(() => {
+		const seed = _.deburr(props.subtitle || props.title);
+
+		return `modal_${seed.replace(" ", "") || randomId}`;
+	});
 	const saveButtonOptions = computed<iButtonConfig>(() => ({
 		title: t("ok"),
 		visible: !!props.saveButton?.title,
