@@ -524,7 +524,7 @@
 	 */
 	async function updateNodeAndRefresh(node: T) {
 		// display loader
-		Swal.fireLoader({});
+		Swal.fireLoader();
 
 		// run process
 		const updated = await props.updateNode?.(node);
@@ -560,7 +560,7 @@
 		// close modal
 		setModel(false);
 		// display loader
-		Swal.fireLoader({});
+		Swal.fireLoader();
 
 		// run process
 		const cloned = await props.cloneNode?.(node);
@@ -606,7 +606,7 @@
 		// close dropdown/modal
 		setModel(false);
 		// display loader
-		Swal.fireLoader({});
+		Swal.fireLoader();
 
 		// run process
 		const deleted = await props.deleteNode?.(node);
@@ -650,7 +650,7 @@
 		if (!value) return;
 
 		// display loader
-		Swal.fireLoader({});
+		Swal.fireLoader();
 
 		// run process
 		const deleted = await Promise.all(
