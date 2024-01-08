@@ -1,13 +1,13 @@
 <template>
 	<BaseInput
-		type="color"
-		:disabled="disabled"
 		:class="getClassesString([modifiersClasses, stateClasses, themeClasses, 'iColor'])"
-		v-bind="$attrs"
+		v-bind="{ ...$attrs, ..._.omit(props, 'modelValue'), type: 'color' }"
 	/>
 </template>
 
 <script setup lang="ts">
+	import _ from "lodash";
+
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseInput from "../base/Input.vue";
