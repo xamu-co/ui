@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.3...@open-xamu-co/ui-components-vue-v3.0.0-next.4) (2024-01-08)
+
+
+### Bug Fixes
+
+* prefer prop based identifiers over uuid ([af94b72](https://github.com/xamu-co/ui/commit/af94b72d1590b3b25415bacb5fc83bc5136b194d))
+
+
+### Features
+
+* toggle modal with promise ([0a154df](https://github.com/xamu-co/ui/commit/0a154dfd002a7a1c81303a96f9c882b841d307a0))
+
+
+### BREAKING CHANGES
+
+* setModel is now toggleModal
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.2...@open-xamu-co/ui-components-vue-v3.0.0-next.3) (2024-01-07)
 
 
