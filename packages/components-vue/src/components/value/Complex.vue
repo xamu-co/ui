@@ -28,14 +28,14 @@
 				:title="property?.alias"
 				:target="modalTarget"
 			>
-				<template #toggle="{ setModel }">
+				<template #toggle="{ toggleModal }">
 					<ActionButtonToggle
 						:theme="theme"
 						:aria-label="
 							t('table_see_values', { name: property?.alias?.toLowerCase() })
 						"
 						size="sm"
-						@click="setModel()"
+						@click="toggleModal"
 					>
 						{{ t("table_see_values", { name: property?.alias?.toLowerCase() }) }}
 					</ActionButtonToggle>
@@ -62,7 +62,7 @@
 		:title="property?.alias"
 		:target="modalTarget"
 	>
-		<template #toggle="{ setModel }">
+		<template #toggle="{ toggleModal }">
 			<ActionLink
 				v-if="'name' in value"
 				:theme="theme"
@@ -70,7 +70,7 @@
 				tooltip-as-text
 				tooltip-position="bottom"
 				size="sm"
-				@click="setModel()"
+				@click="toggleModal"
 			>
 				<IconFa name="lemon" force-regular />
 				<span>{{ value.name }}</span>
@@ -83,7 +83,7 @@
 				tooltip-position="bottom"
 				size="sm"
 				round
-				@click="setModel()"
+				@click="toggleModal"
 			>
 				<IconFa name="lemon" />
 				<IconFa name="lemon" force-regular />
@@ -205,7 +205,7 @@
 	 */
 	async function createNodeAndRefresh() {
 		// display loader
-		Swal.fireLoader({});
+		Swal.fireLoader();
 
 		// run process
 		const created = await props.property?.createNode?.(props.node);
