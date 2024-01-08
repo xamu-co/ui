@@ -1,7 +1,7 @@
 <template>
-	<slot v-if="$slots.toggle" name="toggle" v-bind="{ setModel, model }"></slot>
-	<Teleport v-if="!disabled" :id="randomId" :key="randomId" :to="target || 'body'">
-		<dialog ref="modalRef" @close="closeModal" @mousedown="clickOutside">
+	<slot v-if="$slots.toggle" name="toggle" v-bind="{ toggleModal, model }"></slot>
+	<Teleport v-if="!disabled" :id="modalId" :key="modalId" :to="target || 'body'">
+		<dialog ref="modalRef" @close="closeAndResetModal" @mousedown="clickOutside">
 			<div
 				v-show="!loading && !hide"
 				class="modal"
@@ -12,7 +12,7 @@
 				]"
 				v-bind="$attrs"
 			>
-				<slot name="modal-header" v-bind="{ setModel, model }">
+				<slot name="modal-header" v-bind="{ toggleModal, model }">
 					<div v-if="title" class="flx --flxRow --flx-between-center">
 						<div class="txt --gaping-none">
 							<h5>{{ title }}</h5>
@@ -21,21 +21,21 @@
 						<ActionLink
 							:theme="theme"
 							:aria-label="cancelButtonOptions.title"
-							@click.stop="closeModal"
+							@click.stop="closeAndResetModal"
 						>
 							<IconFa name="xmark" size="20" />
 						</ActionLink>
 					</div>
 				</slot>
-				<div class="scroll --vertical"><slot v-bind="{ setModel, model }"></slot></div>
-				<slot name="modal-footer" v-bind="{ setModel, model }">
+				<div class="scroll --vertical"><slot v-bind="{ toggleModal, model }"></slot></div>
+				<slot name="modal-footer" v-bind="{ toggleModal, model }">
 					<div v-if="!hideFooter" class="flx --flxRow --flx-end-center">
 						<ActionButton
 							v-if="saveButtonOptions.visible"
 							:theme="theme"
 							:aria-label="saveButtonOptions.title"
 							:class="saveButtonOptions.btnClass"
-							@click="emit('save', closeModal, $event)"
+							@click="emit('save', closeAndResetModal, $event)"
 						>
 							{{ saveButtonOptions.title }}
 						</ActionButton>
@@ -46,7 +46,7 @@
 							:class="cancelButtonOptions.btnClass"
 							data-dismiss="modal"
 							round=":sm-inv"
-							@click.stop="closeModal"
+							@click.stop="closeAndResetModal"
 						>
 							<IconFa name="xmark" hidden="-full:sm" />
 							<IconFa name="xmark" regular hidden="-full:sm" />
@@ -66,7 +66,11 @@
 						<p class="--txtColor-light --txtShadow --txtSize-sm">
 							{{ props.hideMessage ? props.hideMessage : t("modal_taking_too_long") }}
 						</p>
-						<ActionButton :theme="theme" :aria-label="t('close')" @click="closeModal">
+						<ActionButton
+							:theme="theme"
+							:aria-label="t('close')"
+							@click="closeAndResetModal"
+						>
 							{{ t("close") }}
 						</ActionButton>
 					</div>
@@ -74,11 +78,12 @@
 			</LoaderSimple>
 		</dialog>
 	</Teleport>
-	<slot v-else v-bind="{ setModel, model }"></slot>
+	<slot v-else v-bind="{ toggleModal, model }"></slot>
 </template>
 
 <script setup lang="ts">
 	import { type RendererElement, computed, onMounted, onUnmounted, ref, watch } from "vue";
+	import _ from "lodash";
 
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
@@ -162,11 +167,18 @@
 	const { themeValues } = useTheme(props);
 	const { uuid } = useUUID();
 
+	const resolver = ref<(r?: boolean) => void>();
 	const randomId = uuid().replace("-", "").substring(0, 8);
 	const localModel = ref<boolean>();
 	const modalRef = ref<HTMLDialogElement>();
 	/** Are the requirements for the modal are taking longer than usual? */
 	const loadingTooLong = ref(false);
+	/** Prefer a predictable identifier */
+	const modalId = computed(() => {
+		const seed = _.deburr(props.subtitle || props.title);
+
+		return `modal_${seed.replace(" ", "") || randomId}`;
+	});
 	const saveButtonOptions = computed<iButtonConfig>(() => ({
 		title: t("ok"),
 		visible: !!props.saveButton?.title,
@@ -180,7 +192,7 @@
 		...(!!props.cancelButton && props.cancelButton),
 	}));
 
-	function closeModal() {
+	function closeAndResetModal() {
 		modalRef.value?.close();
 		loadingTooLong.value = false;
 		emit("update:model-value", false);
@@ -189,10 +201,23 @@
 	function clickOutside(e: Event) {
 		if (modalRef.value !== e.target) return;
 
-		closeModal();
+		closeAndResetModal();
 	}
-	function setModel(newValue = true) {
-		model.value = newValue;
+	/**
+	 * Toggles modal
+	 * @param success whether the modal action was successfull or not
+	 */
+	function toggleModal(success?: boolean) {
+		return new Promise<boolean | undefined>((resolve) => {
+			if (model.value) {
+				// old promise
+				resolver.value?.(success);
+				// current promise
+				resolve(success);
+			} else resolver.value = resolve;
+
+			model.value = !model.value;
+		});
 	}
 
 	/**
@@ -203,14 +228,14 @@
 			return !props.disabled && localModel.value;
 		},
 		set(value) {
-			if (!value) closeModal();
+			if (!value) closeAndResetModal();
 			else {
 				modalRef.value?.showModal();
 
 				// close modal if requirements are not meet
 				if (!props.loading && props.hide) {
 					value = false;
-					closeModal();
+					closeAndResetModal();
 					Swal.fire({
 						title: t("swal.modal_unauthorized"),
 						text: props.hideMessage || t("swal.modal_unauthorized_text"),
@@ -230,7 +255,7 @@
 	onMounted(() => {
 		if (props.modelValue) model.value = props.modelValue;
 	});
-	onUnmounted(closeModal);
+	onUnmounted(closeAndResetModal);
 	watch(
 		() => props.modelValue,
 		(show) => (model.value = show),

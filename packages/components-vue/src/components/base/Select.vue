@@ -2,6 +2,7 @@
 	<select
 		v-bind="{
 			...$attrs,
+			..._.omit(props, 'modelValue'),
 			id: selectId,
 			name: name ?? selectId,
 			title,
@@ -23,6 +24,7 @@
 
 <script setup lang="ts">
 	import { computed, watch } from "vue";
+	import _ from "lodash";
 
 	import type { iFormOption } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -60,8 +62,11 @@
 	const selectOptions = computed<iFormOption[]>(() => {
 		return (props.options ?? []).map(toOption);
 	});
+	/** Prefer a predictable identifier */
 	const selectId = computed(() => {
-		return props.id ?? `select${randomId}`;
+		const seed = _.deburr(props.id || props.name || props.placeholder || props.title);
+
+		return `select_${seed.replace(" ", "") || randomId}`;
 	});
 
 	function handleInput(e: Event) {

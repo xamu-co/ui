@@ -43,13 +43,13 @@
 			:title="property?.alias"
 			:target="modalTarget"
 		>
-			<template #toggle="{ setModel }">
+			<template #toggle="{ toggleModal }">
 				<ActionLink
 					:theme="theme"
 					:tooltip="t('see_value')"
 					tooltip-as-text
 					tooltip-position="bottom"
-					@click="setModel()"
+					@click="toggleModal"
 				>
 					{{ value.substring(0, 33) }}...
 				</ActionLink>
