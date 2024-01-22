@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v2.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.0.2-next.2...@open-xamu-co/ui-styles-v2.1.0-next.1) (2024-01-22)
+
+
+### Features
+
+* title font ([a2a600a](https://github.com/xamu-co/ui/commit/a2a600a17a1f1f98b53a1b1011840c46ba9b13fe))
+
 # [@open-xamu-co/ui-styles-v2.0.2-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.0.2-next.1...@open-xamu-co/ui-styles-v2.0.2-next.2) (2024-01-08)
 
 
