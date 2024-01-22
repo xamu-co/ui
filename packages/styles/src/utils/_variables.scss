@@ -27,6 +27,7 @@ $allow-responsive-classes-all-viewports: false !default; // use all viewports
 
 // FONT FAMILIES
 $font-default: ("Poppins", sans-serif) !default;
+$font-title: $font-default !default;
 $font-code: ("Courier New", courier, monospace) !default;
 $font-icons: "Font Awesome 5 Free" !default;
 
@@ -162,6 +163,7 @@ $status-toggle-dropdown: $status-toggle + "dropdown" !default;
 $status-toggle-list: $status-toggle + "list" !default;
 $fonts: (
 	default: $font-default,
+	title: $font-title,
 	code: $font-code,
 	icons: $font-icons,
 );
