@@ -41,6 +41,24 @@
 					min-width: math.div(module.$size-px-default, 16) * 1rem;
 				}
 			}
+
+			&-fit {
+				@include module.extend-viewports-classes {
+					min-width: fit-content;
+				}
+			}
+
+			&-max {
+				@include module.extend-viewports-classes {
+					min-width: max-content;
+				}
+			}
+
+			&-min {
+				@include module.extend-viewports-classes {
+					min-width: min-content;
+				}
+			}
 		}
 
 		.#{module.$prefix-default}--maxWidth {
@@ -52,6 +70,24 @@
 				@include module.extend-viewports-classes {
 					// 1200 = 75rem
 					max-width: math.div(module.$size-px-default, 16) * 1rem;
+				}
+			}
+
+			&-fit {
+				@include module.extend-viewports-classes {
+					max-width: fit-content;
+				}
+			}
+
+			&-max {
+				@include module.extend-viewports-classes {
+					max-width: max-content;
+				}
+			}
+
+			&-min {
+				@include module.extend-viewports-classes {
+					max-width: min-content;
 				}
 			}
 		}

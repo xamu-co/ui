@@ -102,6 +102,7 @@
 // Viewport based dimensions
 // --maxWidth, --maxHeight, --minWidth, --minHeight
 @mixin extend-dimension-viewport($property, $model) {
+	// vh or vw
 	$vm: "v" + string.slice($model, 1, 1);
 	$unit: if($vm == "vh", 1vh, 1vw);
 
