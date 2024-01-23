@@ -131,13 +131,12 @@
 
 			&:not(.#{module.$status-has-items}),
 			&-item {
-				background: module.color(light);
 				box-shadow: 3px 3px 9px module.color(dark, 0.3);
 
 				@layer defaults {
 					& {
-						// @defaults txtSize
-						font-size: module.size(sm);
+						// @defaults bgColor
+						background: module.$color-bg;
 					}
 				}
 
@@ -278,16 +277,6 @@
 				&::before {
 					right: 0;
 					top: -0.4rem;
-				}
-			}
-
-			li {
-				&:not(:first-child) {
-					padding-top: 0.2rem;
-				}
-
-				&:not(:last-child) {
-					padding-bottom: 0.2rem;
 				}
 			}
 		}
