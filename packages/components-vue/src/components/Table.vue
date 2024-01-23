@@ -145,7 +145,7 @@
 										value: node[property.value],
 										property,
 										node,
-										readOnly: isReadOnly,
+										readonly: isReadOnly,
 										theme,
 										modalTheme,
 										classes,
@@ -355,7 +355,7 @@
 		 * read only table
 		 * @old editable(inverse)
 		 */
-		readOnly?: boolean;
+		readonly?: boolean;
 		/**
 		 * Do nodes support pagination?
 		 */
@@ -440,7 +440,7 @@
 	});
 	const isReadOnly = computed<boolean>(() => {
 		return (
-			props.readOnly ||
+			props.readonly ||
 			!props.nodes.length ||
 			(!props.updateNode && !props.cloneNode && !props.deleteNode)
 		);

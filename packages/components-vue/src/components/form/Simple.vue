@@ -30,6 +30,7 @@
 					{{ getSuggestedTitle(input) }}
 				</p>
 				<FormInput
+					:readonly="readonly"
 					:theme="theme"
 					:input="input"
 					:invalid="getInvalid(input.name)"
@@ -67,6 +68,8 @@
 		 * Make model
 		 */
 		make?: FormInputClass[];
+		/** Make all inputs read only by disabling them */
+		readonly?: boolean;
 	}
 
 	/**

@@ -17,7 +17,7 @@
 					:theme="theme"
 					:aria-label="option.alias || option.value"
 					:active="modelValue.includes(option.value)"
-					:disabled="!input.multiple && modelValue.includes(option.value)"
+					:disabled="readonly || (!input.multiple && modelValue.includes(option.value))"
 					@click="choose(option.value)"
 				>
 					<span>{{ option.alias || option.value }}</span>
@@ -40,6 +40,7 @@
 		<InputFile
 			v-else-if="!input.defaults && input.type === eFT.FILE"
 			:theme="theme"
+			:disabled="readonly"
 			class="--flx"
 			:min="input.min"
 			:max="input.max"
@@ -48,7 +49,14 @@
 			@update:model-value="$emit('update:model-value', $event)"
 		/>
 		<!-- Future inner loop input -->
-		<FormInputLoop v-else v-slot="{ i }" :models="models" :input="input" :theme="theme">
+		<FormInputLoop
+			v-else
+			v-slot="{ i }"
+			:models="models"
+			:input="input"
+			:theme="theme"
+			:readonly="readonly"
+		>
 			<div
 				v-if="input.defaults && input.defaults.length >= 2"
 				class="flx --flxColumn --flxRow-wrap:md --flx-start-stretch --flx"
@@ -71,6 +79,7 @@
 					class="--width-180 --flx"
 					:invalid="invalid"
 					:model-value="[model]"
+					:disabled="readonly"
 					@update:model-value="
 						models[i].value = models[i].value.toSpliced(index, 1, $event[0])
 					"
@@ -85,6 +94,7 @@
 					v-model="models[i].value[0]"
 					v-bind="inputProps"
 					:theme="theme"
+					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
 					type="password"
 					class="--width-180 --flx"
@@ -93,6 +103,7 @@
 					v-model="models[i].value[1]"
 					v-bind="inputProps"
 					:theme="theme"
+					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
 					type="password"
 					class="--width-180 --flx"
@@ -106,12 +117,14 @@
 				<SelectSimple
 					v-model="models[i].value[0]"
 					v-bind="{ options: input.options, theme }"
+					:disabled="readonly"
 					class="--width-180 --flx"
 				/>
 				<InputText
 					v-model="models[i].value[1]"
 					v-bind="inputProps"
 					:theme="theme"
+					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
 					type="number"
 					class="--width-180 --flx"
@@ -125,6 +138,7 @@
 				<SelectSimple
 					v-model="models[i].value[0]"
 					:theme="theme"
+					:disabled="readonly"
 					:options="indicativesArr"
 					class="--width-180 --flx"
 				/>
@@ -132,6 +146,7 @@
 					v-model="models[i].value[1]"
 					v-bind="inputProps"
 					:theme="theme"
+					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
 					type="tel"
 					class="--width-180 --flx"
@@ -152,6 +167,7 @@
 					:value="defaultCountry"
 					icon="earth-americas"
 					:theme="theme"
+					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
 					class="--width-180 --flx"
 				/>
@@ -165,7 +181,7 @@
 						name="state"
 						icon="mountain-sun"
 						:theme="theme"
-						:disabled="!(models[i].value[0] || defaultCountry)"
+						:disabled="readonly || !(models[i].value[0] || defaultCountry)"
 						:placeholder="getInputPlaceholder(1)"
 						class="--width-180 --flx"
 					/>
@@ -175,7 +191,7 @@
 						name="city"
 						icon="city"
 						:theme="theme"
-						:disabled="!models[i].value[1]"
+						:disabled="readonly || !models[i].value[1]"
 						:placeholder="getInputPlaceholder(2)"
 						class="--width-180 --flx"
 					/>
@@ -198,6 +214,7 @@
 						:placeholder="getInputPlaceholder()"
 						type="checkbox"
 						:theme="theme"
+						:disabled="readonly"
 						full-width
 						show-placeholder
 					>
@@ -216,6 +233,7 @@
 					v-model="models[i].value"
 					v-bind="inputProps"
 					:theme="theme"
+					:disabled="readonly"
 					:placeholder="input.placeholder"
 					:options="options"
 					class="--flx"
@@ -230,6 +248,7 @@
 					v-model="models[i].value"
 					v-bind="inputProps"
 					:theme="theme"
+					:disabled="readonly"
 					:placeholder="input.placeholder"
 					:options="options"
 					class="--flx"
@@ -240,6 +259,7 @@
 				v-model="models[i].value"
 				v-bind="inputProps"
 				:theme="theme"
+				:disabled="readonly"
 			/>
 			<!-- Future outer loop input -->
 			<InputText
@@ -252,6 +272,7 @@
 						: { type: getInputTextType() }),
 				}"
 				:theme="theme"
+				:disabled="readonly"
 				:placeholder="getInputPlaceholder()"
 				class="--flx"
 			/>
@@ -306,6 +327,8 @@
 		invalid?: iInvalidInput;
 		countries?: iCountry[];
 		states?: iState[];
+		/** Make all inputs read only by disabling them */
+		readonly?: boolean;
 	}
 
 	/**

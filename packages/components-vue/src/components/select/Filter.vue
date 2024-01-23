@@ -45,6 +45,7 @@
 		<ActionLink
 			v-if="model && selectOptions.length > 1"
 			:theme="theme"
+			:disabled="disabled"
 			:aria-label="t('select_restablish_field')"
 			:title="t('select_restablish_field')"
 			@click.prevent="resetModel"
