@@ -1,5 +1,17 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.4...@open-xamu-co/ui-components-vue-v3.0.0-next.5) (2024-01-23)
+
+
+### Bug Fixes
+
+* location input fetching ([dbf70f7](https://github.com/xamu-co/ui/commit/dbf70f7df5ab70e7e85bf2d4cce003ce6200b312))
+
+
+### Features
+
+* support readonly forms ([4e4b820](https://github.com/xamu-co/ui/commit/4e4b8202d471bb2fd16f2a1dbe19feeaebd642b9))
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.3...@open-xamu-co/ui-components-vue-v3.0.0-next.4) (2024-01-08)
 
 
