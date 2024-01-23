@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.1...@open-xamu-co/ui-styles-v3.0.0-next.2) (2024-01-23)
+
+
+### Features
+
+* extends fit width & height for max & min constraints ([7ef4207](https://github.com/xamu-co/ui/commit/7ef42071ef8adb83a6eedadbd50a50946387da5b))
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.1.0-next.1...@open-xamu-co/ui-styles-v3.0.0-next.1) (2024-01-23)
 
 
