@@ -57,7 +57,7 @@
 	const inputId = computed(() => {
 		const seed = _.deburr(props.id || props.name || props.placeholder || props.title);
 
-		return `input_${seed.replace(" ", "") || randomId}`;
+		return `input_${seed.replaceAll(" ", "") || randomId}`;
 	});
 
 	function handleInput(e: Event) {
