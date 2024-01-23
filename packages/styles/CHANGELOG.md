@@ -1,5 +1,17 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.1.0-next.1...@open-xamu-co/ui-styles-v3.0.0-next.1) (2024-01-23)
+
+
+### Bug Fixes
+
+* remove dropdown side effects ([e5f4820](https://github.com/xamu-co/ui/commit/e5f482087c45af354e533902c3837383bd546088))
+
+
+### BREAKING CHANGES
+
+* dropdown no longer has side effects
+
 # [@open-xamu-co/ui-styles-v2.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.0.2-next.2...@open-xamu-co/ui-styles-v2.1.0-next.1) (2024-01-22)
 
 
