@@ -10,6 +10,7 @@
 				v-if="input.multiple && input.min < input.values.length"
 				:aria-label="t('clear')"
 				:theme="theme"
+				:disabled="readonly"
 				@click="input.removeValue(i)"
 			>
 				<IconFa name="trash-can" size="20" />
@@ -26,6 +27,7 @@
 		v-if="input.multiple && input.max > models.length"
 		:aria-label="t('add')"
 		:theme="theme"
+		:disabled="readonly"
 		@click="input.addValue()"
 	>
 		{{ t("add") }}
@@ -53,6 +55,8 @@
 	export interface iFormInputLoop<Ti> extends iUseThemeProps {
 		input: FormInputClass;
 		models: WritableComputedRef<Ti | Ti[]>[];
+		/** Make all inputs read only by disabling them */
+		readonly?: boolean;
 	}
 
 	/**
