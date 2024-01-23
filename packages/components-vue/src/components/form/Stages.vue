@@ -21,6 +21,7 @@
 				:invalid="invalid"
 				no-form
 				:title="form.title"
+				:readonly="form.readonly"
 				@update:invalid="invalid = $event"
 			/>
 		</div>
@@ -123,6 +124,8 @@
 		title?: string;
 		inputs: FormInputClass[];
 		listen?: boolean;
+		/** Make all inputs read only by disabling them */
+		readonly?: boolean;
 	}
 
 	interface iFormStages extends iUseThemeProps {

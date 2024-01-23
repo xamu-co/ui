@@ -101,7 +101,7 @@
 		 * Cell column property
 		 */
 		property?: iProperty<Pi>;
-		readOnly?: boolean;
+		readonly?: boolean;
 		classes?: tProps<string>;
 		modalTarget?: string | RendererElement;
 		modalTheme?: tThemeTuple | tProp<tThemeModifier>;

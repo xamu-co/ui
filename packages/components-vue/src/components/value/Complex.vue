@@ -6,7 +6,7 @@
 		:title="value.length ? t('table_quantity', value.length) : ''"
 	>
 		<ActionButton
-			v-if="!readOnly && property?.createNode"
+			v-if="!readonly && property?.createNode"
 			:theme="theme"
 			:tooltip="t('table_create_new')"
 			tooltip-as-text
@@ -108,7 +108,7 @@
 								value: childValueName,
 								alias: _.capitalize(_.startCase(childValueName)),
 							},
-							readOnly,
+							readonly,
 							theme,
 							modalTheme,
 							modalTarget,
@@ -122,7 +122,7 @@
 	<!-- Plain value -->
 	<ValueSimple
 		v-else
-		v-bind="{ value, property, readOnly, theme, modalTheme, classes, modalTarget }"
+		v-bind="{ value, property, readonly, theme, modalTheme, classes, modalTarget }"
 	/>
 </template>
 <script setup lang="ts" generic="P extends Record<string, any>, T">
@@ -165,7 +165,7 @@
 		 * The value prop will be a property of this node
 		 */
 		node?: Pi;
-		readOnly?: boolean;
+		readonly?: boolean;
 		classes?: tProps<string>;
 		/**
 		 * Refresh the content
