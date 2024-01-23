@@ -6,7 +6,7 @@
 		<slot></slot>
 	</div>
 	<p v-else class="--txtColor-danger">
-		{{ values.map((l) => t("form_requires_n_values", l)).join(" | ") }}
+		{{ values.map((l) => t("form_requires_n_values", l)).join(" or ") }}
 	</p>
 </template>
 

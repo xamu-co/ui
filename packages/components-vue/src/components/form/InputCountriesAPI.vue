@@ -11,12 +11,7 @@
 			<LoaderContentFetch
 				v-slot="citiesReq"
 				:theme="theme"
-				:promise="
-					!!(countryValue && model[0]) &&
-					model[0] !== model[0] &&
-					!!(statesReq.content.length || states) &&
-					unHydrate(getStateCities)
-				"
+				:promise="!!model[1] && unHydrate(getStateCities)"
 				:payload="[countryValue, model[1]]"
 				:fallback="[]"
 				unwrap

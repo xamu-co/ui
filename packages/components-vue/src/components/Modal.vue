@@ -177,7 +177,7 @@
 	const modalId = computed(() => {
 		const seed = _.deburr(props.subtitle || props.title);
 
-		return `modal_${seed.replace(" ", "") || randomId}`;
+		return `modal_${seed.replaceAll(" ", "") || randomId}`;
 	});
 	const saveButtonOptions = computed<iButtonConfig>(() => ({
 		title: t("ok"),

@@ -108,21 +108,31 @@
 
 	// refetch on url or promise change
 	watch(
-		[() => props.url, () => props.promise],
-		(newValues, oldValues) => {
-			const sameUrl = newValues[0] === oldValues[0];
-			const samePromise = newValues[1] === oldValues[1];
+		() => props.url,
+		(newUrl, oldUrl) => {
+			// prevent muntiple requests
+			if (newUrl === oldUrl) return;
+
+			// refresh
+			if (!loading.value && !!newUrl) refresh();
+			else if (props.fallback) content.value = props.fallback;
+		},
+		{ immediate: false }
+	);
+	watch(
+		() => props.promise,
+		(newPromise, oldPromise) => {
 			/**
 			 * The same promise would trigger the watcher
 			 * We assume here that the same promise is provided
 			 */
-			const possibleSamePromise = newValues[1] && oldValues[1];
+			const possibleSamePromise = !!newPromise && !!oldPromise;
 
 			// prevent muntiple requests
-			if ((sameUrl && samePromise) || !!possibleSamePromise) return;
+			if (newPromise === oldPromise || !!possibleSamePromise) return;
 
 			// refresh
-			if (!loading.value && !!(newValues[1] || newValues[0])) refresh();
+			if (!loading.value && !!newPromise) refresh();
 			else if (props.fallback) content.value = props.fallback;
 		},
 		{ immediate: false }

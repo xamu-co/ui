@@ -148,6 +148,7 @@
 					v-if="!defaultCountry || models[i].value.length === 1"
 					v-model="models[i].value[0]"
 					:options="countriesArr"
+					name="country"
 					:value="defaultCountry"
 					icon="earth-americas"
 					:theme="theme"
@@ -160,12 +161,8 @@
 				>
 					<SelectFilter
 						v-model="models[i].value[1]"
-						:options="
-							statesArr ||
-							(statesReq.loading || statesReq.content.length
-								? statesReq.content.map(stateToOption)
-								: [models[i].value[0] || defaultCountry])
-						"
+						:options="statesArr || statesReq.content.map(stateToOption)"
+						name="state"
 						icon="mountain-sun"
 						:theme="theme"
 						:disabled="!(models[i].value[0] || defaultCountry)"
@@ -174,11 +171,8 @@
 					/>
 					<SelectFilter
 						v-model="models[i].value[2]"
-						:options="
-							citiesReq.loading || citiesReq.content.length
-								? citiesReq.content.map(cityToOption)
-								: [models[i].value[1]]
-						"
+						:options="citiesReq.content.map(cityToOption)"
+						name="city"
 						icon="city"
 						:theme="theme"
 						:disabled="!models[i].value[1]"
@@ -271,7 +265,7 @@
 	</div>
 </template>
 <script setup lang="ts">
-	import { computed } from "vue";
+	import { computed, reactive } from "vue";
 	import validator from "validator";
 	import _ from "lodash";
 
@@ -372,7 +366,7 @@
 	const models = computed(() => {
 		return props.modelValue.map((value, valueIndex) =>
 			computed({
-				get: () => value,
+				get: () => (Array.isArray(value) ? reactive(value) : value),
 				set: (newValue) => {
 					emit("update:model-value", props.modelValue.toSpliced(valueIndex, 1, newValue));
 				},

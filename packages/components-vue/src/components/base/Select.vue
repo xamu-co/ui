@@ -2,7 +2,7 @@
 	<select
 		v-bind="{
 			...$attrs,
-			..._.omit(props, 'modelValue'),
+			..._.omit(props, ['modelValue', 'options']),
 			id: selectId,
 			name: name ?? selectId,
 			title,
@@ -66,7 +66,7 @@
 	const selectId = computed(() => {
 		const seed = _.deburr(props.id || props.name || props.placeholder || props.title);
 
-		return `select_${seed.replace(" ", "") || randomId}`;
+		return `select_${seed.replaceAll(" ", "") || randomId}`;
 	});
 
 	function handleInput(e: Event) {
@@ -83,8 +83,6 @@
 	watch(
 		selectOptions,
 		(options) => {
-			// reset model
-			if (!options.length) emit("update:model-value", "");
 			// set single option as value
 			if (options.length === 1) emit("update:model-value", options[0].value);
 		},
