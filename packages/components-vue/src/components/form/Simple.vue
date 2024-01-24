@@ -175,9 +175,15 @@
 	watch(
 		() => props.make,
 		(newMake, oldMake) => {
-			if (!oldMake || newMake?.every((input, index) => input.isEqual(oldMake[index]))) return;
+			if (
+				oldMake?.length &&
+				newMake?.length &&
+				newMake.every((input, index) => input.isEqual(oldMake[index]))
+			) {
+				return;
+			}
 
-			emit("update:model-value", newMake);
+			if (Array.isArray(newMake)) emit("update:model-value", newMake);
 		},
 		{ immediate: true }
 	);

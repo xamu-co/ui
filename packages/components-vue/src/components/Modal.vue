@@ -1,7 +1,7 @@
 <template>
 	<slot v-if="$slots.toggle" name="toggle" v-bind="{ toggleModal, model }"></slot>
 	<Teleport v-if="!disabled" :id="modalId" :key="modalId" :to="target || 'body'">
-		<dialog ref="modalRef" @close="closeAndResetModal" @mousedown="clickOutside">
+		<dialog ref="modalRef" @close="closeModal" @mousedown="clickOutside">
 			<div
 				v-show="!loading && !hide"
 				class="modal"
@@ -21,7 +21,7 @@
 						<ActionLink
 							:theme="theme"
 							:aria-label="cancelButtonOptions.title"
-							@click.stop="closeAndResetModal"
+							@click.stop="closeModal()"
 						>
 							<IconFa name="xmark" size="20" />
 						</ActionLink>
@@ -35,7 +35,7 @@
 							:theme="theme"
 							:aria-label="saveButtonOptions.title"
 							:class="saveButtonOptions.btnClass"
-							@click="emit('save', closeAndResetModal, $event)"
+							@click="emit('save', closeModal, $event)"
 						>
 							{{ saveButtonOptions.title }}
 						</ActionButton>
@@ -46,7 +46,7 @@
 							:class="cancelButtonOptions.btnClass"
 							data-dismiss="modal"
 							round=":sm-inv"
-							@click.stop="closeAndResetModal"
+							@click.stop="closeModal()"
 						>
 							<IconFa name="xmark" hidden="-full:sm" />
 							<IconFa name="xmark" regular hidden="-full:sm" />
@@ -66,11 +66,7 @@
 						<p class="--txtColor-light --txtShadow --txtSize-sm">
 							{{ props.hideMessage ? props.hideMessage : t("modal_taking_too_long") }}
 						</p>
-						<ActionButton
-							:theme="theme"
-							:aria-label="t('close')"
-							@click="closeAndResetModal"
-						>
+						<ActionButton :theme="theme" :aria-label="t('close')" @click="closeModal()">
 							{{ t("close") }}
 						</ActionButton>
 					</div>
@@ -192,16 +188,39 @@
 		...(!!props.cancelButton && props.cancelButton),
 	}));
 
-	function closeAndResetModal() {
+	function closeModal(success?: boolean) {
 		modalRef.value?.close();
 		loadingTooLong.value = false;
+		localModel.value = false;
+		resolver.value?.(success); // resolve promise early
 		emit("update:model-value", false);
 		emit("close");
 	}
 	function clickOutside(e: Event) {
 		if (modalRef.value !== e.target) return;
 
-		closeAndResetModal();
+		closeModal();
+	}
+	/**
+	 * Opens modal if requirements are met
+	 */
+	function openModal() {
+		localModel.value = true;
+		modalRef.value?.showModal();
+
+		// close modal if requirements are not meet
+		if (!props.loading && props.hide) {
+			Swal.fire({
+				title: t("swal.modal_unauthorized"),
+				text: props.hideMessage || t("swal.modal_unauthorized_text"),
+				icon: "warning",
+			});
+
+			return closeModal();
+		}
+
+		// display message if loading longer than usual
+		setTimeout(() => (loadingTooLong.value = props.loading), 3000);
 	}
 	/**
 	 * Toggles modal
@@ -210,55 +229,27 @@
 	function toggleModal(success?: boolean) {
 		return new Promise<boolean | undefined>((resolve) => {
 			if (model.value) {
-				// old promise
-				resolver.value?.(success);
-				// current promise
-				resolve(success);
-			} else resolver.value = resolve;
-
-			model.value = !model.value;
+				closeModal(success); // close & resolve old promise
+				resolve(undefined); // bypass promise
+			} else {
+				resolver.value = resolve;
+				openModal();
+			}
 		});
 	}
 
-	/**
-	 * Modal model
-	 */
-	const model = computed({
-		get() {
-			return !props.disabled && localModel.value;
-		},
-		set(value) {
-			if (!value) closeAndResetModal();
-			else {
-				modalRef.value?.showModal();
-
-				// close modal if requirements are not meet
-				if (!props.loading && props.hide) {
-					value = false;
-					closeAndResetModal();
-					Swal.fire({
-						title: t("swal.modal_unauthorized"),
-						text: props.hideMessage || t("swal.modal_unauthorized_text"),
-						icon: "warning",
-					});
-				}
-
-				// display message if loading longer than usual
-				setTimeout(() => (loadingTooLong.value = props.loading), 3000);
-			}
-
-			localModel.value = value;
-		},
-	});
+	/** Modal model */
+	const model = computed(() => !props.disabled && (props.modelValue || localModel.value));
 
 	// lifecycle
 	onMounted(() => {
-		if (props.modelValue) model.value = props.modelValue;
+		watch(
+			() => props.modelValue,
+			(show) => {
+				if (show) openModal();
+			},
+			{ immediate: true }
+		);
 	});
-	onUnmounted(closeAndResetModal);
-	watch(
-		() => props.modelValue,
-		(show) => (model.value = show),
-		{ immediate: false }
-	);
+	onUnmounted(closeModal);
 </script>

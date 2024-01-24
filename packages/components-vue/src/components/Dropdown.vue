@@ -24,7 +24,6 @@
 		computed,
 		ref,
 		watch,
-		onMounted,
 		onUnmounted,
 		type Component as VueComponent,
 		type DefineComponent,
@@ -96,12 +95,15 @@
 	});
 
 	function setModel(value = !model.value) {
+		if (value) document.addEventListener("click", clickOutside, true);
+
 		return (model.value = value);
 	}
 
 	function closeDropdown() {
 		emit("close");
 		emit("update:model-value", setModel(false));
+		document.removeEventListener("click", clickOutside, true);
 	}
 	function clickOutside(e: MouseEvent) {
 		const target = e.target as HTMLElement;
@@ -130,10 +132,5 @@
 		},
 		{ immediate: false }
 	);
-	onMounted(() => {
-		document.addEventListener("click", clickOutside, true);
-	});
-	onUnmounted(() => {
-		document.removeEventListener("click", clickOutside, true);
-	});
+	onUnmounted(closeDropdown);
 </script>

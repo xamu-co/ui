@@ -59,7 +59,7 @@
 		>
 			<div
 				v-if="input.defaults && input.defaults.length >= 2"
-				class="flx --flxColumn --flxRow-wrap:md --flx-start-stretch --flx"
+				class="flx --flxColumn --flxRow-wrap:md --flx-start-stretch --flx --gap-5"
 			>
 				<!-- Recursion -->
 				<Input
@@ -68,12 +68,14 @@
 						input.defaults?.[index].placeholder || input.defaults?.[index].type || index
 					"
 					:input="
-						input.setRerender($forceUpdate).clone({
-							...input.defaults[index], // sub input
-							multiple: false,
-							defaults: undefined,
-							values: [models[i].value[index]],
-						})
+						input
+							.clone({
+								...input.defaults[index], // sub input
+								multiple: false,
+								defaults: undefined,
+								values: [models[i].value[index]],
+							})
+							.setRerender($forceUpdate)
 					"
 					:theme="theme"
 					class="--width-180 --flx"
