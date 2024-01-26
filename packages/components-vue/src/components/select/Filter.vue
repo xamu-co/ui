@@ -2,7 +2,7 @@
 	<datalist :id="selectFilterName">
 		<!-- Select is also used as fallback for older browsers -->
 		<SelectSimple
-			v-model="model"
+			v-model="selectModel"
 			v-bind="{
 				...$attrs,
 				..._.omit(props, 'modelValue'),
@@ -29,7 +29,7 @@
 				..._.omit(props, 'modelValue'),
 				type: 'text',
 				placeholder: t('select_filter_options'),
-				disabled: (!!model && !isInvalid) || disabled,
+				disabled: (!!modelValue && !isInvalid) || disabled,
 				hidden,
 				size,
 				active,
@@ -40,10 +40,10 @@
 				iconProps,
 			}"
 			class="--flx"
-			@change="handleInputChange"
+			@change="handleTextInput"
 		/>
 		<ActionLink
-			v-if="model && selectOptions.length > 1"
+			v-if="modelValue && selectOptions.length > 1"
 			:theme="theme"
 			:disabled="disabled"
 			:aria-label="t('select_restablish_field')"
@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
-	import { computed, ref, watch } from "vue";
+	import { computed, ref } from "vue";
 	import _ from "lodash";
 
 	import type { iFormIconProps, iFormOption } from "@open-xamu-co/ui-common-types";
@@ -117,32 +117,38 @@
 	const selectOptions = computed<iFormOption[]>(() => (props.options ?? []).map(toOption));
 	const textModel = ref<string | number>("");
 	/**
-	 * Input model
+	 * Prefers alias instead of value
 	 */
-	const model = computed({
+	const selectModel = computed({
 		get: () => {
-			return props.modelValue;
+			const option = selectOptions.value.find(({ value }) => value === props.modelValue);
+
+			// alias first
+			return option?.alias ?? option?.value ?? "";
 		},
-		set: (newModel) => {
-			emit("update:model-value", newModel);
-
+		set(valueOrAlias: string | number) {
 			// look for alias first
-			const option = selectOptions.value.find(({ value }) => value === newModel);
+			const option = selectOptions.value.find(({ alias, value }) => {
+				return alias === valueOrAlias || value === valueOrAlias;
+			});
 
-			if (option) textModel.value = option.alias || option.value;
+			if (!option) return emit("update:model-value", "");
+
+			emit("update:model-value", option.value);
+			textModel.value = option.alias || option.value;
 		},
 	});
 	const isInvalid = computed<boolean>(() => {
-		const option = selectOptions.value.find(({ value }) => value === model.value);
+		const option = selectOptions.value.find(({ value }) => value === props.modelValue);
 
-		return (model.value && !option) || props.invalid;
+		return (props.modelValue && !option) || props.invalid;
 	});
 
 	/**
 	 * Clears up input model
 	 */
 	function resetModel() {
-		model.value = "";
+		emit("update:model-value", "");
 		textModel.value = "";
 	}
 
@@ -150,7 +156,7 @@
 	 * Handle select input
 	 * @listenerOverride select filter requires specific event handling
 	 */
-	function handleInputChange(e: Event) {
+	function handleTextInput(e: Event) {
 		const { target } = e as Event & { target: HTMLSelectElement };
 		const deburr = (v: string | number) => _.deburr(String(v)).toLowerCase();
 		const newModel = deburr(target.value);
@@ -162,21 +168,18 @@
 			return match === newModel;
 		});
 
-		if (option) model.value = option.value;
-		else if (model.value) model.value = "";
+		if (!option) return emit("update:model-value", "");
+
+		emit("update:model-value", option.value);
+		textModel.value = option.alias ?? option.value;
 	}
 
 	// lifecycle
-
 	if (isBrowser) supportsDatalist.value = !!HTMLDataListElement;
+	// Populate text model
+	if (props.modelValue) {
+		const option = selectOptions.value.find(({ value }) => value === props.modelValue);
 
-	watch(
-		selectOptions,
-		(newOptions) => {
-			const option = newOptions.find(({ value }) => value === props.modelValue);
-
-			if (option) textModel.value = option.alias || option.value;
-		},
-		{ immediate: true }
-	);
+		if (option) textModel.value = option.alias ?? option.value;
+	}
 </script>
