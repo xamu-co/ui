@@ -2,14 +2,7 @@
 	<div :class="{ '--width': fullWidth }">
 		<BaseInput
 			v-slot="{ id, modelValue }"
-			:class="
-				getClassesString([
-					modifiersClasses,
-					stateClasses,
-					themeClasses,
-					`i${_.capitalize(inputType)}`,
-				])
-			"
+			:class="[modifiersClasses, stateClasses, themeClasses, `i${_.capitalize(inputType)}`]"
 			class="--full"
 			v-bind="{ ...$attrs, ..._.omit(props, 'modelValue'), type: inputType, disabled }"
 		>
@@ -34,7 +27,7 @@
 	import { computed } from "vue";
 	import _ from "lodash";
 
-	import { useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseInput from "../base/Input.vue";
 
@@ -71,7 +64,6 @@
 	const props = defineProps<iInputToggleProps>();
 
 	const { t } = useHelpers(useI18n);
-	const { getClassesString } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
 	const { themeClasses } = useTheme(props);

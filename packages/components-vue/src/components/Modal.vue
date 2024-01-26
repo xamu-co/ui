@@ -160,7 +160,7 @@
 
 	const { t } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
-	const { themeValues } = useTheme(props);
+	const { themeValues } = useTheme(props, true);
 	const { uuid } = useUUID();
 
 	const resolver = ref<(r?: boolean) => void>();

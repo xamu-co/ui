@@ -1,6 +1,6 @@
 <template>
 	<BaseSelect
-		:class="getClassesString([modifiersClasses, stateClasses, themeClasses])"
+		:class="[modifiersClasses, stateClasses, themeClasses]"
 		class="iSelect"
 		v-bind="{ ...$attrs, ..._.omit(props, 'modelValue'), options, required, disabled }"
 	/>
@@ -8,8 +8,6 @@
 
 <script setup lang="ts">
 	import _ from "lodash";
-
-	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseSelect from "../base/Select.vue";
 
@@ -22,7 +20,6 @@
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
 
 	interface iSelectSimpleProps
 		extends iSelectProps,
@@ -40,8 +37,7 @@
 
 	const props = defineProps<iSelectSimpleProps>();
 
-	const { getClassesString } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
-	const { themeClasses } = useTheme({ ...props, themeAsUnion: true });
+	const { themeClasses } = useTheme(props, true);
 </script>

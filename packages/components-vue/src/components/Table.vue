@@ -6,7 +6,7 @@
 				:tooltip="t('table_delete')"
 				tooltip-as-text
 				tooltip-position="bottom"
-				:theme="[eColors.DANGER, themeValues[1]]"
+				:theme="[eColors.DANGER, themeValues[0]]"
 				:disabled="!selectedNodes.some(([n]) => n)"
 				@click="deleteNodesAndRefresh"
 			>
@@ -211,7 +211,7 @@
 												</li>
 												<li v-if="!!deleteNode">
 													<ActionLink
-														:theme="[eColors.DANGER, themeValues[1]]"
+														:theme="[eColors.DANGER, themeValues[0]]"
 														size="sm"
 														:aria-label="t('table_delete')"
 														@click="
@@ -411,7 +411,7 @@
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
-	const { themeClasses, themeValues } = useTheme({ ...props, themeAsUnion: true });
+	const { themeClasses, themeValues } = useTheme(props, true);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
 	const valueRootRef = ref();

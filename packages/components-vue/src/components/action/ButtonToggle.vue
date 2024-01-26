@@ -1,7 +1,7 @@
 <template>
 	<BaseAction
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
-		:class="getClassesString([modifiersClasses, stateClasses, themeClasses, shadowClasses])"
+		:class="[modifiersClasses, stateClasses, themeClasses, shadowClasses]"
 		class="bttnToggle"
 	>
 		<slot></slot>
@@ -49,7 +49,7 @@
 
 	const props = defineProps<iActionButtonToggleProps>();
 
-	const { getModifierClasses: GMC, getClassesString } = useHelpers(useUtils);
+	const { getModifierClasses: GMC } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
 	const { themeClasses, tooltipAttributes } = useTheme(props);

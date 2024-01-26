@@ -56,7 +56,7 @@
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
 
 	import type { iFormIconProps, tTextInputType } from "@open-xamu-co/ui-common-types";
-	import { useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseWrapper from "../base/Wrapper.vue";
 	import BaseInput from "../base/Input.vue";
@@ -113,7 +113,6 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { getClassesString } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
 	const { themeClasses } = useTheme(props);
@@ -138,10 +137,7 @@
 		set: (value) => emit("update:model-value", value),
 	});
 	const inputClasses = computed(() => {
-		return [
-			"iTxt",
-			getClassesString([modifiersClasses.value, stateClasses.value, themeClasses.value]),
-		];
+		return [modifiersClasses.value, stateClasses.value, themeClasses.value, "iTxt"];
 	});
 
 	/**

@@ -1,6 +1,6 @@
 <template>
 	<div
-		:class="[classes, getClassesString([modifiersClasses, stateClasses, themeClasses])]"
+		:class="[classes, modifiersClasses, stateClasses, themeClasses]"
 		class="box --button flx --flxColumn --flx-start-stretch --gap-10 --width"
 	>
 		<div
@@ -192,7 +192,7 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { getClassesString, isBrowser } = useHelpers(useUtils);
+	const { isBrowser } = useHelpers(useUtils);
 	const Swal = useHelpers(useSwal);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);

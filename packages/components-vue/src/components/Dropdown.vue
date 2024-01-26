@@ -9,10 +9,7 @@
 			<slot name="toggle" v-bind="{ model, setModel }"></slot>
 		</div>
 		<Modal v-model="localModel" :disabled="!isModal" :theme="theme">
-			<div
-				ref="dropdownRef"
-				:class="{ [getClassesString([modifiersClasses, dropdownClasses])]: !isModal }"
-			>
+			<div ref="dropdownRef" :class="dropdownClasses">
 				<slot v-bind="{ model, setModel }"></slot>
 			</div>
 		</Modal>
@@ -73,7 +70,7 @@
 	const props = defineProps<iDropdownProps>();
 	const emit = defineEmits(["close", "update:model-value"]);
 
-	const { getModifierClasses: GMC, getClassesString } = useHelpers(useUtils);
+	const { getModifierClasses: GMC } = useHelpers(useUtils);
 	const { themeValues } = useTheme(props);
 	const { tabletMqRange } = useBrowser();
 	const { modifiersClasses } = useModifiers(props);
@@ -82,16 +79,19 @@
 	const dropdownRef = ref<HTMLElement>();
 	const isModal = ref(false);
 	const model = ref(props.modelValue);
-	const dropdownClasses = computed<string>(() => {
-		return getClassesString([
-			"dropdown",
-			`--bgColor-${themeValues.value[1]}`,
-			GMC([{ active: props.modelValue }], { prefix: "is" }),
-			GMC([[props.position ?? "bottom"].flat(2).join("-")], {
+	const dropdownClasses = computed<string[]>(() => {
+		if (isModal.value) return [];
+
+		return [
+			...modifiersClasses.value,
+			...GMC([{ active: props.modelValue }], { prefix: "is" }),
+			...GMC([[props.position ?? "bottom"].flat(2).join("-")], {
 				modifier: "position",
 				divider: "-",
 			}),
-		]);
+			`--bgColor-${themeValues.value[1]}`,
+			"dropdown",
+		];
 	});
 
 	function setModel(value = !model.value) {

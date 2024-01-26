@@ -4,7 +4,7 @@
 		v-bind="{ ...$attrs, ...props, ...getHref }"
 		:type="currentTag === 'button' && !to && !href ? type || 'button' : null"
 		:tabindex="(props.disabled && '-1') || null"
-		:class="getClassesString([classes])"
+		:class="classes"
 	>
 		<slot>
 			<template v-if="mailto">{{ mailto }}</template>
@@ -35,7 +35,7 @@
 	const props = defineProps<iActionProps>();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
-	const { getModifierClasses: GMC, getClassesString } = useHelpers(useUtils);
+	const { getModifierClasses: GMC } = useHelpers(useUtils);
 
 	const currentTag = computed(() => {
 		if (!props.mailto && !props.tel && !props.href) return props.tag ?? "button";

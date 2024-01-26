@@ -3,15 +3,13 @@
 	<div :class="modifiersClasses" class="flx --flxColumn --flx-center --width" v-bind="$attrs">
 		<div class="txt --txtAlign-center --width">
 			<div
-				:class="
-					getClassesString([
-						modifiersClasses,
-						stateClasses,
-						themeClasses,
-						GMC([themeValues[0]], { modifier: 'txtColor', divider: '-' }),
-						GMC(asButton ?? false, { modifier: 'button' }),
-					])
-				"
+				:class="[
+					modifiersClasses,
+					stateClasses,
+					themeClasses,
+					GMC([themeValues[0]], { modifier: 'txtColor', divider: '-' }),
+					GMC(asButton ?? false, { modifier: 'button' }),
+				]"
 				class="box"
 			>
 				<p v-if="text" v-html="text"></p>
@@ -64,7 +62,7 @@
 
 	const props = defineProps<iBoxMessageProps>();
 
-	const { getModifierClasses: GMC, getClassesString } = useHelpers(useUtils);
+	const { getModifierClasses: GMC } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
 	const { themeClasses, themeValues } = useTheme(props);
