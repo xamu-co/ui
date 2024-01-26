@@ -249,12 +249,23 @@
 		}
 	}
 
-	// light & dark
+	// theme color - theme color
+	@each $theme1, $theme1-value in variables.$theme-colors {
+		@each $theme2, $theme2-value in variables.$theme-colors {
+			@if $theme1 != $theme2 {
+				&.#{variables.$prefix-default}--tm-#{$theme1}-#{$theme2} {
+					@content ($theme1, $theme1-value, $theme2, $theme2-value, false);
+				}
+			}
+		}
+	}
+
+	// light - dark
 	&.#{variables.$prefix-default}--tm-light-dark {
 		@content (light, variables.$color-light, dark, variables.$color-dark, false);
 	}
 
-	// dark & light
+	// dark - light
 	&.#{variables.$prefix-default}--tm-dark-light {
 		@content (dark, variables.$color-dark, light, variables.$color-light, false);
 	}
