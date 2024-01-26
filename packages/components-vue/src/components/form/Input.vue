@@ -410,7 +410,7 @@
 			}
 		} else {
 			// old behavior, single value
-			models.value[0].value = value;
+			emit("update:model-value", [value]);
 		}
 	}
 
