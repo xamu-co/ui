@@ -2,7 +2,7 @@
 	<datalist :id="selectFilterName">
 		<!-- Select is also used as fallback for older browsers -->
 		<SelectSimple
-			v-model="selectModel"
+			v-model="aliasModel"
 			v-bind="{
 				...$attrs,
 				..._.omit(props, 'modelValue'),
@@ -23,7 +23,7 @@
 	</datalist>
 	<div v-if="supportsDatalist" class="flx --flxRow --flx-start-center --gap-5" v-bind="$attrs">
 		<InputText
-			v-model="textModel"
+			v-model="aliasModel"
 			:list="selectFilterName"
 			v-bind="{
 				..._.omit(props, 'modelValue'),
@@ -40,7 +40,6 @@
 				iconProps,
 			}"
 			class="--flx"
-			@change="handleTextInput"
 		/>
 		<ActionLink
 			v-if="modelValue && selectOptions.length > 1"
@@ -115,11 +114,10 @@
 		return `select-filter_${seed.replaceAll(" ", "") || randomId}`;
 	});
 	const selectOptions = computed<iFormOption[]>(() => (props.options ?? []).map(toOption));
-	const textModel = ref<string | number>("");
 	/**
 	 * Prefers alias instead of value
 	 */
-	const selectModel = computed({
+	const aliasModel = computed({
 		get: () => {
 			const option = selectOptions.value.find(({ value }) => value === props.modelValue);
 
@@ -127,15 +125,18 @@
 			return option?.alias ?? option?.value ?? "";
 		},
 		set(valueOrAlias: string | number) {
+			// This assumes that aliases are distinct enough
+			const deburr = (v: string | number) => _.deburr(String(v)).toLowerCase();
+			const newModel = deburr(valueOrAlias);
 			// look for alias first
 			const option = selectOptions.value.find(({ alias, value }) => {
-				return alias === valueOrAlias || value === valueOrAlias;
+				const match = deburr(alias ?? value);
+
+				return match === newModel;
 			});
 
-			if (!option) return emit("update:model-value", "");
-
-			emit("update:model-value", option.value);
-			textModel.value = option.alias || option.value;
+			// emit if valid
+			if (option) emit("update:model-value", option.value);
 		},
 	});
 	const isInvalid = computed<boolean>(() => {
@@ -149,37 +150,8 @@
 	 */
 	function resetModel() {
 		emit("update:model-value", "");
-		textModel.value = "";
-	}
-
-	/**
-	 * Handle select input
-	 * @listenerOverride select filter requires specific event handling
-	 */
-	function handleTextInput(e: Event) {
-		const { target } = e as Event & { target: HTMLSelectElement };
-		const deburr = (v: string | number) => _.deburr(String(v)).toLowerCase();
-		const newModel = deburr(target.value);
-
-		// look for alias first
-		const option = selectOptions.value.find(({ value, alias }) => {
-			const match = deburr(alias ?? value);
-
-			return match === newModel;
-		});
-
-		if (!option) return emit("update:model-value", "");
-
-		emit("update:model-value", option.value);
-		textModel.value = option.alias ?? option.value;
 	}
 
 	// lifecycle
 	if (isBrowser) supportsDatalist.value = !!HTMLDataListElement;
-	// Populate text model
-	if (props.modelValue) {
-		const option = selectOptions.value.find(({ value }) => value === props.modelValue);
-
-		if (option) textModel.value = option.alias ?? option.value;
-	}
 </script>
