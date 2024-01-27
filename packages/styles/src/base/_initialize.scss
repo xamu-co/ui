@@ -27,7 +27,9 @@
 
 			> .#{utils.$layout-modal} {
 				max-width: calc(100vw - 2.4rem);
+				max-width: calc(100dvw - 2.4rem);
 				max-height: calc(100vh - 2.4rem);
+				max-height: calc(100dvh - 2.4rem);
 			}
 
 			&::backdrop {

@@ -14,11 +14,13 @@
 	.#{utils.$layout-view}-item {
 		&.#{utils.$prefix-default}--minHeight-100 {
 			min-height: calc(100vh - utils.$size-view-top-buffer);
+			min-height: calc(100dvh - utils.$size-view-top-buffer);
 
 			@if utils.$allow-responsive {
 				@media (max-device-width: utils.$querie-tablet) {
 					// mobile only, 56px: navigation bar
 					min-height: calc((100vh - utils.$size-view-top-buffer) - 56px);
+					min-height: calc((100dvh - utils.$size-view-top-buffer) - 56px);
 				}
 			}
 		}
@@ -48,6 +50,7 @@
 				& {
 					// @defaults minHeight
 					min-height: 60vh;
+					min-height: 60dvh;
 				}
 			}
 
