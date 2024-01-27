@@ -85,7 +85,7 @@
 		"postcss-precision": "vis97c/postcss-precision",
 		"postcss-preset-env": "^8.4.1",
 		"postcss-sort-media-queries": "^5.2.0",
-		"sass": "^1.60.0"
+		"sass": "^1.70.0"
 	},
 	"engines": {
 		"node": ">=18",
