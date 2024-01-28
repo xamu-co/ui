@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.2...@open-xamu-co/ui-styles-v3.0.0-next.3) (2024-01-28)
+
+
+### Bug Fixes
+
+* optimize & solve table, form, modal & pagination issues ([f14b68c](https://github.com/xamu-co/ui/commit/f14b68cda4b3a9c99b1374245c544d0138671a8a))
+
+
+### Features
+
+* dropdown & modal union theme modifiers ([34c5947](https://github.com/xamu-co/ui/commit/34c5947801ddecb0e3a454f1fbf71fdea38d08f4))
+* inject useTimeAgo & useFormInput composables ([64c18df](https://github.com/xamu-co/ui/commit/64c18df9a26cbff6d2e32cd53f4c45695a091713))
+* prefer dinamyc viewport units ([5c97eea](https://github.com/xamu-co/ui/commit/5c97eeaf0347f0a641218765eaada82ddc75f33b))
+* support theme+theme unions ([7d506f8](https://github.com/xamu-co/ui/commit/7d506f8940181f28dfaf0b7896f5f3f01dd06d51))
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.1...@open-xamu-co/ui-styles-v3.0.0-next.2) (2024-01-23)
 
 
