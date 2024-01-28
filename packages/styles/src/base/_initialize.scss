@@ -27,7 +27,9 @@
 
 			> .#{utils.$layout-modal} {
 				max-width: calc(100vw - 2.4rem);
+				max-width: calc(100dvw - 2.4rem);
 				max-height: calc(100vh - 2.4rem);
+				max-height: calc(100dvh - 2.4rem);
 			}
 
 			&::backdrop {
@@ -240,6 +242,7 @@
 			font-family: utils.family(default);
 			font-size: utils.size();
 			overflow: hidden;
+			background-color: utils.$color-bg;
 
 			@if utils.$allow-responsive {
 				@media (max-width: utils.$querie-tablet) and (hover: none) {
@@ -249,6 +252,13 @@
 						height: 100%;
 						overflow: hidden auto;
 					}
+				}
+			}
+
+			th,
+			td {
+				&.#{utils.$prefix-default}--sticky {
+					background-color: utils.$color-bg;
 				}
 			}
 		}

@@ -107,6 +107,7 @@
 		&-topFade {
 			opacity: 0;
 			transform: translateY(-5vh);
+			transform: translateY(-5dvh);
 			&.#{utils.$status-is-animated} {
 				animation-name: topFade;
 				animation-duration: 0.6s;
@@ -121,6 +122,7 @@
 		&-bottomFade {
 			opacity: 0;
 			transform: translateY(5vh);
+			transform: translateY(5dvh);
 			&.#{utils.$status-is-animated} {
 				animation-name: bottomFade;
 				animation-duration: 0.6s;
@@ -135,6 +137,7 @@
 		&-leftFade {
 			opacity: 0;
 			transform: translateX(-5vh);
+			transform: translateX(-5dvh);
 			&.#{utils.$status-is-animated} {
 				animation-name: leftFade;
 				animation-duration: 0.6s;
@@ -149,6 +152,7 @@
 		&-rightFade {
 			opacity: 0;
 			transform: translateX(5vh);
+			transform: translateX(5dvh);
 			&.#{utils.$status-is-animated} {
 				animation-name: rightFade;
 				animation-duration: 0.6s;

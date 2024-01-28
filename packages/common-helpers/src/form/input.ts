@@ -66,20 +66,24 @@ function getDefault<V extends iFormValue = iFormValue>(
 export class FormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFormTypeSimple>
 	implements iFormInputDefault<T>
 {
+	// private
+	private _options!: iSelectOption[];
 	// public
 	public type!: T;
 	// public readonly
 	public readonly required!: boolean;
-	public readonly options!: iSelectOption[];
 	public readonly placeholder!: string;
 	public readonly icon!: tFormIcon;
 	public readonly autocomplete!: tFormAutocomplete;
 	public readonly min!: number;
 	public readonly max!: number;
 
-	constructor(formInput: iFormInputDefault<T>) {
+	constructor(
+		formInput: iFormInputDefault<T>,
+		private _rerender?: (fi?: Partial<iFormInputDefault<T>>) => void
+	) {
 		this.required = formInput.required ?? false;
-		this.options = formInput.options?.map(toOption) ?? [];
+		this._options = formInput.options?.map(toOption) ?? [];
 		this.min = formInput.min ?? 1;
 
 		// max cannot be lower than min or more than options if they exist
@@ -92,6 +96,28 @@ export class FormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFo
 		if (formInput.icon) this.icon = getIcon(formInput.icon, formInput.type);
 		if (formInput.autocomplete) this.autocomplete = formInput.autocomplete;
 	}
+
+	get options(): iSelectOption[] {
+		return this._options;
+	}
+	set options(updatedOptions: iSelectOption[] | undefined) {
+		this._options = updatedOptions || [];
+		this.rerender();
+	}
+
+	/** Rerender component */
+	public rerender(): void {
+		this._rerender?.(this);
+	}
+
+	/**
+	 * set rerender function
+	 */
+	public setRerender(rerender: (fi?: Partial<iFormInputDefault<T>>) => void) {
+		this._rerender = rerender;
+
+		return this;
+	}
 }
 
 export class FormInput<V extends iFormValue = iFormValue>
@@ -101,8 +127,6 @@ export class FormInput<V extends iFormValue = iFormValue>
 	// private
 	private _values!: (V | V[])[];
 	private _defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]];
-	/** Rerender component */
-	private _rerender?: () => void;
 	// public readonly
 	public readonly name!: string;
 	public readonly title!: string;
@@ -115,9 +139,10 @@ export class FormInput<V extends iFormValue = iFormValue>
 	 */
 	constructor(
 		formInput: iFormInput<V>,
-		private _onUpdatedValues?: (updatedValues: (V | V[])[]) => void
+		private _onUpdatedValues?: (updatedValues: (V | V[])[]) => void,
+		rerender?: (fi?: Partial<iFormInput<V>>) => void
 	) {
-		super(formInput);
+		super(formInput, rerender);
 
 		const values = Array(this.min).fill(getDefault(formInput.type, formInput.defaults));
 
@@ -150,15 +175,16 @@ export class FormInput<V extends iFormValue = iFormValue>
 		updatedDefaults: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]] | undefined
 	) {
 		this._defaults = updatedDefaults;
-		// rerender on defaults change
-		this._rerender?.();
+		this.rerender();
 	}
 
 	/**
 	 * set rerender function
+	 *
+	 * @override
 	 */
-	public setRerender(rerender: () => void) {
-		this._rerender = rerender;
+	public setRerender(rerender: (fi?: Partial<iFormInput<V>>) => void) {
+		super.setRerender(rerender);
 
 		return this;
 	}
@@ -193,11 +219,12 @@ export class FormInput<V extends iFormValue = iFormValue>
 	) {
 		const oldFormInput: iFormInput<V> = {
 			...this,
-			values: this._values,
-			defaults: this._defaults,
+			options: this.options,
+			values: this.values,
+			defaults: this.defaults,
 		};
 
-		return new FormInput({ ...oldFormInput, ...overrides }, onUpdatedValues);
+		return new FormInput({ ...oldFormInput, ...overrides }, onUpdatedValues, this.rerender);
 	}
 
 	/**

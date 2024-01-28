@@ -17,6 +17,7 @@
 					:theme="theme"
 					:aria-label="option.alias || option.value"
 					:active="modelValue.includes(option.value)"
+					:title="modelValue.includes(option.value) ? t('select_selected') : ''"
 					:disabled="readonly || (!input.multiple && modelValue.includes(option.value))"
 					@click="choose(option.value)"
 				>
@@ -57,9 +58,10 @@
 			:theme="theme"
 			:readonly="readonly"
 		>
+			<!-- Flexible input type -->
 			<div
 				v-if="input.defaults && input.defaults.length >= 2"
-				class="flx --flxColumn --flxRow-wrap:md --flx-start-stretch --flx"
+				class="flx --flxColumn --flxRow-wrap:md --flx-start-stretch --flx --gap-5"
 			>
 				<!-- Recursion -->
 				<Input
@@ -68,12 +70,14 @@
 						input.defaults?.[index].placeholder || input.defaults?.[index].type || index
 					"
 					:input="
-						input.setRerender($forceUpdate).clone({
-							...input.defaults[index], // sub input
-							multiple: false,
-							defaults: undefined,
-							values: [models[i].value[index]],
-						})
+						input
+							.clone({
+								...input.defaults[index], // sub input
+								multiple: false,
+								defaults: undefined,
+								values: [models[i].value[index]],
+							})
+							.setRerender($forceUpdate)
 					"
 					:theme="theme"
 					class="--width-180 --flx"
@@ -206,7 +210,7 @@
 				<p>Schedule Component Here</p>
 			</FormInputNValues>
 			<label v-else-if="input.type === eFT.BOOLEAN" class="--flx">
-				<BoxMessage :theme="theme" class="--txtAlign">
+				<BoxMessage :theme="theme" class="--txtAlign" :active="models[i].value" button>
 					<!-- TODO: use switch type (unsupported style) -->
 					<InputToggle
 						v-model="models[i].value"
@@ -225,26 +229,12 @@
 				</BoxMessage>
 			</label>
 			<FormInputOptions
-				v-else-if="input.type === eFT.SELECT"
+				v-else-if="input.type === eFT.SELECT || input.type === eFT.SELECT_FILTER"
 				v-slot="{ options }"
 				:input="input"
 			>
-				<SelectSimple
-					v-model="models[i].value"
-					v-bind="inputProps"
-					:theme="theme"
-					:disabled="readonly"
-					:placeholder="input.placeholder"
-					:options="options"
-					class="--flx"
-				/>
-			</FormInputOptions>
-			<FormInputOptions
-				v-else-if="input.type === eFT.SELECT_FILTER"
-				v-slot="{ options }"
-				:input="input"
-			>
-				<SelectFilter
+				<component
+					:is="input.type === eFT.SELECT ? SelectSimple : SelectFilter"
 					v-model="models[i].value"
 					v-bind="inputProps"
 					:theme="theme"
@@ -408,7 +398,7 @@
 			}
 		} else {
 			// old behavior, single value
-			models.value[0].value = value;
+			emit("update:model-value", [value]);
 		}
 	}
 

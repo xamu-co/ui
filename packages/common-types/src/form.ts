@@ -171,6 +171,8 @@ export interface iFormResponse<R = any, T = any> {
 	errors?: any;
 	/**
 	 * Swal target
+	 *
+	 * If the swal was triggered from a modal, then use it as render target
 	 */
 	modalTarget?: T;
 }

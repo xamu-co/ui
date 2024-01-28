@@ -11,13 +11,6 @@ interface igetModifiersArgs {
 }
 
 /**
- * Returns a valid HTML class string
- */
-function getClassesString(classes: string | string[] | (string | string[])[]): string {
-	return [...new Set([classes].flat(2))].join(" ").trim();
-}
-
-/**
  * returns the modifier classes
  *
  * @examples "--modifier", "--modifier-value", "suffi--modifier-value", "suffi--modifier"
@@ -138,7 +131,6 @@ export default function useUtils(_options: iPluginOptions = {}) {
 	return {
 		isBrowser,
 		isTouchDevice,
-		getClassesString,
 		getModifierClasses,
 		getPropData,
 		createFormData,

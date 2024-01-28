@@ -10,6 +10,13 @@
 			@include module.extend-colors(light, true) using($name, $value, $is-default) {
 				@include module.extend-viewports-classes {
 					background-color: $value;
+
+					th,
+					td {
+						&.#{module.$prefix-default}--sticky {
+							background-color: $value;
+						}
+					}
 				}
 			}
 

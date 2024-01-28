@@ -10,8 +10,13 @@ import type { iPluginOptions, tHydrate } from "@open-xamu-co/ui-common-types";
 export default function useFetch() {
 	const { lang } = inject<iPluginOptions>("xamu") || {};
 
-	function getUrlParams(params: Record<string, string> = {}) {
-		return new URLSearchParams({ ...params, ...(lang && lang !== "en" ? { lang } : {}) });
+	function withUrlParams(url: string, params: Record<string, string> = {}) {
+		const urlParams = new URLSearchParams({
+			...params,
+			...(lang && lang !== "en" ? { lang } : {}),
+		});
+
+		return `${url.split("?")[0]}?${urlParams}`;
 	}
 
 	/**
@@ -22,7 +27,7 @@ export default function useFetch() {
 	}
 
 	return {
-		getUrlParams,
+		withUrlParams,
 		unHydrate,
 	};
 }

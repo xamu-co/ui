@@ -1,13 +1,7 @@
 <template>
 	<i
 		aria-hidden="true"
-		:class="
-			getClassesString([
-				modifiersClasses,
-				indicatorClasses,
-				!!$slots.default ? 'svg' : 'icon',
-			])
-		"
+		:class="[modifiersClasses, indicatorClasses, !!$slots.default ? 'svg' : 'icon']"
 		v-bind="$attrs"
 	>
 		<slot></slot>
@@ -39,7 +33,7 @@
 
 	const props = defineProps<iIconSimpleProps>();
 
-	const { getClassesString, getModifierClasses: GMC } = useHelpers(useUtils);
+	const { getModifierClasses: GMC } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 
 	const indicatorClasses = computed<string[]>(() => {

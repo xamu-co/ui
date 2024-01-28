@@ -133,10 +133,24 @@
 			&-item {
 				box-shadow: 3px 3px 9px module.color(dark, 0.3);
 
-				@layer defaults {
-					& {
+				// Dropdown theme
+				//
+				// @group Modifiers
+				@include module.extend-unions
+					using($theme, $theme-value, $base, $base-value, $is-default) {
+					@layer defaults {
 						// @defaults bgColor
-						background: module.$color-bg;
+						& {
+							color: module.color($base, 0.7);
+							background-color: module.color($theme);
+
+							th,
+							td {
+								&.#{module.$prefix-default}--sticky {
+									background-color: module.color($theme);
+								}
+							}
+						}
 					}
 				}
 

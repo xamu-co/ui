@@ -56,6 +56,7 @@ export const localeBase: iLocaleBase = {
  * @locale es
  */
 export const localeInput: iLocaleInput = {
+	select_selected: "Seleccionado",
 	select_placeholder: "--SELECCIONAR--",
 	select_restablish_field: "Restablecer campo",
 	select_filter_options: "Escribe o haz doble click para las opciones",

@@ -26,7 +26,6 @@
 				class="--txtSize"
 				:theme="modalTheme || theme"
 				:title="property?.alias"
-				:target="modalTarget"
 			>
 				<template #toggle="{ toggleModal }">
 					<ActionButtonToggle
@@ -40,12 +39,12 @@
 						{{ t("table_see_values", { name: property?.alias?.toLowerCase() }) }}
 					</ActionButtonToggle>
 				</template>
-				<template #default="{ model }">
+				<template #default="{ model, invertedTheme }">
 					<Table
 						v-if="model"
 						:nodes="remapValues(value)"
-						:theme="theme"
-						:modal-theme="modalTheme"
+						:theme="invertedTheme"
+						:modal-theme="modalTheme || theme"
 						:classes="classes"
 					/>
 				</template>
@@ -60,7 +59,6 @@
 		class="--txtSize"
 		:theme="modalTheme || theme"
 		:title="property?.alias"
-		:target="modalTarget"
 	>
 		<template #toggle="{ toggleModal }">
 			<ActionLink
@@ -89,14 +87,14 @@
 				<IconFa name="lemon" force-regular />
 			</ActionButtonToggle>
 		</template>
-		<template #default="{ model }">
+		<template #default="{ model, invertedTheme }">
 			<ul v-if="model" class="flx --flxColumn --minWidth-220 --txtSize-sm" :class="classes">
 				<li
 					v-for="([childValueName, childValue], childValueIndex) in sort(value)"
 					:key="childValueIndex"
 					class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
 				>
-					<span class="--txtSize-xs" :class="`--txtColor-${themeValues[0]}`">
+					<span class="--txtSize-xs">
 						{{ _.capitalize(_.startCase(childValueName)) }}
 					</span>
 					<!-- Recursion -->
@@ -109,11 +107,11 @@
 								alias: _.capitalize(_.startCase(childValueName)),
 							},
 							readonly,
-							theme,
-							modalTheme,
-							modalTarget,
+							theme: invertedTheme,
+							modalTheme: modalTheme || theme,
 						}"
 						:class="classes"
+						verbose
 					/>
 				</li>
 			</ul>
@@ -122,11 +120,10 @@
 	<!-- Plain value -->
 	<ValueSimple
 		v-else
-		v-bind="{ value, property, readonly, theme, modalTheme, classes, modalTarget }"
+		v-bind="{ value, property, readonly, theme, modalTheme, classes, verbose }"
 	/>
 </template>
 <script setup lang="ts" generic="P extends Record<string, any>, T">
-	import type { RendererElement } from "vue";
 	import _ from "lodash";
 
 	import type {
@@ -171,12 +168,12 @@
 		 * Refresh the content
 		 */
 		refresh?: () => unknown;
-		modalTarget?: string | RendererElement;
 		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
 		/**
 		 * Prevent node functions from triggering refresh event (useful with firebase hydration)
 		 */
 		omitRefresh?: boolean;
+		verbose?: boolean;
 	}
 
 	/**

@@ -19,6 +19,7 @@ export { default as ActionLink } from "./components/action/Link.vue";
 export { default as InputFile } from "./components/input/File.vue";
 export { default as InputText } from "./components/input/Text.vue";
 export { default as InputToggle } from "./components/input/Toggle.vue";
+export { default as InputColor } from "./components/input/Color.vue";
 
 // select
 export { default as Select } from "./components/select/Simple.vue";
@@ -51,6 +52,7 @@ export { default as Modal } from "./components/Modal.vue";
 export { default as Dropdown } from "./components/Dropdown.vue";
 export { default as Table } from "./components/Table.vue";
 export { default as Slider } from "./components/Slider.vue";
+export { default as Collapse } from "./components/Collapse.vue";
 
 // composables
 export { default as useTheme } from "./composables/theme";

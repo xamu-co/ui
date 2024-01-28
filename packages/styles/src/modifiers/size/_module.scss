@@ -58,19 +58,22 @@
 
 // Dimensions
 @mixin extend-dimension($property) {
-	&-quarter {
+	&-quarter,
+	&-25 {
 		@include module.extend-viewports-classes {
 			#{$property}: 25%;
 		}
 	}
 
-	&-third {
+	&-third,
+	&-33 {
 		@include module.extend-viewports-classes {
 			#{$property}: 33%;
 		}
 	}
 
-	&-half {
+	&-half,
+	&-50 {
 		@include module.extend-viewports-classes {
 			#{$property}: 50%;
 		}
@@ -78,6 +81,7 @@
 
 	&-none {
 		@include module.extend-viewports-classes {
+			#{$property}: unset;
 			#{$property}: none;
 		}
 	}
@@ -104,17 +108,20 @@
 @mixin extend-dimension-viewport($property, $model) {
 	// vh or vw
 	$vm: "v" + string.slice($model, 1, 1);
-	$unit: if($vm == "vh", 1vh, 1vw);
+	$unit-old: if($vm == "vh", 1vh, 1vw);
+	$unit: if($vm == "vh", 1dvh, 1dvw);
 
 	// default viewport based constrains
 	&#{module.capitalize($vm)} {
 		@include module.extend-viewports-classes {
+			#{$property}: 25 * $unit-old;
 			#{$property}: 25 * $unit;
 		}
 
 		@for $i from 3 through 10 {
 			&-#{$i * 10} {
 				@include module.extend-viewports-classes {
+					#{$property}: ($i * 10) * $unit-old;
 					#{$property}: ($i * 10) * $unit;
 				}
 			}

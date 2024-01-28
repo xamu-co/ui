@@ -1,46 +1,36 @@
 <template>
 	<LoaderContentFetch
-		v-slot="countries"
+		v-slot="{ content }"
 		:theme="theme"
-		:promise="((withLocationInput && !defaultCountry) || withPhoneInput) && getCountries"
+		:promise="
+			((withLocationInput && !defaultCountry) || withPhoneInput) && getCountriesAndStates
+		"
 		class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
-		:fallback="[]"
 		:el="noForm ? 'fieldset' : 'form'"
+		:fallback="{ countries: [], states: [] }"
 	>
-		<LoaderContentFetch
-			v-slot="states"
-			:theme="theme"
-			:promise="
-				withLocationInput &&
-				!!defaultCountry &&
-				(() => getCountryStates(defaultCountry || ''))
-			"
-			:fallback="[]"
-			unwrap
+		<legend v-if="title">
+			<h4>{{ title }}:</h4>
+		</legend>
+		<div
+			v-for="(input, inputIndex) in model"
+			:key="inputIndex"
+			class="flx --flxColumn --flx-start-stretch --gap-5"
 		>
-			<legend v-if="title">
-				<h4>{{ title }}:</h4>
-			</legend>
-			<div
-				v-for="(input, inputIndex) in model"
-				:key="inputIndex"
-				class="flx --flxColumn --flx-start-stretch --gap-5"
-			>
-				<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
-					{{ getSuggestedTitle(input) }}
-				</p>
-				<FormInput
-					:readonly="readonly"
-					:theme="theme"
-					:input="input"
-					:invalid="getInvalid(input.name)"
-					:countries="countries.content"
-					:states="(withLocationInput && !!defaultCountry && states.content) || undefined"
-					:model-value="model[inputIndex].values"
-					@update:model-value="updateValues(inputIndex, $event)"
-				/>
-			</div>
-		</LoaderContentFetch>
+			<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
+				{{ getSuggestedTitle(input) }}
+			</p>
+			<FormInput
+				:readonly="readonly"
+				:theme="theme"
+				:input="input"
+				:invalid="getInvalid(input.name)"
+				:countries="content.countries"
+				:states="(withLocationInput && !!defaultCountry && content.states) || undefined"
+				:model-value="model[inputIndex].values"
+				@update:model-value="updateValues(inputIndex, $event)"
+			/>
+		</div>
 	</LoaderContentFetch>
 </template>
 
@@ -56,6 +46,7 @@
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
+	import type { iState } from "../../types/countries";
 	import useCountries from "../../composables/countries";
 	import useHelpers from "../../composables/helpers";
 
@@ -94,6 +85,20 @@
 			return type === eFormType.CELLPHONE || type === eFormType.PHONE;
 		});
 	});
+
+	/**
+	 * Fetch states if country is provided
+	 *
+	 * TODO: save to shared state to avoid over fetching
+	 */
+	async function getCountriesAndStates() {
+		const countries = await getCountries();
+		let states: iState[] = [];
+
+		if (defaultCountry) states = await getCountryStates(defaultCountry);
+
+		return { countries, states };
+	}
 
 	function updateValues(index: number, values: any[]) {
 		model.value[index].values = values;
@@ -175,9 +180,15 @@
 	watch(
 		() => props.make,
 		(newMake, oldMake) => {
-			if (!oldMake || newMake?.every((input, index) => input.isEqual(oldMake[index]))) return;
+			if (
+				oldMake?.length &&
+				newMake?.length &&
+				newMake.every((input, index) => input.isEqual(oldMake[index]))
+			) {
+				return;
+			}
 
-			emit("update:model-value", newMake);
+			if (Array.isArray(newMake)) emit("update:model-value", newMake);
 		},
 		{ immediate: true }
 	);

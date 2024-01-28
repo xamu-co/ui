@@ -8,12 +8,9 @@
 		>
 			<slot name="toggle" v-bind="{ model, setModel }"></slot>
 		</div>
-		<Modal v-model="localModel" :disabled="!isModal" :theme="theme">
-			<div
-				ref="dropdownRef"
-				:class="{ [getClassesString([modifiersClasses, dropdownClasses])]: !isModal }"
-			>
-				<slot v-bind="{ model, setModel }"></slot>
+		<Modal v-model="localModel" :disabled="!isModal" :theme="theme" :invert-theme="invertTheme">
+			<div ref="dropdownRef" :class="dropdownClasses">
+				<slot v-bind="{ model, setModel, invertedTheme }"></slot>
 			</div>
 		</Modal>
 	</BaseWrapper>
@@ -24,7 +21,6 @@
 		computed,
 		ref,
 		watch,
-		onMounted,
 		onUnmounted,
 		type Component as VueComponent,
 		type DefineComponent,
@@ -64,9 +60,9 @@
 	}
 
 	/**
-	 * Dropdown Prototype
+	 * Dropdown Component
 	 *
-	 * @prototype
+	 * @component
 	 */
 
 	defineOptions({ name: "DropdownSimple", inheritAttrs: false });
@@ -74,8 +70,8 @@
 	const props = defineProps<iDropdownProps>();
 	const emit = defineEmits(["close", "update:model-value"]);
 
-	const { getModifierClasses: GMC, getClassesString } = useHelpers(useUtils);
-	const { themeValues } = useTheme(props);
+	const { getModifierClasses: GMC } = useHelpers(useUtils);
+	const { themeClasses, invertedTheme } = useTheme(props, true);
 	const { tabletMqRange } = useBrowser();
 	const { modifiersClasses } = useModifiers(props);
 
@@ -83,25 +79,31 @@
 	const dropdownRef = ref<HTMLElement>();
 	const isModal = ref(false);
 	const model = ref(props.modelValue);
-	const dropdownClasses = computed<string>(() => {
-		return getClassesString([
-			"dropdown",
-			`--bgColor-${themeValues.value[1]}`,
-			GMC([{ active: props.modelValue }], { prefix: "is" }),
-			GMC([[props.position ?? "bottom"].flat(2).join("-")], {
+	const dropdownClasses = computed<string[]>(() => {
+		if (isModal.value) return [];
+
+		return [
+			...modifiersClasses.value,
+			...themeClasses.value,
+			...GMC([{ active: props.modelValue }], { prefix: "is" }),
+			...GMC([[props.position ?? "bottom"].flat(2).join("-")], {
 				modifier: "position",
 				divider: "-",
 			}),
-		]);
+			"dropdown",
+		];
 	});
 
 	function setModel(value = !model.value) {
+		if (value) document.addEventListener("click", clickOutside, true);
+
 		return (model.value = value);
 	}
 
 	function closeDropdown() {
 		emit("close");
 		emit("update:model-value", setModel(false));
+		document.removeEventListener("click", clickOutside, true);
 	}
 	function clickOutside(e: MouseEvent) {
 		const target = e.target as HTMLElement;
@@ -130,10 +132,5 @@
 		},
 		{ immediate: false }
 	);
-	onMounted(() => {
-		document.addEventListener("click", clickOutside, true);
-	});
-	onUnmounted(() => {
-		document.removeEventListener("click", clickOutside, true);
-	});
+	onUnmounted(closeDropdown);
 </script>

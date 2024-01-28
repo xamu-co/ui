@@ -76,16 +76,14 @@
 	}
 
 	// lifecycle
-
-	// set single option as value
-	if (selectOptions.value.length === 1) emit("update:model-value", selectOptions.value[0].value);
-
 	watch(
 		selectOptions,
 		(options) => {
 			// set single option as value
-			if (options.length === 1) emit("update:model-value", options[0].value);
+			if (options.length === 1 && props.modelValue !== options[0].value) {
+				emit("update:model-value", options[0].value);
+			}
 		},
-		{ immediate: false }
+		{ immediate: true }
 	);
 </script>

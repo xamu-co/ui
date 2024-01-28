@@ -3,6 +3,8 @@ import { nanoid } from "nanoid";
 /**
  * UIID composable
  *
+ * TODO: replace uuid with autoincrement from shared state to improve hydration behavior
+ *
  * @composable
  */
 export default function useUIID() {

@@ -6,6 +6,9 @@ $prefix-default: "" !default;
 $prefix-default-with-separator: system.dashed($prefix-default) !default;
 
 // ALLOWANCES
+$allow-theme-overrides: true !default; // aesthetic overrides
+
+// ALLOWANCES, MODULES
 $allow-reset: true !default;
 $allow-initialize: true !default;
 $allow-animations: true !default;

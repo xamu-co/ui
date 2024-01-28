@@ -1,12 +1,12 @@
 <template>
-	<div v-if="nodes.length" ref="valueRootRef" class="flx --flxColumn --flx-start-stretch --width">
+	<div v-if="nodes.length" class="flx --flxColumn --flx-start-stretch --width">
 		<div v-if="!isReadOnly" class="flx --flxRow --flx-end-center">
 			<ActionButton
 				v-if="!!deleteNode"
 				:tooltip="t('table_delete')"
 				tooltip-as-text
 				tooltip-position="bottom"
-				:theme="[eColors.DANGER, themeValues[1]]"
+				:theme="[eColors.DANGER, themeValues[0]]"
 				:disabled="!selectedNodes.some(([n]) => n)"
 				@click="deleteNodesAndRefresh"
 			>
@@ -21,20 +21,21 @@
 			</ActionButton>
 		</div>
 		<div v-bind="$attrs" class="scroll --horizontal --always">
-			<table class="tbl" :class="themeClasses">
+			<table :id="tableId" class="tbl" :class="themeClasses">
 				<thead>
 					<tr class="--txtAlign --txtSize-sm">
-						<!-- TODO: define filters -->
+						<!-- TODO: define filters, filter table contents -->
 						<th
 							class="--sticky"
-							:class="{ ['is--selected']: canSort && isSelected('id') }"
+							:class="{ ['is--selected']: canSort && isOrdering('id') }"
 							data-column-name="id"
 							data-column="id"
 						>
 							<div class="flx --flxRow --flx-start-center --gap-10">
 								<InputToggle
 									v-if="!isReadOnly"
-									:theme="theme"
+									:id="tableId + 'select-all'"
+									:theme="theme || themeValues"
 									:title="t('table_select_all')"
 									:checked="selectedNodes.every(([n]) => n)"
 									@update:model-value="toggleAll"
@@ -42,17 +43,17 @@
 								<span v-if="isReadOnly || !canSort">#</span>
 								<ActionLink
 									v-else
-									:theme="theme"
+									:theme="theme || themeValues"
 									title="id"
 									:tooltip="t('table_sort_by_name', { name: 'Id' })"
 									tooltip-as-text
 									tooltip-position="bottom"
-									@click="sortBy('id')"
+									@click="setOrdering('id')"
 								>
 									<span>#</span>
-									<template v-if="isSelected('id')">
-										<IconFa v-if="selectedProperty.asc" name="arrow-down" />
-										<IconFa v-if="!selectedProperty.asc" name="arrow-up" />
+									<template v-if="isOrdering('id')">
+										<IconFa v-if="ordering.asc" name="arrow-down" />
+										<IconFa v-if="!ordering.asc" name="arrow-up" />
 									</template>
 								</ActionLink>
 							</div>
@@ -61,7 +62,7 @@
 							v-for="(propertyName, propertyNameIndex) in propertiesMeta"
 							:key="propertyNameIndex"
 							class="--txtSize-sm --maxWidth-440"
-							:class="{ ['is--selected']: canSort && isSelected(propertyName.value) }"
+							:class="{ ['is--selected']: canSort && isOrdering(propertyName.value) }"
 							:data-column-name="propertyName.value"
 							:data-column="propertyName.alias"
 							:width="
@@ -75,16 +76,16 @@
 							</span>
 							<ActionLink
 								v-else
-								:theme="theme"
+								:theme="theme || themeValues"
 								:title="propertyName.value"
 								:tooltip="t('table_sort_by_name', { name: propertyName.alias })"
 								tooltip-as-text
 								tooltip-position="bottom"
-								@click="sortBy(propertyName.value)"
+								@click="setOrdering(propertyName.value)"
 							>
 								<span>{{ propertyName.alias }}</span>
-								<template v-if="isSelected(propertyName.value)">
-									<IconFa v-if="selectedProperty.asc" name="arrow-down" />
+								<template v-if="isOrdering(propertyName.value)">
+									<IconFa v-if="ordering.asc" name="arrow-down" />
 									<IconFa v-else name="arrow-up" />
 								</template>
 							</ActionLink>
@@ -109,15 +110,16 @@
 						>
 							<th
 								class="--sticky"
-								:class="{ ['is--selected']: isSelected('id') }"
+								:class="{ ['is--selected']: isOrdering('id') }"
 								data-column-name="id"
 								data-column="id"
 							>
 								<div class="flx --flxRow --flx-start-center --gap-10">
 									<InputToggle
 										v-if="!isReadOnly"
+										:id="tableId + String(node.id ?? nodeIndex)"
 										v-model="selectedNodes[nodeIndex][0]"
-										:theme="theme"
+										:theme="theme || themeValues"
 										:title="t('table_select')"
 									/>
 									<span :title="String(node.id ?? nodeIndex)">
@@ -135,21 +137,19 @@
 								:data-column-name="property.value"
 								:data-column="property.alias"
 								:class="{
-									['is--selected']: selectedProperty.name === property.value,
+									['is--selected']: ordering.name === property.value,
 								}"
 								class="--txtSize-sm --maxWidth-440"
 							>
 								<ValueComplex
-									v-if="valueRootRef"
 									v-bind="{
 										value: node[property.value],
 										property,
 										node,
 										readonly: isReadOnly,
-										theme,
-										modalTheme,
+										theme: theme || themeValues,
+										modalTheme: modalTheme || theme || themeValues,
 										classes,
-										modalTarget: valueRootRef,
 										refresh,
 										omitRefresh,
 									}"
@@ -167,7 +167,7 @@
 										:tooltip="t('table_update')"
 										tooltip-as-text
 										tooltip-position="left"
-										:theme="theme"
+										:theme="theme || themeValues"
 										size="sm"
 										round
 										:disabled="selectedNodes.some(([n]) => n)"
@@ -178,14 +178,14 @@
 									<Dropdown
 										class="flx --flxRow --flx-center"
 										:position="['left', 'center']"
-										:theme="modalTheme"
+										:theme="theme || themeValues"
 										size="sm"
 									>
 										<template #toggle="{ setModel }">
 											<ActionLink
 												:aria-label="t('table_options')"
 												:title="t('table_options')"
-												:theme="theme"
+												:theme="theme || themeValues"
 												size="sm"
 												:disabled="selectedNodes.some(([n]) => n)"
 												toggle="dropdown"
@@ -194,11 +194,11 @@
 												<IconFa name="ellipsis-vertical" />
 											</ActionLink>
 										</template>
-										<template #default="{ setModel }">
+										<template #default="{ setModel, invertedTheme }">
 											<ul class="flx --flxColumn --flx-start-stretch --gap-5">
 												<li v-if="!!cloneNode">
 													<ActionLink
-														:theme="theme"
+														:theme="invertedTheme"
 														size="sm"
 														:aria-label="t('table_duplicate')"
 														@click="cloneNodeAndRefresh(node, setModel)"
@@ -211,7 +211,7 @@
 												</li>
 												<li v-if="!!deleteNode">
 													<ActionLink
-														:theme="[eColors.DANGER, themeValues[1]]"
+														:theme="[eColors.DANGER, invertedTheme[0]]"
 														size="sm"
 														:aria-label="t('table_delete')"
 														@click="
@@ -233,7 +233,7 @@
 								<th class="--sticky --pX-10 --pY-5 --vAlign">
 									<div class="flx --flxRow --flx-center-end --gap-10 --bdr">
 										<ActionLink
-											:theme="theme"
+											:theme="theme || themeValues"
 											size="sm"
 											:active="selectedNodes[nodeIndex][1]"
 											:tooltip="
@@ -252,7 +252,7 @@
 											<IconFa name="chevron-up" indicator />
 										</ActionLink>
 										<ActionLink
-											:theme="theme"
+											:theme="theme || themeValues"
 											size="sm"
 											:tooltip="t('table_create_new')"
 											tooltip-position="right"
@@ -268,10 +268,7 @@
 									:colspan="propertiesMeta.length + 1"
 									class="--pY-5 --index-1 --pRight"
 								>
-									<div
-										v-show="selectedNodes[nodeIndex][1]"
-										class="flx --flxRow --flx-start --flx --width"
-									>
+									<div v-show="selectedNodes[nodeIndex][1]" class="--width">
 										<slot
 											v-bind="{ node, show: selectedNodes[nodeIndex][1] }"
 										></slot>
@@ -290,12 +287,12 @@
 			</table>
 		</div>
 	</div>
-	<BoxMessage v-else-if="!canSort" :theme="theme">
+	<BoxMessage v-else-if="!canSort" :theme="theme || themeValues">
 		<div class="flx --flxRow --flx-center">
 			<span>{{ t("nothing_to_show") }}</span>
 			<ActionButtonToggle
 				v-if="refresh"
-				:theme="theme"
+				:theme="theme || themeValues"
 				:tooltip="t('refresh')"
 				round
 				@click="refresh()"
@@ -335,6 +332,7 @@
 	import type { iUseThemeProps } from "../types/props";
 	import useTheme from "../composables/theme";
 	import useHelpers from "../composables/helpers";
+	import useUUID from "../composables/uuid";
 
 	export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
 		/**
@@ -411,16 +409,23 @@
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
-	const { themeClasses, themeValues } = useTheme({ ...props, themeAsUnion: true });
+	const { themeClasses, themeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
+	const { uuid } = useUUID();
 
-	const valueRootRef = ref();
+	const randomId = uuid().replace("-", "").substring(0, 8);
+
 	/** [selected, show] */
 	const selectedNodes = ref<[boolean, boolean][]>(reFillNodes(props.nodes.length));
 	const selectedNodesCount = computed(() => {
 		return selectedNodes.value.filter(([n]) => n).length;
 	});
-	const selectedProperty = computed(() => {
+	/**
+	 * ordering property
+	 *
+	 * TODO: order using props or model instead (external pagination)
+	 */
+	const ordering = computed(() => {
 		const orderBy = { name: "id", asc: true };
 
 		if (router) {
@@ -473,6 +478,14 @@
 			})
 			.filter((property) => property.value !== "id");
 	});
+	/** Prefer a predictable identifier */
+	const tableId = computed(() => {
+		const childrenBased = props.childrenName || props.childrenCountKey;
+		const metaBased = propertiesMeta.value[0].alias || propertiesMeta.value[0].value;
+		const seed = _.deburr(String(childrenBased || metaBased || ""));
+
+		return `table_${seed.replaceAll(" ", "") || randomId}`;
+	});
 
 	function reFillNodes(length: number): [boolean, boolean][] {
 		return Array.from({ length }, () => [false, false]);
@@ -490,10 +503,10 @@
 	}
 
 	/**
-	 * property is selected
+	 * property is ordering the table
 	 */
-	function isSelected(property: string | number): boolean {
-		return selectedProperty.value.name === property;
+	function isOrdering(property: string | number): boolean {
+		return ordering.value.name === property;
 	}
 
 	/**
@@ -501,10 +514,10 @@
 	 *
 	 * @replace
 	 */
-	function sortBy(property: string | number) {
+	function setOrdering(property: string | number) {
 		var order = "ASC";
 
-		if (selectedProperty.value.name === property && selectedProperty.value.asc) {
+		if (ordering.value.name === property && ordering.value.asc) {
 			// switch order
 			order = "DESC";
 		}
@@ -521,6 +534,10 @@
 	/**
 	 * Updates given node
 	 * sometimes it could fail but still update (api issue)
+	 *
+	 * @single
+	 *
+	 * TODO: Support batch editing
 	 */
 	async function updateNodeAndRefresh(node: T) {
 		// display loader
@@ -555,6 +572,8 @@
 	/**
 	 * Clones given node
 	 * sometimes it could fail but still clone (api issue)
+	 *
+	 * @single
 	 */
 	async function cloneNodeAndRefresh(node: T, setModel: (m?: boolean) => boolean) {
 		// close modal
@@ -592,6 +611,8 @@
 	/**
 	 * Deletes given node
 	 * sometimes it could fail but still delete (api issue)
+	 *
+	 * @single
 	 */
 	async function deleteNodeAndRefresh(node: T, setModel: (m?: boolean) => boolean) {
 		// request confirmation
@@ -638,6 +659,8 @@
 	/**
 	 * Deletes multiple selected nodes
 	 * sometimes it could fail but still delete (api issue)
+	 *
+	 * @batch
 	 */
 	async function deleteNodesAndRefresh() {
 		// request confirmation

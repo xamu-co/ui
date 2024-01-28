@@ -1,7 +1,7 @@
 <template>
 	<BaseAction
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
-		:class="getClassesString([modifiersClasses, stateClasses, themeClasses, shadowClasses])"
+		:class="[modifiersClasses, stateClasses, themeClasses, shadowClasses]"
 		class="link"
 	>
 		<slot></slot>
@@ -48,7 +48,7 @@
 
 	const props = defineProps<iActionLinkProps>();
 
-	const { getModifierClasses: GMC, getClassesString } = useHelpers(useUtils);
+	const { getModifierClasses: GMC } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
 	const { themeClasses, tooltipAttributes } = useTheme(props);

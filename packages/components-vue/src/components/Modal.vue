@@ -1,88 +1,93 @@
 <template>
 	<slot v-if="$slots.toggle" name="toggle" v-bind="{ toggleModal, model }"></slot>
-	<Teleport v-if="!disabled" :id="modalId" :key="modalId" :to="target || 'body'">
-		<dialog ref="modalRef" @close="closeAndResetModal" @mousedown="clickOutside">
-			<div
-				v-show="!loading && !hide"
-				class="modal"
-				role="document"
-				:class="[
-					modalClass ?? 'flx --flxColumn --flx-start-stretch --width',
-					`--bgColor-${themeValues[1]}`,
-				]"
-				v-bind="$attrs"
-			>
-				<slot name="modal-header" v-bind="{ toggleModal, model }">
-					<div v-if="title" class="flx --flxRow --flx-between-center">
-						<div class="txt --gaping-none">
-							<h5>{{ title }}</h5>
-							<p v-if="subtitle" class="--txtSize-xs">{{ subtitle }}</p>
-						</div>
-						<ActionLink
-							:theme="theme"
-							:aria-label="cancelButtonOptions.title"
-							@click.stop="closeAndResetModal"
-						>
-							<IconFa name="xmark" size="20" />
-						</ActionLink>
+	<dialog
+		v-if="!disabled"
+		:id="modalId"
+		:key="modalId"
+		ref="modalRef"
+		@close="closeModal"
+		@mousedown="clickOutside"
+	>
+		<div
+			v-show="!loading && !hide"
+			class="modal"
+			role="document"
+			:class="[modalClass ?? 'flx --flxColumn --flx-start-stretch --width', themeClasses]"
+			v-bind="$attrs"
+		>
+			<slot name="modal-header" v-bind="{ toggleModal, model, invertedTheme }">
+				<div v-if="title" class="flx --flxRow --flx-between-center">
+					<div class="txt --gaping-none">
+						<h5>{{ title }}</h5>
+						<p v-if="subtitle" class="--txtSize-xs">{{ subtitle }}</p>
 					</div>
-				</slot>
-				<div class="scroll --vertical"><slot v-bind="{ toggleModal, model }"></slot></div>
-				<slot name="modal-footer" v-bind="{ toggleModal, model }">
-					<div v-if="!hideFooter" class="flx --flxRow --flx-end-center">
-						<ActionButton
-							v-if="saveButtonOptions.visible"
-							:theme="theme"
-							:aria-label="saveButtonOptions.title"
-							:class="saveButtonOptions.btnClass"
-							@click="emit('save', closeAndResetModal, $event)"
-						>
-							{{ saveButtonOptions.title }}
-						</ActionButton>
-						<ActionButtonToggle
-							v-if="cancelButtonOptions.visible"
-							:theme="theme"
-							:aria-label="cancelButtonOptions.title"
-							:class="cancelButtonOptions.btnClass"
-							data-dismiss="modal"
-							round=":sm-inv"
-							@click.stop="closeAndResetModal"
-						>
-							<IconFa name="xmark" hidden="-full:sm" />
-							<IconFa name="xmark" regular hidden="-full:sm" />
-							<span class="--hidden-full:sm-inv">
-								{{ cancelButtonOptions.title }}
-							</span>
-						</ActionButtonToggle>
-					</div>
-				</slot>
-			</div>
-			<LoaderSimple v-if="loading || hide" :theme="theme">
-				<transition name="fade">
-					<div
-						v-if="loadingTooLong || (props.hide && props.hideMessage)"
-						class="txt --txtAlignFlx-center --gaping-5"
+					<ActionLink
+						:theme="invertedTheme"
+						:aria-label="cancelButtonOptions.title"
+						@click.stop="closeModal()"
 					>
-						<p class="--txtColor-light --txtShadow --txtSize-sm">
-							{{ props.hideMessage ? props.hideMessage : t("modal_taking_too_long") }}
-						</p>
-						<ActionButton
-							:theme="theme"
-							:aria-label="t('close')"
-							@click="closeAndResetModal"
-						>
-							{{ t("close") }}
-						</ActionButton>
-					</div>
-				</transition>
-			</LoaderSimple>
-		</dialog>
-	</Teleport>
-	<slot v-else v-bind="{ toggleModal, model }"></slot>
+						<IconFa name="xmark" size="20" />
+					</ActionLink>
+				</div>
+			</slot>
+			<div class="scroll --vertical">
+				<!-- Main modal content -->
+				<slot v-bind="{ toggleModal, model, invertedTheme }"></slot>
+			</div>
+			<slot name="modal-footer" v-bind="{ toggleModal, model, invertedTheme }">
+				<div v-if="!hideFooter" class="flx --flxRow --flx-end-center">
+					<ActionButton
+						v-if="saveButtonOptions.visible"
+						:theme="invertedTheme"
+						:aria-label="saveButtonOptions.title"
+						:class="saveButtonOptions.btnClass"
+						@click="emit('save', closeModal, $event)"
+					>
+						{{ saveButtonOptions.title }}
+					</ActionButton>
+					<ActionButtonToggle
+						v-if="cancelButtonOptions.visible"
+						:theme="invertedTheme"
+						:aria-label="cancelButtonOptions.title"
+						:class="cancelButtonOptions.btnClass"
+						data-dismiss="modal"
+						round=":sm-inv"
+						@click.stop="closeModal()"
+					>
+						<IconFa name="xmark" hidden="-full:sm" />
+						<IconFa name="xmark" regular hidden="-full:sm" />
+						<span class="--hidden-full:sm-inv">
+							{{ cancelButtonOptions.title }}
+						</span>
+					</ActionButtonToggle>
+				</div>
+			</slot>
+		</div>
+		<LoaderSimple v-if="loading || hide" :theme="invertedTheme">
+			<transition name="fade">
+				<div
+					v-if="loadingTooLong || (props.hide && props.hideMessage)"
+					class="txt --txtAlignFlx-center --gaping-5"
+				>
+					<p class="--txtColor-light --txtShadow --txtSize-sm">
+						{{ props.hideMessage ? props.hideMessage : t("modal_taking_too_long") }}
+					</p>
+					<ActionButton
+						:theme="invertedTheme"
+						:aria-label="t('close')"
+						@click="closeModal()"
+					>
+						{{ t("close") }}
+					</ActionButton>
+				</div>
+			</transition>
+		</LoaderSimple>
+	</dialog>
+	<slot v-else v-bind="{ toggleModal, model, invertedTheme }"></slot>
 </template>
 
 <script setup lang="ts">
-	import { type RendererElement, computed, onMounted, onUnmounted, ref, watch } from "vue";
+	import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 	import _ from "lodash";
 
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
@@ -146,7 +151,6 @@
 		 * @private
 		 */
 		modelValue?: boolean;
-		target?: string | RendererElement;
 	}
 
 	/**
@@ -164,7 +168,7 @@
 
 	const { t } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
-	const { themeValues } = useTheme(props);
+	const { themeClasses, invertedTheme } = useTheme(props, true);
 	const { uuid } = useUUID();
 
 	const resolver = ref<(r?: boolean) => void>();
@@ -192,16 +196,39 @@
 		...(!!props.cancelButton && props.cancelButton),
 	}));
 
-	function closeAndResetModal() {
+	function closeModal(success?: boolean) {
 		modalRef.value?.close();
 		loadingTooLong.value = false;
+		localModel.value = false;
+		resolver.value?.(success); // resolve promise early
 		emit("update:model-value", false);
 		emit("close");
 	}
 	function clickOutside(e: Event) {
 		if (modalRef.value !== e.target) return;
 
-		closeAndResetModal();
+		closeModal();
+	}
+	/**
+	 * Opens modal if requirements are met
+	 */
+	function openModal() {
+		localModel.value = true;
+		modalRef.value?.showModal();
+
+		// close modal if requirements are not meet
+		if (!props.loading && props.hide) {
+			Swal.fire({
+				title: t("swal.modal_unauthorized"),
+				text: props.hideMessage || t("swal.modal_unauthorized_text"),
+				icon: "warning",
+			});
+
+			return closeModal();
+		}
+
+		// display message if loading longer than usual
+		setTimeout(() => (loadingTooLong.value = props.loading), 3000);
 	}
 	/**
 	 * Toggles modal
@@ -210,55 +237,27 @@
 	function toggleModal(success?: boolean) {
 		return new Promise<boolean | undefined>((resolve) => {
 			if (model.value) {
-				// old promise
-				resolver.value?.(success);
-				// current promise
-				resolve(success);
-			} else resolver.value = resolve;
-
-			model.value = !model.value;
+				closeModal(success); // close & resolve old promise
+				resolve(undefined); // bypass promise
+			} else {
+				resolver.value = resolve;
+				openModal();
+			}
 		});
 	}
 
-	/**
-	 * Modal model
-	 */
-	const model = computed({
-		get() {
-			return !props.disabled && localModel.value;
-		},
-		set(value) {
-			if (!value) closeAndResetModal();
-			else {
-				modalRef.value?.showModal();
-
-				// close modal if requirements are not meet
-				if (!props.loading && props.hide) {
-					value = false;
-					closeAndResetModal();
-					Swal.fire({
-						title: t("swal.modal_unauthorized"),
-						text: props.hideMessage || t("swal.modal_unauthorized_text"),
-						icon: "warning",
-					});
-				}
-
-				// display message if loading longer than usual
-				setTimeout(() => (loadingTooLong.value = props.loading), 3000);
-			}
-
-			localModel.value = value;
-		},
-	});
+	/** Modal model */
+	const model = computed(() => !props.disabled && (props.modelValue || localModel.value));
 
 	// lifecycle
 	onMounted(() => {
-		if (props.modelValue) model.value = props.modelValue;
+		watch(
+			() => props.modelValue,
+			(show) => {
+				if (show) openModal();
+			},
+			{ immediate: true }
+		);
 	});
-	onUnmounted(closeAndResetModal);
-	watch(
-		() => props.modelValue,
-		(show) => (model.value = show),
-		{ immediate: false }
-	);
+	onUnmounted(closeModal);
 </script>

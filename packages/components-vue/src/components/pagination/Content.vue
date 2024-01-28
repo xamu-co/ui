@@ -15,13 +15,14 @@
 		></slot>
 		<PaginationSimple
 			v-if="!hideControls"
-			v-bind="{ pagination, currentPage: content, withRoute, theme }"
+			v-model="pagination"
+			v-bind="{ currentPage: content, withRoute, theme }"
 		/>
 	</LoaderContentFetch>
 </template>
 
 <script setup lang="ts" generic="T, C extends string | number = string">
-	import { computed, getCurrentInstance, inject } from "vue";
+	import { computed, getCurrentInstance, inject, ref } from "vue";
 
 	import type {
 		iGetPage,
@@ -43,10 +44,6 @@
 		 */
 		page: iGetPage<Ti, Ci>;
 		/**
-		 * paginate using props
-		 */
-		withProps?: boolean;
-		/**
 		 * paginate using route
 		 */
 		withRoute?: boolean;
@@ -60,7 +57,8 @@
 	/**
 	 * Menu de paginacion [PROGRESS]
 	 * Redirecciona a la misma ruta + el query de pagina
-	 * TODO: Add consitional items per page selector
+	 * TODO: Add conditional items per page selector
+	 * Not sure what this was supposed to mean
 	 *
 	 * @component
 	 * @example
@@ -74,16 +72,20 @@
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
-	const propsPagination = computed<iPagination>(() => {
-		const { orderBy, first, at } = props;
-
-		return { orderBy, first: first || xamuOptions?.first, at };
+	const propsPagination = ref<iPagination>({
+		orderBy: props.orderBy,
+		first: props.first ?? xamuOptions?.first,
+		at: props.at,
 	});
 	const routePagination = computed<iPagination>(() => {
 		if (!router) return {};
 
 		const route = router.currentRoute.value;
 		const newPagination = { ...propsPagination.value };
+		/**
+		 * TODO: support multiple order params
+		 * @example { price: "asc", createdAt: "desc", }
+		 */
 		const [cursorName, order] = Array.isArray(route.query.orderBy) ? route.query.orderBy : [];
 		const ascOrDesc = order === "asc" || order === "desc" ? order : "desc";
 		const orderBy: tOrderBy = [cursorName ?? "createdAt", ascOrDesc];
@@ -101,11 +103,18 @@
 
 		return newPagination;
 	});
-	const pagination = computed<iPagination | undefined>(() => {
-		if (props.withProps) return propsPagination.value;
-		else if (props.withRoute) return routePagination.value;
+	const pagination = computed<iPagination | undefined>({
+		get() {
+			if (props.withRoute) return routePagination.value;
 
-		// unpaginated
-		return undefined;
+			return propsPagination.value;
+		},
+		set(newPagination) {
+			propsPagination.value = {
+				orderBy: newPagination?.orderBy ?? propsPagination.value?.orderBy,
+				first: newPagination?.first ?? propsPagination.value?.first,
+				at: newPagination?.at ?? propsPagination.value?.at,
+			};
+		},
 	});
 </script>

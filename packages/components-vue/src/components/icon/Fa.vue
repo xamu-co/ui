@@ -1,6 +1,6 @@
 <template>
 	<IconSimple
-		:class="getClassesString([`fa-${name ?? 'cubes'}`, typeClass])"
+		:class="[`fa-${name ?? 'cubes'}`, typeClass]"
 		v-bind="{ ...$attrs, hidden, size, indicator }"
 	/>
 </template>
@@ -10,12 +10,10 @@
 	import { computed, inject } from "vue";
 
 	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
-	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import IconSimple from "./Simple.vue";
 
 	import type { iUseModifiersProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
 
 	interface iIconFaProps extends iUseModifiersProps {
 		name?: IconName;
@@ -41,7 +39,6 @@
 	const props = defineProps<iIconFaProps>();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
-	const { getClassesString } = useHelpers(useUtils);
 
 	const regular = computed(() => {
 		return props.forceRegular || (xamuOptions?.fontAwesomePro && props.regular);

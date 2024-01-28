@@ -1,14 +1,13 @@
 <template>
 	<BaseInput
-		:class="getClassesString([modifiersClasses, stateClasses, themeClasses, 'iColor'])"
+		:class="[modifiersClasses, stateClasses, themeClasses]"
+		class="iColor"
 		v-bind="{ ...$attrs, ..._.omit(props, 'modelValue'), type: 'color' }"
 	/>
 </template>
 
 <script setup lang="ts">
 	import _ from "lodash";
-
-	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseInput from "../base/Input.vue";
 
@@ -21,7 +20,6 @@
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
 
 	interface iInputTextProps
 		extends iInputProps,
@@ -41,7 +39,6 @@
 
 	const props = defineProps<iInputTextProps>();
 
-	const { getClassesString } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
 	const { themeClasses } = useTheme(props);
