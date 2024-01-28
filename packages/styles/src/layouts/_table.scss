@@ -135,8 +135,8 @@
 			//
 			// @group Modifiers
 			@include utils.extend-themes using($name, $value, $is-default) {
-				thead {
-					tr {
+				> thead {
+					> tr {
 						&:not(.#{utils.$status-no-hover}) {
 							color: utils.color($name, 0.6);
 
@@ -161,8 +161,8 @@
 					}
 				}
 
-				tbody {
-					tr {
+				> tbody {
+					> tr {
 						&:not(.#{utils.$status-no-hover}) {
 							&.#{utils.$status-is-selected} {
 								&:hover {

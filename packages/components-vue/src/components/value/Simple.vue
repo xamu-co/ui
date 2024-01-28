@@ -59,7 +59,6 @@
 			class="--txtSize"
 			:theme="modalTheme || theme"
 			:title="property?.alias"
-			:target="modalTarget"
 		>
 			<template #toggle="{ toggleModal }">
 				<ActionLink
@@ -93,7 +92,7 @@
 </template>
 
 <script setup lang="ts" generic="P extends Record<string, any>, T">
-	import { computed, inject, type RendererElement } from "vue";
+	import { computed, inject } from "vue";
 	import validator from "validator";
 
 	import type {
@@ -129,7 +128,6 @@
 		property?: iProperty<Pi>;
 		readonly?: boolean;
 		classes?: tProps<string>;
-		modalTarget?: string | RendererElement;
 		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
 		verbose?: boolean;
 	}

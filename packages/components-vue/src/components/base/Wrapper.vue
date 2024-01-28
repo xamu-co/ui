@@ -16,6 +16,8 @@
 	/**
 	 * Wrapper Component
 	 *
+	 * Conditionally wraps content
+	 *
 	 * @component
 	 * @example
 	 * <Wrapper></Wrapper>

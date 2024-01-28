@@ -26,7 +26,6 @@
 				class="--txtSize"
 				:theme="modalTheme || theme"
 				:title="property?.alias"
-				:target="modalTarget"
 			>
 				<template #toggle="{ toggleModal }">
 					<ActionButtonToggle
@@ -60,7 +59,6 @@
 		class="--txtSize"
 		:theme="modalTheme || theme"
 		:title="property?.alias"
-		:target="modalTarget"
 	>
 		<template #toggle="{ toggleModal }">
 			<ActionLink
@@ -111,7 +109,6 @@
 							readonly,
 							theme: invertedTheme,
 							modalTheme: modalTheme || theme,
-							modalTarget,
 						}"
 						:class="classes"
 						verbose
@@ -123,11 +120,10 @@
 	<!-- Plain value -->
 	<ValueSimple
 		v-else
-		v-bind="{ value, property, readonly, theme, modalTheme, classes, modalTarget, verbose }"
+		v-bind="{ value, property, readonly, theme, modalTheme, classes, verbose }"
 	/>
 </template>
 <script setup lang="ts" generic="P extends Record<string, any>, T">
-	import type { RendererElement } from "vue";
 	import _ from "lodash";
 
 	import type {
@@ -172,7 +168,6 @@
 		 * Refresh the content
 		 */
 		refresh?: () => unknown;
-		modalTarget?: string | RendererElement;
 		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
 		/**
 		 * Prevent node functions from triggering refresh event (useful with firebase hydration)

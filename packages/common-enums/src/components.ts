@@ -1,3 +1,6 @@
+/**
+ * Available components
+ */
 export const componentNames = [
 	// base
 	"BaseImg",
@@ -17,6 +20,7 @@ export const componentNames = [
 	"InputFile",
 	"InputText",
 	"InputToggle",
+	"InputColor",
 	// select
 	"Select",
 	"SelectFilter",

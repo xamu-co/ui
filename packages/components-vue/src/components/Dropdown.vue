@@ -60,9 +60,9 @@
 	}
 
 	/**
-	 * Dropdown Prototype
+	 * Dropdown Component
 	 *
-	 * @prototype
+	 * @component
 	 */
 
 	defineOptions({ name: "DropdownSimple", inheritAttrs: false });

@@ -72,6 +72,8 @@ export interface iLocaleBase {
  * @localeType
  */
 export interface iLocaleInput {
+	/** @example "Selected" */
+	select_selected: string;
 	/** @example "--SELECT--" */
 	select_placeholder: string;
 	/** @example "Restablish field" */

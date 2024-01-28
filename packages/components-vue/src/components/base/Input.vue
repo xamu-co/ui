@@ -50,14 +50,14 @@
 	const { uuid } = useUUID();
 
 	const randomId = uuid().replace("-", "").substring(0, 8);
-	const useChecked = computed(() => {
-		return props.type === "checkbox" || props.type === "radio";
-	});
 	/** Prefer a predictable identifier */
 	const inputId = computed(() => {
 		const seed = _.deburr(props.id || props.name || props.placeholder || props.title);
 
 		return `input_${seed.replaceAll(" ", "") || randomId}`;
+	});
+	const useChecked = computed(() => {
+		return props.type === "checkbox" || props.type === "radio";
 	});
 
 	function handleInput(e: Event) {

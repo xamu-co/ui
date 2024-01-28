@@ -19,6 +19,7 @@ export { default as ActionLink } from "./components/action/Link.vue";
 export { default as InputFile } from "./components/input/File.vue";
 export { default as InputText } from "./components/input/Text.vue";
 export { default as InputToggle } from "./components/input/Toggle.vue";
+export { default as InputColor } from "./components/input/Color.vue";
 
 // select
 export { default as Select } from "./components/select/Simple.vue";

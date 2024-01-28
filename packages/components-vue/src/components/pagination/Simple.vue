@@ -1,15 +1,18 @@
 <template>
-	<ul v-if="currentPage" class="flx --flxRow-wrap --flx-center --gap-5 --gap:sm">
-		<li v-if="pagination?.first">
+	<ul
+		v-if="currentPage && modelValue"
+		class="flx --flxRow-wrap --flx-center --gap-5 --gap:sm --width-fit"
+	>
+		<li v-if="modelValue.first">
 			<p class="--txtSize-sm">
 				{{ t("pagination_items", currentPage.totalCount) }}
 				⋅
-				{{ t("pagination_pages", Math.ceil(currentPage.totalCount / pagination?.first)) }}
+				{{ t("pagination_pages", Math.ceil(currentPage.totalCount / modelValue.first)) }}
 			</p>
 		</li>
-		<li v-if="withRoute">
+		<li v-if="!hidePageLength && currentPage.totalCount > 5">
 			<ul class="flx --flxRow-wrap --flx-center --gap-5 --gap:sm">
-				<li v-if="!hidePageLength && currentPage.totalCount > 5">
+				<li>
 					<SelectSimple
 						id="order"
 						v-model="firstModel"
@@ -53,9 +56,9 @@
 </template>
 
 <script setup lang="ts" generic="T, C extends string | number">
-	import { computed, getCurrentInstance } from "vue";
+	import { computed, getCurrentInstance, inject } from "vue";
 
-	import type { iPagination, iPage } from "@open-xamu-co/ui-common-types";
+	import type { iPagination, iPage, iPluginOptions } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -77,7 +80,7 @@
 		/**
 		 * pagination params
 		 */
-		pagination?: iPagination;
+		modelValue?: iPagination;
 		currentPage: iPage<Ti, Ci> | null;
 	}
 
@@ -92,10 +95,11 @@
 
 	defineOptions({ name: "PaginationSimple", inheritAttrs: false });
 
+	const emit = defineEmits(["update:pagination"]);
 	const props = defineProps<iPaginationSimpleProps<T, C>>();
 
+	const xamuOptions = inject<iPluginOptions>("xamu");
 	const { t } = useHelpers(useI18n);
-
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
 	/**
@@ -105,24 +109,36 @@
 	 * @replace
 	 */
 	function setAt(at?: string | number) {
-		if (!router) return;
+		if (props.withRoute) {
+			if (!router) return;
 
-		const route = router.currentRoute.value;
+			const route = router.currentRoute.value;
 
-		router.push({ path: route.path, query: { ...route.query, at } });
+			return router.push({ path: route.path, query: { ...route.query, at } });
+		}
+
+		const pagination: iPagination = { ...props.modelValue, at };
+
+		emit("update:pagination", pagination);
 	}
 
 	/**
 	 * PaginationSimple first model
 	 */
 	const firstModel = computed({
-		get: () => String(props.pagination?.first),
-		set(first: string | number) {
-			if (!router) return;
+		get: () => props.modelValue?.first ?? xamuOptions?.first,
+		set(first) {
+			if (props.withRoute) {
+				if (!router) return;
 
-			const route = router.currentRoute.value;
+				const route = router.currentRoute.value;
 
-			router.push({ path: route.path, query: { first } });
+				return router.push({ path: route.path, query: { first } });
+			}
+
+			const pagination: iPagination = { ...props.modelValue, first };
+
+			emit("update:pagination", pagination);
 		},
 	});
 </script>

@@ -17,6 +17,7 @@
 					:theme="theme"
 					:aria-label="option.alias || option.value"
 					:active="modelValue.includes(option.value)"
+					:title="modelValue.includes(option.value) ? t('select_selected') : ''"
 					:disabled="readonly || (!input.multiple && modelValue.includes(option.value))"
 					@click="choose(option.value)"
 				>
@@ -57,6 +58,7 @@
 			:theme="theme"
 			:readonly="readonly"
 		>
+			<!-- Flexible input type -->
 			<div
 				v-if="input.defaults && input.defaults.length >= 2"
 				class="flx --flxColumn --flxRow-wrap:md --flx-start-stretch --flx --gap-5"
@@ -227,26 +229,12 @@
 				</BoxMessage>
 			</label>
 			<FormInputOptions
-				v-else-if="input.type === eFT.SELECT"
+				v-else-if="input.type === eFT.SELECT || input.type === eFT.SELECT_FILTER"
 				v-slot="{ options }"
 				:input="input"
 			>
-				<SelectSimple
-					v-model="models[i].value"
-					v-bind="inputProps"
-					:theme="theme"
-					:disabled="readonly"
-					:placeholder="input.placeholder"
-					:options="options"
-					class="--flx"
-				/>
-			</FormInputOptions>
-			<FormInputOptions
-				v-else-if="input.type === eFT.SELECT_FILTER"
-				v-slot="{ options }"
-				:input="input"
-			>
-				<SelectFilter
+				<component
+					:is="input.type === eFT.SELECT ? SelectSimple : SelectFilter"
 					v-model="models[i].value"
 					v-bind="inputProps"
 					:theme="theme"

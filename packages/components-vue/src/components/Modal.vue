@@ -1,88 +1,93 @@
 <template>
 	<slot v-if="$slots.toggle" name="toggle" v-bind="{ toggleModal, model }"></slot>
-	<Teleport v-if="!disabled" :id="modalId" :key="modalId" :to="target || 'body'">
-		<dialog ref="modalRef" @close="closeModal" @mousedown="clickOutside">
-			<div
-				v-show="!loading && !hide"
-				class="modal"
-				role="document"
-				:class="[modalClass ?? 'flx --flxColumn --flx-start-stretch --width', themeClasses]"
-				v-bind="$attrs"
-			>
-				<slot name="modal-header" v-bind="{ toggleModal, model, invertedTheme }">
-					<div v-if="title" class="flx --flxRow --flx-between-center">
-						<div class="txt --gaping-none">
-							<h5>{{ title }}</h5>
-							<p v-if="subtitle" class="--txtSize-xs">{{ subtitle }}</p>
-						</div>
-						<ActionLink
-							:theme="invertedTheme"
-							:aria-label="cancelButtonOptions.title"
-							@click.stop="closeModal()"
-						>
-							<IconFa name="xmark" size="20" />
-						</ActionLink>
+	<dialog
+		v-if="!disabled"
+		:id="modalId"
+		:key="modalId"
+		ref="modalRef"
+		@close="closeModal"
+		@mousedown="clickOutside"
+	>
+		<div
+			v-show="!loading && !hide"
+			class="modal"
+			role="document"
+			:class="[modalClass ?? 'flx --flxColumn --flx-start-stretch --width', themeClasses]"
+			v-bind="$attrs"
+		>
+			<slot name="modal-header" v-bind="{ toggleModal, model, invertedTheme }">
+				<div v-if="title" class="flx --flxRow --flx-between-center">
+					<div class="txt --gaping-none">
+						<h5>{{ title }}</h5>
+						<p v-if="subtitle" class="--txtSize-xs">{{ subtitle }}</p>
 					</div>
-				</slot>
-				<div class="scroll --vertical">
-					<!-- Main modal content -->
-					<slot v-bind="{ toggleModal, model, invertedTheme }"></slot>
-				</div>
-				<slot name="modal-footer" v-bind="{ toggleModal, model, invertedTheme }">
-					<div v-if="!hideFooter" class="flx --flxRow --flx-end-center">
-						<ActionButton
-							v-if="saveButtonOptions.visible"
-							:theme="invertedTheme"
-							:aria-label="saveButtonOptions.title"
-							:class="saveButtonOptions.btnClass"
-							@click="emit('save', closeModal, $event)"
-						>
-							{{ saveButtonOptions.title }}
-						</ActionButton>
-						<ActionButtonToggle
-							v-if="cancelButtonOptions.visible"
-							:theme="invertedTheme"
-							:aria-label="cancelButtonOptions.title"
-							:class="cancelButtonOptions.btnClass"
-							data-dismiss="modal"
-							round=":sm-inv"
-							@click.stop="closeModal()"
-						>
-							<IconFa name="xmark" hidden="-full:sm" />
-							<IconFa name="xmark" regular hidden="-full:sm" />
-							<span class="--hidden-full:sm-inv">
-								{{ cancelButtonOptions.title }}
-							</span>
-						</ActionButtonToggle>
-					</div>
-				</slot>
-			</div>
-			<LoaderSimple v-if="loading || hide" :theme="invertedTheme">
-				<transition name="fade">
-					<div
-						v-if="loadingTooLong || (props.hide && props.hideMessage)"
-						class="txt --txtAlignFlx-center --gaping-5"
+					<ActionLink
+						:theme="invertedTheme"
+						:aria-label="cancelButtonOptions.title"
+						@click.stop="closeModal()"
 					>
-						<p class="--txtColor-light --txtShadow --txtSize-sm">
-							{{ props.hideMessage ? props.hideMessage : t("modal_taking_too_long") }}
-						</p>
-						<ActionButton
-							:theme="invertedTheme"
-							:aria-label="t('close')"
-							@click="closeModal()"
-						>
-							{{ t("close") }}
-						</ActionButton>
-					</div>
-				</transition>
-			</LoaderSimple>
-		</dialog>
-	</Teleport>
+						<IconFa name="xmark" size="20" />
+					</ActionLink>
+				</div>
+			</slot>
+			<div class="scroll --vertical">
+				<!-- Main modal content -->
+				<slot v-bind="{ toggleModal, model, invertedTheme }"></slot>
+			</div>
+			<slot name="modal-footer" v-bind="{ toggleModal, model, invertedTheme }">
+				<div v-if="!hideFooter" class="flx --flxRow --flx-end-center">
+					<ActionButton
+						v-if="saveButtonOptions.visible"
+						:theme="invertedTheme"
+						:aria-label="saveButtonOptions.title"
+						:class="saveButtonOptions.btnClass"
+						@click="emit('save', closeModal, $event)"
+					>
+						{{ saveButtonOptions.title }}
+					</ActionButton>
+					<ActionButtonToggle
+						v-if="cancelButtonOptions.visible"
+						:theme="invertedTheme"
+						:aria-label="cancelButtonOptions.title"
+						:class="cancelButtonOptions.btnClass"
+						data-dismiss="modal"
+						round=":sm-inv"
+						@click.stop="closeModal()"
+					>
+						<IconFa name="xmark" hidden="-full:sm" />
+						<IconFa name="xmark" regular hidden="-full:sm" />
+						<span class="--hidden-full:sm-inv">
+							{{ cancelButtonOptions.title }}
+						</span>
+					</ActionButtonToggle>
+				</div>
+			</slot>
+		</div>
+		<LoaderSimple v-if="loading || hide" :theme="invertedTheme">
+			<transition name="fade">
+				<div
+					v-if="loadingTooLong || (props.hide && props.hideMessage)"
+					class="txt --txtAlignFlx-center --gaping-5"
+				>
+					<p class="--txtColor-light --txtShadow --txtSize-sm">
+						{{ props.hideMessage ? props.hideMessage : t("modal_taking_too_long") }}
+					</p>
+					<ActionButton
+						:theme="invertedTheme"
+						:aria-label="t('close')"
+						@click="closeModal()"
+					>
+						{{ t("close") }}
+					</ActionButton>
+				</div>
+			</transition>
+		</LoaderSimple>
+	</dialog>
 	<slot v-else v-bind="{ toggleModal, model, invertedTheme }"></slot>
 </template>
 
 <script setup lang="ts">
-	import { type RendererElement, computed, onMounted, onUnmounted, ref, watch } from "vue";
+	import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 	import _ from "lodash";
 
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
@@ -146,7 +151,6 @@
 		 * @private
 		 */
 		modelValue?: boolean;
-		target?: string | RendererElement;
 	}
 
 	/**

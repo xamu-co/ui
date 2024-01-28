@@ -10,7 +10,10 @@
 			theme,
 		}"
 	>
-		<slot v-if="content" v-bind="{ content, refresh, loading, errors }"></slot>
+		<slot
+			v-if="content && (!loading || firstLoad)"
+			v-bind="{ content, refresh, loading, errors }"
+		></slot>
 	</LoaderContent>
 </template>
 
