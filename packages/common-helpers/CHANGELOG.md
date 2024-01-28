@@ -1,5 +1,14 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.2...@open-xamu-co/ui-common-helpers-v3.0.0-next.3) (2024-01-28)
+
+
+### Bug Fixes
+
+* modal, form & dropdown performance ([2b15bc1](https://github.com/xamu-co/ui/commit/2b15bc10cea98d09a6ff3cf32538c126ca8935a1))
+* optimize & solve table, form, modal & pagination issues ([f14b68c](https://github.com/xamu-co/ui/commit/f14b68cda4b3a9c99b1374245c544d0138671a8a))
+* union theme reactivity ([18d3b3f](https://github.com/xamu-co/ui/commit/18d3b3f5b43e78f2962e8fe3e33b5a6b84b7a6b4))
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.1...@open-xamu-co/ui-common-helpers-v3.0.0-next.2) (2023-12-26)
 
 
