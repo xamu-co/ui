@@ -134,28 +134,27 @@
 			// table theme
 			//
 			// @group Modifiers
-			@include utils.extend-unions
-				using($theme, $theme-value, $base, $base-value, $is-default) {
+			@include utils.extend-themes using($name, $value, $is-default) {
 				thead {
 					tr {
 						&:not(.#{utils.$status-no-hover}) {
-							color: utils.color($theme, 0.6);
+							color: utils.color($name, 0.6);
 
 							&:hover {
 								> th::before,
 								> td::before {
-									border-color: utils.color($theme, 0.05);
+									border-color: utils.color($name, 0.05);
 								}
 							}
 
 							> th,
 							> td {
 								&.#{utils.$status-is-selected} {
-									color: utils.color($theme);
+									color: utils.color($name);
 								}
 
 								&::before {
-									background: utils.color($theme, 0.1);
+									background: utils.color($name, 0.1);
 								}
 							}
 						}
@@ -169,13 +168,13 @@
 								&:hover {
 									> th::before,
 									> td::before {
-										border-color: utils.color($theme, 0.3);
+										border-color: utils.color($name, 0.3);
 									}
 								}
 
 								> th::before,
 								> td::before {
-									border-color: utils.color($theme, 0.1);
+									border-color: utils.color($name, 0.1);
 								}
 							}
 							&:hover,
@@ -183,22 +182,10 @@
 								> th,
 								> td {
 									&::before {
-										color: utils.color($theme);
-										background: utils.color($theme, 0.1);
+										color: utils.color($name);
+										background: utils.color($name, 0.1);
 									}
 								}
-							}
-						}
-					}
-				}
-
-				thead,
-				tbody {
-					tr {
-						th,
-						td {
-							&.#{utils.$prefix-default}--sticky {
-								background: utils.color($base);
 							}
 						}
 					}

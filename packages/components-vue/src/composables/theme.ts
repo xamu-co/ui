@@ -1,4 +1,4 @@
-import { watch, computed, ref } from "vue";
+import { computed } from "vue";
 
 import type { tProp, tThemeModifier, tThemeTuple } from "@open-xamu-co/ui-common-types";
 import { useUtils } from "@open-xamu-co/ui-common-helpers";
@@ -31,8 +31,27 @@ function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemeTupl
 export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolean) {
 	const { getModifierClasses: GMC, getPropData } = useHelpers(useUtils);
 
-	const themeValues = ref<tThemeTuple>([eColors.SECONDARY]);
-	const themeClasses = ref<string[]>([]);
+	const invertedTheme = computed(() => {
+		const [first, second] = getThemeValues(props.theme ?? eColors.SECONDARY);
+
+		const values: [tThemeModifier, tThemeModifier] = [first, second || eColors.LIGHT];
+
+		if (!props.invertTheme) values.reverse();
+
+		return values;
+	});
+
+	/** actual theme */
+	const themeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
+		return [invertedTheme.value[1], invertedTheme.value[0]];
+	});
+	const themeClasses = computed<string[]>(() => {
+		if (!props.theme) return [];
+
+		const values = themeAsUnion ? themeValues.value : [themeValues.value[0]];
+
+		return GMC([values.join("-")], { modifier: "tm", divider: "-" });
+	});
 	const tooltipAttributes = computed(() => {
 		const tooltipText = props.tooltip && getPropData(props.tooltip);
 		const hasColor = themeValues.value[1] !== eColors.LIGHT;
@@ -49,22 +68,5 @@ export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolea
 			: null;
 	});
 
-	watch(
-		() => props.theme,
-		(newTheme) => {
-			let values = getThemeValues(newTheme ?? eColors.SECONDARY);
-
-			values[1] = values[1] || eColors.LIGHT;
-
-			if (!themeAsUnion) values = [values[0]];
-
-			themeValues.value = values;
-
-			if (!newTheme) themeClasses.value = [];
-			else themeClasses.value = GMC([values.join("-")], { modifier: "tm", divider: "-" });
-		},
-		{ immediate: true }
-	);
-
-	return { themeValues, themeClasses, tooltipAttributes };
+	return { invertedTheme, themeValues, themeClasses, tooltipAttributes };
 }

@@ -208,7 +208,7 @@
 				<p>Schedule Component Here</p>
 			</FormInputNValues>
 			<label v-else-if="input.type === eFT.BOOLEAN" class="--flx">
-				<BoxMessage :theme="theme" class="--txtAlign">
+				<BoxMessage :theme="theme" class="--txtAlign" :active="models[i].value" button>
 					<!-- TODO: use switch type (unsupported style) -->
 					<InputToggle
 						v-model="models[i].value"

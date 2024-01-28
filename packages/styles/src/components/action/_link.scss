@@ -71,11 +71,16 @@
 			// theme overrides
 			//
 			// @group Modifiers
-			&.#{module.$prefix-default}--tm-light {
-				--cl-a: #{module.color(primary)};
-			}
-			&.#{module.$prefix-default}--tm-dark {
-				--cl-a: #{module.color(primary)};
+			@if module.$allow-theme-overrides {
+				// could break on modals & dropdows
+				@at-root :not(.#{module.$layout-dropdown}):not(.#{module.$layout-modal}) #{&} {
+					&.#{module.$prefix-default}--tm-light {
+						--cl-a: #{module.color(primary)};
+					}
+					&.#{module.$prefix-default}--tm-dark {
+						--cl-a: #{module.color(primary)};
+					}
+				}
 			}
 
 			// link round handling

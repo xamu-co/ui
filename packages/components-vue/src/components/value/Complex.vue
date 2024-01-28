@@ -40,12 +40,12 @@
 						{{ t("table_see_values", { name: property?.alias?.toLowerCase() }) }}
 					</ActionButtonToggle>
 				</template>
-				<template #default="{ model }">
+				<template #default="{ model, invertedTheme }">
 					<Table
 						v-if="model"
 						:nodes="remapValues(value)"
-						:theme="theme"
-						:modal-theme="modalTheme"
+						:theme="invertedTheme"
+						:modal-theme="modalTheme || theme"
 						:classes="classes"
 					/>
 				</template>
@@ -89,14 +89,14 @@
 				<IconFa name="lemon" force-regular />
 			</ActionButtonToggle>
 		</template>
-		<template #default="{ model }">
+		<template #default="{ model, invertedTheme }">
 			<ul v-if="model" class="flx --flxColumn --minWidth-220 --txtSize-sm" :class="classes">
 				<li
 					v-for="([childValueName, childValue], childValueIndex) in sort(value)"
 					:key="childValueIndex"
 					class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
 				>
-					<span class="--txtSize-xs" :class="`--txtColor-${themeValues[0]}`">
+					<span class="--txtSize-xs">
 						{{ _.capitalize(_.startCase(childValueName)) }}
 					</span>
 					<!-- Recursion -->
@@ -109,11 +109,12 @@
 								alias: _.capitalize(_.startCase(childValueName)),
 							},
 							readonly,
-							theme,
-							modalTheme,
+							theme: invertedTheme,
+							modalTheme: modalTheme || theme,
 							modalTarget,
 						}"
 						:class="classes"
+						verbose
 					/>
 				</li>
 			</ul>
@@ -122,7 +123,7 @@
 	<!-- Plain value -->
 	<ValueSimple
 		v-else
-		v-bind="{ value, property, readonly, theme, modalTheme, classes, modalTarget }"
+		v-bind="{ value, property, readonly, theme, modalTheme, classes, modalTarget, verbose }"
 	/>
 </template>
 <script setup lang="ts" generic="P extends Record<string, any>, T">
@@ -177,6 +178,7 @@
 		 * Prevent node functions from triggering refresh event (useful with firebase hydration)
 		 */
 		omitRefresh?: boolean;
+		verbose?: boolean;
 	}
 
 	/**

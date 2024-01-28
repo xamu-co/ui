@@ -8,9 +8,9 @@
 		>
 			<slot name="toggle" v-bind="{ model, setModel }"></slot>
 		</div>
-		<Modal v-model="localModel" :disabled="!isModal" :theme="theme">
+		<Modal v-model="localModel" :disabled="!isModal" :theme="theme" :invert-theme="invertTheme">
 			<div ref="dropdownRef" :class="dropdownClasses">
-				<slot v-bind="{ model, setModel }"></slot>
+				<slot v-bind="{ model, setModel, invertedTheme }"></slot>
 			</div>
 		</Modal>
 	</BaseWrapper>
@@ -71,7 +71,7 @@
 	const emit = defineEmits(["close", "update:model-value"]);
 
 	const { getModifierClasses: GMC } = useHelpers(useUtils);
-	const { themeValues } = useTheme(props);
+	const { themeClasses, invertedTheme } = useTheme(props, true);
 	const { tabletMqRange } = useBrowser();
 	const { modifiersClasses } = useModifiers(props);
 
@@ -84,12 +84,12 @@
 
 		return [
 			...modifiersClasses.value,
+			...themeClasses.value,
 			...GMC([{ active: props.modelValue }], { prefix: "is" }),
 			...GMC([[props.position ?? "bottom"].flat(2).join("-")], {
 				modifier: "position",
 				divider: "-",
 			}),
-			`--bgColor-${themeValues.value[1]}`,
 			"dropdown",
 		];
 	});

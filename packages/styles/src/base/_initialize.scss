@@ -242,6 +242,7 @@
 			font-family: utils.family(default);
 			font-size: utils.size();
 			overflow: hidden;
+			background-color: utils.$color-bg;
 
 			@if utils.$allow-responsive {
 				@media (max-width: utils.$querie-tablet) and (hover: none) {
@@ -251,6 +252,13 @@
 						height: 100%;
 						overflow: hidden auto;
 					}
+				}
+			}
+
+			th,
+			td {
+				&.#{utils.$prefix-default}--sticky {
+					background-color: utils.$color-bg;
 				}
 			}
 		}

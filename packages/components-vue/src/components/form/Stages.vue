@@ -144,10 +144,10 @@
 	}
 
 	/**
-	 * Modal Prototype
+	 * Form Stages
 	 * TODO: enable transitions conditionally
 	 *
-	 * @prototype
+	 * @component
 	 */
 
 	defineOptions({ name: "FormStages", inheritAttrs: true });

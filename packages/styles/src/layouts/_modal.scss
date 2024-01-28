@@ -8,7 +8,6 @@
 		.#{utils.$layout-modal} {
 			height: max-content;
 			overflow: hidden;
-			background: utils.$color-bg;
 			box-shadow: 3px 3px 9px utils.color(dark, 0.3);
 			box-sizing: border-box;
 
@@ -16,6 +15,27 @@
 			@include utils.extend-sizes using($size, $unit) {
 				padding: ($size * 0.7) $size;
 				border-radius: $size * (utils.strip-unit(utils.$size-radius-box) + 0.333);
+			}
+
+			// Modal theme
+			//
+			// @group Modifiers
+			@include utils.extend-unions
+				using($theme, $theme-value, $base, $base-value, $is-default) {
+				@layer defaults {
+					// @defaults bgColor
+					& {
+						color: utils.color($base, 0.7);
+						background-color: utils.color($theme);
+
+						th,
+						td {
+							&.#{utils.$prefix-default}--sticky {
+								background-color: utils.color($theme);
+							}
+						}
+					}
+				}
 			}
 		}
 	}

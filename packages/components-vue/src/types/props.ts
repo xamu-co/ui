@@ -41,6 +41,8 @@ export interface iUseStateProps {
 
 export interface iUseThemeProps {
 	theme?: tThemeTuple | tProp<tThemeModifier>;
+	/** invert given theme */
+	invertTheme?: boolean;
 }
 
 export interface iUseThemeTooltipProps {

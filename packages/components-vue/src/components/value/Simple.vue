@@ -2,7 +2,21 @@
 <template>
 	<div class="flx --flxRow --flx-start-center --gap-5" :class="classes">
 		<!-- Boolean only -->
-		<InputToggle v-if="typeof value === 'boolean'" :checked="value" :theme="theme" disabled />
+		<InputToggle
+			v-if="typeof value === 'boolean'"
+			:label="verbose ? property?.alias : undefined"
+			:checked="value"
+			:theme="theme"
+			disabled
+		/>
+
+		<!-- String, Color -->
+		<InputColor
+			v-else-if="typeof value === 'string' && validator.isHexColor(value)"
+			:model-value="value"
+			:theme="theme"
+			disabled
+		/>
 
 		<!-- String, Date -->
 		<span
@@ -17,7 +31,10 @@
 			v-else-if="typeof value === 'string' && validator.isEmail(value)"
 			:mailto="value"
 			:theme="theme"
-		/>
+		>
+			<IconFa v-if="verbose" name="envelope" force-regular />
+			<span>{{ value }}</span>
+		</ActionLink>
 
 		<!-- String, URL -->
 		<template
@@ -31,13 +48,14 @@
 
 			<!-- Plain URL -->
 			<ActionLink v-else :theme="theme" :href="value" target="_blank">
-				{{ t("table_open_url") }}
+				<IconFa name="arrow-up-right-from-square" />
+				<span>{{ t("table_open_url") }}</span>
 			</ActionLink>
 		</template>
 
 		<!-- String, Long text -->
 		<Modal
-			v-else-if="typeof value === 'string' && value.length > 66"
+			v-else-if="typeof value === 'string' && value.length > maxLength"
 			class="--txtSize"
 			:theme="modalTheme || theme"
 			:title="property?.alias"
@@ -51,18 +69,23 @@
 					tooltip-position="bottom"
 					@click="toggleModal"
 				>
-					{{ value.substring(0, 33) }}...
+					<IconFa name="align-left" />
+					<span>{{ value.substring(0, 22) }}...</span>
 				</ActionLink>
 			</template>
-			<template #default="{ model }">
+			<template #default="{ model, invertedTheme }">
 				<!-- Do not render html -->
-				<div v-if="model" class="txt" :class="classes">
-					<p>{{ value }}</p>
-				</div>
+				<BoxMessage
+					v-if="model"
+					:text="value"
+					:theme="invertedTheme"
+					class="--txtAlign"
+					:class="classes"
+				/>
 			</template>
 		</Modal>
 
-		<!-- Plain data, string, number or no data -->
+		<!-- Plain data, short string, number or no data -->
 		<span v-else>
 			{{ typeof value === "string" || typeof value === "number" ? value ?? "-" : "-" }}
 		</span>
@@ -83,11 +106,14 @@
 	} from "@open-xamu-co/ui-common-types";
 	import { timeAgo, useI18n } from "@open-xamu-co/ui-common-helpers";
 
+	import IconFa from "../icon/Fa.vue";
 	import BaseAction from "../base/Action.vue";
 	import BaseImg from "../base/Img.vue";
 	import InputToggle from "../input/Toggle.vue";
+	import InputColor from "../input/Color.vue";
 	import ActionLink from "../action/Link.vue";
 	import Modal from "../Modal.vue";
+	import BoxMessage from "../box/Message.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
 	import useHelpers from "../../composables/helpers";
@@ -105,6 +131,7 @@
 		classes?: tProps<string>;
 		modalTarget?: string | RendererElement;
 		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
+		verbose?: boolean;
 	}
 
 	/**
@@ -114,7 +141,8 @@
 	 */
 
 	defineOptions({ name: "ValueSimple", inheritAttrs: false });
-	defineProps<iValueSimpleProps<P, T>>();
+
+	const props = defineProps<iValueSimpleProps<P, T>>();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const { t } = useHelpers(useI18n);
@@ -125,6 +153,8 @@
 
 		return `${lang}-${country}`;
 	});
+
+	const maxLength = computed(() => (props.verbose ? 66 : 33));
 
 	/**
 	 * Url is of image type

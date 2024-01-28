@@ -147,7 +147,7 @@
 										node,
 										readonly: isReadOnly,
 										theme,
-										modalTheme,
+										modalTheme: modalTheme || theme,
 										classes,
 										modalTarget: valueRootRef,
 										refresh,
@@ -178,7 +178,7 @@
 									<Dropdown
 										class="flx --flxRow --flx-center"
 										:position="['left', 'center']"
-										:theme="modalTheme"
+										:theme="theme"
 										size="sm"
 									>
 										<template #toggle="{ setModel }">
@@ -194,11 +194,11 @@
 												<IconFa name="ellipsis-vertical" />
 											</ActionLink>
 										</template>
-										<template #default="{ setModel }">
+										<template #default="{ setModel, invertedTheme }">
 											<ul class="flx --flxColumn --flx-start-stretch --gap-5">
 												<li v-if="!!cloneNode">
 													<ActionLink
-														:theme="theme"
+														:theme="invertedTheme"
 														size="sm"
 														:aria-label="t('table_duplicate')"
 														@click="cloneNodeAndRefresh(node, setModel)"
@@ -211,7 +211,7 @@
 												</li>
 												<li v-if="!!deleteNode">
 													<ActionLink
-														:theme="[eColors.DANGER, themeValues[0]]"
+														:theme="[eColors.DANGER, invertedTheme[0]]"
 														size="sm"
 														:aria-label="t('table_delete')"
 														@click="
@@ -411,7 +411,7 @@
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
-	const { themeClasses, themeValues } = useTheme(props, true);
+	const { themeClasses, themeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
 	const valueRootRef = ref();

@@ -8,7 +8,7 @@
 					stateClasses,
 					themeClasses,
 					GMC([themeValues[0]], { modifier: 'txtColor', divider: '-' }),
-					GMC(asButton ?? false, { modifier: 'button' }),
+					GMC(button ?? false, { modifier: 'button' }),
 				]"
 				class="box"
 			>
@@ -45,7 +45,7 @@
 		/**
 		 * less padding
 		 */
-		asButton?: boolean;
+		button?: boolean;
 	}
 
 	/**

@@ -73,12 +73,14 @@
 				// theme overrides
 				//
 				// @group Modifiers
-				&.#{module.$prefix-default}--tm-light {
-					--bg: #{module.color(light, 0.3)};
-					--bc: #{module.color(light, 0.7)};
-					--cl-a: #{module.color(light, 0.7)};
+				@if module.$allow-theme-overrides {
+					&.#{module.$prefix-default}--tm-light {
+						--bg: #{module.color(light, 0.3)};
+						--bc: #{module.color(light, 0.7)};
+						--cl-a: #{module.color(light, 0.7)};
 
-					text-shadow: 1px 1px 1px module.color(dark, 0.3);
+						text-shadow: 1px 1px 1px module.color(dark, 0.3);
+					}
 				}
 			}
 

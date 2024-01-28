@@ -64,6 +64,7 @@
 				&:hover {
 					border-color: module.color($name, 0.1);
 				}
+
 				&.#{module.$prefix-default}--button,
 				&.#{module.$prefix-default}--#{module.$component-button} {
 					@layer defaults {
