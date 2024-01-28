@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v2.2.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.2.0-next.2...@open-xamu-co/ui-nuxt-v2.2.0-next.3) (2024-01-28)
+
+
+### Features
+
+* inject useTimeAgo & useFormInput composables ([64c18df](https://github.com/xamu-co/ui/commit/64c18df9a26cbff6d2e32cd53f4c45695a091713))
+
 # [@open-xamu-co/ui-nuxt-v2.2.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.2.0-next.1...@open-xamu-co/ui-nuxt-v2.2.0-next.2) (2023-12-26)
 
 
