@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.5...@open-xamu-co/ui-components-vue-v3.0.0-next.6) (2024-01-28)
+
+
+### Bug Fixes
+
+* choice input type error ([68bf412](https://github.com/xamu-co/ui/commit/68bf412f8dd2cfb3fe0d3738116a89c84019073c))
+* empty text on select filter ([43d8ca3](https://github.com/xamu-co/ui/commit/43d8ca3ec36933c81fd126baa0d6892e2dddbb2b))
+* modal, form & dropdown performance ([2b15bc1](https://github.com/xamu-co/ui/commit/2b15bc10cea98d09a6ff3cf32538c126ca8935a1))
+* optimize & solve table, form, modal & pagination issues ([f14b68c](https://github.com/xamu-co/ui/commit/f14b68cda4b3a9c99b1374245c544d0138671a8a))
+* select filter model leak ([94eca63](https://github.com/xamu-co/ui/commit/94eca63acd84b35c743251a445fac96b314b199a))
+* union theme reactivity ([18d3b3f](https://github.com/xamu-co/ui/commit/18d3b3f5b43e78f2962e8fe3e33b5a6b84b7a6b4))
+
+
+### Features
+
+* collapse vue component ([91d4b94](https://github.com/xamu-co/ui/commit/91d4b94dfe746540cb14ee877b8a053f5183be44))
+* dropdown & modal union theme modifiers ([34c5947](https://github.com/xamu-co/ui/commit/34c5947801ddecb0e3a454f1fbf71fdea38d08f4))
+* support readonly forms ([daf1e4b](https://github.com/xamu-co/ui/commit/daf1e4bd4dcbef0b704a2bfa64f49052e68bae38))
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.4...@open-xamu-co/ui-components-vue-v3.0.0-next.5) (2024-01-23)
 
 
