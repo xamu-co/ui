@@ -1,5 +1,12 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.3...@open-xamu-co/ui-common-types-v3.0.0-next.4) (2024-01-28)
+
+
+### Bug Fixes
+
+* optimize & solve table, form, modal & pagination issues ([f14b68c](https://github.com/xamu-co/ui/commit/f14b68cda4b3a9c99b1374245c544d0138671a8a))
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.2...@open-xamu-co/ui-common-types-v3.0.0-next.3) (2023-12-27)
 
 
