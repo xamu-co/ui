@@ -46,4 +46,5 @@ export const componentNames = [
 	"Dropdown",
 	"Table",
 	"Slider",
+	"Collapse",
 ] as const;

@@ -52,6 +52,7 @@ export { default as Modal } from "./components/Modal.vue";
 export { default as Dropdown } from "./components/Dropdown.vue";
 export { default as Table } from "./components/Table.vue";
 export { default as Slider } from "./components/Slider.vue";
+export { default as Collapse } from "./components/Collapse.vue";
 
 // composables
 export { default as useTheme } from "./composables/theme";
