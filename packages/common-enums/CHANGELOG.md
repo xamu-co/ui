@@ -1,5 +1,17 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v2.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v2.0.1-next.1...@open-xamu-co/ui-common-enums-v2.1.0-next.1) (2024-01-28)
+
+
+### Bug Fixes
+
+* optimize & solve table, form, modal & pagination issues ([f14b68c](https://github.com/xamu-co/ui/commit/f14b68cda4b3a9c99b1374245c544d0138671a8a))
+
+
+### Features
+
+* collapse vue component ([91d4b94](https://github.com/xamu-co/ui/commit/91d4b94dfe746540cb14ee877b8a053f5183be44))
+
 # [@open-xamu-co/ui-common-enums-v2.0.1-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v2.0.0...@open-xamu-co/ui-common-enums-v2.0.1-next.1) (2023-12-26)
 
 
