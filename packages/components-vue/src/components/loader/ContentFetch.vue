@@ -17,7 +17,7 @@
 	</LoaderContent>
 </template>
 
-<script setup lang="ts" generic="T, P extends unknown[] = unknown[]">
+<script setup lang="ts" generic="T, P extends any[] = any[]">
 	import {
 		ref,
 		watch,
@@ -33,8 +33,11 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 
-	export interface iLoaderContentFetchProps<Ti, Pi extends unknown[]> extends iUseThemeProps {
-		promise?: false | ((hydrate: tHydrate<Ti>, ...args: Pi) => Promise<Ti>);
+	interface iLCFProps<Ti, Pi extends any[]> extends iUseThemeProps {
+		promise?:
+			| false
+			| ((...args: Pi) => Promise<Ti>)
+			| ((hydrate: tHydrate<Ti>, ...args: Pi) => Promise<Ti>);
 		url?: false | string;
 		fallback?: Ti;
 		unwrap?: boolean;
@@ -44,6 +47,37 @@
 		 */
 		el?: VueComponent | FunctionalComponent | DefineComponent | string;
 		preventAutoload?: boolean;
+		/**
+		 * Whether the promise supports hydration
+		 */
+		hydratable?: boolean;
+	}
+
+	/**
+	 * Fetch from url
+	 */
+	export interface iUrlLCFProps<Ti, Pi extends any[]> extends iLCFProps<Ti, Pi> {
+		url: false | string;
+		promise: undefined;
+		hydratable?: false;
+	}
+
+	/**
+	 * Await promise
+	 */
+	export interface iPromiseLCFProps<Ti, Pi extends any[]> extends iLCFProps<Ti, Pi> {
+		url?: false;
+		promise: false | ((...args: Pi) => Promise<Ti>);
+		hydratable?: false;
+	}
+
+	/**
+	 * Await promise and hydrate when possible
+	 */
+	export interface iHydratablePromiseLCFProps<Ti, Pi extends any[]> extends iLCFProps<Ti, Pi> {
+		url?: false;
+		promise: false | ((hydrate: tHydrate<Ti>, ...args: Pi) => Promise<Ti>);
+		hydratable: true;
 	}
 
 	/**
@@ -58,7 +92,9 @@
 
 	defineOptions({ name: "LoaderContentFetch", inheritAttrs: false });
 
-	const props = defineProps<iLoaderContentFetchProps<T, P>>();
+	const props = defineProps<
+		iUrlLCFProps<T, P> | iPromiseLCFProps<T, P> | iHydratablePromiseLCFProps<T, P>
+	>();
 	const emit = defineEmits(["refresh"]);
 
 	const loading = ref(false);
@@ -66,6 +102,11 @@
 	const content = ref<T>();
 	const firstLoad = ref(false);
 	const hydrated = ref(false);
+	/**
+	 * Hydrate content
+	 *
+	 * Useful with firebase client approach
+	 */
 	const hydrate: tHydrate<T> = (newContent, newErrors) => {
 		// prevent hydration
 		if (content.value && !hydrated.value) return (hydrated.value = true);
@@ -83,7 +124,10 @@
 			loading.value = true;
 
 			if (props.promise) {
-				content.value = await props.promise(hydrate, ...(<P>(props.payload || [])));
+				const payload = <P>(props.payload || []);
+
+				if (!props.hydratable) content.value = await props.promise(...payload);
+				else content.value = await props.promise(hydrate, ...payload);
 			} else if (props.url) {
 				const response = await (await fetch(props.url)).json();
 				const data = "data" in response ? response.data : response;

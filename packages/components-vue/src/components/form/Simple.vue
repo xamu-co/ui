@@ -3,7 +3,7 @@
 		v-slot="{ content }"
 		:theme="theme"
 		:promise="
-			((withLocationInput && !defaultCountry) || withPhoneInput) && getCountriesAndStates
+			((withLocationInput && !defaultCountry) || !!withPhoneInput) && getCountriesAndStates
 		"
 		class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
 		:el="noForm ? 'fieldset' : 'form'"

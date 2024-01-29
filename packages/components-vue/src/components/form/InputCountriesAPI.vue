@@ -3,7 +3,7 @@
 		<LoaderContentFetch
 			v-slot="statesReq"
 			:theme="theme"
-			:promise="!states && !!countryValue && unHydrate(getCountryStates)"
+			:promise="!states && !!countryValue && getCountryStates"
 			:payload="[countryValue]"
 			:fallback="[]"
 			unwrap
@@ -11,7 +11,7 @@
 			<LoaderContentFetch
 				v-slot="citiesReq"
 				:theme="theme"
-				:promise="!!model[1] && unHydrate(getStateCities)"
+				:promise="!!model[1] && getStateCities"
 				:payload="[countryValue, model[1]]"
 				:fallback="[]"
 				unwrap
@@ -32,7 +32,6 @@
 	import FormInputNValues from "./InputNValues.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
-	import useFetch from "../../composables/fetch";
 	import useCountries from "../../composables/countries";
 
 	interface iFormInputCountriesApi extends iUseThemeProps {
@@ -50,7 +49,6 @@
 
 	const props = defineProps<iFormInputCountriesApi>();
 
-	const { unHydrate } = useFetch();
 	const { defaultCountry, getCountryStates, getStateCities } = useCountries();
 
 	const countryValue = computed(() => props.model[0] || defaultCountry || "");
