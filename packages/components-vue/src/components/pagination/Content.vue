@@ -3,7 +3,9 @@
 		v-slot="{ content, refresh }"
 		:promise="page"
 		:payload="[pagination]"
-		v-bind="{ ...$attrs, preventAutoload, theme }"
+		:prevent-autoload="preventAutoload"
+		:theme="theme"
+		v-bind="$attrs"
 	>
 		<slot
 			v-bind="{
@@ -36,13 +38,17 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 
-	export interface iPaginationContentProps<Ti, Ci extends string | number = string>
+	export interface iPCProps<Ti, Ci extends string | number = string>
 		extends iPagination,
 			iUseThemeProps {
 		/**
 		 * Function used to fetch the page
 		 */
 		page: iGetPage<Ti, Ci>;
+		/**
+		 * Function used to fetch the page
+		 */
+		// hydratablePage?: iGetHydratablePage<Ti, Ci>;
 		/**
 		 * paginate using route
 		 */
@@ -54,9 +60,14 @@
 		preventAutoload?: boolean;
 	}
 
+	// interface iHydratablePCProps<Ti, Ci extends string | number = string> extends iPCProps<Ti, Ci> {
+	// 	hydratablePage: iGetHydratablePage<Ti, Ci>;
+	// }
+
 	/**
-	 * Menu de paginacion [PROGRESS]
+	 * Menu de paginacion
 	 * Redirecciona a la misma ruta + el query de pagina
+	 *
 	 * TODO: Add conditional items per page selector
 	 * Not sure what this was supposed to mean
 	 *
@@ -67,7 +78,7 @@
 
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
 
-	const props = defineProps<iPaginationContentProps<T, C>>();
+	const props = defineProps<iPCProps<T, C>>();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
@@ -103,7 +114,7 @@
 
 		return newPagination;
 	});
-	const pagination = computed<iPagination | undefined>({
+	const pagination = computed<iPagination>({
 		get() {
 			if (props.withRoute) return routePagination.value;
 
