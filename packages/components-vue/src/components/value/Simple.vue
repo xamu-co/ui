@@ -2,21 +2,22 @@
 <template>
 	<div class="flx --flxRow --flx-start-center --gap-5" :class="classes">
 		<!-- Boolean only -->
-		<InputToggle
-			v-if="typeof value === 'boolean'"
-			:label="verbose ? property?.alias : undefined"
-			:checked="value"
-			:theme="theme"
-			disabled
-		/>
+		<span v-if="typeof value === 'boolean'" :title="property?.alias">
+			<InputToggle
+				:label="verbose ? property?.alias : undefined"
+				:checked="value"
+				:theme="theme"
+				disabled
+			/>
+		</span>
 
 		<!-- String, Color -->
-		<InputColor
+		<span
 			v-else-if="typeof value === 'string' && validator.isHexColor(value)"
-			:model-value="value"
-			:theme="theme"
-			disabled
-		/>
+			:title="property?.alias"
+		>
+			<InputColor :model-value="value" :theme="theme" disabled />
+		</span>
 
 		<!-- String, Date -->
 		<span
@@ -85,7 +86,7 @@
 		</Modal>
 
 		<!-- Plain data, short string, number or no data -->
-		<span v-else>
+		<span v-else :title="property?.alias">
 			{{ typeof value === "string" || typeof value === "number" ? value ?? "-" : "-" }}
 		</span>
 	</div>

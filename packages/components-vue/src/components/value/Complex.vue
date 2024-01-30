@@ -54,69 +54,100 @@
 		<span v-else-if="!property?.createNode">-</span>
 	</div>
 	<!-- Object only -->
-	<Modal
-		v-else-if="typeof value === 'object' && value !== null && Object.keys(value).length"
-		class="--txtSize"
-		:theme="modalTheme || theme"
-		:title="property?.alias"
-	>
-		<template #toggle="{ toggleModal }">
-			<ActionLink
-				v-if="'name' in value"
-				:theme="theme"
-				:tooltip="t('see_value')"
-				tooltip-as-text
-				tooltip-position="bottom"
-				size="sm"
-				@click="toggleModal"
+	<template v-else-if="typeof value === 'object' && value !== null && Object.keys(value).length">
+		<!-- Small object with small values -->
+		<div
+			v-if="
+				Object.keys(value).length <= 3 &&
+				Object.values(value).every((v) => typeof v === 'string' && v.length <= 7)
+			"
+			class="flx --flxRow --flx-start-center --gap-5"
+		>
+			<template
+				v-for="([childValueName, childValue], childValueIndex) in sort(value)"
+				:key="childValueIndex"
 			>
-				<IconFa name="lemon" force-regular />
-				<span>{{ value.name }}</span>
-			</ActionLink>
-			<ActionButtonToggle
-				v-else
-				:theme="theme"
-				:tooltip="t('see_value')"
-				tooltip-as-text
-				tooltip-position="bottom"
-				size="sm"
-				round
-				@click="toggleModal"
-			>
-				<IconFa name="lemon" />
-				<IconFa name="lemon" force-regular />
-			</ActionButtonToggle>
-		</template>
-		<template #default="{ model, invertedTheme }">
-			<ul v-if="model" class="flx --flxColumn --minWidth-220 --txtSize-sm" :class="classes">
-				<li
-					v-for="([childValueName, childValue], childValueIndex) in sort(value)"
-					:key="childValueIndex"
-					class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
+				<ValueSimple
+					v-bind="{
+						value: childValue,
+						property: {
+							value: childValueName,
+							alias: _.capitalize(_.startCase(childValueName)),
+						},
+						readonly,
+						theme,
+						modalTheme,
+						classes,
+						verbose,
+					}"
+				/>
+				<span v-if="childValueIndex < Object.keys(value).length - 1">⋅</span>
+			</template>
+		</div>
+		<!-- Any other object -->
+		<Modal v-else class="--txtSize" :theme="modalTheme || theme" :title="property?.alias">
+			<template #toggle="{ toggleModal }">
+				<ActionLink
+					v-if="'name' in value"
+					:theme="theme"
+					:tooltip="t('see_value')"
+					tooltip-as-text
+					tooltip-position="bottom"
+					size="sm"
+					@click="toggleModal"
 				>
-					<span class="--txtSize-xs">
-						{{ _.capitalize(_.startCase(childValueName)) }}
-					</span>
-					<!-- Recursion -->
-					<Complex
-						v-bind="{
-							value: childValue,
-							node,
-							property: {
-								value: childValueName,
-								alias: _.capitalize(_.startCase(childValueName)),
-							},
-							readonly,
-							theme: invertedTheme,
-							modalTheme: modalTheme || theme,
-						}"
-						:class="classes"
-						verbose
-					/>
-				</li>
-			</ul>
-		</template>
-	</Modal>
+					<IconFa name="lemon" force-regular />
+					<span>{{ value.name }}</span>
+				</ActionLink>
+				<ActionButtonToggle
+					v-else
+					:theme="theme"
+					:tooltip="t('see_value')"
+					tooltip-as-text
+					tooltip-position="bottom"
+					size="sm"
+					round
+					@click="toggleModal"
+				>
+					<IconFa name="lemon" />
+					<IconFa name="lemon" force-regular />
+				</ActionButtonToggle>
+			</template>
+			<template #default="{ model, invertedTheme }">
+				<ul
+					v-if="model"
+					class="flx --flxColumn --minWidth-220 --txtSize-sm"
+					:class="classes"
+				>
+					<li
+						v-for="([childValueName, childValue], childValueIndex) in sort(value)"
+						:key="childValueIndex"
+						class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
+					>
+						<span class="--txtSize-xs">
+							{{ _.capitalize(_.startCase(childValueName)) }}
+						</span>
+						<!-- Recursion -->
+						<Complex
+							v-bind="{
+								value: childValue,
+								node,
+								property: {
+									value: childValueName,
+									alias: _.capitalize(_.startCase(childValueName)),
+								},
+								readonly,
+								theme: invertedTheme,
+								modalTheme: modalTheme || theme,
+							}"
+							:class="classes"
+							verbose
+						/>
+					</li>
+				</ul>
+			</template>
+		</Modal>
+	</template>
 	<!-- Plain value -->
 	<ValueSimple
 		v-else
