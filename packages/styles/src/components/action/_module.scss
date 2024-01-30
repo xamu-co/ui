@@ -4,8 +4,6 @@
 @use "sass:meta";
 @use "sass:math";
 
-$radius-action: module.strip-unit(module.$size-radius-action);
-
 @mixin action-styles {
 	color: var(--cl, transparent); // should inherit?
 	background-color: var(--bg, transparent);
@@ -93,7 +91,7 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 		bottom: -0.4rem;
 		border-width: 4px;
 		border-style: solid;
-		border-radius: 50% * $radius-action;
+		border-radius: module.$size-radius-action-round;
 		box-sizing: border-box;
 		border-color: var(--bc, transparent);
 	}
@@ -195,7 +193,7 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 	// text, select, button & buttonToggle shared styles
 	//
 	// @group SharedStyles
-	@include module.extend-sizes($all-viewports: true) using($size, $is-default) {
+	@include module.extend-sizes($all-viewports: true) using($size, $unit) {
 		height: $size * 2.4; // button size: height/width
 
 		@if $with-padding {
@@ -210,6 +208,8 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 //
 // @group SharedStyles
 @mixin action-border-styles {
+	$radius-action: module.strip-unit(module.$size-radius-action);
+
 	@include module.extend-sizes using($size, $unit) {
 		border-radius: $size * $radius-action;
 		border-width: $unit * 1px;
@@ -261,19 +261,15 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 			content: "";
 			vertical-align: middle;
 			display: inline-block;
-			width: 1.8rem;
-			height: 1.8rem;
-			border-width: 2px;
 			border-style: solid;
 			font-family: module.family(icons);
 			font-weight: 900;
 			text-align: center;
-			line-height: 1.7rem;
+			line-height: 1.7em;
 			box-sizing: border-box;
 			flex: 0 0 auto;
 			background-color: var(--bg, transparent);
 			border-color: var(--bc, transparent);
-			font-size: 1rem;
 		}
 
 		> * {
@@ -309,7 +305,20 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 		@include module.flex-box(row, nowrap, space-between, center);
 	}
 
-	// Radio theme
+	// Toggle size
+	@include module.extend-sizes($all-viewports: true) using($size, $unit) {
+		+ label {
+			&::after {
+				content: "";
+				width: $size * 1.8;
+				height: $size * 1.8;
+				border-width: $unit * 1px;
+				font-size: $size;
+			}
+		}
+	}
+
+	// Toggle theme
 	//
 	// @group Modifiers
 	@layer defaults {

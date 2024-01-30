@@ -251,17 +251,19 @@
 										>
 											<IconFa name="chevron-up" indicator />
 										</ActionLink>
-										<ActionLink
+										<ActionButtonLink
+											v-if="createNodeChildren"
 											:theme="theme || themeValues"
 											size="sm"
 											:tooltip="t('table_create_new')"
 											tooltip-position="right"
-											:disabled="!createNodeChildren"
-											class="--p-5"
-											@click="createNodeChildren?.(node)"
+											class="--p-5:md-inv"
+											link-button
+											round
+											@click="createNodeChildren(node)"
 										>
 											<IconFa name="plus" />
-										</ActionLink>
+										</ActionButtonLink>
 									</div>
 								</th>
 								<td
@@ -323,6 +325,7 @@
 	import IconFa from "./icon/Fa.vue";
 	import ActionLink from "./action/Link.vue";
 	import ActionButton from "./action/Button.vue";
+	import ActionButtonLink from "./action/ButtonLink.vue";
 	import ActionButtonToggle from "./action/ButtonToggle.vue";
 	import InputToggle from "./input/Toggle.vue";
 	import ValueComplex from "./value/Complex.vue";
