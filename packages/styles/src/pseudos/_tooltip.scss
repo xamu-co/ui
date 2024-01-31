@@ -41,16 +41,6 @@
 					opacity: 1;
 				}
 			}
-
-			&[disabled]:not([disabled="false"]),
-			&.#{utils.$status-is-route-exact}:not(.#{utils.$status-no-route}):not(
-					.#{utils.$status-no-route-exact}
-				),
-			&[class*="toggle--"].#{utils.$status-only-active}.#{utils.$status-is-active} {
-				&::before {
-					display: none;
-				}
-			}
 		}
 
 		// tooltip bgColor
@@ -204,6 +194,20 @@
 				bottom: 0;
 				left: 50%;
 				transform: translate(-50%, calc(100% + 0.4em));
+			}
+		}
+	}
+
+	// prevent showing tooltip
+	[disabled]:not([disabled="false"]),
+	.#{utils.$status-is-route-exact}:not(.#{utils.$status-no-route}):not(
+			.#{utils.$status-no-route-exact}
+		),
+	[class*="toggle--"].#{utils.$status-only-active}.#{utils.$status-is-active} {
+		[data-#{utils.$pseudo-tooltip}],
+		&[data-#{utils.$pseudo-tooltip}] {
+			&::before {
+				display: none;
 			}
 		}
 	}
