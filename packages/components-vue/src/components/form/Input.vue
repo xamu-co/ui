@@ -43,10 +43,10 @@
 			:theme="theme"
 			:disabled="readonly"
 			class="--flx"
-			:min="input.min"
-			:max="input.max"
 			:file-prefix="_.snakeCase(input.placeholder)"
 			:model-value="modelValue"
+			:invalid="isInvalidByValidation"
+			v-bind="inputProps"
 			@update:model-value="$emit('update:model-value', $event)"
 		/>
 		<!-- Future inner loop input -->
@@ -97,6 +97,7 @@
 				<InputText
 					v-model="models[i].value[0]"
 					v-bind="inputProps"
+					:invalid="isInvalidByValidation"
 					:theme="theme"
 					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
@@ -106,9 +107,10 @@
 				<InputText
 					v-model="models[i].value[1]"
 					v-bind="inputProps"
+					:invalid="isInvalidByValidation"
 					:theme="theme"
 					:disabled="readonly"
-					:placeholder="getInputPlaceholder()"
+					:placeholder="getInputPlaceholder(1)"
 					type="password"
 					class="--width-180 --flx"
 				/>
@@ -127,6 +129,7 @@
 				<InputText
 					v-model="models[i].value[1]"
 					v-bind="inputProps"
+					:invalid="isInvalidByValidation"
 					:theme="theme"
 					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
@@ -149,6 +152,7 @@
 				<InputText
 					v-model="models[i].value[1]"
 					v-bind="inputProps"
+					:invalid="isInvalidByValidation"
 					:theme="theme"
 					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
@@ -159,7 +163,8 @@
 			<FormInputCountriesAPI
 				v-else-if="input.type === eFT.LOCATION"
 				v-slot="{ statesReq, citiesReq }"
-				:states="statesArr"
+				:states="states"
+				:theme="theme"
 				:model="models[i].value"
 				:values="[1, 3]"
 			>
@@ -181,7 +186,7 @@
 				>
 					<SelectFilter
 						v-model="models[i].value[1]"
-						:options="statesArr || statesReq.content.map(stateToOption)"
+						:options="statesArr || statesReq?.content?.map(stateToOption)"
 						name="state"
 						icon="mountain-sun"
 						:theme="theme"
@@ -237,6 +242,7 @@
 					:is="input.type === eFT.SELECT ? SelectSimple : SelectFilter"
 					v-model="models[i].value"
 					v-bind="inputProps"
+					:invalid="isInvalidByValidation"
 					:theme="theme"
 					:disabled="readonly"
 					:placeholder="input.placeholder"
@@ -261,18 +267,21 @@
 						? { textarea: true }
 						: { type: getInputTextType() }),
 				}"
+				:invalid="isInvalidByValidation"
 				:theme="theme"
 				:disabled="readonly"
 				:placeholder="getInputPlaceholder()"
 				class="--flx"
 			/>
 		</FormInputLoop>
-		<p
-			v-if="input.required && !notEmpty && isInvalidInput"
-			class="--txtColor-danger --txtSize-sm"
-		>
-			{{ t("form_required_field") }}
-		</p>
+		<template v-if="isInvalidByProps">
+			<p v-if="input.required && !notEmpty" class="--txtColor-danger --txtSize-sm">
+				{{ t("form_required_field") }}
+			</p>
+			<p v-else class="--txtColor-danger --txtSize-sm">
+				{{ t("form_invalid_field") }}
+			</p>
+		</template>
 	</div>
 </template>
 <script setup lang="ts">
@@ -352,21 +361,22 @@
 	const notEmpty = computed(() => {
 		const values = props.input.values;
 
-		return values.every((v) => notEmptyValue(v, props.input.defaults));
+		return !!values.length && values.every((v) => notEmptyValue(v, props.input.defaults));
 	});
-	const isInvalidInput = computed<boolean>(() => {
-		const values = props.input.values;
-		const byProp = !!props.invalid && _.isEqual(props.invalid.invalidValue, values);
-		const byValidation = notEmpty.value && !isValidFormInputValue(props.input);
+	const isInvalidByProps = computed<boolean>(() => {
+		/** Validation expects an array with at least one element */
+		const values = props.input.values.length ? props.input.values : [""];
 
-		return byProp || byValidation;
+		return _.isEqual(props.invalid?.invalidValue, values);
+	});
+	const isInvalidByValidation = computed<boolean>(() => {
+		return isInvalidByProps.value || !isValidFormInputValue(props.input, true);
 	});
 	const inputProps = computed(() => {
 		const [icon, iconProps] = props.input?.icon || [];
 
 		return {
 			..._.omit(props.input, ["type"]),
-			invalid: isInvalidInput.value,
 			autocomplete: getInputAutocomplete(),
 			icon,
 			iconProps,

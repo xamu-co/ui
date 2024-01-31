@@ -1,6 +1,6 @@
 <template>
 	<div
-		:class="[classes, modifiersClasses, stateClasses, themeClasses]"
+		:class="[classes, modifiersClasses, stateClasses, fileInputTheme.themeClasses]"
 		class="box --button flx --flxColumn --flx-start-stretch --gap-10 --width"
 	>
 		<div
@@ -55,7 +55,7 @@
 				<label
 					v-if="modelValue.length < maxAmount"
 					:for="id"
-					:class="[...themeClasses, { '--bgColor-none': !isDragover }]"
+					:class="[...fileInputTheme.themeClasses, { '--bgColor-none': !isDragover }]"
 					class="box --bdr-dashed --size-xs flx --flxColumn --flx-center --minHeight-90"
 					@drag="prevent"
 					@dragstart="prevent"
@@ -87,12 +87,12 @@
 				</label>
 				<div
 					v-else
-					:class="themeClasses"
+					:class="fileInputTheme.themeClasses"
 					class="box --bdr-solid --size-xs --bgColor-none flx --flxRow --flx-center"
 				>
 					<p>{{ t("file_completed") }}</p>
 					<ActionButton
-						:theme="theme"
+						:theme="fileInputTheme.themeValues"
 						:aria-label="t('file_delete_files', maxAmount)"
 						@click.prevent="setFiles()"
 					>
@@ -102,7 +102,7 @@
 			</template>
 			<div
 				v-else
-				:class="themeClasses"
+				:class="fileInputTheme.themeClasses"
 				class="box --bdr-solid --size-xs --bgColor-none flx --flxRow --flx-center"
 			>
 				{{ t("file_loading_files", maxAmount) }}
@@ -196,7 +196,17 @@
 	const Swal = useHelpers(useSwal);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
-	const { themeClasses } = useTheme(props);
+	const validTheme = useTheme(props);
+	const invalidTheme = useTheme({ theme: eColors.DANGER });
+
+	const fileInputTheme = computed(() => {
+		const invalid = props.invalid;
+
+		return {
+			themeClasses: invalid ? invalidTheme.themeClasses.value : validTheme.themeClasses.value,
+			themeValues: invalid ? invalidTheme.themeValues.value : validTheme.themeValues.value,
+		};
+	});
 
 	const fileInput = ref<HTMLInputElement>();
 	const thumbnails = ref<string[]>([]);

@@ -23,7 +23,7 @@
 			<ActionButtonToggle
 				:disabled="Number(model) <= minValue"
 				:size="size"
-				:theme="theme"
+				:theme="invalid ? eColors.DANGER : theme"
 				:aria-label="t('decrease')"
 				:tooltip="t('decrease')"
 				tooltip-position="left"
@@ -37,7 +37,7 @@
 			<ActionButtonToggle
 				:disabled="Number(model) >= maxValue"
 				:size="size"
-				:theme="theme"
+				:theme="invalid ? eColors.DANGER : theme"
 				:tooltip="t('increase')"
 				tooltip-position="left"
 				round
@@ -73,6 +73,7 @@
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
 	import useHelpers from "../../composables/helpers";
+	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	interface iInputTextProps
 		extends iInputProps,

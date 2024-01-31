@@ -105,6 +105,7 @@ export const localeForm: iLocaleForm = {
 	form_required_options: "Las opciones son requeridas",
 	form_requires_n_values:
 		"No se requieren valores | Se requiere un valor | {count} valores son requeridos",
+	form_loading_countries: "Cargando paises...",
 	form_country: "Buscar país",
 	form_state: "Buscar provincia",
 	form_city: "Buscar ciudad",
@@ -118,7 +119,8 @@ export const localeForm: iLocaleForm = {
 	form_id_number: "Numero de identificacion",
 	form_complete_the_field: "Completa el campo",
 	form_location: "Ubicacion",
-	form_required_field: "Este campo es requerido",
+	form_invalid_field: "Este campo es invalido, completalo adecuadamente",
+	form_required_field: "Este campo es requerido y no puede estar vacio",
 	form_use_valid_email: "Debes usar una direccion de correo electronico valida",
 	form_use_valid_phone: "Muy corto. Usa un numero de telefono valido",
 	form_use_valid_cellphone: "Debes usar un numero de celular valido",

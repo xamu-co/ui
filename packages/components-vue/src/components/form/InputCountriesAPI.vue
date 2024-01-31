@@ -1,11 +1,12 @@
 <template>
-	<FormInputNValues :model="model" :values="[1, 3]">
-		<LoaderContentFetch
+	<FormInputNValues :key="states?.length" :model="model" :values="[1, 3]">
+		<BaseWrapper
 			v-slot="statesReq"
+			:el="LoaderContentFetch"
+			:wrap="!states && !!countryValue"
 			:theme="theme"
-			:promise="!states && !!countryValue && unHydrate(getCountryStates)"
+			:promise="unHydrate(getCountryStates)"
 			:payload="[countryValue]"
-			:fallback="[]"
 			unwrap
 		>
 			<LoaderContentFetch
@@ -13,31 +14,30 @@
 				:theme="theme"
 				:promise="!!model[1] && unHydrate(getStateCities)"
 				:payload="[countryValue, model[1]]"
-				:fallback="[]"
 				unwrap
 			>
 				<slot v-bind="{ statesReq, citiesReq }"></slot>
 			</LoaderContentFetch>
-		</LoaderContentFetch>
+		</BaseWrapper>
 	</FormInputNValues>
 </template>
 
 <script setup lang="ts">
 	import { computed } from "vue";
 
-	import type { iSelectOption } from "@open-xamu-co/ui-common-types";
-
+	import BaseWrapper from "../base/Wrapper.vue";
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
 	// input helper components
 	import FormInputNValues from "./InputNValues.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
+	import type { iState } from "../../types/countries";
 	import useFetch from "../../composables/fetch";
 	import useCountries from "../../composables/countries";
 
 	interface iFormInputCountriesApi extends iUseThemeProps {
 		model: string[];
-		states?: iSelectOption[];
+		states?: iState[];
 	}
 
 	/**

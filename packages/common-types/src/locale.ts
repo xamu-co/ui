@@ -144,6 +144,8 @@ export interface iLocaleForm {
 	form_required_options: string;
 	/** @example "No values are required | A value is required | {count} values are required" */
 	form_requires_n_values: string;
+	/** @example "Loading countries..." */
+	form_loading_countries: string;
 	/** @example "Look for country" */
 	form_country: string;
 	/** @example "Look for state" */
@@ -170,7 +172,9 @@ export interface iLocaleForm {
 	form_complete_the_field: string;
 	/** @example "Location" */
 	form_location: string;
-	/** @example "This field is required" */
+	/** @example "This field is invalid, fill it properly" */
+	form_invalid_field: string;
+	/** @example "This field is required and can't be empty" */
 	form_required_field: string;
 	/** @example "You should use a valid E-mail address" */
 	form_use_valid_email: string;

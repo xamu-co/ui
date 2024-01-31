@@ -39,9 +39,10 @@ export default function useForm(options: iPluginOptions = {}) {
 	async function getResponse<R, RV extends Record<string, any> = Record<string, any>>(
 		request: tResponseFn<R, RV>,
 		inputs: RV | FormInput[] = [],
-		event?: Event
+		event?: Event,
+		plainValues = true
 	): Promise<iFormResponse<R, HTMLElement | string>> {
-		const { values, invalidInputs } = getFormValues<RV>(inputs);
+		const { values, invalidInputs } = getFormValues<RV>(inputs, plainValues);
 		const modalTarget = (event?.target as HTMLElement)?.closest("dialog") || "body";
 		let errors;
 		let requestHadErrors = false;
