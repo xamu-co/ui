@@ -90,7 +90,11 @@
 
 		<!-- Plain data, short string, number or no data -->
 		<span v-else :title="property?.alias">
-			{{ typeof value === "string" || typeof value === "number" ? value ?? "-" : "-" }}
+			{{
+				(typeof value === "string" && value.length) || typeof value === "number"
+					? value ?? "-"
+					: "-"
+			}}
 		</span>
 	</div>
 </template>
@@ -120,7 +124,7 @@
 	import BoxMessage from "../box/Message.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iValueSimpleProps<Pi extends Record<string, any>> extends iUseThemeProps {
 		/**

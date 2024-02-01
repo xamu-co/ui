@@ -127,8 +127,6 @@
 		label,
 		select,
 		datalist {
-			vertical-align: middle;
-
 			@layer defaults {
 				& {
 					// @defaults txtWrap

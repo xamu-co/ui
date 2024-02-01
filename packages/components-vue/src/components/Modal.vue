@@ -113,7 +113,7 @@
 	import type { iUseThemeProps } from "../types/props";
 	import useTheme from "../composables/theme";
 	import useUUID from "../composables/uuid";
-	import useHelpers from "../composables/helpers";
+	import { useHelpers } from "../composables/utils";
 
 	interface iButtonConfig {
 		title?: string;

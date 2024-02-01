@@ -61,7 +61,7 @@
 	import ActionButton from "./action/Button.vue";
 	import ActionButtonToggle from "./action/ButtonToggle.vue";
 
-	import useHelpers from "../composables/helpers";
+	import { useHelpers } from "../composables/utils";
 
 	import type { PropType } from "vue";
 	import { eSizes } from "@open-xamu-co/ui-common-enums";

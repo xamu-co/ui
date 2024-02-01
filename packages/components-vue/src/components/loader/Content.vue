@@ -68,7 +68,7 @@
 	import BoxMessage from "../box/Message.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iLoaderContentProps extends iUseThemeProps {
 		/**

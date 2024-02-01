@@ -347,7 +347,7 @@
 
 	import type { iUseThemeProps } from "../types/props";
 	import useTheme from "../composables/theme";
-	import useHelpers from "../composables/helpers";
+	import { useHelpers } from "../composables/utils";
 	import useUUID from "../composables/uuid";
 
 	export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {

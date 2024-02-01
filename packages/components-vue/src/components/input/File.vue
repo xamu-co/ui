@@ -43,7 +43,7 @@
 			style="display: none"
 			v-bind="{
 				...$attrs,
-				..._.omit(props, 'modelValue'),
+				..._.omit(props, ['modelValue', 'size']),
 				type: 'file',
 				accept: (accept ?? ['image/*']).join(','),
 				multiple: maxAmount > 1,
@@ -143,7 +143,7 @@
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iInputFileProps
 		extends iInputProps,

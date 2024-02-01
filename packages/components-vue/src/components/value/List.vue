@@ -1,7 +1,7 @@
 <template>
 	<ul class="flx --flxColumn --minWidth-220" :class="classes">
 		<li
-			v-for="([childValueName, childValue], childValueIndex) in sorted"
+			v-for="([childValueName, childValue], childValueIndex) in useSortObject(value)"
 			:key="childValueIndex"
 			class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
 		>
@@ -29,7 +29,6 @@
 </template>
 <script setup lang="ts" generic="P extends Record<string, any>">
 	import _ from "lodash";
-	import { computed } from "vue";
 
 	import type {
 		iProperty,
@@ -42,6 +41,7 @@
 	import ValueComplex from "./Complex.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
+	import { useSortObject } from "../../composables/utils";
 
 	interface iValueListProps extends iUseThemeProps {
 		/**
@@ -70,22 +70,5 @@
 	 */
 
 	defineOptions({ name: "ValueList", inheritAttrs: false });
-
-	const props = defineProps<iValueListProps>();
-
-	const sorted = computed(() => {
-		return Object.entries(props.value)
-			.sort(([a], [b]) => {
-				// updatedAt, updatedBy, createdAt and createdBy to last position
-				if (a.endsWith("At") || a.endsWith("By") || b.endsWith("At") || b.endsWith("By")) {
-					if (a.endsWith("At") || a.endsWith("By")) return 1;
-
-					return -1;
-				} else if (a > b) return 1;
-				else if (a < b) return -1;
-
-				return 0;
-			})
-			.filter(([property]) => property !== "id");
-	});
+	defineProps<iValueListProps>();
 </script>

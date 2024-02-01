@@ -5,7 +5,7 @@
 				v-model="model"
 				v-bind="{
 					..._.omit($attrs, 'class'),
-					..._.omit(props, 'modelValue'),
+					..._.omit(props, ['modelValue', 'size']),
 					type: textarea ? 'textarea' : inputType,
 					placeholder,
 					disabled,
@@ -72,7 +72,7 @@
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	interface iInputTextProps

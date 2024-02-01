@@ -317,7 +317,7 @@
 	import type { iUseThemeProps } from "../../types/props";
 	import useInput from "../../composables/input";
 	import useCountries from "../../composables/countries";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iFormInputProps extends iUseThemeProps {
 		modelValue: any[];

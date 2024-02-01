@@ -65,7 +65,7 @@
 			class="flx --flxRow --flx-start-center --gap-5"
 		>
 			<template
-				v-for="([childValueName, childValue], childValueIndex) in sort(value)"
+				v-for="([childValueName, childValue], childValueIndex) in useSortObject(value)"
 				:key="childValueIndex"
 			>
 				<ValueSimple
@@ -126,6 +126,7 @@
 						readonly,
 						theme: invertedTheme,
 						modalTheme: modalTheme || theme,
+						withErrors,
 					}"
 					:class="classes"
 					verbose
@@ -135,12 +136,15 @@
 	</template>
 	<!-- Plain value -->
 	<ValueSimple
-		v-else
+		v-else-if="!withErrors"
 		v-bind="{ value, property, readonly, theme, modalTheme, classes, verbose, size }"
 	/>
+	<!-- Error fallback -->
+	<span v-else>{{ value ?? "-" }}</span>
 </template>
 <script setup lang="ts">
 	import _ from "lodash";
+	import { ref, onErrorCaptured } from "vue";
 
 	import type {
 		iProperty,
@@ -163,7 +167,7 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers, useSortObject } from "../../composables/utils";
 
 	interface iValueComplexProps extends iUseThemeProps {
 		/**
@@ -209,6 +213,8 @@
 	const { t } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
 
+	const withErrors = ref(false);
+
 	function remapValues(values: unknown[]): Record<string, any>[] {
 		return values.map((value) => {
 			return typeof value === "object" && value !== null ? value : { value };
@@ -249,19 +255,12 @@
 		if (!props.omitRefresh) props.refresh?.();
 	}
 
-	function sort(data: Record<string, any>) {
-		return Object.entries(data)
-			.sort(([a], [b]) => {
-				// updatedAt, updatedBy, createdAt and createdBy to last position
-				if (a.endsWith("At") || a.endsWith("By") || b.endsWith("At") || b.endsWith("By")) {
-					if (a.endsWith("At") || a.endsWith("By")) return 1;
+	// lifecycle
+	onErrorCaptured((err) => {
+		console.error(err);
 
-					return -1;
-				} else if (a > b) return 1;
-				else if (a < b) return -1;
+		withErrors.value = true;
 
-				return 0;
-			})
-			.filter(([property]) => property !== "id");
-	}
+		return false;
+	});
 </script>

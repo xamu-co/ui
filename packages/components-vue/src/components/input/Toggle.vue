@@ -4,7 +4,12 @@
 			v-slot="{ id, modelValue }"
 			:class="[modifiersClasses, stateClasses, themeClasses, `i${_.capitalize(inputType)}`]"
 			class="--full"
-			v-bind="{ ...$attrs, ..._.omit(props, 'modelValue'), type: inputType, disabled }"
+			v-bind="{
+				...$attrs,
+				..._.omit(props, ['modelValue', 'size']),
+				type: inputType,
+				disabled,
+			}"
 		>
 			<!-- Do not hide, since this is used by a pseudo element -->
 			<label :for="id" class="flx --flxRow --flx-start-center --gap-none">
@@ -40,7 +45,7 @@
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iInputToggleProps
 		extends iInputProps,

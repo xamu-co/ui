@@ -47,7 +47,7 @@
 	import type { iUseThemeProps } from "../../types/props";
 	import type { iState } from "../../types/countries";
 	import useCountries from "../../composables/countries";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iFormSimple extends iUseThemeProps {
 		title?: string;

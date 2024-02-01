@@ -36,7 +36,7 @@
 	import useBrowser from "../composables/browser";
 	import useModifiers from "../composables/modifiers";
 	import useTheme from "../composables/theme";
-	import useHelpers from "../composables/helpers";
+	import { useHelpers } from "../composables/utils";
 
 	type tAlignFirstX = "right" | "left";
 	type tAlignFirstY = "top" | "bottom";

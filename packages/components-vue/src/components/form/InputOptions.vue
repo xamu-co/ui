@@ -8,7 +8,7 @@
 
 	import { FormInput, toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	/**
 	 * Require options

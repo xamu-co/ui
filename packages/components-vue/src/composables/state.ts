@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 import type { iUseStateProps } from "../types/props";
-import useHelpers from "../composables/helpers";
+import { useHelpers } from "../composables/utils";
 
 /**
  * State composable

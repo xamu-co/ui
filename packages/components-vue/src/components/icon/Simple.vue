@@ -15,7 +15,7 @@
 
 	import type { iUseModifiersProps } from "../../types/props";
 	import useModifiers from "../../composables/modifiers";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iIconSimpleProps extends iUseModifiersProps {
 		indicator?: boolean;

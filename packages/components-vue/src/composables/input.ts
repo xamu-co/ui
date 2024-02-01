@@ -7,7 +7,7 @@ import type {
 import { useI18n } from "@open-xamu-co/ui-common-helpers";
 import { eFormType } from "@open-xamu-co/ui-common-enums";
 
-import useHelpers from "../composables/helpers";
+import { useHelpers } from "../composables/utils";
 
 export default function useInput({ input }: { input: iFormInput }) {
 	const { t, tet } = useHelpers(useI18n);

@@ -116,7 +116,7 @@
 	import FormSimple from "./Simple.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	type tSubmitFn = (values: FormInputClass[]) => Promise<boolean | iInvalidInput[]>;
 

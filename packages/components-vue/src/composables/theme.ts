@@ -5,7 +5,7 @@ import { useUtils } from "@open-xamu-co/ui-common-helpers";
 import { eColors } from "@open-xamu-co/ui-common-enums";
 
 import type { iUseThemeProps, iUseThemeTooltipProps } from "../types/props";
-import useHelpers from "../composables/helpers";
+import { useHelpers } from "../composables/utils";
 
 interface iAllUseThemeProps extends iUseThemeProps, iUseThemeTooltipProps {}
 

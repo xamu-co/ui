@@ -74,7 +74,7 @@
 		iSelectProps,
 	} from "../../types/props";
 	import useUUID from "../../composables/uuid";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iSelectFilterProps
 		extends iSelectProps,

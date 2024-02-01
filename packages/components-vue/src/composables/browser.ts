@@ -3,7 +3,7 @@ import { type Ref, inject, onMounted, onUnmounted, ref } from "vue";
 import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
-import useHelpers from "../composables/helpers";
+import { useHelpers } from "../composables/utils";
 
 function MQHandler(range: Ref<boolean>) {
 	return function (e: MediaQueryList | MediaQueryListEvent) {
