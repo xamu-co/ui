@@ -2,40 +2,34 @@
 	<LoaderContentFetch
 		v-slot="{ content }"
 		:theme="theme"
+		:label="t('form_loading_countries')"
 		:promise="(withLocationInput || withPhoneInput) && getCountriesAndStates"
 		class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
 		:el="noForm ? 'fieldset' : 'form'"
 		:fallback="{ countries: [], states: [] }"
 	>
-		<LoaderSimple
-			v-if="(withLocationInput || withPhoneInput) && !content.countries.length"
-			:label="t('form_loading_countries')"
-			:theme="theme"
-		/>
-		<template v-else>
-			<legend v-if="title">
-				<h4>{{ title }}:</h4>
-			</legend>
-			<div
-				v-for="(input, inputIndex) in model"
-				:key="inputIndex"
-				class="flx --flxColumn --flx-start-stretch --gap-5"
-			>
-				<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
-					{{ getSuggestedTitle(input) }}
-				</p>
-				<FormInput
-					:readonly="readonly"
-					:theme="theme"
-					:input="input"
-					:invalid="getInvalid(input.name)"
-					:countries="content.countries"
-					:states="withLocationInput && !!defaultCountry ? content.states : undefined"
-					:model-value="model[inputIndex].values"
-					@update:model-value="updateValues(inputIndex, $event)"
-				/>
-			</div>
-		</template>
+		<legend v-if="title">
+			<h4>{{ title }}:</h4>
+		</legend>
+		<div
+			v-for="(input, inputIndex) in model"
+			:key="inputIndex"
+			class="flx --flxColumn --flx-start-stretch --gap-5"
+		>
+			<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
+				{{ getSuggestedTitle(input) }}
+			</p>
+			<FormInput
+				:readonly="readonly"
+				:theme="theme"
+				:input="input"
+				:invalid="getInvalid(input.name)"
+				:countries="content.countries"
+				:states="withLocationInput && !!defaultCountry ? content.states : undefined"
+				:model-value="model[inputIndex].values"
+				@update:model-value="updateValues(inputIndex, $event)"
+			/>
+		</div>
 	</LoaderContentFetch>
 </template>
 
@@ -48,7 +42,6 @@
 	import { type FormInput as FormInputClass, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import FormInput from "./Input.vue";
-	import LoaderSimple from "../loader/Simple.vue";
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
 
 	import type { iUseThemeProps } from "../../types/props";

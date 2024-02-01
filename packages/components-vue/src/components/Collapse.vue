@@ -3,7 +3,7 @@
 		<BaseInput v-if="title" v-slot="{ id }" type="checkbox" :checked="checked" :theme="theme">
 			<label :for="id" class="toggle--list" :class="`--txtColor-${themeValues[0]}`">
 				<span>{{ title }}</span>
-				<IconFa name="angle-down" size="20" />
+				<IconFa name="angle-down" :size="20" />
 			</label>
 		</BaseInput>
 		<component :is="el || 'ul'" class="list-group">

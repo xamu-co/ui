@@ -33,6 +33,9 @@
 	import type { CSSProperties } from "vue";
 
 	interface iLoaderSimpleProps extends iUseThemeProps {
+		/**
+		 * Loader label
+		 */
 		label?: string;
 		size?: string;
 		margin?: string;

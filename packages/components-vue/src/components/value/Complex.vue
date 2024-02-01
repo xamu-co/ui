@@ -11,6 +11,7 @@
 			:tooltip="t('table_create_new')"
 			tooltip-as-text
 			tooltip-position="bottom"
+			:size="size"
 			round
 			@click="createNodeAndRefresh"
 		>
@@ -33,7 +34,7 @@
 						:aria-label="
 							t('table_see_values', { name: property?.alias?.toLowerCase() })
 						"
-						size="sm"
+						:size="size"
 						@click="toggleModal"
 					>
 						{{ t("table_see_values", { name: property?.alias?.toLowerCase() }) }}
@@ -79,6 +80,7 @@
 						modalTheme,
 						classes,
 						verbose,
+						size,
 					}"
 				/>
 				<span v-if="childValueIndex < Object.keys(value).length - 1">⋅</span>
@@ -93,7 +95,7 @@
 					:tooltip="t('see_value')"
 					tooltip-as-text
 					tooltip-position="bottom"
-					size="sm"
+					:size="size"
 					@click="toggleModal"
 				>
 					<IconFa name="lemon" force-regular />
@@ -105,7 +107,7 @@
 					:tooltip="t('see_value')"
 					tooltip-as-text
 					tooltip-position="bottom"
-					size="sm"
+					:size="size"
 					round
 					@click="toggleModal"
 				>
@@ -114,47 +116,30 @@
 				</ActionButtonToggle>
 			</template>
 			<template #default="{ model, invertedTheme }">
-				<ul
+				<!-- Recursion -->
+				<ValueList
 					v-if="model"
-					class="flx --flxColumn --minWidth-220 --txtSize-sm"
+					v-bind="{
+						value,
+						node,
+						property,
+						readonly,
+						theme: invertedTheme,
+						modalTheme: modalTheme || theme,
+					}"
 					:class="classes"
-				>
-					<li
-						v-for="([childValueName, childValue], childValueIndex) in sort(value)"
-						:key="childValueIndex"
-						class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
-					>
-						<span class="--txtSize-xs">
-							{{ _.capitalize(_.startCase(childValueName)) }}
-						</span>
-						<!-- Recursion -->
-						<Complex
-							v-bind="{
-								value: childValue,
-								node,
-								property: {
-									value: childValueName,
-									alias: _.capitalize(_.startCase(childValueName)),
-								},
-								readonly,
-								theme: invertedTheme,
-								modalTheme: modalTheme || theme,
-							}"
-							:class="classes"
-							verbose
-						/>
-					</li>
-				</ul>
+					verbose
+				/>
 			</template>
 		</Modal>
 	</template>
 	<!-- Plain value -->
 	<ValueSimple
 		v-else
-		v-bind="{ value, property, readonly, theme, modalTheme, classes, verbose }"
+		v-bind="{ value, property, readonly, theme, modalTheme, classes, verbose, size }"
 	/>
 </template>
-<script setup lang="ts" generic="P extends Record<string, any>, T">
+<script setup lang="ts">
 	import _ from "lodash";
 
 	import type {
@@ -163,6 +148,7 @@
 		tProps,
 		tThemeModifier,
 		tThemeTuple,
+		tSizeModifier,
 	} from "@open-xamu-co/ui-common-types";
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
@@ -171,6 +157,7 @@
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
 	import ValueSimple from "./Simple.vue";
+	import ValueList from "./List.vue";
 	import Modal from "../Modal.vue";
 	import Table from "../Table.vue";
 
@@ -178,21 +165,21 @@
 	import useTheme from "../../composables/theme";
 	import useHelpers from "../../composables/helpers";
 
-	interface iValueComplexProps<Pi extends Record<string, any>, Ti> extends iUseThemeProps {
+	interface iValueComplexProps extends iUseThemeProps {
 		/**
 		 * Cell value
 		 */
-		value: Ti;
+		value: any;
 		/**
 		 * Cell column property
 		 */
-		property?: iProperty<Pi>;
+		property?: iProperty;
 		/**
 		 * Cell node, aka parent node
 		 *
 		 * The value prop will be a property of this node
 		 */
-		node?: Pi;
+		node?: Record<string, any>;
 		readonly?: boolean;
 		classes?: tProps<string>;
 		/**
@@ -205,6 +192,7 @@
 		 */
 		omitRefresh?: boolean;
 		verbose?: boolean;
+		size?: tSizeModifier;
 	}
 
 	/**
@@ -215,7 +203,7 @@
 
 	defineOptions({ name: "ValueComplex", inheritAttrs: false });
 
-	const props = defineProps<iValueComplexProps<P, T>>();
+	const props = defineProps<iValueComplexProps>();
 
 	const { themeValues } = useTheme(props);
 	const { t } = useHelpers(useI18n);

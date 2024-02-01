@@ -20,7 +20,7 @@
 							:aria-label="cancelButtonOptions.title"
 							@click.stop="closeModal()"
 						>
-							<IconFa name="xmark" size="20" />
+							<IconFa name="xmark" :size="20" />
 						</ActionLink>
 					</div>
 				</slot>

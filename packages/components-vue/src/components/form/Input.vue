@@ -13,7 +13,6 @@
 					:is="input.multiple ? ActionButtonToggle : ActionButton"
 					v-for="(option, optionIndex) in options"
 					:key="optionIndex"
-					size="md"
 					:theme="theme"
 					:aria-label="option.alias || option.value"
 					:active="modelValue.includes(option.value)"

@@ -19,6 +19,7 @@
 
 	interface iIconSimpleProps extends iUseModifiersProps {
 		indicator?: boolean;
+		size?: number;
 	}
 
 	/**

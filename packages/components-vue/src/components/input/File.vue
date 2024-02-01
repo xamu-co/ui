@@ -23,7 +23,7 @@
 							<BaseImg :src="thumb" :alt="t('file_thumb')" />
 						</div>
 						<ActionLink :theme="eColors.LIGHT" class="--shadow">
-							<IconFa name="xmark" size="20" />
+							<IconFa name="xmark" :size="20" />
 						</ActionLink>
 					</BaseAction>
 				</li>

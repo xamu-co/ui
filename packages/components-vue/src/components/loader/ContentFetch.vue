@@ -8,6 +8,8 @@
 			refresh,
 			unwrap,
 			theme,
+			label,
+			noLoader,
 		}"
 	>
 		<slot
@@ -35,6 +37,14 @@
 	import type { iUseThemeProps } from "../../types/props";
 
 	export interface iLoaderContentFetchProps<Ti, Pi extends unknown[]> extends iUseThemeProps {
+		/**
+		 * Loader label
+		 */
+		label?: string;
+		/**
+		 * Hide loader
+		 */
+		noLoader?: boolean;
 		promise?: false | ((hydrate: tHydrate<Ti>, ...args: Pi) => Promise<Ti>);
 		url?: false | string;
 		fallback?: Ti;
@@ -81,6 +91,9 @@
 		if (props.promise || props.url) {
 			try {
 				loading.value = true;
+
+				// use fallback while the real content loaads
+				if (props.fallback) firstLoad.value = true;
 
 				if (props.promise) {
 					fetchedContent.value = await props.promise(

@@ -27,6 +27,7 @@ export { default as SelectFilter } from "./components/select/Filter.vue";
 
 // value
 export { default as Value } from "./components/value/Simple.vue";
+export { default as ValueList } from "./components/value/List.vue";
 export { default as ValueComplex } from "./components/value/Complex.vue";
 
 // box

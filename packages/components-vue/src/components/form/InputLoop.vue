@@ -13,7 +13,7 @@
 				:disabled="readonly"
 				@click="input.removeValue(i)"
 			>
-				<IconFa name="trash-can" size="20" />
+				<IconFa name="trash-can" :size="20" />
 			</ActionLink>
 		</div>
 		<p

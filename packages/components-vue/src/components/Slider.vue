@@ -29,7 +29,7 @@
 						:id="`slide-${index}`"
 						:tooltip="t('pick')"
 						:active="activeSlide === `slide-${index}`"
-						size="xs"
+						:size="eSizes.XS"
 						round
 						@click.prevent="debouncedTab(false, `slide-${index}`)"
 					>
@@ -64,6 +64,7 @@
 	import useHelpers from "../composables/helpers";
 
 	import type { PropType } from "vue";
+	import { eSizes } from "@open-xamu-co/ui-common-enums";
 
 	/**
 	 * Slider principal.

@@ -24,6 +24,7 @@
 		 * For free icons with regular version
 		 */
 		forceRegular?: boolean;
+		size?: number;
 	}
 
 	/**

@@ -23,7 +23,7 @@
 		<div v-bind="$attrs" class="scroll --horizontal --always">
 			<table :id="tableId" class="tbl" :class="themeClasses">
 				<thead>
-					<tr class="--txtAlign --txtSize-sm">
+					<tr class="--txtAlign" :class="`--txtSize-${size}`">
 						<!-- TODO: define filters, filter table contents -->
 						<th
 							class="--sticky"
@@ -38,6 +38,7 @@
 									:theme="theme || themeValues"
 									:title="t('table_select_all')"
 									:checked="selectedNodes.every(([n]) => n)"
+									:size="size"
 									@update:model-value="toggleAll"
 								/>
 								<span v-if="isReadOnly || !canSort">#</span>
@@ -48,6 +49,7 @@
 									:tooltip="t('table_sort_by_name', { name: 'Id' })"
 									tooltip-as-text
 									tooltip-position="bottom"
+									:size="size"
 									@click="setOrdering('id')"
 								>
 									<span>#</span>
@@ -61,8 +63,11 @@
 						<td
 							v-for="(propertyName, propertyNameIndex) in propertiesMeta"
 							:key="propertyNameIndex"
-							class="--txtSize-sm --maxWidth-440"
-							:class="{ ['is--selected']: canSort && isOrdering(propertyName.value) }"
+							class="--maxWidth-440"
+							:class="[
+								`--txtSize-${size}`,
+								{ ['is--selected']: canSort && isOrdering(propertyName.value) },
+							]"
 							:data-column-name="propertyName.value"
 							:data-column="propertyName.alias"
 							:width="
@@ -81,6 +86,7 @@
 								:tooltip="t('table_sort_by_name', { name: propertyName.alias })"
 								tooltip-as-text
 								tooltip-position="bottom"
+								:size="size"
 								@click="setOrdering(propertyName.value)"
 							>
 								<span>{{ propertyName.alias }}</span>
@@ -105,8 +111,11 @@
 				<tbody :class="classes">
 					<template v-for="(node, nodeIndex) in nodes" :key="nodeIndex">
 						<tr
-							class="--txtAlign --txtSize-sm"
-							:class="{ ['is--selected']: selectedNodes[nodeIndex][0] }"
+							class="--txtAlign"
+							:class="[
+								`--txtSize-${size}`,
+								{ ['is--selected']: selectedNodes[nodeIndex][0] },
+							]"
 						>
 							<th
 								class="--sticky"
@@ -121,6 +130,7 @@
 										v-model="selectedNodes[nodeIndex][0]"
 										:theme="theme || themeValues"
 										:title="t('table_select')"
+										:size="size"
 									/>
 									<span :title="String(node.id ?? nodeIndex)">
 										{{
@@ -136,10 +146,11 @@
 								:key="property.value"
 								:data-column-name="property.value"
 								:data-column="property.alias"
-								:class="{
-									['is--selected']: ordering.name === property.value,
-								}"
-								class="--txtSize-sm --maxWidth-440"
+								:class="[
+									`--txtSize-${size}`,
+									{ ['is--selected']: ordering.name === property.value },
+								]"
+								class="--maxWidth-440"
 							>
 								<ValueComplex
 									v-bind="{
@@ -152,6 +163,7 @@
 										classes,
 										refresh,
 										omitRefresh,
+										size,
 									}"
 								/>
 							</td>
@@ -168,7 +180,7 @@
 										tooltip-as-text
 										tooltip-position="left"
 										:theme="theme || themeValues"
-										size="sm"
+										:size="size"
 										round
 										:disabled="selectedNodes.some(([n]) => n)"
 										@click="updateNodeAndRefresh(node)"
@@ -179,14 +191,14 @@
 										class="flx --flxRow --flx-center"
 										:position="['left', 'center']"
 										:theme="theme || themeValues"
-										size="sm"
+										:size="size"
 									>
 										<template #toggle="{ setModel }">
 											<ActionLink
 												:aria-label="t('table_options')"
 												:title="t('table_options')"
 												:theme="theme || themeValues"
-												size="sm"
+												:size="size"
 												:disabled="selectedNodes.some(([n]) => n)"
 												toggle="dropdown"
 												@click="setModel()"
@@ -199,7 +211,7 @@
 												<li v-if="!!cloneNode">
 													<ActionLink
 														:theme="invertedTheme"
-														size="sm"
+														:size="size"
 														:aria-label="t('table_duplicate')"
 														@click="cloneNodeAndRefresh(node, setModel)"
 													>
@@ -212,7 +224,7 @@
 												<li v-if="!!deleteNode">
 													<ActionLink
 														:theme="[eColors.DANGER, invertedTheme[0]]"
-														size="sm"
+														:size="size"
 														:aria-label="t('table_delete')"
 														@click="
 															deleteNodeAndRefresh(node, setModel)
@@ -234,7 +246,7 @@
 									<div class="flx --flxRow --flx-center-end --gap-10 --bdr">
 										<ActionLink
 											:theme="theme || themeValues"
-											size="sm"
+											:size="size"
 											:active="selectedNodes[nodeIndex][1]"
 											:tooltip="
 												t('table_see_name', {
@@ -254,7 +266,7 @@
 										<ActionButtonLink
 											v-if="createNodeChildren"
 											:theme="theme || themeValues"
-											size="sm"
+											:size="size"
 											:tooltip="t('table_create_new')"
 											tooltip-position="right"
 											class="--p-5:md-inv"
@@ -316,10 +328,11 @@
 		iSelectOption,
 		tProp,
 		tProps,
+		tSizeModifier,
 		tThemeModifier,
 		tThemeTuple,
 	} from "@open-xamu-co/ui-common-types";
-	import { eColors } from "@open-xamu-co/ui-common-enums";
+	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import { toOption, useSwal, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "./icon/Fa.vue";
@@ -395,6 +408,7 @@
 		 * Prevent node functions from triggering refresh event (useful with firebase hydration)
 		 */
 		omitRefresh?: boolean;
+		size?: tSizeModifier;
 	}
 
 	/**
@@ -408,7 +422,9 @@
 
 	defineOptions({ name: "TableSimple", inheritAttrs: false });
 
-	const props = defineProps<iTableProps<T>>();
+	const props = withDefaults(defineProps<iTableProps<T>>(), {
+		size: eSizes.SM,
+	});
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);

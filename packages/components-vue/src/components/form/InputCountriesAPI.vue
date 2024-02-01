@@ -14,6 +14,7 @@
 				:theme="theme"
 				:promise="!!model[1] && unHydrate(getStateCities)"
 				:payload="[countryValue, model[1]]"
+				:no-loader="statesReq.loading"
 				unwrap
 			>
 				<slot v-bind="{ statesReq, citiesReq }"></slot>

@@ -3,7 +3,7 @@
 		v-slot="{ content, refresh }"
 		:promise="page"
 		:payload="[{ ...pagination, ...defaults }]"
-		v-bind="{ ...$attrs, preventAutoload, theme }"
+		v-bind="{ ...$attrs, preventAutoload, theme, label }"
 	>
 		<slot
 			v-bind="{
@@ -56,6 +56,10 @@
 		 * Additional parameters to send every request
 		 */
 		defaults?: Record<string, any>;
+		/**
+		 * Loader label
+		 */
+		label?: string;
 	}
 
 	/**

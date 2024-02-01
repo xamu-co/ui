@@ -45,3 +45,13 @@ export const eColors = {
 	...eBaseColors,
 };
 export type eColors = typeof eColors;
+
+export enum eSizes {
+	XS = "xs",
+	SM = "sm",
+	MD = "md",
+	LG = "lg",
+	XL = "xl",
+	XX = "xx",
+	MX = "mx",
+}

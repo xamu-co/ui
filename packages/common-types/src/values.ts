@@ -16,7 +16,8 @@ export type iNodeFn<T extends Record<string, any>> = (
 /**
  * used on FactoryTable and related components
  */
-export interface iProperty<T extends Record<string, any>> extends iSelectOption {
+export interface iProperty<T extends Record<string, any> = Record<string, any>>
+	extends iSelectOption {
 	/**
 	 * Function to create a node within the relation
 	 */

@@ -26,6 +26,7 @@ export const componentNames = [
 	"SelectFilter",
 	// value
 	"Value",
+	"ValueList",
 	"ValueComplex",
 	// box
 	"BoxAction",
