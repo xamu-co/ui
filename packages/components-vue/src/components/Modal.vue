@@ -9,14 +9,17 @@
 				:class="[modalClass ?? 'flx --flxColumn --flx-start-stretch --width', themeClasses]"
 				v-bind="$attrs"
 			>
-				<slot name="modal-header" v-bind="{ toggleModal, model, invertedTheme }">
+				<slot
+					name="modal-header"
+					v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
+				>
 					<div v-if="title" class="flx --flxRow --flx-between-center">
 						<div class="txt --gaping-none">
 							<h5>{{ title }}</h5>
 							<p v-if="subtitle" class="--txtSize-xs">{{ subtitle }}</p>
 						</div>
 						<ActionLink
-							:theme="invertedTheme"
+							:theme="invertedThemeValues"
 							:aria-label="cancelButtonOptions.title"
 							@click.stop="closeModal()"
 						>
@@ -26,13 +29,18 @@
 				</slot>
 				<div class="scroll --vertical">
 					<!-- Main modal content -->
-					<slot v-bind="{ toggleModal, model, invertedTheme }"></slot>
+					<slot
+						v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
+					></slot>
 				</div>
-				<slot name="modal-footer" v-bind="{ toggleModal, model, invertedTheme }">
+				<slot
+					name="modal-footer"
+					v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
+				>
 					<div v-if="!hideFooter" class="flx --flxRow --flx-end-center">
 						<ActionButton
 							v-if="saveButtonOptions.visible"
-							:theme="invertedTheme"
+							:theme="invertedThemeValues"
 							:aria-label="saveButtonOptions.title"
 							:class="saveButtonOptions.btnClass"
 							@click="emit('save', closeModal, $event)"
@@ -41,7 +49,7 @@
 						</ActionButton>
 						<ActionButtonToggle
 							v-if="cancelButtonOptions.visible"
-							:theme="invertedTheme"
+							:theme="invertedThemeValues"
 							:aria-label="cancelButtonOptions.title"
 							:class="cancelButtonOptions.btnClass"
 							data-dismiss="modal"
@@ -57,7 +65,7 @@
 					</div>
 				</slot>
 			</div>
-			<LoaderSimple v-if="loading || hide" :theme="invertedTheme">
+			<LoaderSimple v-if="loading || hide" :theme="invertedThemeValues">
 				<transition name="fade">
 					<div
 						v-if="loadingTooLong || (props.hide && props.hideMessage)"
@@ -67,7 +75,7 @@
 							{{ props.hideMessage ? props.hideMessage : t("modal_taking_too_long") }}
 						</p>
 						<ActionButton
-							:theme="invertedTheme"
+							:theme="invertedThemeValues"
 							:aria-label="t('close')"
 							@click="closeModal()"
 						>
@@ -78,7 +86,7 @@
 			</LoaderSimple>
 		</dialog>
 	</BaseWrapper>
-	<slot v-else v-bind="{ toggleModal, model, invertedTheme }"></slot>
+	<slot v-else v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"></slot>
 </template>
 
 <script setup lang="ts">
@@ -173,7 +181,7 @@
 
 	const { t } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
-	const { themeClasses, invertedTheme } = useTheme(props, true);
+	const { themeClasses, invertedThemeValues } = useTheme(props, true);
 	const { uuid } = useUUID();
 
 	const resolver = ref<(r?: boolean) => void>();

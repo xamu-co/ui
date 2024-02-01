@@ -19,7 +19,8 @@
 			overflow: visible;
 
 			@layer defaults {
-				&:not(.#{module.$prefix-default}--button):not(
+				&:not(
+						.#{module.$prefix-default}--button,
 						.#{module.$prefix-default}--#{module.$component-button}
 					) {
 					// @defaults p
@@ -76,18 +77,18 @@
 
 					&:hover,
 					&.#{module.$status-is-active},
-					&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+					&.#{module.$status-is-route-exact}:not(
+							.#{module.$status-no-route},
 							.#{module.$status-no-route-exact}
 						) {
 						background: module.color($name, 0.2);
 					}
 
-					.#{module.$component-box} {
-						&:not(.#{module.$prefix-default}--bdr-solid):not(
-								.#{module.$prefix-default}--bdr-dashed
-							) {
-							box-shadow: 3px 3px 9px module.color($name, 0.3);
-						}
+					.#{module.$component-box}:not(
+							.#{module.$prefix-default}--bdr-solid,
+							.#{module.$prefix-default}--bdr-dashed
+						) {
+						box-shadow: 3px 3px 9px module.color($name, 0.3);
 					}
 				}
 			}
@@ -102,12 +103,11 @@
 				p {
 					text-align: center;
 				}
-				.#{module.$component-box} {
-					&:not(.#{module.$prefix-default}--bdr-solid):not(
-							.#{module.$prefix-default}--bdr-dashed
-						) {
-						border-color: transparent !important;
-					}
+				.#{module.$component-box}:not(
+						.#{module.$prefix-default}--bdr-solid,
+						.#{module.$prefix-default}--bdr-dashed
+					) {
+					border-color: transparent !important;
 				}
 			}
 

@@ -40,7 +40,7 @@
 					.#{utils.$layout-navigation-x}-list-item {
 						> *,
 						> * > * {
-							&:not(.#{utils.$status-is-active}):not(:hover) {
+							&:not(.#{utils.$status-is-active}, :hover) {
 								&:not(.#{utils.$status-is-route-exact}),
 								&.#{utils.$status-is-route-exact}.#{utils.$status-no-route},
 								&.#{utils.$status-is-route-exact}.#{utils.$status-no-route-exact} {
@@ -61,7 +61,8 @@
 								}
 							}
 							&.#{utils.$status-is-active},
-							&.#{utils.$status-is-route-exact}:not(.#{utils.$status-no-route}):not(
+							&.#{utils.$status-is-route-exact}:not(
+									.#{utils.$status-no-route},
 									.#{utils.$status-no-route-exact}
 								) {
 								&.#{utils.$component-button} {
@@ -92,7 +93,7 @@
 									> .#{utils.$status-toggle-dropdown}:not(
 										.#{utils.$status-only-active}
 									) {
-									&:not(.#{utils.$status-is-active}):not(:hover) {
+									&:not(.#{utils.$status-is-active}, :hover) {
 										&:not(.#{utils.$status-is-route-exact}),
 										&.#{utils.$status-is-route-exact}.#{utils.$status-no-route},
 										&.#{utils.$status-is-route-exact}.#{utils.$status-no-route-exact} {
@@ -108,8 +109,9 @@
 									}
 									&.#{utils.$status-is-active},
 									&.#{utils.$status-is-route-exact}:not(
-											.#{utils.$status-no-route}
-										):not(.#{utils.$status-no-route-exact}) {
+											.#{utils.$status-no-route},
+											.#{utils.$status-no-route-exact}
+										) {
 										&.#{utils.$prefix-default-with-separator
 											+ utils.$component-button} {
 											text-shadow: none;
@@ -124,7 +126,7 @@
 									> .#{utils.$status-toggle-dropdown}:not(
 										.#{utils.$status-only-active}
 									) {
-									&:not(.#{utils.$status-is-active}):not(:hover) {
+									&:not(.#{utils.$status-is-active}, :hover) {
 										&:not(.#{utils.$status-is-route-exact}),
 										&.#{utils.$status-is-route-exact}.#{utils.$status-no-route},
 										&.#{utils.$status-is-route-exact}.#{utils.$status-no-route-exact} {
@@ -135,8 +137,9 @@
 									}
 									&.#{utils.$status-is-active},
 									&.#{utils.$status-is-route-exact}:not(
-											.#{utils.$status-no-route}
-										):not(.#{utils.$status-no-route-exact}) {
+											.#{utils.$status-no-route},
+											.#{utils.$status-no-route-exact}
+										) {
 										&.#{utils.$prefix-default-with-separator
 											+ utils.$component-button} {
 											text-shadow: none;
@@ -182,7 +185,7 @@
 					> * > * {
 						&.#{utils.$component-link},
 						&.#{utils.$component-button-link} {
-							&:not(:hover):not(.#{utils.$status-is-active}) {
+							&:not(.#{utils.$status-is-active}, :hover) {
 								&:not(.#{utils.$status-is-route-exact}),
 								&.#{utils.$status-is-route-exact}.#{utils.$status-no-route},
 								&.#{utils.$status-is-route-exact}.#{utils.$status-no-route-exact} {
@@ -234,7 +237,8 @@
 						&.#{utils.$component-button-link} {
 							&:hover,
 							&.#{utils.$status-is-active},
-							&.#{utils.$status-is-route-exact}:not(.#{utils.$status-no-route}):not(
+							&.#{utils.$status-is-route-exact}:not(
+									.#{utils.$status-no-route},
 									.#{utils.$status-no-route-exact}
 								) {
 								text-shadow: 1px 1px 1px var(--sh, #{utils.color(dark, 0.3)});

@@ -24,7 +24,8 @@
 				background-color: var(--cl, var(--bg));
 			}
 			&.#{module.$status-is-active},
-			&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+			&.#{module.$status-is-route-exact}:not(
+					.#{module.$status-no-route},
 					.#{module.$status-no-route-exact}
 				) {
 				color: var(--cl-a);
@@ -48,7 +49,8 @@
 			&.#{module.$prefix-default}--shadow {
 				&:hover,
 				&.#{module.$status-is-active},
-				&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+				&.#{module.$status-is-route-exact}:not(
+						.#{module.$status-no-route},
 						.#{module.$status-no-route-exact}
 					) {
 					text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
@@ -65,21 +67,6 @@
 
 				&.#{module.$status-is-alert}:after {
 					--cl-h: #{module.color(light, 0.5)};
-				}
-			}
-
-			// theme overrides
-			//
-			// @group Modifiers
-			@if module.$allow-theme-overrides {
-				// could break on modals & dropdows
-				@at-root :not(.#{module.$layout-dropdown}):not(.#{module.$layout-modal}) #{&} {
-					&.#{module.$prefix-default}--tm-light {
-						--cl-a: #{module.color(primary)};
-					}
-					&.#{module.$prefix-default}--tm-dark {
-						--cl-a: #{module.color(primary)};
-					}
 				}
 			}
 
@@ -128,6 +115,21 @@
 							text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
 						}
 					}
+				}
+			}
+		}
+
+		// theme overrides
+		//
+		// @group Modifiers
+		@if module.$allow-theme-overrides {
+			// could break on modals & dropdows
+			:not(.#{module.$layout-dropdown}, .#{module.$layout-modal}) .#{module.$component-link} {
+				&.#{module.$prefix-default}--tm-light {
+					--cl-a: #{module.color(primary)};
+				}
+				&.#{module.$prefix-default}--tm-dark {
+					--cl-a: #{module.color(primary)};
 				}
 			}
 		}

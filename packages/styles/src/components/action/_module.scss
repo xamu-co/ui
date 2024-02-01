@@ -154,7 +154,8 @@
 	// OVERRIDE: dejar en el final
 	&.#{module.$status-is-active},
 	&.#{module.$status-is-route}:not(.#{module.$status-no-route}),
-	&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+	&.#{module.$status-is-route-exact}:not(
+			.#{module.$status-no-route},
 			.#{module.$status-no-route-exact}
 		) {
 		--cl: var(--bg);
@@ -175,7 +176,8 @@
 	}
 
 	&.#{module.$status-is-active},
-	&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+	&.#{module.$status-is-route-exact}:not(
+			.#{module.$status-no-route},
 			.#{module.$status-no-route-exact}
 		),
 	&.#{module.$status-is-route}:not(.#{module.$status-no-route}),
