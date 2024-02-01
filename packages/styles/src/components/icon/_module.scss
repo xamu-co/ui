@@ -44,7 +44,7 @@
 	// @group Modifiers
 	@for $i from 2 through 10 {
 		&.#{module.$prefix-default}--size-#{$i * 5} {
-			font-size: math.div($i, 3) * 1rem;
+			font-size: math.div($i, 3) * 1em;
 		}
 	}
 }
