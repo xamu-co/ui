@@ -1,150 +1,154 @@
 <template>
-	<!-- Array only -->
-	<div
-		v-if="Array.isArray(value)"
-		class="flx --flxRow --flx-start-center --gap-5"
-		:title="value.length ? t('table_quantity', value.length) : ''"
-	>
-		<ActionButton
-			v-if="!readonly && property?.createNode"
-			:theme="theme"
-			:tooltip="t('table_create_new')"
-			tooltip-as-text
-			tooltip-position="bottom"
-			:size="size"
-			round
-			@click="createNodeAndRefresh"
+	<BaseErrorBoundary :theme="theme">
+		<!-- Array only -->
+		<div
+			v-if="Array.isArray(value)"
+			class="flx --flxRow --flx-start-center --gap-5"
+			:title="value.length ? t('table_quantity', value.length) : ''"
 		>
-			<IconFa name="plus" />
-		</ActionButton>
-		<template v-if="value.length">
-			<span class="--txtWrap-nowrap">
-				<b :class="`--txtColor-${themeValues[0]}`">{{ value.length }}</b>
-				⋅
-			</span>
-			<Modal
-				v-if="value.every((v) => typeof v === 'object') || value.length > 3"
-				class="--txtSize"
-				:theme="modalTheme || theme"
-				:title="property?.alias"
+			<ActionButton
+				v-if="!readonly && property?.createNode"
+				:theme="theme"
+				:tooltip="t('table_create_new')"
+				tooltip-as-text
+				tooltip-position="bottom"
+				:size="size"
+				round
+				@click="createNodeAndRefresh"
 			>
+				<IconFa name="plus" />
+			</ActionButton>
+			<template v-if="value.length">
+				<span class="--txtWrap-nowrap">
+					<b :class="`--txtColor-${themeValues[0]}`">{{ value.length }}</b>
+					⋅
+				</span>
+				<Modal
+					v-if="value.every((v) => typeof v === 'object') || value.length > 3"
+					class="--txtSize"
+					:theme="modalTheme || theme"
+					:title="property?.alias"
+				>
+					<template #toggle="{ toggleModal }">
+						<ActionButtonToggle
+							:theme="theme"
+							:aria-label="
+								t('table_see_values', { name: property?.alias?.toLowerCase() })
+							"
+							:size="size"
+							@click="toggleModal"
+						>
+							{{ t("table_see_values", { name: property?.alias?.toLowerCase() }) }}
+						</ActionButtonToggle>
+					</template>
+					<template #default="{ model, invertedTheme }">
+						<Table
+							v-if="model"
+							:nodes="remapValues(value)"
+							:theme="invertedTheme"
+							:modal-theme="modalTheme || theme"
+							:classes="classes"
+						/>
+					</template>
+				</Modal>
+				<span v-else>{{ value.join(", ") }}</span>
+			</template>
+			<span v-else-if="!property?.createNode">-</span>
+		</div>
+		<!-- Object only -->
+		<template
+			v-else-if="typeof value === 'object' && value !== null && Object.keys(value).length"
+		>
+			<!-- Small object with small values -->
+			<div
+				v-if="
+					Object.keys(value).length <= 3 &&
+					Object.values(value).every((v) => typeof v === 'string' && v.length <= 7)
+				"
+				class="flx --flxRow --flx-start-center --gap-5"
+			>
+				<template
+					v-for="([childValueName, childValue], childValueIndex) in useSortObject(value)"
+					:key="childValueIndex"
+				>
+					<ValueSimple
+						v-bind="{
+							value: childValue,
+							property: {
+								value: childValueName,
+								alias: _.capitalize(_.startCase(childValueName)),
+							},
+							readonly,
+							theme,
+							modalTheme,
+							classes,
+							verbose,
+							size,
+						}"
+					/>
+					<span v-if="childValueIndex < Object.keys(value).length - 1">⋅</span>
+				</template>
+			</div>
+			<!-- Any other object -->
+			<Modal v-else class="--txtSize" :theme="modalTheme || theme" :title="property?.alias">
 				<template #toggle="{ toggleModal }">
-					<ActionButtonToggle
+					<ActionLink
+						v-if="'name' in value"
 						:theme="theme"
-						:aria-label="
-							t('table_see_values', { name: property?.alias?.toLowerCase() })
-						"
+						:tooltip="t('see_value')"
+						tooltip-as-text
+						tooltip-position="bottom"
 						:size="size"
 						@click="toggleModal"
 					>
-						{{ t("table_see_values", { name: property?.alias?.toLowerCase() }) }}
+						<IconFa name="lemon" force-regular />
+						<span>{{ value.name }}</span>
+					</ActionLink>
+					<ActionButtonToggle
+						v-else
+						:theme="theme"
+						:tooltip="t('see_value')"
+						tooltip-as-text
+						tooltip-position="bottom"
+						:size="size"
+						round
+						@click="toggleModal"
+					>
+						<IconFa name="lemon" />
+						<IconFa name="lemon" force-regular />
 					</ActionButtonToggle>
 				</template>
 				<template #default="{ model, invertedTheme }">
-					<Table
+					<!-- Recursion -->
+					<ValueList
 						v-if="model"
-						:nodes="remapValues(value)"
-						:theme="invertedTheme"
-						:modal-theme="modalTheme || theme"
-						:classes="classes"
+						v-bind="{
+							value,
+							node,
+							property,
+							readonly,
+							theme: invertedTheme,
+							modalTheme: modalTheme || theme,
+						}"
+						:class="classes"
+						verbose
 					/>
 				</template>
 			</Modal>
-			<span v-else>{{ value.join(", ") }}</span>
 		</template>
-		<span v-else-if="!property?.createNode">-</span>
-	</div>
-	<!-- Object only -->
-	<template v-else-if="typeof value === 'object' && value !== null && Object.keys(value).length">
-		<!-- Small object with small values -->
-		<div
-			v-if="
-				Object.keys(value).length <= 3 &&
-				Object.values(value).every((v) => typeof v === 'string' && v.length <= 7)
-			"
-			class="flx --flxRow --flx-start-center --gap-5"
-		>
-			<template
-				v-for="([childValueName, childValue], childValueIndex) in useSortObject(value)"
-				:key="childValueIndex"
-			>
-				<ValueSimple
-					v-bind="{
-						value: childValue,
-						property: {
-							value: childValueName,
-							alias: _.capitalize(_.startCase(childValueName)),
-						},
-						readonly,
-						theme,
-						modalTheme,
-						classes,
-						verbose,
-						size,
-					}"
-				/>
-				<span v-if="childValueIndex < Object.keys(value).length - 1">⋅</span>
-			</template>
-		</div>
-		<!-- Any other object -->
-		<Modal v-else class="--txtSize" :theme="modalTheme || theme" :title="property?.alias">
-			<template #toggle="{ toggleModal }">
-				<ActionLink
-					v-if="'name' in value"
-					:theme="theme"
-					:tooltip="t('see_value')"
-					tooltip-as-text
-					tooltip-position="bottom"
-					:size="size"
-					@click="toggleModal"
-				>
-					<IconFa name="lemon" force-regular />
-					<span>{{ value.name }}</span>
-				</ActionLink>
-				<ActionButtonToggle
-					v-else
-					:theme="theme"
-					:tooltip="t('see_value')"
-					tooltip-as-text
-					tooltip-position="bottom"
-					:size="size"
-					round
-					@click="toggleModal"
-				>
-					<IconFa name="lemon" />
-					<IconFa name="lemon" force-regular />
-				</ActionButtonToggle>
-			</template>
-			<template #default="{ model, invertedTheme }">
-				<!-- Recursion -->
-				<ValueList
-					v-if="model"
-					v-bind="{
-						value,
-						node,
-						property,
-						readonly,
-						theme: invertedTheme,
-						modalTheme: modalTheme || theme,
-						withErrors,
-					}"
-					:class="classes"
-					verbose
-				/>
-			</template>
-		</Modal>
-	</template>
-	<!-- Plain value -->
-	<ValueSimple
-		v-else-if="!withErrors"
-		v-bind="{ value, property, readonly, theme, modalTheme, classes, verbose, size }"
-	/>
-	<!-- Error fallback -->
-	<span v-else>{{ value ?? "-" }}</span>
+		<!-- Plain value -->
+		<ValueSimple
+			v-else
+			v-bind="{ value, property, readonly, theme, modalTheme, classes, verbose, size }"
+		/>
+		<template #fallback?>
+			<!-- Error fallback -->
+			<span>{{ value ?? "-" }}</span>
+		</template>
+	</BaseErrorBoundary>
 </template>
 <script setup lang="ts">
 	import _ from "lodash";
-	import { ref, onErrorCaptured } from "vue";
 
 	import type {
 		iProperty,
@@ -156,6 +160,7 @@
 	} from "@open-xamu-co/ui-common-types";
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import IconFa from "../icon/Fa.vue";
 	import ActionLink from "../action/Link.vue";
 	import ActionButton from "../action/Button.vue";
@@ -213,8 +218,6 @@
 	const { t } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
 
-	const withErrors = ref(false);
-
 	function remapValues(values: unknown[]): Record<string, any>[] {
 		return values.map((value) => {
 			return typeof value === "object" && value !== null ? value : { value };
@@ -254,13 +257,4 @@
 
 		if (!props.omitRefresh) props.refresh?.();
 	}
-
-	// lifecycle
-	onErrorCaptured((err) => {
-		console.error(err);
-
-		withErrors.value = true;
-
-		return false;
-	});
 </script>

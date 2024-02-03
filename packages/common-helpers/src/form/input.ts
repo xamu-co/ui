@@ -75,8 +75,8 @@ export class FormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFo
 	public readonly placeholder!: string;
 	public readonly icon!: tFormIcon;
 	public readonly autocomplete!: tFormAutocomplete;
-	public readonly min!: number;
-	public readonly max!: number;
+	public min!: number;
+	public max!: number;
 
 	constructor(
 		formInput: iFormInputDefault<T>,

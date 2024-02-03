@@ -37,6 +37,7 @@ export const localeBase: iLocaleBase = {
 	delete_all: "Delete all",
 	pick: "Pick",
 	refresh: "Refresh",
+	render_error: "Couldn't render the contents due to an unknown error",
 	swal: {
 		cancel: "Cancel",
 		continue: "Continue",
@@ -150,6 +151,8 @@ export const localeTable: iLocaleTable = {
 	table_duplicate: "Duplicate",
 	table_options: "Options",
 	table_open_url: "Open URL",
+	table_hide_all: "Hide all",
+	table_show_all: "Show all",
 	swal: {
 		table_delete_node_title: "Are you sure you want to delete this element?",
 		table_delete_node_disclaimer:

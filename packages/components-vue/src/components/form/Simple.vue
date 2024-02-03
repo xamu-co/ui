@@ -1,46 +1,56 @@
 <template>
-	<LoaderContentFetch
-		v-slot="{ content }"
-		:theme="theme"
-		:label="t('form_loading_countries')"
-		:promise="(withLocationInput || withPhoneInput) && getCountriesAndStates"
-		class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
-		:el="noForm ? 'fieldset' : 'form'"
-		:fallback="{ countries: [], states: [] }"
-	>
-		<legend v-if="title">
-			<h4>{{ title }}:</h4>
-		</legend>
-		<div
-			v-for="(input, inputIndex) in model"
-			:key="inputIndex"
-			class="flx --flxColumn --flx-start-stretch --gap-5"
+	<BaseErrorBoundary :theme="theme">
+		<LoaderContentFetch
+			v-if="modelValue?.length"
+			v-slot="{ content }"
+			:theme="theme"
+			:label="t('form_loading_countries')"
+			:promise="(withLocationInput || withPhoneInput) && getCountriesAndStates"
+			class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
+			:el="noForm ? 'fieldset' : 'form'"
+			:fallback="{ countries: [], states: [] }"
 		>
-			<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
-				{{ getSuggestedTitle(input) }}
-			</p>
-			<FormInput
-				:readonly="readonly"
-				:theme="theme"
-				:input="input"
-				:invalid="getInvalid(input.name)"
-				:countries="content.countries"
-				:states="withLocationInput && !!defaultCountry ? content.states : undefined"
-				:model-value="model[inputIndex].values"
-				@update:model-value="updateValues(inputIndex, $event)"
-			/>
-		</div>
-	</LoaderContentFetch>
+			<legend v-if="title">
+				<h4>{{ title }}:</h4>
+			</legend>
+			<div
+				v-for="(input, inputIndex) in model"
+				:key="inputIndex"
+				class="flx --flxColumn --flx-start-stretch --gap-5"
+			>
+				<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
+					{{ getSuggestedTitle(input) }}
+				</p>
+				<FormInput
+					:readonly="readonly"
+					:theme="theme"
+					:input="input"
+					:invalid="getInvalid(input.name)"
+					:countries="content.countries"
+					:states="withLocationInput && !!defaultCountry ? content.states : undefined"
+					:model-value="model[inputIndex].values"
+					@update:model-value="updateValues(inputIndex, $event)"
+				/>
+			</div>
+		</LoaderContentFetch>
+		<BoxMessage v-else :theme="theme">
+			<div class="flx --flxRow --flx-center">
+				<span>{{ emptyMessage || t("nothing_to_show") }}</span>
+			</div>
+		</BoxMessage>
+	</BaseErrorBoundary>
 </template>
 
-<script setup lang="ts">
-	import { computed, watch } from "vue";
+<script setup lang="ts" generic="P extends any[] = any[]">
+	import { computed, ref, watch } from "vue";
 	import _ from "lodash";
 
 	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
 	import { type FormInput as FormInputClass, useI18n } from "@open-xamu-co/ui-common-helpers";
 
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
+	import BoxMessage from "../box/Message.vue";
 	import FormInput from "./Input.vue";
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
 
@@ -49,15 +59,17 @@
 	import useCountries from "../../composables/countries";
 	import { useHelpers } from "../../composables/utils";
 
-	interface iFormSimple extends iUseThemeProps {
+	interface iFormSimple<P extends any[]> extends iUseThemeProps {
 		title?: string;
+		emptyMessage?: string;
 		modelValue?: FormInputClass[];
 		noForm?: boolean;
 		invalid?: iInvalidInput[];
+		payload?: P;
 		/**
 		 * Make model
 		 */
-		make?: FormInputClass[];
+		make?: (...args: P) => FormInputClass[];
 		/** Make all inputs read only by disabling them */
 		readonly?: boolean;
 	}
@@ -70,11 +82,16 @@
 
 	defineOptions({ name: "FormSimple", inheritAttrs: true });
 
-	const props = defineProps<iFormSimple>();
+	const props = defineProps<iFormSimple<P>>();
 	const emit = defineEmits(["update:invalid", "update:model-value"]);
 
 	const { t, tet } = useHelpers(useI18n);
 	const { defaultCountry, getCountries, getCountryStates } = useCountries();
+
+	/**
+	 * Was make used?
+	 */
+	const firstMake = ref(false);
 
 	const withLocationInput = computed(() => {
 		return props.modelValue?.some(({ type }) => type === eFormType.LOCATION);
@@ -177,17 +194,12 @@
 
 	// lifecycle
 	watch(
-		() => props.make,
-		(newMake, oldMake) => {
-			if (
-				oldMake?.length &&
-				newMake?.length &&
-				newMake.every((input, index) => input.isEqual(oldMake[index]))
-			) {
-				return;
-			}
+		() => props.payload,
+		(newPayload, oldPayload) => {
+			if (!props.make || (firstMake.value && _.isEqual(newPayload, oldPayload))) return;
 
-			if (Array.isArray(newMake)) emit("update:model-value", newMake);
+			firstMake.value = true;
+			emit("update:model-value", props.make(...(<P>(newPayload || []))));
 		},
 		{ immediate: true }
 	);

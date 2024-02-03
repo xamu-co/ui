@@ -46,6 +46,8 @@ export interface iLocaleBase {
 	pick: string;
 	/** @example "Refresh" */
 	refresh: string;
+	/** @example "Couldn't render the contents due to an unknown error" */
+	render_error: string;
 	swal: {
 		/** @example "Cancel" */
 		cancel: string;
@@ -227,6 +229,10 @@ export interface iLocaleTable {
 	table_options: string;
 	/** @example "Open URL" */
 	table_open_url: string;
+	/** @example "Hide all" */
+	table_hide_all: string;
+	/** @example "Show all" */
+	table_show_all: string;
 	swal: {
 		/** @example "Are you sure you want to delete this element?" */
 		table_delete_node_title: string;

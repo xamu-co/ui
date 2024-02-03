@@ -4,6 +4,7 @@ export { default as BaseAction } from "./components/base/Action.vue";
 export { default as BaseInput } from "./components/base/Input.vue";
 export { default as BaseSelect } from "./components/base/Select.vue";
 export { default as BaseWrapper } from "./components/base/Wrapper.vue";
+export { default as BaseErrorBoundary } from "./components/base/ErrorBoundary.vue";
 
 // icon
 export { default as Icon } from "./components/icon/Simple.vue";

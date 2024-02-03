@@ -8,6 +8,7 @@ export const componentNames = [
 	"BaseInput",
 	"BaseSelect",
 	"BaseWrapper",
+	"BaseErrorBoundary",
 	// icon
 	"Icon",
 	"IconFa",

@@ -1,22 +1,24 @@
 <template>
-	<LoaderContent
-		v-bind="{
-			...$attrs,
-			content: !!content,
-			errors: !!errors,
-			loading: loading,
-			refresh,
-			unwrap,
-			theme,
-			label,
-			noLoader,
-		}"
-	>
-		<slot
-			v-if="content && (!loading || firstLoad)"
-			v-bind="{ content, refresh, loading, errors }"
-		></slot>
-	</LoaderContent>
+	<BaseErrorBoundary :theme="theme">
+		<LoaderContent
+			v-bind="{
+				...$attrs,
+				content: !!content,
+				errors: !!errors,
+				loading: loading,
+				refresh,
+				unwrap,
+				theme,
+				label,
+				noLoader,
+			}"
+		>
+			<slot
+				v-if="content && (!loading || firstLoad)"
+				v-bind="{ content, refresh, loading, errors }"
+			></slot>
+		</LoaderContent>
+	</BaseErrorBoundary>
 </template>
 
 <script setup lang="ts" generic="T, P extends unknown[] = unknown[]">
@@ -32,6 +34,7 @@
 
 	import type { tHydrate } from "@open-xamu-co/ui-common-types";
 
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import LoaderContent from "./Content.vue";
 
 	import type { iUseThemeProps } from "../../types/props";

@@ -1,24 +1,41 @@
 <template>
 	<div v-if="nodes.length" class="flx --flxColumn --flx-start-stretch --width">
-		<div v-if="!isReadOnly" class="flx --flxRow --flx-end-center">
-			<ActionButton
-				v-if="!!deleteNode"
-				:tooltip="t('table_delete')"
-				tooltip-as-text
-				tooltip-position="bottom"
-				:theme="[eColors.DANGER, themeValues[0]]"
-				:disabled="!selectedNodes.some(([n]) => n)"
-				@click="deleteNodesAndRefresh"
+		<div v-if="!isReadOnly || $slots.default" class="flx --flxRow --flx-start-center">
+			<ActionButtonLink
+				v-if="$slots.default"
+				:theme="theme"
+				:active="openNodesCount === selectedNodes.length"
+				@click="toggleAll(!(openNodesCount === selectedNodes.length), 1)"
 			>
 				<span>
 					{{
-						selectedNodesCount === selectedNodes.length
-							? t("delete_all")
-							: t("delete", selectedNodesCount)
+						openNodesCount === selectedNodes.length
+							? t("table_hide_all")
+							: t("table_show_all")
 					}}
 				</span>
-				<IconFa name="trash-can" />
-			</ActionButton>
+				<IconFa class="--indicator" name="chevron-up" />
+			</ActionButtonLink>
+			<div v-if="!isReadOnly" class="flx --flxRow --flx-end-center --flx">
+				<ActionButton
+					v-if="deleteNode"
+					:tooltip="t('table_delete')"
+					tooltip-as-text
+					tooltip-position="bottom"
+					:theme="[eColors.DANGER, themeValues[0]]"
+					:disabled="!selectedNodes.some(([n]) => n)"
+					@click="deleteNodesAndRefresh"
+				>
+					<span>
+						{{
+							selectedNodesCount === selectedNodes.length
+								? t("delete_all")
+								: t("delete", selectedNodesCount)
+						}}
+					</span>
+					<IconFa name="trash-can" />
+				</ActionButton>
+			</div>
 		</div>
 		<div v-bind="$attrs" class="scroll --horizontal --always">
 			<table :id="tableId" class="tbl" :class="themeClasses">
@@ -401,6 +418,10 @@
 		 */
 		refresh?: () => unknown;
 		extraCols?: boolean;
+		/**
+		 * Default children visibility
+		 */
+		childrenVisibility?: boolean;
 		childrenName?: string;
 		childrenCountKey?: keyof Ti;
 		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
@@ -437,7 +458,10 @@
 	/** [selected, show] */
 	const selectedNodes = ref<[boolean, boolean][]>(reFillNodes(props.nodes.length));
 	const selectedNodesCount = computed(() => {
-		return selectedNodes.value.filter(([n]) => n).length;
+		return selectedNodes.value.filter(([selected]) => selected).length;
+	});
+	const openNodesCount = computed(() => {
+		return selectedNodes.value.filter(([, open]) => open).length;
 	});
 	/**
 	 * ordering property
@@ -507,13 +531,13 @@
 	});
 
 	function reFillNodes(length: number): [boolean, boolean][] {
-		return Array.from({ length }, () => [false, false]);
+		return Array.from({ length }, () => [false, !!props.childrenVisibility]);
 	}
 	function childrenCount(node: T) {
 		return props.childrenCountKey ? node[props.childrenCountKey] : 0;
 	}
-	function toggleAll(value = true) {
-		selectedNodes.value.forEach((_, i) => (selectedNodes.value[i][0] = value));
+	function toggleAll(value = true, index = 0) {
+		selectedNodes.value.forEach((_, i) => (selectedNodes.value[i][index] = value));
 	}
 	function toggleChildren(index: number) {
 		const [selected, children] = selectedNodes.value[index];
