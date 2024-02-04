@@ -21,7 +21,7 @@
 		</BaseWrapper>
 		<template v-if="type === 'number' && (Number.isInteger(min) || Number.isInteger(max))">
 			<ActionButtonToggle
-				:disabled="Number(model) <= minValue"
+				:disabled="disabled || Number(model) <= minValue"
 				:size="size"
 				:theme="invalid ? eColors.DANGER : theme"
 				:aria-label="t('decrease')"
@@ -35,7 +35,7 @@
 				<IconFa name="minus" regular />
 			</ActionButtonToggle>
 			<ActionButtonToggle
-				:disabled="Number(model) >= maxValue"
+				:disabled="disabled || Number(model) >= maxValue"
 				:size="size"
 				:theme="invalid ? eColors.DANGER : theme"
 				:tooltip="t('increase')"

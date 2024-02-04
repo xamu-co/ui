@@ -139,7 +139,7 @@ export class FormInput<V extends iFormValue = iFormValue>
 	 */
 	constructor(
 		formInput: iFormInput<V>,
-		private _onUpdatedValues?: (updatedValues: (V | V[])[]) => void,
+		private _onUpdatedValues?: (updatedValues: (V | V[])[]) => (V | V[])[] | undefined | void,
 		rerender?: (fi?: Partial<iFormInput<V>>) => void
 	) {
 		super(formInput, rerender);
@@ -162,9 +162,8 @@ export class FormInput<V extends iFormValue = iFormValue>
 			// set defaults
 			this._values = Array(this.min).fill(getDefault(this.type, this.defaults));
 		} else {
-			this._values = updatedValues;
 			// run hook on values change
-			this._onUpdatedValues?.(this._values);
+			this._values = this._onUpdatedValues?.(updatedValues) ?? updatedValues;
 		}
 	}
 
@@ -215,7 +214,7 @@ export class FormInput<V extends iFormValue = iFormValue>
 	 */
 	public clone(
 		overrides?: Omit<iFormInput<V>, "name"> & { name?: string },
-		onUpdatedValues: ((updatedValues: (V | V[])[]) => void) | undefined = this._onUpdatedValues
+		onUpdatedValues?: (updatedValues: (V | V[])[]) => (V | V[])[] | undefined | void
 	) {
 		const oldFormInput: iFormInput<V> = {
 			...this,
@@ -224,7 +223,11 @@ export class FormInput<V extends iFormValue = iFormValue>
 			defaults: this.defaults,
 		};
 
-		return new FormInput({ ...oldFormInput, ...overrides }, onUpdatedValues, this.rerender);
+		return new FormInput(
+			{ ...oldFormInput, ...overrides },
+			onUpdatedValues || this._onUpdatedValues,
+			this.rerender
+		);
 	}
 
 	/**

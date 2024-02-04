@@ -22,6 +22,7 @@
 					{{ getSuggestedTitle(input) }}
 				</p>
 				<FormInput
+					:key="`simple-${input.name}-${String(input.values[0])}-${input.options.length}`"
 					:readonly="readonly"
 					:theme="theme"
 					:input="input"

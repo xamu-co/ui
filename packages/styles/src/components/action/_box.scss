@@ -119,7 +119,7 @@
 				@include module.extend-maps(
 						module.$element-sizes,
 						meta.get-function("box-square-size-selector"),
-						md,
+						lg,
 						".--square"
 					)
 					using($name, $value, $is-default) {

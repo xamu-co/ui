@@ -11,29 +11,40 @@
 			>
 				<component
 					:is="input.multiple ? ActionButtonToggle : ActionButton"
-					v-for="(option, optionIndex) in options"
-					:key="optionIndex"
+					v-for="option in options"
+					:key="`choice-${_.snakeCase(String(option.value))}-${input.options.length}`"
 					:theme="theme"
 					:aria-label="option.alias || option.value"
 					:active="modelValue.includes(option.value)"
 					:title="modelValue.includes(option.value) ? t('select_selected') : ''"
 					:disabled="readonly || (!input.multiple && modelValue.includes(option.value))"
+					:round="!!option.icon || (!!option.pattern && !option.alias)"
+					:tooltip="option.icon ? option.alias : ''"
+					tooltip-as-text
+					tooltip-position="bottom"
 					@click="choose(option.value)"
 				>
-					<span>{{ option.alias || option.value }}</span>
 					<template v-if="option.icon">
 						<IconFa :name="option.icon" />
 						<IconFa v-if="input.multiple" :name="option.icon" regular />
 					</template>
-					<figure
-						v-else-if="option.pattern"
-						class="avatar --size-xs --bdr --bdrColor-light"
-						:style="
-							validator.isURL(option.pattern)
-								? { backgroundImage: `url('${option.pattern}')` }
-								: { backgroundColor: option.pattern }
-						"
-					></figure>
+					<template v-else-if="option.pattern">
+						<span v-if="option.alias">{{ option.alias }}</span>
+						<figure
+							class="avatar --size-xs --bdr"
+							:class="`--bdrColor-${
+								themeValues[
+									!input.multiple && modelValue.includes(option.value) ? 0 : 1
+								]
+							}`"
+							:style="
+								validator.isURL(option.pattern)
+									? { backgroundImage: `url('${option.pattern}')` }
+									: { backgroundColor: option.pattern }
+							"
+						></figure>
+					</template>
+					<span v-else>{{ option.alias || option.value }}</span>
 				</component>
 			</div>
 		</FormInputOptions>
@@ -318,6 +329,7 @@
 	import useInput from "../../composables/input";
 	import useCountries from "../../composables/countries";
 	import { useHelpers } from "../../composables/utils";
+	import useTheme from "../../composables/theme";
 
 	interface iFormInputProps extends iUseThemeProps {
 		modelValue: any[];
@@ -344,6 +356,7 @@
 	const { isValidFormInputValue, notEmptyValue } = useHelpers(useForm).utils;
 	const { getInputPlaceholder, getInputAutocomplete, getInputTextType } = useInput(props);
 	const { defaultCountry } = useCountries();
+	const { themeValues } = useTheme(props);
 
 	const countriesArr = computed(() => {
 		return (props.countries || []).map(({ code, name }) => ({ value: code, alias: name }));

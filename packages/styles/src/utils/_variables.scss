@@ -214,8 +214,9 @@ $viewports: (
 
 // element sizes
 $element-sizes: (
-	xs: $font-size-md * 2,
-	sm: $font-size-md * 3,
-	md: $font-size-md * 6,
-	lg: $font-size-md * 9,
+	xs: $font-size-md * 1.5,
+	sm: $font-size-md * 2,
+	md: $font-size-md * 3,
+	lg: $font-size-md * 6,
+	xl: $font-size-md * 9,
 );
