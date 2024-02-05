@@ -48,6 +48,7 @@
 								:theme="invertedThemeValues"
 								:aria-label="saveButtonOptions.title"
 								:class="saveButtonOptions.btnClass"
+								:disabled="saveButtonOptions.disabled"
 								@click="emit('save', closeModal, $event)"
 							>
 								{{ saveButtonOptions.title }}
@@ -150,7 +151,7 @@
 		/**
 		 * Save button config
 		 */
-		saveButton?: iButtonConfig;
+		saveButton?: iButtonConfig & { disabled?: boolean };
 		/**
 		 * Cancel button config
 		 */
@@ -207,7 +208,7 @@
 
 		return `modal_${seed.replaceAll(" ", "") || randomId}`;
 	});
-	const saveButtonOptions = computed<iButtonConfig>(() => ({
+	const saveButtonOptions = computed<iButtonConfig & { disabled?: boolean }>(() => ({
 		title: t("ok"),
 		visible: !!props.saveButton?.title,
 		btnClass: "",

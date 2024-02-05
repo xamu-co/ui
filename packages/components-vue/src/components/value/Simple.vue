@@ -14,7 +14,9 @@
 
 		<!-- String, Color -->
 		<span
-			v-else-if="typeof value === 'string' && validator.isHexColor(value)"
+			v-else-if="
+				typeof value === 'string' && value.includes('#') && validator.isHexColor(value)
+			"
 			:title="property?.alias"
 		>
 			<InputColor :model-value="value" :theme="theme" :size="size" disabled />

@@ -26,6 +26,7 @@ export default defineConfig({
 				"lodash",
 				"nanoid",
 				"validator",
+				"js-md5",
 				"@open-xamu-co/ui-common-enums",
 				"@open-xamu-co/ui-common-helpers",
 			],

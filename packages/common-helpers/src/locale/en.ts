@@ -1,12 +1,12 @@
 import _ from "lodash";
 
 import type {
-	iLocaleBase,
-	iLocaleForm,
-	iLocaleInput,
-	iLocaleModal,
-	iLocalePagination,
-	iLocaleTable,
+	tLocaleBase,
+	tLocaleForm,
+	tLocaleInput,
+	tLocaleModal,
+	tLocalePagination,
+	tLocaleTable,
 	tPluginLocale,
 } from "@open-xamu-co/ui-common-types";
 
@@ -15,7 +15,7 @@ import type {
  *
  * @locale en
  */
-export const localeBase: iLocaleBase = {
+export const localeBase: tLocaleBase = {
 	yes: "Yes",
 	no: "No",
 	increase: "increase",
@@ -56,7 +56,7 @@ export const localeBase: iLocaleBase = {
  *
  * @locale en
  */
-export const localeInput: iLocaleInput = {
+export const localeInput: tLocaleInput = {
 	select_selected: "Selected",
 	select_placeholder: "--SELECT--",
 	select_restablish_field: "Restablish field",
@@ -88,7 +88,7 @@ export const localeInput: iLocaleInput = {
  *
  * @locale en
  */
-export const localeModal: iLocaleModal = {
+export const localeModal: tLocaleModal = {
 	modal_taking_too_long: "Taking too long?",
 	swal: {
 		modal_unauthorized: "Unauthorized",
@@ -101,7 +101,7 @@ export const localeModal: iLocaleModal = {
  *
  * @locale en
  */
-export const localeForm: iLocaleForm = {
+export const localeForm: tLocaleForm = {
 	form_required_options: "Options are required",
 	form_requires_n_values:
 		"No values are required | A value is required | {count} values are required",
@@ -134,7 +134,7 @@ export const localeForm: iLocaleForm = {
  *
  * @locale en
  */
-export const localeTable: iLocaleTable = {
+export const localeTable: tLocaleTable = {
 	table_see_values: "See {name}",
 	table_see_name: 'See: "{name}"',
 	table_create_new: "Create new",
@@ -181,7 +181,7 @@ export const localeTable: iLocaleTable = {
  *
  * @locale en
  */
-export const localePagination: iLocalePagination = {
+export const localePagination: tLocalePagination = {
 	pagination_items: "No items | Single item | {count} items",
 	pagination_pages: "No pages | Single page | {count} pages",
 	pagination_order_relevance: "Order: relevance",
@@ -200,7 +200,7 @@ export const localePagination: iLocalePagination = {
  *
  * @locale en
  */
-const enLocale: tPluginLocale = {
+const etLocale: tPluginLocale = {
 	..._.omit(localeBase, "swal"),
 	..._.omit(localeInput, "swal"),
 	..._.omit(localeModal, "swal"),
@@ -217,4 +217,4 @@ const enLocale: tPluginLocale = {
 	},
 };
 
-export default enLocale;
+export default etLocale;

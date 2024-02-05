@@ -1,13 +1,13 @@
 import _ from "lodash";
 
-import type { iPluginOptions, tPluginLocaleKey } from "@open-xamu-co/ui-common-types";
-
 /**
  * I18n Composable
  *
  * @composable
  */
-export default function useI18n(options: iPluginOptions = {}) {
+export default function useI18n<L extends Record<string, string | Record<string, string>>>(
+	options: { locale?: L } = {}
+) {
 	/**
 	 * Interpolates localized text
 	 *
@@ -15,8 +15,8 @@ export default function useI18n(options: iPluginOptions = {}) {
 	 * @param data Optional number or variables to interpolate into text
 	 * @returns {string}
 	 */
-	function t(
-		key: tPluginLocaleKey,
+	function t<K extends string & keyof L, Ko extends L[K], KA extends string & keyof Ko>(
+		key: Ko extends string ? K : `${K}.${KA}`,
 		data: number | { [key: string]: unknown; count?: number } = {},
 		fallback = `No locale for "${key}" provided`
 	): string {
@@ -48,7 +48,9 @@ export default function useI18n(options: iPluginOptions = {}) {
 	 * @param key interpolation key to check
 	 * @returns {boolean} true if the key exists
 	 */
-	function te(key: string): key is tPluginLocaleKey {
+	function te<K extends string & keyof L, Ko extends L[K], KA extends string & keyof Ko>(
+		key: string
+	): key is Ko extends string ? K : `${K}.${KA}` {
 		return _.has(options.locale || {}, key);
 	}
 

@@ -3,7 +3,7 @@
  *
  * @localeType
  */
-export interface iLocaleBase {
+export type tLocaleBase = {
 	/** @example "Yes" */
 	yes: string;
 	/** @example "No" */
@@ -66,14 +66,14 @@ export interface iLocaleBase {
 		/** @example "Don't close this window while we finish the task" */
 		dont_close_window: string;
 	};
-}
+};
 
 /**
  * Input locale
  *
  * @localeType
  */
-export interface iLocaleInput {
+export type tLocaleInput = {
 	/** @example "Selected" */
 	select_selected: string;
 	/** @example "--SELECT--" */
@@ -118,14 +118,14 @@ export interface iLocaleInput {
 		/** @example "There was an error uploding the files, try again later" */
 		file_unknown_error_text: string;
 	};
-}
+};
 
 /**
  * Modal locale
  *
  * @localeType
  */
-export interface iLocaleModal {
+export type tLocaleModal = {
 	/** @example "Taking too long?" */
 	modal_taking_too_long: string;
 	swal: {
@@ -134,14 +134,14 @@ export interface iLocaleModal {
 		/** @example "You are not allowed to perform this action" */
 		modal_unauthorized_text: string;
 	};
-}
+};
 
 /**
  * Form locale
  *
  * @localeType
  */
-export interface iLocaleForm {
+export type tLocaleForm = {
 	/** @example "Options are required" */
 	form_required_options: string;
 	/** @example "No values are required | A value is required | {count} values are required" */
@@ -189,14 +189,14 @@ export interface iLocaleForm {
 	/** @example "Invalid data" */
 	form_invalid_data: string;
 	// swal: {};
-}
+};
 
 /**
  * Table locale
  *
  * @localeType
  */
-export interface iLocaleTable {
+export type tLocaleTable = {
 	/** @example "See {name}" */
 	table_see_values: string;
 	/** @example "See: \"{name}\"" */
@@ -259,14 +259,14 @@ export interface iLocaleTable {
 		/** @example "The item may not have been cloned | The items may not have been cloned" */
 		table_possibly_not_cloned: string;
 	};
-}
+};
 
 /**
  * Pagination locale
  *
  * @localeType
  */
-export interface iLocalePagination {
+export type tLocalePagination = {
 	/** @example "No items | Single item | {count} items" */
 	pagination_items: string;
 	/** @example "No pages | Single page | {count} pages" */
@@ -288,25 +288,16 @@ export interface iLocalePagination {
 	/** @example "Filter by:" */
 	pagination_filter_by: string;
 	// swal: {};
-}
+};
 
 /**
  * Plugin locale
  *
  * @localeType
  */
-export type tPluginLocale = iLocaleBase &
-	iLocaleInput &
-	iLocaleModal &
-	iLocaleForm &
-	iLocaleTable &
-	iLocalePagination;
-
-/**
- * Plugin locale key union
- *
- * @localeType
- */
-export type tPluginLocaleKey =
-	| Exclude<keyof tPluginLocale, "swal">
-	| `swal.${keyof Required<tPluginLocale>["swal"]}`;
+export type tPluginLocale = tLocaleBase &
+	tLocaleInput &
+	tLocaleModal &
+	tLocaleForm &
+	tLocaleTable &
+	tLocalePagination;

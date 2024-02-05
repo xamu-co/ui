@@ -28,12 +28,12 @@
 				box-sizing: content-box;
 				border: 2px solid utils.color(light, 0.1);
 				background: utils.color(dark);
+				pointer-events: none;
 			}
 
 			&:not(:hover)::before {
 				@media (any-pointer: coarse) {
 					// dektop only
-					pointer-events: none;
 					opacity: 0;
 				}
 			}
@@ -207,7 +207,6 @@
 			&[data-#{utils.$pseudo-tooltip}] {
 				&::before {
 					opacity: 0;
-					pointer-events: none;
 				}
 			}
 		}

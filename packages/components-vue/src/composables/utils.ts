@@ -18,7 +18,7 @@ export function useSortObject(data: Record<string, any>) {
 		.filter(([property]) => property !== "id");
 }
 
-export function useHelpers<T>(helper: (o?: iPluginOptions) => T): T {
+export function useHelpers<T>(helper: (o?: iPluginOptions) => T): ReturnType<typeof helper> {
 	const xamuOptions = inject<iPluginOptions>("xamu");
 
 	return helper(xamuOptions);

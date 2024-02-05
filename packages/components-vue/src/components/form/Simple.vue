@@ -22,7 +22,9 @@
 					{{ getSuggestedTitle(input) }}
 				</p>
 				<FormInput
-					:key="`simple-${input.name}-${String(input.values[0])}-${input.options.length}`"
+					:key="`simple-${input.name}-${md5(String(input.values[0]))}-${
+						input.options.length
+					}`"
 					:readonly="readonly"
 					:theme="theme"
 					:input="input"
@@ -34,16 +36,20 @@
 				/>
 			</div>
 		</LoaderContentFetch>
-		<BoxMessage v-else :theme="theme">
-			<div class="flx --flxRow --flx-center">
-				<span>{{ emptyMessage || t("nothing_to_show") }}</span>
-			</div>
-		</BoxMessage>
+		<slot v-else>
+			<!-- No inputs given -->
+			<BoxMessage :theme="theme">
+				<div class="flx --flxRow --flx-center">
+					<span>{{ emptyMessage || t("nothing_to_show") }}</span>
+				</div>
+			</BoxMessage>
+		</slot>
 	</BaseErrorBoundary>
 </template>
 
 <script setup lang="ts" generic="P extends any[] = any[]">
 	import { computed, ref, watch } from "vue";
+	import { md5 } from "js-md5";
 	import _ from "lodash";
 
 	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";

@@ -12,7 +12,7 @@
 				<component
 					:is="input.multiple ? ActionButtonToggle : ActionButton"
 					v-for="option in options"
-					:key="`choice-${_.snakeCase(String(option.value))}-${input.options.length}`"
+					:key="`choice-${option.value}-${option.alias}-${input.options.length}`"
 					:theme="theme"
 					:aria-label="option.alias || option.value"
 					:active="modelValue.includes(option.value)"

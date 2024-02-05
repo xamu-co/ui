@@ -1,7 +1,7 @@
 import type {
 	iFormInput,
 	tFormAutocomplete,
-	tPluginLocaleKey,
+	tLocaleForm,
 	tTextInputType,
 } from "@open-xamu-co/ui-common-types";
 import { useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -57,7 +57,7 @@ export default function useInput({ input }: { input: iFormInput }) {
 		/**
 		 * Add ellipsis
 		 */
-		const p = (s: tPluginLocaleKey): string => {
+		const p = (s: keyof tLocaleForm): string => {
 			if (input.placeholder) return `${tet(input.placeholder).replace("...", "")}...`;
 
 			return `${t(s)}...`;
