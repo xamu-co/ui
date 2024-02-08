@@ -3,6 +3,7 @@
 		<FormInputOptions
 			v-if="!input.defaults && input.type === eFT.CHOICE"
 			v-slot="{ options }"
+			:key="`options-${input.name}-${md5(String(input.values[0]))}-${input.options.length}`"
 			:input="input"
 		>
 			<div
@@ -298,6 +299,7 @@
 	import { computed, reactive } from "vue";
 	import validator from "validator";
 	import _ from "lodash";
+	import { md5 } from "js-md5";
 
 	import type { iInvalidInput, iSelectOption } from "@open-xamu-co/ui-common-types";
 	import { eFormType as eFT } from "@open-xamu-co/ui-common-enums";

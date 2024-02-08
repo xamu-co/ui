@@ -15,6 +15,7 @@
 				:promise="!!model[1] && unHydrate(getStateCities)"
 				:payload="[countryValue, model[1]]"
 				:no-loader="statesReq.loading"
+				:fallback="[]"
 				unwrap
 			>
 				<slot v-bind="{ statesReq, citiesReq }"></slot>
