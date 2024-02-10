@@ -5,7 +5,7 @@ import { useUtils } from "@open-xamu-co/ui-common-helpers";
 import { eColors } from "@open-xamu-co/ui-common-enums";
 
 import type { iUseThemeProps, iUseThemeTooltipProps } from "../types/props";
-import useHelpers from "../composables/helpers";
+import { useHelpers } from "../composables/utils";
 
 interface iAllUseThemeProps extends iUseThemeProps, iUseThemeTooltipProps {}
 
@@ -31,7 +31,7 @@ function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemeTupl
 export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolean) {
 	const { getModifierClasses: GMC, getPropData } = useHelpers(useUtils);
 
-	const invertedTheme = computed(() => {
+	const invertedThemeValues = computed(() => {
 		const [first, second] = getThemeValues(props.theme ?? eColors.SECONDARY);
 
 		const values: [tThemeModifier, tThemeModifier] = [first, second || eColors.LIGHT];
@@ -43,7 +43,7 @@ export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolea
 
 	/** actual theme */
 	const themeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
-		return [invertedTheme.value[1], invertedTheme.value[0]];
+		return [invertedThemeValues.value[1], invertedThemeValues.value[0]];
 	});
 	const themeClasses = computed<string[]>(() => {
 		if (!props.theme) return [];
@@ -68,5 +68,5 @@ export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolea
 			: null;
 	});
 
-	return { invertedTheme, themeValues, themeClasses, tooltipAttributes };
+	return { invertedThemeValues, themeValues, themeClasses, tooltipAttributes };
 }

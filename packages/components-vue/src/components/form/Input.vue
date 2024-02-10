@@ -3,6 +3,7 @@
 		<FormInputOptions
 			v-if="!input.defaults && input.type === eFT.CHOICE"
 			v-slot="{ options }"
+			:key="`options-${input.name}-${md5(String(input.values[0]))}-${input.options.length}`"
 			:input="input"
 		>
 			<div
@@ -11,30 +12,40 @@
 			>
 				<component
 					:is="input.multiple ? ActionButtonToggle : ActionButton"
-					v-for="(option, optionIndex) in options"
-					:key="optionIndex"
-					size="md"
+					v-for="option in options"
+					:key="`choice-${option.value}-${option.alias}-${input.options.length}`"
 					:theme="theme"
 					:aria-label="option.alias || option.value"
 					:active="modelValue.includes(option.value)"
 					:title="modelValue.includes(option.value) ? t('select_selected') : ''"
 					:disabled="readonly || (!input.multiple && modelValue.includes(option.value))"
+					:round="!!option.icon || (!!option.pattern && !option.alias)"
+					:tooltip="option.icon ? option.alias : ''"
+					tooltip-as-text
+					tooltip-position="bottom"
 					@click="choose(option.value)"
 				>
-					<span>{{ option.alias || option.value }}</span>
 					<template v-if="option.icon">
 						<IconFa :name="option.icon" />
 						<IconFa v-if="input.multiple" :name="option.icon" regular />
 					</template>
-					<figure
-						v-else-if="option.pattern"
-						class="avatar --size-xs --bdr --bdrColor-light"
-						:style="
-							validator.isURL(option.pattern)
-								? { backgroundImage: `url('${option.pattern}')` }
-								: { backgroundColor: option.pattern }
-						"
-					></figure>
+					<template v-else-if="option.pattern">
+						<span v-if="option.alias">{{ option.alias }}</span>
+						<figure
+							class="avatar --size-xs --bdr"
+							:class="`--bdrColor-${
+								themeValues[
+									!input.multiple && modelValue.includes(option.value) ? 0 : 1
+								]
+							}`"
+							:style="
+								validator.isURL(option.pattern)
+									? { backgroundImage: `url('${option.pattern}')` }
+									: { backgroundColor: option.pattern }
+							"
+						></figure>
+					</template>
+					<span v-else>{{ option.alias || option.value }}</span>
 				</component>
 			</div>
 		</FormInputOptions>
@@ -43,10 +54,10 @@
 			:theme="theme"
 			:disabled="readonly"
 			class="--flx"
-			:min="input.min"
-			:max="input.max"
 			:file-prefix="_.snakeCase(input.placeholder)"
 			:model-value="modelValue"
+			:invalid="isInvalidByValidation"
+			v-bind="inputProps"
 			@update:model-value="$emit('update:model-value', $event)"
 		/>
 		<!-- Future inner loop input -->
@@ -97,6 +108,7 @@
 				<InputText
 					v-model="models[i].value[0]"
 					v-bind="inputProps"
+					:invalid="isInvalidByValidation"
 					:theme="theme"
 					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
@@ -106,9 +118,10 @@
 				<InputText
 					v-model="models[i].value[1]"
 					v-bind="inputProps"
+					:invalid="isInvalidByValidation"
 					:theme="theme"
 					:disabled="readonly"
-					:placeholder="getInputPlaceholder()"
+					:placeholder="getInputPlaceholder(1)"
 					type="password"
 					class="--width-180 --flx"
 				/>
@@ -127,6 +140,7 @@
 				<InputText
 					v-model="models[i].value[1]"
 					v-bind="inputProps"
+					:invalid="isInvalidByValidation"
 					:theme="theme"
 					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
@@ -149,6 +163,7 @@
 				<InputText
 					v-model="models[i].value[1]"
 					v-bind="inputProps"
+					:invalid="isInvalidByValidation"
 					:theme="theme"
 					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
@@ -159,7 +174,8 @@
 			<FormInputCountriesAPI
 				v-else-if="input.type === eFT.LOCATION"
 				v-slot="{ statesReq, citiesReq }"
-				:states="statesArr"
+				:states="states"
+				:theme="theme"
 				:model="models[i].value"
 				:values="[1, 3]"
 			>
@@ -181,7 +197,7 @@
 				>
 					<SelectFilter
 						v-model="models[i].value[1]"
-						:options="statesArr || statesReq.content.map(stateToOption)"
+						:options="statesArr || statesReq?.content?.map(stateToOption)"
 						name="state"
 						icon="mountain-sun"
 						:theme="theme"
@@ -237,6 +253,7 @@
 					:is="input.type === eFT.SELECT ? SelectSimple : SelectFilter"
 					v-model="models[i].value"
 					v-bind="inputProps"
+					:invalid="isInvalidByValidation"
 					:theme="theme"
 					:disabled="readonly"
 					:placeholder="input.placeholder"
@@ -261,24 +278,28 @@
 						? { textarea: true }
 						: { type: getInputTextType() }),
 				}"
+				:invalid="isInvalidByValidation"
 				:theme="theme"
 				:disabled="readonly"
 				:placeholder="getInputPlaceholder()"
 				class="--flx"
 			/>
 		</FormInputLoop>
-		<p
-			v-if="input.required && !notEmpty && isInvalidInput"
-			class="--txtColor-danger --txtSize-sm"
-		>
-			{{ t("form_required_field") }}
-		</p>
+		<template v-if="isInvalidByProps">
+			<p v-if="input.required && !notEmpty" class="--txtColor-danger --txtSize-sm">
+				{{ t("form_required_field") }}
+			</p>
+			<p v-else class="--txtColor-danger --txtSize-sm">
+				{{ t("form_invalid_field") }}
+			</p>
+		</template>
 	</div>
 </template>
 <script setup lang="ts">
 	import { computed, reactive } from "vue";
 	import validator from "validator";
 	import _ from "lodash";
+	import { md5 } from "js-md5";
 
 	import type { iInvalidInput, iSelectOption } from "@open-xamu-co/ui-common-types";
 	import { eFormType as eFT } from "@open-xamu-co/ui-common-enums";
@@ -309,7 +330,8 @@
 	import type { iUseThemeProps } from "../../types/props";
 	import useInput from "../../composables/input";
 	import useCountries from "../../composables/countries";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
+	import useTheme from "../../composables/theme";
 
 	interface iFormInputProps extends iUseThemeProps {
 		modelValue: any[];
@@ -336,6 +358,7 @@
 	const { isValidFormInputValue, notEmptyValue } = useHelpers(useForm).utils;
 	const { getInputPlaceholder, getInputAutocomplete, getInputTextType } = useInput(props);
 	const { defaultCountry } = useCountries();
+	const { themeValues } = useTheme(props);
 
 	const countriesArr = computed(() => {
 		return (props.countries || []).map(({ code, name }) => ({ value: code, alias: name }));
@@ -352,21 +375,22 @@
 	const notEmpty = computed(() => {
 		const values = props.input.values;
 
-		return values.every((v) => notEmptyValue(v, props.input.defaults));
+		return !!values.length && values.every((v) => notEmptyValue(v, props.input.defaults));
 	});
-	const isInvalidInput = computed<boolean>(() => {
-		const values = props.input.values;
-		const byProp = !!props.invalid && _.isEqual(props.invalid.invalidValue, values);
-		const byValidation = notEmpty.value && !isValidFormInputValue(props.input);
+	const isInvalidByProps = computed<boolean>(() => {
+		/** Validation expects an array with at least one element */
+		const values = props.input.values.length ? props.input.values : [""];
 
-		return byProp || byValidation;
+		return _.isEqual(props.invalid?.invalidValue, values);
+	});
+	const isInvalidByValidation = computed<boolean>(() => {
+		return isInvalidByProps.value || !isValidFormInputValue(props.input, true);
 	});
 	const inputProps = computed(() => {
 		const [icon, iconProps] = props.input?.icon || [];
 
 		return {
 			..._.omit(props.input, ["type"]),
-			invalid: isInvalidInput.value,
 			autocomplete: getInputAutocomplete(),
 			icon,
 			iconProps,

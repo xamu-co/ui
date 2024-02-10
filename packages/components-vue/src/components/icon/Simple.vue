@@ -4,7 +4,13 @@
 		:class="[modifiersClasses, indicatorClasses, !!$slots.default ? 'svg' : 'icon']"
 		v-bind="$attrs"
 	>
-		<slot></slot>
+		<svg
+			v-if="!!$slots.default"
+			v-bind="{ width, height, viewBox }"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<slot />
+		</svg>
 	</i>
 </template>
 
@@ -15,10 +21,14 @@
 
 	import type { iUseModifiersProps } from "../../types/props";
 	import useModifiers from "../../composables/modifiers";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iIconSimpleProps extends iUseModifiersProps {
 		indicator?: boolean;
+		size?: number;
+		width?: number | string;
+		height?: number | string;
+		viewBox?: string;
 	}
 
 	/**

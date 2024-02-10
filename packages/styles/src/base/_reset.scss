@@ -101,7 +101,7 @@
 			appearance: textfield;
 		}
 
-		i:not(.#{utils.$component-icon}):not(.#{utils.$component-svg}) {
+		i:not(.#{utils.$component-icon}, .#{utils.$component-svg}) {
 			font-style: italic;
 		}
 
@@ -127,8 +127,6 @@
 		label,
 		select,
 		datalist {
-			vertical-align: middle;
-
 			@layer defaults {
 				& {
 					// @defaults txtWrap
@@ -139,9 +137,11 @@
 			&:not(:disabled, [disabled]:not([disabled="false"])):hover {
 				cursor: pointer;
 			}
-			&:not([class*="#{utils.$status-toggle}"]).#{utils.$status-is-route-exact}:not(
-					.#{utils.$status-no-route}
-				):not(.#{utils.$status-no-route-exact}):not([class*="#{utils.$status-toggle}"]) {
+			&.#{utils.$status-is-route-exact}:not(
+					[class*="#{utils.$status-toggle}"],
+					.#{utils.$status-no-route},
+					.#{utils.$status-no-route-exact}
+				) {
 				pointer-events: none;
 			}
 		}

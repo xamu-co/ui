@@ -5,7 +5,7 @@
 				v-model="model"
 				v-bind="{
 					..._.omit($attrs, 'class'),
-					..._.omit(props, 'modelValue'),
+					..._.omit(props, ['modelValue', 'size']),
 					type: textarea ? 'textarea' : inputType,
 					placeholder,
 					disabled,
@@ -21,9 +21,9 @@
 		</BaseWrapper>
 		<template v-if="type === 'number' && (Number.isInteger(min) || Number.isInteger(max))">
 			<ActionButtonToggle
-				:disabled="Number(model) <= minValue"
+				:disabled="disabled || Number(model) <= minValue"
 				:size="size"
-				:theme="theme"
+				:theme="invalid ? eColors.DANGER : theme"
 				:aria-label="t('decrease')"
 				:tooltip="t('decrease')"
 				tooltip-position="left"
@@ -35,9 +35,9 @@
 				<IconFa name="minus" regular />
 			</ActionButtonToggle>
 			<ActionButtonToggle
-				:disabled="Number(model) >= maxValue"
+				:disabled="disabled || Number(model) >= maxValue"
 				:size="size"
-				:theme="theme"
+				:theme="invalid ? eColors.DANGER : theme"
 				:tooltip="t('increase')"
 				tooltip-position="left"
 				round
@@ -72,7 +72,8 @@
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
+	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	interface iInputTextProps
 		extends iInputProps,

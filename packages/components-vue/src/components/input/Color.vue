@@ -2,7 +2,7 @@
 	<BaseInput
 		:class="[modifiersClasses, stateClasses, themeClasses]"
 		class="iColor"
-		v-bind="{ ...$attrs, ..._.omit(props, 'modelValue'), type: 'color' }"
+		v-bind="{ ...$attrs, ..._.omit(props, ['modelValue', 'size']), type: 'color' }"
 	/>
 </template>
 

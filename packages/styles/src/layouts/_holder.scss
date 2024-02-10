@@ -20,15 +20,6 @@
 					@media (min-width: (utils.$querie-tablet + 1)) {
 						padding: 0 2rem;
 					}
-
-					@media (max-width: utils.$querie-tablet) and (hover: none) {
-						.#{utils.$layout-scroll}.#{utils.$prefix-default}--horizontal {
-							margin-left: -1rem;
-							margin-right: -1rem;
-							padding: 0 1rem;
-							width: auto;
-						}
-					}
 				}
 			}
 

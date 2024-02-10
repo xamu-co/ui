@@ -1,29 +1,46 @@
 <template>
 	<div v-if="nodes.length" class="flx --flxColumn --flx-start-stretch --width">
-		<div v-if="!isReadOnly" class="flx --flxRow --flx-end-center">
-			<ActionButton
-				v-if="!!deleteNode"
-				:tooltip="t('table_delete')"
-				tooltip-as-text
-				tooltip-position="bottom"
-				:theme="[eColors.DANGER, themeValues[0]]"
-				:disabled="!selectedNodes.some(([n]) => n)"
-				@click="deleteNodesAndRefresh"
+		<div v-if="!isReadOnly || $slots.default" class="flx --flxRow --flx-start-center">
+			<ActionButtonLink
+				v-if="$slots.default"
+				:theme="theme"
+				:active="openNodesCount === selectedNodes.length"
+				@click="toggleAll(!(openNodesCount === selectedNodes.length), 1)"
 			>
 				<span>
 					{{
-						selectedNodesCount === selectedNodes.length
-							? t("delete_all")
-							: t("delete", selectedNodesCount)
+						openNodesCount === selectedNodes.length
+							? t("table_hide_all")
+							: t("table_show_all")
 					}}
 				</span>
-				<IconFa name="trash-can" />
-			</ActionButton>
+				<IconFa class="--indicator" name="chevron-up" />
+			</ActionButtonLink>
+			<div v-if="!isReadOnly" class="flx --flxRow --flx-end-center --flx">
+				<ActionButton
+					v-if="deleteNode"
+					:tooltip="t('table_delete')"
+					tooltip-as-text
+					tooltip-position="bottom"
+					:theme="[eColors.DANGER, themeValues[0]]"
+					:disabled="!selectedNodes.some(([n]) => n)"
+					@click="deleteNodesAndRefresh"
+				>
+					<span>
+						{{
+							selectedNodesCount === selectedNodes.length
+								? t("delete_all")
+								: t("delete", selectedNodesCount)
+						}}
+					</span>
+					<IconFa name="trash-can" />
+				</ActionButton>
+			</div>
 		</div>
 		<div v-bind="$attrs" class="scroll --horizontal --always">
 			<table :id="tableId" class="tbl" :class="themeClasses">
 				<thead>
-					<tr class="--txtAlign --txtSize-sm">
+					<tr class="--txtAlign" :class="`--txtSize-${size}`">
 						<!-- TODO: define filters, filter table contents -->
 						<th
 							class="--sticky"
@@ -38,6 +55,7 @@
 									:theme="theme || themeValues"
 									:title="t('table_select_all')"
 									:checked="selectedNodes.every(([n]) => n)"
+									:size="size"
 									@update:model-value="toggleAll"
 								/>
 								<span v-if="isReadOnly || !canSort">#</span>
@@ -48,6 +66,7 @@
 									:tooltip="t('table_sort_by_name', { name: 'Id' })"
 									tooltip-as-text
 									tooltip-position="bottom"
+									:size="size"
 									@click="setOrdering('id')"
 								>
 									<span>#</span>
@@ -61,8 +80,11 @@
 						<td
 							v-for="(propertyName, propertyNameIndex) in propertiesMeta"
 							:key="propertyNameIndex"
-							class="--txtSize-sm --maxWidth-440"
-							:class="{ ['is--selected']: canSort && isOrdering(propertyName.value) }"
+							class="--maxWidth-440"
+							:class="[
+								`--txtSize-${size}`,
+								{ ['is--selected']: canSort && isOrdering(propertyName.value) },
+							]"
 							:data-column-name="propertyName.value"
 							:data-column="propertyName.alias"
 							:width="
@@ -81,6 +103,7 @@
 								:tooltip="t('table_sort_by_name', { name: propertyName.alias })"
 								tooltip-as-text
 								tooltip-position="bottom"
+								:size="size"
 								@click="setOrdering(propertyName.value)"
 							>
 								<span>{{ propertyName.alias }}</span>
@@ -105,8 +128,11 @@
 				<tbody :class="classes">
 					<template v-for="(node, nodeIndex) in nodes" :key="nodeIndex">
 						<tr
-							class="--txtAlign --txtSize-sm"
-							:class="{ ['is--selected']: selectedNodes[nodeIndex][0] }"
+							class="--txtAlign"
+							:class="[
+								`--txtSize-${size}`,
+								{ ['is--selected']: selectedNodes[nodeIndex][0] },
+							]"
 						>
 							<th
 								class="--sticky"
@@ -121,6 +147,7 @@
 										v-model="selectedNodes[nodeIndex][0]"
 										:theme="theme || themeValues"
 										:title="t('table_select')"
+										:size="size"
 									/>
 									<span :title="String(node.id ?? nodeIndex)">
 										{{
@@ -136,10 +163,11 @@
 								:key="property.value"
 								:data-column-name="property.value"
 								:data-column="property.alias"
-								:class="{
-									['is--selected']: ordering.name === property.value,
-								}"
-								class="--txtSize-sm --maxWidth-440"
+								:class="[
+									`--txtSize-${size}`,
+									{ ['is--selected']: ordering.name === property.value },
+								]"
+								class="--maxWidth-440"
 							>
 								<ValueComplex
 									v-bind="{
@@ -152,6 +180,7 @@
 										classes,
 										refresh,
 										omitRefresh,
+										size,
 									}"
 								/>
 							</td>
@@ -168,7 +197,7 @@
 										tooltip-as-text
 										tooltip-position="left"
 										:theme="theme || themeValues"
-										size="sm"
+										:size="size"
 										round
 										:disabled="selectedNodes.some(([n]) => n)"
 										@click="updateNodeAndRefresh(node)"
@@ -179,14 +208,14 @@
 										class="flx --flxRow --flx-center"
 										:position="['left', 'center']"
 										:theme="theme || themeValues"
-										size="sm"
+										:size="size"
 									>
 										<template #toggle="{ setModel }">
 											<ActionLink
 												:aria-label="t('table_options')"
 												:title="t('table_options')"
 												:theme="theme || themeValues"
-												size="sm"
+												:size="size"
 												:disabled="selectedNodes.some(([n]) => n)"
 												toggle="dropdown"
 												@click="setModel()"
@@ -199,7 +228,7 @@
 												<li v-if="!!cloneNode">
 													<ActionLink
 														:theme="invertedTheme"
-														size="sm"
+														:size="size"
 														:aria-label="t('table_duplicate')"
 														@click="cloneNodeAndRefresh(node, setModel)"
 													>
@@ -212,7 +241,7 @@
 												<li v-if="!!deleteNode">
 													<ActionLink
 														:theme="[eColors.DANGER, invertedTheme[0]]"
-														size="sm"
+														:size="size"
 														:aria-label="t('table_delete')"
 														@click="
 															deleteNodeAndRefresh(node, setModel)
@@ -234,7 +263,7 @@
 									<div class="flx --flxRow --flx-center-end --gap-10 --bdr">
 										<ActionLink
 											:theme="theme || themeValues"
-											size="sm"
+											:size="size"
 											:active="selectedNodes[nodeIndex][1]"
 											:tooltip="
 												t('table_see_name', {
@@ -251,17 +280,19 @@
 										>
 											<IconFa name="chevron-up" indicator />
 										</ActionLink>
-										<ActionLink
+										<ActionButtonLink
+											v-if="createNodeChildren"
 											:theme="theme || themeValues"
-											size="sm"
+											:size="size"
 											:tooltip="t('table_create_new')"
 											tooltip-position="right"
-											:disabled="!createNodeChildren"
-											class="--p-5"
-											@click="createNodeChildren?.(node)"
+											class="--p-5:md-inv"
+											link-button
+											round
+											@click="createNodeChildren(node)"
 										>
 											<IconFa name="plus" />
-										</ActionLink>
+										</ActionButtonLink>
 									</div>
 								</th>
 								<td
@@ -314,15 +345,17 @@
 		iSelectOption,
 		tProp,
 		tProps,
+		tSizeModifier,
 		tThemeModifier,
 		tThemeTuple,
 	} from "@open-xamu-co/ui-common-types";
-	import { eColors } from "@open-xamu-co/ui-common-enums";
+	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import { toOption, useSwal, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "./icon/Fa.vue";
 	import ActionLink from "./action/Link.vue";
 	import ActionButton from "./action/Button.vue";
+	import ActionButtonLink from "./action/ButtonLink.vue";
 	import ActionButtonToggle from "./action/ButtonToggle.vue";
 	import InputToggle from "./input/Toggle.vue";
 	import ValueComplex from "./value/Complex.vue";
@@ -331,7 +364,7 @@
 
 	import type { iUseThemeProps } from "../types/props";
 	import useTheme from "../composables/theme";
-	import useHelpers from "../composables/helpers";
+	import { useHelpers } from "../composables/utils";
 	import useUUID from "../composables/uuid";
 
 	export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
@@ -385,6 +418,10 @@
 		 */
 		refresh?: () => unknown;
 		extraCols?: boolean;
+		/**
+		 * Default children visibility
+		 */
+		childrenVisibility?: boolean;
 		childrenName?: string;
 		childrenCountKey?: keyof Ti;
 		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
@@ -392,6 +429,7 @@
 		 * Prevent node functions from triggering refresh event (useful with firebase hydration)
 		 */
 		omitRefresh?: boolean;
+		size?: tSizeModifier;
 	}
 
 	/**
@@ -405,7 +443,9 @@
 
 	defineOptions({ name: "TableSimple", inheritAttrs: false });
 
-	const props = defineProps<iTableProps<T>>();
+	const props = withDefaults(defineProps<iTableProps<T>>(), {
+		size: eSizes.SM,
+	});
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
@@ -418,7 +458,10 @@
 	/** [selected, show] */
 	const selectedNodes = ref<[boolean, boolean][]>(reFillNodes(props.nodes.length));
 	const selectedNodesCount = computed(() => {
-		return selectedNodes.value.filter(([n]) => n).length;
+		return selectedNodes.value.filter(([selected]) => selected).length;
+	});
+	const openNodesCount = computed(() => {
+		return selectedNodes.value.filter(([, open]) => open).length;
 	});
 	/**
 	 * ordering property
@@ -488,13 +531,13 @@
 	});
 
 	function reFillNodes(length: number): [boolean, boolean][] {
-		return Array.from({ length }, () => [false, false]);
+		return Array.from({ length }, () => [false, !!props.childrenVisibility]);
 	}
 	function childrenCount(node: T) {
 		return props.childrenCountKey ? node[props.childrenCountKey] : 0;
 	}
-	function toggleAll(value = true) {
-		selectedNodes.value.forEach((_, i) => (selectedNodes.value[i][0] = value));
+	function toggleAll(value = true, index = 0) {
+		selectedNodes.value.forEach((_, i) => (selectedNodes.value[i][index] = value));
 	}
 	function toggleChildren(index: number) {
 		const [selected, children] = selectedNodes.value[index];

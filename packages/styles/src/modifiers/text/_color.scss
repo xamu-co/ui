@@ -21,6 +21,12 @@
 					color: transparent;
 				}
 			}
+
+			&-inherit {
+				@include module.extend-viewports-classes {
+					color: inherit;
+				}
+			}
 		}
 	}
 }

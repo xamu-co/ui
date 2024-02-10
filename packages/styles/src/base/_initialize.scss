@@ -36,6 +36,10 @@
 				background: utils.color(dark, 0.3);
 				backdrop-filter: blur(1rem) saturate(2);
 			}
+
+			&[open]:has(dialog[open]) {
+				transform: scale(0.9);
+			}
 		}
 
 		hr {

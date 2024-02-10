@@ -38,10 +38,10 @@
 					</div>
 				</BoxMessage>
 			</template>
-			<LoaderSimple v-else :label="label" :theme="theme" />
+			<LoaderSimple v-else-if="!noLoader" :label="label" :theme="theme" />
 		</div>
 		<BaseWrapper v-else :wrap="!unwrap" :el="el" v-bind="$attrs">
-			<div v-if="loading" class="back --overlay is--active">
+			<div v-if="loading && !noLoader" class="back --overlay is--active">
 				<LoaderSimple :label="label" :theme="theme" />
 			</div>
 			<slot></slot>
@@ -68,7 +68,7 @@
 	import BoxMessage from "../box/Message.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iLoaderContentProps extends iUseThemeProps {
 		/**
@@ -81,10 +81,17 @@
 		 */
 		loading?: boolean;
 		/**
+		 * Hide loader
+		 */
+		noLoader?: boolean;
+		/**
 		 * is loading
 		 */
 		errors?: boolean;
 		noContentMessage?: string;
+		/**
+		 * Loader label
+		 */
 		label?: string;
 		/**
 		 * Refresh the content

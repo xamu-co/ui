@@ -20,7 +20,7 @@
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import type { iActionProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	/**
 	 * Action Prototype

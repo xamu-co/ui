@@ -19,7 +19,7 @@
 			@include module.extend-maps(
 					module.$element-sizes,
 					meta.get-function("avatar-size-selector"),
-					sm
+					md
 				)
 				using($name, $value, $is-default) {
 				width: $value;

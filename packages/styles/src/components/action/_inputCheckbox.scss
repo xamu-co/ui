@@ -4,18 +4,21 @@
 //
 // @group Components
 @mixin input-checkbox {
+	$radius-action: module.strip-unit(module.$size-radius-action);
+
 	@layer definitions {
-		.#{module.$component-input-checkbox} {
-			@at-root input[type^="c"]#{&} {
-				@include module.action-toggle-styles;
+		input[type^="c"].#{module.$component-input-checkbox} {
+			@include module.action-toggle-styles;
 
+			// Toggle size
+			@include module.extend-sizes($all-viewports: true) using($size, $unit) {
 				+ label::after {
-					border-radius: 0.7rem * module.$radius-action;
+					border-radius: 0.7 * $size * $radius-action;
 				}
+			}
 
-				&:checked + label::after {
-					content: "\f00c";
-				}
+			&:checked + label::after {
+				content: "\f00c";
 			}
 		}
 	}

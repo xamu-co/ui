@@ -66,7 +66,7 @@
 	import SelectSimple from "../select/Simple.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	export interface iPaginationSimpleProps<Ti, Ci extends string | number> extends iUseThemeProps {
 		/**

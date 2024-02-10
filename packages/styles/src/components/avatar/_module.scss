@@ -31,7 +31,8 @@
 		label#{&} {
 			&:hover,
 			&.#{module.$status-is-active},
-			&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+			&.#{module.$status-is-route-exact}:not(
+					.#{module.$status-no-route},
 					.#{module.$status-no-route-exact}
 				) {
 				// box-shadow: 1px 1px 3px module.color(dark, 0.2);

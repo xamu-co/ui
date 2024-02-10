@@ -4,7 +4,6 @@ on:
     push:
         branches: [dev]
     workflow_dispatch:
-        branches: [dev]
         inputs:
             MANUAL_COMMIT_REF:
                 description: "The SHA of the commit to get the diff for"

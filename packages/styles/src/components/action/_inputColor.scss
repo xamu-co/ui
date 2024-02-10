@@ -12,7 +12,16 @@
 				width: $size;
 			}
 
-			@include module.action-border-styles;
+			@include module.action-border-styles using($radius) {
+				&::-webkit-color-swatch {
+					border-radius: $radius;
+				}
+
+				&::-moz-color-swatch {
+					border-radius: $radius;
+				}
+			}
+
 			@include module.action-disabled-styles;
 
 			display: block;
@@ -25,14 +34,12 @@
 
 			&::-webkit-color-swatch {
 				border: none;
-				border-radius: 50%;
 				width: 50%;
 				height: 50%;
 			}
 
 			&::-moz-color-swatch {
 				border: none;
-				border-radius: 50%;
 				width: 50%;
 				height: 50%;
 			}

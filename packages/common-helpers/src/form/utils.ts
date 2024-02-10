@@ -42,39 +42,63 @@ export function isValidValue<V extends iFormValue = iFormValue>(
 	// field not empty, validate
 	switch (input.type) {
 		case eFormType.PHONE:
-			// TODO: improve phone validation
+			// TODO: improve phone & cellphone validation
 			return Array.isArray(value) && value[1].toString().length >= 7;
 		case eFormType.CELLPHONE:
-			// TODO: improve cellphone validation
 			return Array.isArray(value) && value[1].toString().length === 10;
 		case eFormType.NEW_PASSWORD:
 			return Array.isArray(value) && value[0] === value[1];
 		case eFormType.EMAIL:
 			return typeof value === "string" && isEmail(value);
 		default:
+			// no validation required, assume true
 			return true;
 	}
 }
 
 /**
- * check if FormInput value is valid
+ * Check if FormInput value is valid
+ *
+ * Array.every is truthy for empty arrays
  */
-export const isValidFormInputValue = (input: FormInput, ignoreRequiredParam = false): boolean => {
-	const { values, multiple, required, min, max } = input;
+export const isValidFormInputValue = (input: FormInput, ignoreRequired = false): boolean => {
+	const { values, multiple, type, required, min, max } = input;
 
-	if (!values) return false;
+	// When required, false if empty array
+	if ((!values || !values.length) && required && !ignoreRequired) return false;
 
 	if (multiple) {
-		if (values.length < min) return false;
-		if (values.length > max) return false;
+		// Bypass if not required
+		// The UI should ensure the limits are not surpased
+		if (required && !ignoreRequired) {
+			if (values.length < min) return false;
+			if (values.length > max) return false;
+		}
+	} else {
+		if (type === eFormType.NUMBER) {
+			// Number in range
+			return values.every((number) => {
+				number = Number(number);
+
+				return number >= min && number <= max;
+			});
+		} else if (!type || type === eFormType.TEXT) {
+			// String length in range
+			return values.every((string) => {
+				const length = String(string).length;
+
+				return !string || (length >= min && length <= max);
+			});
+		}
 	}
 
-	// value is valid or not
-	const valid = !!values.length && values.every((value) => isValidValue(value, input));
+	// The actual values are valid
+	const valid = values.every((value) => isValidValue(value, input));
+	// All values have content
 	const notEmpty = values.every((v) => notEmptyValue(v, input.defaults));
 
 	// if empty but not required then value is truthy
-	return valid || (!notEmpty && !required && !ignoreRequiredParam);
+	return valid || (!notEmpty && (!required || ignoreRequired));
 };
 
 /** suffixes used on values */
@@ -120,10 +144,13 @@ export function getFormInputsValues<V extends Record<string, any>>(
 ): V {
 	return inputs.reduce((acc, input, index) => {
 		// inadecuate format, ignore
-		if (!input.name || !input.values || !Array.isArray(input.values) || !input.values.length) {
-			if (!input.name) console.log(`Missing name on input with index ${index}`);
-
-			return acc;
+		if (!input.name) throw new Error(`Missing name property on input with index ${index}`);
+		else if (!Array.isArray(input.values) || !input.values.length) {
+			/**
+			 * Validation expects an array with at least one element
+			 * SUGGESTION: reconsider this approach
+			 */
+			if (input.required) input.values = [""];
 		}
 
 		input.values.forEach((value) => {
@@ -197,7 +224,8 @@ export function getFormInputsValues<V extends Record<string, any>>(
  * Returns the actual data object to send to the api
  */
 export function getFormValues<V extends Record<string, any>>(
-	inputs: V | FormInput[]
+	inputs: V | FormInput[],
+	plainValues = true
 ): iFormResults<V> {
 	if (!Array.isArray(inputs)) return { values: inputs, invalidInputs: [] };
 
@@ -212,7 +240,7 @@ export function getFormValues<V extends Record<string, any>>(
 		})
 	);
 
-	const values: V = getFormInputsValues(inputs);
+	const values: V = getFormInputsValues(inputs, plainValues);
 	const invalidInputs = getFormInputsInvalids(inputs).filter(({ name }) => {
 		return values[name] !== undefined;
 	});

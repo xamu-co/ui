@@ -2,8 +2,8 @@
 	<LoaderContentFetch
 		v-slot="{ content, refresh }"
 		:promise="page"
-		:payload="[pagination]"
-		v-bind="{ ...$attrs, preventAutoload, theme }"
+		:payload="[{ ...pagination, ...defaults }]"
+		v-bind="{ ...$attrs, preventAutoload, theme, label }"
 	>
 		<slot
 			v-bind="{
@@ -52,6 +52,14 @@
 		 */
 		hideControls?: boolean;
 		preventAutoload?: boolean;
+		/**
+		 * Additional parameters to send every request
+		 */
+		defaults?: Record<string, any>;
+		/**
+		 * Loader label
+		 */
+		label?: string;
 	}
 
 	/**

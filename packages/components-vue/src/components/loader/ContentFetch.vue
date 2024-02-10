@@ -1,20 +1,24 @@
 <template>
-	<LoaderContent
-		v-bind="{
-			...$attrs,
-			content: !!content,
-			errors: !!errors,
-			loading,
-			refresh,
-			unwrap,
-			theme,
-		}"
-	>
-		<slot
-			v-if="content && (!loading || firstLoad)"
-			v-bind="{ content, refresh, loading, errors }"
-		></slot>
-	</LoaderContent>
+	<BaseErrorBoundary :theme="theme">
+		<LoaderContent
+			v-bind="{
+				...$attrs,
+				content: !!content,
+				errors: !!errors,
+				loading: loading,
+				refresh,
+				unwrap,
+				theme,
+				label,
+				noLoader,
+			}"
+		>
+			<slot
+				v-if="content && (!loading || firstLoad)"
+				v-bind="{ content, refresh, loading, errors }"
+			></slot>
+		</LoaderContent>
+	</BaseErrorBoundary>
 </template>
 
 <script setup lang="ts" generic="T, P extends unknown[] = unknown[]">
@@ -24,16 +28,26 @@
 		type Component as VueComponent,
 		type FunctionalComponent,
 		type DefineComponent,
+		computed,
 	} from "vue";
 	import _ from "lodash";
 
 	import type { tHydrate } from "@open-xamu-co/ui-common-types";
 
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import LoaderContent from "./Content.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
 
 	export interface iLoaderContentFetchProps<Ti, Pi extends unknown[]> extends iUseThemeProps {
+		/**
+		 * Loader label
+		 */
+		label?: string;
+		/**
+		 * Hide loader
+		 */
+		noLoader?: boolean;
 		promise?: false | ((hydrate: tHydrate<Ti>, ...args: Pi) => Promise<Ti>);
 		url?: false | string;
 		fallback?: Ti;
@@ -63,51 +77,58 @@
 
 	const loading = ref(false);
 	const errors = ref();
-	const content = ref<T>();
+	const fetchedContent = ref<T>();
 	const firstLoad = ref(false);
 	const hydrated = ref(false);
 	const hydrate: tHydrate<T> = (newContent, newErrors) => {
 		// prevent hydration
-		if (content.value && !hydrated.value) return (hydrated.value = true);
+		if (fetchedContent.value && !hydrated.value) return (hydrated.value = true);
 		if (!props.preventAutoload && !firstLoad.value) return;
 
-		content.value = newContent;
+		fetchedContent.value = newContent;
 		errors.value = newErrors;
 	};
+	const content = computed(() => fetchedContent.value ?? props.fallback);
 
-	async function refresh(fallback?: T) {
-		if (fallback) content.value = fallback;
-		if (!(props.promise || props.url)) return;
+	async function refresh() {
+		if (props.promise || props.url) {
+			try {
+				loading.value = true;
 
-		try {
-			loading.value = true;
+				// use fallback while the real content loaads
+				if (props.fallback) firstLoad.value = true;
 
-			if (props.promise) {
-				content.value = await props.promise(hydrate, ...(<P>(props.payload || [])));
-			} else if (props.url) {
-				const response = await (await fetch(props.url)).json();
-				const data = "data" in response ? response.data : response;
+				if (props.promise) {
+					fetchedContent.value = await props.promise(
+						hydrate,
+						...(<P>(props.payload || []))
+					);
+				} else if (props.url) {
+					const response = await (await fetch(props.url)).json();
+					const data = "data" in response ? response.data : response;
 
-				if (response.error) throw new Error(response.error);
-				if (data) content.value = data;
+					if (response.error) throw new Error(response.error);
+					if (data) fetchedContent.value = data;
+				}
+
+				// success, clear errors
+				errors.value = undefined;
+			} catch (err) {
+				console.error(err);
+				fetchedContent.value = undefined;
+				errors.value = err;
 			}
 
-			// success, clear errors
-			errors.value = undefined;
-		} catch (err) {
-			console.error(err);
-			content.value = undefined;
-			errors.value = err;
+			firstLoad.value = true;
+			loading.value = false;
 		}
-
-		firstLoad.value = true;
-		loading.value = false;
-		// Allow the parent to manually force an update
-		emit("refresh", refresh);
 	}
 
 	// lifecycle
-	if (!props.preventAutoload) refresh(props.fallback);
+	if (!props.preventAutoload) refresh();
+
+	// Allow the parent to manually force an update
+	emit("refresh", refresh);
 
 	// refetch on url or promise change
 	watch(
@@ -118,7 +139,6 @@
 
 			// refresh
 			if (!loading.value && !!newUrl) refresh();
-			else if (props.fallback) content.value = props.fallback;
 		},
 		{ immediate: false }
 	);
@@ -136,7 +156,6 @@
 
 			// refresh
 			if (!loading.value && !!newPromise) refresh();
-			else if (props.fallback) content.value = props.fallback;
 		},
 		{ immediate: false }
 	);

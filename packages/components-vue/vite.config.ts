@@ -5,9 +5,7 @@ import vue from "@vitejs/plugin-vue";
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [vue()],
-	resolve: {
-		dedupe: ["vue"],
-	},
+	resolve: { dedupe: ["vue"] },
 	build: {
 		lib: {
 			entry: {
@@ -28,6 +26,7 @@ export default defineConfig({
 				"lodash",
 				"nanoid",
 				"validator",
+				"js-md5",
 				"@open-xamu-co/ui-common-enums",
 				"@open-xamu-co/ui-common-helpers",
 			],

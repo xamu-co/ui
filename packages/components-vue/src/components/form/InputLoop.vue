@@ -13,7 +13,7 @@
 				:disabled="readonly"
 				@click="input.removeValue(i)"
 			>
-				<IconFa name="trash-can" size="20" />
+				<IconFa name="trash-can" :size="20" />
 			</ActionLink>
 		</div>
 		<p
@@ -50,7 +50,7 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 	import useInput from "../../composables/input";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	export interface iFormInputLoop<Ti> extends iUseThemeProps {
 		input: FormInputClass;

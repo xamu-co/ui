@@ -2,21 +2,25 @@
 <template>
 	<div class="flx --flxRow --flx-start-center --gap-5" :class="classes">
 		<!-- Boolean only -->
-		<InputToggle
-			v-if="typeof value === 'boolean'"
-			:label="verbose ? property?.alias : undefined"
-			:checked="value"
-			:theme="theme"
-			disabled
-		/>
+		<span v-if="typeof value === 'boolean'" :title="property?.alias">
+			<InputToggle
+				:label="verbose ? property?.alias : undefined"
+				:checked="value"
+				:theme="theme"
+				:size="size"
+				disabled
+			/>
+		</span>
 
 		<!-- String, Color -->
-		<InputColor
-			v-else-if="typeof value === 'string' && validator.isHexColor(value)"
-			:model-value="value"
-			:theme="theme"
-			disabled
-		/>
+		<span
+			v-else-if="
+				typeof value === 'string' && value.includes('#') && validator.isHexColor(value)
+			"
+			:title="property?.alias"
+		>
+			<InputColor :model-value="value" :theme="theme" :size="size" disabled />
+		</span>
 
 		<!-- String, Date -->
 		<span
@@ -30,6 +34,7 @@
 		<ActionLink
 			v-else-if="typeof value === 'string' && validator.isEmail(value)"
 			:mailto="value"
+			:size="size"
 			:theme="theme"
 		>
 			<IconFa v-if="verbose" name="envelope" force-regular />
@@ -47,7 +52,7 @@
 			</BaseAction>
 
 			<!-- Plain URL -->
-			<ActionLink v-else :theme="theme" :href="value" target="_blank">
+			<ActionLink v-else :theme="theme" :href="value" :size="size" target="_blank">
 				<IconFa name="arrow-up-right-from-square" />
 				<span>{{ t("table_open_url") }}</span>
 			</ActionLink>
@@ -66,6 +71,7 @@
 					:tooltip="t('see_value')"
 					tooltip-as-text
 					tooltip-position="bottom"
+					:size="size"
 					@click="toggleModal"
 				>
 					<IconFa name="align-left" />
@@ -85,18 +91,23 @@
 		</Modal>
 
 		<!-- Plain data, short string, number or no data -->
-		<span v-else>
-			{{ typeof value === "string" || typeof value === "number" ? value ?? "-" : "-" }}
+		<span v-else :title="property?.alias">
+			{{
+				(typeof value === "string" && value.length) || typeof value === "number"
+					? value ?? "-"
+					: "-"
+			}}
 		</span>
 	</div>
 </template>
 
-<script setup lang="ts" generic="P extends Record<string, any>, T">
+<script setup lang="ts" generic="P extends Record<string, any>">
 	import { computed, inject } from "vue";
 	import validator from "validator";
 
 	import type {
 		tProps,
+		tSizeModifier,
 		tThemeTuple,
 		tProp,
 		tThemeModifier,
@@ -115,13 +126,13 @@
 	import BoxMessage from "../box/Message.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
-	interface iValueSimpleProps<Pi extends Record<string, any>, Ti> extends iUseThemeProps {
+	interface iValueSimpleProps<Pi extends Record<string, any>> extends iUseThemeProps {
 		/**
 		 * Cell value
 		 */
-		value: Ti;
+		value: Pi[keyof Pi];
 		/**
 		 * Cell column property
 		 */
@@ -130,6 +141,7 @@
 		classes?: tProps<string>;
 		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
 		verbose?: boolean;
+		size?: tSizeModifier;
 	}
 
 	/**
@@ -140,7 +152,7 @@
 
 	defineOptions({ name: "ValueSimple", inheritAttrs: false });
 
-	const props = defineProps<iValueSimpleProps<P, T>>();
+	const props = defineProps<iValueSimpleProps<P>>();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const { t } = useHelpers(useI18n);

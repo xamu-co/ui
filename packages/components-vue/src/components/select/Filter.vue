@@ -49,7 +49,7 @@
 			:title="t('select_restablish_field')"
 			@click.prevent="resetModel"
 		>
-			<IconFa name="xmark" size="20" />
+			<IconFa name="xmark" :size="20" />
 		</ActionLink>
 	</div>
 </template>
@@ -74,7 +74,7 @@
 		iSelectProps,
 	} from "../../types/props";
 	import useUUID from "../../composables/uuid";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iSelectFilterProps
 		extends iSelectProps,

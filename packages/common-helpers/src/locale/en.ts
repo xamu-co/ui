@@ -1,12 +1,12 @@
 import _ from "lodash";
 
 import type {
-	iLocaleBase,
-	iLocaleForm,
-	iLocaleInput,
-	iLocaleModal,
-	iLocalePagination,
-	iLocaleTable,
+	tLocaleBase,
+	tLocaleForm,
+	tLocaleInput,
+	tLocaleModal,
+	tLocalePagination,
+	tLocaleTable,
 	tPluginLocale,
 } from "@open-xamu-co/ui-common-types";
 
@@ -15,7 +15,7 @@ import type {
  *
  * @locale en
  */
-export const localeBase: iLocaleBase = {
+export const localeBase: tLocaleBase = {
 	yes: "Yes",
 	no: "No",
 	increase: "increase",
@@ -37,6 +37,7 @@ export const localeBase: iLocaleBase = {
 	delete_all: "Delete all",
 	pick: "Pick",
 	refresh: "Refresh",
+	render_error: "Couldn't render the contents due to an unknown error",
 	swal: {
 		cancel: "Cancel",
 		continue: "Continue",
@@ -55,7 +56,7 @@ export const localeBase: iLocaleBase = {
  *
  * @locale en
  */
-export const localeInput: iLocaleInput = {
+export const localeInput: tLocaleInput = {
 	select_selected: "Selected",
 	select_placeholder: "--SELECT--",
 	select_restablish_field: "Restablish field",
@@ -87,7 +88,7 @@ export const localeInput: iLocaleInput = {
  *
  * @locale en
  */
-export const localeModal: iLocaleModal = {
+export const localeModal: tLocaleModal = {
 	modal_taking_too_long: "Taking too long?",
 	swal: {
 		modal_unauthorized: "Unauthorized",
@@ -100,10 +101,11 @@ export const localeModal: iLocaleModal = {
  *
  * @locale en
  */
-export const localeForm: iLocaleForm = {
+export const localeForm: tLocaleForm = {
 	form_required_options: "Options are required",
 	form_requires_n_values:
 		"No values are required | A value is required | {count} values are required",
+	form_loading_countries: "Loading countries...",
 	form_country: "Look for country",
 	form_state: "Look for state",
 	form_city: "Look for city",
@@ -117,7 +119,8 @@ export const localeForm: iLocaleForm = {
 	form_id_number: "ID number",
 	form_complete_the_field: "Complete the field",
 	form_location: "Location",
-	form_required_field: "This field is required",
+	form_invalid_field: "This field is invalid, fill it properly",
+	form_required_field: "This field is required and can't be empty",
 	form_use_valid_email: "You should use a valid E-mail address",
 	form_use_valid_phone: "Too short. Use a valid phone number",
 	form_use_valid_cellphone: "You should use a valid cellphone number",
@@ -131,7 +134,7 @@ export const localeForm: iLocaleForm = {
  *
  * @locale en
  */
-export const localeTable: iLocaleTable = {
+export const localeTable: tLocaleTable = {
 	table_see_values: "See {name}",
 	table_see_name: 'See: "{name}"',
 	table_create_new: "Create new",
@@ -148,6 +151,8 @@ export const localeTable: iLocaleTable = {
 	table_duplicate: "Duplicate",
 	table_options: "Options",
 	table_open_url: "Open URL",
+	table_hide_all: "Hide all",
+	table_show_all: "Show all",
 	swal: {
 		table_delete_node_title: "Are you sure you want to delete this element?",
 		table_delete_node_disclaimer:
@@ -176,7 +181,7 @@ export const localeTable: iLocaleTable = {
  *
  * @locale en
  */
-export const localePagination: iLocalePagination = {
+export const localePagination: tLocalePagination = {
 	pagination_items: "No items | Single item | {count} items",
 	pagination_pages: "No pages | Single page | {count} pages",
 	pagination_order_relevance: "Order: relevance",
@@ -195,7 +200,7 @@ export const localePagination: iLocalePagination = {
  *
  * @locale en
  */
-const enLocale: tPluginLocale = {
+const etLocale: tPluginLocale = {
 	..._.omit(localeBase, "swal"),
 	..._.omit(localeInput, "swal"),
 	..._.omit(localeModal, "swal"),
@@ -212,4 +217,4 @@ const enLocale: tPluginLocale = {
 	},
 };
 
-export default enLocale;
+export default etLocale;

@@ -7,11 +7,12 @@ import type {
 	tPropsModifier,
 	tThemeModifier,
 	tThemeTuple,
+	tSizeModifier,
 } from "@open-xamu-co/ui-common-types";
 
 export interface iUseModifiersProps {
 	hidden?: string | tPropsModifier<string>;
-	size?: string | number;
+	size?: tSizeModifier | number;
 }
 
 export interface iUseStateProps {

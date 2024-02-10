@@ -13,7 +13,8 @@
 			&:not(.#{module.$component-button-toggle}) {
 				&:hover,
 				&.#{module.$status-is-active},
-				&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+				&.#{module.$status-is-route-exact}:not(
+						.#{module.$status-no-route},
 						.#{module.$status-no-route-exact}
 					) {
 					.#{module.$component-svg} {
@@ -32,12 +33,13 @@
 			}
 
 			[fill]:not([fill="none"]) {
-				fill: var(--cl, #{module.color(secondary)});
+				fill: var(--cl, var(--cls, #{module.color(secondary)}));
 			}
 
 			&:hover,
 			&.#{module.$status-is-active},
-			&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+			&.#{module.$status-is-route-exact}:not(
+					.#{module.$status-no-route},
 					.#{module.$status-no-route-exact}
 				) {
 				@include module.svg-active-styles;
@@ -48,19 +50,17 @@
 			// @group Modifiers
 			@layer defaults {
 				@include module.extend-themes using($name, $value, $is-default) {
-					--cl: #{$value};
-					--cl-a: #{module.color(light)};
+					--cls: var(--cl, #{$value});
 				}
 			}
 
-			// theme override
+			// theme overrides
 			//
 			// @group Modifiers
-			&.#{module.$prefix-default}--tm-light {
-				--cl-a: #{module.color(primary)};
-				--cl-l: #{module.color(secondary)};
-
-				filter: drop-shadow(1px 1px 1px module.color(dark, 0.3));
+			@if module.$allow-theme-overrides {
+				&.#{module.$prefix-default}--tm-light {
+					filter: drop-shadow(1px 1px 1px module.color(dark, 0.3));
+				}
 			}
 
 			[fill="none"] {

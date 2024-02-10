@@ -10,7 +10,7 @@
 		</div>
 		<Modal v-model="localModel" :disabled="!isModal" :theme="theme" :invert-theme="invertTheme">
 			<div ref="dropdownRef" :class="dropdownClasses">
-				<slot v-bind="{ model, setModel, invertedTheme }"></slot>
+				<slot v-bind="{ model, setModel, invertedTheme: invertedThemeValues }"></slot>
 			</div>
 		</Modal>
 	</BaseWrapper>
@@ -36,7 +36,7 @@
 	import useBrowser from "../composables/browser";
 	import useModifiers from "../composables/modifiers";
 	import useTheme from "../composables/theme";
-	import useHelpers from "../composables/helpers";
+	import { useHelpers } from "../composables/utils";
 
 	type tAlignFirstX = "right" | "left";
 	type tAlignFirstY = "top" | "bottom";
@@ -71,7 +71,7 @@
 	const emit = defineEmits(["close", "update:model-value"]);
 
 	const { getModifierClasses: GMC } = useHelpers(useUtils);
-	const { themeClasses, invertedTheme } = useTheme(props, true);
+	const { themeClasses, invertedThemeValues } = useTheme(props, true);
 	const { tabletMqRange } = useBrowser();
 	const { modifiersClasses } = useModifiers(props);
 

@@ -58,7 +58,7 @@
 				@include utils.flex-box(column, nowrap, center, stretch);
 
 				@layer defaults {
-					> :not(:last-child) {
+					&:not([class*="--gap"]) > :not(:last-child) {
 						// @defaults mBottom
 						margin-bottom: 2rem;
 					}

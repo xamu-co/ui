@@ -1,5 +1,5 @@
 <template>
-	<template v-if="tabletMqRange">
+	<template v-if="inRange">
 		<ActionButtonToggle v-if="asToggle" v-bind="{ ...$attrs, ...props }">
 			<slot></slot>
 		</ActionButtonToggle>
@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+	import { computed } from "vue";
+
 	import ActionButton from "./Button.vue";
 	import ActionButtonToggle from "./ButtonToggle.vue";
 	import ActionLink from "./Link.vue";
@@ -34,6 +36,10 @@
 		 * Use ActionButtonToggle instead of ActionButton
 		 */
 		asToggle?: boolean;
+		/**
+		 * Reverse behavior
+		 */
+		linkButton?: boolean;
 	}
 
 	/**
@@ -50,4 +56,10 @@
 	const props = defineProps<iActionButtonLinkProps>();
 
 	const { tabletMqRange } = useBrowser();
+
+	const inRange = computed<boolean>(() => {
+		if (props.linkButton) return !tabletMqRange.value;
+
+		return tabletMqRange.value;
+	});
 </script>

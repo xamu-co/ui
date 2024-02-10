@@ -8,6 +8,7 @@ export const componentNames = [
 	"BaseInput",
 	"BaseSelect",
 	"BaseWrapper",
+	"BaseErrorBoundary",
 	// icon
 	"Icon",
 	"IconFa",
@@ -26,6 +27,7 @@ export const componentNames = [
 	"SelectFilter",
 	// value
 	"Value",
+	"ValueList",
 	"ValueComplex",
 	// box
 	"BoxAction",
