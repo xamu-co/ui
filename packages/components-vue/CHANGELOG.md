@@ -1,5 +1,40 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.6...@open-xamu-co/ui-components-vue-v3.0.0-next.7) (2024-02-11)
+
+
+### Bug Fixes
+
+* broken form input validation ([7bd6b1a](https://github.com/xamu-co/ui/commit/7bd6b1a5566db0647c93c7acc63bd4cf1f26cd99))
+* handle render errors on value ([8983de8](https://github.com/xamu-co/ui/commit/8983de808c3e233a7d618b95b772f50767f8ed32))
+* state & city inputs not showing if no values are given ([aab9029](https://github.com/xamu-co/ui/commit/aab9029acbdd49359128efa0d3dcdcba92614506))
+
+
+### Features
+
+* generic useI18n ([30ad604](https://github.com/xamu-co/ui/commit/30ad6044fd2523264a76b1607019daca29120d55))
+* inline small objects in table ([9367869](https://github.com/xamu-co/ui/commit/93678694abf25f21a9c02f810be6ae1e20f5e865))
+* new BaseErrorBoundary component ([eb48315](https://github.com/xamu-co/ui/commit/eb48315c8e6de8989406f3d249771a7921ea2abf))
+* override form input values within update hook ([66ba2f1](https://github.com/xamu-co/ui/commit/66ba2f157ba5f88cb06efafc1435cf1a81721072))
+* support optional pagination defaults ([b8f5448](https://github.com/xamu-co/ui/commit/b8f544859d0ec288e48d11e32bfd36b5d25efad2))
+* svg support on icon ([96fcf25](https://github.com/xamu-co/ui/commit/96fcf25079b0f170fd3dc3741912d1d8cf0c87b3))
+* value list component ([50639cb](https://github.com/xamu-co/ui/commit/50639cbb9e26cbc68c1912975a22dbfeead41dc3))
+
+
+### BREAKING CHANGES
+
+* related types renamed
+* form make expects a function with optional payload
+* size prop requires number or eSize, number on icon components
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.7"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.5...@open-xamu-co/ui-components-vue-v3.0.0-next.6) (2024-01-28)
 
 
