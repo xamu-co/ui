@@ -12,8 +12,12 @@ export default function useUIID() {
 		// this should fail in node
 		self.crypto || window.crypto;
 	} catch (error) {
-		// inject crypto into the global scope
-		global.crypto = global.crypto || require("crypto");
+		try {
+			// inject crypto into the global scope
+			global.crypto = global.crypto || require?.("crypto");
+		} catch (error) {
+			console.log("cannot define crypto");
+		}
 	}
 
 	return { uuid: nanoid };
