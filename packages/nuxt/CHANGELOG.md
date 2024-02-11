@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.2.0-next.3...@open-xamu-co/ui-nuxt-v3.0.0-next.1) (2024-02-11)
+
+
+### Features
+
+* generic useI18n ([30ad604](https://github.com/xamu-co/ui/commit/30ad6044fd2523264a76b1607019daca29120d55))
+
+
+### BREAKING CHANGES
+
+* related types renamed
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v2.2.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.2.0-next.2...@open-xamu-co/ui-nuxt-v2.2.0-next.3) (2024-01-28)
 
 
