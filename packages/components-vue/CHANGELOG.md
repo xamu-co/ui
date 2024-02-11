@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.7...@open-xamu-co/ui-components-vue-v3.0.0-next.8) (2024-02-11)
+
+
+### Bug Fixes
+
+* use nuxt imports ([2dd5f72](https://github.com/xamu-co/ui/commit/2dd5f72a5ee7a623ea0ed605f51c2e7ef1a76ee5))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.8"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.6...@open-xamu-co/ui-components-vue-v3.0.0-next.7) (2024-02-11)
 
 
