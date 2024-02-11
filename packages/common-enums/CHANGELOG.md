@@ -1,5 +1,35 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v3.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v2.1.0-next.1...@open-xamu-co/ui-common-enums-v3.0.0-next.1) (2024-02-11)
+
+
+### Features
+
+* generic useI18n ([30ad604](https://github.com/xamu-co/ui/commit/30ad6044fd2523264a76b1607019daca29120d55))
+* new BaseErrorBoundary component ([eb48315](https://github.com/xamu-co/ui/commit/eb48315c8e6de8989406f3d249771a7921ea2abf))
+* value list component ([50639cb](https://github.com/xamu-co/ui/commit/50639cbb9e26cbc68c1912975a22dbfeead41dc3))
+
+
+### BREAKING CHANGES
+
+* related types renamed
+* form make expects a function with optional payload
+* size prop requires number or eSize, number on icon components
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-enums" version "3.0.0-next.1"[0m
+[34mUpdating "common-types"[0m
+[34mSuccesfully updated "common-types" package[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-enums-v2.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v2.0.1-next.1...@open-xamu-co/ui-common-enums-v2.1.0-next.1) (2024-01-28)
 
 
