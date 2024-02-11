@@ -43,11 +43,11 @@
   },
   "dependencies": {
     "@nuxt/image": "^1.1.0",
-    "@nuxt/kit": "^3.8.2",
+    "@nuxt/kit": "^3.10.1",
     "@open-xamu-co/ui-common-enums": "link:../common-enums",
     "@open-xamu-co/ui-common-helpers": "link:../common-helpers",
-    "@open-xamu-co/ui-components-vue": "link:../components-vue",
     "@open-xamu-co/ui-common-types": "link:../common-types",
+    "@open-xamu-co/ui-components-vue": "link:../components-vue",
     "@types/lodash": "^4.14.192",
     "lodash": "^4.17.21",
     "sweetalert2": "^11.7.5"
@@ -59,7 +59,7 @@
     "@nuxt/test-utils": "^3.8.1",
     "@open-xamu-co/ui-styles": "link:../styles",
     "@types/node": "^18.17.17",
-    "nuxt": "^3.8.2",
+    "nuxt": "^3.10.1",
     "vitest": "^0.33.0"
   },
   "engines": {

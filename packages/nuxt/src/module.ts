@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import type { DefineComponent, FunctionalComponent, Component as VueComponent } from "vue";
 import {
 	defineNuxtModule,
 	addPlugin,
@@ -10,35 +9,13 @@ import {
 	addImportsDir,
 } from "@nuxt/kit";
 import _ from "lodash";
-import type { ModuleOptions as NuxtImageOptions } from "@nuxt/image";
 
-import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";
 
-/**
- * Nuxt specific configuration
- */
-interface ModuleOptions
-	extends iPluginOptions<VueComponent | FunctionalComponent | DefineComponent> {
-	/**
-	 * Nuxt image plugin options
-	 */
-	image?: Partial<NuxtImageOptions>;
-}
+import type { XamuModuleOptions } from "./types.js";
 
-declare module "nuxt/schema" {
-	interface AppConfigInput {
-		xamu?: ModuleOptions;
-	}
-}
-declare module "@nuxt/schema" {
-	interface AppConfigInput {
-		xamu?: ModuleOptions;
-	}
-}
-
-export default defineNuxtModule<ModuleOptions>({
+export default defineNuxtModule<XamuModuleOptions>({
 	meta: {
 		name: "@open-xamu-co/ui-nuxt",
 		configKey: "xamu",
