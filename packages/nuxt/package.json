@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@nuxt/image": "^1.1.0",
-    "@nuxt/kit": "^3.8.2",
+    "@nuxt/kit": "^3.10.1",
     "@open-xamu-co/ui-common-enums": "^3.0.0-next.1",
     "@open-xamu-co/ui-common-helpers": "^3.0.0-next.4",
     "@open-xamu-co/ui-common-types": "^3.0.0-next.5",
@@ -60,7 +60,7 @@
     "@open-xamu-co/ui-styles": "^3.0.0-next.4",
     "@types/lodash": "^4.14.192",
     "@types/node": "^18.17.17",
-    "nuxt": "^3.8.2",
+    "nuxt": "^3.10.1",
     "vitest": "^0.33.0"
   },
   "engines": {

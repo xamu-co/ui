@@ -1,4 +1,5 @@
 /* eslint-disable import/no-unresolved */
+
 import type { Component as VueComponent } from "vue";
 
 import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
