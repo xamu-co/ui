@@ -1,6 +1,6 @@
 {
   "name": "@open-xamu-co/ui-common-helpers",
-  "version": "3.0.0-next.3",
+  "version": "3.0.0-next.4",
   "description": "Xamu shared helpers",
   "author": "@xamu-co",
   "type": "module",
@@ -72,8 +72,8 @@
     "build": "rimraf dist && yarn build:esm && yarn build:cjs"
   },
   "dependencies": {
-    "@open-xamu-co/ui-common-enums": "^2.1.0-next.1",
-    "@open-xamu-co/ui-common-types": "^3.0.0-next.4",
+    "@open-xamu-co/ui-common-enums": "^3.0.0-next.1",
+    "@open-xamu-co/ui-common-types": "^3.0.0-next.5",
     "@types/lodash": "^4.14.192",
     "@types/validator": "^13.11.1",
     "core-js": "^3.24.1",
