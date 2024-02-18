@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.2...@open-xamu-co/ui-nuxt-v3.0.0-next.3) (2024-02-18)
+
+
+### Features
+
+* countries api url as option ([48ab3a4](https://github.com/xamu-co/ui/commit/48ab3a4fab08117944aeac0475ab31a6f98712c7))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.1...@open-xamu-co/ui-nuxt-v3.0.0-next.2) (2024-02-11)
 
 
