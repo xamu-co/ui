@@ -106,6 +106,15 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 */
 	country?: string;
 	/**
+	 * Countries API base endpoint
+	 *
+	 * Get better performance with the nuxt module
+	 * @see https://www.npmjs.com/package/nuxt-countries-api
+	 *
+	 * @default "https://countries.xamu.com.co/api/v1"
+	 */
+	countriesUrl?: string;
+	/**
 	 * Disable automatic animations
 	 *
 	 * @default false

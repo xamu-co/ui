@@ -25,6 +25,7 @@ export const XamuPlugin: Plugin<
 			locale,
 			lang: "en",
 			first: 10,
+			countriesUrl: "https://countries.xamu.com.co/api/v1",
 			// override defaults
 			...options,
 		};
