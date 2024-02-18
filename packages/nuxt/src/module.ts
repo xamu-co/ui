@@ -29,6 +29,7 @@ export default defineNuxtModule<XamuModuleOptions>({
 		locale,
 		lang: "en",
 		first: 10,
+		countriesUrl: "https://countries.xamu.com.co/api/v1",
 	},
 	async setup(moduleOptions, nuxt) {
 		const { globalComponents, componentPrefix, image } = moduleOptions;

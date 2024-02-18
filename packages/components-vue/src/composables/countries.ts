@@ -11,10 +11,10 @@ import useFetch from "./fetch";
  * @composable
  */
 export default function useCountries() {
-	const { country: defaultCountry } = inject<iPluginOptions>("xamu") || {};
+	const { country: defaultCountry, countriesUrl = "https://countries.xamu.com.co/api/v1" } =
+		inject<iPluginOptions>("xamu") || {};
 	const { withUrlParams } = useFetch();
 
-	const countriesUrl = "https://countries.xamu.com.co/api/v1";
 	const fallbackCountry = {} as iCountry & { states?: iState[] };
 
 	async function getCountries(): Promise<iCountry[]> {
