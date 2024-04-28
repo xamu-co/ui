@@ -21,7 +21,7 @@
 	</BaseErrorBoundary>
 </template>
 
-<script setup lang="ts" generic="T, P extends unknown[] = unknown[]">
+<script setup lang="ts" generic="T, P extends any[] = any[]">
 	import {
 		ref,
 		watch,
@@ -39,7 +39,9 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 
-	export interface iLoaderContentFetchProps<Ti, Pi extends unknown[]> extends iUseThemeProps {
+	type tDataPromise<Ti, Pi extends any[]> = (...args: Pi) => Promise<Ti>;
+
+	interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
 		/**
 		 * Loader label
 		 */
@@ -48,10 +50,11 @@
 		 * Hide loader
 		 */
 		noLoader?: boolean;
-		promise?: false | ((hydrate: tHydrate<Ti>, ...args: Pi) => Promise<Ti>);
-		url?: false | string;
 		fallback?: Ti;
 		unwrap?: boolean;
+		url?: false | string;
+		promise?: false | tDataPromise<Ti, Pi>;
+		hydratablePromise?: false | ((hydrate: tHydrate<Ti>) => tDataPromise<Ti, Pi>);
 		payload?: Pi;
 		/**
 		 * Component or tag to render
@@ -80,6 +83,11 @@
 	const fetchedContent = ref<T>();
 	const firstLoad = ref(false);
 	const hydrated = ref(false);
+	/**
+	 * Hydrate content
+	 *
+	 * Useful with firebase client approach
+	 */
 	const hydrate: tHydrate<T> = (newContent, newErrors) => {
 		// prevent hydration
 		if (fetchedContent.value && !hydrated.value) return (hydrated.value = true);
@@ -91,18 +99,21 @@
 	const content = computed(() => fetchedContent.value ?? props.fallback);
 
 	async function refresh() {
-		if (props.promise || props.url) {
-			try {
+		try {
+			if (props.promise || props.hydratablePromise || props.url) {
 				loading.value = true;
 
-				// use fallback while the real content loaads
+				// use fallback while the real content loads
 				if (props.fallback) firstLoad.value = true;
 
-				if (props.promise) {
-					fetchedContent.value = await props.promise(
-						hydrate,
-						...(<P>(props.payload || []))
-					);
+				if (props.promise || props.hydratablePromise) {
+					const payload = <P>(props.payload || []);
+
+					if (props.promise) {
+						fetchedContent.value = await props.promise(...payload);
+					} else if (props.hydratablePromise) {
+						fetchedContent.value = await props.hydratablePromise(hydrate)(...payload);
+					}
 				} else if (props.url) {
 					const response = await (await fetch(props.url)).json();
 					const data = "data" in response ? response.data : response;
@@ -113,15 +124,17 @@
 
 				// success, clear errors
 				errors.value = undefined;
-			} catch (err) {
-				console.error(err);
-				fetchedContent.value = undefined;
-				errors.value = err;
+			} else {
+				throw new Error("No data source url or promise provided");
 			}
-
-			firstLoad.value = true;
-			loading.value = false;
+		} catch (err) {
+			console.error(err);
+			fetchedContent.value = undefined;
+			errors.value = err;
 		}
+
+		firstLoad.value = true;
+		loading.value = false;
 	}
 
 	// lifecycle

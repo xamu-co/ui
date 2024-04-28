@@ -36,7 +36,7 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 
-	export interface iPaginationContentProps<Ti, Ci extends string | number = string>
+	export interface iPCProps<Ti, Ci extends string | number = string>
 		extends iPagination,
 			iUseThemeProps {
 		/**
@@ -63,10 +63,8 @@
 	}
 
 	/**
-	 * Menu de paginacion [PROGRESS]
+	 * Menu de paginacion
 	 * Redirecciona a la misma ruta + el query de pagina
-	 * TODO: Add conditional items per page selector
-	 * Not sure what this was supposed to mean
 	 *
 	 * @component
 	 * @example
@@ -75,7 +73,7 @@
 
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
 
-	const props = defineProps<iPaginationContentProps<T, C>>();
+	const props = defineProps<iPCProps<T, C>>();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
@@ -111,7 +109,7 @@
 
 		return newPagination;
 	});
-	const pagination = computed<iPagination | undefined>({
+	const pagination = computed<iPagination>({
 		get() {
 			if (props.withRoute) return routePagination.value;
 

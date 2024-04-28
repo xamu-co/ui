@@ -31,8 +31,7 @@ export interface iPagination<O = tOrderBy> {
 	 */
 	first?: number;
 	/**
-	 * JSON string
-	 * aplica a cualquiera columna
+	 * Ordenar segun columna o propiedad
 	 * ej: ["id", "asc" ], order ascendente de id
 	 * ej: ["id", "desc" ], order descendente de id
 	 */
@@ -45,6 +44,5 @@ export interface iPagination<O = tOrderBy> {
 export type tHydrate<T> = (c: T, e?: unknown) => void;
 
 export type iGetPage<T, C extends string | number = string> = (
-	hydrate: tHydrate<iPage<T, C> | null>,
 	params?: iPagination
 ) => Promise<iPage<T, C>>;
