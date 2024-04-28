@@ -5,14 +5,14 @@
 			:el="LoaderContentFetch"
 			:wrap="!states && !!countryValue"
 			:theme="theme"
-			:promise="unHydrate(getCountryStates)"
+			:promise="getCountryStates"
 			:payload="[countryValue]"
 			unwrap
 		>
 			<LoaderContentFetch
 				v-slot="citiesReq"
 				:theme="theme"
-				:promise="!!model[1] && unHydrate(getStateCities)"
+				:promise="!!model[1] && getStateCities"
 				:payload="[countryValue, model[1]]"
 				:no-loader="statesReq.loading"
 				:fallback="[]"
@@ -34,7 +34,6 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 	import type { iState } from "../../types/countries";
-	import useFetch from "../../composables/fetch";
 	import useCountries from "../../composables/countries";
 
 	interface iFormInputCountriesApi extends iUseThemeProps {
@@ -52,7 +51,6 @@
 
 	const props = defineProps<iFormInputCountriesApi>();
 
-	const { unHydrate } = useFetch();
 	const { defaultCountry, getCountryStates, getStateCities } = useCountries();
 
 	const countryValue = computed(() => props.model[0] || defaultCountry || "");
