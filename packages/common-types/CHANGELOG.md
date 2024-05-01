@@ -1,5 +1,29 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.6...@open-xamu-co/ui-common-types-v3.0.0-next.7) (2024-05-01)
+
+
+### Features
+
+* optional hydration ([b834f7b](https://github.com/xamu-co/ui/commit/b834f7b02d4a4b3ad477343cb9475237d8dc1917))
+
+
+### BREAKING CHANGES
+
+* iGetPage no longer hydratable
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.7"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.5...@open-xamu-co/ui-common-types-v3.0.0-next.6) (2024-02-18)
 
 
