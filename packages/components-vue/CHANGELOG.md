@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.10...@open-xamu-co/ui-components-vue-v3.0.0-next.11) (2024-05-01)
+
+
+### Features
+
+* optional hydration ([b834f7b](https://github.com/xamu-co/ui/commit/b834f7b02d4a4b3ad477343cb9475237d8dc1917))
+
+
+### BREAKING CHANGES
+
+* iGetPage no longer hydratable
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.11"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.9...@open-xamu-co/ui-components-vue-v3.0.0-next.10) (2024-02-18)
 
 
