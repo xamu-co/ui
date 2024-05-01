@@ -5,7 +5,7 @@
 			v-slot="{ content }"
 			:theme="theme"
 			:label="t('form_loading_countries')"
-			:promise="(withLocationInput || withPhoneInput) && getCountriesAndStates"
+			:promise="(withLocationInput || !!withPhoneInput) && getCountriesAndStates"
 			class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
 			:el="noForm ? 'fieldset' : 'form'"
 			:fallback="{ countries: [], states: [] }"
