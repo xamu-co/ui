@@ -9687,6 +9687,11 @@ nuxi@^3.10.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
+nuxt-countries-api@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/nuxt-countries-api/-/nuxt-countries-api-1.0.3.tgz#2b43ff984bca2f26a53c9edb3c9b11ba615ecf49"
+  integrity sha512-PWcE8B7et2bLdUk10xjHsDhmi/aIv6G0FfUML4wJ/K04jLKbkpOKEDcGhTy+Hvx8DaCexbKtWBs5vwckDCclLg==
+
 nuxt@^3.10.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.10.1.tgz#b0236e73df6db8f8465a4d1088c54a6a995e554c"

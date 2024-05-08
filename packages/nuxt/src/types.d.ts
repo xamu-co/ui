@@ -9,7 +9,7 @@ import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 export interface XamuModuleOptions
 	extends iPluginOptions<VueComponent | FunctionalComponent | DefineComponent> {
 	/**
-	 * Nuxt image plugin options
+	 * Nuxt image module options
 	 */
 	image?: Partial<NuxtImageOptions>;
 }

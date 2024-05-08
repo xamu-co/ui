@@ -50,6 +50,7 @@
     "@open-xamu-co/ui-components-vue": "^3.0.0-next.10",
     "@types/lodash": "^4.14.192",
     "lodash": "^4.17.21",
+    "nuxt-countries-api": "^1.0.3",
     "sweetalert2": "^11.7.5"
   },
   "devDependencies": {
