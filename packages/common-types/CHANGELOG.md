@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.7...@open-xamu-co/ui-common-types-v3.0.0-next.8) (2024-05-08)
+
+
+### Features
+
+* include nuxt-country-api module ([599cdc6](https://github.com/xamu-co/ui/commit/599cdc645589ecc265d59a8867ecb35179ac6033))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.8"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.6...@open-xamu-co/ui-common-types-v3.0.0-next.7) (2024-05-01)
 
 
