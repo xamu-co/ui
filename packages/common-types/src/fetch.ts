@@ -45,4 +45,4 @@ export type tHydrate<T> = (c: T, e?: unknown) => void;
 
 export type iGetPage<T, C extends string | number = string> = (
 	params?: iPagination
-) => Promise<iPage<T, C>>;
+) => Promise<iPage<T, C> | undefined>;

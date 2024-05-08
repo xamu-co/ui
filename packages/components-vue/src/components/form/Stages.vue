@@ -134,7 +134,6 @@
 		 */
 		submitLabel?: string;
 		stages?: iForm[][];
-		showConformity?: boolean;
 		hideRequiredDisclaimer?: boolean;
 		stagesClasses?: tProps<string>;
 		/**

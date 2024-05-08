@@ -124,9 +124,7 @@
 
 				// success, clear errors
 				errors.value = undefined;
-			} else {
-				throw new Error("No data source url or promise provided");
-			}
+			} else console.warn("No data source url or promise provided");
 		} catch (err) {
 			console.error(err);
 			fetchedContent.value = undefined;
