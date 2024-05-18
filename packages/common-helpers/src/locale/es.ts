@@ -41,6 +41,8 @@ export const localeBase: tLocaleBase = {
 	swal: {
 		cancel: "Cancelar",
 		continue: "Continuar",
+		error: "¡Error!",
+		error_message: "¡Sucedio algo malo!",
 		connection_error: "¡Error de conexion!",
 		connection_error_message:
 			"El servidor no responde. Por favor verifica tu conexion o intentalo de nuevo mas tarde",

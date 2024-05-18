@@ -47,7 +47,12 @@
 		>
 			<!-- Image URL -->
 			<!-- TODO: trigger gallery/slideshow component/modal -->
-			<BaseAction v-if="isImgUrl(value)" class="avatar" :href="value" target="_blank">
+			<BaseAction
+				v-if="isImgUrl(value)"
+				class="avatar --size-sm"
+				:href="value"
+				target="_blank"
+			>
 				<BaseImg preset="avatar" :src="value" :alt="value" />
 			</BaseAction>
 
@@ -62,8 +67,8 @@
 		<Modal
 			v-else-if="typeof value === 'string' && value.length > maxLength"
 			class="--txtSize"
-			:theme="modalTheme || theme"
 			:title="property?.alias"
+			v-bind="{ theme, ...modalProps }"
 		>
 			<template #toggle="{ toggleModal }">
 				<ActionLink
@@ -102,15 +107,12 @@
 </template>
 
 <script setup lang="ts" generic="P extends Record<string, any>">
-	import { computed, inject } from "vue";
+	import { computed, inject, type AllowedComponentProps } from "vue";
 	import validator from "validator";
 
 	import type {
 		tProps,
 		tSizeModifier,
-		tThemeTuple,
-		tProp,
-		tThemeModifier,
 		iPluginOptions,
 		iProperty,
 	} from "@open-xamu-co/ui-common-types";
@@ -125,7 +127,7 @@
 	import Modal from "../Modal.vue";
 	import BoxMessage from "../box/Message.vue";
 
-	import type { iUseThemeProps } from "../../types/props";
+	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import { useHelpers } from "../../composables/utils";
 
 	interface iValueSimpleProps<Pi extends Record<string, any>> extends iUseThemeProps {
@@ -139,7 +141,7 @@
 		property?: iProperty<Pi>;
 		readonly?: boolean;
 		classes?: tProps<string>;
-		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
+		modalProps?: iModalProps & AllowedComponentProps;
 		verbose?: boolean;
 		size?: tSizeModifier;
 	}

@@ -176,7 +176,7 @@
 										node,
 										readonly: isReadOnly,
 										theme: theme || themeValues,
-										modalTheme: modalTheme || theme || themeValues,
+										modalProps: { theme: theme || themeValues, ...modalProps },
 										classes,
 										refresh,
 										omitRefresh,
@@ -318,7 +318,7 @@
 			</table>
 		</div>
 	</div>
-	<BoxMessage v-else-if="!canSort" :theme="theme || themeValues">
+	<BoxMessage v-else :theme="theme || themeValues">
 		<div class="flx --flxRow --flx-center">
 			<span>{{ t("nothing_to_show") }}</span>
 			<ActionButtonToggle
@@ -336,18 +336,15 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>">
-	import { ref, computed, watch, getCurrentInstance } from "vue";
+	import { ref, computed, watch, getCurrentInstance, type AllowedComponentProps } from "vue";
 	import _ from "lodash";
 
 	import type {
 		iNodeFn,
 		iProperty,
 		iSelectOption,
-		tProp,
 		tProps,
 		tSizeModifier,
-		tThemeModifier,
-		tThemeTuple,
 	} from "@open-xamu-co/ui-common-types";
 	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import { toOption, useSwal, useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -362,7 +359,7 @@
 	import BoxMessage from "./box/Message.vue";
 	import Dropdown from "./Dropdown.vue";
 
-	import type { iUseThemeProps } from "../types/props";
+	import type { iModalProps, iUseThemeProps } from "../types/props";
 	import useTheme from "../composables/theme";
 	import { useHelpers } from "../composables/utils";
 	import useUUID from "../composables/uuid";
@@ -424,7 +421,7 @@
 		childrenVisibility?: boolean;
 		childrenName?: string;
 		childrenCountKey?: keyof Ti;
-		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
+		modalProps?: iModalProps & AllowedComponentProps;
 		/**
 		 * Prevent node functions from triggering refresh event (useful with firebase hydration)
 		 */

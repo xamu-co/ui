@@ -15,7 +15,7 @@ export default function useState(props: iUseStateProps) {
 
 	const stateClasses = computed<string[]>(() => {
 		const values: Record<string, boolean>[] = [
-			{ ...props.state, active: props.active || false, invalid: props.invalid || false },
+			{ ...props.state, active: !!props.active, invalid: !!props.invalid },
 		];
 
 		return props.state || props.active || props.invalid ? GMC(values, { prefix: "is" }) : [];

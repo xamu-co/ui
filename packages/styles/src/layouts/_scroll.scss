@@ -29,7 +29,7 @@
 			}
 
 			&.#{utils.$prefix-default}--vertical {
-				max-height: 100%;
+				max-height: min(100%, 100vh);
 				overflow: hidden auto;
 
 				@layer defaults {
@@ -43,7 +43,7 @@
 				// always only mode
 				// @modifier
 				&.#{utils.$prefix-default}--always {
-					max-width: 100%;
+					max-width: min(100%, 100vw);
 					overflow: auto hidden;
 
 					> * {
@@ -83,7 +83,7 @@
 
 						@media (hover: none) {
 							&:not(.#{utils.$prefix-default}--always) {
-								max-width: 100vw;
+								max-width: min(100%, 100vw);
 								height: auto;
 								box-sizing: border-box;
 								overflow: hidden auto;

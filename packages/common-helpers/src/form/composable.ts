@@ -40,35 +40,36 @@ export default function useForm(options: iPluginOptions = {}) {
 		request: tResponseFn<R, RV>,
 		inputs: RV | FormInput[] = [],
 		event?: Event,
+		silent = false,
 		plainValues = true
 	): Promise<iFormResponse<R, HTMLElement | string>> {
 		const { values, invalidInputs } = getFormValues<RV>(inputs, plainValues);
 		const modalTarget = (event?.target as HTMLElement)?.closest("dialog") || "body";
+		const withSwal = !silent && isBrowser;
 		let errors;
 		let requestHadErrors = false;
 		let newResponse: iFetchResponse<R> = {};
 
 		if (!invalidInputs.length) {
 			try {
-				if (isBrowser) Swal.fireLoader({ target: modalTarget });
+				if (withSwal) Swal.fireLoader({ target: modalTarget });
 
 				newResponse = await request(values);
+				// request went ok, but still returned errors
+				errors = newResponse.errors;
 
-				if (newResponse?.errors) {
-					errors = newResponse.errors;
-
-					if (errors || !newResponse.data) requestHadErrors = true;
+				// empty response can be server error
+				if (newResponse.data === null || newResponse.data === undefined) {
+					requestHadErrors = true;
 				}
 			} catch (err) {
-				/**
-				 * Network error probably
-				 */
+				// Network error probably
+
 				errors = err;
-				requestHadErrors = true;
 				// eslint-disable-next-line no-console
 				console.error(err);
 
-				if (isBrowser) {
+				if (withSwal) {
 					const { value } = await Swal.fire({
 						title: t("swal.connection_error"),
 						text: t("swal.connection_error_message"),
@@ -82,8 +83,17 @@ export default function useForm(options: iPluginOptions = {}) {
 					// Page reload if user wish to
 					if (value) location.reload();
 				}
+
+				return {
+					invalidInputs,
+					withErrors: true,
+					requestHadErrors: true,
+					validationHadErrors: false,
+					errors,
+					modalTarget,
+				};
 			}
-		} else if (isBrowser) {
+		} else if (withSwal) {
 			// invalid input filling
 			Swal.fire({
 				title: t("swal.incomplete_data"),
@@ -93,12 +103,12 @@ export default function useForm(options: iPluginOptions = {}) {
 			});
 		}
 
-		const validationHadErrors = invalidInputs.length > 0 || !!(errors && !requestHadErrors);
-		const withErrors = requestHadErrors || validationHadErrors;
+		const validationHadErrors = invalidInputs.length > 0;
+		const withErrors = !!errors || requestHadErrors || validationHadErrors;
 		const response = newResponse.data;
 
-		// hide loader
-		if (isBrowser && !validationHadErrors && response) Swal.close();
+		// success, hide loader
+		if (withSwal && !validationHadErrors) Swal.close();
 
 		return {
 			response,

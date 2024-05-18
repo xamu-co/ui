@@ -1,6 +1,7 @@
 const sort = {
 	sort: "desktop-first",
 	configuration: { unitlessMqAlwaysFirst: true },
+	onlyTopLevel: true,
 };
 
 /**
@@ -8,7 +9,10 @@ const sort = {
  */
 module.exports = {
 	developtment: {
-		plugins: [require("postcss-sort-media-queries")(sort)],
+		plugins: [
+			require("postcss-merge-at-rules")({}), // flatten & merge
+			require("postcss-sort-media-queries")(sort),
+		],
 	},
 	production: {
 		map: false,
@@ -30,8 +34,8 @@ module.exports = {
 				],
 			}),
 			require("postcss-merge-selectors")({}),
+			require("postcss-merge-at-rules")({}), // flatten & merge
 			require("postcss-sort-media-queries")(sort),
-			require("postcss-merge-at-rules")({ nest: true }),
 			require("postcss-precision")({}),
 		],
 		env: "production",

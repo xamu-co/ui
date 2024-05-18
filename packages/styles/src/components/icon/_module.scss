@@ -15,20 +15,6 @@
 		width: 1em;
 	}
 
-	// icon margin
-	//
-	// @group Modifiers
-	&.#{module.$prefix-default}--m,
-	&.#{module.$prefix-default}--margin {
-		&:not(:first-child) {
-			margin-left: 0.4em;
-		}
-
-		&:not(:last-child) {
-			margin-right: 0.4em;
-		}
-	}
-
 	&.#{module.$prefix-default}--indicator {
 		transition: transform 0.3s ease-out;
 	}

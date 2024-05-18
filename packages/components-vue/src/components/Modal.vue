@@ -108,11 +108,12 @@
 		ref,
 		watch,
 		Teleport,
-		type RendererElement,
+		getCurrentInstance,
 	} from "vue";
 	import _ from "lodash";
 
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
+	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	import BaseErrorBoundary from "./base/ErrorBoundary.vue";
 	import BaseWrapper from "./base/Wrapper.vue";
@@ -122,61 +123,10 @@
 	import ActionButtonToggle from "./action/ButtonToggle.vue";
 	import LoaderSimple from "./loader/Simple.vue";
 
-	import type { iUseThemeProps } from "../types/props";
+	import type { iModalButtonConfig, iModalProps } from "../types/props";
 	import useTheme from "../composables/theme";
 	import useUUID from "../composables/uuid";
 	import { useHelpers } from "../composables/utils";
-
-	interface iButtonConfig {
-		title?: string;
-		visible?: boolean;
-		btnClass?: string;
-	}
-
-	interface iModalProps extends iUseThemeProps {
-		/**
-		 * Modal is loading
-		 * Some of the modal contents could be still loading
-		 */
-		loading?: boolean;
-		/**
-		 * The title of the modal shown in .x-modal-header div. If empty title is not rendered
-		 */
-		title?: string;
-		subtitle?: string;
-		/**
-		 * :class object which is attached to the modal modal element
-		 */
-		modalClass?: string | string[] | Record<string, boolean>;
-		/**
-		 * Save button config
-		 */
-		saveButton?: iButtonConfig & { disabled?: boolean };
-		/**
-		 * Cancel button config
-		 */
-		cancelButton?: iButtonConfig;
-		/**
-		 * Are modal requirement meet?
-		 * This is intended to prevent the usage of certain modals
-		 *
-		 * Ex: user does not have enough permissions
-		 */
-		hide?: boolean;
-		hideMessage?: string;
-		hideFooter?: boolean;
-		/**
-		 * disables modal
-		 */
-		disabled?: boolean;
-		// PRIVATE
-		/**
-		 * Shows/hides the modal
-		 * @private
-		 */
-		modelValue?: boolean;
-		target?: string | RendererElement;
-	}
 
 	/**
 	 * Based on @innologica/vue-stackable-modal
@@ -188,12 +138,15 @@
 
 	defineOptions({ name: "ModalSimple", inheritAttrs: false });
 
-	const props = defineProps<iModalProps>();
+	const props = withDefaults(defineProps<iModalProps>(), {
+		theme: eColors.SECONDARY,
+	});
 	const emit = defineEmits(["save", "close", "update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
 	const { themeClasses, invertedThemeValues } = useTheme(props, true);
+	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 	const { uuid } = useUUID();
 
 	const resolver = ref<(r?: boolean) => void>();
@@ -208,13 +161,13 @@
 
 		return `modal_${seed.replaceAll(" ", "") || randomId}`;
 	});
-	const saveButtonOptions = computed<iButtonConfig & { disabled?: boolean }>(() => ({
+	const saveButtonOptions = computed<iModalButtonConfig & { disabled?: boolean }>(() => ({
 		title: t("ok"),
 		visible: !!props.saveButton?.title,
 		btnClass: "",
 		...(!!props.saveButton && props.saveButton),
 	}));
-	const cancelButtonOptions = computed<iButtonConfig>(() => ({
+	const cancelButtonOptions = computed<iModalButtonConfig>(() => ({
 		title: t("close"),
 		visible: true,
 		btnClass: "",
@@ -283,6 +236,11 @@
 			},
 			{ immediate: true }
 		);
+
+		if (!router?.currentRoute) return;
+
+		// close on route change
+		watch(router.currentRoute, () => closeModal(), { immediate: false });
 	});
 	onUnmounted(closeModal);
 </script>

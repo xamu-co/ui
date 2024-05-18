@@ -1,114 +1,126 @@
 <template>
-	<LoaderContent
-		:loading="submitting"
-		:content="!!stages?.length"
-		:theme="theme"
-		tag="form"
-		method="post"
-		class="flx --flxColumn --flx-start-stretch --gap-30 --maxWidth-full"
-	>
-		<div
-			v-for="(stage, stageIndex) in localStages.filter((stage) => stage.length)"
-			v-show="activeStage == stageIndex"
-			:key="`stage-${stageIndex}`"
-			:class="stagesClasses ?? 'flx --flxColumn --flx-start-stretch --gap-30'"
+	<BaseErrorBoundary :theme="theme">
+		<LoaderContent
+			:loading="submitting"
+			:content="!!stages?.length"
+			:theme="theme"
+			tag="form"
+			method="post"
+			class="flx --flxColumn --flx-start-stretch --gap-30 --maxWidth-full"
 		>
-			<FormSimple
-				v-for="(form, formIndex) in stage"
-				:key="`form-${formIndex}`"
-				v-model.lazy="localStages[stageIndex][formIndex].inputs"
-				:theme="theme"
-				:invalid="invalid"
-				no-form
-				:title="form.title"
-				:readonly="form.readonly"
-				@update:invalid="invalid = $event"
-			/>
-		</div>
-		<div class="flx --flxColumn --gap-30">
-			<div v-if="!hideRequiredDisclaimer" class="flx --flxColumn">
-				<p class="--txtSize-xs">{{ t("required_verification") }}</p>
+			<div
+				v-for="(stage, stageIndex) in localStages.filter((stage) => stage.length)"
+				v-show="activeStage == stageIndex"
+				:key="`stage-${stageIndex}`"
+				:class="stagesClasses ?? 'flx --flxColumn --flx-start-stretch --gap-30'"
+			>
+				<FormSimple
+					v-for="(form, formIndex) in stage"
+					:key="`form-${stageIndex}-${formIndex}`"
+					:model-value="localStages[stageIndex][formIndex].inputs"
+					:theme="theme"
+					:invalid="invalid"
+					no-form
+					:title="form.title"
+					:readonly="form.readonly"
+					@update:model-value="updateForm(stageIndex, formIndex, $event)"
+					@update:invalid="invalid = $event"
+				/>
 			</div>
-			<div class="flx --flxRow --flx-end-center --width">
-				<div
-					v-if="stages?.length"
-					class="flx --flxRow --flx-start-center --flx --gap-5 --gap:md"
-				>
+			<div class="flx --flxColumn --gap-30">
+				<div class="flx --flxColumn">
+					<slot name="disclaimers">
+						<p v-if="!hideRequiredDisclaimer" class="--txtSize-xs">
+							{{ t("required_verification") }}
+						</p>
+					</slot>
+				</div>
+				<div class="flx --flxRow --flx-end-center --width">
+					<div
+						v-if="stages?.length"
+						class="flx --flxRow --flx-start-center --flx --gap-5 --gap:md"
+					>
+						<slot
+							name="primary-actions"
+							v-bind="{
+								activeStage,
+								stagesLength: stages && stages.length,
+								setActiveStage,
+								canSubmit,
+							}"
+						>
+							<ActionButtonToggle
+								v-if="localStages.length > 1 && activeStage"
+								key="button-back"
+								:theme="theme"
+								:aria-label="t('previous')"
+								round=":sm"
+								@click.prevent="setActiveStage(activeStage - 1)"
+							>
+								<IconFa name="arrow-left" />
+								<IconFa name="arrow-left" regular />
+								<span class="--hidden-full:sm-inv">
+									{{ t("previous") }}
+								</span>
+							</ActionButtonToggle>
+							<ActionButton
+								v-if="
+									submitLabel &&
+									(activeStage === localStages.length - 1 || !localStages.length)
+								"
+								key="button-submit"
+								:theme="theme"
+								:aria-label="t('send')"
+								:disabled="!canSubmit || !submitFn"
+								@click.prevent="submit"
+							>
+								{{ submitLabel || t("send") }}
+							</ActionButton>
+							<ActionButtonToggle
+								v-if="
+									localStages.length > 1 && activeStage < localStages.length - 1
+								"
+								key="button-next"
+								:theme="theme"
+								:aria-label="t('next')"
+								round=":sm"
+								@click.prevent="setActiveStage(activeStage + 1)"
+							>
+								<span class="--hidden-full:sm-inv">{{ t("next") }}</span>
+								<IconFa name="arrow-right" />
+								<IconFa name="arrow-right" regular />
+							</ActionButtonToggle>
+						</slot>
+					</div>
 					<slot
-						name="primary-actions"
+						name="secondary-actions"
 						v-bind="{
 							activeStage,
 							stagesLength: stages && stages.length,
 							setActiveStage,
 							canSubmit,
 						}"
-					>
-						<ActionButtonToggle
-							v-if="localStages.length > 1 && activeStage"
-							key="button-back"
-							:theme="theme"
-							:aria-label="t('previous')"
-							round=":sm"
-							@click.prevent="setActiveStage(activeStage - 1)"
-						>
-							<IconFa name="arrow-left" />
-							<IconFa name="arrow-left" regular />
-							<span class="--hidden-full:sm-inv">
-								{{ t("previous") }}
-							</span>
-						</ActionButtonToggle>
-						<ActionButton
-							v-if="
-								submitLabel &&
-								(activeStage === localStages.length - 1 || !localStages.length)
-							"
-							key="button-submit"
-							:theme="theme"
-							:aria-label="t('send')"
-							:disabled="!canSubmit || !submitFn"
-							@click.prevent="submit"
-						>
-							{{ submitLabel || t("send") }}
-						</ActionButton>
-						<ActionButtonToggle
-							v-if="localStages.length > 1 && activeStage < localStages.length - 1"
-							key="button-next"
-							:theme="theme"
-							:aria-label="t('next')"
-							round=":sm"
-							@click.prevent="setActiveStage(activeStage + 1)"
-						>
-							<span class="--hidden-full:sm-inv">{{ t("next") }}</span>
-							<IconFa name="arrow-right" />
-							<IconFa name="arrow-right" regular />
-						</ActionButtonToggle>
-					</slot>
+					></slot>
 				</div>
-				<slot
-					name="secondary-actions"
-					v-bind="{
-						activeStage,
-						stagesLength: stages && stages.length,
-						setActiveStage,
-						canSubmit,
-					}"
-				></slot>
 			</div>
-		</div>
-	</LoaderContent>
+		</LoaderContent>
+	</BaseErrorBoundary>
 </template>
 
 <script setup lang="ts">
-	import { ref, computed } from "vue";
+	import { markRaw, ref } from "vue";
 	import _ from "lodash";
 
 	import type { iInvalidInput, tProps } from "@open-xamu-co/ui-common-types";
 	import {
+		type iForm,
 		type FormInput as FormInputClass,
 		useI18n,
 		useUtils,
+		FormInput,
 	} from "@open-xamu-co/ui-common-helpers";
 
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import IconFa from "../icon/Fa.vue";
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
@@ -120,26 +132,22 @@
 
 	type tSubmitFn = (values: FormInputClass[]) => Promise<boolean | iInvalidInput[]>;
 
-	interface iForm {
-		title?: string;
-		inputs: FormInputClass[];
-		listen?: boolean;
-		/** Make all inputs read only by disabling them */
-		readonly?: boolean;
-	}
-
 	interface iFormStages extends iUseThemeProps {
 		/**
 		 * Label for the submit button
 		 */
 		submitLabel?: string;
-		stages?: iForm[][];
+		stages: iForm[][];
 		hideRequiredDisclaimer?: boolean;
 		stagesClasses?: tProps<string>;
 		/**
 		 * submit fn
 		 */
 		submitFn?: tSubmitFn;
+		/**
+		 * Omit requiring filling up the form
+		 */
+		optional?: boolean;
 	}
 
 	/**
@@ -152,62 +160,54 @@
 	defineOptions({ name: "FormStages", inheritAttrs: true });
 
 	const props = defineProps<iFormStages>();
-	const emit = defineEmits(["inputValues", "submited", "update:activeStage"]);
+	const emit = defineEmits(["input-values", "submited", "set-active-stage"]);
 
 	const { t } = useHelpers(useI18n);
 	const { isBrowser } = useHelpers(useUtils);
 
-	const canSubmit = ref(false);
+	const canSubmit = ref(props.optional);
 	const activeStage = ref(0);
 	const invalid = ref<iInvalidInput[]>([]);
-	/**
-	 * Use stages as reference but do not update
-	 *
-	 * TODO: validate functionality of refactor
-	 */
-	const localStages = computed<iForm[][]>({
-		get() {
-			return props.stages || [];
-		},
-		set(updatedStages) {
-			if (!(updatedStages && updatedStages.length)) return;
-
-			// allow submiting after changes are detected
-			!canSubmit.value && (canSubmit.value = true);
-			updatedStages.forEach((stage, stageIndex) => {
-				stage.forEach(({ listen, inputs }) => {
-					// emit values if listen is enabled
-					if (listen && stageIndex === activeStage.value) {
-						const values: Record<string, unknown[]> = inputs.reduce((acc, input) => {
-							return { ...acc, [input.name]: input.values };
-						}, {});
-
-						emit("inputValues", values);
-					}
-				});
-			});
-		},
-	});
+	const localStages = ref(markRaw(props.stages));
 	/**
 	 * Submit process is loading/running
 	 */
 	const submitting = ref<boolean>(false);
+
 	const submit = _.debounce(async () => {
 		submitting.value = true;
 
-		// emit values
-		const values = (props.stages || []).map((stage) => {
-			return stage.map(({ inputs }) => inputs);
-		});
-		const successOrInvalid = await props.submitFn?.(values.flat(2));
+		// get inputs
+		const inputs = (props.stages || [])
+			.map((stage) => {
+				return stage.map(({ inputs }) => inputs);
+			})
+			.flat(2);
+		const successOrInvalid = await props.submitFn?.(inputs);
 
 		submitting.value = false;
 
 		// close or update invalid
 		if (Array.isArray(successOrInvalid)) invalid.value = successOrInvalid;
-		else emit("submited", successOrInvalid);
+		else {
+			emit("submited", successOrInvalid);
+			localStages.value = props.stages; // reset form
+		}
 	});
 
+	function updateForm(stageIndex: number, formIndex: number, formInputs: FormInput[]) {
+		localStages.value[stageIndex][formIndex].inputs = formInputs;
+
+		// allow submiting after changes are detected
+		if (!props.optional) canSubmit.value = true;
+		if (!formInputs.length || localStages.value[stageIndex][formIndex].listen!) return;
+
+		const values: Record<string, unknown[]> = formInputs.reduce((acc, input) => {
+			return { ...acc, [input.name]: input.values };
+		}, {});
+
+		emit("input-values", values);
+	}
 	function setActiveStage(newValue: number) {
 		activeStage.value = newValue;
 		window.scrollTo({ top: 0, behavior: "smooth" });
@@ -216,6 +216,6 @@
 	// lifecycle
 	if (isBrowser) {
 		// allow parent to switch the stage
-		emit("update:activeStage", setActiveStage);
+		emit("set-active-stage", setActiveStage);
 	}
 </script>

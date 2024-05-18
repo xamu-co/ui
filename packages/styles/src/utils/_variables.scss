@@ -150,6 +150,7 @@ $status-is-selected: $status-is + "selected" !default;
 $status-no: $prefix-default-with-separator + "no" + "--" !default; // no
 $status-no-focus: $status-no + "focus" !default;
 $status-no-hover: $status-no + "hover" !default;
+$status-no-override: $status-no + "override" !default;
 $status-no-route: $status-no + "route" !default;
 $status-no-route-exact: $status-no + "routeExact" !default;
 
@@ -214,9 +215,9 @@ $viewports: (
 
 // element sizes
 $element-sizes: (
-	xs: $font-size-md * 1.5,
-	sm: $font-size-md * 2,
-	md: $font-size-md * 3,
+	xs: $font-size-md * 1.8,
+	sm: $font-size-md * 3,
+	md: $font-size-md * 4.5,
 	lg: $font-size-md * 6,
 	xl: $font-size-md * 9,
 );

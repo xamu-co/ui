@@ -93,6 +93,21 @@
 				}
 			}
 
+			> .#{module.$component-box} {
+				&:has(img) {
+					padding: 0;
+				}
+
+				@include module.extend-themes using($name, $value, $is-default) {
+					@layer defaults {
+						// @defaults bgColor
+						& {
+							background: module.color($name);
+						}
+					}
+				}
+			}
+
 			// button behavior
 			//
 			// @group Modifiers
@@ -119,12 +134,12 @@
 				@include module.extend-maps(
 						module.$element-sizes,
 						meta.get-function("box-square-size-selector"),
-						lg,
-						".--square"
+						md
 					)
 					using($name, $value, $is-default) {
 					width: $value;
-					margin: 0 auto;
+					margin-left: auto;
+					margin-right: auto;
 					overflow: hidden;
 
 					&::before {

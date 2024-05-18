@@ -40,10 +40,6 @@
 							--fa-display: none;
 
 							display: none;
-
-							&:first-child + * {
-								margin-left: 0;
-							}
 						}
 					}
 				}
