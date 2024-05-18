@@ -47,14 +47,7 @@
 
 			// shadow
 			&.#{module.$prefix-default}--shadow {
-				&:hover,
-				&.#{module.$status-is-active},
-				&.#{module.$status-is-route-exact}:not(
-						.#{module.$status-no-route},
-						.#{module.$status-no-route-exact}
-					) {
-					text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
-				}
+				text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
 			}
 
 			// link theme
@@ -72,7 +65,7 @@
 
 			// link round handling
 			&.#{module.$prefix-default}--round {
-				@include module.extend-viewports-classes(true, true) {
+				@include module.extend-viewports-classes(true, module.$viewports) {
 					i.#{module.$component-icon},
 					.#{module.$component-svg} {
 						&:last-child:not(:only-child) {
@@ -93,11 +86,6 @@
 								.#{module.$status-only-active}
 							)#{&} {
 						color: var(--cl-h, var(--cl-a));
-
-						// link shadow
-						&.#{module.$prefix-default}--shadow {
-							text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
-						}
 					}
 				}
 
@@ -109,11 +97,6 @@
 								.#{module.$status-only-active}
 							)#{&} {
 						color: var(--cl-h, var(--cl-a));
-
-						// link shadow
-						&.#{module.$prefix-default}--shadow {
-							text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
-						}
 					}
 				}
 			}
@@ -125,10 +108,10 @@
 		@if module.$allow-theme-overrides {
 			// could break on modals & dropdows
 			:not(.#{module.$layout-dropdown}, .#{module.$layout-modal}) .#{module.$component-link} {
-				&.#{module.$prefix-default}--tm-light {
+				&.#{module.$prefix-default}--tm-light:not(.#{module.$status-no-override}) {
 					--cl-a: #{module.color(primary)};
 				}
-				&.#{module.$prefix-default}--tm-dark {
+				&.#{module.$prefix-default}--tm-dark:not(.#{module.$status-no-override}) {
 					--cl-a: #{module.color(primary)};
 				}
 			}

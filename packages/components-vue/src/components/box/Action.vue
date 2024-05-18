@@ -3,10 +3,16 @@
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
 		:class="[modifiersClasses, stateClasses, themeClasses]"
 		class="box --button"
+		:aria-label="text"
 	>
-		<div :class="innerThemeClasses" class="box --square-sm">
-			<IconFa v-if="!src" v-bind="{ ...iconProps, name: icon ?? 'cubes', size: 50 }" />
-			<BaseImg v-else class="--bgColor-light --width --height" :src="src" :alt="text" />
+		<div v-if="icon || src" :class="innerThemeClasses" class="box --square">
+			<IconFa v-if="icon" v-bind="{ size: 35, ...iconProps, name: icon }" />
+			<BaseImg
+				v-else-if="src"
+				class="--bgColor-light --width --height"
+				:src="src"
+				:alt="text"
+			/>
 		</div>
 		<p>
 			<!-- Since we only accept text there is no room for slot here -->
@@ -46,7 +52,7 @@
 		 * FontAwesome icon
 		 */
 		icon?: IconName;
-		iconProps?: iFormIconProps;
+		iconProps?: iFormIconProps & { size: number };
 		/**
 		 * image url or path
 		 */

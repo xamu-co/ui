@@ -37,6 +37,7 @@
 	import useModifiers from "../composables/modifiers";
 	import useTheme from "../composables/theme";
 	import { useHelpers } from "../composables/utils";
+	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	type tAlignFirstX = "right" | "left";
 	type tAlignFirstY = "top" | "bottom";
@@ -67,7 +68,9 @@
 
 	defineOptions({ name: "DropdownSimple", inheritAttrs: false });
 
-	const props = defineProps<iDropdownProps>();
+	const props = withDefaults(defineProps<iDropdownProps>(), {
+		theme: eColors.SECONDARY,
+	});
 	const emit = defineEmits(["close", "update:model-value"]);
 
 	const { getModifierClasses: GMC } = useHelpers(useUtils);

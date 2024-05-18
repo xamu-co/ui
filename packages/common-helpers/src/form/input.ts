@@ -255,3 +255,11 @@ export class FormInput<V extends iFormValue = iFormValue>
 		return _.isEqual(this.getObject(this), this.getObject(other));
 	}
 }
+
+export interface iForm {
+	title?: string;
+	inputs: FormInput[];
+	listen?: boolean;
+	/** Make all inputs read only by disabling them */
+	readonly?: boolean;
+}

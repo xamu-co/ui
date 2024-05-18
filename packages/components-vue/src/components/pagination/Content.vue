@@ -21,11 +21,7 @@
 	</LoaderContentFetch>
 </template>
 
-<script
-	setup
-	lang="ts"
-	generic="T, C extends string | number = string, R extends any = iPage<T, C>"
->
+<script setup lang="ts" generic="T, C extends string | number = string, R extends any = any">
 	import { computed, getCurrentInstance, inject, ref } from "vue";
 
 	import type {
@@ -41,13 +37,11 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 
-	export interface iPCProps<Ti, Ci extends string | number = string, Ri = iPage<Ti, Ci>>
-		extends iPagination,
-			iUseThemeProps {
+	export interface iPCBaseProps extends iPagination, iUseThemeProps {
 		/**
 		 * Function used to fetch the page
 		 */
-		page: (params?: iPagination) => Promise<Ri | undefined>;
+		page: any;
 		/**
 		 * paginate using route
 		 */
@@ -68,7 +62,17 @@
 		/**
 		 * When additional operations are required on fetched data
 		 */
-		transform?: (r: Ri) => iPage<Ti, Ci> | undefined;
+		transform?: any;
+	}
+
+	export interface iPCProps<Ti, Ci extends string | number = string> extends iPCBaseProps {
+		page: iGetPage<Ti, Ci>;
+		transform?: undefined;
+	}
+	export interface iPCWithTransformProps<Ti, Ci extends string | number = string, Ri = any>
+		extends iPCBaseProps {
+		page: (params?: iPagination) => Promise<Ri | undefined>;
+		transform: (r: Ri) => iPage<Ti, Ci> | undefined;
 	}
 
 	/**
@@ -82,7 +86,7 @@
 
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
 
-	const props = defineProps<iPCProps<T, C, R>>();
+	const props = defineProps<iPCProps<T, C> | iPCWithTransformProps<T, C, R>>();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;

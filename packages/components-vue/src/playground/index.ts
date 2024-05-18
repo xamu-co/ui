@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 import locale from "@open-xamu-co/ui-common-helpers/es";
-import "@open-xamu-co/ui-styles/dist/index.min.css";
+import "@open-xamu-co/ui-styles/src/index.scss";
 
 import { XamuPlugin } from "../plugin";
 

@@ -1,13 +1,15 @@
 <template>
-	<template v-if="inRange">
+	<template v-if="isButton">
 		<ActionButtonToggle v-if="asToggle" v-bind="{ ...$attrs, ...props }">
-			<slot></slot>
+			<slot v-bind="{ isButton }"></slot>
 		</ActionButtonToggle>
 		<ActionButton v-else v-bind="{ ...$attrs, ...props }">
-			<slot></slot>
+			<slot v-bind="{ isButton }"></slot>
 		</ActionButton>
 	</template>
-	<ActionLink v-else v-bind="{ ...$attrs, ...props }"><slot></slot></ActionLink>
+	<ActionLink v-else v-bind="{ ...$attrs, ...props }">
+		<slot v-bind="{ isButton }"></slot>
+	</ActionLink>
 </template>
 
 <script setup lang="ts">
@@ -57,7 +59,7 @@
 
 	const { tabletMqRange } = useBrowser();
 
-	const inRange = computed<boolean>(() => {
+	const isButton = computed<boolean>(() => {
 		if (props.linkButton) return !tabletMqRange.value;
 
 		return tabletMqRange.value;

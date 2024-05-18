@@ -53,7 +53,11 @@ export type tLocaleBase = {
 		cancel: string;
 		/** @example "Continue" */
 		continue: string;
-		/** @example "¡Connection error!" */
+		/** @example "Error!" */
+		error: string;
+		/** @example "Something went wrong!" */
+		error_message: string;
+		/** @example "Connection error!" */
 		connection_error: string;
 		/** @example "The server is not responding. Please check your network or try again later" */
 		connection_error_message: string;
