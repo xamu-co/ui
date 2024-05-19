@@ -50,11 +50,11 @@ export { default as Form } from "./components/form/Simple.vue";
 export { default as FormStages } from "./components/form/Stages.vue";
 
 // singletons
-export { default as Modal } from "./components/Modal.vue";
-export { default as Dropdown } from "./components/Dropdown.vue";
-export { default as Table } from "./components/Table.vue";
-export { default as Slider } from "./components/Slider.vue";
-export { default as Collapse } from "./components/Collapse.vue";
+export { default as Modal } from "./components/modal/Simple.vue";
+export { default as Dropdown } from "./components/dropdown/Simple.vue";
+export { default as Table } from "./components/table/Simple.vue";
+export { default as Slider } from "./components/slider/Simple.vue";
+export { default as Collapse } from "./components/collapse/Simple.vue";
 
 // composables
 export { default as useTheme } from "./composables/theme";

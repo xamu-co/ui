@@ -6,3 +6,6 @@ package-lock.json
 *.tsbuildinfo
 *.log
 .env
+.nuxt
+*storybook.log
+storybook-static

@@ -68,12 +68,12 @@
 	import { useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
 	import { eSizes } from "@open-xamu-co/ui-common-enums";
 
-	import IconFa from "./icon/Fa.vue";
-	import ActionButton from "./action/Button.vue";
-	import ActionButtonToggle from "./action/ButtonToggle.vue";
+	import IconFa from "../icon/Fa.vue";
+	import ActionButton from "../action/Button.vue";
+	import ActionButtonToggle from "../action/ButtonToggle.vue";
 
-	import { useHelpers } from "../composables/utils";
-	import type { iUseThemeProps } from "../types/props";
+	import { useHelpers } from "../../composables/utils";
+	import type { iUseThemeProps } from "../../types/props";
 
 	interface iSliderProps extends iUseThemeProps {
 		/**

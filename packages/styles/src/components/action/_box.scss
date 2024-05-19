@@ -93,21 +93,6 @@
 				}
 			}
 
-			> .#{module.$component-box} {
-				&:has(img) {
-					padding: 0;
-				}
-
-				@include module.extend-themes using($name, $value, $is-default) {
-					@layer defaults {
-						// @defaults bgColor
-						& {
-							background: module.color($name);
-						}
-					}
-				}
-			}
-
 			// button behavior
 			//
 			// @group Modifiers
@@ -126,7 +111,20 @@
 				}
 			}
 
-			& & {
+			> .#{module.$component-box} {
+				&:has(img) {
+					padding: 0;
+				}
+
+				@include module.extend-themes using($name, $value, $is-default) {
+					@layer defaults {
+						// @defaults bgColor
+						& {
+							background: module.color($name);
+						}
+					}
+				}
+
 				// Square shape
 				// this assummes there is only one child
 				//
@@ -134,7 +132,8 @@
 				@include module.extend-maps(
 						module.$element-sizes,
 						meta.get-function("box-square-size-selector"),
-						md
+						md,
+						".#{module.$prefix-default}--square"
 					)
 					using($name, $value, $is-default) {
 					width: $value;

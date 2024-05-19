@@ -1,4 +1,4 @@
-import { type Ref, inject, onMounted, onUnmounted, ref } from "vue";
+import { type Ref, inject, onMounted, onBeforeUnmount, ref } from "vue";
 
 import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 import { useUtils } from "@open-xamu-co/ui-common-helpers";
@@ -52,7 +52,7 @@ export default function useBrowser() {
 			mobileMQHandler(mobileMQList);
 		});
 
-		onUnmounted(() => {
+		onBeforeUnmount(() => {
 			// Unmount listeners
 			laptopMQList.removeEventListener("change", laptopMQHandler, true);
 			tabletMQList.removeEventListener("change", tabletMQHandler, true);

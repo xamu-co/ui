@@ -349,20 +349,20 @@
 	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import { toOption, useSwal, useI18n } from "@open-xamu-co/ui-common-helpers";
 
-	import IconFa from "./icon/Fa.vue";
-	import ActionLink from "./action/Link.vue";
-	import ActionButton from "./action/Button.vue";
-	import ActionButtonLink from "./action/ButtonLink.vue";
-	import ActionButtonToggle from "./action/ButtonToggle.vue";
-	import InputToggle from "./input/Toggle.vue";
-	import ValueComplex from "./value/Complex.vue";
-	import BoxMessage from "./box/Message.vue";
-	import Dropdown from "./Dropdown.vue";
+	import IconFa from "../icon/Fa.vue";
+	import ActionLink from "../action/Link.vue";
+	import ActionButton from "../action/Button.vue";
+	import ActionButtonLink from "../action/ButtonLink.vue";
+	import ActionButtonToggle from "../action/ButtonToggle.vue";
+	import InputToggle from "../input/Toggle.vue";
+	import ValueComplex from "../value/Complex.vue";
+	import BoxMessage from "../box/Message.vue";
+	import Dropdown from "../dropdown/Simple.vue";
 
-	import type { iModalProps, iUseThemeProps } from "../types/props";
-	import useTheme from "../composables/theme";
-	import { useHelpers } from "../composables/utils";
-	import useUUID from "../composables/uuid";
+	import type { iModalProps, iUseThemeProps } from "../../types/props";
+	import useTheme from "../../composables/theme";
+	import { useHelpers } from "../../composables/utils";
+	import useUUID from "../../composables/uuid";
 
 	export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
 		/**

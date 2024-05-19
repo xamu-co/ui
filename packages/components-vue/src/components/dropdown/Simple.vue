@@ -21,7 +21,7 @@
 		computed,
 		ref,
 		watch,
-		onUnmounted,
+		onBeforeUnmount,
 		type Component as VueComponent,
 		type DefineComponent,
 		type FunctionalComponent,
@@ -29,14 +29,14 @@
 
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
-	import BaseWrapper from "./base/Wrapper.vue";
-	import Modal from "./Modal.vue";
+	import BaseWrapper from "../base/Wrapper.vue";
+	import Modal from "../modal/Simple.vue";
 
-	import type { iUseModifiersProps, iUseThemeProps } from "../types/props";
-	import useBrowser from "../composables/browser";
-	import useModifiers from "../composables/modifiers";
-	import useTheme from "../composables/theme";
-	import { useHelpers } from "../composables/utils";
+	import type { iUseModifiersProps, iUseThemeProps } from "../../types/props";
+	import useBrowser from "../../composables/browser";
+	import useModifiers from "../../composables/modifiers";
+	import useTheme from "../../composables/theme";
+	import { useHelpers } from "../../composables/utils";
 	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	type tAlignFirstX = "right" | "left";
@@ -135,5 +135,5 @@
 		},
 		{ immediate: false }
 	);
-	onUnmounted(closeDropdown);
+	onBeforeUnmount(closeDropdown);
 </script>

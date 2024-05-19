@@ -165,8 +165,8 @@
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
 	import ValueSimple from "./Simple.vue";
 	import ValueList from "./List.vue";
-	import Modal from "../Modal.vue";
-	import Table from "../Table.vue";
+	import Modal from "../modal/Simple.vue";
+	import Table from "../table/Simple.vue";
 
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";

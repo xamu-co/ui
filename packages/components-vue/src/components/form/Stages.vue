@@ -54,7 +54,7 @@
 								key="button-back"
 								:theme="theme"
 								:aria-label="t('previous')"
-								round=":sm"
+								round=":sm-inv"
 								@click.prevent="setActiveStage(activeStage - 1)"
 							>
 								<IconFa name="arrow-left" />
@@ -65,13 +65,13 @@
 							</ActionButtonToggle>
 							<ActionButton
 								v-if="
-									submitLabel &&
+									submitFn &&
 									(activeStage === localStages.length - 1 || !localStages.length)
 								"
 								key="button-submit"
 								:theme="theme"
 								:aria-label="t('send')"
-								:disabled="!canSubmit || !submitFn"
+								:disabled="!canSubmit"
 								@click.prevent="submit"
 							>
 								{{ submitLabel || t("send") }}
@@ -83,7 +83,7 @@
 								key="button-next"
 								:theme="theme"
 								:aria-label="t('next')"
-								round=":sm"
+								round=":sm-inv"
 								@click.prevent="setActiveStage(activeStage + 1)"
 							>
 								<span class="--hidden-full:sm-inv">{{ t("next") }}</span>
@@ -200,7 +200,7 @@
 
 		// allow submiting after changes are detected
 		if (!props.optional) canSubmit.value = true;
-		if (!formInputs.length || localStages.value[stageIndex][formIndex].listen!) return;
+		if (!formInputs.length || !localStages.value[stageIndex][formIndex].listen) return;
 
 		const values: Record<string, unknown[]> = formInputs.reduce((acc, input) => {
 			return { ...acc, [input.name]: input.values };
