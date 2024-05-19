@@ -18,11 +18,11 @@
 		type FunctionalComponent,
 	} from "vue";
 
-	import BaseInput from "./base/Input.vue";
-	import IconFa from "./icon/Fa.vue";
+	import BaseInput from "../base/Input.vue";
+	import IconFa from "../icon/Fa.vue";
 
-	import type { iUseThemeProps } from "../types/props";
-	import useTheme from "../composables/theme";
+	import type { iUseThemeProps } from "../../types/props";
+	import useTheme from "../../composables/theme";
 
 	interface Collapse extends iUseThemeProps {
 		title?: string;

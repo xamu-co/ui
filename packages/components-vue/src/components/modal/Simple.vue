@@ -104,7 +104,7 @@
 	import {
 		computed,
 		onMounted,
-		onUnmounted,
+		onBeforeUnmount,
 		ref,
 		watch,
 		Teleport,
@@ -115,18 +115,18 @@
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 	import { eColors } from "@open-xamu-co/ui-common-enums";
 
-	import BaseErrorBoundary from "./base/ErrorBoundary.vue";
-	import BaseWrapper from "./base/Wrapper.vue";
-	import IconFa from "./icon/Fa.vue";
-	import ActionLink from "./action/Link.vue";
-	import ActionButton from "./action/Button.vue";
-	import ActionButtonToggle from "./action/ButtonToggle.vue";
-	import LoaderSimple from "./loader/Simple.vue";
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
+	import BaseWrapper from "../base/Wrapper.vue";
+	import IconFa from "../icon/Fa.vue";
+	import ActionLink from "../action/Link.vue";
+	import ActionButton from "../action/Button.vue";
+	import ActionButtonToggle from "../action/ButtonToggle.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 
-	import type { iModalButtonConfig, iModalProps } from "../types/props";
-	import useTheme from "../composables/theme";
-	import useUUID from "../composables/uuid";
-	import { useHelpers } from "../composables/utils";
+	import type { iModalButtonConfig, iModalProps } from "../../types/props";
+	import useTheme from "../../composables/theme";
+	import useUUID from "../../composables/uuid";
+	import { useHelpers } from "../../composables/utils";
 
 	/**
 	 * Based on @innologica/vue-stackable-modal
@@ -242,5 +242,5 @@
 		// close on route change
 		watch(router.currentRoute, () => closeModal(), { immediate: false });
 	});
-	onUnmounted(closeModal);
+	onBeforeUnmount(closeModal);
 </script>

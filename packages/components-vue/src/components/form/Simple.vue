@@ -69,6 +69,9 @@
 		modelValue?: FormInputClass[];
 		noForm?: boolean;
 		invalid?: iInvalidInput[];
+		/**
+		 * If the make function requires a payload
+		 */
 		payload?: P;
 		/**
 		 * Make model

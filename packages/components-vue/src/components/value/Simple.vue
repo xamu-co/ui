@@ -124,7 +124,7 @@
 	import InputToggle from "../input/Toggle.vue";
 	import InputColor from "../input/Color.vue";
 	import ActionLink from "../action/Link.vue";
-	import Modal from "../Modal.vue";
+	import Modal from "../modal/Simple.vue";
 	import BoxMessage from "../box/Message.vue";
 
 	import type { iModalProps, iUseThemeProps } from "../../types/props";

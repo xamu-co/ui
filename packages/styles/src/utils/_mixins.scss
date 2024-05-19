@@ -30,9 +30,12 @@ $default-viewports: if(
 @mixin extend-viewports-classes(
 	$desktop-first: variables.$allow-responsive-classes-desktop-first,
 	$viewports: $default-viewports,
-	$omit-media: false
+	$omit-media: false,
+	$omit-non-media: false
 ) {
-	@content;
+	@if not $omit-non-media {
+		@content;
+	}
 
 	@if variables.$allow-responsive-classes {
 		@each $name, $viewport in $viewports {
