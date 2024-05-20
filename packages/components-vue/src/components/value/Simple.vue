@@ -185,6 +185,14 @@
 		return /\.(jpg|jpeg|png|webp|avif|gif)$/.test(firstPart);
 	}
 	function isDate(dateString: string): boolean {
-		return validator.isDate(dateString) || !isNaN(Date.parse(dateString));
+		try {
+			// bypass numbers
+			if (!!Number(dateString)) return false;
+
+			return validator.isDate(dateString) || !isNaN(Date.parse(dateString));
+		} catch (err) {
+			// ignore errors
+			return false;
+		}
 	}
 </script>
