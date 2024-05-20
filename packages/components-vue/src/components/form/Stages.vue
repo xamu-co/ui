@@ -116,7 +116,6 @@
 		type iForm,
 		type FormInput as FormInputClass,
 		useI18n,
-		useUtils,
 		FormInput,
 	} from "@open-xamu-co/ui-common-helpers";
 
@@ -163,7 +162,6 @@
 	const emit = defineEmits(["input-values", "submited", "set-active-stage"]);
 
 	const { t } = useHelpers(useI18n);
-	const { isBrowser } = useHelpers(useUtils);
 
 	const canSubmit = ref(props.optional);
 	const activeStage = ref(0);
@@ -214,8 +212,5 @@
 	}
 
 	// lifecycle
-	if (isBrowser) {
-		// allow parent to switch the stage
-		emit("set-active-stage", setActiveStage);
-	}
+	emit("set-active-stage", setActiveStage);
 </script>
