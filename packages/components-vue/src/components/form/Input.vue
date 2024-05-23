@@ -25,7 +25,9 @@
 							readonly || (!input.multiple && modelValue.includes(option.value))
 						"
 						:round="!!option.pattern"
-						:tooltip="!!option.pattern ? option.alias || String(option.value) : ''"
+						:tooltip="{
+							[option.alias || option.value]: !!(option.pattern || option.icon),
+						}"
 						tooltip-as-text
 						tooltip-position="bottom"
 						@click="choose(option.value)"
