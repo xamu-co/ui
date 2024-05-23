@@ -9,20 +9,20 @@
 			class="flx --flxColumn --flx-start-stretch --gap-30 --maxWidth-full"
 		>
 			<div
-				v-for="(stage, stageIndex) in localStages.filter((stage) => stage.length)"
+				v-for="(_stage, stageIndex) in localStages"
 				v-show="activeStage == stageIndex"
 				:key="`stage-${stageIndex}`"
 				:class="stagesClasses ?? 'flx --flxColumn --flx-start-stretch --gap-30'"
 			>
 				<FormSimple
-					v-for="(form, formIndex) in stage"
+					v-for="(_form, formIndex) in localStages[stageIndex]"
 					:key="`form-${stageIndex}-${formIndex}`"
 					:model-value="localStages[stageIndex][formIndex].inputs"
 					:theme="theme"
 					:invalid="invalid"
 					no-form
-					:title="form.title"
-					:readonly="form.readonly"
+					:title="localStages[stageIndex][formIndex].title"
+					:readonly="localStages[stageIndex][formIndex].readonly"
 					@update:model-value="updateForm(stageIndex, formIndex, $event)"
 					@update:invalid="invalid = $event"
 				/>
@@ -166,7 +166,7 @@
 	const canSubmit = ref(props.optional);
 	const activeStage = ref(0);
 	const invalid = ref<iInvalidInput[]>([]);
-	const localStages = ref(markRaw(props.stages));
+	const localStages = ref(markRaw(props.stages.filter((stage) => stage.length)));
 	/**
 	 * Submit process is loading/running
 	 */
@@ -176,11 +176,7 @@
 		submitting.value = true;
 
 		// get inputs
-		const inputs = (props.stages || [])
-			.map((stage) => {
-				return stage.map(({ inputs }) => inputs);
-			})
-			.flat(2);
+		const inputs = localStages.value.map((stage) => stage.map(({ inputs }) => inputs)).flat(2);
 		const successOrInvalid = await props.submitFn?.(inputs);
 
 		submitting.value = false;
@@ -189,7 +185,7 @@
 		if (Array.isArray(successOrInvalid)) invalid.value = successOrInvalid;
 		else {
 			emit("submited", successOrInvalid);
-			localStages.value = props.stages; // reset form
+			localStages.value = props.stages.filter((stage) => stage.length); // reset form
 		}
 	});
 

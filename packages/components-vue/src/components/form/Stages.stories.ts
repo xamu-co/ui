@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
-import Stages from "./Stages.vue";
 import { type iForm, FormInput, useForm } from "@open-xamu-co/ui-common-helpers";
 import { eFormType } from "@open-xamu-co/ui-common-enums";
 import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
 
-const stages: iForm[][] = [
+import Stages from "./Stages.vue";
+
+export const stages: iForm[][] = [
 	[
 		{
 			title: "Offer field",

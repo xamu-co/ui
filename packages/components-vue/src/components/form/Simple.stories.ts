@@ -15,13 +15,11 @@ const inputs: FormInput[] = [
 		icon: "user",
 	}),
 	new FormInput({
-		values: [""],
-		name: "lastName",
-		required: true,
-		title: "Last Name",
-		placeholder: "What is your last name?",
-		autocomplete: "family-name",
-		icon: "user-group",
+		placeholder: "E.g. Blue",
+		title: "Possible Value",
+		icon: ["industry", {}],
+		name: "offerFieldValues",
+		multiple: true,
 	}),
 	new FormInput({
 		required: true,
@@ -35,19 +33,24 @@ const inputs: FormInput[] = [
 		title: "Choose one or several payment methods",
 	}),
 	new FormInput({
-		values: [["", "", ""]],
-		name: "location",
-		type: eFormType.LOCATION,
-		required: true,
+		options: [
+			{ value: "Happy", icon: "face-smile" },
+			{ value: "Tired", icon: "face-tired" },
+			{ value: "Sad", icon: "face-sad-tear" },
+			{ value: "indiferent", icon: "face-meh" },
+			{ value: "In love", icon: "face-grin-hearts" },
+		],
+		type: eFormType.CHOICE,
+		values: [""],
+		name: "feeling",
+		title: "How you feeling today?",
 	}),
 	new FormInput({
-		values: [["CO+57", ""]],
-		name: "cellphone",
-		required: true,
-		type: eFormType.CELLPHONE,
+		type: eFormType.BOOLEAN,
+		placeholder: "Users can skip this field when creating an offer",
+		name: "nullable",
+		title: "Is this field optional in the offer?",
 	}),
-
-	// new FormInput({ value:"",name: "identification", type: eFormTypeSimple.ID }),
 ];
 
 const meta = {
@@ -60,6 +63,32 @@ type Story = StoryObj<typeof Simple>;
 
 export const Sample: Story = {
 	args: { modelValue: inputs },
+};
+
+export const WithLocation: Story = {
+	args: {
+		modelValue: [
+			new FormInput({
+				values: [["", "", ""]],
+				name: "location",
+				type: eFormType.LOCATION,
+				required: true,
+			}),
+		],
+	},
+};
+
+export const WithPhone: Story = {
+	args: {
+		modelValue: [
+			new FormInput({
+				values: [["CO+57", ""]],
+				name: "cellphone",
+				required: true,
+				type: eFormType.CELLPHONE,
+			}),
+		],
+	},
 };
 
 export default meta;
