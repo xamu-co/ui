@@ -42,6 +42,7 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
+
 	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
 	import { FormInput, useForm, type iForm } from "@open-xamu-co/ui-common-helpers";
 
@@ -55,6 +56,8 @@
 
 	/**
 	 * Modal with form stages
+	 *
+	 * @screen
 	 */
 
 	const stages = computed<iForm[][]>(() => {
