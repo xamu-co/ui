@@ -33,17 +33,22 @@ export const stages: iForm[][] = [
 				}),
 				new FormInput({
 					required: true,
-					options: [{ value: 1, alias: "Payment on Delivery" }],
+					options: [
+						{ value: 1, alias: "Payment on Delivery" },
+						{ value: 2, alias: "Paypal" },
+						{ value: 3, alias: "Credit card" },
+					],
 					type: eFormType.SELECT_FILTER,
-					placeholder: "Search payment methods",
+					placeholder: "Search payment method",
 					icon: "credit-card",
 					autocomplete: "off",
-					name: "paymentMethodIds",
-					multiple: true,
-					title: "Choose one or several payment methods",
+					name: "paymentMethodId",
+					title: "Choose one payment method",
 				}),
 			],
 		},
+	],
+	[
 		{
 			title: "UI component",
 			inputs: [
@@ -63,21 +68,6 @@ export const stages: iForm[][] = [
 			],
 			listen: true,
 		},
-	],
-	[
-		{
-			title: "Children",
-			inputs: [
-				new FormInput({
-					type: eFormType.SELECT_FILTER,
-					placeholder: "Search offer fields",
-					title: "Choose offer fields",
-					icon: ["align-left", {}],
-					name: "offerFieldChildrenIds",
-					multiple: true,
-				}),
-			],
-		},
 		{
 			title: "Offer field values",
 			inputs: [
@@ -96,7 +86,11 @@ export const stages: iForm[][] = [
 async function submitFn(inputs: FormInput[]): Promise<boolean | iInvalidInput[]> {
 	const { utils } = useForm();
 
-	console.log(utils.getFormValues(inputs));
+	const { values, invalidInputs } = utils.getFormValues(inputs);
+
+	alert(JSON.stringify(values));
+
+	if (invalidInputs.length) return invalidInputs;
 
 	return true;
 }
@@ -111,6 +105,46 @@ type Story = StoryObj<typeof Stages>;
 
 export const Sample: Story = {
 	args: { stages, submitFn },
+};
+
+export const WithInvalidStage: Story = {
+	args: {
+		stages: [
+			[
+				{
+					title: "Offer field values",
+					inputs: [
+						new FormInput({
+							placeholder: "E.g. Blue",
+							title: "Possible Value",
+							icon: ["industry", {}],
+							name: "offerFieldValues",
+							multiple: true,
+						}),
+					],
+				},
+			],
+			[
+				{
+					title: "Children",
+					/**
+					 * No valid inputs
+					 */
+					inputs: [
+						new FormInput({
+							type: eFormType.SELECT_FILTER,
+							placeholder: "Search offer fields",
+							title: "Choose offer fields",
+							icon: ["align-left", {}],
+							name: "offerFieldChildrenIds",
+							multiple: true,
+						}),
+					],
+				},
+			],
+		],
+		submitFn,
+	},
 };
 
 export default meta;

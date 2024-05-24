@@ -68,7 +68,11 @@
 	async function submitFn(inputs: FormInput[]): Promise<boolean | iInvalidInput[]> {
 		const { utils } = useForm();
 
-		console.log(utils.getFormValues(inputs));
+		const { values, invalidInputs } = utils.getFormValues(inputs);
+
+		alert(JSON.stringify(values));
+
+		if (invalidInputs.length) return invalidInputs;
 
 		return true;
 	}
