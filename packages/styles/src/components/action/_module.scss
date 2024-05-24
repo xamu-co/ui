@@ -99,6 +99,7 @@
 		border-radius: module.$size-radius-action-round;
 		box-sizing: border-box;
 		border-color: var(--bc, transparent);
+		box-shadow: 1px 1px 3px module.color(dark, 0.2);
 	}
 }
 

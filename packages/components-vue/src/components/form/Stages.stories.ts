@@ -4,9 +4,9 @@ import { type iForm, FormInput, useForm } from "@open-xamu-co/ui-common-helpers"
 import { eFormType } from "@open-xamu-co/ui-common-enums";
 import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
 
-import Stages from "./Stages.vue";
+import StagesComponent from "./Stages.vue";
 
-export const stages: iForm[][] = [
+export const stagesData: iForm[][] = [
 	[
 		{
 			title: "Offer field",
@@ -97,17 +97,18 @@ async function submitFn(inputs: FormInput[]): Promise<boolean | iInvalidInput[]>
 
 const meta = {
 	title: "Form/Form Stages",
-	component: Stages,
-	args: { stages, submitFn },
-} satisfies Meta<typeof Stages>;
+	component: StagesComponent,
+	args: { stages: stagesData, submitFn },
+	excludeStories: /.*Data$/,
+} satisfies Meta<typeof StagesComponent>;
 
-type Story = StoryObj<typeof Stages>;
+type Story = StoryObj<typeof StagesComponent>;
 
-export const Sample: Story = {
-	args: { stages, submitFn },
+export const Stages: Story = {
+	args: { stages: stagesData, submitFn },
 };
 
-export const WithInvalidStage: Story = {
+export const StagesWithInvalidStage: Story = {
 	args: {
 		stages: [
 			[

@@ -15,10 +15,17 @@ export default function useState(props: iUseStateProps) {
 
 	const stateClasses = computed<string[]>(() => {
 		const values: Record<string, boolean>[] = [
-			{ ...props.state, active: !!props.active, invalid: !!props.invalid },
+			{
+				...props.state,
+				active: !!props.active,
+				alert: !!props.alert,
+				invalid: !!props.invalid,
+			},
 		];
 
-		return props.state || props.active || props.invalid ? GMC(values, { prefix: "is" }) : [];
+		const hasState = !!(props.state || props.active || props.alert || props.invalid);
+
+		return hasState ? GMC(values, { prefix: "is" }) : [];
 	});
 
 	return { stateClasses };

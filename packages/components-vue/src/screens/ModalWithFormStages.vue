@@ -52,7 +52,7 @@
 	import FormStages from "../components/form/Stages.vue";
 	import Modal from "../components/modal/Simple.vue";
 
-	import { stages as formStages } from "../components/form/Stages.stories";
+	import { stagesData } from "../components/form/Stages.stories";
 
 	/**
 	 * Modal with form stages
@@ -61,7 +61,7 @@
 	 */
 
 	const stages = computed<iForm[][]>(() => {
-		return formStages;
+		return stagesData;
 	});
 
 	function updateUiComponentId({ uiComponent }: Record<string, any[]>) {

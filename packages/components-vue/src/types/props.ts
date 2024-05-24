@@ -18,6 +18,14 @@ export interface iUseModifiersProps {
 
 export interface iUseStateProps {
 	/**
+	 * Alert state: Mostly useful on actions
+	 * Included here to make his usage less verbose
+	 *
+	 * @state
+	 * @example is--alert
+	 */
+	alert?: boolean;
+	/**
 	 * Active state: Mostly useful on actions
 	 * Included here to make his usage less verbose
 	 *

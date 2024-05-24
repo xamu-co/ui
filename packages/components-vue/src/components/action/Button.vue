@@ -1,14 +1,15 @@
 <template>
 	<BaseAction
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
-		:class="[modifiersClasses, stateClasses, themeClasses]"
-		class="bttn"
+		:class="[modifiersClasses, stateClasses, themeClasses, buttonTypeClass]"
 	>
 		<slot></slot>
 	</BaseAction>
 </template>
 
 <script setup lang="ts">
+	import { computed } from "vue";
+
 	import BaseAction from "../base/Action.vue";
 
 	import type {
@@ -27,7 +28,12 @@
 			iUseModifiersProps,
 			iUseStateProps,
 			iUseThemeProps,
-			iUseThemeTooltipProps {}
+			iUseThemeTooltipProps {
+		/**
+		 * Use vertical button
+		 */
+		y?: boolean;
+	}
 
 	/**
 	 * Action Button Component
@@ -44,4 +50,8 @@
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
 	const { themeClasses, tooltipAttributes } = useTheme(props, true);
+
+	const buttonTypeClass = computed(() => {
+		return props.y ? "bttnY" : "bttn";
+	});
 </script>
