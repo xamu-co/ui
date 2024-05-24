@@ -103,21 +103,12 @@ export type iFormValue = string | number | boolean | File;
 export interface iFormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFormTypeSimple> {
 	required?: boolean;
 	type?: T;
-	options?: (string | number | iFormOption)[];
 	/**
 	 * String without the dots
 	 */
 	placeholder?: string;
 	icon?: IconName | tFormIcon;
 	autocomplete?: tFormAutocomplete;
-	/**
-	 * if muliple is set to true this optional value would be the required minimun amount of values
-	 */
-	min?: number;
-	/**
-	 * if multiple is set to true this optional value would be the mandatory maximun amount of values
-	 */
-	max?: number;
 }
 
 /**
@@ -126,6 +117,7 @@ export interface iFormInputDefault<T extends eFormTypeSimple | eFormTypeComplex 
 export interface iFormInput<V extends iFormValue = iFormValue>
 	extends iFormInputDefault<eFormTypeSimple | eFormTypeComplex> {
 	name: string;
+	options?: (string | number | iFormOption)[];
 	/**
 	 * An array of values to simplify validation
 	 *
@@ -144,6 +136,14 @@ export interface iFormInput<V extends iFormValue = iFormValue>
 	 * Ex: { multiple: true, min:3, max:3 } would make 3 values a requirement
 	 */
 	multiple?: boolean;
+	/**
+	 * if muliple is set to true this optional value would be the required minimun amount of values
+	 */
+	min?: number;
+	/**
+	 * if multiple is set to true this optional value would be the mandatory maximun amount of values
+	 */
+	max?: number;
 }
 
 /**

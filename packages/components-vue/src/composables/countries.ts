@@ -19,7 +19,7 @@ export default function useCountries() {
 
 	async function getCountries(): Promise<iCountry[]> {
 		const url = withUrlParams(`${countriesUrl}`);
-		const { data, error } = await (await fetch(url)).json();
+		const { data, error } = await (await fetch(url, { cache: "force-cache" })).json();
 
 		if (error) throw new Error(error);
 
@@ -30,7 +30,7 @@ export default function useCountries() {
 		if (!country) throw new Error("A valid country is required");
 
 		const url = withUrlParams(`${countriesUrl}/${country}`, { states: "" });
-		const { data, error } = await (await fetch(url)).json();
+		const { data, error } = await (await fetch(url, { cache: "force-cache" })).json();
 
 		if (error) throw new Error(error);
 
@@ -45,7 +45,7 @@ export default function useCountries() {
 		if (!country || !state) throw new Error("A valid country and state are required");
 
 		const url = withUrlParams(`${countriesUrl}/${country}/${state}`, { cities: "" });
-		const { data, error } = await (await fetch(url)).json();
+		const { data, error } = await (await fetch(url, { cache: "force-cache" })).json();
 
 		if (error) throw new Error(error);
 

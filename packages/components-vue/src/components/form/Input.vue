@@ -72,6 +72,7 @@
 			<FormInputLoop
 				v-else
 				v-slot="{ i }"
+				:key="input.options.length + models.length"
 				:models="models"
 				:input="input"
 				:theme="theme"
@@ -86,9 +87,12 @@
 					<Input
 						v-for="(model, index) in models[i].value"
 						:key="
-							input.defaults?.[index].placeholder ||
-							input.defaults?.[index].type ||
-							index
+							[
+								input.options.length,
+								input.defaults?.[i]?.placeholder,
+								input.defaults?.[i]?.type,
+								i + index,
+							].join('-')
 						"
 						:input="
 							input

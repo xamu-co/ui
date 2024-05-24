@@ -8,29 +8,24 @@
 			method="post"
 			class="flx --flxColumn --flx-start-stretch --gap-30 --maxWidth-full"
 		>
-			<div
-				v-for="(_stage, stageIndex) in localStages"
-				v-show="activeStage == stageIndex"
-				:key="`stage-${stageIndex}`"
-				:class="stagesClasses ?? 'flx --flxColumn --flx-start-stretch --gap-30'"
-			>
+			<div :class="stagesClasses ?? 'flx --flxColumn --flx-start-stretch --gap-30'">
 				<FormSimple
-					v-for="(_form, formIndex) in localStages[stageIndex]"
-					:key="`form-${stageIndex}-${formIndex}`"
-					:model-value="localStages[stageIndex][formIndex].inputs"
+					v-for="formKey in localStages[activeStage]"
+					:key="[formKey, activeStage, localFormInputs[formKey].key].join('-')"
+					:model-value="localFormInputs[formKey].inputs"
 					:theme="theme"
 					:invalid="invalid"
 					no-form
-					:title="localStages[stageIndex][formIndex].title"
-					:readonly="localStages[stageIndex][formIndex].readonly"
-					@update:model-value="updateForm(stageIndex, formIndex, $event)"
+					:title="localFormInputs[formKey].title"
+					:readonly="localFormInputs[formKey].readonly"
+					@update:model-value="updateForm(formKey, $event)"
 					@update:invalid="invalid = $event"
 				/>
 			</div>
 			<div class="flx --flxColumn --gap-30">
-				<div class="flx --flxColumn">
+				<div v-if="!hideRequiredDisclaimer || $slots.disclaimers" class="flx --flxColumn">
 					<slot name="disclaimers">
-						<p v-if="!hideRequiredDisclaimer" class="--txtSize-xs">
+						<p class="--txtSize-xs">
 							{{ t("required_verification") }}
 						</p>
 					</slot>
@@ -108,15 +103,14 @@
 </template>
 
 <script setup lang="ts">
-	import { markRaw, ref } from "vue";
+	import { ref } from "vue";
 	import _ from "lodash";
 
 	import type { iInvalidInput, tProps } from "@open-xamu-co/ui-common-types";
 	import {
 		type iForm,
-		type FormInput as FormInputClass,
+		FormInput as FormInputClass,
 		useI18n,
-		FormInput,
 	} from "@open-xamu-co/ui-common-helpers";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
@@ -166,7 +160,8 @@
 	const canSubmit = ref(props.optional);
 	const activeStage = ref(0);
 	const invalid = ref<iInvalidInput[]>([]);
-	const localStages = ref(markRaw(props.stages.filter((stage) => stage.length)));
+	const localStages = ref<string[][]>([]);
+	const localFormInputs = ref<Record<string, iForm>>({});
 	/**
 	 * Submit process is loading/running
 	 */
@@ -176,7 +171,12 @@
 		submitting.value = true;
 
 		// get inputs
-		const inputs = localStages.value.map((stage) => stage.map(({ inputs }) => inputs)).flat(2);
+		const inputs = Object.values(localFormInputs.value)
+			.map(({ inputs }) => inputs)
+			.flat();
+
+		if (!inputs?.length) return;
+
 		const successOrInvalid = await props.submitFn?.(inputs);
 
 		submitting.value = false;
@@ -185,16 +185,39 @@
 		if (Array.isArray(successOrInvalid)) invalid.value = successOrInvalid;
 		else {
 			emit("submited", successOrInvalid);
-			localStages.value = props.stages.filter((stage) => stage.length); // reset form
+			resetStages(); // reset form
 		}
 	});
 
-	function updateForm(stageIndex: number, formIndex: number, formInputs: FormInput[]) {
-		localStages.value[stageIndex][formIndex].inputs = formInputs;
+	function getLocalFormInputsKey(stageIndex: number, formIndex: number) {
+		return `form-${stageIndex}-${formIndex}`;
+	}
+	function resetStages() {
+		// reset
+		localStages.value = [];
+		localFormInputs.value = {};
+
+		props.stages
+			.filter((s) => s.length)
+			.forEach((stage, stageIndex) => {
+				const keys: string[] = [];
+
+				stage.forEach((form, formIndex) => {
+					const key = getLocalFormInputsKey(stageIndex, formIndex);
+
+					keys.push(key);
+					localFormInputs.value[key] = form;
+				});
+
+				localStages.value.push(keys);
+			});
+	}
+	function updateForm(key: string, formInputs: FormInputClass[]) {
+		localFormInputs.value[key].inputs = formInputs;
 
 		// allow submiting after changes are detected
 		if (!props.optional) canSubmit.value = true;
-		if (!formInputs.length || !localStages.value[stageIndex][formIndex].listen) return;
+		if (!formInputs.length || !localFormInputs.value[key].listen) return;
 
 		const values: Record<string, unknown[]> = formInputs.reduce((acc, input) => {
 			return { ...acc, [input.name]: input.values };
@@ -209,4 +232,5 @@
 
 	// lifecycle
 	emit("set-active-stage", setActiveStage);
+	resetStages();
 </script>

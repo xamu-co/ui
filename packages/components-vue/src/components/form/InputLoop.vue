@@ -1,9 +1,5 @@
 <template>
-	<div
-		v-for="(model, i) in models"
-		:key="input.defaults?.[i]?.placeholder || input.defaults?.[i]?.type || i"
-		class="--width"
-	>
+	<div v-for="(model, i) in models" :key="i" class="--width">
 		<div class="flx --flxRow --flx-start-center --gap-5">
 			<slot v-bind="{ i }"></slot>
 			<ActionLink
