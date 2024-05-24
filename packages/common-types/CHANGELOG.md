@@ -1,5 +1,36 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.8...@open-xamu-co/ui-common-types-v3.0.0-next.9) (2024-05-24)
+
+
+### Bug Fixes
+
+* non interctive form stages ([10aeb7d](https://github.com/xamu-co/ui/commit/10aeb7dbe98f1ec2dbc6e6be7c7cb24d395f8adc))
+
+
+### Features
+
+* iform type ([18ce372](https://github.com/xamu-co/ui/commit/18ce372465821b62a026eb8f7ae205fee8c15122))
+* transform page promise ([cbc4201](https://github.com/xamu-co/ui/commit/cbc4201d7bb9885a6d3b220e9439ae61dff40885))
+
+
+### BREAKING CHANGES
+
+* options, min & max moved to forminput type & definition
+* modalTheme no longer a valid prop
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.9"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.7...@open-xamu-co/ui-common-types-v3.0.0-next.8) (2024-05-08)
 
 
