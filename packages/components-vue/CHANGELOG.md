@@ -1,5 +1,37 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.11...@open-xamu-co/ui-components-vue-v3.0.0-next.12) (2024-05-24)
+
+
+### Bug Fixes
+
+* extend alert support on action ([f0d4b44](https://github.com/xamu-co/ui/commit/f0d4b4453c7b5fb3cbd8f4a6b1934e73632a59fa))
+* loader content props validation ([2058af6](https://github.com/xamu-co/ui/commit/2058af68749882cf4f3cd622a37237b720fd7d08))
+* non interctive form stages ([10aeb7d](https://github.com/xamu-co/ui/commit/10aeb7dbe98f1ec2dbc6e6be7c7cb24d395f8adc))
+* refresh stages ([ca70a44](https://github.com/xamu-co/ui/commit/ca70a44c4a95829d639a4bdcb6c26497be318b15))
+* rename box action prop to avoid collision ([6dce309](https://github.com/xamu-co/ui/commit/6dce309c67f4a5044ce1bade2a5eceb56250f060))
+
+
+### Features
+
+* iform type ([18ce372](https://github.com/xamu-co/ui/commit/18ce372465821b62a026eb8f7ae205fee8c15122))
+* transform page promise ([cbc4201](https://github.com/xamu-co/ui/commit/cbc4201d7bb9885a6d3b220e9439ae61dff40885))
+
+
+### BREAKING CHANGES
+
+* options, min & max moved to forminput type & definition
+* box action text >>> label
+* modalTheme no longer a valid prop
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.12"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.10...@open-xamu-co/ui-components-vue-v3.0.0-next.11) (2024-05-01)
 
 
