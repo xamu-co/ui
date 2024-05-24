@@ -103,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref } from "vue";
+	import { ref, watch } from "vue";
 	import _ from "lodash";
 
 	import type { iInvalidInput, tProps } from "@open-xamu-co/ui-common-types";
@@ -185,19 +185,19 @@
 		if (Array.isArray(successOrInvalid)) invalid.value = successOrInvalid;
 		else {
 			emit("submited", successOrInvalid);
-			resetStages(); // reset form
+			resetStages(props.stages); // reset form
 		}
 	});
 
 	function getLocalFormInputsKey(stageIndex: number, formIndex: number) {
 		return `form-${stageIndex}-${formIndex}`;
 	}
-	function resetStages() {
+	function resetStages(newStages: iForm[][]) {
 		// reset
 		localStages.value = [];
 		localFormInputs.value = {};
 
-		props.stages
+		newStages
 			.filter((s) => s.length)
 			.forEach((stage, stageIndex) => {
 				const keys: string[] = [];
@@ -232,5 +232,6 @@
 
 	// lifecycle
 	emit("set-active-stage", setActiveStage);
-	resetStages();
+
+	watch(() => props.stages, resetStages, { immediate: true });
 </script>
