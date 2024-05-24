@@ -11,12 +11,17 @@
 @mixin box {
 	@layer definitions {
 		.#{module.$component-box} {
+			@include module.action-alert-styles;
 			@include module.action-disabled-styles;
 
 			// width: 100%;
 			box-sizing: border-box;
 			border: 2px solid transparent;
 			overflow: visible;
+
+			&.#{module.$status-is-alert}:after {
+				background-color: var(--bg, transparent);
+			}
 
 			@layer defaults {
 				&:not(
