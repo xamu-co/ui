@@ -1,10 +1,10 @@
 <template>
-	<header @mouseover="mouseOnTabs = true" @mouseleave="mouseOnTabs = false">
-		<div class="flx --flxColumn --flx-start-center --gap-10">
+	<header class="xamu-slider" @mouseover="mouseOnTabs = true" @mouseleave="mouseOnTabs = false">
+		<div class="flx --flxColumn --flx-stretch-center --gap-10 --width-100">
 			<div
 				ref="sliderContainerRef"
 				:class="{ 'avatarAureo --size-lg': gallery }"
-				class="--overflow-hidden"
+				class="--overflow-hidden --width-100 --mY"
 			>
 				<component
 					:is="sliderTag"
@@ -14,10 +14,14 @@
 					<slot></slot>
 				</component>
 			</div>
-			<ul v-if="childCount > 1 && controls" class="flx --flxRow --flx-center">
+			<ul
+				v-if="childCount > 1 && controls"
+				class="xamu-slider-controls flx --flxRow --flx-center"
+			>
 				<li v-if="controls === 'full'">
 					<ActionButton
 						:aria-label="t('previous')"
+						:theme="theme"
 						round
 						@click.prevent="debouncedTab(true)"
 					>
@@ -27,18 +31,24 @@
 				<li v-for="index in childCount" :key="index">
 					<ActionButtonToggle
 						:id="`slide-${index}`"
-						:tooltip="t('pick')"
 						:active="activeSlide === `slide-${index}`"
 						:size="eSizes.XS"
+						:theme="theme"
 						round
+						:title="t('pick')"
 						@click.prevent="debouncedTab(false, `slide-${index}`)"
 					>
 						<span v-if="enumerate" class="--txtSize-sm">{{ index }}</span>
+						<template v-else>
+							<IconFa name="circle" force-regular />
+							<IconFa name="circle" />
+						</template>
 					</ActionButtonToggle>
 				</li>
 				<li v-if="controls === 'full'">
 					<ActionButton
 						:aria-label="t('next')"
+						:theme="theme"
 						round
 						@click.prevent="debouncedTab(false)"
 					>
@@ -56,15 +66,41 @@
 
 	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 	import { useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
-
-	import IconFa from "./icon/Fa.vue";
-	import ActionButton from "./action/Button.vue";
-	import ActionButtonToggle from "./action/ButtonToggle.vue";
-
-	import { useHelpers } from "../composables/utils";
-
-	import type { PropType } from "vue";
 	import { eSizes } from "@open-xamu-co/ui-common-enums";
+
+	import IconFa from "../icon/Fa.vue";
+	import ActionButton from "../action/Button.vue";
+	import ActionButtonToggle from "../action/ButtonToggle.vue";
+
+	import { useHelpers } from "../../composables/utils";
+	import type { iUseThemeProps } from "../../types/props";
+
+	interface iSliderProps extends iUseThemeProps {
+		/**
+		 * Show controls
+		 */
+		controls?: boolean | "full";
+		/**
+		 * Auto-animate
+		 */
+		animate?: boolean;
+		/**
+		 * Transition duration in ms
+		 * @values 100 - 1000
+		 */
+		transitionDuration?: number;
+		/**
+		 * Interval duration in ms
+		 */
+		intervalDuration?: number;
+		visibleSlides?: number;
+		/**
+		 * is gallery (border radius)
+		 * TODO: allow opening overlay with picture gallery
+		 */
+		gallery?: boolean;
+		enumerate?: boolean;
+	}
 
 	/**
 	 * Slider principal.
@@ -85,52 +121,11 @@
 
 	defineOptions({ name: "SliderSimple", inheritAttrs: true });
 
-	const props = defineProps({
-		/**
-		 * Show controls
-		 */
-		controls: {
-			type: [Boolean, String] as PropType<boolean | "full">,
-			default: true,
-		},
-		/**
-		 * Auto-animate
-		 */
-		animate: {
-			type: Boolean,
-			default: true,
-		},
-		/**
-		 * Transition duration in ms
-		 * @values 100 - 1000
-		 */
-		transitionDuration: {
-			type: Number,
-			default: 700,
-		},
-		/**
-		 * Interval duration in ms
-		 */
-		intervalDuration: {
-			type: Number,
-			default: 7000,
-		},
-		visibleSlides: {
-			type: Number,
-			default: 3,
-		},
-		/**
-		 * is gallery (border radius)
-		 * TODO: allow opening overlay with picture gallery
-		 */
-		gallery: {
-			type: Boolean,
-			default: false,
-		},
-		enumerate: {
-			type: Boolean,
-			default: false,
-		},
+	const props = withDefaults(defineProps<iSliderProps>(), {
+		controls: true,
+		animate: true,
+		transitionDuration: 700,
+		intervalDuration: 7000,
 	});
 	const slots = useSlots();
 
@@ -295,7 +290,7 @@
 		childCount.value = slides.length;
 		slides.forEach((child, index) => {
 			child.dataset.id = `slide-${index + 1}`; // slide id
-			child.style.flex = `0 0 ${100 / props.visibleSlides}%`; // slide size
+			child.style.flex = `0 0 ${100 / (props.visibleSlides || 1)}%`; // slide size
 		});
 
 		if (!allowAutoAnimate.value || childCount.value <= 1) return;

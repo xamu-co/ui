@@ -19,7 +19,7 @@
 				>
 					<span v-if="label">{{ label }}</span>
 					<span v-else-if="showPlaceholder">
-						{{ t(modelValue ? "yes" : "no") }}
+						{{ modelValue ? t("yes") : t("no") }}
 					</span>
 					<slot></slot>
 				</div>

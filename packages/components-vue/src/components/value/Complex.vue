@@ -26,8 +26,8 @@
 				<Modal
 					v-if="value.every((v) => typeof v === 'object') || value.length > 3"
 					class="--txtSize"
-					:theme="modalTheme || theme"
 					:title="property?.alias"
+					v-bind="{ theme, ...modalProps }"
 				>
 					<template #toggle="{ toggleModal }">
 						<ActionButtonToggle
@@ -46,7 +46,7 @@
 							v-if="model"
 							:nodes="remapValues(value)"
 							:theme="invertedTheme"
-							:modal-theme="modalTheme || theme"
+							:modal-props="{ theme, ...modalProps }"
 							:classes="classes"
 						/>
 					</template>
@@ -80,7 +80,7 @@
 							},
 							readonly,
 							theme,
-							modalTheme,
+							modalProps,
 							classes,
 							verbose,
 							size,
@@ -90,7 +90,12 @@
 				</template>
 			</div>
 			<!-- Any other object -->
-			<Modal v-else class="--txtSize" :theme="modalTheme || theme" :title="property?.alias">
+			<Modal
+				v-else
+				class="--txtSize"
+				:title="property?.alias"
+				v-bind="{ theme, ...modalProps }"
+			>
 				<template #toggle="{ toggleModal }">
 					<ActionLink
 						v-if="'name' in value"
@@ -128,7 +133,7 @@
 							property,
 							readonly,
 							theme: invertedTheme,
-							modalTheme: modalTheme || theme,
+							modalProps: { theme, ...modalProps },
 						}"
 						:class="classes"
 						verbose
@@ -139,7 +144,7 @@
 		<!-- Plain value -->
 		<ValueSimple
 			v-else
-			v-bind="{ value, property, readonly, theme, modalTheme, classes, verbose, size }"
+			v-bind="{ value, property, readonly, theme, modalProps, classes, verbose, size }"
 		/>
 		<template #fallback?>
 			<!-- Error fallback -->
@@ -150,14 +155,7 @@
 <script setup lang="ts">
 	import _ from "lodash";
 
-	import type {
-		iProperty,
-		tProp,
-		tProps,
-		tThemeModifier,
-		tThemeTuple,
-		tSizeModifier,
-	} from "@open-xamu-co/ui-common-types";
+	import type { iProperty, tProps, tSizeModifier } from "@open-xamu-co/ui-common-types";
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
@@ -167,12 +165,13 @@
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
 	import ValueSimple from "./Simple.vue";
 	import ValueList from "./List.vue";
-	import Modal from "../Modal.vue";
-	import Table from "../Table.vue";
+	import Modal from "../modal/Simple.vue";
+	import Table from "../table/Simple.vue";
 
-	import type { iUseThemeProps } from "../../types/props";
+	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
 	import { useHelpers, useSortObject } from "../../composables/utils";
+	import type { AllowedComponentProps } from "vue";
 
 	interface iValueComplexProps extends iUseThemeProps {
 		/**
@@ -195,7 +194,7 @@
 		 * Refresh the content
 		 */
 		refresh?: () => unknown;
-		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
+		modalProps?: iModalProps & AllowedComponentProps;
 		/**
 		 * Prevent node functions from triggering refresh event (useful with firebase hydration)
 		 */

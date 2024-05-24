@@ -29,6 +29,7 @@
 				border: 2px solid utils.color(light, 0.1);
 				background: utils.color(dark);
 				pointer-events: none;
+				text-shadow: none;
 			}
 
 			&:not(:hover)::before {

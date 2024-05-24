@@ -45,6 +45,20 @@ export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolea
 	const themeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
 		return [invertedThemeValues.value[1], invertedThemeValues.value[0]];
 	});
+	const shadowClasses = computed<string[]>(() => {
+		let withShadow;
+
+		if (typeof props.shadow === "boolean") withShadow = props.shadow;
+		else {
+			if (!props.shadow?.length) return [];
+
+			withShadow = props.shadow.some((theme) => themeValues.value[0] === theme);
+		}
+
+		if (!withShadow) return [];
+
+		return GMC([{ shadow: withShadow }], { prefix: "" });
+	});
 	const themeClasses = computed<string[]>(() => {
 		if (!props.theme) return [];
 
@@ -68,5 +82,5 @@ export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolea
 			: null;
 	});
 
-	return { invertedThemeValues, themeValues, themeClasses, tooltipAttributes };
+	return { invertedThemeValues, themeValues, themeClasses, shadowClasses, tooltipAttributes };
 }

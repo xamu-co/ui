@@ -21,7 +21,7 @@
 		computed,
 		ref,
 		watch,
-		onUnmounted,
+		onBeforeUnmount,
 		type Component as VueComponent,
 		type DefineComponent,
 		type FunctionalComponent,
@@ -29,14 +29,15 @@
 
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
-	import BaseWrapper from "./base/Wrapper.vue";
-	import Modal from "./Modal.vue";
+	import BaseWrapper from "../base/Wrapper.vue";
+	import Modal from "../modal/Simple.vue";
 
-	import type { iUseModifiersProps, iUseThemeProps } from "../types/props";
-	import useBrowser from "../composables/browser";
-	import useModifiers from "../composables/modifiers";
-	import useTheme from "../composables/theme";
-	import { useHelpers } from "../composables/utils";
+	import type { iUseModifiersProps, iUseThemeProps } from "../../types/props";
+	import useBrowser from "../../composables/browser";
+	import useModifiers from "../../composables/modifiers";
+	import useTheme from "../../composables/theme";
+	import { useHelpers } from "../../composables/utils";
+	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	type tAlignFirstX = "right" | "left";
 	type tAlignFirstY = "top" | "bottom";
@@ -67,7 +68,9 @@
 
 	defineOptions({ name: "DropdownSimple", inheritAttrs: false });
 
-	const props = defineProps<iDropdownProps>();
+	const props = withDefaults(defineProps<iDropdownProps>(), {
+		theme: eColors.SECONDARY,
+	});
 	const emit = defineEmits(["close", "update:model-value"]);
 
 	const { getModifierClasses: GMC } = useHelpers(useUtils);
@@ -132,5 +135,5 @@
 		},
 		{ immediate: false }
 	);
-	onUnmounted(closeDropdown);
+	onBeforeUnmount(closeDropdown);
 </script>

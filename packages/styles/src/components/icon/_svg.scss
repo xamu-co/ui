@@ -58,7 +58,7 @@
 			//
 			// @group Modifiers
 			@if module.$allow-theme-overrides {
-				&.#{module.$prefix-default}--tm-light {
+				&.#{module.$prefix-default}--tm-light:not(.#{module.$status-no-override}) {
 					filter: drop-shadow(1px 1px 1px module.color(dark, 0.3));
 				}
 			}

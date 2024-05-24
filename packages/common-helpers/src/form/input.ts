@@ -63,11 +63,19 @@ function getDefault<V extends iFormValue = iFormValue>(
 	}
 }
 
+function isChoiceType(type: eFormTypeSimple | eFormTypeComplex): boolean {
+	const types: (eFormTypeSimple | eFormTypeComplex)[] = [
+		eFormType.CHOICE,
+		eFormType.SELECT,
+		eFormType.SELECT_FILTER,
+	];
+
+	return types.includes(type);
+}
+
 export class FormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFormTypeSimple>
 	implements iFormInputDefault<T>
 {
-	// private
-	private _options!: iSelectOption[];
 	// public
 	public type!: T;
 	// public readonly
@@ -75,34 +83,17 @@ export class FormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFo
 	public readonly placeholder!: string;
 	public readonly icon!: tFormIcon;
 	public readonly autocomplete!: tFormAutocomplete;
-	public min!: number;
-	public max!: number;
 
 	constructor(
 		formInput: iFormInputDefault<T>,
 		private _rerender?: (fi?: Partial<iFormInputDefault<T>>) => void
 	) {
 		this.required = formInput.required ?? false;
-		this._options = formInput.options?.map(toOption) ?? [];
-		this.min = formInput.min ?? 1;
-
-		// max cannot be lower than min or more than options if they exist
-		const maxValue = this.options.length || formInput.max || 9e9;
-
-		this.max = maxValue < this.min ? this.min : maxValue;
 
 		if (formInput.type) this.type = formInput.type;
 		if (formInput.placeholder) this.placeholder = formInput.placeholder;
 		if (formInput.icon) this.icon = getIcon(formInput.icon, formInput.type);
 		if (formInput.autocomplete) this.autocomplete = formInput.autocomplete;
-	}
-
-	get options(): iSelectOption[] {
-		return this._options;
-	}
-	set options(updatedOptions: iSelectOption[] | undefined) {
-		this._options = updatedOptions || [];
-		this.rerender();
 	}
 
 	/** Rerender component */
@@ -125,12 +116,15 @@ export class FormInput<V extends iFormValue = iFormValue>
 	implements iFormInput<V>
 {
 	// private
+	private _options!: iSelectOption[];
 	private _values!: (V | V[])[];
 	private _defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]];
 	// public readonly
 	public readonly name!: string;
 	public readonly title!: string;
 	public readonly multiple!: boolean;
+	public readonly min!: number;
+	public readonly max!: number;
 
 	/**
 	 * Form input constructor
@@ -144,14 +138,49 @@ export class FormInput<V extends iFormValue = iFormValue>
 	) {
 		super(formInput, rerender);
 
+		this._options = formInput.options?.map(toOption) ?? [];
+		this.min = formInput.min ?? 1;
+
+		// max cannot be lower than min or more than options if they exist
+		const maxValue = this._options.length || formInput.max || 9e9;
+
+		this.max = maxValue < this.min ? this.min : maxValue;
+
 		const values = Array(this.min).fill(getDefault(formInput.type, formInput.defaults));
 
-		this._values = formInput.values ?? values;
+		this._values = formInput.values?.length ? formInput.values : values;
+
+		// autoset single value
+		if (
+			isChoiceType(this.type) &&
+			this.options.length === 1 &&
+			this._values[0] !== this.options[0].value
+		) {
+			this._values = [this.options[0].value as V];
+		}
+
 		this.name = formInput.name;
 		this.multiple = formInput.multiple ?? false;
 
 		if (formInput.defaults) this._defaults = formInput.defaults;
 		if (formInput.title) this.title = formInput.title;
+	}
+
+	get options(): iSelectOption[] {
+		return this._options;
+	}
+	set options(updatedOptions: iSelectOption[] | undefined) {
+		this._options = updatedOptions || [];
+
+		if (
+			isChoiceType(this.type) &&
+			this.options.length === 1 &&
+			this.values[0] !== this.options[0].value
+		) {
+			this.values = [this.options[0].value as V];
+		}
+
+		this.rerender();
 	}
 
 	get values(): (V | V[])[] {
@@ -254,4 +283,16 @@ export class FormInput<V extends iFormValue = iFormValue>
 	public isEqual(other: FormInput): boolean {
 		return _.isEqual(this.getObject(this), this.getObject(other));
 	}
+}
+
+export interface iForm {
+	/**
+	 * Optional form key
+	 */
+	key?: string | number;
+	title?: string;
+	inputs: FormInput[];
+	listen?: boolean;
+	/** Make all inputs read only by disabling them */
+	readonly?: boolean;
 }

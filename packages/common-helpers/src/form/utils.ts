@@ -222,6 +222,9 @@ export function getFormInputsValues<V extends Record<string, any>>(
 
 /**
  * Returns the actual data object to send to the api
+ * @param inputs The form inputs.
+ * @param plainValues Whether or not to remove unnecessary arrays.
+ * @returns An object containing the form values and invalid inputs.
  */
 export function getFormValues<V extends Record<string, any>>(
 	inputs: V | FormInput[],

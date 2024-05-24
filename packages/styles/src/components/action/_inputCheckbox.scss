@@ -11,7 +11,7 @@
 			@include module.action-toggle-styles;
 
 			// Toggle size
-			@include module.extend-sizes($all-viewports: true) using($size, $unit) {
+			@include module.extend-sizes($viewports: module.$viewports) using($size, $unit) {
 				+ label::after {
 					border-radius: 0.7 * $size * $radius-action;
 				}

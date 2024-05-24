@@ -74,7 +74,7 @@
 				//
 				// @group Modifiers
 				@if module.$allow-theme-overrides {
-					&.#{module.$prefix-default}--tm-light {
+					&.#{module.$prefix-default}--tm-light:not(.#{module.$status-no-override}) {
 						--bg: #{module.color(light, 0.3)};
 						--bc: #{module.color(light, 0.7)};
 						--cl-a: #{module.color(light, 0.7)};

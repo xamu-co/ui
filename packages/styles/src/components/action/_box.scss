@@ -11,12 +11,17 @@
 @mixin box {
 	@layer definitions {
 		.#{module.$component-box} {
+			@include module.action-alert-styles;
 			@include module.action-disabled-styles;
 
 			// width: 100%;
 			box-sizing: border-box;
 			border: 2px solid transparent;
 			overflow: visible;
+
+			&.#{module.$status-is-alert}:after {
+				background-color: var(--bg, transparent);
+			}
 
 			@layer defaults {
 				&:not(
@@ -111,7 +116,20 @@
 				}
 			}
 
-			& & {
+			> .#{module.$component-box} {
+				&:has(img) {
+					padding: 0;
+				}
+
+				@include module.extend-themes using($name, $value, $is-default) {
+					@layer defaults {
+						// @defaults bgColor
+						& {
+							background: module.color($name);
+						}
+					}
+				}
+
 				// Square shape
 				// this assummes there is only one child
 				//
@@ -119,12 +137,13 @@
 				@include module.extend-maps(
 						module.$element-sizes,
 						meta.get-function("box-square-size-selector"),
-						lg,
-						".--square"
+						md,
+						".#{module.$prefix-default}--square"
 					)
 					using($name, $value, $is-default) {
 					width: $value;
-					margin: 0 auto;
+					margin-left: auto;
+					margin-right: auto;
 					overflow: hidden;
 
 					&::before {

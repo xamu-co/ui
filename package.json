@@ -21,7 +21,6 @@
     "p:helpers": "yarn workspace @open-xamu-co/ui-common-helpers",
     "p:enums": "yarn workspace @open-xamu-co/ui-common-enums",
     "p:types": "yarn workspace @open-xamu-co/ui-common-types",
-    "p:eslint": "yarn workspace @open-xamu-co/eslint-config",
     "p:vue": "yarn workspace @open-xamu-co/ui-components-vue",
     "p:nuxt": "yarn workspace @open-xamu-co/ui-nuxt",
     "dev:vue": "yarn p:vue dev",
@@ -74,6 +73,9 @@
     ]
   },
   "lint-staged": {
+    "*.{mdx}": [
+      "prettier --write"
+    ],
     "*.{js,ts,vue}": [
       "eslint --fix",
       "prettier --write"

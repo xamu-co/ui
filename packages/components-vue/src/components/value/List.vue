@@ -1,7 +1,7 @@
 <template>
 	<ul class="flx --flxColumn --minWidth-220" :class="classes">
 		<li
-			v-for="([childValueName, childValue], childValueIndex) in useSortObject(value)"
+			v-for="([childValueName, childValue], childValueIndex) in useSortObject({ ...value })"
 			:key="childValueIndex"
 			class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
 		>
@@ -19,7 +19,7 @@
 					},
 					readonly,
 					theme,
-					modalTheme: modalTheme || theme,
+					modalProps: { theme, ...modalProps },
 				}"
 				:class="classes"
 				verbose
@@ -30,18 +30,13 @@
 <script setup lang="ts" generic="P extends Record<string, any>">
 	import _ from "lodash";
 
-	import type {
-		iProperty,
-		tProp,
-		tProps,
-		tThemeModifier,
-		tThemeTuple,
-	} from "@open-xamu-co/ui-common-types";
+	import type { iProperty, tProps } from "@open-xamu-co/ui-common-types";
 
 	import ValueComplex from "./Complex.vue";
 
-	import type { iUseThemeProps } from "../../types/props";
+	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import { useSortObject } from "../../composables/utils";
+	import type { AllowedComponentProps } from "vue";
 
 	interface iValueListProps extends iUseThemeProps {
 		/**
@@ -60,7 +55,7 @@
 		node?: Record<string, any>;
 		readonly?: boolean;
 		classes?: tProps<string>;
-		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
+		modalProps?: iModalProps & AllowedComponentProps;
 	}
 
 	/**

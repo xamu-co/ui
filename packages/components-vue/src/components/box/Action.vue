@@ -3,14 +3,20 @@
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
 		:class="[modifiersClasses, stateClasses, themeClasses]"
 		class="box --button"
+		:aria-label="label"
 	>
-		<div :class="innerThemeClasses" class="box --square-sm">
-			<IconFa v-if="!src" v-bind="{ ...iconProps, name: icon ?? 'cubes', size: 50 }" />
-			<BaseImg v-else class="--bgColor-light --width --height" :src="src" :alt="text" />
+		<div v-if="icon || src" :class="innerThemeClasses" class="box --square">
+			<IconFa v-if="icon" v-bind="{ size: 35, ...iconProps, name: icon }" />
+			<BaseImg
+				v-else-if="src"
+				class="--bgColor-light --width --height"
+				:src="src"
+				:alt="label"
+			/>
 		</div>
 		<p>
-			<!-- Since we only accept text there is no room for slot here -->
-			<b>{{ text }}</b>
+			<!-- Since we only accept label there is no room for slot here -->
+			<b>{{ label }}</b>
 		</p>
 	</BaseAction>
 </template>
@@ -46,16 +52,17 @@
 		 * FontAwesome icon
 		 */
 		icon?: IconName;
-		iconProps?: iFormIconProps;
+		iconProps?: iFormIconProps & { size: number };
 		/**
 		 * image url or path
 		 */
 		src?: string;
 		/**
-		 * action text
-		 * @required
+		 * action label
+		 * @old text - collision with router-link attribute
+		 * @required true
 		 */
-		text: string;
+		label: string;
 	}
 
 	/**

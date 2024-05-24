@@ -39,8 +39,6 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 
-	type tDataPromise<Ti, Pi extends any[]> = (...args: Pi) => Promise<Ti>;
-
 	interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
 		/**
 		 * Loader label
@@ -53,8 +51,8 @@
 		fallback?: Ti;
 		unwrap?: boolean;
 		url?: false | string;
-		promise?: false | tDataPromise<Ti, Pi>;
-		hydratablePromise?: false | ((hydrate: tHydrate<Ti>) => tDataPromise<Ti, Pi>);
+		promise?: false | ((...args: Pi) => Promise<Ti>);
+		hydratablePromise?: false | ((hydrate: tHydrate<Ti>) => (...args: Pi) => Promise<Ti>);
 		payload?: Pi;
 		/**
 		 * Component or tag to render
@@ -124,9 +122,8 @@
 
 				// success, clear errors
 				errors.value = undefined;
-			} else {
-				throw new Error("No data source url or promise provided");
 			}
+			// else, do nothing
 		} catch (err) {
 			console.error(err);
 			fetchedContent.value = undefined;

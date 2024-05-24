@@ -1,7 +1,7 @@
 <template>
 	<BaseErrorBoundary :theme="theme">
 		<LoaderContentFetch
-			v-if="modelValue?.length"
+			v-if="model.length"
 			v-slot="{ content }"
 			:theme="theme"
 			:label="t('form_loading_countries')"
@@ -69,6 +69,9 @@
 		modelValue?: FormInputClass[];
 		noForm?: boolean;
 		invalid?: iInvalidInput[];
+		/**
+		 * If the make function requires a payload
+		 */
 		payload?: P;
 		/**
 		 * Make model

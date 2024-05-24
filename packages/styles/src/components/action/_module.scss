@@ -18,13 +18,24 @@
 //
 // @group SharedStyles
 @mixin action-round-styles {
+	// round button
+	//
+	// @group Modifiers
+	&.#{module.$prefix-default}--round {
+		@include module.extend-viewports-classes(true, module.$viewports) {
+			> * + * {
+				margin-left: 0;
+			}
+		}
+	}
+
 	@at-root :not([class*="#{module.$status-toggle}"])
 			> :not([class*="#{module.$status-toggle}"])#{&} {
 		// round button
 		//
 		// @group Modifiers
 		&.#{module.$prefix-default}--round {
-			@include module.extend-viewports-classes(true, true) {
+			@include module.extend-viewports-classes(true, module.$viewports) {
 				i.#{module.$component-icon},
 				.#{module.$component-svg} {
 					+ span {
@@ -40,14 +51,15 @@
 	// @group SharedStyles
 	@include module.extend-sizes using($size, $unit) {
 		&.#{module.$prefix-default}--round {
-			@include module.extend-viewports-classes(
-				module.$allow-responsive-classes-desktop-first,
-				true,
-				true
-			) {
+			@include module.extend-viewports-classes(true, module.$viewports) {
 				padding: 0; // button padding
 				width: $size * 2.4;
 			}
+		}
+		&:has(i.#{module.$component-icon}:only-child),
+		&:has(.#{module.$component-svg}:only-child) {
+			padding: 0; // button padding
+			width: $size * 2.4;
 		}
 	}
 }
@@ -68,13 +80,6 @@
 	> * + * {
 		margin-left: 0.4em;
 	}
-	&.#{module.$prefix-default}--round {
-		@include module.extend-viewports-classes(true, true) {
-			> * + * {
-				margin-left: 0;
-			}
-		}
-	}
 }
 
 // is alert
@@ -94,6 +99,7 @@
 		border-radius: module.$size-radius-action-round;
 		box-sizing: border-box;
 		border-color: var(--bc, transparent);
+		box-shadow: 1px 1px 3px module.color(dark, 0.2);
 	}
 }
 
@@ -195,7 +201,7 @@
 	// text, select, button & buttonToggle shared styles
 	//
 	// @group SharedStyles
-	@include module.extend-sizes($all-viewports: true) using($size, $unit) {
+	@include module.extend-sizes($viewports: module.$viewports) using($size, $unit) {
 		height: $size * 2.4; // button size: height/width
 
 		@if $with-padding {
@@ -312,7 +318,7 @@
 	}
 
 	// Toggle size
-	@include module.extend-sizes($all-viewports: true) using($size, $unit) {
+	@include module.extend-sizes($viewports: module.$viewports) using($size, $unit) {
 		+ label {
 			&::after {
 				content: "";

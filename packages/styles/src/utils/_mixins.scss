@@ -12,97 +12,53 @@
 	assumes variables have already been imported
 */
 
-// viewport extend
+$default-viewports: if(
+	variables.$allow-responsive-classes-all-viewports,
+	variables.$viewports,
+	variables.$common-viewports
+);
+
+// Viewport extend
+// This mixin is used to extend classes with responsive behavior based on viewport sizes.
+// It generates classes for each viewport defined in the $viewports map.
+//
+// @param {Boolean} $desktop-first - If true, generates desktop-first classes. Default is false.
+// @param {Map} $viewports - A map of viewport names and their corresponding breakpoints. Default is $default-viewports.
+// @param {Boolean} $omit-media - If true, media queries are omitted, to allow nesting this mixin within modifiers that affect other modifiers. Default is false.
+// @param {Boolean} $not - If true, generates classes for 'not' condition. Default is false.
+//
 @mixin extend-viewports-classes(
 	$desktop-first: variables.$allow-responsive-classes-desktop-first,
-	$all-viewports: variables.$allow-responsive-classes-all-viewports,
-	$omit-media: false
+	$viewports: $default-viewports,
+	$omit-media: false,
+	$omit-non-media: false
 ) {
-	@content;
-
-	@if variables.$allow-responsive-classes {
-		// conditionally set viewports
-		$local-viewports: if($all-viewports, variables.$viewports, variables.$common-viewports);
-
-		@each $name, $viewport in $local-viewports {
-			// to allow nesting this mixin within modifiers that affect other modifiers
-			@if $omit-media {
-				// mobile first
-				// default: class selector
-				&\:#{$name} {
-					@content;
-				}
-
-				// desktop first
-				@if $desktop-first {
-					// default: class selector
-					&\:#{$name}-inv {
-						@content;
-					}
-				}
-			} @else {
-				// mobile first
-				@media (min-width: ($viewport + 1)) {
-					// default: class selector
-					&\:#{$name} {
-						@content;
-					}
-				}
-
-				// desktop first
-				@if $desktop-first {
-					@media (max-width: $viewport) {
-						// default: class selector
-						&\:#{$name}-inv {
-							@content;
-						}
-					}
-				}
-			}
-		}
+	@if not $omit-non-media {
+		@content;
 	}
-}
-
-// alternative for attrs
-// needs improvements
-@mixin extend-viewports-attrs(
-	$desktop-first: variables.$allow-responsive-classes-desktop-first,
-	$all-viewports: variables.$allow-responsive-classes-all-viewports
-) {
-	@content;
 
 	@if variables.$allow-responsive-classes {
-		// conditionally set viewports
-		$local-viewports: if($all-viewports, variables.$viewports, variables.$common-viewports);
-
-		@each $name, $viewport in $local-viewports {
-			@each $selector in & {
-				$not: string.slice(#{$selector}, string.length(#{$selector})) == ")";
-				$minus: if($not, -4, -3);
-				$new-selector: system.str-replace(
-					system.str-replace(#{$selector}, "=", '="'),
-					"]",
-					'"]'
-				);
-
-				// mobile first
-				@media (min-width: ($viewport + 1)) {
-					// attr selector support
-					$end: if($not, '"])', '"]');
-
-					@at-root #{string.slice($new-selector, 1, $minus) + "\:" + $name + $end} {
+		@each $name, $viewport in $viewports {
+			// default: class selector
+			&\:#{$name} {
+				@if $omit-media {
+					@content;
+				} @else {
+					// mobile first
+					@media (min-width: ($viewport + 1)) {
 						@content;
 					}
 				}
 
-				// desktop first
 				@if $desktop-first {
-					@media (max-width: $viewport) {
-						// attr selector support
-						$end: if($not, '-inv"])', '-inv"]');
-
-						@at-root #{string.slice($new-selector, 1, $minus) + "\:" + $name + $end} {
+					&-inv {
+						@if $omit-media {
 							@content;
+						} @else {
+							// mobile last
+							@media (max-width: $viewport) {
+								@content;
+							}
 						}
 					}
 				}
@@ -184,7 +140,7 @@
 
 @mixin extend-sizes(
 	$default: md,
-	$all-viewports: false,
+	$viewports: $default-viewports,
 	$selector: meta.get-function("size-selector"),
 	$default-selector: ':not([class*="--size-"])'
 ) {
@@ -197,7 +153,7 @@
 		@if $is-default {
 			@content ($value, $unit);
 		} @else {
-			@include extend-viewports-classes($all-viewports: $all-viewports) {
+			@include extend-viewports-classes($viewports: $viewports) {
 				@content ($value, $unit);
 			}
 
