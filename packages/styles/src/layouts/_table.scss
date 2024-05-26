@@ -9,7 +9,6 @@
 		table.#{utils.$layout-table} {
 			table-layout: fixed;
 			border-collapse: collapse;
-			box-sizing: border-box;
 			border-spacing: 0;
 
 			@layer defaults {
@@ -69,8 +68,6 @@
 
 					th,
 					td {
-						box-sizing: border-box;
-
 						&,
 						> * {
 							vertical-align: middle;
@@ -89,7 +86,6 @@
 							transition: all 0.1s ease-out;
 							border-top: 2px solid transparent;
 							border-bottom: 2px solid transparent;
-							box-sizing: border-box;
 						}
 
 						$radius-table: 0.7rem * utils.strip-unit(utils.$size-radius-table);

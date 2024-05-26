@@ -30,6 +30,7 @@
     "release": "yarn workspaces run semantic-release",
     "release:dry": "yarn workspaces run semantic-release --dry-run"
   },
+  "packageManager": "yarn@1.22.21",
   "engines": {
     "node": ">=18",
     "yarn": ">=1.22.4"

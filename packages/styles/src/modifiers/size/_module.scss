@@ -6,6 +6,29 @@
 
 // Gutters
 @mixin extend-gutters($property) {
+	// all sides
+	&-none {
+		@include module.extend-viewports-classes {
+			#{$property}: 0;
+		}
+	}
+
+	// X axis
+	&X-none {
+		@include module.extend-viewports-classes {
+			#{$property}-left: 0;
+			#{$property}-right: 0;
+		}
+	}
+
+	// Y axis
+	&Y-none {
+		@include module.extend-viewports-classes {
+			#{$property}-top: 0;
+			#{$property}-bottom: 0;
+		}
+	}
+
 	@for $i from 1 through 20 {
 		$value: math.div($i, 3);
 

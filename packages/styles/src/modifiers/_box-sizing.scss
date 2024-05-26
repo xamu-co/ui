@@ -4,17 +4,18 @@
 @mixin box-sizing {
 	@layer modifiers {
 		.#{utils.$prefix-default}--boxSizing {
-			&-content {
+			&-box {
 				@include utils.extend-viewports-classes {
-					box-sizing: content-box;
+					box-sizing: border-box;
 				}
 			}
 
 			// default
+			// everything is box by default, so this should reverse it
 			&,
-			&-box {
+			&-content {
 				@include utils.extend-viewports-classes {
-					box-sizing: border-box;
+					box-sizing: content-box;
 				}
 			}
 		}

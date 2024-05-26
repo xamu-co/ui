@@ -58,6 +58,8 @@
 	/**
 	 * Require options
 	 *
+	 * TODO: automatically add additional inputs (less clicks or remove add button)
+	 *
 	 * @component
 	 */
 

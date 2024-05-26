@@ -10,8 +10,12 @@
 			text-align: left;
 			white-space: pre-line;
 			max-width: utils.$size-max-text-width;
+			gap: 0.8em;
+
+			@include utils.flex-box(column, nowrap, flex-start, flex-start, inline-flex);
 
 			* {
+				text-align: left;
 				line-height: utils.$size-line-height-lg;
 			}
 		}

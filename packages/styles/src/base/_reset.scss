@@ -17,6 +17,7 @@
 			scroll-behavior: smooth;
 			-webkit-tap-highlight-color: transparent;
 			vertical-align: inherit;
+			box-sizing: border-box;
 
 			&::before,
 			&::after {
@@ -79,10 +80,6 @@
 
 				// white-space: normal !important;
 			}
-		}
-
-		hr {
-			box-sizing: border-box;
 		}
 
 		html {

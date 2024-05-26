@@ -18,7 +18,6 @@
 		.#{utils.$layout-view}-item {
 			overflow: visible;
 			height: auto;
-			box-sizing: border-box;
 
 			@include utils.flex-box(row, nowrap, center, stretch);
 

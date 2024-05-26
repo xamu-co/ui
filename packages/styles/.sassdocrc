@@ -47,7 +47,6 @@ trackingCode: '<style type="text/css">
     border-radius: 30px;
     border: 0;
     padding: 5px 15px;
-    box-sizing: border-box;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
   }
   .code-header {
