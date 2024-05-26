@@ -6,8 +6,6 @@
 @mixin scroll {
 	@layer definitions {
 		.#{utils.$layout-scroll} {
-			box-sizing: border-box;
-
 			@media (any-pointer: coarse) {
 				&::-webkit-scrollbar {
 					width: 0.4rem;
@@ -48,7 +46,6 @@
 
 					> * {
 						min-width: 100%;
-						box-sizing: border-box;
 
 						&:last-child:not(dialog) {
 							margin-bottom: 0.7rem;
@@ -85,7 +82,6 @@
 							&:not(.#{utils.$prefix-default}--always) {
 								max-width: min(100%, 100vw);
 								height: auto;
-								box-sizing: border-box;
 								overflow: hidden auto;
 								padding-right: 0;
 

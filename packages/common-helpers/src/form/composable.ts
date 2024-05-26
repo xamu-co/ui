@@ -42,9 +42,8 @@ export default function useForm(options: iPluginOptions = {}) {
 		event?: Event,
 		silent = false,
 		plainValues = true
-	): Promise<iFormResponse<R, HTMLElement | string>> {
+	): Promise<iFormResponse<R>> {
 		const { values, invalidInputs } = getFormValues<RV>(inputs, plainValues);
-		const modalTarget = (event?.target as HTMLElement)?.closest("dialog") || "body";
 		const withSwal = !silent && isBrowser;
 		let errors;
 		let requestHadErrors = false;
@@ -52,7 +51,7 @@ export default function useForm(options: iPluginOptions = {}) {
 
 		if (!invalidInputs.length) {
 			try {
-				if (withSwal) Swal.fireLoader({ target: modalTarget });
+				if (withSwal) Swal.fireLoader({ target: event });
 
 				newResponse = await request(values);
 				// request went ok, but still returned errors
@@ -77,7 +76,7 @@ export default function useForm(options: iPluginOptions = {}) {
 						timer: undefined,
 						showConfirmButton: true,
 						confirmButtonText: t("swal.connection_error_confirm"),
-						target: modalTarget,
+						target: event,
 					});
 
 					// Page reload if user wish to
@@ -90,7 +89,6 @@ export default function useForm(options: iPluginOptions = {}) {
 					requestHadErrors: true,
 					validationHadErrors: false,
 					errors,
-					modalTarget,
 				};
 			}
 		} else if (withSwal) {
@@ -99,7 +97,7 @@ export default function useForm(options: iPluginOptions = {}) {
 				title: t("swal.incomplete_data"),
 				text: t("swal.incomplete_data_message"),
 				icon: "warning",
-				target: modalTarget,
+				target: event,
 			});
 		}
 
@@ -117,7 +115,6 @@ export default function useForm(options: iPluginOptions = {}) {
 			requestHadErrors,
 			validationHadErrors,
 			errors,
-			modalTarget,
 		};
 	}
 

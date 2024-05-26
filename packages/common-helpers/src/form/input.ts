@@ -289,10 +289,12 @@ export interface iForm {
 	/**
 	 * Optional form key
 	 */
-	key?: string | number;
+	key?: string;
 	title?: string;
 	inputs: FormInput[];
 	listen?: boolean;
 	/** Make all inputs read only by disabling them */
 	readonly?: boolean;
+	/** Message when no valid inputs are rendered */
+	emptyMessage?: string;
 }

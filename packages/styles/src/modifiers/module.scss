@@ -20,7 +20,6 @@
 // size modifiers
 @mixin size {
 	@include forward.gap-size;
-	@include forward.gaping-size;
 	@include forward.height-size;
 	@include forward.margin-size;
 	@include forward.padding-size;

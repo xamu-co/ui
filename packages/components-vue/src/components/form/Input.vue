@@ -11,7 +11,7 @@
 			>
 				<div
 					v-if="!!input.options?.length"
-					class="flx --flxRow-wrap --flx-center --flx-start-center:md --maxWidth-440"
+					class="flx --flxRow-wrap --flx-start-center --gap-5 --gap-10:sm --gap:md"
 				>
 					<component
 						:is="input.multiple ? ActionButtonToggle : ActionButton"

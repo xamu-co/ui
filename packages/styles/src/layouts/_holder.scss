@@ -12,7 +12,6 @@
 
 			// display: block;
 			&:not(.#{utils.$prefix-default}--p-none) {
-				box-sizing: border-box;
 				transition: padding 0.3s ease-out;
 				padding: 0 1rem;
 

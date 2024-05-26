@@ -9,12 +9,26 @@
 			height: max-content;
 			overflow: hidden;
 			box-shadow: 3px 3px 9px utils.color(dark, 0.3);
-			box-sizing: border-box;
+
+			&:has(.#{utils.$layout-modal}-content) {
+				padding-left: 0;
+				padding-right: 0;
+			}
 
 			// size
 			@include utils.extend-sizes using($size, $unit) {
-				padding: ($size * 0.7) $size;
-				border-radius: $size * (utils.strip-unit(utils.$size-radius-box) + 0.333);
+				@layer defaults {
+					& {
+						padding: ($size * 0.7) $size;
+						border-radius: $size * (utils.strip-unit(utils.$size-radius-box) + 0.333);
+
+						// explicitly define content location containers
+						.#{utils.$layout-modal}-content {
+							padding-left: $size;
+							padding-right: $size;
+						}
+					}
+				}
 			}
 
 			// Modal theme

@@ -48,6 +48,9 @@
 							:theme="invertedTheme"
 							:modal-props="{ theme, ...modalProps }"
 							:classes="classes"
+							:clone-node="property?.cloneNode"
+							:update-node="property?.updateNode"
+							:delete-node="property?.deleteNode"
 						/>
 					</template>
 				</Modal>
