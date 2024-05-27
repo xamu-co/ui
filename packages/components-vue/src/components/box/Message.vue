@@ -10,7 +10,7 @@
 					GMC([themeValues[0]], { modifier: 'txtColor', divider: '-' }),
 					GMC(button ?? false, { modifier: 'button' }),
 				]"
-				class="box"
+				class="box --width"
 			>
 				<p v-if="text" v-html="text"></p>
 				<slot v-else></slot>
