@@ -18,6 +18,12 @@
 			//
 			// @group Statuses
 			&:not(.#{utils.$prefix-default}--sub) {
+				@layer defaults {
+					& {
+						gap: 1rem;
+					}
+				}
+
 				@include utils.flex-box(column, nowrap, space-between, center);
 				ul.#{utils.$layout-navigation-y}-menu-list,
 				ol.#{utils.$layout-navigation-y}-menu-list {
@@ -45,14 +51,13 @@
 		ul,
 		ol {
 			&.#{utils.$layout-navigation-y}-menu-list {
-				@include utils.flex-box(column, nowrap, center, flex-start);
-
-				&,
-				> * {
-					&:not(:first-child) {
-						margin-top: 1rem;
+				@layer defaults {
+					& {
+						gap: 1rem;
 					}
 				}
+
+				@include utils.flex-box(column, nowrap, center, flex-start);
 			}
 		}
 	}
