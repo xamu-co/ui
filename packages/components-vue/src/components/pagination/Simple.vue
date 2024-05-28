@@ -14,11 +14,11 @@
 			<ul class="flx --flxRow-wrap --flx-center --gap-5 --gap:sm">
 				<li>
 					<SelectSimple
-						id="order"
+						id="first"
 						v-model="firstModel"
 						:theme="theme"
 						class="--maxWidthVw-60"
-						name="order"
+						name="first"
 						:options="[5, 10, 25, 50, 100]"
 					/>
 				</li>

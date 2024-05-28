@@ -3,7 +3,7 @@
 		v-slot="{ content, refresh }"
 		:promise="patchedPromise"
 		:payload="[{ ...pagination, ...defaults }]"
-		v-bind="{ ...$attrs, preventAutoload, theme, label }"
+		v-bind="{ ...$attrs, preventAutoload, theme, noContentMessage, label, isContent }"
 	>
 		<slot
 			v-bind="{
@@ -29,13 +29,13 @@
 		iPage,
 		iPagination,
 		iPluginOptions,
-		tOrderBy,
 	} from "@open-xamu-co/ui-common-types";
 
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
 	import PaginationSimple from "./Simple.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
+	import { useOrderBy } from "../../composables/utils";
 
 	export interface iPCBaseProps extends iPagination, iUseThemeProps {
 		/**
@@ -44,6 +44,9 @@
 		page: any;
 		/**
 		 * paginate using route
+		 *
+		 * @example "?orderBy=id:asc" single order property
+		 * @example "?orderBy=id:asc&orderBy=createdAt" multiple order properties
 		 */
 		withRoute?: boolean;
 		/**
@@ -55,6 +58,7 @@
 		 * Additional parameters to send every request
 		 */
 		defaults?: Record<string, any>;
+		noContentMessage?: string;
 		/**
 		 * Loader label
 		 */
@@ -108,26 +112,23 @@
 	const routePagination = computed<iPagination>(() => {
 		if (!router) return {};
 
+		const { first, at } = propsPagination.value;
+
 		const route = router.currentRoute.value;
-		const newPagination = { ...propsPagination.value };
-		/**
-		 * TODO: support multiple order params
-		 * @example { price: "asc", createdAt: "desc", }
-		 */
-		const [cursorName, order] = Array.isArray(route.query.orderBy) ? route.query.orderBy : [];
-		const ascOrDesc = order === "asc" || order === "desc" ? order : "desc";
-		const orderBy: tOrderBy = [cursorName ?? "createdAt", ascOrDesc];
-		const first = route.query.first;
-		const at = route.query.at;
+		const newPagination: iPagination = { first, at };
+		const routeFirst = route.query.first;
 
-		newPagination.orderBy = orderBy;
+		if (routeFirst && !Array.isArray(routeFirst)) newPagination.first = Number(first);
 
-		if (first && !Array.isArray(first)) newPagination.first = Number(first);
-		if (at && !Array.isArray(at)) {
+		const routeAt = route.query.at;
+
+		if (routeAt && !Array.isArray(at)) {
 			const newAt = Number(at);
 
-			newPagination.at = isNaN(newAt) ? at : newAt;
+			newPagination.at = isNaN(newAt) ? routeAt : newAt;
 		}
+
+		newPagination.orderBy = useOrderBy(route.query.orderBy);
 
 		return newPagination;
 	});
@@ -145,4 +146,8 @@
 			};
 		},
 	});
+
+	function isContent(c?: iPage<T, C>): boolean {
+		return !!c?.edges.length;
+	}
 </script>

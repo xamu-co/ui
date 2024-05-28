@@ -44,7 +44,7 @@
 						<!-- TODO: define filters, filter table contents -->
 						<th
 							class="--sticky"
-							:class="{ ['is--selected']: canSort && isOrdering('id') }"
+							:class="{ ['is--selected']: canSort && !!ordering['id'] }"
 							data-column-name="id"
 							data-column="id"
 						>
@@ -70,7 +70,7 @@
 									@click="setOrdering('id')"
 								>
 									<span>#</span>
-									<template v-if="isOrdering('id')">
+									<template v-if="!!ordering['id']">
 										<IconFa v-if="ordering.asc" name="arrow-down" />
 										<IconFa v-if="!ordering.asc" name="arrow-up" />
 									</template>
@@ -83,7 +83,7 @@
 							class="--maxWidth-440"
 							:class="[
 								`--txtSize-${size}`,
-								{ ['is--selected']: canSort && isOrdering(propertyName.value) },
+								{ ['is--selected']: canSort && !!ordering[propertyName.value] },
 							]"
 							:data-column-name="propertyName.value"
 							:data-column="propertyName.alias"
@@ -93,7 +93,7 @@
 									: 'auto'
 							"
 						>
-							<span v-if="!canSort" :title="String(propertyName.value)">
+							<span v-if="!canSort" :title="propertyName.value">
 								{{ propertyName.alias }}
 							</span>
 							<ActionLink
@@ -107,7 +107,7 @@
 								@click="setOrdering(propertyName.value)"
 							>
 								<span>{{ propertyName.alias }}</span>
-								<template v-if="isOrdering(propertyName.value)">
+								<template v-if="!!ordering[propertyName.value]">
 									<IconFa v-if="ordering.asc" name="arrow-down" />
 									<IconFa v-else name="arrow-up" />
 								</template>
@@ -136,7 +136,7 @@
 						>
 							<th
 								class="--sticky"
-								:class="{ ['is--selected']: isOrdering('id') }"
+								:class="{ ['is--selected']: !!ordering['id'] }"
 								data-column-name="id"
 								data-column="id"
 							>
@@ -343,6 +343,7 @@
 		iNodeFn,
 		iProperty,
 		iSelectOption,
+		tOrder,
 		tProps,
 		tSizeModifier,
 	} from "@open-xamu-co/ui-common-types";
@@ -361,7 +362,7 @@
 
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import { useHelpers } from "../../composables/utils";
+	import { useHelpers, useOrderBy } from "../../composables/utils";
 	import useUUID from "../../composables/uuid";
 
 	export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
@@ -463,22 +464,23 @@
 	/**
 	 * ordering property
 	 *
-	 * TODO: order using props or model instead (external pagination)
+	 * TODO: require & use order getter fn instead
 	 */
 	const ordering = computed(() => {
-		const orderBy = { name: "id", asc: true };
+		let orderBy: Record<string, tOrder> = { id: "desc" };
 
 		if (router) {
 			const route = router.currentRoute.value;
 
-			if (!route.query.orderBy) return orderBy;
+			const routeOrderBy = useOrderBy(route.query.orderBy);
 
-			const properties = String(route.query.orderBy).split(",");
-			const property = properties[0]?.split(":");
+			if (!routeOrderBy.length) return orderBy;
 
-			orderBy.name = property[0];
+			orderBy = routeOrderBy.reduce<Record<string, tOrder>>((acc, [key, value]) => {
+				acc[key] = value || "desc";
 
-			if (String(property[1]).toUpperCase() === "DESC") orderBy.asc = false;
+				return acc;
+			}, {});
 		}
 
 		return orderBy;
@@ -490,10 +492,15 @@
 			(!props.updateNode && !props.cloneNode && !props.deleteNode)
 		);
 	});
+
+	interface iPropertyMeta extends iSelectOption {
+		value: string;
+	}
+
 	/**
 	 * This one assumes all objects within nodes are all the same
 	 */
-	const propertiesMeta = computed<iSelectOption[]>(() => {
+	const propertiesMeta = computed<iPropertyMeta[]>(() => {
 		return Object.entries(props.nodes[0])
 			.sort(([a], [b]) => {
 				// updatedAt, updatedBy, createdAt and createdBy to last position
@@ -506,13 +513,14 @@
 
 				return 0;
 			})
-			.map(([key]) => {
+			.map(([key]): iPropertyMeta => {
 				const options = (props.properties || []).map(toOption);
 				const property = toOption(options.find((p) => p.value === key) || key);
 				const aliasKey = _.snakeCase(key);
 
 				return {
 					...property,
+					value: String(property.value),
 					alias: _.capitalize(_.startCase(property.alias || tet(aliasKey))),
 				};
 			})
@@ -543,23 +551,18 @@
 	}
 
 	/**
-	 * property is ordering the table
-	 */
-	function isOrdering(property: string | number): boolean {
-		return ordering.value.name === property;
-	}
-
-	/**
 	 * set pagination order
+	 *
+	 * TODO: require & use order target fn instead
 	 *
 	 * @replace
 	 */
-	function setOrdering(property: string | number) {
-		var order = "ASC";
+	function setOrdering(property: string) {
+		let order: tOrder = "desc";
 
-		if (ordering.value.name === property && ordering.value.asc) {
+		if (ordering.value[property]) {
 			// switch order
-			order = "DESC";
+			order = ordering.value[property] === "desc" ? "asc" : "desc";
 		}
 
 		const orderBy = `${property}:${order}`;

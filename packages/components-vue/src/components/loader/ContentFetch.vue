@@ -3,18 +3,19 @@
 		<LoaderContent
 			v-bind="{
 				...$attrs,
-				content: !!content,
+				content: !!content && patchedIsContent(content),
 				errors: !!errors,
 				loading: loading,
 				refresh,
 				unwrap,
 				theme,
+				noContentMessage,
 				label,
 				noLoader,
 			}"
 		>
 			<slot
-				v-if="content && (!loading || firstLoad)"
+				v-if="!!content && patchedIsContent(content) && (!loading || firstLoad)"
 				v-bind="{ content, refresh, loading, errors }"
 			></slot>
 		</LoaderContent>
@@ -40,6 +41,7 @@
 	import type { iUseThemeProps } from "../../types/props";
 
 	interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
+		noContentMessage?: string;
 		/**
 		 * Loader label
 		 */
@@ -59,6 +61,10 @@
 		 */
 		el?: VueComponent | FunctionalComponent | DefineComponent | string;
 		preventAutoload?: boolean;
+		/**
+		 * Additional content validation before rendering fetched data
+		 */
+		isContent?: (c?: any) => boolean;
 	}
 
 	/**
@@ -95,6 +101,10 @@
 		errors.value = newErrors;
 	};
 	const content = computed(() => fetchedContent.value ?? props.fallback);
+
+	function patchedIsContent(c?: T): boolean {
+		return props.isContent?.(c) ?? !!c;
+	}
 
 	async function refresh() {
 		try {
