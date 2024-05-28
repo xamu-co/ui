@@ -58,7 +58,7 @@
 									:size="size"
 									@update:model-value="toggleAll"
 								/>
-								<span v-if="isReadOnly || !canSort">#</span>
+								<span v-if="!canSort">#</span>
 								<ActionLink
 									v-else
 									:theme="theme || themeValues"
@@ -71,44 +71,47 @@
 								>
 									<span>#</span>
 									<template v-if="!!ordering['id']">
-										<IconFa v-if="ordering.asc" name="arrow-down" />
-										<IconFa v-if="!ordering.asc" name="arrow-up" />
+										<IconFa v-if="ordering['id'] === 'asc'" name="arrow-down" />
+										<IconFa v-else name="arrow-up" />
 									</template>
 								</ActionLink>
 							</div>
 						</th>
 						<td
-							v-for="(propertyName, propertyNameIndex) in propertiesMeta"
-							:key="propertyNameIndex"
+							v-for="(meta, metaIndex) in propertiesMeta"
+							:key="metaIndex"
 							class="--maxWidth-440"
 							:class="[
 								`--txtSize-${size}`,
-								{ ['is--selected']: canSort && !!ordering[propertyName.value] },
+								{ ['is--selected']: meta.canSort && !!ordering[meta.value] },
 							]"
-							:data-column-name="propertyName.value"
-							:data-column="propertyName.alias"
+							:data-column-name="meta.value"
+							:data-column="meta.alias"
 							:width="
-								extraCols && propertyNameIndex === propertiesMeta.length - 1
+								extraCols && metaIndex === propertiesMeta.length - 1
 									? '99%'
 									: 'auto'
 							"
 						>
-							<span v-if="!canSort" :title="propertyName.value">
-								{{ propertyName.alias }}
+							<span v-if="!meta.canSort" :title="meta.value">
+								{{ meta.alias }}
 							</span>
 							<ActionLink
 								v-else
 								:theme="theme || themeValues"
-								:title="propertyName.value"
-								:tooltip="t('table_sort_by_name', { name: propertyName.alias })"
+								:title="meta.value"
+								:tooltip="t('table_sort_by_name', { name: meta.alias })"
 								tooltip-as-text
 								tooltip-position="bottom"
 								:size="size"
-								@click="setOrdering(propertyName.value)"
+								@click="setOrdering(meta.value)"
 							>
-								<span>{{ propertyName.alias }}</span>
-								<template v-if="!!ordering[propertyName.value]">
-									<IconFa v-if="ordering.asc" name="arrow-down" />
+								<span>{{ meta.alias }}</span>
+								<template v-if="!!ordering[meta.value]">
+									<IconFa
+										v-if="ordering[meta.value] === 'asc'"
+										name="arrow-down"
+									/>
 									<IconFa v-else name="arrow-up" />
 								</template>
 							</ActionLink>
@@ -344,6 +347,7 @@
 		iProperty,
 		iSelectOption,
 		tOrder,
+		tOrderBy,
 		tProps,
 		tSizeModifier,
 	} from "@open-xamu-co/ui-common-types";
@@ -388,7 +392,7 @@
 		/**
 		 * Do nodes support pagination?
 		 */
-		canSort?: boolean;
+		canSort?: boolean | tOrderBy;
 		/**
 		 * Function used to update a node
 		 */
@@ -467,7 +471,11 @@
 	 * TODO: require & use order getter fn instead
 	 */
 	const ordering = computed(() => {
-		let orderBy: Record<string, tOrder> = { id: "desc" };
+		let [sortKey = "id", sortValue = "desc"] = Array.isArray(props.canSort)
+			? props.canSort
+			: [];
+
+		let orderBy: Record<string, tOrder> = { [sortKey]: sortValue };
 
 		if (router) {
 			const route = router.currentRoute.value;
@@ -495,6 +503,7 @@
 
 	interface iPropertyMeta extends iSelectOption {
 		value: string;
+		canSort: boolean;
 	}
 
 	/**
@@ -513,15 +522,17 @@
 
 				return 0;
 			})
-			.map(([key]): iPropertyMeta => {
+			.map(([key, value]): iPropertyMeta => {
 				const options = (props.properties || []).map(toOption);
 				const property = toOption(options.find((p) => p.value === key) || key);
 				const aliasKey = _.snakeCase(key);
+				const canSort = typeof value === "string" || typeof value === "number";
 
 				return {
 					...property,
 					value: String(property.value),
 					alias: _.capitalize(_.startCase(property.alias || tet(aliasKey))),
+					canSort: !!props.canSort && canSort,
 				};
 			})
 			.filter((property) => property.value !== "id");
