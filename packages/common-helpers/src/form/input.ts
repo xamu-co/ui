@@ -150,8 +150,9 @@ export class FormInput<V extends iFormValue = iFormValue>
 
 		this._values = formInput.values?.length ? formInput.values : values;
 
-		// autoset single value
+		// autoset single value if required
 		if (
+			this.required &&
 			isChoiceType(this.type) &&
 			this.options.length === 1 &&
 			this._values[0] !== this.options[0].value
@@ -172,7 +173,9 @@ export class FormInput<V extends iFormValue = iFormValue>
 	set options(updatedOptions: iSelectOption[] | undefined) {
 		this._options = updatedOptions || [];
 
+		// autoset single value if required
 		if (
+			this.required &&
 			isChoiceType(this.type) &&
 			this.options.length === 1 &&
 			this.values[0] !== this.options[0].value

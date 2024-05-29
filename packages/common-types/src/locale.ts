@@ -192,6 +192,10 @@ export type tLocaleForm = {
 	form_unmatching_passwords: string;
 	/** @example "Invalid data" */
 	form_invalid_data: string;
+	/** @example "No values" */
+	form_no_values: string;
+	/** @example "New value" */
+	form_new_value: string;
 	// swal: {};
 };
 

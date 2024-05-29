@@ -1,9 +1,9 @@
 <template>
-	<BaseAction
+	<BaseBox
+		:el="BaseAction"
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
-		:class="[modifiersClasses, stateClasses, themeClasses]"
-		class="box --button"
 		:aria-label="label"
+		button
 	>
 		<div v-if="icon || src" :class="innerThemeClasses" class="box --square">
 			<IconFa v-if="icon" v-bind="{ size: 35, ...iconProps, name: icon }" />
@@ -18,7 +18,7 @@
 			<!-- Since we only accept label there is no room for slot here -->
 			<b>{{ label }}</b>
 		</p>
-	</BaseAction>
+	</BaseBox>
 </template>
 
 <script setup lang="ts">
@@ -27,9 +27,10 @@
 	import type { iFormIconProps } from "@open-xamu-co/ui-common-types";
 	import { eColors } from "@open-xamu-co/ui-common-enums";
 
+	import BaseBox from "../base/Box.vue";
 	import BaseImg from "../base/Img.vue";
-	import IconFa from "../icon/Fa.vue";
 	import BaseAction from "../base/Action.vue";
+	import IconFa from "../icon/Fa.vue";
 
 	import type {
 		iUseModifiersProps,
@@ -38,8 +39,6 @@
 		iActionProps,
 		iUseThemeTooltipProps,
 	} from "../../types/props";
-	import useModifiers from "../../composables/modifiers";
-	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
 
 	interface iBoxActionProps
@@ -77,8 +76,6 @@
 
 	const props = defineProps<iBoxActionProps>();
 
-	const { modifiersClasses } = useModifiers(props);
-	const { stateClasses } = useState(props);
-	const { themeClasses, tooltipAttributes } = useTheme(props);
+	const { tooltipAttributes } = useTheme(props);
 	const { themeClasses: innerThemeClasses } = useTheme({ theme: eColors.LIGHT });
 </script>

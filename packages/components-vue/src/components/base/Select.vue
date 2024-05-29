@@ -79,8 +79,8 @@
 	watch(
 		selectOptions,
 		(options) => {
-			// set single option as value
-			if (options.length === 1 && props.modelValue !== options[0].value) {
+			// set single option as value if required
+			if (props.required && options.length === 1 && props.modelValue !== options[0].value) {
 				emit("update:model-value", options[0].value);
 			}
 		},

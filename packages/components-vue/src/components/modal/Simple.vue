@@ -9,7 +9,7 @@
 					class="modal"
 					role="document"
 					:class="[
-						modalClass ?? 'flx --flxColumn --flx-start-stretch --width',
+						modalClass ?? 'flx --flxColumn --flx-start-center --width',
 						themeClasses,
 					]"
 					v-bind="$attrs"
@@ -18,7 +18,10 @@
 						name="header"
 						v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
 					>
-						<div v-if="title" class="flx --flxRow --flx-between-center modal-content">
+						<div
+							v-if="title"
+							class="flx --flxRow --flx-between-center --width modal-content"
+						>
 							<div class="txt --gap-none">
 								<h5>{{ title }}</h5>
 								<p v-if="subtitle" class="--txtSize-xs">{{ subtitle }}</p>
@@ -48,7 +51,7 @@
 						>
 							<div
 								v-if="!hideFooter"
-								class="flx --flxRow --flx-end-center modal-content"
+								class="flx --flxRow --flx-end-center --width modal-content"
 							>
 								<ActionButton
 									v-if="saveButtonOptions.visible"

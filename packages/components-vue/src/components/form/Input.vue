@@ -61,7 +61,7 @@
 				v-else-if="!input.defaults && input.type === eFT.FILE"
 				:theme="theme"
 				:disabled="readonly"
-				class="--flx"
+				class="--flx --width"
 				:file-prefix="_.snakeCase(input.placeholder)"
 				:model-value="modelValue"
 				:invalid="isInvalidByValidation"
@@ -239,25 +239,30 @@
 					<!-- TODO: build schedule input component -->
 					<p>Schedule Component Here</p>
 				</FormInputNValues>
-				<label v-else-if="input.type === eFT.BOOLEAN" class="--flx">
-					<BoxMessage :theme="theme" class="--txtAlign" :active="models[i].value" button>
-						<!-- TODO: use switch type (unsupported style) -->
-						<InputToggle
-							v-model="models[i].value"
-							v-bind="inputProps"
-							:placeholder="getInputPlaceholder()"
-							type="checkbox"
-							:theme="theme"
-							:disabled="readonly"
-							full-width
-							show-placeholder
-						>
-							<p v-if="input.placeholder" class="--txtSize-sm --txtWeight --txtWrap">
-								{{ tet(input.placeholder) }}
-							</p>
-						</InputToggle>
-					</BoxMessage>
-				</label>
+				<BaseBox
+					v-else-if="input.type === eFT.BOOLEAN"
+					el="label"
+					class="--flx --width --txtAlign"
+					:theme="theme"
+					:active="models[i].value"
+					button
+				>
+					<!-- TODO: use switch type (unsupported style) -->
+					<InputToggle
+						v-model="models[i].value"
+						v-bind="inputProps"
+						:placeholder="getInputPlaceholder()"
+						type="checkbox"
+						:theme="theme"
+						:disabled="readonly"
+						full-width
+						show-placeholder
+					>
+						<p v-if="input.placeholder" class="--txtSize-sm --txtWeight --txtWrap">
+							{{ tet(input.placeholder) }}
+						</p>
+					</InputToggle>
+				</BaseBox>
 				<FormInputOptions
 					v-else-if="input.type === eFT.SELECT || input.type === eFT.SELECT_FILTER"
 					v-slot="{ options }"
@@ -324,6 +329,7 @@
 		useForm,
 	} from "@open-xamu-co/ui-common-helpers";
 
+	import BaseBox from "../base/Box.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import IconFa from "../icon/Fa.vue";
 	import ActionButton from "../action/Button.vue";
@@ -334,7 +340,6 @@
 	import InputFile from "../input/File.vue";
 	import SelectSimple from "../select/Simple.vue";
 	import SelectFilter from "../select/Filter.vue";
-	import BoxMessage from "../box/Message.vue";
 
 	// input helper components
 	import FormInputOptions from "./InputOptions.vue";

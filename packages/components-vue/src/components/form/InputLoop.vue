@@ -19,15 +19,34 @@
 			{{ getInputError() }}
 		</p>
 	</div>
-	<ActionButton
-		v-if="input.multiple && input.max > models.length"
-		:aria-label="t('add')"
-		:theme="theme"
-		:disabled="readonly"
-		@click="input.addValue()"
-	>
-		{{ t("add") }}
-	</ActionButton>
+	<template v-if="input.multiple && input.max > models.length">
+		<BaseBox
+			v-if="!models.length"
+			class="--width"
+			:theme="theme"
+			:disabled="readonly"
+			button
+			dashed
+			transparent
+		>
+			<div class="flx --flx-center">
+				<span>{{ t("form_no_values") }}</span>
+				<ActionButton :theme="theme" :disabled="readonly" @click="input.addValue()">
+					{{ t("add") }}
+				</ActionButton>
+			</div>
+		</BaseBox>
+		<ActionButton
+			v-else
+			:theme="theme"
+			:disabled="readonly"
+			:size="eSizes.XS"
+			class="--txtSize-sm"
+			@click="input.addValue()"
+		>
+			<span>{{ t("form_new_value") }}</span>
+		</ActionButton>
+	</template>
 </template>
 
 <script setup lang="ts" generic="T extends iFormValue">
@@ -40,6 +59,7 @@
 		useI18n,
 	} from "@open-xamu-co/ui-common-helpers";
 
+	import BaseBox from "../base/Box.vue";
 	import IconFa from "../icon/Fa.vue";
 	import ActionLink from "../action/Link.vue";
 	import ActionButton from "../action/Button.vue";
@@ -47,6 +67,7 @@
 	import type { iUseThemeProps } from "../../types/props";
 	import useInput from "../../composables/input";
 	import { useHelpers } from "../../composables/utils";
+	import { eSizes } from "@open-xamu-co/ui-common-enums";
 
 	export interface iFormInputLoop<Ti> extends iUseThemeProps {
 		input: FormInputClass;
