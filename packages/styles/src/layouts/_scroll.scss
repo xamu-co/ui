@@ -82,7 +82,7 @@
 							&:not(.#{utils.$prefix-default}--always) {
 								max-width: min(100%, 100vw);
 								height: auto;
-								overflow: hidden auto;
+								overflow: auto hidden;
 								padding-right: 0;
 
 								> * {

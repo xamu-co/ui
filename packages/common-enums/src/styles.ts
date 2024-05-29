@@ -3,9 +3,11 @@
  * @mq
  */
 export enum eMQ {
+	TV = "(max-width: 1280px)",
 	LAPTOP = "(max-width: 1080px)",
 	TABLET = "(max-width: 768px)",
 	MOBILE = "(max-width: 576px)",
+	SMARTWATCH = "(max-width: 358px)",
 }
 
 /**
