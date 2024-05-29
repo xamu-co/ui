@@ -129,6 +129,8 @@ export const localeForm: tLocaleForm = {
 	form_use_valid_cellphone: "Debes usar un numero de celular valido",
 	form_unmatching_passwords: "Las contraseñas no coinciden",
 	form_invalid_data: "Informacion invalida",
+	form_no_values: "Sin valores",
+	form_new_value: "Nuevo valor",
 	// swal: {},
 };
 

@@ -36,7 +36,7 @@
 		</LoaderContentFetch>
 		<slot v-else>
 			<!-- No inputs given -->
-			<BoxMessage :theme="theme">
+			<BoxMessage :theme="theme" class="--width">
 				<div class="flx --flxRow --flx-center">
 					<span>{{ emptyMessage || t("nothing_to_show") }}</span>
 				</div>

@@ -30,6 +30,7 @@ const inputs: FormInput[] = [
 		autocomplete: "off",
 		name: "paymentMethodIds",
 		multiple: true,
+		min: 0,
 		title: "Choose one or several payment methods",
 	}),
 	new FormInput({

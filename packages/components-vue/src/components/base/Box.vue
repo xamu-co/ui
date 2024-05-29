@@ -1,0 +1,73 @@
+<template>
+	<component
+		:is="el || 'div'"
+		class="box"
+		:class="[
+			modifiersClasses,
+			stateClasses,
+			themeClasses,
+			GMC(button ?? false, { modifier: 'button' }),
+			{ ' --bdr-dashed': dashed },
+			{ ' --bdr-solid': solid && !dashed },
+			{ '--bgColor-none': transparent },
+			colorClasses,
+		]"
+		v-bind="$attrs"
+	>
+		<slot></slot>
+	</component>
+</template>
+<script setup lang="ts">
+	import {
+		type Component as VueComponent,
+		type FunctionalComponent,
+		type DefineComponent,
+		computed,
+	} from "vue";
+
+	import { useUtils } from "@open-xamu-co/ui-common-helpers";
+
+	import type { iUseModifiersProps, iUseStateProps, iUseThemeProps } from "../../types/props";
+	import useModifiers from "../../composables/modifiers";
+	import useState from "../../composables/state";
+	import useTheme from "../../composables/theme";
+	import { useHelpers } from "../../composables/utils";
+
+	interface iBaseBoxProps extends iUseModifiersProps, iUseStateProps, iUseThemeProps {
+		/**
+		 * Component or tag to render
+		 */
+		el?: VueComponent | FunctionalComponent | DefineComponent | string;
+		/**
+		 * less padding
+		 */
+		button?: boolean;
+		dashed?: boolean;
+		solid?: boolean;
+		transparent?: boolean;
+		withColor?: boolean;
+	}
+
+	/**
+	 * Basic box
+	 *
+	 * @component
+	 * @example
+	 * <BaseBox></BaseBox>
+	 */
+
+	defineOptions({ name: "BaseBox", inheritAttrs: false });
+
+	const props = defineProps<iBaseBoxProps>();
+
+	const { getModifierClasses: GMC } = useHelpers(useUtils);
+	const { modifiersClasses } = useModifiers(props);
+	const { stateClasses } = useState(props);
+	const { themeClasses, themeValues } = useTheme(props);
+
+	const colorClasses = computed(() => {
+		const classes = GMC([themeValues.value[0]], { modifier: "txtColor", divider: "-" });
+
+		return props.withColor ? classes : [];
+	});
+</script>

@@ -25,16 +25,14 @@
 	}
 
 	/**
-	 * Content loader
-	 *
-	 * Display or hide content while it is loading
+	 * Error handling
 	 *
 	 * @component
 	 * @example
-	 * <LoaderContent></LoaderContent>
+	 * <BaseErrorBoundary></BaseErrorBoundary>
 	 */
 
-	defineOptions({ name: "LoaderContent", inheritAttrs: false });
+	defineOptions({ name: "BaseErrorBoundary", inheritAttrs: false });
 
 	const props = defineProps<iLoaderContentProps>();
 

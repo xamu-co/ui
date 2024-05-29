@@ -1,26 +1,17 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-	<div :class="modifiersClasses" class="flx --flxColumn --flx-center --width" v-bind="$attrs">
+	<div class="flx --flxColumn --flx-center" v-bind="$attrs">
 		<div class="txt --txtAlign-center --width">
-			<div
-				:class="[
-					modifiersClasses,
-					stateClasses,
-					themeClasses,
-					GMC([themeValues[0]], { modifier: 'txtColor', divider: '-' }),
-					GMC(button ?? false, { modifier: 'button' }),
-				]"
-				class="box --width"
-			>
+			<BaseBox class="--width" with-color v-bind="props">
 				<p v-if="text" v-html="text"></p>
 				<slot v-else></slot>
-			</div>
+			</BaseBox>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-	import { useUtils } from "@open-xamu-co/ui-common-helpers";
+	import BaseBox from "../base/Box.vue";
 
 	import type {
 		iUseModifiersProps,
@@ -28,10 +19,6 @@
 		iUseThemeProps,
 		iActionProps,
 	} from "../../types/props";
-	import useModifiers from "../../composables/modifiers";
-	import useState from "../../composables/state";
-	import useTheme from "../../composables/theme";
-	import { useHelpers } from "../../composables/utils";
 
 	interface iBoxMessageProps
 		extends iActionProps,
@@ -42,10 +29,6 @@
 		 * Text or html
 		 */
 		text?: string;
-		/**
-		 * less padding
-		 */
-		button?: boolean;
 	}
 
 	/**
@@ -61,9 +44,4 @@
 	defineOptions({ name: "BoxMessage", inheritAttrs: false });
 
 	const props = defineProps<iBoxMessageProps>();
-
-	const { getModifierClasses: GMC } = useHelpers(useUtils);
-	const { modifiersClasses } = useModifiers(props);
-	const { stateClasses } = useState(props);
-	const { themeClasses, themeValues } = useTheme(props);
 </script>

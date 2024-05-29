@@ -321,7 +321,7 @@
 			</table>
 		</div>
 	</div>
-	<BoxMessage v-else :theme="theme || themeValues">
+	<BoxMessage v-else :theme="theme || themeValues" class="--width">
 		<div class="flx --flxRow --flx-center">
 			<span>{{ t("nothing_to_show") }}</span>
 			<ActionButtonToggle

@@ -1,7 +1,8 @@
 <template>
-	<div
-		:class="[classes, modifiersClasses, stateClasses, fileInputTheme.themeClasses]"
-		class="box --button flx --flxColumn --flx-start-stretch --gap-10 --width"
+	<BaseBox
+		class="flx --flxColumn --flx-start-stretch --gap-10"
+		button
+		v-bind="{ ...props, theme: fileInputTheme.themeValues }"
 	>
 		<div
 			v-if="minAmount !== maxAmount && thumbnails.length"
@@ -52,11 +53,15 @@
 			@change="handleInputChange"
 		>
 			<template v-if="!isLoading">
-				<label
+				<BaseBox
 					v-if="modelValue.length < maxAmount"
 					:for="id"
-					:class="[...fileInputTheme.themeClasses, { '--bgColor-none': !isDragover }]"
-					class="box --bdr-dashed --size-xs flx --flxColumn --flx-center --minHeight-90"
+					class="flx --flxColumn --flx-center --minHeight-90"
+					el="label"
+					dashed
+					:size="eSizes.XS"
+					:theme="fileInputTheme.themeValues"
+					:transparent="!isDragover"
 					@drag="prevent"
 					@dragstart="prevent"
 					@dragend="handleMouseOut"
@@ -84,11 +89,14 @@
 							<b>{{ t("file_drop_files_here", maxAmount) }}</b>
 						</p>
 					</div>
-				</label>
-				<div
+				</BaseBox>
+				<BaseBox
 					v-else
-					:class="fileInputTheme.themeClasses"
-					class="box --bdr-solid --size-xs --bgColor-none flx --flxRow --flx-center"
+					class="flx --flxRow --flx-center"
+					:theme="fileInputTheme.themeValues"
+					:size="eSizes.XS"
+					solid
+					transparent
 				>
 					<p>{{ t("file_completed") }}</p>
 					<ActionButton
@@ -98,25 +106,27 @@
 					>
 						{{ t("file_delete_files", maxAmount) }}
 					</ActionButton>
-				</div>
+				</BaseBox>
 			</template>
-			<div
+			<BaseBox
 				v-else
-				:class="fileInputTheme.themeClasses"
-				class="box --bdr-solid --size-xs --bgColor-none flx --flxRow --flx-center"
+				class="flx --flxRow --flx-center"
+				:theme="fileInputTheme.themeValues"
+				:size="eSizes.XS"
+				solid
+				transparent
 			>
 				{{ t("file_loading_files", maxAmount) }}
-			</div>
+			</BaseBox>
 		</BaseInput>
-	</div>
+	</BaseBox>
 </template>
 
 <script setup lang="ts">
 	import { ref, computed } from "vue";
 	import _ from "lodash";
 
-	import type { tProps } from "@open-xamu-co/ui-common-types";
-	import { eColors } from "@open-xamu-co/ui-common-enums";
+	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {
 		fileMatchesMimeTypes,
 		standardImageMimeTypes,
@@ -130,6 +140,7 @@
 	import BaseImg from "../base/Img.vue";
 	import BaseAction from "../base/Action.vue";
 	import BaseInput from "../base/Input.vue";
+	import BaseBox from "../base/Box.vue";
 	import IconFa from "../icon/Fa.vue";
 	import ActionButton from "../action/Button.vue";
 	import ActionLink from "../action/Link.vue";
@@ -140,8 +151,6 @@
 		iUseThemeProps,
 		iInputProps,
 	} from "../../types/props";
-	import useModifiers from "../../composables/modifiers";
-	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
 
@@ -165,10 +174,6 @@
 		accept?: string[];
 		// PRIVATE
 		modelValue: File[];
-		/**
-		 * Content clasess
-		 */
-		classes?: tProps<string>;
 	}
 
 	interface iDropEvent extends DragEvent {
@@ -194,8 +199,6 @@
 	const { t } = useHelpers(useI18n);
 	const { isBrowser } = useHelpers(useUtils);
 	const Swal = useHelpers(useSwal);
-	const { modifiersClasses } = useModifiers(props);
-	const { stateClasses } = useState(props);
 	const validTheme = useTheme(props);
 	const invalidTheme = useTheme({ theme: eColors.DANGER });
 

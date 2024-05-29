@@ -68,4 +68,8 @@ export const Sample: Story = {
 	args: { nodes },
 };
 
+export const NoContent: Story = {
+	args: { nodes: [] },
+};
+
 export default meta;
