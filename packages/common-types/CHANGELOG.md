@@ -1,5 +1,36 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.9...@open-xamu-co/ui-common-types-v3.0.0-next.10) (2024-05-31)
+
+
+### Code Refactoring
+
+* pagination ([8a390ad](https://github.com/xamu-co/ui/commit/8a390ade839fad0d7400d072d4c26be891bddaf7))
+
+
+### Features
+
+* modal content slot ([5245ea1](https://github.com/xamu-co/ui/commit/5245ea167a9c08765da8f6605dda76ee73d64fd9))
+* no values message on input loop ([61c772c](https://github.com/xamu-co/ui/commit/61c772c475dea768f3619a9cda37a4f4a911d915))
+
+
+### BREAKING CHANGES
+
+* orderBy expects tOrderBy[]
+* no gaping modifier & no modalTarget on form response
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.10"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.8...@open-xamu-co/ui-common-types-v3.0.0-next.9) (2024-05-24)
 
 
