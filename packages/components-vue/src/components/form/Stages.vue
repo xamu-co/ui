@@ -157,6 +157,8 @@
 		 * submit fn
 		 */
 		submitFn?: (values: FormInputClass[], event?: Event) => Promise<boolean | iInvalidInput[]>;
+		/** Perform additional actions if submit succeds */
+		successFn?: () => void;
 		/**
 		 * Omit requiring filling up the form
 		 */
@@ -213,7 +215,11 @@
 		if (Array.isArray(successOrInvalid)) invalid.value = successOrInvalid;
 		else {
 			emit("submited", successOrInvalid);
-			resetStages(props.stages); // reset form
+
+			if (successOrInvalid) {
+				resetStages(props.stages); // reset form
+				props.successFn?.();
+			}
 		}
 	});
 

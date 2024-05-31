@@ -154,12 +154,6 @@
 		loading.value = false;
 	}
 
-	// lifecycle
-	if (!props.preventAutoload) refresh();
-
-	// Allow the parent to manually force an update
-	emit("refresh", refresh);
-
 	function validatePromiseLike(newPromise: any, oldPromise: any) {
 		/**
 		 * The same promise would trigger the watcher
@@ -174,7 +168,13 @@
 		if (!loading.value && !!newPromise) refresh();
 	}
 
-	// lifecycle, refetch on url or promise change
+	// lifecycle
+	if (!props.preventAutoload) refresh();
+
+	// Allow the parent to manually force an update
+	emit("refresh", refresh);
+
+	// refetch on url or promise change
 	watch(
 		() => props.url,
 		(newUrl, oldUrl) => {
