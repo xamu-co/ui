@@ -1,5 +1,34 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.5...@open-xamu-co/ui-styles-v3.0.0-next.6) (2024-05-31)
+
+
+### Bug Fixes
+
+* box message size ([53f6a15](https://github.com/xamu-co/ui/commit/53f6a154ea125a9f498fc701a89d8df2f9f8e1b9))
+* use gap on navigationY ([3dde2f6](https://github.com/xamu-co/ui/commit/3dde2f69ffa039fb57bc3aa97b81448d173866d9))
+* wrong overflow on horizontal scroll ([dd344a9](https://github.com/xamu-co/ui/commit/dd344a9dc347545d71dc7cd445134346d648835e))
+
+
+### Features
+
+* modal content slot ([5245ea1](https://github.com/xamu-co/ui/commit/5245ea167a9c08765da8f6605dda76ee73d64fd9))
+
+
+### BREAKING CHANGES
+
+* no gaping modifier & no modalTarget on form response
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.6"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.4...@open-xamu-co/ui-styles-v3.0.0-next.5) (2024-05-24)
 
 
