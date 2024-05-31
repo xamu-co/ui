@@ -1,5 +1,40 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.12...@open-xamu-co/ui-components-vue-v3.0.0-next.13) (2024-05-31)
+
+
+### Bug Fixes
+
+* box message size ([53f6a15](https://github.com/xamu-co/ui/commit/53f6a154ea125a9f498fc701a89d8df2f9f8e1b9))
+* phone as date on table ([b8cf42d](https://github.com/xamu-co/ui/commit/b8cf42d9fd2fa821f3bb45d6ad1c39bb4db63478))
+* prevent fetching on deactivated state ([f74e236](https://github.com/xamu-co/ui/commit/f74e236e0840d369c6ab16b852ed9b61d9f961c2))
+
+
+### Code Refactoring
+
+* pagination ([8a390ad](https://github.com/xamu-co/ui/commit/8a390ade839fad0d7400d072d4c26be891bddaf7))
+
+
+### Features
+
+* define default sort property on table ([bcda348](https://github.com/xamu-co/ui/commit/bcda348bb4e8975381a97b4cba14ae31213324dd))
+* modal content slot ([5245ea1](https://github.com/xamu-co/ui/commit/5245ea167a9c08765da8f6605dda76ee73d64fd9))
+* no values message on input loop ([61c772c](https://github.com/xamu-co/ui/commit/61c772c475dea768f3619a9cda37a4f4a911d915))
+
+
+### BREAKING CHANGES
+
+* orderBy expects tOrderBy[]
+* no gaping modifier & no modalTarget on form response
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.13"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.11...@open-xamu-co/ui-components-vue-v3.0.0-next.12) (2024-05-24)
 
 
