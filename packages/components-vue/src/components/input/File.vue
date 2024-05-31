@@ -199,15 +199,14 @@
 	const { t } = useHelpers(useI18n);
 	const { isBrowser } = useHelpers(useUtils);
 	const Swal = useHelpers(useSwal);
-	const validTheme = useTheme(props);
-	const invalidTheme = useTheme({ theme: eColors.DANGER });
+	const { themeClasses, dangerThemeClasses, themeValues, dangerThemeValues } = useTheme(props);
 
 	const fileInputTheme = computed(() => {
 		const invalid = props.invalid;
 
 		return {
-			themeClasses: invalid ? invalidTheme.themeClasses.value : validTheme.themeClasses.value,
-			themeValues: invalid ? invalidTheme.themeValues.value : validTheme.themeValues.value,
+			themeClasses: invalid ? dangerThemeClasses.value : themeClasses.value,
+			themeValues: invalid ? dangerThemeValues.value : themeValues.value,
 		};
 	});
 

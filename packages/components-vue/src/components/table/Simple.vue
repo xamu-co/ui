@@ -22,7 +22,7 @@
 					:tooltip="t('table_delete')"
 					tooltip-as-text
 					tooltip-position="bottom"
-					:theme="[eColors.DANGER, themeValues[0]]"
+					:theme="dangerThemeValues"
 					:disabled="!selectedNodes.some(([n]) => n)"
 					@click="deleteNodesAndRefresh"
 				>
@@ -210,11 +210,12 @@
 									<Dropdown
 										class="flx --flxRow --flx-center"
 										:position="['left', 'center']"
-										:theme="theme || themeValues"
 										:size="size"
+										v-bind="{ theme: theme || themeValues, ...modalProps }"
 									>
 										<template #toggle="{ setModel }">
 											<ActionLink
+												class="--pX-10"
 												:aria-label="t('table_options')"
 												:title="t('table_options')"
 												:theme="theme || themeValues"
@@ -227,7 +228,9 @@
 											</ActionLink>
 										</template>
 										<template #default="{ setModel, invertedTheme }">
-											<ul class="flx --flxColumn --flx-start-stretch --gap-5">
+											<ul
+												class="flx --flxColumn --flx-start-stretch --gap-10"
+											>
 												<li v-if="!!cloneNode">
 													<ActionLink
 														:theme="invertedTheme"
@@ -243,7 +246,7 @@
 												</li>
 												<li v-if="!!deleteNode">
 													<ActionLink
-														:theme="[eColors.DANGER, invertedTheme[0]]"
+														:theme="dangerThemeValues"
 														:size="size"
 														:aria-label="t('table_delete')"
 														@click="
@@ -351,7 +354,7 @@
 		tProps,
 		tSizeModifier,
 	} from "@open-xamu-co/ui-common-types";
-	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
+	import { eSizes } from "@open-xamu-co/ui-common-enums";
 	import { toOption, useSwal, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -451,7 +454,7 @@
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
-	const { themeClasses, themeValues } = useTheme(props);
+	const { themeClasses, themeValues, dangerThemeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 	const { uuid } = useUUID();
 
