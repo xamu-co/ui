@@ -43,6 +43,20 @@
 				&.#{utils.$prefix-default}--always {
 					max-width: min(100%, 100vw);
 					overflow: auto hidden;
+					box-sizing: content-box;
+
+					@media (max-width: utils.$querie-tablet) {
+						&:has(:only-child) {
+							width: calc(min(100%, 100vw) + 2rem);
+							max-width: none;
+							margin: 0 -1rem;
+
+							> :only-child {
+								border-right: 1rem solid transparent;
+								border-left: 1rem solid transparent;
+							}
+						}
+					}
 
 					> * {
 						min-width: 100%;

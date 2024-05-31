@@ -36,11 +36,11 @@
 		</LoaderContentFetch>
 		<slot v-else>
 			<!-- No inputs given -->
-			<BoxMessage :theme="theme" class="--width">
+			<BaseBox class="--width" :theme="theme" button dashed transparent>
 				<div class="flx --flxRow --flx-center">
 					<span>{{ emptyMessage || t("nothing_to_show") }}</span>
 				</div>
-			</BoxMessage>
+			</BaseBox>
 		</slot>
 	</BaseErrorBoundary>
 </template>
@@ -54,7 +54,7 @@
 	import { type FormInput as FormInputClass, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
-	import BoxMessage from "../box/Message.vue";
+	import BaseBox from "../base/Box.vue";
 	import FormInput from "./Input.vue";
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
 

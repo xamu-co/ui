@@ -529,7 +529,7 @@
 				const options = (props.properties || []).map(toOption);
 				const property = toOption(options.find((p) => p.value === key) || key);
 				const aliasKey = _.snakeCase(key);
-				const canSort = typeof value === "string" || typeof value === "number";
+				const canSort = ["string", "number", "boolean"].includes(typeof value);
 
 				return {
 					...property,
