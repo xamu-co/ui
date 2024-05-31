@@ -23,7 +23,7 @@
 			<ActionButtonToggle
 				:disabled="disabled || Number(model) <= minValue"
 				:size="size"
-				:theme="invalid ? eColors.DANGER : theme"
+				:theme="textInputTheme"
 				:aria-label="t('decrease')"
 				:tooltip="t('decrease')"
 				tooltip-position="left"
@@ -37,7 +37,7 @@
 			<ActionButtonToggle
 				:disabled="disabled || Number(model) >= maxValue"
 				:size="size"
-				:theme="invalid ? eColors.DANGER : theme"
+				:theme="textInputTheme"
 				:tooltip="t('increase')"
 				tooltip-position="left"
 				round
@@ -73,7 +73,6 @@
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
-	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	interface iInputTextProps
 		extends iInputProps,
@@ -116,7 +115,7 @@
 	const { t } = useHelpers(useI18n);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
-	const { themeClasses } = useTheme(props);
+	const { themeClasses, themeValues, dangerThemeValues } = useTheme(props);
 
 	const inputType = computed(() => props.type ?? "text");
 	const minValue = computed(() => Number(props.min) || 0);
@@ -139,6 +138,9 @@
 	});
 	const inputClasses = computed(() => {
 		return [modifiersClasses.value, stateClasses.value, themeClasses.value, "iTxt"];
+	});
+	const textInputTheme = computed(() => {
+		return props.invalid ? dangerThemeValues.value : themeValues.value;
 	});
 
 	/**

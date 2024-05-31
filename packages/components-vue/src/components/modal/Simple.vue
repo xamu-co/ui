@@ -194,7 +194,7 @@
 		emit("close");
 	}
 	function clickOutside(e: Event) {
-		if (modalRef.value !== e.target) return;
+		if (props.disabled || modalRef.value !== e.target) return;
 
 		closeModal();
 	}
@@ -251,7 +251,15 @@
 		if (!router?.currentRoute) return;
 
 		// close on route change
-		watch(router.currentRoute, () => closeModal(), { immediate: false });
+		watch(
+			router.currentRoute,
+			() => {
+				if (props.disabled) return;
+
+				closeModal();
+			},
+			{ immediate: false }
+		);
 	});
 	onBeforeUnmount(closeModal);
 </script>

@@ -1,6 +1,6 @@
 <template>
 	<slot v-if="errors !== undefined" name="fallback" v-bind="{ errors }">
-		<BoxMessage :theme="[eColors.DANGER, themeValues[0]]">
+		<BoxMessage :theme="dangerThemeValues">
 			<div class="flx --flxRow --flx-center">
 				<span>{{ errorMessage || t("render_error") }}</span>
 			</div>
@@ -12,7 +12,6 @@
 	import { ref, onErrorCaptured } from "vue";
 
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
-	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	import BoxMessage from "../box/Message.vue";
 
@@ -37,7 +36,7 @@
 	const props = defineProps<iLoaderContentProps>();
 
 	const { t } = useHelpers(useI18n);
-	const { themeValues } = useTheme(props);
+	const { dangerThemeValues } = useTheme(props);
 
 	const errors = ref();
 

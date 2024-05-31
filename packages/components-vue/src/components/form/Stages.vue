@@ -124,7 +124,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, watch } from "vue";
+	import { onBeforeUnmount, ref, watch } from "vue";
 	import _ from "lodash";
 
 	import type { iInvalidInput, tProps } from "@open-xamu-co/ui-common-types";
@@ -293,4 +293,6 @@
 		(newStages) => resetStages(newStages),
 		{ immediate: true }
 	);
+
+	onBeforeUnmount(fullReset);
 </script>

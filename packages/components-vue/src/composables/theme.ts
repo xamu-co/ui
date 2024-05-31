@@ -45,6 +45,12 @@ export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolea
 	const themeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
 		return [invertedThemeValues.value[1], invertedThemeValues.value[0]];
 	});
+	const dangerThemeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
+		return [
+			eColors.DANGER,
+			themeValues.value[1] === eColors.DARK ? eColors.DARK : eColors.LIGHT,
+		];
+	});
 	const shadowClasses = computed<string[]>(() => {
 		let withShadow;
 
@@ -66,6 +72,13 @@ export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolea
 
 		return GMC([values.join("-")], { modifier: "tm", divider: "-" });
 	});
+	const dangerThemeClasses = computed<string[]>(() => {
+		if (!props.theme) return [];
+
+		const values = themeAsUnion ? dangerThemeValues.value : [dangerThemeValues.value[0]];
+
+		return GMC([values.join("-")], { modifier: "tm", divider: "-" });
+	});
 	const tooltipAttributes = computed(() => {
 		const tooltipText = props.tooltip && getPropData(props.tooltip);
 		const hasColor = themeValues.value[1] !== eColors.LIGHT;
@@ -82,5 +95,13 @@ export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolea
 			: null;
 	});
 
-	return { invertedThemeValues, themeValues, themeClasses, shadowClasses, tooltipAttributes };
+	return {
+		invertedThemeValues,
+		themeValues,
+		dangerThemeValues,
+		themeClasses,
+		dangerThemeClasses,
+		shadowClasses,
+		tooltipAttributes,
+	};
 }
