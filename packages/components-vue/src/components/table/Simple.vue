@@ -22,7 +22,7 @@
 					:tooltip="t('table_delete')"
 					tooltip-as-text
 					tooltip-position="bottom"
-					:theme="[eColors.DANGER, themeValues[0]]"
+					:theme="dangerThemeValues"
 					:disabled="!selectedNodes.some(([n]) => n)"
 					@click="deleteNodesAndRefresh"
 				>
@@ -44,7 +44,7 @@
 						<!-- TODO: define filters, filter table contents -->
 						<th
 							class="--sticky"
-							:class="{ ['is--selected']: canSort && isOrdering('id') }"
+							:class="{ ['is--selected']: canSort && !!ordering['id'] }"
 							data-column-name="id"
 							data-column="id"
 						>
@@ -58,7 +58,7 @@
 									:size="size"
 									@update:model-value="toggleAll"
 								/>
-								<span v-if="isReadOnly || !canSort">#</span>
+								<span v-if="!canSort">#</span>
 								<ActionLink
 									v-else
 									:theme="theme || themeValues"
@@ -70,45 +70,48 @@
 									@click="setOrdering('id')"
 								>
 									<span>#</span>
-									<template v-if="isOrdering('id')">
-										<IconFa v-if="ordering.asc" name="arrow-down" />
-										<IconFa v-if="!ordering.asc" name="arrow-up" />
+									<template v-if="!!ordering['id']">
+										<IconFa v-if="ordering['id'] === 'asc'" name="arrow-down" />
+										<IconFa v-else name="arrow-up" />
 									</template>
 								</ActionLink>
 							</div>
 						</th>
 						<td
-							v-for="(propertyName, propertyNameIndex) in propertiesMeta"
-							:key="propertyNameIndex"
+							v-for="(meta, metaIndex) in propertiesMeta"
+							:key="metaIndex"
 							class="--maxWidth-440"
 							:class="[
 								`--txtSize-${size}`,
-								{ ['is--selected']: canSort && isOrdering(propertyName.value) },
+								{ ['is--selected']: meta.canSort && !!ordering[meta.value] },
 							]"
-							:data-column-name="propertyName.value"
-							:data-column="propertyName.alias"
+							:data-column-name="meta.value"
+							:data-column="meta.alias"
 							:width="
-								extraCols && propertyNameIndex === propertiesMeta.length - 1
+								extraCols && metaIndex === propertiesMeta.length - 1
 									? '99%'
 									: 'auto'
 							"
 						>
-							<span v-if="!canSort" :title="String(propertyName.value)">
-								{{ propertyName.alias }}
+							<span v-if="!meta.canSort" :title="meta.value">
+								{{ meta.alias }}
 							</span>
 							<ActionLink
 								v-else
 								:theme="theme || themeValues"
-								:title="propertyName.value"
-								:tooltip="t('table_sort_by_name', { name: propertyName.alias })"
+								:title="meta.value"
+								:tooltip="t('table_sort_by_name', { name: meta.alias })"
 								tooltip-as-text
 								tooltip-position="bottom"
 								:size="size"
-								@click="setOrdering(propertyName.value)"
+								@click="setOrdering(meta.value)"
 							>
-								<span>{{ propertyName.alias }}</span>
-								<template v-if="isOrdering(propertyName.value)">
-									<IconFa v-if="ordering.asc" name="arrow-down" />
+								<span>{{ meta.alias }}</span>
+								<template v-if="!!ordering[meta.value]">
+									<IconFa
+										v-if="ordering[meta.value] === 'asc'"
+										name="arrow-down"
+									/>
 									<IconFa v-else name="arrow-up" />
 								</template>
 							</ActionLink>
@@ -136,7 +139,7 @@
 						>
 							<th
 								class="--sticky"
-								:class="{ ['is--selected']: isOrdering('id') }"
+								:class="{ ['is--selected']: !!ordering['id'] }"
 								data-column-name="id"
 								data-column="id"
 							>
@@ -207,11 +210,12 @@
 									<Dropdown
 										class="flx --flxRow --flx-center"
 										:position="['left', 'center']"
-										:theme="theme || themeValues"
 										:size="size"
+										v-bind="{ theme: theme || themeValues, ...modalProps }"
 									>
 										<template #toggle="{ setModel }">
 											<ActionLink
+												class="--pX-10"
 												:aria-label="t('table_options')"
 												:title="t('table_options')"
 												:theme="theme || themeValues"
@@ -224,7 +228,9 @@
 											</ActionLink>
 										</template>
 										<template #default="{ setModel, invertedTheme }">
-											<ul class="flx --flxColumn --flx-start-stretch --gap-5">
+											<ul
+												class="flx --flxColumn --flx-start-stretch --gap-10"
+											>
 												<li v-if="!!cloneNode">
 													<ActionLink
 														:theme="invertedTheme"
@@ -240,7 +246,7 @@
 												</li>
 												<li v-if="!!deleteNode">
 													<ActionLink
-														:theme="[eColors.DANGER, invertedTheme[0]]"
+														:theme="dangerThemeValues"
 														:size="size"
 														:aria-label="t('table_delete')"
 														@click="
@@ -318,7 +324,7 @@
 			</table>
 		</div>
 	</div>
-	<BoxMessage v-else :theme="theme || themeValues">
+	<BoxMessage v-else :theme="theme || themeValues" class="--width">
 		<div class="flx --flxRow --flx-center">
 			<span>{{ t("nothing_to_show") }}</span>
 			<ActionButtonToggle
@@ -343,10 +349,12 @@
 		iNodeFn,
 		iProperty,
 		iSelectOption,
+		tOrder,
+		tOrderBy,
 		tProps,
 		tSizeModifier,
 	} from "@open-xamu-co/ui-common-types";
-	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
+	import { eSizes } from "@open-xamu-co/ui-common-enums";
 	import { toOption, useSwal, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -361,7 +369,7 @@
 
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import { useHelpers } from "../../composables/utils";
+	import { useHelpers, useOrderBy } from "../../composables/utils";
 	import useUUID from "../../composables/uuid";
 
 	export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
@@ -387,7 +395,7 @@
 		/**
 		 * Do nodes support pagination?
 		 */
-		canSort?: boolean;
+		canSort?: boolean | tOrderBy;
 		/**
 		 * Function used to update a node
 		 */
@@ -446,7 +454,7 @@
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
-	const { themeClasses, themeValues } = useTheme(props);
+	const { themeClasses, themeValues, dangerThemeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 	const { uuid } = useUUID();
 
@@ -463,22 +471,27 @@
 	/**
 	 * ordering property
 	 *
-	 * TODO: order using props or model instead (external pagination)
+	 * TODO: require & use order getter fn instead
 	 */
 	const ordering = computed(() => {
-		const orderBy = { name: "id", asc: true };
+		let [sortKey = "id", sortValue = "desc"] = Array.isArray(props.canSort)
+			? props.canSort
+			: [];
+
+		let orderBy: Record<string, tOrder> = { [sortKey]: sortValue };
 
 		if (router) {
 			const route = router.currentRoute.value;
 
-			if (!route.query.orderBy) return orderBy;
+			const routeOrderBy = useOrderBy(route.query.orderBy);
 
-			const properties = String(route.query.orderBy).split(",");
-			const property = properties[0]?.split(":");
+			if (!routeOrderBy.length) return orderBy;
 
-			orderBy.name = property[0];
+			orderBy = routeOrderBy.reduce<Record<string, tOrder>>((acc, [key, value]) => {
+				acc[key] = value || "desc";
 
-			if (String(property[1]).toUpperCase() === "DESC") orderBy.asc = false;
+				return acc;
+			}, {});
 		}
 
 		return orderBy;
@@ -490,10 +503,16 @@
 			(!props.updateNode && !props.cloneNode && !props.deleteNode)
 		);
 	});
+
+	interface iPropertyMeta extends iSelectOption {
+		value: string;
+		canSort: boolean;
+	}
+
 	/**
 	 * This one assumes all objects within nodes are all the same
 	 */
-	const propertiesMeta = computed<iSelectOption[]>(() => {
+	const propertiesMeta = computed<iPropertyMeta[]>(() => {
 		return Object.entries(props.nodes[0])
 			.sort(([a], [b]) => {
 				// updatedAt, updatedBy, createdAt and createdBy to last position
@@ -506,14 +525,17 @@
 
 				return 0;
 			})
-			.map(([key]) => {
+			.map(([key, value]): iPropertyMeta => {
 				const options = (props.properties || []).map(toOption);
 				const property = toOption(options.find((p) => p.value === key) || key);
 				const aliasKey = _.snakeCase(key);
+				const canSort = typeof value === "string" || typeof value === "number";
 
 				return {
 					...property,
+					value: String(property.value),
 					alias: _.capitalize(_.startCase(property.alias || tet(aliasKey))),
+					canSort: !!props.canSort && canSort,
 				};
 			})
 			.filter((property) => property.value !== "id");
@@ -543,23 +565,18 @@
 	}
 
 	/**
-	 * property is ordering the table
-	 */
-	function isOrdering(property: string | number): boolean {
-		return ordering.value.name === property;
-	}
-
-	/**
 	 * set pagination order
+	 *
+	 * TODO: require & use order target fn instead
 	 *
 	 * @replace
 	 */
-	function setOrdering(property: string | number) {
-		var order = "ASC";
+	function setOrdering(property: string) {
+		let order: tOrder = "desc";
 
-		if (ordering.value.name === property && ordering.value.asc) {
+		if (ordering.value[property]) {
 			// switch order
-			order = "DESC";
+			order = ordering.value[property] === "desc" ? "asc" : "desc";
 		}
 
 		const orderBy = `${property}:${order}`;

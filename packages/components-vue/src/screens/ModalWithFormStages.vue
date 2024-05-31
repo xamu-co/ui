@@ -5,20 +5,20 @@
 			subtitle: 'Complete the following data',
 		}"
 		class="--txtColor"
-		hide-footer
 		invert-theme
 	>
 		<template #toggle="{ toggleModal }">
 			<BoxAction icon="align-left" label="Offer field" @click="toggleModal" />
 		</template>
-		<template #default="{ toggleModal }">
+		<template #content="{ toggleModal }">
 			<FormStages
 				v-bind="{
 					stages,
 					submitFn,
 					submitLabel: 'Create offer field',
 				}"
-				class="--pTop --pBottom --width-440:md"
+				unwrap
+				class="--width-440:md"
 				v-on="{
 					submited: toggleModal,
 					inputValues: updateUiComponentId,

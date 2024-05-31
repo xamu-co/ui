@@ -10,7 +10,6 @@
 	border-color: var(--bc, transparent); // by default
 	border-style: solid;
 	text-shadow: none;
-	box-sizing: border-box;
 	font-size: 1em;
 }
 
@@ -69,17 +68,9 @@
 // @group SharedStyles,
 @mixin action-aligment-styles {
 	flex: 0 0 auto;
+	gap: 0.4em;
 
 	@include module.flex-box(row, nowrap, center, center, inline-flex);
-}
-
-// content gaping behavior
-//
-// @group SharedStyles
-@mixin action-gaping-styles {
-	> * + * {
-		margin-left: 0.4em;
-	}
 }
 
 // is alert
@@ -97,7 +88,6 @@
 		border-width: 4px;
 		border-style: solid;
 		border-radius: module.$size-radius-action-round;
-		box-sizing: border-box;
 		border-color: var(--bc, transparent);
 		box-shadow: 1px 1px 3px module.color(dark, 0.2);
 	}
@@ -276,7 +266,6 @@
 			font-weight: 900;
 			text-align: center;
 			line-height: 1.7em;
-			box-sizing: border-box;
 			flex: 0 0 auto;
 			background-color: var(--bg, transparent);
 			border-color: var(--bc, transparent);

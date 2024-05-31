@@ -1,4 +1,12 @@
-export type tOrderBy = [string, ("desc" | "asc")?];
+export type tOrder = "desc" | "asc";
+
+/**
+ * Order using column or property
+ *
+ * @example [["id", "asc" ]], order ascendente de id
+ * @example [["id", "desc" ]] or [["id"]], order descendente de id
+ */
+export type tOrderBy = [string, tOrder?];
 
 export interface iPageEdge<T, C extends string | number = string> {
 	cursor: C;
@@ -19,7 +27,7 @@ export interface iPage<T, C extends string | number = string> {
 	totalCount: number;
 }
 
-export interface iPagination<O = tOrderBy> {
+export interface iPagination {
 	/**
 	 * Identificador del elemento donde empieza la paginacion
 	 *
@@ -30,12 +38,7 @@ export interface iPagination<O = tOrderBy> {
 	 * Cantidad de elementos (limite)
 	 */
 	first?: number;
-	/**
-	 * Ordenar segun columna o propiedad
-	 * ej: ["id", "asc" ], order ascendente de id
-	 * ej: ["id", "desc" ], order descendente de id
-	 */
-	orderBy?: O;
+	orderBy?: tOrderBy[];
 }
 
 /**

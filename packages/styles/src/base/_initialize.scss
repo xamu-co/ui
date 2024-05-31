@@ -126,7 +126,6 @@
 				top: 0;
 				left: 0;
 				padding: 1rem;
-				box-sizing: border-box;
 
 				@include utils.flex-box(column, nowrap, center, center);
 			}

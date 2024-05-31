@@ -9,17 +9,20 @@
 					class="modal"
 					role="document"
 					:class="[
-						modalClass ?? 'flx --flxColumn --flx-start-stretch --width',
+						modalClass ?? 'flx --flxColumn --flx-start-center --width',
 						themeClasses,
 					]"
 					v-bind="$attrs"
 				>
 					<slot
-						name="modal-header"
+						name="header"
 						v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
 					>
-						<div v-if="title" class="flx --flxRow --flx-between-center">
-							<div class="txt --gaping-none">
+						<div
+							v-if="title"
+							class="flx --flxRow --flx-between-center --width modal-content"
+						>
+							<div class="txt --gap-none">
 								<h5>{{ title }}</h5>
 								<p v-if="subtitle" class="--txtSize-xs">{{ subtitle }}</p>
 							</div>
@@ -32,50 +35,58 @@
 							</ActionLink>
 						</div>
 					</slot>
-					<div class="scroll --vertical">
-						<!-- Main modal content -->
-						<slot
-							v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
-						></slot>
-					</div>
 					<slot
-						name="modal-footer"
+						name="content"
 						v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
 					>
-						<div v-if="!hideFooter" class="flx --flxRow --flx-end-center">
-							<ActionButton
-								v-if="saveButtonOptions.visible"
-								:theme="invertedThemeValues"
-								:aria-label="saveButtonOptions.title"
-								:class="saveButtonOptions.btnClass"
-								:disabled="saveButtonOptions.disabled"
-								@click="emit('save', closeModal, $event)"
-							>
-								{{ saveButtonOptions.title }}
-							</ActionButton>
-							<ActionButtonToggle
-								v-if="cancelButtonOptions.visible"
-								:theme="invertedThemeValues"
-								:aria-label="cancelButtonOptions.title"
-								:class="cancelButtonOptions.btnClass"
-								data-dismiss="modal"
-								round=":sm-inv"
-								@click.stop="closeModal()"
-							>
-								<IconFa name="xmark" hidden="-full:sm" />
-								<IconFa name="xmark" regular hidden="-full:sm" />
-								<span class="--hidden-full:sm-inv">
-									{{ cancelButtonOptions.title }}
-								</span>
-							</ActionButtonToggle>
+						<div class="scroll --vertical modal-content">
+							<!-- Main modal content -->
+							<slot
+								v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
+							></slot>
 						</div>
+						<slot
+							name="footer"
+							v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
+						>
+							<div
+								v-if="!hideFooter"
+								class="flx --flxRow --flx-end-center --width modal-content"
+							>
+								<ActionButton
+									v-if="saveButtonOptions.visible"
+									:theme="invertedThemeValues"
+									:aria-label="saveButtonOptions.title"
+									:class="saveButtonOptions.btnClass"
+									:disabled="saveButtonOptions.disabled"
+									@click="emit('save', closeModal, $event)"
+								>
+									{{ saveButtonOptions.title }}
+								</ActionButton>
+								<ActionButtonToggle
+									v-if="cancelButtonOptions.visible"
+									:theme="invertedThemeValues"
+									:aria-label="cancelButtonOptions.title"
+									:class="cancelButtonOptions.btnClass"
+									data-dismiss="modal"
+									round=":sm-inv"
+									@click.stop="closeModal()"
+								>
+									<IconFa name="xmark" hidden="-full:sm" />
+									<IconFa name="xmark" regular hidden="-full:sm" />
+									<span class="--hidden-full:sm-inv">
+										{{ cancelButtonOptions.title }}
+									</span>
+								</ActionButtonToggle>
+							</div>
+						</slot>
 					</slot>
 				</div>
 				<LoaderSimple v-if="loading || hide" :theme="theme">
 					<transition name="fade">
 						<div
 							v-if="loadingTooLong || (props.hide && props.hideMessage)"
-							class="txt --txtAlignFlx-center --gaping-5"
+							class="txt --txtAlign-center --gap-5"
 						>
 							<p class="--txtColor-light --txtShadow --txtSize-sm">
 								{{
@@ -183,7 +194,7 @@
 		emit("close");
 	}
 	function clickOutside(e: Event) {
-		if (modalRef.value !== e.target) return;
+		if (props.disabled || modalRef.value !== e.target) return;
 
 		closeModal();
 	}
@@ -240,7 +251,15 @@
 		if (!router?.currentRoute) return;
 
 		// close on route change
-		watch(router.currentRoute, () => closeModal(), { immediate: false });
+		watch(
+			router.currentRoute,
+			() => {
+				if (props.disabled) return;
+
+				closeModal();
+			},
+			{ immediate: false }
+		);
 	});
 	onBeforeUnmount(closeModal);
 </script>

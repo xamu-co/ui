@@ -7,7 +7,7 @@
 		>
 			<!-- first load -->
 			<template v-if="!loading">
-				<BoxMessage v-if="errors" :theme="eColors.DANGER">
+				<BoxMessage v-if="errors" :theme="eColors.DANGER" class="--width">
 					<div class="flx --flxRow --flx-center">
 						<span>{{ t("could_not_get_data") }}</span>
 						<ActionButtonToggle
@@ -22,7 +22,7 @@
 						</ActionButtonToggle>
 					</div>
 				</BoxMessage>
-				<BoxMessage v-else :theme="theme">
+				<BoxMessage v-else :theme="theme" class="--width">
 					<div class="flx --flxRow --flx-center">
 						<span>{{ noContentMessage || t("nothing_to_show") }}</span>
 						<ActionButtonToggle

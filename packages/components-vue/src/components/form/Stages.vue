@@ -4,48 +4,55 @@
 			:loading="submitting"
 			:content="!!stages?.length"
 			:theme="theme"
-			tag="form"
-			method="post"
 			class="flx --flxColumn --flx-start-stretch --gap-30 --maxWidth-full"
+			:class="$attrs.class"
+			:unwrap="unwrap"
 		>
-			<div :class="stagesClasses ?? 'flx --flxColumn --flx-start-stretch --gap-30'">
-				<FormSimple
-					v-for="formKey in localStages[activeStage]"
-					:key="[formKey, activeStage, localFormInputs[formKey].key].join('-')"
-					:model-value="localFormInputs[formKey].inputs"
-					:theme="theme"
-					:invalid="invalid"
-					no-form
-					:title="localFormInputs[formKey].title"
-					:readonly="localFormInputs[formKey].readonly"
-					@update:model-value="updateForm(formKey, $event)"
-					@update:invalid="invalid = $event"
-				/>
-			</div>
-			<div class="flx --flxColumn --gap-30">
-				<div v-if="!hideRequiredDisclaimer || $slots.disclaimers" class="flx --flxColumn">
-					<slot name="disclaimers">
-						<p class="--txtSize-xs">
-							{{ t("required_verification") }}
-						</p>
-					</slot>
-				</div>
-				<div class="flx --flxRow --flx-end-center --width">
+			<div class="scroll --vertical modal-content" :class="unwrap ? $attrs.class : ''">
+				<form
+					method="post"
+					:class="stagesClasses ?? 'flx --flxColumn --flx-start-stretch --gap-30'"
+				>
+					<FormSimple
+						v-for="key in formInputsKeys[activeStage]"
+						:key="[key, activeStage].join('-')"
+						:model-value="formInputs[key].inputs"
+						:theme="theme"
+						:invalid="invalid"
+						no-form
+						:title="formInputs[key].title"
+						:readonly="formInputs[key].readonly"
+						:empty-message="formInputs[key].emptyMessage"
+						@update:model-value="updateForm(key, $event)"
+						@update:invalid="invalid = $event"
+					/>
 					<div
-						v-if="stages?.length"
-						class="flx --flxRow --flx-start-center --flx --gap-5 --gap:md"
+						v-if="!hideRequiredDisclaimer || $slots.disclaimers"
+						class="flx --flxColumn"
 					>
-						<slot
-							name="primary-actions"
-							v-bind="{
-								activeStage,
-								stagesLength: stages && stages.length,
-								setActiveStage,
-								canSubmit,
-							}"
-						>
+						<slot name="disclaimers">
+							<p class="--txtSize-xs">
+								{{ t("required_verification") }}
+							</p>
+						</slot>
+					</div>
+				</form>
+			</div>
+			<slot name="actions">
+				<div class="flx --flxRow --flx-start-center --width modal-content">
+					<slot
+						v-if="stages?.length"
+						name="primary-actions"
+						v-bind="{
+							activeStage,
+							stagesLength: stages && stages.length,
+							setActiveStage,
+							canSubmit,
+						}"
+					>
+						<div class="flx --flxRow --flx-start-center --flx-fill --gap-5 --gap:md">
 							<ActionButtonToggle
-								v-if="localStages.length > 1 && activeStage"
+								v-if="formInputsKeys.length > 1 && activeStage"
 								key="button-back"
 								:theme="theme"
 								:aria-label="t('previous')"
@@ -61,7 +68,8 @@
 							<ActionButton
 								v-if="
 									submitFn &&
-									(activeStage === localStages.length - 1 || !localStages.length)
+									(activeStage === formInputsKeys.length - 1 ||
+										!formInputsKeys.length)
 								"
 								key="button-submit"
 								:theme="theme"
@@ -73,7 +81,8 @@
 							</ActionButton>
 							<ActionButtonToggle
 								v-if="
-									localStages.length > 1 && activeStage < localStages.length - 1
+									formInputsKeys.length > 1 &&
+									activeStage < formInputsKeys.length - 1
 								"
 								key="button-next"
 								:theme="theme"
@@ -85,25 +94,37 @@
 								<IconFa name="arrow-right" />
 								<IconFa name="arrow-right" regular />
 							</ActionButtonToggle>
-						</slot>
-					</div>
+						</div>
+					</slot>
 					<slot
-						name="secondary-actions"
+						name="secondary-actions-content"
 						v-bind="{
 							activeStage,
 							stagesLength: stages && stages.length,
 							setActiveStage,
 							canSubmit,
 						}"
-					></slot>
+					>
+						<div class="flx --flxRow --flx-end-center --gap-5 --gap-10:sm --gap:md">
+							<slot name="secondary-actions"></slot>
+							<ActionLink
+								:aria-label="t('clear')"
+								:theme="theme"
+								:disabled="!canSubmit"
+								@click="fullReset"
+							>
+								<IconFa name="broom" :size="20" />
+							</ActionLink>
+						</div>
+					</slot>
 				</div>
-			</div>
+			</slot>
 		</LoaderContent>
 	</BaseErrorBoundary>
 </template>
 
 <script setup lang="ts">
-	import { ref, watch } from "vue";
+	import { onBeforeUnmount, ref, watch } from "vue";
 	import _ from "lodash";
 
 	import type { iInvalidInput, tProps } from "@open-xamu-co/ui-common-types";
@@ -115,6 +136,7 @@
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import IconFa from "../icon/Fa.vue";
+	import ActionLink from "../action/Link.vue";
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
 	import LoaderContent from "../loader/Content.vue";
@@ -122,8 +144,6 @@
 
 	import type { iUseThemeProps } from "../../types/props";
 	import { useHelpers } from "../../composables/utils";
-
-	type tSubmitFn = (values: FormInputClass[]) => Promise<boolean | iInvalidInput[]>;
 
 	interface iFormStages extends iUseThemeProps {
 		/**
@@ -136,11 +156,15 @@
 		/**
 		 * submit fn
 		 */
-		submitFn?: tSubmitFn;
+		submitFn?: (values: FormInputClass[], event?: Event) => Promise<boolean | iInvalidInput[]>;
 		/**
 		 * Omit requiring filling up the form
 		 */
 		optional?: boolean;
+		/**
+		 * Do not wrap
+		 */
+		unwrap?: boolean;
 	}
 
 	/**
@@ -160,24 +184,28 @@
 	const canSubmit = ref(props.optional);
 	const activeStage = ref(0);
 	const invalid = ref<iInvalidInput[]>([]);
-	const localStages = ref<string[][]>([]);
-	const localFormInputs = ref<Record<string, iForm>>({});
+	const formInputsKeys = ref<string[][]>([]);
+	const formInputs = ref<Record<string, iForm>>({});
+	/**
+	 * Wheter external changes are comming to stages
+	 */
+	const lastListened = ref<string>();
 	/**
 	 * Submit process is loading/running
 	 */
 	const submitting = ref<boolean>(false);
 
-	const submit = _.debounce(async () => {
+	const submit = _.debounce(async (e: Event) => {
 		submitting.value = true;
 
 		// get inputs
-		const inputs = Object.values(localFormInputs.value)
+		const inputs = Object.values(formInputs.value)
 			.map(({ inputs }) => inputs)
 			.flat();
 
 		if (!inputs?.length) return;
 
-		const successOrInvalid = await props.submitFn?.(inputs);
+		const successOrInvalid = await props.submitFn?.(inputs, e);
 
 		submitting.value = false;
 
@@ -189,13 +217,17 @@
 		}
 	});
 
-	function getLocalFormInputsKey(stageIndex: number, formIndex: number) {
+	function generateFormKey(stageIndex: number, formIndex: number) {
 		return `form-${stageIndex}-${formIndex}`;
+	}
+	function getValues(inputs: FormInputClass[]): Record<string, unknown[]> {
+		return inputs.reduce((acc, input) => ({ ...acc, [input.name]: input.values }), {});
 	}
 	function resetStages(newStages: iForm[][]) {
 		// reset
-		localStages.value = [];
-		localFormInputs.value = {};
+		const newLocalStages: string[][] = [];
+		const newLocalFormInputs: Record<string, iForm> = {};
+		const wasListened = lastListened.value;
 
 		newStages
 			.filter((s) => s.length)
@@ -203,27 +235,50 @@
 				const keys: string[] = [];
 
 				stage.forEach((form, formIndex) => {
-					const key = getLocalFormInputsKey(stageIndex, formIndex);
+					const key = form.key || generateFormKey(stageIndex, formIndex);
+					const reForm = { ...form, inputs: form.inputs.map((input) => input.clone()) };
 
 					keys.push(key);
-					localFormInputs.value[key] = form;
+
+					// Prefer local value
+					if (wasListened) {
+						newLocalFormInputs[key] = formInputs.value[key] || reForm;
+
+						return;
+					}
+
+					// full reset
+					newLocalFormInputs[key] = reForm;
 				});
 
-				localStages.value.push(keys);
+				newLocalStages.push(keys);
 			});
+
+		formInputsKeys.value = newLocalStages;
+		formInputs.value = newLocalFormInputs;
 	}
-	function updateForm(key: string, formInputs: FormInputClass[]) {
-		localFormInputs.value[key].inputs = formInputs;
+
+	function fullReset() {
+		const wasListened = lastListened.value;
+
+		lastListened.value = undefined;
+
+		if (wasListened) emit("input-values", {}, true);
+
+		resetStages(props.stages);
+		canSubmit.value = !!props.optional;
+		activeStage.value = 0;
+	}
+
+	function updateForm(key: string, newInputs: FormInputClass[]) {
+		formInputs.value[key].inputs = newInputs;
 
 		// allow submiting after changes are detected
 		if (!props.optional) canSubmit.value = true;
-		if (!formInputs.length || !localFormInputs.value[key].listen) return;
+		if (!newInputs.length || !formInputs.value[key].listen) return;
 
-		const values: Record<string, unknown[]> = formInputs.reduce((acc, input) => {
-			return { ...acc, [input.name]: input.values };
-		}, {});
-
-		emit("input-values", values);
+		lastListened.value = key;
+		emit("input-values", getValues(newInputs));
 	}
 	function setActiveStage(newValue: number) {
 		activeStage.value = newValue;
@@ -233,5 +288,11 @@
 	// lifecycle
 	emit("set-active-stage", setActiveStage);
 
-	watch(() => props.stages, resetStages, { immediate: true });
+	watch(
+		() => props.stages,
+		(newStages) => resetStages(newStages),
+		{ immediate: true }
+	);
+
+	onBeforeUnmount(fullReset);
 </script>

@@ -149,7 +149,7 @@ export interface iFormInput<V extends iFormValue = iFormValue>
 /**
  * Sended form values
  */
-export interface iFormResponse<R = any, T = any> {
+export interface iFormResponse<R = any> {
 	response?: R;
 	invalidInputs: iInvalidInput[];
 	/**
@@ -169,12 +169,6 @@ export interface iFormResponse<R = any, T = any> {
 	 * 401 will be reported but not failed
 	 */
 	errors?: any;
-	/**
-	 * Swal target
-	 *
-	 * If the swal was triggered from a modal, then use it as render target
-	 */
-	modalTarget?: T;
 }
 
 export interface iFetchResponse<R = any> {

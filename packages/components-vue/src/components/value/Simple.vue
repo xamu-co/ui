@@ -89,7 +89,7 @@
 					v-if="model"
 					:text="value"
 					:theme="invertedTheme"
-					class="--txtAlign"
+					class="--txtAlign --width"
 					:class="classes"
 				/>
 			</template>
@@ -188,6 +188,11 @@
 		try {
 			// bypass numbers
 			if (!!Number(dateString)) return false;
+
+			const property = String(props.property?.value);
+
+			// TODO: improve date bypassing for phones
+			if (["tel", "phone", "cel"].some((v) => property.includes(v))) return false;
 
 			return validator.isDate(dateString) || !isNaN(Date.parse(dateString));
 		} catch (err) {

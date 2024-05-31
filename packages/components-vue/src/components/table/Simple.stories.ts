@@ -11,8 +11,9 @@ const nodes = [
 		email: "jhsj@xamu.com.co",
 		cellphoneNumber: "1234567890",
 		cellphoneIndicative: "CO+57",
+		locationCountry: "CO",
+		locationState: "VAC",
 		locationCity: "Cali",
-		locationDepartment: "VAC",
 		address: "No address",
 		zipCode: "124876",
 		pathPhoto: "https://picsum.photos/seed/45465/100/100",
@@ -66,6 +67,10 @@ type Story = StoryObj<typeof Simple>;
 
 export const Sample: Story = {
 	args: { nodes },
+};
+
+export const NoContent: Story = {
+	args: { nodes: [] },
 };
 
 export default meta;

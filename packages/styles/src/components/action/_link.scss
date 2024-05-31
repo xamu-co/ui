@@ -10,7 +10,6 @@
 		.#{module.$component-link} {
 			@include module.action-styles;
 			@include module.action-aligment-styles;
-			@include module.action-gaping-styles;
 			@include module.action-alert-styles;
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles;
