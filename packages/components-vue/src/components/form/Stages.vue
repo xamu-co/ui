@@ -11,7 +11,8 @@
 			<div class="scroll --vertical modal-content" :class="unwrap ? $attrs.class : ''">
 				<form
 					method="post"
-					:class="stagesClasses ?? 'flx --flxColumn --flx-start-stretch --gap-30'"
+					class="flx --flxColumn --flx-start-stretch"
+					:class="stagesClasses ?? '--gap-30'"
 				>
 					<FormSimple
 						v-for="key in formInputsKeys[activeStage]"
@@ -172,6 +173,10 @@
 	/**
 	 * Form Stages
 	 * TODO: enable transitions conditionally
+	 * TODO: cache forms to reduce rerenders
+	 *
+	 * @see https://vuejs.org/guide/built-ins/keep-alive.html
+	 * @see https://vuejs.org/api/built-in-directives.html#v-memo
 	 *
 	 * @component
 	 */
@@ -255,6 +260,8 @@
 
 					// full reset
 					newLocalFormInputs[key] = reForm;
+
+					if (form.listen) emit("input-values", getValues(reForm.inputs));
 				});
 
 				newLocalStages.push(keys);

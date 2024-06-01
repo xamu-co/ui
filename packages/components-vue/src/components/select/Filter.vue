@@ -22,6 +22,16 @@
 		/>
 	</datalist>
 	<div v-if="supportsDatalist" class="flx --flxRow --flx-start-center --gap-5" v-bind="$attrs">
+		<ActionLink
+			v-if="modelValue && selectOptions.length > 1"
+			:theme="theme"
+			:disabled="disabled"
+			:aria-label="t('select_restablish_field')"
+			:title="t('select_restablish_field')"
+			@click.prevent="resetModel"
+		>
+			<IconFa name="xmark" :size="20" />
+		</ActionLink>
 		<InputText
 			v-model="aliasModel"
 			:list="selectFilterName"
@@ -41,16 +51,6 @@
 			}"
 			class="--flx"
 		/>
-		<ActionLink
-			v-if="modelValue && selectOptions.length > 1"
-			:theme="theme"
-			:disabled="disabled"
-			:aria-label="t('select_restablish_field')"
-			:title="t('select_restablish_field')"
-			@click.prevent="resetModel"
-		>
-			<IconFa name="xmark" :size="20" />
-		</ActionLink>
 	</div>
 </template>
 

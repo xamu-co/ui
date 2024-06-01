@@ -372,7 +372,14 @@
 	import { useHelpers, useOrderBy } from "../../composables/utils";
 	import useUUID from "../../composables/uuid";
 
-	export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
+	type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;
+
+	interface iPropertyMeta extends iSelectOption {
+		value: string;
+		canSort: boolean;
+	}
+
+	interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
 		/**
 		 * Table nodes
 		 * an array of nodes
@@ -387,6 +394,7 @@
 		 * @old columns
 		 */
 		properties?: iProperty<Ti>[];
+		propertyOrder?: tPropertyOrderFn;
 		/**
 		 * read only table
 		 * @old editable(inverse)
@@ -504,38 +512,22 @@
 		);
 	});
 
-	interface iPropertyMeta extends iSelectOption {
-		value: string;
-		canSort: boolean;
-	}
-
 	/**
 	 * This one assumes all objects within nodes are all the same
 	 */
 	const propertiesMeta = computed<iPropertyMeta[]>(() => {
 		return Object.entries(props.nodes[0])
-			.sort(([a], [b]) => {
-				// updatedAt, updatedBy, createdAt and createdBy to last position
-				if (a.endsWith("At") || a.endsWith("By") || b.endsWith("At") || b.endsWith("By")) {
-					if (a.endsWith("At") || a.endsWith("By")) return 1;
-
-					return -1;
-				} else if (a > b) return 1;
-				else if (a < b) return -1;
-
-				return 0;
-			})
+			.sort(props.propertyOrder || defaultOrderProperty)
 			.map(([key, value]): iPropertyMeta => {
 				const options = (props.properties || []).map(toOption);
 				const property = toOption(options.find((p) => p.value === key) || key);
 				const aliasKey = _.snakeCase(key);
-				const canSort = ["string", "number", "boolean"].includes(typeof value);
 
 				return {
 					...property,
 					value: String(property.value),
 					alias: _.capitalize(_.startCase(property.alias || tet(aliasKey))),
-					canSort: !!props.canSort && canSort,
+					canSort: !!props.canSort && isPlainValue(value),
 				};
 			})
 			.filter((property) => property.value !== "id");
@@ -549,6 +541,31 @@
 		return `table_${seed.replaceAll(" ", "") || randomId}`;
 	});
 
+	const defaultOrderProperty: tPropertyOrderFn = ([a, aValue], [b, bValue]) => {
+		const isDateOrAuthor = (k: string) => k.endsWith("At") || k.endsWith("By");
+
+		// Move dates or authors backwards
+		if (isDateOrAuthor(a) || isDateOrAuthor(b)) {
+			// Respect whatever order they had
+			if (isDateOrAuthor(a) && isDateOrAuthor(b)) return 0;
+
+			return isDateOrAuthor(a) ? 1 : -1;
+		}
+		// Move strings forward
+		else if (isPlainValue(aValue) || isPlainValue(bValue)) {
+			// Respect whatever order they had
+			if (isPlainValue(aValue) && isPlainValue(bValue)) return 0;
+
+			return isPlainValue(aValue) ? -1 : 1;
+		}
+
+		// Respect whatever order they had
+		return 0;
+	};
+
+	function isPlainValue(value: any) {
+		return ["string", "number", "boolean"].includes(typeof value);
+	}
 	function reFillNodes(length: number): [boolean, boolean][] {
 		return Array.from({ length }, () => [false, !!props.childrenVisibility]);
 	}
