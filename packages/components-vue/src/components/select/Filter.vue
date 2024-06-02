@@ -35,8 +35,9 @@
 		<InputText
 			v-model="aliasModel"
 			:list="selectFilterName"
+			autocomplete="off"
 			v-bind="{
-				..._.omit(props, 'modelValue'),
+				..._.omit(props, ['modelValue', 'autocomplete']),
 				type: 'text',
 				placeholder: t('select_filter_options'),
 				disabled: (!!modelValue && !isInvalid) || disabled,
