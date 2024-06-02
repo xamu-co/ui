@@ -1,7 +1,11 @@
 <template>
-	<header
+	<LoaderContent
 		ref="wrapperRef"
+		:loading="loading"
+		content
 		class="xamu-slider"
+		el="header"
+		:theme="theme"
 		@mouseover="mouseOnTabs = true"
 		@mouseleave="mouseOnTabs = false"
 	>
@@ -19,7 +23,6 @@
 				>
 					<slot></slot>
 				</component>
-				<LoaderSimple v-if="loading" :theme="theme" />
 			</div>
 			<ul
 				v-if="childCount > 1 && controls"
@@ -64,7 +67,7 @@
 				</li>
 			</ul>
 		</div>
-	</header>
+	</LoaderContent>
 </template>
 
 <script setup lang="ts">
@@ -78,7 +81,7 @@
 	import IconFa from "../icon/Fa.vue";
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
-	import LoaderSimple from "../loader/Simple.vue";
+	import LoaderContent from "../loader/Content.vue";
 
 	import { useHelpers } from "../../composables/utils";
 	import type { iUseThemeProps } from "../../types/props";
@@ -284,8 +287,6 @@
 	 * Set slider interval
 	 */
 	function launchInterval() {
-		loading.value = true;
-
 		if (!sliderRef.value || !sliderContainerRef.value) return;
 
 		const slides = Array.from(sliderRef.value.children || []) as HTMLElement[];
@@ -307,7 +308,6 @@
 
 			debouncedTab(false);
 		}, props.intervalDuration);
-		loading.value = false;
 	}
 
 	/**
@@ -318,7 +318,9 @@
 	// lifecycle
 	if (isBrowser) {
 		onMounted(() => {
+			loading.value = true;
 			launchInterval();
+			loading.value = false;
 		});
 
 		onBeforeUnmount(() => {
