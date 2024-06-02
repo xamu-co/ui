@@ -40,7 +40,7 @@
 			</template>
 			<LoaderSimple v-else-if="!noLoader" :label="label" :theme="theme" />
 		</div>
-		<BaseWrapper v-else :wrap="!unwrap" :el="el" :class="$attrs.class">
+		<BaseWrapper v-else :wrap="!unwrap" :el="el" v-bind="$attrs">
 			<div v-if="loading && !noLoader" class="back --overlay is--active">
 				<LoaderSimple :label="label" :theme="theme" />
 			</div>
