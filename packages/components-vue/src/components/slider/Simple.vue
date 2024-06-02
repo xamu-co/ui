@@ -1,5 +1,10 @@
 <template>
-	<header class="xamu-slider" @mouseover="mouseOnTabs = true" @mouseleave="mouseOnTabs = false">
+	<header
+		ref="wrapperRef"
+		class="xamu-slider"
+		@mouseover="mouseOnTabs = true"
+		@mouseleave="mouseOnTabs = false"
+	>
 		<div class="flx --flxColumn --flx-stretch-center --gap-10 --width-100">
 			<div
 				ref="sliderContainerRef"
@@ -8,11 +13,13 @@
 			>
 				<component
 					:is="sliderTag"
+					v-show="!loading"
 					ref="sliderRef"
 					class="flx --flxRow --flx-start-stretch --gap-none --overflow"
 				>
 					<slot></slot>
 				</component>
+				<LoaderSimple v-if="loading" :theme="theme" />
 			</div>
 			<ul
 				v-if="childCount > 1 && controls"
@@ -71,6 +78,7 @@
 	import IconFa from "../icon/Fa.vue";
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 
 	import { useHelpers } from "../../composables/utils";
 	import type { iUseThemeProps } from "../../types/props";
@@ -133,6 +141,8 @@
 	const { t } = useHelpers(useI18n);
 	const { isBrowser } = useHelpers(useUtils);
 
+	const loading = ref(true);
+	const wrapperRef = ref<HTMLElement>();
 	const sliderContainerRef = ref<HTMLElement>();
 	const sliderRef = ref<HTMLElement>();
 	const running = ref(false);
@@ -162,7 +172,6 @@
 
 		// lock slider size
 		sliderContainerRef.value.style.width = `${sliderWidth}px`;
-		// sliderRef.value.style.width = `${sliderWidth + slideWidth}px`;
 
 		// the transition needs an starting point
 		sliderRef.value.style.left = "0";
@@ -180,8 +189,7 @@
 		if (!sliderRef.value || !sliderContainerRef.value) throw new Error("Missing containers");
 
 		sliderRef.value.style.transition = "none";
-		sliderContainerRef.value.style.width = "auto";
-		// sliderRef.value.style.width = "auto";
+		sliderContainerRef.value.style.width = "";
 		sliderRef.value.style.left = "0";
 		running.value = false;
 	}
@@ -273,14 +281,11 @@
 	}
 
 	/**
-	 * switch tabs
-	 */
-	const debouncedTab = _.debounce(tab);
-
-	/**
 	 * Set slider interval
 	 */
 	function launchInterval() {
+		loading.value = true;
+
 		if (!sliderRef.value || !sliderContainerRef.value) return;
 
 		const slides = Array.from(sliderRef.value.children || []) as HTMLElement[];
@@ -296,11 +301,19 @@
 		if (!allowAutoAnimate.value || childCount.value <= 1) return;
 
 		// autoplay
-		sliderInterval.value = setInterval(
-			() => !mouseOnTabs.value && debouncedTab(false),
-			props.intervalDuration
-		);
+		sliderInterval.value = setInterval(() => {
+			// TODO: prevent if not in viewport
+			if (mouseOnTabs.value) return;
+
+			debouncedTab(false);
+		}, props.intervalDuration);
+		loading.value = false;
 	}
+
+	/**
+	 * switch tabs
+	 */
+	const debouncedTab = _.debounce(tab);
 
 	// lifecycle
 	if (isBrowser) {

@@ -9,10 +9,10 @@
 					class="modal"
 					role="document"
 					:class="[
+						$attrs.class,
 						modalClass ?? 'flx --flxColumn --flx-start-center --width',
 						themeClasses,
 					]"
-					v-bind="$attrs"
 				>
 					<slot
 						name="header"

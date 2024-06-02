@@ -37,7 +37,7 @@
 
 			&.#{utils.$prefix-default}--sub {
 				@if utils.$allow-responsive {
-					@media (min-width: (utils.$querie-tablet + 1)) {
+					@media not (max-width: utils.$querie-tablet) {
 						overflow: hidden;
 
 						@include utils.flex-box(column, nowrap, space-between, flex-start);

@@ -37,7 +37,7 @@
 				</ActionButton>
 			</div>
 		</div>
-		<div v-bind="$attrs" class="scroll --horizontal --always">
+		<div :class="$attrs.class" class="scroll --horizontal --always">
 			<table :id="tableId" class="tbl" :class="themeClasses">
 				<thead>
 					<tr class="--txtAlign" :class="`--txtSize-${size}`">
