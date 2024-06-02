@@ -45,7 +45,7 @@ $default-viewports: if(
 					@content;
 				} @else {
 					// mobile first
-					@media (min-width: ($viewport + 1)) {
+					@media not (max-width: $viewport) {
 						@content;
 					}
 				}

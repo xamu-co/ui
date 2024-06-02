@@ -78,7 +78,7 @@
 
 			@if module.$allow-responsive {
 				// desktop only, use hover
-				@media (min-width: (module.$querie-tablet + 1)) {
+				@media not (max-width: module.$querie-tablet) {
 					// hover status
 					@at-root *:hover
 							> .#{module.$status-toggle-dropdown}:not(

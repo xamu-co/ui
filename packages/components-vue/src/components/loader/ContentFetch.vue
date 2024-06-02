@@ -2,7 +2,6 @@
 	<BaseErrorBoundary :theme="theme">
 		<LoaderContent
 			v-bind="{
-				...$attrs,
 				content: !!content && patchedIsContent(content),
 				errors: !!errors,
 				loading: loading,
@@ -13,6 +12,7 @@
 				label,
 				noLoader,
 			}"
+			:class="$attrs.class"
 		>
 			<slot
 				v-if="!!content && patchedIsContent(content) && (!loading || firstLoad)"

@@ -1,42 +1,51 @@
 <template>
 	<BaseErrorBoundary :theme="theme">
 		<LoaderContent
-			:loading="submitting"
+			:loading="submitting || loading"
 			:content="!!stages?.length"
 			:theme="theme"
 			class="flx --flxColumn --flx-start-stretch --gap-30 --maxWidth-full"
-			:class="$attrs.class"
 			:unwrap="unwrap"
 		>
-			<div class="scroll --vertical modal-content" :class="unwrap ? $attrs.class : ''">
+			<div
+				v-if="(formInputsKeys?.length || $slots.default) && !loading"
+				class="modal-content"
+				:class="unwrap ? 'scroll --vertical' : ''"
+			>
 				<form
 					method="post"
 					class="flx --flxColumn --flx-start-stretch"
 					:class="stagesClasses ?? '--gap-30'"
 				>
-					<FormSimple
-						v-for="key in formInputsKeys[activeStage]"
-						:key="[key, activeStage].join('-')"
-						:model-value="formInputs[key].inputs"
-						:theme="theme"
-						:invalid="invalid"
-						no-form
-						:title="formInputs[key].title"
-						:readonly="formInputs[key].readonly"
-						:empty-message="formInputs[key].emptyMessage"
-						@update:model-value="updateForm(key, $event)"
-						@update:invalid="invalid = $event"
-					/>
-					<div
-						v-if="!hideRequiredDisclaimer || $slots.disclaimers"
-						class="flx --flxColumn"
-					>
-						<slot name="disclaimers">
+					<slot></slot>
+					<template v-if="formInputsKeys?.length">
+						<div
+							class="flx --flxColumn --flx-start-stretch"
+							:class="[stagesClasses ?? '--gap-30', $attrs.class]"
+						>
+							<FormSimple
+								v-for="key in formInputsKeys[activeStage]"
+								:key="[key, activeStage].join('-')"
+								:model-value="formInputs[key].inputs"
+								:theme="theme"
+								:invalid="invalid"
+								no-form
+								:title="formInputs[key].title"
+								:readonly="formInputs[key].readonly"
+								:empty-message="formInputs[key].emptyMessage"
+								@update:model-value="updateForm(key, $event)"
+								@update:invalid="invalid = $event"
+							/>
+						</div>
+						<slot
+							v-if="!hideRequiredDisclaimer || $slots.disclaimers"
+							name="disclaimers"
+						>
 							<p class="--txtSize-xs">
 								{{ t("required_verification") }}
 							</p>
 						</slot>
-					</div>
+					</template>
 				</form>
 			</div>
 			<slot name="actions">
@@ -193,6 +202,7 @@
 	const invalid = ref<iInvalidInput[]>([]);
 	const formInputsKeys = ref<string[][]>([]);
 	const formInputs = ref<Record<string, iForm>>({});
+	const loading = ref(true);
 	/**
 	 * Wheter external changes are comming to stages
 	 */
@@ -235,6 +245,8 @@
 		return inputs.reduce((acc, input) => ({ ...acc, [input.name]: input.values }), {});
 	}
 	function resetStages(newStages: iForm[][]) {
+		loading.value = true;
+
 		// reset
 		const newLocalStages: string[][] = [];
 		const newLocalFormInputs: Record<string, iForm> = {};
@@ -269,11 +281,13 @@
 
 		formInputsKeys.value = newLocalStages;
 		formInputs.value = newLocalFormInputs;
+		loading.value = false;
 	}
 
 	function fullReset() {
 		const wasListened = lastListened.value;
 
+		loading.value = true;
 		lastListened.value = undefined;
 
 		if (wasListened) emit("input-values", {}, true);

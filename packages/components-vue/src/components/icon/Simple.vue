@@ -1,8 +1,12 @@
 <template>
 	<i
 		aria-hidden="true"
-		:class="[modifiersClasses, indicatorClasses, !!$slots.default ? 'svg' : 'icon']"
-		v-bind="$attrs"
+		:class="[
+			$attrs.class,
+			modifiersClasses,
+			indicatorClasses,
+			!!$slots.default ? 'svg' : 'icon',
+		]"
 	>
 		<svg
 			v-if="!!$slots.default"

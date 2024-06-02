@@ -3,7 +3,8 @@
 		v-slot="{ content, refresh }"
 		:promise="patchedPromise"
 		:payload="[{ ...pagination, ...defaults }]"
-		v-bind="{ ...$attrs, preventAutoload, theme, noContentMessage, label, isContent }"
+		:class="$attrs.class"
+		v-bind="{ preventAutoload, theme, noContentMessage, label, isContent }"
 		@refresh="$emit('refresh', $event)"
 	>
 		<slot
