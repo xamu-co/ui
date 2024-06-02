@@ -121,7 +121,7 @@
 								:aria-label="t('clear')"
 								:theme="theme"
 								:disabled="!canSubmit"
-								@click="fullReset"
+								@click="resetStages"
 							>
 								<IconFa name="broom" :size="20" />
 							</ActionLink>
@@ -232,7 +232,7 @@
 			emit("submited", successOrInvalid);
 
 			if (successOrInvalid) {
-				resetStages(props.stages); // reset form
+				resetStages(); // reset form
 				props.successFn?.();
 			}
 		}
@@ -244,7 +244,7 @@
 	function getValues(inputs: FormInputClass[]): Record<string, unknown[]> {
 		return inputs.reduce((acc, input) => ({ ...acc, [input.name]: input.values }), {});
 	}
-	function resetStages(newStages: iForm[][]) {
+	function setStages(newStages: iForm[][]) {
 		loading.value = true;
 
 		// reset
@@ -284,7 +284,7 @@
 		loading.value = false;
 	}
 
-	function fullReset() {
+	function resetStages() {
 		const wasListened = lastListened.value;
 
 		loading.value = true;
@@ -292,7 +292,7 @@
 
 		if (wasListened) emit("input-values", {}, true);
 
-		resetStages(props.stages);
+		setStages(props.stages);
 		canSubmit.value = !!props.optional;
 		activeStage.value = 0;
 	}
@@ -317,9 +317,9 @@
 
 	watch(
 		() => props.stages,
-		(newStages) => resetStages(newStages),
+		(newStages) => setStages(newStages),
 		{ immediate: true }
 	);
 
-	onBeforeUnmount(fullReset);
+	onBeforeUnmount(resetStages);
 </script>
