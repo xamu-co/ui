@@ -1,5 +1,28 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.13...@open-xamu-co/ui-components-vue-v3.0.0-next.14) (2024-06-04)
+
+
+### Bug Fixes
+
+* array type inputs not always emitting ([5a8fbec](https://github.com/xamu-co/ui/commit/5a8fbec6379058f2f5df240292f6c3865422fad2))
+* file input validation ([8cc8f88](https://github.com/xamu-co/ui/commit/8cc8f885388e31792d71eaf35f5b00ee8b7f0741))
+
+
+### Features
+
+* custom table property order ([043ee4a](https://github.com/xamu-co/ui/commit/043ee4af5478b66ee1920cf2e595e1b32c15837b))
+* export base box component ([d263f5c](https://github.com/xamu-co/ui/commit/d263f5cd947e55c892795518151b89d4a055f379))
+* form stages default slot ([3991efa](https://github.com/xamu-co/ui/commit/3991efa3980dad41b02613ab97e450c645327443))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.14"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.12...@open-xamu-co/ui-components-vue-v3.0.0-next.13) (2024-05-31)
 
 
