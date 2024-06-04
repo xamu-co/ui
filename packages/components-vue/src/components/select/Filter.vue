@@ -22,11 +22,22 @@
 		/>
 	</datalist>
 	<div v-if="supportsDatalist" class="flx --flxRow --flx-start-center --gap-5" v-bind="$attrs">
+		<ActionLink
+			v-if="modelValue && selectOptions.length > 1"
+			:theme="theme"
+			:disabled="disabled"
+			:aria-label="t('select_restablish_field')"
+			:title="t('select_restablish_field')"
+			@click.prevent="resetModel"
+		>
+			<IconFa name="xmark" :size="20" />
+		</ActionLink>
 		<InputText
 			v-model="aliasModel"
 			:list="selectFilterName"
+			autocomplete="off"
 			v-bind="{
-				..._.omit(props, 'modelValue'),
+				..._.omit(props, ['modelValue', 'autocomplete']),
 				type: 'text',
 				placeholder: t('select_filter_options'),
 				disabled: (!!modelValue && !isInvalid) || disabled,
@@ -41,16 +52,6 @@
 			}"
 			class="--flx"
 		/>
-		<ActionLink
-			v-if="modelValue && selectOptions.length > 1"
-			:theme="theme"
-			:disabled="disabled"
-			:aria-label="t('select_restablish_field')"
-			:title="t('select_restablish_field')"
-			@click.prevent="resetModel"
-		>
-			<IconFa name="xmark" :size="20" />
-		</ActionLink>
 	</div>
 </template>
 

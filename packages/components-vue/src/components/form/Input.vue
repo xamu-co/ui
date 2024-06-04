@@ -11,7 +11,7 @@
 			>
 				<div
 					v-if="!!input.options?.length"
-					class="flx --flxRow-wrap --flx-start-center --gap-5 --gap-10:sm --gap:md"
+					class="flx --flxRow-wrap --flx-start-center --gap-5"
 				>
 					<component
 						:is="input.multiple ? ActionButtonToggle : ActionButton"
@@ -109,9 +109,7 @@
 						:invalid="invalid"
 						:model-value="[model]"
 						:disabled="readonly"
-						@update:model-value="
-							models[i].value = models[i].value.toSpliced(index, 1, $event[0])
-						"
+						@update:model-value="updateArrModel(i, index, $event[0])"
 					/>
 				</div>
 				<FormInputNValues
@@ -120,7 +118,7 @@
 					:values="[2]"
 				>
 					<InputText
-						v-model="models[i].value[0]"
+						:model-value="models[i].value[0]"
 						v-bind="inputProps"
 						:invalid="isInvalidByValidation"
 						:theme="theme"
@@ -128,9 +126,10 @@
 						:placeholder="getInputPlaceholder()"
 						type="password"
 						class="--width-180:md --flx"
+						@update:model-value="updateArrModel(i, 0, $event)"
 					/>
 					<InputText
-						v-model="models[i].value[1]"
+						:model-value="models[i].value[1]"
 						v-bind="inputProps"
 						:invalid="isInvalidByValidation"
 						:theme="theme"
@@ -138,6 +137,7 @@
 						:placeholder="getInputPlaceholder(1)"
 						type="password"
 						class="--width-180:md --flx"
+						@update:model-value="updateArrModel(i, 1, $event)"
 					/>
 				</FormInputNValues>
 				<FormInputNValues
@@ -168,14 +168,15 @@
 					:values="[2]"
 				>
 					<SelectSimple
-						v-model="models[i].value[0]"
+						:model-value="models[i].value[0]"
 						:theme="theme"
 						:disabled="readonly"
 						:options="indicativesArr"
 						class="--width-180:md --flx"
+						@update:model-value="updateArrModel(i, 0, $event)"
 					/>
 					<InputText
-						v-model="models[i].value[1]"
+						:model-value="models[i].value[1]"
 						v-bind="inputProps"
 						:invalid="isInvalidByValidation"
 						:theme="theme"
@@ -183,6 +184,7 @@
 						:placeholder="getInputPlaceholder()"
 						type="tel"
 						class="--width-180:md --flx"
+						@update:model-value="updateArrModel(i, 1, $event)"
 					/>
 				</FormInputNValues>
 				<FormInputCountriesAPI
@@ -191,11 +193,10 @@
 					:states="states"
 					:theme="theme"
 					:model="models[i].value"
-					:values="[1, 3]"
 				>
 					<SelectFilter
 						v-if="!defaultCountry || models[i].value.length === 1"
-						v-model="models[i].value[0]"
+						:model-value="models[i].value[0]"
 						:options="countriesArr"
 						name="country"
 						:value="defaultCountry"
@@ -204,13 +205,14 @@
 						:disabled="readonly"
 						:placeholder="getInputPlaceholder()"
 						class="--width-180:md --flx"
+						@update:model-value="updateArrModel(i, 0, $event)"
 					/>
 					<div
 						v-if="models[i].value.length === 3"
 						class="flx --flxColumn --flxRow-wrap:md --flx-start-stretch --gap-5 --flx"
 					>
 						<SelectFilter
-							v-model="models[i].value[1]"
+							:model-value="models[i].value[1]"
 							:options="statesArr || statesReq?.content?.map(stateToOption)"
 							name="state"
 							icon="mountain-sun"
@@ -218,9 +220,10 @@
 							:disabled="readonly || !(models[i].value[0] || defaultCountry)"
 							:placeholder="getInputPlaceholder(1)"
 							class="--width-180:md --flx"
+							@update:model-value="updateArrModel(i, 1, $event)"
 						/>
 						<SelectFilter
-							v-model="models[i].value[2]"
+							:model-value="models[i].value[2]"
 							:options="citiesReq.content.map(cityToOption)"
 							name="city"
 							icon="city"
@@ -228,6 +231,7 @@
 							:disabled="readonly || !models[i].value[1]"
 							:placeholder="getInputPlaceholder(2)"
 							class="--width-180:md --flx"
+							@update:model-value="updateArrModel(i, 2, $event)"
 						/>
 					</div>
 				</FormInputCountriesAPI>
@@ -431,6 +435,12 @@
 			})
 		);
 	});
+
+	function updateArrModel(modelIndex: number, valuePosition: number, newValue: any) {
+		const model: any[] = models.value[modelIndex].value;
+
+		models.value[modelIndex].value = model.toSpliced(valuePosition, 1, newValue);
+	}
 
 	function choose(value: string | number) {
 		if (props.input.multiple) {

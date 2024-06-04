@@ -1,5 +1,14 @@
 <template>
-	<header class="xamu-slider" @mouseover="mouseOnTabs = true" @mouseleave="mouseOnTabs = false">
+	<LoaderContent
+		ref="wrapperRef"
+		:loading="loading"
+		content
+		class="xamu-slider"
+		el="header"
+		:theme="theme"
+		@mouseover="mouseOnTabs = true"
+		@mouseleave="mouseOnTabs = false"
+	>
 		<div class="flx --flxColumn --flx-stretch-center --gap-10 --width-100">
 			<div
 				ref="sliderContainerRef"
@@ -8,6 +17,7 @@
 			>
 				<component
 					:is="sliderTag"
+					v-show="!loading"
 					ref="sliderRef"
 					class="flx --flxRow --flx-start-stretch --gap-none --overflow"
 				>
@@ -57,7 +67,7 @@
 				</li>
 			</ul>
 		</div>
-	</header>
+	</LoaderContent>
 </template>
 
 <script setup lang="ts">
@@ -71,6 +81,7 @@
 	import IconFa from "../icon/Fa.vue";
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
+	import LoaderContent from "../loader/Content.vue";
 
 	import { useHelpers } from "../../composables/utils";
 	import type { iUseThemeProps } from "../../types/props";
@@ -133,6 +144,8 @@
 	const { t } = useHelpers(useI18n);
 	const { isBrowser } = useHelpers(useUtils);
 
+	const loading = ref(true);
+	const wrapperRef = ref<HTMLElement>();
 	const sliderContainerRef = ref<HTMLElement>();
 	const sliderRef = ref<HTMLElement>();
 	const running = ref(false);
@@ -162,7 +175,6 @@
 
 		// lock slider size
 		sliderContainerRef.value.style.width = `${sliderWidth}px`;
-		// sliderRef.value.style.width = `${sliderWidth + slideWidth}px`;
 
 		// the transition needs an starting point
 		sliderRef.value.style.left = "0";
@@ -180,8 +192,7 @@
 		if (!sliderRef.value || !sliderContainerRef.value) throw new Error("Missing containers");
 
 		sliderRef.value.style.transition = "none";
-		sliderContainerRef.value.style.width = "auto";
-		// sliderRef.value.style.width = "auto";
+		sliderContainerRef.value.style.width = "";
 		sliderRef.value.style.left = "0";
 		running.value = false;
 	}
@@ -273,11 +284,6 @@
 	}
 
 	/**
-	 * switch tabs
-	 */
-	const debouncedTab = _.debounce(tab);
-
-	/**
 	 * Set slider interval
 	 */
 	function launchInterval() {
@@ -296,16 +302,25 @@
 		if (!allowAutoAnimate.value || childCount.value <= 1) return;
 
 		// autoplay
-		sliderInterval.value = setInterval(
-			() => !mouseOnTabs.value && debouncedTab(false),
-			props.intervalDuration
-		);
+		sliderInterval.value = setInterval(() => {
+			// TODO: prevent if not in viewport
+			if (mouseOnTabs.value) return;
+
+			debouncedTab(false);
+		}, props.intervalDuration);
 	}
+
+	/**
+	 * switch tabs
+	 */
+	const debouncedTab = _.debounce(tab);
 
 	// lifecycle
 	if (isBrowser) {
 		onMounted(() => {
+			loading.value = true;
 			launchInterval();
+			loading.value = false;
 		});
 
 		onBeforeUnmount(() => {

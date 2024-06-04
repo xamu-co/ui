@@ -1,6 +1,6 @@
 <template>
 	<BaseBox
-		class="flx --flxColumn --flx-start-stretch --gap-10"
+		class="flx --flxColumn --flx-start-stretch --gap-10 --width"
 		button
 		v-bind="{ ...props, theme: fileInputTheme.themeValues }"
 	>
@@ -32,7 +32,7 @@
 			<span class="--txtWrap-nowrap">
 				{{
 					t("file_one_of_amount", {
-						count: modelValue.length,
+						count: thumbnails.length,
 						amount: maxAmount,
 					})
 				}}
@@ -54,7 +54,7 @@
 		>
 			<template v-if="!isLoading">
 				<BaseBox
-					v-if="modelValue.length < maxAmount"
+					v-if="thumbnails.length < maxAmount"
 					:for="id"
 					class="flx --flxColumn --flx-center --minHeight-90"
 					el="label"
@@ -245,7 +245,7 @@
 		isLoading.value = true;
 
 		// copy the files
-		const savedFiles = [...props.modelValue];
+		const savedFiles = [...props.modelValue].filter((v) => v instanceof File);
 		const savedThumbs = [...thumbnails.value];
 
 		try {
@@ -269,7 +269,14 @@
 				const isImage = await fileMatchesMimeTypes(files[i], standardImageMimeTypes);
 
 				// 50MB max file size
-				if (isImage) {
+				if (!isImage) {
+					// not image
+					Swal.fire({
+						title: t("swal.file_wrong_format_image"),
+						text: t("swal.file_wrong_format_image_text"),
+						icon: "warning",
+					});
+				} else {
 					// is image file
 					if (files[i].size < maxFileSize.value) {
 						const fileName = `${props.filePrefix ?? "image"}_${i}`;
@@ -284,13 +291,6 @@
 							icon: "warning",
 						});
 					}
-				} else {
-					// not image
-					Swal.fire({
-						title: t("swal.file_wrong_format_image"),
-						text: t("swal.file_wrong_format_image_text"),
-						icon: "warning",
-					});
 				}
 			}
 

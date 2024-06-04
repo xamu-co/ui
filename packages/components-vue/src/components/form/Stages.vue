@@ -1,41 +1,51 @@
 <template>
 	<BaseErrorBoundary :theme="theme">
 		<LoaderContent
-			:loading="submitting"
+			:loading="submitting || loading"
 			:content="!!stages?.length"
 			:theme="theme"
 			class="flx --flxColumn --flx-start-stretch --gap-30 --maxWidth-full"
-			:class="$attrs.class"
 			:unwrap="unwrap"
 		>
-			<div class="scroll --vertical modal-content" :class="unwrap ? $attrs.class : ''">
+			<div
+				v-if="(formInputsKeys?.length || $slots.default) && !loading"
+				class="modal-content"
+				:class="unwrap ? 'scroll --vertical' : ''"
+			>
 				<form
 					method="post"
-					:class="stagesClasses ?? 'flx --flxColumn --flx-start-stretch --gap-30'"
+					class="flx --flxColumn --flx-start-stretch"
+					:class="stagesClasses ?? '--gap-30'"
 				>
-					<FormSimple
-						v-for="key in formInputsKeys[activeStage]"
-						:key="[key, activeStage].join('-')"
-						:model-value="formInputs[key].inputs"
-						:theme="theme"
-						:invalid="invalid"
-						no-form
-						:title="formInputs[key].title"
-						:readonly="formInputs[key].readonly"
-						:empty-message="formInputs[key].emptyMessage"
-						@update:model-value="updateForm(key, $event)"
-						@update:invalid="invalid = $event"
-					/>
-					<div
-						v-if="!hideRequiredDisclaimer || $slots.disclaimers"
-						class="flx --flxColumn"
-					>
-						<slot name="disclaimers">
+					<slot></slot>
+					<template v-if="formInputsKeys?.length">
+						<div
+							class="flx --flxColumn --flx-start-stretch"
+							:class="[stagesClasses ?? '--gap-30', $attrs.class]"
+						>
+							<FormSimple
+								v-for="key in formInputsKeys[activeStage]"
+								:key="[key, activeStage].join('-')"
+								:model-value="formInputs[key].inputs"
+								:theme="theme"
+								:invalid="invalid"
+								no-form
+								:title="formInputs[key].title"
+								:readonly="formInputs[key].readonly"
+								:empty-message="formInputs[key].emptyMessage"
+								@update:model-value="updateForm(key, $event)"
+								@update:invalid="invalid = $event"
+							/>
+						</div>
+						<slot
+							v-if="!hideRequiredDisclaimer || $slots.disclaimers"
+							name="disclaimers"
+						>
 							<p class="--txtSize-xs">
 								{{ t("required_verification") }}
 							</p>
 						</slot>
-					</div>
+					</template>
 				</form>
 			</div>
 			<slot name="actions">
@@ -111,7 +121,7 @@
 								:aria-label="t('clear')"
 								:theme="theme"
 								:disabled="!canSubmit"
-								@click="fullReset"
+								@click="resetStages"
 							>
 								<IconFa name="broom" :size="20" />
 							</ActionLink>
@@ -157,6 +167,8 @@
 		 * submit fn
 		 */
 		submitFn?: (values: FormInputClass[], event?: Event) => Promise<boolean | iInvalidInput[]>;
+		/** Perform additional actions if submit succeds */
+		successFn?: () => void;
 		/**
 		 * Omit requiring filling up the form
 		 */
@@ -170,6 +182,10 @@
 	/**
 	 * Form Stages
 	 * TODO: enable transitions conditionally
+	 * TODO: cache forms to reduce rerenders
+	 *
+	 * @see https://vuejs.org/guide/built-ins/keep-alive.html
+	 * @see https://vuejs.org/api/built-in-directives.html#v-memo
 	 *
 	 * @component
 	 */
@@ -186,6 +202,7 @@
 	const invalid = ref<iInvalidInput[]>([]);
 	const formInputsKeys = ref<string[][]>([]);
 	const formInputs = ref<Record<string, iForm>>({});
+	const loading = ref(true);
 	/**
 	 * Wheter external changes are comming to stages
 	 */
@@ -213,7 +230,11 @@
 		if (Array.isArray(successOrInvalid)) invalid.value = successOrInvalid;
 		else {
 			emit("submited", successOrInvalid);
-			resetStages(props.stages); // reset form
+
+			if (successOrInvalid) {
+				resetStages(); // reset form
+				props.successFn?.();
+			}
 		}
 	});
 
@@ -223,7 +244,9 @@
 	function getValues(inputs: FormInputClass[]): Record<string, unknown[]> {
 		return inputs.reduce((acc, input) => ({ ...acc, [input.name]: input.values }), {});
 	}
-	function resetStages(newStages: iForm[][]) {
+	function setStages(newStages: iForm[][]) {
+		loading.value = true;
+
 		// reset
 		const newLocalStages: string[][] = [];
 		const newLocalFormInputs: Record<string, iForm> = {};
@@ -249,6 +272,8 @@
 
 					// full reset
 					newLocalFormInputs[key] = reForm;
+
+					if (form.listen) emit("input-values", getValues(reForm.inputs));
 				});
 
 				newLocalStages.push(keys);
@@ -256,16 +281,18 @@
 
 		formInputsKeys.value = newLocalStages;
 		formInputs.value = newLocalFormInputs;
+		loading.value = false;
 	}
 
-	function fullReset() {
+	function resetStages() {
 		const wasListened = lastListened.value;
 
+		loading.value = true;
 		lastListened.value = undefined;
 
 		if (wasListened) emit("input-values", {}, true);
 
-		resetStages(props.stages);
+		setStages(props.stages);
 		canSubmit.value = !!props.optional;
 		activeStage.value = 0;
 	}
@@ -290,9 +317,9 @@
 
 	watch(
 		() => props.stages,
-		(newStages) => resetStages(newStages),
+		(newStages) => setStages(newStages),
 		{ immediate: true }
 	);
 
-	onBeforeUnmount(fullReset);
+	onBeforeUnmount(resetStages);
 </script>

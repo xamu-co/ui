@@ -3,7 +3,9 @@
 		v-slot="{ content, refresh }"
 		:promise="patchedPromise"
 		:payload="[{ ...pagination, ...defaults }]"
-		v-bind="{ ...$attrs, preventAutoload, theme, noContentMessage, label, isContent }"
+		:class="$attrs.class"
+		v-bind="{ preventAutoload, theme, noContentMessage, label, isContent }"
+		@refresh="$emit('refresh', $event)"
 	>
 		<slot
 			v-bind="{
@@ -91,6 +93,8 @@
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
 
 	const props = defineProps<iPCProps<T, C> | iPCWithTransformProps<T, C, R>>();
+
+	defineEmits(["refresh"]);
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;

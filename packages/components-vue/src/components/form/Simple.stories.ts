@@ -52,6 +52,12 @@ const inputs: FormInput[] = [
 		name: "nullable",
 		title: "Is this field optional in the offer?",
 	}),
+	new FormInput({
+		name: "logo",
+		type: eFormType.FILE,
+		title: "Business logo",
+		max: 3,
+	}),
 ];
 
 const meta = {
