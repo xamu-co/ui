@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v3.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.0.0-next.2...@open-xamu-co/ui-common-enums-v3.0.0-next.3) (2024-06-04)
+
+
+### Features
+
+* export base box component ([d263f5c](https://github.com/xamu-co/ui/commit/d263f5cd947e55c892795518151b89d4a055f379))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-enums" version "3.0.0-next.3"[0m
+[34mUpdating "common-types"[0m
+[34mSuccesfully updated "common-types" package[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-enums-v3.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.0.0-next.1...@open-xamu-co/ui-common-enums-v3.0.0-next.2) (2024-05-31)
 
 
