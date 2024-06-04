@@ -1,5 +1,28 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.6...@open-xamu-co/ui-styles-v3.0.0-next.7) (2024-06-04)
+
+
+### Bug Fixes
+
+* file input validation ([8cc8f88](https://github.com/xamu-co/ui/commit/8cc8f885388e31792d71eaf35f5b00ee8b7f0741))
+
+
+### Features
+
+* export base box component ([d263f5c](https://github.com/xamu-co/ui/commit/d263f5cd947e55c892795518151b89d4a055f379))
+* form stages default slot ([3991efa](https://github.com/xamu-co/ui/commit/3991efa3980dad41b02613ab97e450c645327443))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.7"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.5...@open-xamu-co/ui-styles-v3.0.0-next.6) (2024-05-31)
 
 
