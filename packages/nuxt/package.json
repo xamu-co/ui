@@ -47,7 +47,6 @@
     "@open-xamu-co/ui-common-enums": "link:../common-enums",
     "@open-xamu-co/ui-common-helpers": "link:../common-helpers",
     "@open-xamu-co/ui-components-vue": "link:../components-vue",
-    "lodash": "^4.17.21",
     "nuxt-countries-api": "^1.0.3",
     "sweetalert2": "^11.7.5"
   },
@@ -60,6 +59,7 @@
     "@open-xamu-co/ui-styles": "link:../styles",
     "@types/lodash": "^4.14.192",
     "@types/node": "^18.17.17",
+    "lodash": "^4.17.21",
     "nuxt": "^3.10.1",
     "vitest": "^0.33.0"
   },

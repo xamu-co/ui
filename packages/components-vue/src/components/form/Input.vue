@@ -47,7 +47,7 @@
 									]
 								}`"
 								:style="
-									validator.isURL(option.pattern)
+									isURL(option.pattern)
 										? { backgroundImage: `url('${option.pattern}')` }
 										: { backgroundColor: option.pattern }
 								"
@@ -62,7 +62,7 @@
 				:theme="theme"
 				:disabled="readonly"
 				class="--flx --width"
-				:file-prefix="_.snakeCase(input.placeholder)"
+				:file-prefix="snakeCase(input.placeholder)"
 				:model-value="modelValue"
 				:invalid="isInvalidByValidation"
 				v-bind="inputProps"
@@ -321,8 +321,10 @@
 </template>
 <script setup lang="ts">
 	import { computed, reactive } from "vue";
-	import validator from "validator";
-	import _ from "lodash";
+	import isURL from "validator/lib/isURL";
+	import isEqual from "lodash/isEqual";
+	import snakeCase from "lodash/snakeCase";
+	import omit from "lodash/omit";
 	import { md5 } from "js-md5";
 
 	import type { iInvalidInput, iSelectOption } from "@open-xamu-co/ui-common-types";
@@ -406,7 +408,7 @@
 		/** Validation expects an array with at least one element */
 		const values = props.input.values.length ? props.input.values : [""];
 
-		return _.isEqual(props.invalid?.invalidValue, values);
+		return isEqual(props.invalid?.invalidValue, values);
 	});
 	const isInvalidByValidation = computed<boolean>(() => {
 		return isInvalidByProps.value || !isValidFormInputValue(props.input, true);
@@ -415,7 +417,7 @@
 		const [icon, iconProps] = props.input?.icon || [];
 
 		return {
-			..._.omit(props.input, ["type"]),
+			...omit(props.input, ["type"]),
 			autocomplete: getInputAutocomplete(),
 			icon,
 			iconProps,

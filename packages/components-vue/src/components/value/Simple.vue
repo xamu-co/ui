@@ -14,9 +14,7 @@
 
 		<!-- String, Color -->
 		<span
-			v-else-if="
-				typeof value === 'string' && value.includes('#') && validator.isHexColor(value)
-			"
+			v-else-if="typeof value === 'string' && value.includes('#') && isHexColor(value)"
 			:title="property?.alias"
 		>
 			<InputColor :model-value="value" :theme="theme" :size="size" disabled />
@@ -32,7 +30,7 @@
 
 		<!-- String, Email -->
 		<ActionLink
-			v-else-if="typeof value === 'string' && validator.isEmail(value)"
+			v-else-if="typeof value === 'string' && isEmail(value)"
 			:mailto="value"
 			:size="size"
 			:theme="theme"
@@ -42,9 +40,7 @@
 		</ActionLink>
 
 		<!-- String, URL -->
-		<template
-			v-else-if="typeof value === 'string' && validator.isURL(value, { require_host: false })"
-		>
+		<template v-else-if="typeof value === 'string' && isURL(value, { require_host: false })">
 			<!-- Image URL -->
 			<!-- TODO: trigger gallery/slideshow component/modal -->
 			<BaseAction
@@ -108,7 +104,10 @@
 
 <script setup lang="ts" generic="P extends Record<string, any>">
 	import { computed, inject, type AllowedComponentProps } from "vue";
-	import validator from "validator";
+	import isURL from "validator/lib/isURL";
+	import isEmail from "validator/lib/isEmail";
+	import isHexColor from "validator/lib/isHexColor";
+	import validatorIsDate from "validator/lib/isDate";
 
 	import type {
 		tProps,
@@ -176,7 +175,7 @@
 		const [firstPart] = url.split("?");
 
 		// host is required
-		if (xamuOptions?.imageHosts && validator.isURL(firstPart)) {
+		if (xamuOptions?.imageHosts && isURL(firstPart)) {
 			const url = new URL(firstPart);
 
 			if (xamuOptions.imageHosts.includes(url.host)) return true;
@@ -194,7 +193,7 @@
 			// TODO: improve date bypassing for phones
 			if (["tel", "phone", "cel"].some((v) => property.includes(v))) return false;
 
-			return validator.isDate(dateString) || !isNaN(Date.parse(dateString));
+			return validatorIsDate(dateString) || !isNaN(Date.parse(dateString));
 		} catch (err) {
 			// ignore errors
 			return false;

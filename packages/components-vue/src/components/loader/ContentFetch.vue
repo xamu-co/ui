@@ -33,7 +33,7 @@
 		onActivated,
 		onDeactivated,
 	} from "vue";
-	import _ from "lodash";
+	import isEqual from "lodash/isEqual";
 
 	import type { tHydrate } from "@open-xamu-co/ui-common-types";
 
@@ -200,7 +200,7 @@
 		() => props.payload,
 		(newPayload, oldPayload) => {
 			// Refresh if payload changes
-			if (firstLoad.value && !_.isEqual(newPayload, oldPayload)) refresh();
+			if (firstLoad.value && !isEqual(newPayload, oldPayload)) refresh();
 		},
 		{ immediate: false }
 	);

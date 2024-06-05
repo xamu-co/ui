@@ -44,7 +44,7 @@
 			style="display: none"
 			v-bind="{
 				...$attrs,
-				..._.omit(props, ['modelValue', 'size']),
+				...omit(props, ['modelValue', 'size']),
 				type: 'file',
 				accept: (accept ?? ['image/*']).join(','),
 				multiple: maxAmount > 1,
@@ -124,7 +124,8 @@
 
 <script setup lang="ts">
 	import { ref, computed } from "vue";
-	import _ from "lodash";
+	import debounce from "lodash/debounce";
+	import omit from "lodash/omit";
 
 	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {
@@ -314,7 +315,7 @@
 	/**
 	 * remove the given file in the given key
 	 */
-	const removeFile = _.debounce((index: number) => {
+	const removeFile = debounce((index: number) => {
 		// modify and set again
 		setFiles(props.modelValue.toSpliced(index, 1), thumbnails.value.toSpliced(index, 1));
 	});

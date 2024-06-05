@@ -135,7 +135,7 @@
 
 <script setup lang="ts">
 	import { onBeforeUnmount, ref, watch } from "vue";
-	import _ from "lodash";
+	import debounce from "lodash/debounce";
 
 	import type { iInvalidInput, tProps } from "@open-xamu-co/ui-common-types";
 	import {
@@ -212,7 +212,7 @@
 	 */
 	const submitting = ref<boolean>(false);
 
-	const submit = _.debounce(async (e: Event) => {
+	const submit = debounce(async (e: Event) => {
 		submitting.value = true;
 
 		// get inputs

@@ -23,9 +23,6 @@ export default defineConfig({
 			// make sure to externalize deps that shouldn't be bundled into your library
 			external: [
 				"vue",
-				"lodash",
-				"nanoid",
-				"validator",
 				"js-md5",
 				"@open-xamu-co/ui-common-enums",
 				"@open-xamu-co/ui-common-helpers",

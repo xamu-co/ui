@@ -5,7 +5,8 @@ import {
 	type FunctionalComponent,
 	defineCustomElement,
 } from "vue";
-import _ from "lodash";
+import upperFirst from "lodash/upperFirst";
+import camelCase from "lodash/camelCase";
 
 import type { tPropertyMapping, iPluginOptions } from "@open-xamu-co/ui-common-types";
 import locale from "@open-xamu-co/ui-common-helpers/en";
@@ -42,7 +43,7 @@ export const XamuPlugin: Plugin<
 
 		// Register components
 		componentKeys.forEach((key) => {
-			const name = _.capitalize(_.camelCase(componentPrefix)) + key;
+			const name = upperFirst(camelCase(componentPrefix)) + key;
 			const component = <DefineComponent>components[key];
 
 			/**

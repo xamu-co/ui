@@ -121,7 +121,7 @@
 		Teleport,
 		getCurrentInstance,
 	} from "vue";
-	import _ from "lodash";
+	import deburr from "lodash/deburr";
 
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 	import { eColors } from "@open-xamu-co/ui-common-enums";
@@ -136,7 +136,7 @@
 
 	import type { iModalButtonConfig, iModalProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import useUUID from "../../composables/uuid";
+	import useUUID from "../../composables/crypto";
 	import { useHelpers } from "../../composables/utils";
 
 	/**
@@ -168,7 +168,7 @@
 	const loadingTooLong = ref(false);
 	/** Prefer a predictable identifier */
 	const modalId = computed(() => {
-		const seed = _.deburr(props.subtitle || props.title);
+		const seed = deburr(props.subtitle || props.title);
 
 		return `modal_${seed.replaceAll(" ", "") || randomId}`;
 	});
