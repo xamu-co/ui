@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import deburr from "lodash/deburr";
+	import deburr from "lodash-es/deburr";
 
 	import type { iInputProps } from "../../types/props";
 	import useUUID from "../../composables/crypto";

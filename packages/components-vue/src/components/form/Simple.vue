@@ -47,7 +47,7 @@
 
 <script setup lang="ts" generic="P extends any[] = any[]">
 	import { computed, ref, watch } from "vue";
-	import isEqual from "lodash/isEqual";
+	import isEqual from "lodash-es/isEqual";
 
 	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";

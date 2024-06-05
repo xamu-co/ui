@@ -1,5 +1,5 @@
 import type { IconName } from "@fortawesome/fontawesome-common-types";
-import isEqual from "lodash/isEqual.js";
+import isEqual from "lodash-es/isEqual.js";
 
 import type {
 	iFormInput,

@@ -24,6 +24,8 @@ export default defineConfig({
 			external: [
 				"vue",
 				"js-md5",
+				"lodash-es",
+				"sweetalert2",
 				"@open-xamu-co/ui-common-enums",
 				"@open-xamu-co/ui-common-helpers",
 			],

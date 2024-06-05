@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 	import { computed, ref, inject, onMounted, onBeforeUnmount, useSlots } from "vue";
-	import debounce from "lodash/debounce";
+	import debounce from "lodash-es/debounce";
 
 	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 	import { useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";

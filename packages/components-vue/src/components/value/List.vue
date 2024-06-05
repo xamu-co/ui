@@ -28,8 +28,8 @@
 	</ul>
 </template>
 <script setup lang="ts" generic="P extends Record<string, any>">
-	import startCase from "lodash/startCase";
-	import upperFirst from "lodash/upperFirst";
+	import startCase from "lodash-es/startCase";
+	import upperFirst from "lodash-es/upperFirst";
 
 	import type { iProperty, tProps } from "@open-xamu-co/ui-common-types";
 

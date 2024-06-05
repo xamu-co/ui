@@ -53,7 +53,7 @@
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
 	import { computed } from "vue";
-	import omit from "lodash/omit";
+	import omit from "lodash-es/omit";
 
 	import type { iFormIconProps, tTextInputType } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";

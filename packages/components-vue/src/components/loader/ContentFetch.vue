@@ -33,7 +33,7 @@
 		onActivated,
 		onDeactivated,
 	} from "vue";
-	import isEqual from "lodash/isEqual";
+	import isEqual from "lodash-es/isEqual";
 
 	import type { tHydrate } from "@open-xamu-co/ui-common-types";
 

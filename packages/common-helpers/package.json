@@ -74,8 +74,8 @@
   "dependencies": {
     "@open-xamu-co/ui-common-enums": "link:../common-enums",
     "core-js": "^3.24.1",
-    "lodash": "^4.17.21",
-    "sweetalert2": "^11.7.5",
+    "lodash-es": "^4.17.21",
+    "sweetalert2": "^11.11.1",
     "validator": "^13.11.0"
   },
   "devDependencies": {
@@ -84,7 +84,7 @@
     "@babel/preset-env": "^7.22.7",
     "@babel/preset-typescript": "^7.22.5",
     "@open-xamu-co/ui-common-types": "link:../common-types",
-    "@types/lodash": "^4.14.192",
+    "@types/lodash-es": "^4.14.192",
     "@types/node": "^18.14.0",
     "@types/validator": "^13.11.1",
     "babel-plugin-replace-import-extension": "^1.1.3"
