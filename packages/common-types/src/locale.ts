@@ -279,22 +279,6 @@ export type tLocalePagination = {
 	pagination_items: string;
 	/** @example "No pages | Single page | {count} pages" */
 	pagination_pages: string;
-	/** @example "Order: relevance" */
-	pagination_order_relevance: string;
-	/** @example "Order: more recent" */
-	pagination_order_recent: string;
-	/** @example "Order: more older" */
-	pagination_order_older: string;
-	/** @example "Order: lower price" */
-	pagination_order_expensive: string;
-	/** @example "Order: high price" */
-	pagination_order_cheaper: string;
-	/** @example "Order: alphabetically (Asc.)" */
-	pagination_order_az: string;
-	/** @example "Order: alphabetically (Desc.)" */
-	pagination_order_za: string;
-	/** @example "Filter by:" */
-	pagination_filter_by: string;
 	// swal: {};
 };
 

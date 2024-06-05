@@ -1,5 +1,5 @@
 import type { IconName } from "@fortawesome/fontawesome-common-types";
-import isEqual from "lodash-es/isEqual.js";
+import isEqual from "lodash-es/isEqual";
 
 import type {
 	iFormInput,
@@ -11,7 +11,7 @@ import type {
 } from "@open-xamu-co/ui-common-types";
 import { eFormType, eFormTypeSimple, eFormTypeComplex } from "@open-xamu-co/ui-common-enums";
 
-import { toOption } from "../format.js";
+import { toOption } from "../format";
 
 /**
  * get form input icon
