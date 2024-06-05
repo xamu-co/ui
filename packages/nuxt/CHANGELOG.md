@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.4...@open-xamu-co/ui-nuxt-v3.0.0-next.5) (2024-06-05)
+
+
+### Bug Fixes
+
+* no default imports ([f4e2827](https://github.com/xamu-co/ui/commit/f4e2827970c5326a216075a896100f4abb2fc631))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.3...@open-xamu-co/ui-nuxt-v3.0.0-next.4) (2024-05-08)
 
 
