@@ -1,4 +1,4 @@
-import omit from "lodash/omit.js";
+import omit from "lodash-es/omit";
 
 import type {
 	tLocaleBase,
@@ -189,14 +189,6 @@ export const localeTable: tLocaleTable = {
 export const localePagination: tLocalePagination = {
 	pagination_items: "Sin elementos | Único elemento | {count} elementos",
 	pagination_pages: "Sin páginas | Única página | {count} páginas",
-	pagination_order_relevance: "Orden: relevancia",
-	pagination_order_recent: "Orden: mas reciente",
-	pagination_order_older: "Orden: mas antiguo",
-	pagination_order_expensive: "Orden: menor precio",
-	pagination_order_cheaper: "Orden: mayor precio",
-	pagination_order_az: "Orden: alfabeticamente (Asc.)",
-	pagination_order_za: "Orden: alfabeticamente (Desc.)",
-	pagination_filter_by: "Filtrar por:",
 	// swal: {},
 };
 

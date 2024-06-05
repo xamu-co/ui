@@ -135,7 +135,7 @@
 
 <script setup lang="ts">
 	import { onBeforeUnmount, ref, watch } from "vue";
-	import debounce from "lodash/debounce";
+	import debounce from "lodash-es/debounce";
 
 	import type { iInvalidInput, tProps } from "@open-xamu-co/ui-common-types";
 	import {

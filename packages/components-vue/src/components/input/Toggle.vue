@@ -30,8 +30,8 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import capitalize from "lodash/capitalize";
-	import omit from "lodash/omit";
+	import capitalize from "lodash-es/capitalize";
+	import omit from "lodash-es/omit";
 
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 

@@ -12,6 +12,12 @@ export interface XamuModuleOptions
 	 * Nuxt image module options
 	 */
 	image?: Partial<NuxtImageOptions>;
+	/**
+	 * Disable CSS meta tags
+	 *
+	 * @default false
+	 */
+	disableCSSMeta?: boolean;
 }
 
 declare module "nuxt/schema" {

@@ -9,13 +9,32 @@ import {
 	addImports,
 	addImportsDir,
 } from "@nuxt/kit";
-import upperFirst from "lodash/upperFirst";
-import camelCase from "lodash/camelCase";
+import upperFirst from "lodash-es/upperFirst";
+import camelCase from "lodash-es/camelCase";
 
 import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";
 
-import type { XamuModuleOptions } from "./types.js";
+import type { XamuModuleOptions } from "./types";
+
+/**
+ * Preload stylesheet and once loaded call them
+ * @param {string} href - Resource url
+ * @returns {object} Link object
+ */
+function getStyleSheetPreload(href: string) {
+	return {
+		rel: "preload",
+		as: "style" as const,
+		onload: "this.onload=null;this.rel='stylesheet'",
+		href,
+	};
+}
+
+const stylesheets: string[] = [
+	"https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css",
+	"https://unpkg.com/sweetalert2@^11/dist/sweetalert2.min.css",
+];
 
 export default defineNuxtModule<XamuModuleOptions>({
 	meta: {
@@ -35,12 +54,24 @@ export default defineNuxtModule<XamuModuleOptions>({
 	},
 	async setup(moduleOptions, nuxt) {
 		const { globalComponents, componentPrefix, image, countriesUrl } = moduleOptions;
-		const { resolve } = createResolver(import.meta.url);
+		const { resolve, resolvePath } = createResolver(import.meta.url);
 		const runtimePath = resolve("./runtime");
 
-		nuxt.options.build.transpile.push("@open-xamu-co/ui-components-vue");
 		// @ts-ignore
 		nuxt.options.appConfig.xamu = moduleOptions;
+
+		if (!moduleOptions.disableCSSMeta) {
+			// inject css
+			nuxt.options.app = { ...nuxt.options.app };
+			nuxt.options.app.head = { ...nuxt.options.app.head };
+			nuxt.options.app.head.link ||= [];
+			nuxt.options.app.head.link.push(
+				{ rel: "preconnect", href: "https://unpkg.com/", crossorigin: "anonymous" },
+				{ rel: "dns-prefetch", href: "https://unpkg.com/" },
+				...stylesheets.map(getStyleSheetPreload)
+			);
+		}
+
 		// Register components config plugin
 		addPlugin(resolve(runtimePath, "plugins", "config"));
 
@@ -59,11 +90,12 @@ export default defineNuxtModule<XamuModuleOptions>({
 		// Filter and register components if enabled
 		if (globalComponents) {
 			const components = Array.isArray(globalComponents) ? globalComponents : componentNames;
+			const filePath = await resolvePath("@open-xamu-co/ui-components-vue"); // node_modules/@open-xamu-co/ui-components-vue/dist/index.mjs
 
 			components.forEach((name) => {
 				addComponent({
 					name: upperFirst(camelCase(componentPrefix)) + name,
-					filePath: "@open-xamu-co/ui-components-vue",
+					filePath,
 					export: name,
 					mode: "all",
 				});

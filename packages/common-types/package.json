@@ -33,7 +33,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-common-types": "^6.4.0",
     "@open-xamu-co/ui-common-enums": "^3.0.0-next.2",
-    "sweetalert2": "^11.7.5"
+    "sweetalert2": "^11.11.1"
   },
   "engines": {
     "node": ">=18",

@@ -322,9 +322,9 @@
 <script setup lang="ts">
 	import { computed, reactive } from "vue";
 	import isURL from "validator/lib/isURL";
-	import isEqual from "lodash/isEqual";
-	import snakeCase from "lodash/snakeCase";
-	import omit from "lodash/omit";
+	import isEqual from "lodash-es/isEqual";
+	import snakeCase from "lodash-es/snakeCase";
+	import omit from "lodash-es/omit";
 	import { md5 } from "js-md5";
 
 	import type { iInvalidInput, iSelectOption } from "@open-xamu-co/ui-common-types";
