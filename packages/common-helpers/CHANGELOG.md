@@ -1,5 +1,32 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.7...@open-xamu-co/ui-common-helpers-v3.0.0-next.8) (2024-06-05)
+
+
+### Bug Fixes
+
+* use lodash-es ([a31ae43](https://github.com/xamu-co/ui/commit/a31ae432cc1bdd1f39e78352570d1ca865c384d5))
+
+
+### Features
+
+* **nuxt:** inject css metadata ([925b967](https://github.com/xamu-co/ui/commit/925b9674f675726272d03f53e645b448198c48ce))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** remove unused from locale pagination
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.0-next.8"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.6...@open-xamu-co/ui-common-helpers-v3.0.0-next.7) (2024-06-05)
 
 
