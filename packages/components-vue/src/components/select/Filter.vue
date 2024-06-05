@@ -60,6 +60,7 @@
 	import { computed, ref } from "vue";
 	import deburr from "lodash-es/deburr";
 	import omit from "lodash-es/omit";
+	import { Md5 } from "ts-md5";
 
 	import type { iFormIconProps, iFormOption } from "@open-xamu-co/ui-common-types";
 	import { toOption, useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
@@ -75,7 +76,6 @@
 		iUseThemeProps,
 		iSelectProps,
 	} from "../../types/props";
-	import useUUID from "../../composables/crypto";
 	import { useHelpers } from "../../composables/utils";
 
 	interface iSelectFilterProps
@@ -105,15 +105,13 @@
 
 	const { t } = useHelpers(useI18n);
 	const { isBrowser } = useHelpers(useUtils);
-	const { uuid } = useUUID();
 
-	const randomId = uuid().replace("-", "").substring(0, 8);
 	const supportsDatalist = ref(true);
 	/** Prefer a predictable identifier */
 	const selectFilterName = computed(() => {
-		const seed = deburr(props.id || props.name || props.placeholder || props.title);
+		const seed = deburr(props.placeholder || props.title);
 
-		return `select-filter_${seed.replaceAll(" ", "") || randomId}`;
+		return props.name || props.id || Md5.hashStr(`select-filter-${seed}`);
 	});
 	const selectOptions = computed<iFormOption[]>(() => (props.options ?? []).map(toOption));
 	/**

@@ -26,13 +26,13 @@
 	import { computed, watch } from "vue";
 	import deburr from "lodash-es/deburr";
 	import omit from "lodash-es/omit";
+	import { Md5 } from "ts-md5";
 
 	import type { iFormOption } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 	import { toOption } from "@open-xamu-co/ui-common-helpers";
 
 	import type { iSelectProps } from "../../types/props";
-	import useUUID from "../../composables/crypto";
 	import { useHelpers } from "../../composables/utils";
 
 	interface iBaseSelectProps extends iSelectProps {
@@ -57,17 +57,15 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { uuid } = useUUID();
 
-	const randomId = uuid().replace("-", "").substring(0, 8);
 	const selectOptions = computed<iFormOption[]>(() => {
 		return (props.options ?? []).map(toOption);
 	});
 	/** Prefer a predictable identifier */
 	const selectId = computed(() => {
-		const seed = deburr(props.id || props.name || props.placeholder || props.title);
+		const seed = deburr(props.placeholder || props.title);
 
-		return `select_${seed.replaceAll(" ", "") || randomId}`;
+		return props.name || props.id || Md5.hashStr(`select-${seed}`);
 	});
 
 	function handleInput(e: Event) {
