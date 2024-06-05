@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.16...@open-xamu-co/ui-components-vue-v3.0.0-next.17) (2024-06-05)
+
+
+### Bug Fixes
+
+* use ts-md5 ([d9d57b3](https://github.com/xamu-co/ui/commit/d9d57b3125d1ceee46db608dcfa0f980e9ed83c1))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.17"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.15...@open-xamu-co/ui-components-vue-v3.0.0-next.16) (2024-06-05)
 
 
