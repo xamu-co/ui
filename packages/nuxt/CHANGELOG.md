@@ -1,5 +1,28 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.5...@open-xamu-co/ui-nuxt-v3.0.0-next.6) (2024-06-05)
+
+
+### Bug Fixes
+
+* use lodash-es ([a31ae43](https://github.com/xamu-co/ui/commit/a31ae432cc1bdd1f39e78352570d1ca865c384d5))
+
+
+### Features
+
+* **nuxt:** inject css metadata ([925b967](https://github.com/xamu-co/ui/commit/925b9674f675726272d03f53e645b448198c48ce))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** remove unused from locale pagination
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.4...@open-xamu-co/ui-nuxt-v3.0.0-next.5) (2024-06-05)
 
 
