@@ -346,7 +346,7 @@
 	import upperFirst from "lodash-es/upperFirst";
 	import snakeCase from "lodash-es/snakeCase";
 	import startCase from "lodash-es/startCase";
-	import deburr from "lodash-es/deburr";
+	import { Md5 } from "ts-md5";
 
 	import type {
 		iNodeFn,
@@ -373,7 +373,6 @@
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
 	import { useHelpers, useOrderBy } from "../../composables/utils";
-	import useUUID from "../../composables/crypto";
 
 	type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;
 
@@ -467,9 +466,6 @@
 	const Swal = useHelpers(useSwal);
 	const { themeClasses, themeValues, dangerThemeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
-	const { uuid } = useUUID();
-
-	const randomId = uuid().replace("-", "").substring(0, 8);
 
 	/** [selected, show] */
 	const selectedNodes = ref<[boolean, boolean][]>(reFillNodes(props.nodes.length));
@@ -537,11 +533,10 @@
 	});
 	/** Prefer a predictable identifier */
 	const tableId = computed(() => {
-		const childrenBased = props.childrenName || props.childrenCountKey;
+		const childrenBased = props.childrenName || String(props.childrenCountKey);
 		const metaBased = propertiesMeta.value[0].alias || propertiesMeta.value[0].value;
-		const seed = deburr(String(childrenBased || metaBased || ""));
 
-		return `table_${seed.replaceAll(" ", "") || randomId}`;
+		return Md5.hashStr(`table-${childrenBased}-${metaBased}`);
 	});
 
 	const defaultOrderProperty: tPropertyOrderFn = ([a, aValue], [b, bValue]) => {

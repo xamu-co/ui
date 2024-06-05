@@ -121,7 +121,7 @@
 		Teleport,
 		getCurrentInstance,
 	} from "vue";
-	import deburr from "lodash-es/deburr";
+	import { Md5 } from "ts-md5";
 
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 	import { eColors } from "@open-xamu-co/ui-common-enums";
@@ -136,7 +136,6 @@
 
 	import type { iModalButtonConfig, iModalProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import useUUID from "../../composables/crypto";
 	import { useHelpers } from "../../composables/utils";
 
 	/**
@@ -158,19 +157,15 @@
 	const Swal = useHelpers(useSwal);
 	const { themeClasses, invertedThemeValues } = useTheme(props, true);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
-	const { uuid } = useUUID();
 
 	const resolver = ref<(r?: boolean) => void>();
-	const randomId = uuid().replace("-", "").substring(0, 8);
 	const localModel = ref<boolean>();
 	const modalRef = ref<HTMLDialogElement>();
 	/** Are the requirements for the modal are taking longer than usual? */
 	const loadingTooLong = ref(false);
 	/** Prefer a predictable identifier */
 	const modalId = computed(() => {
-		const seed = deburr(props.subtitle || props.title);
-
-		return `modal_${seed.replaceAll(" ", "") || randomId}`;
+		return Md5.hashStr(`modal_${props.subtitle}-${props.title}`);
 	});
 	const saveButtonOptions = computed<iModalButtonConfig & { disabled?: boolean }>(() => ({
 		title: t("ok"),

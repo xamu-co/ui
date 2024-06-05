@@ -4,9 +4,9 @@
 			<FormInputOptions
 				v-if="!input.defaults && input.type === eFT.CHOICE"
 				v-slot="{ options }"
-				:key="`options-${input.name}-${Md5.hashStr(String(input.values[0]))}-${
-					input.options.length
-				}`"
+				:key="
+					Md5.hashStr(`options-${input.name}-${input.values[0]}-${input.options.length}`)
+				"
 				:input="input"
 			>
 				<div
