@@ -21,10 +21,10 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import _ from "lodash";
+	import deburr from "lodash/deburr";
 
 	import type { iInputProps } from "../../types/props";
-	import useUUID from "../../composables/uuid";
+	import useUUID from "../../composables/crypto";
 
 	interface iBaseInputProps extends iInputProps {
 		/**
@@ -52,7 +52,7 @@
 	const randomId = uuid().replace("-", "").substring(0, 8);
 	/** Prefer a predictable identifier */
 	const inputId = computed(() => {
-		const seed = _.deburr(props.id || props.name || props.placeholder || props.title);
+		const seed = deburr(props.id || props.name || props.placeholder || props.title);
 
 		return `input_${seed.replaceAll(" ", "") || randomId}`;
 	});

@@ -7,7 +7,7 @@ import { nanoid } from "nanoid";
  *
  * @composable
  */
-export default function useUIID() {
+export default function useCrypto() {
 	try {
 		// this should fail in node
 		self.crypto || window.crypto;

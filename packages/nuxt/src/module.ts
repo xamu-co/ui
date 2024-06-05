@@ -9,7 +9,8 @@ import {
 	addImports,
 	addImportsDir,
 } from "@nuxt/kit";
-import _ from "lodash";
+import upperFirst from "lodash/upperFirst";
+import camelCase from "lodash/camelCase";
 
 import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";
@@ -61,7 +62,7 @@ export default defineNuxtModule<XamuModuleOptions>({
 
 			components.forEach((name) => {
 				addComponent({
-					name: _.capitalize(_.camelCase(componentPrefix)) + name,
+					name: upperFirst(camelCase(componentPrefix)) + name,
 					filePath: "@open-xamu-co/ui-components-vue",
 					export: name,
 					mode: "all",

@@ -4,8 +4,8 @@
 			<BaseInput
 				v-model="model"
 				v-bind="{
-					..._.omit($attrs, 'class'),
-					..._.omit(props, ['modelValue', 'size']),
+					...omit($attrs, 'class'),
+					...omit(props, ['modelValue', 'size']),
 					type: textarea ? 'textarea' : inputType,
 					placeholder,
 					disabled,
@@ -51,9 +51,9 @@
 </template>
 
 <script setup lang="ts">
-	import { computed } from "vue";
-	import _ from "lodash";
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
+	import { computed } from "vue";
+	import omit from "lodash/omit";
 
 	import type { iFormIconProps, tTextInputType } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";

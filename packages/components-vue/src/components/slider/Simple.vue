@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 	import { computed, ref, inject, onMounted, onBeforeUnmount, useSlots } from "vue";
-	import _ from "lodash";
+	import debounce from "lodash/debounce";
 
 	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 	import { useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
@@ -313,7 +313,7 @@
 	/**
 	 * switch tabs
 	 */
-	const debouncedTab = _.debounce(tab);
+	const debouncedTab = debounce(tab);
 
 	// lifecycle
 	if (isBrowser) {

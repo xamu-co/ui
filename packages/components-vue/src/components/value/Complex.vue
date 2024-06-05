@@ -79,7 +79,7 @@
 							value: childValue,
 							property: {
 								value: childValueName,
-								alias: _.capitalize(_.startCase(childValueName)),
+								alias: upperFirst(startCase(childValueName)),
 							},
 							readonly,
 							theme,
@@ -156,7 +156,8 @@
 	</BaseErrorBoundary>
 </template>
 <script setup lang="ts">
-	import _ from "lodash";
+	import upperFirst from "lodash/upperFirst";
+	import startCase from "lodash/startCase";
 
 	import type { iProperty, tProps, tSizeModifier } from "@open-xamu-co/ui-common-types";
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";

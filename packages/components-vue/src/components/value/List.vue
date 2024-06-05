@@ -6,7 +6,7 @@
 			class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
 		>
 			<span class="--txtSize-xs">
-				{{ _.capitalize(_.startCase(childValueName)) }}
+				{{ upperFirst(startCase(childValueName)) }}
 			</span>
 			<!-- Recursion -->
 			<ValueComplex
@@ -15,7 +15,7 @@
 					node,
 					property: {
 						value: childValueName,
-						alias: _.capitalize(_.startCase(childValueName)),
+						alias: upperFirst(startCase(childValueName)),
 					},
 					readonly,
 					theme,
@@ -28,7 +28,8 @@
 	</ul>
 </template>
 <script setup lang="ts" generic="P extends Record<string, any>">
-	import _ from "lodash";
+	import startCase from "lodash/startCase";
+	import upperFirst from "lodash/upperFirst";
 
 	import type { iProperty, tProps } from "@open-xamu-co/ui-common-types";
 

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import omit from "lodash/omit.js";
 
 import type {
 	tLocaleBase,
@@ -206,12 +206,12 @@ export const localePagination: tLocalePagination = {
  * @locale es
  */
 const esLocale: tPluginLocale = {
-	..._.omit(localeBase, "swal"),
-	..._.omit(localeInput, "swal"),
-	..._.omit(localeModal, "swal"),
-	..._.omit(localeForm, "swal"),
-	..._.omit(localeTable, "swal"),
-	..._.omit(localePagination, "swal"),
+	...omit(localeBase, "swal"),
+	...omit(localeInput, "swal"),
+	...omit(localeModal, "swal"),
+	...omit(localeForm, "swal"),
+	...omit(localeTable, "swal"),
+	...omit(localePagination, "swal"),
 	swal: {
 		...localeBase.swal,
 		...localeInput.swal,

@@ -1,4 +1,7 @@
-import _ from "lodash";
+import template from "lodash/template.js";
+import get from "lodash/get.js";
+import trim from "lodash/trim.js";
+import has from "lodash/has.js";
 
 /**
  * I18n Composable
@@ -21,7 +24,7 @@ export default function useI18n<L extends Record<string, string | Record<string,
 		fallback = `No locale for "${key}" provided`
 	): string {
 		// Empty string string if locale doesn't exist
-		let locale = _.get(options.locale || {}, key, fallback);
+		let locale = get(options.locale || {}, key, fallback);
 		const interpolate = /\{(.+?)\}/g;
 		const plurals = locale.split("|");
 		const count = typeof data === "number" ? data : data?.count ?? -1;
@@ -37,7 +40,7 @@ export default function useI18n<L extends Record<string, string | Record<string,
 			}
 		}
 
-		const compile = _.template(_.trim(locale), { interpolate });
+		const compile = template(trim(locale), { interpolate });
 
 		return compile(typeof data === "number" ? { count } : data);
 	}
@@ -51,7 +54,7 @@ export default function useI18n<L extends Record<string, string | Record<string,
 	function te<K extends string & keyof L, Ko extends L[K], KA extends string & keyof Ko>(
 		key: string
 	): key is Ko extends string ? K : `${K}.${KA}` {
-		return _.has(options.locale || {}, key);
+		return has(options.locale || {}, key);
 	}
 
 	/**

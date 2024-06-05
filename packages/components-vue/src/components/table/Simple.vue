@@ -343,7 +343,10 @@
 
 <script setup lang="ts" generic="T extends Record<string, any>">
 	import { ref, computed, watch, getCurrentInstance, type AllowedComponentProps } from "vue";
-	import _ from "lodash";
+	import upperFirst from "lodash/upperFirst";
+	import snakeCase from "lodash/snakeCase";
+	import startCase from "lodash/startCase";
+	import deburr from "lodash/deburr";
 
 	import type {
 		iNodeFn,
@@ -370,7 +373,7 @@
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
 	import { useHelpers, useOrderBy } from "../../composables/utils";
-	import useUUID from "../../composables/uuid";
+	import useUUID from "../../composables/crypto";
 
 	type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;
 
@@ -521,12 +524,12 @@
 			.map(([key, value]): iPropertyMeta => {
 				const options = (props.properties || []).map(toOption);
 				const property = toOption(options.find((p) => p.value === key) || key);
-				const aliasKey = _.snakeCase(key);
+				const aliasKey = snakeCase(key);
 
 				return {
 					...property,
 					value: String(property.value),
-					alias: _.capitalize(_.startCase(property.alias || tet(aliasKey))),
+					alias: upperFirst(startCase(property.alias || tet(aliasKey))),
 					canSort: !!props.canSort && isPlainValue(value),
 				};
 			})
@@ -536,7 +539,7 @@
 	const tableId = computed(() => {
 		const childrenBased = props.childrenName || props.childrenCountKey;
 		const metaBased = propertiesMeta.value[0].alias || propertiesMeta.value[0].value;
-		const seed = _.deburr(String(childrenBased || metaBased || ""));
+		const seed = deburr(String(childrenBased || metaBased || ""));
 
 		return `table_${seed.replaceAll(" ", "") || randomId}`;
 	});

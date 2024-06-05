@@ -2,12 +2,12 @@
 	<BaseInput
 		:class="[modifiersClasses, stateClasses, themeClasses]"
 		class="iColor"
-		v-bind="{ ...$attrs, ..._.omit(props, ['modelValue', 'size']), type: 'color' }"
+		v-bind="{ ...$attrs, ...omit(props, ['modelValue', 'size']), type: 'color' }"
 	/>
 </template>
 
 <script setup lang="ts">
-	import _ from "lodash";
+	import omit from "lodash/omit";
 
 	import BaseInput from "../base/Input.vue";
 

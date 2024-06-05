@@ -2,11 +2,11 @@
 	<div :class="{ '--width': fullWidth }">
 		<BaseInput
 			v-slot="{ id, modelValue }"
-			:class="[modifiersClasses, stateClasses, themeClasses, `i${_.capitalize(inputType)}`]"
+			:class="[modifiersClasses, stateClasses, themeClasses, `i${capitalize(inputType)}`]"
 			class="--full"
 			v-bind="{
 				...$attrs,
-				..._.omit(props, ['modelValue', 'size']),
+				...omit(props, ['modelValue', 'size']),
 				type: inputType,
 				disabled,
 			}"
@@ -30,7 +30,8 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import _ from "lodash";
+	import capitalize from "lodash/capitalize";
+	import omit from "lodash/omit";
 
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 

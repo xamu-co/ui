@@ -1,5 +1,5 @@
 import type { IconName } from "@fortawesome/fontawesome-common-types";
-import _ from "lodash";
+import isEqual from "lodash/isEqual.js";
 
 import type {
 	iFormInput,
@@ -284,7 +284,7 @@ export class FormInput<V extends iFormValue = iFormValue>
 	}
 
 	public isEqual(other: FormInput): boolean {
-		return _.isEqual(this.getObject(this), this.getObject(other));
+		return isEqual(this.getObject(this), this.getObject(other));
 	}
 }
 

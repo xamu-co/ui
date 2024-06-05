@@ -47,7 +47,7 @@
 
 <script setup lang="ts" generic="P extends any[] = any[]">
 	import { computed, ref, watch } from "vue";
-	import _ from "lodash";
+	import isEqual from "lodash/isEqual";
 
 	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
@@ -135,7 +135,7 @@
 		emit(
 			"update:invalid",
 			props.invalid.filter(({ invalidValue, name }) => {
-				return model.value[index].name !== name || _.isEqual(invalidValue, values);
+				return model.value[index].name !== name || isEqual(invalidValue, values);
 			})
 		);
 	}
@@ -203,7 +203,7 @@
 	watch(
 		() => props.payload,
 		(newPayload, oldPayload) => {
-			if (!props.make || (firstMake.value && _.isEqual(newPayload, oldPayload))) return;
+			if (!props.make || (firstMake.value && isEqual(newPayload, oldPayload))) return;
 
 			firstMake.value = true;
 			emit("update:model-value", props.make(...(<P>(newPayload || []))));

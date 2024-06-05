@@ -5,7 +5,7 @@
 			v-model="aliasModel"
 			v-bind="{
 				...$attrs,
-				..._.omit(props, 'modelValue'),
+				...omit(props, 'modelValue'),
 				options: selectOptions.map(({ value, alias }) => ({
 					alias,
 					value: alias ?? value,
@@ -37,7 +37,7 @@
 			:list="selectFilterName"
 			autocomplete="off"
 			v-bind="{
-				..._.omit(props, ['modelValue', 'autocomplete']),
+				...omit(props, ['modelValue', 'autocomplete']),
 				type: 'text',
 				placeholder: t('select_filter_options'),
 				disabled: (!!modelValue && !isInvalid) || disabled,
@@ -58,7 +58,8 @@
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
 	import { computed, ref } from "vue";
-	import _ from "lodash";
+	import deburr from "lodash/deburr";
+	import omit from "lodash/omit";
 
 	import type { iFormIconProps, iFormOption } from "@open-xamu-co/ui-common-types";
 	import { toOption, useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
@@ -74,7 +75,7 @@
 		iUseThemeProps,
 		iSelectProps,
 	} from "../../types/props";
-	import useUUID from "../../composables/uuid";
+	import useUUID from "../../composables/crypto";
 	import { useHelpers } from "../../composables/utils";
 
 	interface iSelectFilterProps
@@ -110,7 +111,7 @@
 	const supportsDatalist = ref(true);
 	/** Prefer a predictable identifier */
 	const selectFilterName = computed(() => {
-		const seed = _.deburr(props.id || props.name || props.placeholder || props.title);
+		const seed = deburr(props.id || props.name || props.placeholder || props.title);
 
 		return `select-filter_${seed.replaceAll(" ", "") || randomId}`;
 	});
@@ -127,11 +128,11 @@
 		},
 		set(valueOrAlias: string | number) {
 			// This assumes that aliases are distinct enough
-			const deburr = (v: string | number) => _.deburr(String(v)).toLowerCase();
-			const newModel = deburr(valueOrAlias);
+			const deburrer = (v: string | number) => deburr(String(v)).toLowerCase();
+			const newModel = deburrer(valueOrAlias);
 			// look for alias first
 			const option = selectOptions.value.find(({ alias, value }) => {
-				const match = deburr(alias ?? value);
+				const match = deburrer(alias ?? value);
 
 				return match === newModel;
 			});
