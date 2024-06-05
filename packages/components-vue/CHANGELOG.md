@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.17...@open-xamu-co/ui-components-vue-v3.0.0-next.18) (2024-06-05)
+
+
+### Bug Fixes
+
+* **vue:** generate predictable ids ([b24f95c](https://github.com/xamu-co/ui/commit/b24f95cd6f72e6f2df70187b6a8ef8cca673e854))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.18"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.16...@open-xamu-co/ui-components-vue-v3.0.0-next.17) (2024-06-05)
 
 
