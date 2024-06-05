@@ -4,7 +4,7 @@
 			<FormInputOptions
 				v-if="!input.defaults && input.type === eFT.CHOICE"
 				v-slot="{ options }"
-				:key="`options-${input.name}-${md5(String(input.values[0]))}-${
+				:key="`options-${input.name}-${Md5.hashStr(String(input.values[0]))}-${
 					input.options.length
 				}`"
 				:input="input"
@@ -325,7 +325,7 @@
 	import isEqual from "lodash-es/isEqual";
 	import snakeCase from "lodash-es/snakeCase";
 	import omit from "lodash-es/omit";
-	import { md5 } from "js-md5";
+	import { Md5 } from "ts-md5";
 
 	import type { iInvalidInput, iSelectOption } from "@open-xamu-co/ui-common-types";
 	import { eFormType as eFT } from "@open-xamu-co/ui-common-enums";
