@@ -5,9 +5,9 @@ import type {
 	tResponseFn,
 } from "@open-xamu-co/ui-common-types";
 
-import useI18n from "../i18n.js";
-import useUtils from "../utils.js";
-import useSwal from "../swal.js";
+import useI18n from "../i18n";
+import useUtils from "../utils";
+import useSwal from "../swal";
 import {
 	getFormInputsInvalids,
 	getFormInputsValues,
@@ -16,8 +16,8 @@ import {
 	isValidFormInputValue,
 	isValidValue,
 	notEmptyValue,
-} from "./utils.js";
-import { FormInput } from "./input.js";
+} from "./utils";
+import { FormInput } from "./input";
 
 /**
  * Form Composable

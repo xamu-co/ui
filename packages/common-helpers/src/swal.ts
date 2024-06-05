@@ -1,11 +1,11 @@
 import DefaultSwal, {
 	type SweetAlertOptions,
 	type SweetAlertResult,
-} from "sweetalert2/dist/sweetalert2.js";
+} from "sweetalert2/dist/sweetalert2";
 
 import type { iPluginOptions, tSwal, tSwalOptions } from "@open-xamu-co/ui-common-types";
 
-import useI18n from "./i18n.js";
+import useI18n from "./i18n";
 
 function getTarget(possibleTarget?: tSwalOptions["target"]): string | HTMLElement {
 	if (possibleTarget instanceof Event) {

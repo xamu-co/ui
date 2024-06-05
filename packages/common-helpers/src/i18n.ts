@@ -1,7 +1,7 @@
-import template from "lodash-es/template.js";
-import get from "lodash-es/get.js";
-import trim from "lodash-es/trim.js";
-import has from "lodash-es/has.js";
+import template from "lodash-es/template";
+import get from "lodash-es/get";
+import trim from "lodash-es/trim";
+import has from "lodash-es/has";
 
 /**
  * I18n Composable

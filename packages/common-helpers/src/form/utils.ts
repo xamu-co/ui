@@ -1,4 +1,4 @@
-import isEmail from "validator/lib/isEmail.js";
+import isEmail from "validator/lib/isEmail";
 
 import type {
 	iFormInputDefault,
@@ -8,7 +8,7 @@ import type {
 } from "@open-xamu-co/ui-common-types";
 import { eFormType, eFormTypeComplex, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
 
-import { FormInput } from "./input.js";
+import { FormInput } from "./input";
 
 /**
  * Wheter or not value is empty
