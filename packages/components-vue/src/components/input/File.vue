@@ -124,8 +124,8 @@
 
 <script setup lang="ts">
 	import { ref, computed } from "vue";
-	import debounce from "lodash/debounce";
-	import omit from "lodash/omit";
+	import debounce from "lodash-es/debounce";
+	import omit from "lodash-es/omit";
 
 	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {

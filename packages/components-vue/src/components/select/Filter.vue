@@ -58,8 +58,8 @@
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
 	import { computed, ref } from "vue";
-	import deburr from "lodash/deburr";
-	import omit from "lodash/omit";
+	import deburr from "lodash-es/deburr";
+	import omit from "lodash-es/omit";
 
 	import type { iFormIconProps, iFormOption } from "@open-xamu-co/ui-common-types";
 	import { toOption, useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";

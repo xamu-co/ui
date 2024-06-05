@@ -1,4 +1,4 @@
-import omit from "lodash/omit.js";
+import omit from "lodash-es/omit.js";
 
 import type {
 	tLocaleBase,

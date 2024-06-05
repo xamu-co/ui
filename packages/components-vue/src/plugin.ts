@@ -5,8 +5,8 @@ import {
 	type FunctionalComponent,
 	defineCustomElement,
 } from "vue";
-import upperFirst from "lodash/upperFirst";
-import camelCase from "lodash/camelCase";
+import upperFirst from "lodash-es/upperFirst";
+import camelCase from "lodash-es/camelCase";
 
 import type { tPropertyMapping, iPluginOptions } from "@open-xamu-co/ui-common-types";
 import locale from "@open-xamu-co/ui-common-helpers/en";

@@ -121,7 +121,7 @@
 		Teleport,
 		getCurrentInstance,
 	} from "vue";
-	import deburr from "lodash/deburr";
+	import deburr from "lodash-es/deburr";
 
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 	import { eColors } from "@open-xamu-co/ui-common-enums";

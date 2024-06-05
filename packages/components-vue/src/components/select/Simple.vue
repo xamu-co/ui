@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-	import omit from "lodash/omit";
+	import omit from "lodash-es/omit";
 
 	import BaseSelect from "../base/Select.vue";
 

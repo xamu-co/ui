@@ -9,8 +9,8 @@ import {
 	addImports,
 	addImportsDir,
 } from "@nuxt/kit";
-import upperFirst from "lodash/upperFirst";
-import camelCase from "lodash/camelCase";
+import upperFirst from "lodash-es/upperFirst";
+import camelCase from "lodash-es/camelCase";
 
 import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";

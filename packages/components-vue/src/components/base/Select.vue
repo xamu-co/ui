@@ -24,8 +24,8 @@
 
 <script setup lang="ts">
 	import { computed, watch } from "vue";
-	import deburr from "lodash/deburr";
-	import omit from "lodash/omit";
+	import deburr from "lodash-es/deburr";
+	import omit from "lodash-es/omit";
 
 	import type { iFormOption } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";

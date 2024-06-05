@@ -343,10 +343,10 @@
 
 <script setup lang="ts" generic="T extends Record<string, any>">
 	import { ref, computed, watch, getCurrentInstance, type AllowedComponentProps } from "vue";
-	import upperFirst from "lodash/upperFirst";
-	import snakeCase from "lodash/snakeCase";
-	import startCase from "lodash/startCase";
-	import deburr from "lodash/deburr";
+	import upperFirst from "lodash-es/upperFirst";
+	import snakeCase from "lodash-es/snakeCase";
+	import startCase from "lodash-es/startCase";
+	import deburr from "lodash-es/deburr";
 
 	import type {
 		iNodeFn,

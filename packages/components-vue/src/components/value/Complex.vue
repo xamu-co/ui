@@ -156,8 +156,8 @@
 	</BaseErrorBoundary>
 </template>
 <script setup lang="ts">
-	import upperFirst from "lodash/upperFirst";
-	import startCase from "lodash/startCase";
+	import upperFirst from "lodash-es/upperFirst";
+	import startCase from "lodash-es/startCase";
 
 	import type { iProperty, tProps, tSizeModifier } from "@open-xamu-co/ui-common-types";
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
