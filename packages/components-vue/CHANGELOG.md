@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.14...@open-xamu-co/ui-components-vue-v3.0.0-next.15) (2024-06-05)
+
+
+### Bug Fixes
+
+* no default imports ([f4e2827](https://github.com/xamu-co/ui/commit/f4e2827970c5326a216075a896100f4abb2fc631))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.15"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.13...@open-xamu-co/ui-components-vue-v3.0.0-next.14) (2024-06-04)
 
 
