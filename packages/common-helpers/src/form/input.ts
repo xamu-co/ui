@@ -145,19 +145,20 @@ export class FormInput<V extends iFormValue = iFormValue>
 		const maxValue = this._options.length || formInput.max || 9e9;
 
 		this.max = maxValue < this.min ? this.min : maxValue;
+		this._values = formInput.values ||= [];
 
-		const values = Array(this.min).fill(getDefault(formInput.type, formInput.defaults));
+		if (isChoiceType(this.type)) {
+			// autoset single value if required
+			if (this.required && !this._values.length) {
+				const values = this.options.map(({ value }) => value);
 
-		this._values = formInput.values?.length ? formInput.values : values;
+				this._values = values.slice(0, Math.max(1, this.min)) as V[];
+			}
+		} else if (this.type !== eFormType.FILE) {
+			const values = Array(this.min).fill(getDefault(formInput.type, formInput.defaults));
 
-		// autoset single value if required
-		if (
-			this.required &&
-			isChoiceType(this.type) &&
-			this.options.length === 1 &&
-			this._values[0] !== this.options[0].value
-		) {
-			this._values = [this.options[0].value as V];
+			// use defaults
+			if (this._values.length < this.min) this._values = values;
 		}
 
 		this.name = formInput.name;
@@ -173,14 +174,13 @@ export class FormInput<V extends iFormValue = iFormValue>
 	set options(updatedOptions: iSelectOption[] | undefined) {
 		this._options = updatedOptions || [];
 
-		// autoset single value if required
-		if (
-			this.required &&
-			isChoiceType(this.type) &&
-			this.options.length === 1 &&
-			this.values[0] !== this.options[0].value
-		) {
-			this.values = [this.options[0].value as V];
+		if (isChoiceType(this.type)) {
+			// autoset single value if required
+			if (this.required && !this._values.length) {
+				const values = this.options.map(({ value }) => value);
+
+				this._values = values.slice(0, Math.max(1, this.min)) as V[];
+			}
 		}
 
 		this.rerender();
@@ -192,7 +192,21 @@ export class FormInput<V extends iFormValue = iFormValue>
 	set values(updatedValues: (V | V[])[] | undefined) {
 		if (updatedValues === undefined) {
 			// set defaults
-			this._values = Array(this.min).fill(getDefault(this.type, this.defaults));
+			this._values = [];
+
+			if (isChoiceType(this.type)) {
+				// autoset single value if required
+				if (this.required && !this._values.length) {
+					const values = this.options.map(({ value }) => value);
+
+					this._values = values.slice(0, Math.max(1, this.min)) as V[];
+				}
+			} else if (this.type !== eFormType.FILE) {
+				const values = Array(this.min).fill(getDefault(this.type, this.defaults));
+
+				// use defaults
+				if (this._values.length < this.min) this._values = values;
+			}
 		} else {
 			// run hook on values change
 			this._values = this._onUpdatedValues?.(updatedValues) ?? updatedValues;
