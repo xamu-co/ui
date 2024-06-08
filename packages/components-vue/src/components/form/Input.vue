@@ -449,10 +449,8 @@
 			if (props.modelValue.includes(value)) {
 				const index = props.modelValue.indexOf(value);
 
-				if (index > -1) props.input.removeValue(index);
-			} else {
-				props.input.addValue(value);
-			}
+				if (index > -1) emit("update:model-value", props.input.removeValue(index).values);
+			} else emit("update:model-value", props.input.addValue(value).values);
 		} else {
 			// old behavior, single value
 			emit("update:model-value", [value]);

@@ -2,21 +2,39 @@ import { inject } from "vue";
 
 import type { iPluginOptions, tOrder, tOrderBy } from "@open-xamu-co/ui-common-types";
 
+export type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;
+
 export function useSortObject(data: Record<string, any>) {
 	return Object.entries(data)
-		.sort(([a], [b]) => {
-			// updatedAt, updatedBy, createdAt and createdBy to last position
-			if (a.endsWith("At") || a.endsWith("By") || b.endsWith("At") || b.endsWith("By")) {
-				if (a.endsWith("At") || a.endsWith("By")) return 1;
-
-				return -1;
-			} else if (a > b) return 1;
-			else if (a < b) return -1;
-
-			return 0;
-		})
+		.sort(useOrderProperty)
 		.filter(([property]) => property !== "id");
 }
+
+export function isPlainValue(value: any) {
+	return ["string", "number", "boolean"].includes(typeof value);
+}
+
+export const useOrderProperty: tPropertyOrderFn = ([a, aValue], [b, bValue]) => {
+	const isDateOrAuthor = (k: string) => k.endsWith("At") || k.endsWith("By");
+
+	// Move dates or authors backwards
+	if (isDateOrAuthor(a) || isDateOrAuthor(b)) {
+		// Respect whatever order they had
+		if (isDateOrAuthor(a) && isDateOrAuthor(b)) return 0;
+
+		return isDateOrAuthor(a) ? 1 : -1;
+	}
+	// Move strings forward
+	else if (isPlainValue(aValue) || isPlainValue(bValue)) {
+		// Respect whatever order they had
+		if (isPlainValue(aValue) && isPlainValue(bValue)) return 0;
+
+		return isPlainValue(aValue) ? -1 : 1;
+	}
+
+	// Respect whatever order they had
+	return 0;
+};
 
 export function useHelpers<T>(helper: (o?: iPluginOptions) => T): ReturnType<typeof helper> {
 	const xamuOptions = inject<iPluginOptions>("xamu");
