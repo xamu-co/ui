@@ -211,6 +211,8 @@ export type tLocaleTable = {
 	table_see_name: string;
 	/** @example "Create new" */
 	table_create_new: string;
+	/** @example "Crear nuevo" */
+	table_create_new_name: string;
 	/** @example "Quantity: {count} */
 	table_quantity: string;
 	/** @example "Modify" */

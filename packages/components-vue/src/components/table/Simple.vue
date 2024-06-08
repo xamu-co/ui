@@ -270,7 +270,9 @@
 										<ActionLink
 											:theme="theme || themeValues"
 											:size="size"
-											:active="selectedNodes[nodeIndex][1]"
+											:active="
+												selectedNodes[nodeIndex][1] && !!childrenCount(node)
+											"
 											:tooltip="
 												t('table_see_name', {
 													name:
@@ -280,17 +282,27 @@
 												})
 											"
 											tooltip-position="right"
-											:disabled="childrenCountKey && !childrenCount(node)"
+											:disabled="!childrenCount(node)"
 											class="--p-5"
 											@click="toggleChildren(nodeIndex)"
 										>
+											<span v-if="childrenCount(node) >= 1">
+												{{ childrenCount(node) }}
+											</span>
 											<IconFa name="chevron-up" indicator />
 										</ActionLink>
 										<ActionButtonLink
 											v-if="createNodeChildren"
 											:theme="theme || themeValues"
 											:size="size"
-											:tooltip="t('table_create_new')"
+											:tooltip="
+												t('table_create_new_name', {
+													name:
+														childrenName ||
+														childrenCountKey ||
+														String(node.id ?? nodeIndex).split('/')[0],
+												})
+											"
 											tooltip-position="right"
 											class="--p-5:md-inv"
 											link-button
@@ -305,13 +317,25 @@
 									:colspan="propertiesMeta.length + 1"
 									class="--pY-5 --index-1 --pRight"
 								>
-									<div v-show="selectedNodes[nodeIndex][1]" class="--width">
+									<div
+										v-show="
+											selectedNodes[nodeIndex][1] && !!childrenCount(node)
+										"
+										class="--width"
+									>
 										<slot
-											v-bind="{ node, show: selectedNodes[nodeIndex][1] }"
+											v-bind="{
+												node,
+												show:
+													selectedNodes[nodeIndex][1] &&
+													!!childrenCount(node),
+											}"
 										></slot>
 									</div>
 									<div
-										v-if="!selectedNodes[nodeIndex][1]"
+										v-if="
+											!(selectedNodes[nodeIndex][1] && !!childrenCount(node))
+										"
 										class="--width --pRight --boxSizing --overflow-hidden"
 									>
 										<hr :class="`--tm-${themeValues[0]}`" />
@@ -372,9 +396,13 @@
 
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import { useHelpers, useOrderBy } from "../../composables/utils";
-
-	type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;
+	import {
+		type tPropertyOrderFn,
+		isPlainValue,
+		useHelpers,
+		useOrderBy,
+		useOrderProperty,
+	} from "../../composables/utils";
 
 	interface iPropertyMeta extends iSelectOption {
 		value: string;
@@ -437,6 +465,11 @@
 		 * Default children visibility
 		 */
 		childrenVisibility?: boolean;
+		/**
+		 * Human readable name
+		 *
+		 * @fallback property name
+		 */
 		childrenName?: string;
 		childrenCountKey?: keyof Ti;
 		modalProps?: iModalProps & AllowedComponentProps;
@@ -516,7 +549,7 @@
 	 */
 	const propertiesMeta = computed<iPropertyMeta[]>(() => {
 		return Object.entries(props.nodes[0])
-			.sort(props.propertyOrder || defaultOrderProperty)
+			.sort(props.propertyOrder || useOrderProperty)
 			.map(([key, value]): iPropertyMeta => {
 				const options = (props.properties || []).map(toOption);
 				const property = toOption(options.find((p) => p.value === key) || key);
@@ -529,7 +562,7 @@
 					canSort: !!props.canSort && isPlainValue(value),
 				};
 			})
-			.filter((property) => property.value !== "id");
+			.filter(({ value }) => !["id", props.childrenCountKey].includes(value));
 	});
 	/** Prefer a predictable identifier */
 	const tableId = computed(() => {
@@ -539,36 +572,19 @@
 		return Md5.hashStr(`table-${childrenBased}-${metaBased}`);
 	});
 
-	const defaultOrderProperty: tPropertyOrderFn = ([a, aValue], [b, bValue]) => {
-		const isDateOrAuthor = (k: string) => k.endsWith("At") || k.endsWith("By");
-
-		// Move dates or authors backwards
-		if (isDateOrAuthor(a) || isDateOrAuthor(b)) {
-			// Respect whatever order they had
-			if (isDateOrAuthor(a) && isDateOrAuthor(b)) return 0;
-
-			return isDateOrAuthor(a) ? 1 : -1;
-		}
-		// Move strings forward
-		else if (isPlainValue(aValue) || isPlainValue(bValue)) {
-			// Respect whatever order they had
-			if (isPlainValue(aValue) && isPlainValue(bValue)) return 0;
-
-			return isPlainValue(aValue) ? -1 : 1;
-		}
-
-		// Respect whatever order they had
-		return 0;
-	};
-
-	function isPlainValue(value: any) {
-		return ["string", "number", "boolean"].includes(typeof value);
-	}
 	function reFillNodes(length: number): [boolean, boolean][] {
 		return Array.from({ length }, () => [false, !!props.childrenVisibility]);
 	}
 	function childrenCount(node: T) {
-		return props.childrenCountKey ? node[props.childrenCountKey] : 0;
+		if (props.childrenCountKey) {
+			const countValue = node[props.childrenCountKey];
+
+			if (Array.isArray(countValue)) return countValue.length;
+
+			return countValue;
+		}
+
+		return 0;
 	}
 	function toggleAll(value = true, index = 0) {
 		selectedNodes.value.forEach((_, i) => (selectedNodes.value[i][index] = value));
