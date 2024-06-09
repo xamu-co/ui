@@ -227,8 +227,9 @@
 												<IconFa name="ellipsis-vertical" />
 											</ActionLink>
 										</template>
-										<template #default="{ setModel, invertedTheme }">
+										<template #default="{ setModel, invertedTheme, model }">
 											<ul
+												v-if="model"
 												class="flx --flxColumn --flx-start-stretch --gap-10"
 											>
 												<li v-if="!!cloneNode">
