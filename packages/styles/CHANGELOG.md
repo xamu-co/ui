@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.7...@open-xamu-co/ui-styles-v3.0.0-next.8) (2024-06-09)
+
+
+### Bug Fixes
+
+* **style:** scroll max width ([be05950](https://github.com/xamu-co/ui/commit/be059508e8ab29313187b81ac0d008ed2f049248))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.8"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.6...@open-xamu-co/ui-styles-v3.0.0-next.7) (2024-06-04)
 
 
