@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.18...@open-xamu-co/ui-components-vue-v3.0.0-next.19) (2024-06-09)
+
+
+### Bug Fixes
+
+* improve table children behavior ([a3548f3](https://github.com/xamu-co/ui/commit/a3548f34c78b67c85bc372d221853d5469a39b88))
+
+
+### Features
+
+* **vue:** process paginated content ([edd9c58](https://github.com/xamu-co/ui/commit/edd9c58bf1d43a8a6f1c62c91a24c80b866ac145))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.19"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.17...@open-xamu-co/ui-components-vue-v3.0.0-next.18) (2024-06-05)
 
 
