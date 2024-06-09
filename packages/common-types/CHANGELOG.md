@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.11...@open-xamu-co/ui-common-types-v3.0.0-next.12) (2024-06-09)
+
+
+### Bug Fixes
+
+* improve table children behavior ([a3548f3](https://github.com/xamu-co/ui/commit/a3548f34c78b67c85bc372d221853d5469a39b88))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.12"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.10...@open-xamu-co/ui-common-types-v3.0.0-next.11) (2024-06-05)
 
 
