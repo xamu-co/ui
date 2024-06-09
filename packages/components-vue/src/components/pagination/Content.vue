@@ -9,7 +9,7 @@
 	>
 		<slot
 			v-bind="{
-				content: content.edges.map(({ node }) => node),
+				content: processContent(content.edges.map(({ node }) => node)),
 				pagination,
 				currentPage: content,
 				refresh,
@@ -39,7 +39,7 @@
 	import type { iUseThemeProps } from "../../types/props";
 	import { useOrderBy } from "../../composables/utils";
 
-	export interface iPCBaseProps extends iPagination, iUseThemeProps {
+	export interface iPCBaseProps<Ti> extends iPagination, iUseThemeProps {
 		/**
 		 * Function used to fetch the page
 		 */
@@ -67,16 +67,24 @@
 		label?: string;
 		/**
 		 * When additional operations are required on fetched data
+		 *
+		 * Raw promise payload
 		 */
 		transform?: any;
+		/**
+		 * When additional operations are required on content
+		 *
+		 * Nodes arr only
+		 */
+		processContent?: (n: Ti[]) => Ti[];
 	}
 
-	export interface iPCProps<Ti, Ci extends string | number = string> extends iPCBaseProps {
+	export interface iPCProps<Ti, Ci extends string | number = string> extends iPCBaseProps<Ti> {
 		page: iGetPage<Ti, Ci>;
 		transform?: undefined;
 	}
 	export interface iPCWithTransformProps<Ti, Ci extends string | number = string, Ri = any>
-		extends iPCBaseProps {
+		extends iPCBaseProps<Ti> {
 		page: (params?: iPagination) => Promise<Ri | undefined>;
 		transform: (r: Ri) => iPage<Ti, Ci> | undefined;
 	}
@@ -92,7 +100,9 @@
 
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
 
-	const props = defineProps<iPCProps<T, C> | iPCWithTransformProps<T, C, R>>();
+	const props = withDefaults(defineProps<iPCProps<T, C> | iPCWithTransformProps<T, C, R>>(), {
+		processContent: (c: T[]) => c,
+	});
 
 	defineEmits(["refresh"]);
 

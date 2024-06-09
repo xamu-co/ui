@@ -1,11 +1,11 @@
 <template>
 	<ul class="flx --flxColumn --minWidth-220" :class="classes">
 		<li
-			v-for="([childValueName, childValue], childValueIndex) in useSortObject({ ...value })"
+			v-for="([childValueName, childValue], childValueIndex) in useSortObject(value)"
 			:key="childValueIndex"
 			class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
 		>
-			<span class="--txtSize-xs">
+			<span class="--txtSize-xs" :title="childValueName">
 				{{ upperFirst(startCase(childValueName)) }}
 			</span>
 			<!-- Recursion -->

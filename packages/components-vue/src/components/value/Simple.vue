@@ -40,7 +40,12 @@
 		</ActionLink>
 
 		<!-- String, URL -->
-		<template v-else-if="typeof value === 'string' && isURL(value, { require_host: false })">
+		<template
+			v-else-if="
+				typeof value === 'string' &&
+				isURL(value, { require_host: false, host_whitelist: ['localhost'] })
+			"
+		>
 			<!-- Image URL -->
 			<!-- TODO: trigger gallery/slideshow component/modal -->
 			<BaseAction

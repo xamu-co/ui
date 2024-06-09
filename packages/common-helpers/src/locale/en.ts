@@ -142,6 +142,7 @@ export const localeTable: tLocaleTable = {
 	table_see_values: "See {name}",
 	table_see_name: 'See: "{name}"',
 	table_create_new: "Create new",
+	table_create_new_name: 'Create new "{name}"',
 	table_quantity: "Quantity: {count}",
 	table_modify: "Modify",
 	table_select: "Select",
