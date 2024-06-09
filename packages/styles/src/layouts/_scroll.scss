@@ -27,6 +27,7 @@
 			}
 
 			&.#{utils.$prefix-default}--vertical {
+				max-width: 100%;
 				max-height: min(100%, 100vh);
 				overflow: hidden auto;
 
@@ -41,6 +42,7 @@
 				// always only mode
 				// @modifier
 				&.#{utils.$prefix-default}--always {
+					max-height: 100%;
 					max-width: min(100%, 100vw);
 					overflow: auto hidden;
 					box-sizing: content-box;
