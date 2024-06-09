@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.8...@open-xamu-co/ui-common-helpers-v3.0.0-next.9) (2024-06-09)
+
+
+### Bug Fixes
+
+* improve table children behavior ([a3548f3](https://github.com/xamu-co/ui/commit/a3548f34c78b67c85bc372d221853d5469a39b88))
+* **helpers:** improve values handling on inputs ([c7f6b43](https://github.com/xamu-co/ui/commit/c7f6b4345b91a9db8b469cbea7709d2ec525003b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.0-next.9"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.7...@open-xamu-co/ui-common-helpers-v3.0.0-next.8) (2024-06-05)
 
 
