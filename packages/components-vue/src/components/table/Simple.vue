@@ -267,7 +267,7 @@
 						<template v-if="$slots.default">
 							<tr class="no--hover">
 								<th class="--sticky --pX-10 --pY-5 --vAlign">
-									<div class="flx --flxRow --flx-center-end --gap-10 --bdr">
+									<div class="flx --flxRow --flx-end-center --gap-10 --bdr">
 										<ActionLink
 											:theme="theme || themeValues"
 											:size="size"
