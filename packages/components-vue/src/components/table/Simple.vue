@@ -1,5 +1,5 @@
 <template>
-	<div v-if="nodes.length" class="flx --flxColumn --flx-start-stretch --width">
+	<div v-if="nodes.length" class="flx --flxColumn --flx-start-stretch --width-100">
 		<div v-if="!isReadOnly || $slots.default" class="flx --flxRow --flx-start-center">
 			<ActionButtonLink
 				v-if="$slots.default"
@@ -267,7 +267,7 @@
 						<template v-if="$slots.default">
 							<tr class="no--hover">
 								<th class="--sticky --pX-10 --pY-5 --vAlign">
-									<div class="flx --flxRow --flx-center-end --gap-10 --bdr">
+									<div class="flx --flxRow --flx-end-center --gap-10 --bdr">
 										<ActionLink
 											:theme="theme || themeValues"
 											:size="size"
@@ -322,7 +322,7 @@
 										v-show="
 											selectedNodes[nodeIndex][1] && !!childrenCount(node)
 										"
-										class="--width"
+										class="--width-100"
 									>
 										<slot
 											v-bind="{
@@ -337,7 +337,7 @@
 										v-if="
 											!(selectedNodes[nodeIndex][1] && !!childrenCount(node))
 										"
-										class="--width --pRight --boxSizing --overflow-hidden"
+										class="--width-100 --pRight --boxSizing --overflow-hidden"
 									>
 										<hr :class="`--tm-${themeValues[0]}`" />
 									</div>
@@ -349,7 +349,7 @@
 			</table>
 		</div>
 	</div>
-	<BoxMessage v-else :theme="theme || themeValues" class="--width">
+	<BoxMessage v-else :theme="theme || themeValues" class="--width-100">
 		<div class="flx --flxRow --flx-center">
 			<span>{{ t("nothing_to_show") }}</span>
 			<ActionButtonToggle

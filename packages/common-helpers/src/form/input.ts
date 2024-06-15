@@ -155,10 +155,11 @@ export class FormInput<V extends iFormValue = iFormValue>
 				this._values = values.slice(0, Math.max(1, this.min)) as V[];
 			}
 		} else if (this.type !== eFormType.FILE) {
-			const values = Array(this.min).fill(getDefault(formInput.type, formInput.defaults));
+			const length = Math.max(1, this.min); // negative values fallback
+			const values = Array(length).fill(getDefault(formInput.type, formInput.defaults));
 
 			// use defaults
-			if (this._values.length < this.min) this._values = values;
+			if (this._values.length < length) this._values = values;
 		}
 
 		this.name = formInput.name;
@@ -202,10 +203,11 @@ export class FormInput<V extends iFormValue = iFormValue>
 					this._values = values.slice(0, Math.max(1, this.min)) as V[];
 				}
 			} else if (this.type !== eFormType.FILE) {
-				const values = Array(this.min).fill(getDefault(this.type, this.defaults));
+				const length = Math.max(1, this.min); // negative values fallback
+				const values = Array(length).fill(getDefault(this.type, this.defaults));
 
 				// use defaults
-				if (this._values.length < this.min) this._values = values;
+				if (this._values.length < length) this._values = values;
 			}
 		} else {
 			// run hook on values change

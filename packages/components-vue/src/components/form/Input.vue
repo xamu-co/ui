@@ -61,7 +61,7 @@
 				v-else-if="!input.defaults && input.type === eFT.FILE"
 				:theme="theme"
 				:disabled="readonly"
-				class="--flx --width"
+				class="--flx --width-100"
 				:file-prefix="snakeCase(input.placeholder)"
 				:model-value="modelValue"
 				:invalid="isInvalidByValidation"
@@ -246,7 +246,7 @@
 				<BaseBox
 					v-else-if="input.type === eFT.BOOLEAN"
 					el="label"
-					class="--flx --width --txtAlign"
+					class="--flx --width-100 --txtAlign"
 					:theme="theme"
 					:active="models[i].value"
 					button

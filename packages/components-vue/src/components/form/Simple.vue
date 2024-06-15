@@ -36,7 +36,7 @@
 		</LoaderContentFetch>
 		<slot v-else>
 			<!-- No inputs given -->
-			<BaseBox class="--width" :theme="theme" button dashed transparent>
+			<BaseBox class="--width-100" :theme="theme" button dashed transparent>
 				<div class="flx --flxRow --flx-center">
 					<span>{{ emptyMessage || t("nothing_to_show") }}</span>
 				</div>

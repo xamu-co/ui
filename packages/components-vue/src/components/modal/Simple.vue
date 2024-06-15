@@ -10,7 +10,8 @@
 					role="document"
 					:class="[
 						$attrs.class,
-						modalClass ?? 'flx --flxColumn --flx-start-center --width',
+						modalClass ??
+							'flx --flxColumn --flx-start-center --width-auto --maxWidth-100',
 						themeClasses,
 					]"
 				>
@@ -20,7 +21,7 @@
 					>
 						<div
 							v-if="title"
-							class="flx --flxRow --flx-between-center --width modal-content"
+							class="flx --flxRow --flx-between-center --width-100 modal-content"
 						>
 							<div class="txt --gap-none">
 								<h5>{{ title }}</h5>
@@ -39,7 +40,7 @@
 						name="content"
 						v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
 					>
-						<div class="scroll --vertical modal-content">
+						<div class="scroll --vertical --width-100 modal-content">
 							<!-- Main modal content -->
 							<slot
 								v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
@@ -51,7 +52,7 @@
 						>
 							<div
 								v-if="!hideFooter"
-								class="flx --flxRow --flx-end-center --width modal-content"
+								class="flx --flxRow --flx-end-center --width-100 modal-content"
 							>
 								<ActionButton
 									v-if="saveButtonOptions.visible"

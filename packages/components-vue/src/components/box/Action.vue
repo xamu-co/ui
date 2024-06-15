@@ -9,7 +9,7 @@
 			<IconFa v-if="icon" v-bind="{ size: 35, ...iconProps, name: icon }" />
 			<BaseImg
 				v-else-if="src"
-				class="--bgColor-light --width --height"
+				class="--bgColor-light --width-100 --height-100"
 				:src="src"
 				:alt="label"
 			/>

@@ -1,5 +1,5 @@
 <template>
-	<div v-for="(model, i) in models" :key="i" class="--width">
+	<div v-for="(model, i) in models" :key="i" class="--width-100">
 		<div class="flx --flxRow --flx-start-center --gap-5">
 			<slot v-bind="{ i }"></slot>
 			<ActionLink
@@ -22,7 +22,7 @@
 	<template v-if="input.multiple && input.max > models.length">
 		<BaseBox
 			v-if="!models.length"
-			class="--width"
+			class="--width-100"
 			:theme="theme"
 			:disabled="readonly"
 			button
