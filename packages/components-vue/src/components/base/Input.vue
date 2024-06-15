@@ -49,9 +49,9 @@
 
 	/** Prefer a predictable identifier */
 	const inputId = computed(() => {
-		const seed = deburr(props.placeholder || props.title);
+		const seed = deburr(props.name || props.placeholder || props.title);
 
-		return props.name || props.id || Md5.hashStr(`input-${seed}`);
+		return props.id || Md5.hashStr(`input-${seed}`);
 	});
 	const useChecked = computed(() => {
 		return props.type === "checkbox" || props.type === "radio";

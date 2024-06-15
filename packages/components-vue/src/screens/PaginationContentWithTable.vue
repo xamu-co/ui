@@ -4,7 +4,7 @@
 		:page="page"
 		:transform="getPageFromResponse"
 		with-route
-		class="flx --flxColumn --flx-start-end --gap-5 --width"
+		class="flx --flxColumn --flx-start-end --gap-5 --width-100"
 	>
 		<Table
 			:nodes="content"

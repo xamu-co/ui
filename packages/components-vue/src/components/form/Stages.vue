@@ -49,7 +49,7 @@
 				</form>
 			</div>
 			<slot name="actions">
-				<div class="flx --flxRow --flx-start-center --width modal-content">
+				<div class="flx --flxRow --flx-start-center --width-100 modal-content">
 					<slot
 						v-if="stages?.length"
 						name="primary-actions"

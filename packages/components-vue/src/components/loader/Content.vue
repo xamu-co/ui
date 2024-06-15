@@ -2,12 +2,12 @@
 	<BaseWrapper :el="Transition" :wrap="!unwrap" name="fade" appear>
 		<div
 			v-if="!content || errors"
-			class="flx --flxColumn --flx-center --width"
+			class="flx --flxColumn --flx-center --width-100"
 			:class="loaderClasses"
 		>
 			<!-- first load -->
 			<template v-if="!loading">
-				<BoxMessage v-if="errors" :theme="eColors.DANGER" class="--width">
+				<BoxMessage v-if="errors" :theme="eColors.DANGER" class="--width-100">
 					<div class="flx --flxRow --flx-center">
 						<span>{{ t("could_not_get_data") }}</span>
 						<ActionButtonToggle
@@ -22,7 +22,7 @@
 						</ActionButtonToggle>
 					</div>
 				</BoxMessage>
-				<BoxMessage v-else :theme="theme" class="--width">
+				<BoxMessage v-else :theme="theme" class="--width-100">
 					<div class="flx --flxRow --flx-center">
 						<span>{{ noContentMessage || t("nothing_to_show") }}</span>
 						<ActionButtonToggle
