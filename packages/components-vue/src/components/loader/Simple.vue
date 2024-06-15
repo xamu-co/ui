@@ -1,5 +1,5 @@
 <template>
-	<span class="flx --flxColumn --flx-center --width">
+	<span class="flx --flxColumn --flx-center --width-100">
 		<span>
 			<span
 				:class="`--bgColor-${themeValues[0]}`"

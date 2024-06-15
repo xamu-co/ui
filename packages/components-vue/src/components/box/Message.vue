@@ -1,8 +1,8 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
 	<div class="flx --flxColumn --flx-center" :class="$attrs.class">
-		<div class="txt --txtAlign-center --width">
-			<BaseBox class="--width" with-color v-bind="props">
+		<div class="txt --txtAlign-center --width-100">
+			<BaseBox class="--width-100" with-color v-bind="props">
 				<p v-if="text" v-html="text"></p>
 				<slot v-else></slot>
 			</BaseBox>

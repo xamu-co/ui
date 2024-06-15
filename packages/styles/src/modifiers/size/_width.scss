@@ -6,9 +6,12 @@
 		.#{module.$prefix-default}--width {
 			@include module.extend-dimensions(width);
 
-			// default
-			@include module.extend-viewports-classes {
-				width: 100%;
+			&,
+			&-auto {
+				// default
+				@include module.extend-viewports-classes {
+					width: auto;
+				}
 			}
 
 			&-fit {

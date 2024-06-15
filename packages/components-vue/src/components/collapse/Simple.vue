@@ -1,6 +1,6 @@
 <template>
 	<nav class="list">
-		<BaseInput v-if="title" v-slot="{ id }" type="checkbox" :checked="checked" :theme="theme">
+		<BaseInput v-if="title" v-slot="{ id }" type="checkbox" v-bind="{ title, checked, theme }">
 			<label :for="id" class="toggle--list" :class="`--txtColor-${themeValues[0]}`">
 				<span>{{ title }}</span>
 				<IconFa name="angle-down" :size="20" />

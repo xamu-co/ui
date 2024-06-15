@@ -1,6 +1,6 @@
 <template>
 	<BaseBox
-		class="flx --flxColumn --flx-start-stretch --gap-10 --width"
+		class="flx --flxColumn --flx-start-stretch --gap-10 --width-100"
 		button
 		v-bind="{ ...props, theme: fileInputTheme.themeValues }"
 	>

@@ -1,5 +1,5 @@
 <template>
-	<div :class="{ '--width': fullWidth }">
+	<div :class="{ '--width-100': fullWidth }">
 		<BaseInput
 			v-slot="{ id, modelValue }"
 			:class="[modifiersClasses, stateClasses, themeClasses, `i${capitalize(inputType)}`]"
@@ -9,6 +9,7 @@
 				...omit(props, ['modelValue', 'size']),
 				type: inputType,
 				disabled,
+				title: label,
 			}"
 		>
 			<!-- Do not hide, since this is used by a pseudo element -->

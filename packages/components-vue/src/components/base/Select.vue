@@ -63,9 +63,9 @@
 	});
 	/** Prefer a predictable identifier */
 	const selectId = computed(() => {
-		const seed = deburr(props.placeholder || props.title);
+		const seed = deburr(props.name || props.placeholder || props.title);
 
-		return props.name || props.id || Md5.hashStr(`select-${seed}`);
+		return props.id || Md5.hashStr(`select-${seed}`);
 	});
 
 	function handleInput(e: Event) {
