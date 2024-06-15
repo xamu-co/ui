@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.9...@open-xamu-co/ui-common-helpers-v3.0.0-next.10) (2024-06-15)
+
+
+### Bug Fixes
+
+* **helpers:** allow negative min values on input ([dab9ac0](https://github.com/xamu-co/ui/commit/dab9ac0b0a048cbe2febc4c02a719ad89683f4b3))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.0-next.10"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.8...@open-xamu-co/ui-common-helpers-v3.0.0-next.9) (2024-06-09)
 
 
