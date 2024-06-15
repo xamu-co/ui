@@ -1,5 +1,27 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.8...@open-xamu-co/ui-styles-v3.0.0-next.9) (2024-06-15)
+
+
+### Bug Fixes
+
+* **vue:** prefer id & ude dynamic seed ([1d70c8c](https://github.com/xamu-co/ui/commit/1d70c8c7bbcc87fffd967a23a59d6a1bf91b70a6))
+
+
+### BREAKING CHANGES
+
+* **vue:** auto as default dimension
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.9"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.7...@open-xamu-co/ui-styles-v3.0.0-next.8) (2024-06-09)
 
 
