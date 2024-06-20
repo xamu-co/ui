@@ -4,7 +4,7 @@
         "outDir": "./dist",
         "rootDir": "./src",
         "module": "ESNext",
-        "target": "ES2021",
+        "target": "ESNext",
         "skipLibCheck": true,
         "lib": [
             "ESNext",

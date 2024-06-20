@@ -91,6 +91,6 @@
 
 		if (!href) return {};
 
-		return { to: undefined, href, target: "_blank" };
+		return { to: undefined, href, target: props.target || "_blank" };
 	});
 </script>

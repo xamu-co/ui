@@ -4,58 +4,15 @@
 			<FormInputOptions
 				v-if="!input.defaults && input.type === eFT.CHOICE"
 				v-slot="{ options }"
-				:key="
-					Md5.hashStr(`options-${input.name}-${input.values[0]}-${input.options.length}`)
-				"
 				:input="input"
 			>
-				<div
-					v-if="!!input.options?.length"
-					class="flx --flxRow-wrap --flx-start-center --gap-5"
-				>
-					<component
-						:is="input.multiple ? ActionButtonToggle : ActionButton"
-						v-for="option in options"
-						:key="`choice-${option.value}-${option.alias}-${input.options.length}`"
-						:theme="theme"
-						:aria-label="option.alias || option.value"
-						:active="modelValue.includes(option.value)"
-						:title="modelValue.includes(option.value) ? t('select_selected') : ''"
-						:disabled="
-							readonly || (!input.multiple && modelValue.includes(option.value))
-						"
-						:round="!!option.pattern"
-						:tooltip="{
-							[option.alias || option.value]: !!(option.pattern || option.icon),
-						}"
-						tooltip-as-text
-						tooltip-position="bottom"
-						@click="choose(option.value)"
-					>
-						<template v-if="option.icon">
-							<IconFa :name="option.icon" />
-							<IconFa v-if="input.multiple" :name="option.icon" regular />
-							<span v-if="option.alias">{{ option.alias }}</span>
-						</template>
-						<template v-else-if="option.pattern">
-							<span v-if="option.alias">{{ option.alias }}</span>
-							<figure
-								class="avatar --size-xs --bdr"
-								:class="`--bdrColor-${
-									themeValues[
-										!input.multiple && modelValue.includes(option.value) ? 0 : 1
-									]
-								}`"
-								:style="
-									isURL(option.pattern)
-										? { backgroundImage: `url('${option.pattern}')` }
-										: { backgroundColor: option.pattern }
-								"
-							></figure>
-						</template>
-						<span v-else>{{ option.alias || option.value }}</span>
-					</component>
-				</div>
+				<SelectChoice
+					:theme="theme"
+					:disabled="readonly"
+					:model-value="modelValue"
+					v-bind="{ ...inputProps, options }"
+					@update:model-value="$emit('update:model-value', $event)"
+				/>
 			</FormInputOptions>
 			<InputFile
 				v-else-if="!input.defaults && input.type === eFT.FILE"
@@ -321,11 +278,9 @@
 </template>
 <script setup lang="ts">
 	import { computed, reactive } from "vue";
-	import isURL from "validator/lib/isURL";
 	import isEqual from "lodash-es/isEqual";
 	import snakeCase from "lodash-es/snakeCase";
 	import omit from "lodash-es/omit";
-	import { Md5 } from "ts-md5";
 
 	import type { iInvalidInput, iSelectOption } from "@open-xamu-co/ui-common-types";
 	import { eFormType as eFT } from "@open-xamu-co/ui-common-enums";
@@ -337,15 +292,13 @@
 
 	import BaseBox from "../base/Box.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
-	import IconFa from "../icon/Fa.vue";
-	import ActionButton from "../action/Button.vue";
-	import ActionButtonToggle from "../action/ButtonToggle.vue";
 	import InputColor from "../input/Color.vue";
 	import InputText from "../input/Text.vue";
 	import InputToggle from "../input/Toggle.vue";
 	import InputFile from "../input/File.vue";
 	import SelectSimple from "../select/Simple.vue";
 	import SelectFilter from "../select/Filter.vue";
+	import SelectChoice from "../select/Choice.vue";
 
 	// input helper components
 	import FormInputOptions from "./InputOptions.vue";
@@ -358,7 +311,6 @@
 	import useInput from "../../composables/input";
 	import useCountries from "../../composables/countries";
 	import { useHelpers } from "../../composables/utils";
-	import useTheme from "../../composables/theme";
 
 	interface iFormInputProps extends iUseThemeProps {
 		modelValue: any[];
@@ -385,7 +337,6 @@
 	const { isValidFormInputValue, notEmptyValue } = useHelpers(useForm).utils;
 	const { getInputPlaceholder, getInputAutocomplete, getInputTextType } = useInput(props);
 	const { defaultCountry } = useCountries();
-	const { themeValues } = useTheme(props);
 
 	const countriesArr = computed(() => {
 		return (props.countries || []).map(({ code, name }) => ({ value: code, alias: name }));
@@ -442,19 +393,6 @@
 		const model: any[] = models.value[modelIndex].value;
 
 		models.value[modelIndex].value = model.toSpliced(valuePosition, 1, newValue);
-	}
-
-	function choose(value: string | number) {
-		if (props.input.multiple) {
-			if (props.modelValue.includes(value)) {
-				const index = props.modelValue.indexOf(value);
-
-				if (index > -1) emit("update:model-value", props.input.removeValue(index).values);
-			} else emit("update:model-value", props.input.addValue(value).values);
-		} else {
-			// old behavior, single value
-			emit("update:model-value", [value]);
-		}
 	}
 
 	function stateToOption(state: iState): iSelectOption {
