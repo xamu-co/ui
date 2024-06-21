@@ -19,10 +19,11 @@
 				<IconFa name="plus" />
 			</ActionButton>
 			<template v-if="value.length">
-				<span class="--txtWrap-nowrap">
+				<div class="--txtWrap-nowrap">
+					{{ !readonly && property?.createNode ? "⋅" : "" }}
 					<b :class="`--txtColor-${themeValues[0]}`">{{ value.length }}</b>
 					⋅
-				</span>
+				</div>
 				<Modal
 					v-if="value.every((v) => typeof v === 'object') || value.length > 3"
 					class="--txtSize"
@@ -30,16 +31,14 @@
 					v-bind="{ theme, ...modalProps }"
 				>
 					<template #toggle="{ toggleModal }">
-						<ActionButtonToggle
+						<component
+							:is="property?.updateNode ? ActionButton : ActionButtonToggle"
 							:theme="theme"
-							:aria-label="
-								t('table_see_values', { name: property?.alias?.toLowerCase() })
-							"
 							:size="size"
 							@click="toggleModal"
 						>
 							{{ t("table_see_values", { name: property?.alias?.toLowerCase() }) }}
-						</ActionButtonToggle>
+						</component>
 					</template>
 					<template #default="{ model, invertedTheme }">
 						<Table
@@ -201,7 +200,7 @@
 		/**
 		 * Cell column property
 		 */
-		property?: iProperty;
+		property?: iProperty<any, any>;
 		/**
 		 * Cell node, aka parent node
 		 *

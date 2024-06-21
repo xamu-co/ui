@@ -9,19 +9,22 @@ export interface iSelectOption {
  *
  * Useful for table actions like creating, updating and deleting nodes
  */
-export type iNodeFn<T extends Record<string, any>, Ta extends [T?] = [T]> = (
+export type iNodeFn<T extends Record<string, any>, Ta extends [T?, ...any[]] = [T]> = (
 	...args: Ta
 ) => boolean | undefined | Promise<boolean | undefined>;
 
 /**
  * used on FactoryTable and related components
  */
-export interface iProperty<T extends Record<string, any> = Record<string, any>>
-	extends iSelectOption {
+export interface iProperty<
+	T extends Record<string, any> = Record<string, any>,
+	P extends Record<string, any> = Record<string, any>,
+> extends iSelectOption {
 	/**
 	 * Function to create a node within the relation
+	 * The parent is given since the node doesn't exist yet
 	 */
-	createNode?: iNodeFn<T, [T?]>;
+	createNode?: iNodeFn<P, [P?]>;
 	/**
 	 * Function to clone a node within the relation
 	 */
@@ -29,7 +32,7 @@ export interface iProperty<T extends Record<string, any> = Record<string, any>>
 	/**
 	 * Function to update a node within the relation
 	 */
-	updateNode?: iNodeFn<T, [T?]>;
+	updateNode?: iNodeFn<T, [T?, P?]>;
 	/**
 	 * Function to delete a node within the relation
 	 */

@@ -175,7 +175,12 @@
 								<ValueComplex
 									v-bind="{
 										value: node[property.value],
-										property,
+										property: {
+											...property,
+											...(property.updateNode && {
+												updateNode: (n) => property.updateNode?.(n, node),
+											}),
+										},
 										node,
 										readonly: isReadOnly,
 										theme: theme || themeValues,
@@ -376,7 +381,6 @@
 	import type {
 		iNodeFn,
 		iProperty,
-		iSelectOption,
 		tOrder,
 		tOrderBy,
 		tProps,
@@ -405,7 +409,8 @@
 		useOrderProperty,
 	} from "../../composables/utils";
 
-	interface iPropertyMeta extends iSelectOption {
+	interface iPropertyMeta<Ti extends Record<string, any>>
+		extends iProperty<Record<string, any>, Ti> {
 		value: string;
 		canSort: boolean;
 	}
@@ -424,7 +429,7 @@
 		 *
 		 * @old columns
 		 */
-		properties?: iProperty<Ti>[];
+		properties?: iProperty<any, Ti>[];
 		propertyOrder?: tPropertyOrderFn;
 		/**
 		 * read only table
@@ -548,10 +553,10 @@
 	/**
 	 * This one assumes all objects within nodes are all the same
 	 */
-	const propertiesMeta = computed<iPropertyMeta[]>(() => {
+	const propertiesMeta = computed<iPropertyMeta<T>[]>(() => {
 		return Object.entries(props.nodes[0])
 			.sort(props.propertyOrder || useOrderProperty)
-			.map(([key, value]): iPropertyMeta => {
+			.map(([key, value]) => {
 				const options = (props.properties || []).map(toOption);
 				const property = toOption(options.find((p) => p.value === key) || key);
 				const aliasKey = snakeCase(key);
