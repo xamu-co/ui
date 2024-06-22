@@ -26,6 +26,7 @@ export const componentNames = [
 	// select
 	"Select",
 	"SelectFilter",
+	"SelectChoice",
 	// value
 	"Value",
 	"ValueList",

@@ -26,6 +26,7 @@ export { default as InputColor } from "./components/input/Color.vue";
 // select
 export { default as Select } from "./components/select/Simple.vue";
 export { default as SelectFilter } from "./components/select/Filter.vue";
+export { default as SelectChoice } from "./components/select/Choice.vue";
 
 // value
 export { default as Value } from "./components/value/Simple.vue";

@@ -12924,10 +12924,10 @@ postcss-media-query-parser@^0.2.3:
   resolved "https://registry.yarnpkg.com/postcss-media-query-parser/-/postcss-media-query-parser-0.2.3.tgz#27b39c6f4d94f81b1a73b8f76351c609e5cef244"
   integrity sha512-3sOlxmbKcSHMjlUXQZKQ06jOswE7oVkXPxmZdoB1r5l0q6gTFTQSHxNxOrCccElbW7dxNytifNEo8qidX2Vsig==
 
-postcss-merge-at-rules@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/postcss-merge-at-rules/-/postcss-merge-at-rules-1.1.0.tgz#115b811679e52db72630320237da52ad8e249eb0"
-  integrity sha512-s8LrnUyCgEcYbGUmSJlG9Qt+M3pk9u0bIatqUlhG2iByglPXWesU3OMj3VY5vUv4HlZn04oCHP7sIvVTnXg68Q==
+postcss-merge-at-rules@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/postcss-merge-at-rules/-/postcss-merge-at-rules-1.1.1.tgz#3bac8dd5ec37249da6cfa64b24ea5b0ce2643f98"
+  integrity sha512-cNLRZYJbbBWvBtLq6WN82Vbljs0e4p0oMzCTmrdXwKAEJY2k/LjuSH622vIagwdDqI4K8OaSgb1GyROVvcy0Sg==
   dependencies:
     sort-css-media-queries "2.2.0"
 
