@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.21](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.20...@open-xamu-co/ui-components-vue-v3.0.0-next.21) (2024-06-22)
+
+
+### Features
+
+* **vue:** choice select component ([a4ce305](https://github.com/xamu-co/ui/commit/a4ce305349b07afced28808f116b3861024b24b1))
+* **vue:** extend property meta ([6479586](https://github.com/xamu-co/ui/commit/6479586f45c1ceefa21c41b0fcdc98dcc0008c21))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.21"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.20](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.19...@open-xamu-co/ui-components-vue-v3.0.0-next.20) (2024-06-15)
 
 
