@@ -162,7 +162,7 @@
 			font-size: utils.size(xl);
 
 			@if utils.$allow-responsive {
-				@media not (max-width: utils.$querie-tablet) {
+				@media (width > utils.$querie-tablet) {
 					font-size: utils.size(xx);
 				}
 			}
@@ -173,7 +173,7 @@
 			font-size: utils.size(lg);
 
 			@if utils.$allow-responsive {
-				@media not (max-width: utils.$querie-tablet) {
+				@media (width > utils.$querie-tablet) {
 					font-size: utils.size(xl);
 				}
 			}
@@ -186,7 +186,7 @@
 			}
 
 			@if utils.$allow-responsive {
-				@media not (max-width: utils.$querie-tablet) {
+				@media (width > utils.$querie-tablet) {
 					br {
 						display: inline;
 					}
@@ -216,23 +216,23 @@
 			// Dinamically switch UI size
 			@media (hover: none) {
 				@if utils.$allow-responsive {
-					@media (max-width: utils.$querie-tv) {
+					@media (width <= utils.$querie-tv) {
 						font-size: 100%;
 					}
 
-					@media (max-width: utils.$querie-desktop) {
+					@media (width <= utils.$querie-desktop) {
 						font-size: 105%;
 					}
 
-					@media (max-width: utils.$querie-tablet) {
+					@media (width <= utils.$querie-tablet) {
 						font-size: 110%;
 					}
 
-					@media (max-width: utils.$querie-smartphone) {
+					@media (width <= utils.$querie-smartphone) {
 						font-size: 115%;
 					}
 
-					@media (max-width: utils.$querie-smartwatch) {
+					@media (width <= utils.$querie-smartwatch) {
 						font-size: 120%;
 					}
 				}
@@ -248,7 +248,7 @@
 			background-color: utils.$color-bg;
 
 			@if utils.$allow-responsive {
-				@media (max-width: utils.$querie-tablet) and (hover: none) {
+				@media (width <= utils.$querie-tablet) and (hover: none) {
 					@supports (-moz-appearance: none) {
 						// firefox fix, scroll bug on android
 						width: 100%;

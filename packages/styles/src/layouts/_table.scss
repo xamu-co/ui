@@ -60,7 +60,7 @@
 							transition: color 0.1s ease-out;
 							font-weight: utils.weight();
 
-							@media (max-width: utils.$querie-tablet) {
+							@media (width <= utils.$querie-tablet) {
 								padding: 0.4rem 0.6667rem;
 							}
 						}
@@ -193,7 +193,7 @@
 			}
 
 			@if utils.$allow-responsive {
-				@media (max-width: utils.$querie-tablet) {
+				@media (width <= utils.$querie-tablet) {
 					// TODO: fix this
 					&.#{utils.$prefix-default}--collapseOnMobile {
 						&,

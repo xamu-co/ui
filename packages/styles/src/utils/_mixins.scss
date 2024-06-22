@@ -45,7 +45,7 @@ $default-viewports: if(
 					@content;
 				} @else {
 					// mobile first
-					@media not (max-width: $viewport) {
+					@media (width > $viewport) {
 						@content;
 					}
 				}
@@ -56,7 +56,7 @@ $default-viewports: if(
 							@content;
 						} @else {
 							// mobile last
-							@media (max-width: $viewport) {
+							@media (width <= $viewport) {
 								@content;
 							}
 						}

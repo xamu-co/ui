@@ -90,7 +90,7 @@
 				}
 
 				@if utils.$allow-responsive {
-					@media (max-width: utils.$querie-smartphone) {
+					@media (width <= utils.$querie-smartphone) {
 						@layer defaults {
 							& {
 								gap: 0.3rem;
@@ -98,7 +98,7 @@
 						}
 					}
 
-					@media (max-width: utils.$querie-tablet) {
+					@media (width <= utils.$querie-tablet) {
 						@layer defaults {
 							& {
 								gap: 0.5rem;
