@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.12...@open-xamu-co/ui-common-types-v3.0.0-next.13) (2024-06-22)
+
+
+### Features
+
+* **vue:** extend property meta ([6479586](https://github.com/xamu-co/ui/commit/6479586f45c1ceefa21c41b0fcdc98dcc0008c21))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.13"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.11...@open-xamu-co/ui-common-types-v3.0.0-next.12) (2024-06-09)
 
 
