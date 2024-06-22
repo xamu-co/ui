@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.9...@open-xamu-co/ui-styles-v3.0.0-next.10) (2024-06-22)
+
+
+### Features
+
+* **vue:** choice select component ([a4ce305](https://github.com/xamu-co/ui/commit/a4ce305349b07afced28808f116b3861024b24b1))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.10"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.8...@open-xamu-co/ui-styles-v3.0.0-next.9) (2024-06-15)
 
 
