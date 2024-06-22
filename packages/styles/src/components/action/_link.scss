@@ -78,7 +78,7 @@
 
 			@if module.$allow-responsive {
 				// desktop only, use hover
-				@media not (max-width: module.$querie-tablet) {
+				@media (width > module.$querie-tablet) {
 					// hover status
 					@at-root *:hover
 							> .#{module.$status-toggle-dropdown}:not(
@@ -89,7 +89,7 @@
 				}
 
 				// mobile only, use focus
-				@media (max-width: module.$querie-tablet) {
+				@media (width <= module.$querie-tablet) {
 					// focus status
 					@at-root *:focus-within:not(.#{module.$status-no-focus})
 							> .#{module.$status-toggle-dropdown}:not(

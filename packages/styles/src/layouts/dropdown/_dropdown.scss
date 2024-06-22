@@ -90,7 +90,7 @@
 		@if module.$allow-responsive {
 			// tablet with no hover only (tablets & mobile devices)
 			// use focus & .is--active class
-			@media (max-width: module.$querie-tablet) and (hover: none) {
+			@media (width <= module.$querie-tablet) and (hover: none) {
 				.#{module.$status-toggle-dropdown}:not(
 						.#{module.$status-only-active}
 					):focus-within:not(.#{module.$status-no-focus}) {

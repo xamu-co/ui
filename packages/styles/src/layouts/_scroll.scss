@@ -47,7 +47,7 @@
 					overflow: auto hidden;
 					box-sizing: content-box;
 
-					@media (max-width: utils.$querie-tablet) {
+					@media (width <= utils.$querie-tablet) {
 						&:has(:only-child) {
 							width: calc(min(100%, 100vw) + 2rem);
 							max-width: none;
@@ -79,7 +79,7 @@
 
 				@if utils.$allow-responsive {
 					// mobile & hover only
-					@media (max-width: utils.$querie-tablet) {
+					@media (width <= utils.$querie-tablet) {
 						table.#{utils.$layout-table} {
 							thead,
 							tbody {
