@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.10...@open-xamu-co/ui-styles-v3.0.0-next.11) (2024-06-22)
+
+
+### Bug Fixes
+
+* **styles:** explicit sort-css-media-queries ([c11155d](https://github.com/xamu-co/ui/commit/c11155d2d8e6814d3cd531d20edc6aa32507fb46))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.11"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.9...@open-xamu-co/ui-styles-v3.0.0-next.10) (2024-06-22)
 
 
