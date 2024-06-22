@@ -1,5 +1,27 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.11...@open-xamu-co/ui-styles-v3.0.0-next.12) (2024-06-22)
+
+
+### Bug Fixes
+
+* use querie intervals ([e340eb5](https://github.com/xamu-co/ui/commit/e340eb50d9aad210b17feee03c21312285215cfd))
+
+
+### BREAKING CHANGES
+
+* use querie intervals which lower browser support
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.12"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.10...@open-xamu-co/ui-styles-v3.0.0-next.11) (2024-06-22)
 
 
