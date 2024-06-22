@@ -16,7 +16,7 @@
 				padding: 0 1rem;
 
 				@if utils.$allow-responsive {
-					@media not (max-width: utils.$querie-tablet) {
+					@media (width > utils.$querie-tablet) {
 						padding: 0 2rem;
 					}
 				}

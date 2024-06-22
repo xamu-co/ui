@@ -10,7 +10,6 @@
 		"build": "yarn sass && yarn postcss --verbose",
 		"build:prod": "cross-env NODE_ENV=production yarn build && yarn docs:compile",
 		"watch": "yarn sass --watch",
-		"lint": "stylelint src/{*,**/*,**/**/*}.{css,scss} --syntax=scss && prettier src/{*,**/*,**/**/*}.{css,scss} --check",
 		"docs:compile": "sassdoc src/{**/{_*,summary},**/**/{_*,summary}}.scss --dest docs",
 		"docs:serve": "yarn serve docs",
 		"docs": "yarn docs:compile && start http://localhost:5000 && yarn serve docs"
@@ -80,7 +79,7 @@
 		"cssnano-preset-advanced": "^7.0.1",
 		"postcss": "^8.2.10",
 		"postcss-cli": "^8.3.1",
-		"postcss-merge-at-rules": "^1.1.1",
+		"postcss-merge-at-rules": "^1.2.0",
 		"postcss-merge-selectors": "vis97c/postcss-merge-selectors",
 		"postcss-precision": "vis97c/postcss-precision",
 		"postcss-preset-env": "^8.4.1",
