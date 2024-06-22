@@ -15526,6 +15526,11 @@ sort-css-media-queries@2.2.0:
   resolved "https://registry.yarnpkg.com/sort-css-media-queries/-/sort-css-media-queries-2.2.0.tgz#aa33cf4a08e0225059448b6c40eddbf9f1c8334c"
   integrity sha512-0xtkGhWCC9MGt/EzgnvbbbKhqWjl1+/rncmhTh5qCpbYguXh6S/qwePfv/JQ8jePXXmqingylxoC49pCkSPIbA==
 
+sort-css-media-queries@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/sort-css-media-queries/-/sort-css-media-queries-2.3.0.tgz#f9735af3a7e08a8d43b3ff7dff4bc41d6075222e"
+  integrity sha512-DgwXXR4AzxUC9ospQcQ/MovO8NNpxsgZ1fGQ/f4sWOeJ5JFWsJFTezwN3jrA2nvWJfTHUzSfLaij47/EfrRb6A==
+
 "source-map-js@>=0.6.2 <2.0.0", source-map-js@^1.0.1, source-map-js@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.0.tgz#16b809c162517b5b8c3e7dcd315a2a5c2612b2af"
