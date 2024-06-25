@@ -32,11 +32,11 @@
 	import upperFirst from "lodash-es/upperFirst";
 
 	import type { iProperty, tProps } from "@open-xamu-co/ui-common-types";
+	import { useSortObject } from "@open-xamu-co/ui-common-helpers";
 
 	import ValueComplex from "./Complex.vue";
 
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
-	import { useSortObject } from "../../composables/utils";
 	import type { AllowedComponentProps } from "vue";
 
 	interface iValueListProps extends iUseThemeProps {

@@ -4,6 +4,7 @@
 // General styling, layout agnostig classes and rules
 //
 // @group Base
+
 @mixin reset {
 	@layer resets {
 		* {
@@ -18,46 +19,37 @@
 			-webkit-tap-highlight-color: transparent;
 			vertical-align: inherit;
 			box-sizing: border-box;
-
 			&::before,
 			&::after {
 				// line-height: 1.2em;
 				box-sizing: inherit;
 			}
-
 			&:active,
 			&:focus,
 			&:hover {
 				outline: 0;
 			}
 		}
-
 		svg {
 			width: inherit;
 			height: inherit;
-
 			[_fill] {
 				fill: none;
 				stroke: none;
 			}
 		}
-
 		textarea {
 			resize: vertical;
 		}
-
 		button {
 			background: transparent;
 		}
-
 		small {
 			font-size: 0.7em;
 		}
-
 		a {
 			text-decoration: none;
 		}
-
 		p {
 			white-space: inherit;
 
@@ -73,7 +65,6 @@
 
 			/* Adds a hyphen where the word breaks, if supported (No Blink) */
 			hyphens: none;
-
 			> a,
 			> button {
 				display: inline-flex;
@@ -81,7 +72,6 @@
 				// white-space: normal !important;
 			}
 		}
-
 		html {
 			text-rendering: optimizelegibility;
 		}
@@ -101,24 +91,23 @@
 		i:not(.#{utils.$component-icon}, .#{utils.$component-svg}) {
 			font-style: italic;
 		}
-
 		ul,
 		ol {
 			list-style: none;
 		}
-
 		a,
 		button,
 		textarea {
 			appearance: none;
 		}
-
 		a,
 		button,
 		label {
 			text-align: center;
-		}
 
+			// @see https://stackoverflow.com/questions/3025348/how-do-i-use-jquery-for-click-event-in-iphone-web-application/4910962#4910962
+			cursor: pointer;
+		}
 		a,
 		button,
 		label,
@@ -130,7 +119,6 @@
 					white-space: nowrap;
 				}
 			}
-
 			&:not(:disabled, [disabled]:not([disabled="false"])):hover {
 				cursor: pointer;
 			}
@@ -142,7 +130,6 @@
 				pointer-events: none;
 			}
 		}
-
 		h1,
 		h2,
 		h3,

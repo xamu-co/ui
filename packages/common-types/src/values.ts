@@ -38,3 +38,5 @@ export interface iProperty<
 	 */
 	deleteNode?: iNodeFn<T, [T?]>;
 }
+
+export type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;
