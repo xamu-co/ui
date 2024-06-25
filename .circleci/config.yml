@@ -110,8 +110,7 @@ workflows:
             - approve_release:
                   type: approval
                   requires:
-                      - check_code
-                      - dry_release
+                      - build
                   filters:
                       branches:
                           only:
@@ -120,6 +119,8 @@ workflows:
             - release:
                   context: npm-deploy
                   requires:
+                      - check_code
+                      - dry_release
                       - approve_release
                   filters:
                       branches:

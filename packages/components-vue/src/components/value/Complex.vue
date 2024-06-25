@@ -175,7 +175,7 @@
 	import startCase from "lodash-es/startCase";
 
 	import type { iProperty, tProps, tSizeModifier } from "@open-xamu-co/ui-common-types";
-	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n, useSwal, useSortObject } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import IconFa from "../icon/Fa.vue";
@@ -189,7 +189,7 @@
 
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import { useHelpers, useSortObject } from "../../composables/utils";
+	import { useHelpers } from "../../composables/utils";
 	import type { AllowedComponentProps } from "vue";
 
 	interface iValueComplexProps extends iUseThemeProps {

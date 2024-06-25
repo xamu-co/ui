@@ -2,6 +2,7 @@ export * from "./dom";
 export * from "./files";
 export * from "./format";
 export * from "./form/input";
+export * from "./values";
 
 export { default as useI18n } from "./i18n";
 export { default as useUtils } from "./utils";

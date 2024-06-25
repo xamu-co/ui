@@ -383,11 +383,18 @@
 		iProperty,
 		tOrder,
 		tOrderBy,
+		tPropertyOrderFn,
 		tProps,
 		tSizeModifier,
 	} from "@open-xamu-co/ui-common-types";
 	import { eSizes } from "@open-xamu-co/ui-common-enums";
-	import { toOption, useSwal, useI18n } from "@open-xamu-co/ui-common-helpers";
+	import {
+		toOption,
+		useSwal,
+		useI18n,
+		useOrderProperty,
+		isPlainValue,
+	} from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
 	import ActionLink from "../action/Link.vue";
@@ -401,13 +408,7 @@
 
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import {
-		type tPropertyOrderFn,
-		isPlainValue,
-		useHelpers,
-		useOrderBy,
-		useOrderProperty,
-	} from "../../composables/utils";
+	import { useHelpers, useOrderBy } from "../../composables/utils";
 
 	interface iPropertyMeta<Ti extends Record<string, any>>
 		extends iProperty<Record<string, any>, Ti> {
