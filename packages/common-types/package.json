@@ -1,6 +1,6 @@
 {
   "name": "@open-xamu-co/ui-common-types",
-  "version": "3.0.0-next.13",
+  "version": "3.0.0-next.14",
   "description": "Xamu shared types",
   "author": "@xamu-co",
   "main": "src/index.ts",
