@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.10...@open-xamu-co/ui-common-helpers-v3.0.0-next.11) (2024-06-25)
+
+
+### Features
+
+* expose use order ([d46cf8c](https://github.com/xamu-co/ui/commit/d46cf8c1f9b32b7cae96e1b04af114815f2a166e))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.0-next.11"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.9...@open-xamu-co/ui-common-helpers-v3.0.0-next.10) (2024-06-15)
 
 
