@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.22](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.21...@open-xamu-co/ui-components-vue-v3.0.0-next.22) (2024-06-25)
+
+
+### Features
+
+* expose use order ([d46cf8c](https://github.com/xamu-co/ui/commit/d46cf8c1f9b32b7cae96e1b04af114815f2a166e))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.22"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.21](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.20...@open-xamu-co/ui-components-vue-v3.0.0-next.21) (2024-06-22)
 
 
