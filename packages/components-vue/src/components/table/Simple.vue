@@ -430,7 +430,7 @@
 		 *
 		 * @old columns
 		 */
-		properties?: iProperty<any, Ti>[];
+		properties?: iProperty<any, NoInfer<Ti>>[];
 		propertyOrder?: tPropertyOrderFn;
 		/**
 		 * read only table
@@ -444,21 +444,21 @@
 		/**
 		 * Function used to update a node
 		 */
-		updateNode?: iNodeFn<Ti>;
+		updateNode?: iNodeFn<NoInfer<Ti>>;
 		/**
 		 * Function used to delete a node
 		 */
-		deleteNode?: iNodeFn<Ti>;
+		deleteNode?: iNodeFn<NoInfer<Ti>>;
 		/**
 		 * Function used to duplicate a node
 		 */
-		cloneNode?: iNodeFn<Ti>;
+		cloneNode?: iNodeFn<NoInfer<Ti>>;
 		/**
 		 * Function used to create a node children
 		 *
 		 * Useful to display the add button for the slot contents
 		 */
-		createNodeChildren?: iNodeFn<Ti>;
+		createNodeChildren?: iNodeFn<NoInfer<Ti>>;
 		/**
 		 * Content clasess
 		 */
@@ -478,7 +478,7 @@
 		 * @fallback property name
 		 */
 		childrenName?: string;
-		childrenCountKey?: keyof Ti;
+		childrenCountKey?: keyof NoInfer<Ti>;
 		modalProps?: iModalProps & AllowedComponentProps;
 		/**
 		 * Prevent node functions from triggering refresh event (useful with firebase hydration)
