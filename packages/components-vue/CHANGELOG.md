@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.23](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.22...@open-xamu-co/ui-components-vue-v3.0.0-next.23) (2024-06-27)
+
+
+### Bug Fixes
+
+* **vue:** noInfer on table ([69640dc](https://github.com/xamu-co/ui/commit/69640dc00b39cb1ec8ddd559dd923b9e5de65e9f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.23"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.22](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.21...@open-xamu-co/ui-components-vue-v3.0.0-next.22) (2024-06-25)
 
 
