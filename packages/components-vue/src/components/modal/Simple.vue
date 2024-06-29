@@ -238,24 +238,14 @@
 	onMounted(() => {
 		watch(
 			() => props.modelValue,
-			(show) => {
-				if (show) openModal();
-			},
+			(show) => show && openModal(),
 			{ immediate: true }
 		);
 
 		if (!router?.currentRoute) return;
 
 		// close on route change
-		watch(
-			router.currentRoute,
-			() => {
-				if (props.disabled) return;
-
-				closeModal();
-			},
-			{ immediate: false }
-		);
+		watch(router.currentRoute, () => !props.disabled && closeModal(), { immediate: false });
 	});
 	onBeforeUnmount(closeModal);
 </script>
