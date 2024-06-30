@@ -21,10 +21,12 @@
 		computed,
 		ref,
 		watch,
+		onMounted,
 		onBeforeUnmount,
 		type Component as VueComponent,
 		type DefineComponent,
 		type FunctionalComponent,
+		getCurrentInstance,
 	} from "vue";
 
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
@@ -77,6 +79,7 @@
 	const { themeClasses, invertedThemeValues } = useTheme(props, true);
 	const { tabletMqRange } = useBrowser();
 	const { modifiersClasses } = useModifiers(props);
+	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
 	const toggleRef = ref<HTMLElement>();
 	const dropdownRef = ref<HTMLElement>();
@@ -127,13 +130,20 @@
 	});
 
 	// lifecycle
-	watch(
-		tabletMqRange,
-		(value) => {
-			isModal.value = value && props.modelValue !== null;
-			closeDropdown();
-		},
-		{ immediate: false }
-	);
+	onMounted(() => {
+		watch(
+			tabletMqRange,
+			(value) => {
+				isModal.value = value && props.modelValue !== null;
+				closeDropdown();
+			},
+			{ immediate: false }
+		);
+
+		if (!router?.currentRoute) return;
+
+		// close on route change
+		watch(router.currentRoute, closeDropdown, { immediate: false });
+	});
 	onBeforeUnmount(closeDropdown);
 </script>
