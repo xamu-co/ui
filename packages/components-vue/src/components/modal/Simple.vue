@@ -52,18 +52,20 @@
 						>
 							<div
 								v-if="!hideFooter"
-								class="flx --flxRow --flx-end-center --width-100 modal-content"
+								class="flx --flxRow --flx-between-center --width-100 modal-content"
 							>
-								<ActionButton
-									v-if="saveButtonOptions.visible"
-									:theme="invertedThemeValues"
-									:aria-label="saveButtonOptions.title"
-									:class="saveButtonOptions.btnClass"
-									:disabled="saveButtonOptions.disabled"
-									@click="emit('save', closeModal, $event)"
-								>
-									{{ saveButtonOptions.title }}
-								</ActionButton>
+								<div class="flx --flxRow --flx-start-center">
+									<ActionButton
+										v-if="saveButtonOptions.visible"
+										:theme="invertedThemeValues"
+										:aria-label="saveButtonOptions.title"
+										:class="saveButtonOptions.btnClass"
+										:disabled="saveButtonOptions.disabled"
+										@click="emit('save', closeModal, $event)"
+									>
+										{{ saveButtonOptions.title }}
+									</ActionButton>
+								</div>
 								<ActionButtonToggle
 									v-if="cancelButtonOptions.visible"
 									:theme="invertedThemeValues"
