@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.24](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.23...@open-xamu-co/ui-components-vue-v3.0.0-next.24) (2024-06-30)
+
+
+### Bug Fixes
+
+* **vue:** close dropdown on route change ([e216d94](https://github.com/xamu-co/ui/commit/e216d94518cc81c8e59fb1a3a4aed05cc85aa65c))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.24"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.23](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.22...@open-xamu-co/ui-components-vue-v3.0.0-next.23) (2024-06-27)
 
 
