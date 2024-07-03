@@ -1,5 +1,9 @@
 <template>
-	<div v-for="(model, i) in models" :key="i" class="--width-100">
+	<div
+		v-for="(model, i) in models"
+		:key="i"
+		class="flx --flxColumn --flx-start-stretch --gap-5 --width-100"
+	>
 		<div class="flx --flxRow --flx-start-center --gap-5">
 			<slot v-bind="{ i }"></slot>
 			<ActionLink
