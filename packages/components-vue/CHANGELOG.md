@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.27](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.26...@open-xamu-co/ui-components-vue-v3.0.0-next.27) (2024-07-03)
+
+
+### Bug Fixes
+
+* **vue:** input loop error gap ([906aa9c](https://github.com/xamu-co/ui/commit/906aa9c0635561879e7535490acf70a3dc02149c))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.27"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.26](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.25...@open-xamu-co/ui-components-vue-v3.0.0-next.26) (2024-07-03)
 
 
