@@ -135,9 +135,10 @@
 			tabletMqRange,
 			(value) => {
 				isModal.value = value && props.modelValue !== null;
-				closeDropdown();
+
+				if (localModel.value) closeDropdown();
 			},
-			{ immediate: false }
+			{ immediate: true }
 		);
 
 		if (!router?.currentRoute) return;
