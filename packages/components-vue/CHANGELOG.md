@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.26](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.25...@open-xamu-co/ui-components-vue-v3.0.0-next.26) (2024-07-03)
+
+
+### Bug Fixes
+
+* **vue:** dropdown not using modal when loading on mobile ([d21a61f](https://github.com/xamu-co/ui/commit/d21a61fda6ec372c63ef74b5571a1ac041577aa2))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.26"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.25](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.24...@open-xamu-co/ui-components-vue-v3.0.0-next.25) (2024-06-30)
 
 
