@@ -8,6 +8,7 @@
 // Comment
 //
 // @group Components
+
 @mixin box {
 	@layer definitions {
 		.#{module.$component-box} {
@@ -23,22 +24,19 @@
 			}
 
 			@layer defaults {
-				&:not(
-						.#{module.$prefix-default}--button,
-						.#{module.$prefix-default}--#{module.$component-button}
-					) {
-					// @defaults p
-					padding: 1rem;
-				}
-			}
+				& {
+					// @defaults
 
-			&:not(.#{module.$layout-flexbox}) {
-				@include module.flex-box(column, nowrap, flex-start, stretch);
+					@include module.flex-box(column, nowrap, flex-start, stretch);
 
-				@layer defaults {
-					& {
-						// @defaults
-						gap: 1rem;
+					gap: 1rem;
+
+					&:not(
+							.#{module.$prefix-default}--button,
+							.#{module.$prefix-default}--#{module.$component-button}
+						) {
+						// @defaults p
+						padding: 1rem;
 					}
 				}
 			}
@@ -46,6 +44,7 @@
 			// size
 			//
 			// @group Modifiers
+
 			@include module.extend-sizes using($size, $unit) {
 				border-radius: $size * (module.strip-unit(module.$size-radius-box) + 0.333);
 			}
@@ -53,6 +52,7 @@
 			// Box theme
 			//
 			// @group Modifiers
+
 			@include module.extend-themes using($name, $value, $is-default) {
 				&.#{module.$prefix-default}--bdr-solid,
 				&.#{module.$prefix-default}--bdr-dashed {
@@ -65,7 +65,6 @@
 						background: module.color($name, 0.1);
 					}
 				}
-
 				&:hover {
 					border-color: module.color($name, 0.1);
 				}
@@ -103,7 +102,6 @@
 			&.#{module.$prefix-default}--button,
 			&.#{module.$prefix-default}--#{module.$component-button} {
 				padding: 0.8rem;
-
 				p {
 					text-align: center;
 				}
@@ -123,7 +121,6 @@
 				margin-left: auto;
 				margin-right: auto;
 				overflow: hidden;
-
 				&::before {
 					content: "";
 					display: block;
@@ -131,14 +128,12 @@
 					height: 0;
 					padding-bottom: 100%;
 				}
-
 				> * {
 					position: absolute;
 					top: 50%;
 					left: 50%;
 					transform: translate(-50%, -50%);
 				}
-
 				&:has(img) {
 					padding: 0;
 				}
