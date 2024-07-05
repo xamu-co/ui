@@ -12,7 +12,7 @@
 @function primary($color) {
 	@return color.adjust(
 		color.adjust($color, $red: -90deg, $green: -90deg, $blue: -90deg),
-		$lightness: 10%
+		$lightness: -10%
 	);
 }
 
