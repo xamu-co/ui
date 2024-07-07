@@ -62,34 +62,33 @@ export function isValidValue<V extends iFormValue = iFormValue>(
  * Array.every is truthy for empty arrays
  */
 export const isValidFormInputValue = (input: FormInput, ignoreRequired = false): boolean => {
-	const { values, multiple, type, required, min, max } = input;
+	const { values, multiple, type, min, max } = input;
+	const required = input.required && !ignoreRequired;
 
 	// When required, false if empty array
-	if ((!values || !values.length) && required && !ignoreRequired) return false;
+	if ((!values || !values.length) && required) return false;
 
 	if (multiple) {
 		// Bypass if not required
 		// The UI should ensure the limits are not surpased
-		if (required && !ignoreRequired) {
+		if (required) {
 			if (values.length < min) return false;
 			if (values.length > max) return false;
 		}
-	} else {
-		if (type === eFormType.NUMBER) {
-			// Number in range
-			return values.every((number) => {
-				number = Number(number);
+	} else if (type === eFormType.NUMBER) {
+		// Number in range
+		return values.every((number) => {
+			number = Number(number);
 
-				return number >= min && number <= max;
-			});
-		} else if (!type || type === eFormType.TEXT) {
-			// String length in range
-			return values.every((string) => {
-				const length = String(string).length;
+			return number >= min && number <= max;
+		});
+	} else if (!type || type === eFormType.TEXT) {
+		// String length in range
+		const hasText = values.every((string) => {
+			return String(string || "").length;
+		});
 
-				return !string || (length >= min && length <= max);
-			});
-		}
+		return hasText || !required;
 	}
 
 	// The actual values are valid
@@ -98,7 +97,7 @@ export const isValidFormInputValue = (input: FormInput, ignoreRequired = false):
 	const notEmpty = values.every((v) => notEmptyValue(v, input.defaults));
 
 	// if empty but not required then value is truthy
-	return valid || (!notEmpty && (!required || ignoreRequired));
+	return (valid && notEmpty) || (!notEmpty && !required);
 };
 
 /** suffixes used on values */

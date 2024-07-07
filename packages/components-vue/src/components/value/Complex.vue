@@ -116,7 +116,7 @@
 			>
 				<template #toggle="{ toggleModal }">
 					<ActionLink
-						v-if="'name' in value"
+						v-if="'name' in value || 'slug' in value"
 						:theme="theme"
 						:tooltip="t('see_value')"
 						tooltip-as-text
@@ -125,7 +125,7 @@
 						@click="toggleModal"
 					>
 						<IconFa name="lemon" force-regular />
-						<span>{{ value.name }}</span>
+						<span>{{ value.name || value.slug }}</span>
 					</ActionLink>
 					<ActionButtonToggle
 						v-else
