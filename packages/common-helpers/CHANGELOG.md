@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.11...@open-xamu-co/ui-common-helpers-v3.0.0-next.12) (2024-07-07)
+
+
+### Bug Fixes
+
+* **helpers:** improve input validation ([417508b](https://github.com/xamu-co/ui/commit/417508bfdbce5d2e324bb1bd165244874b830310))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.0-next.12"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.10...@open-xamu-co/ui-common-helpers-v3.0.0-next.11) (2024-06-25)
 
 
