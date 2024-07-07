@@ -1,5 +1,29 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.13...@open-xamu-co/ui-styles-v3.0.0-next.14) (2024-07-07)
+
+
+### Bug Fixes
+
+* **styles:** allow overriding box flex definition ([0a21d43](https://github.com/xamu-co/ui/commit/0a21d437fc622032aa81d7537bf1bda1fb34a74c))
+* **styles:** darken primary complement ([fe66eea](https://github.com/xamu-co/ui/commit/fe66eea0e9fa3dad1fe8510285ff72535cbeaad8))
+* **styles:** remove max sizes from flex growth ([48c0cd6](https://github.com/xamu-co/ui/commit/48c0cd65cd29f10ae1ce03979bb67a80c1e71909))
+
+
+### BREAKING CHANGES
+
+* **styles:** flex growth rules no longer include max sizing
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.14"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.12...@open-xamu-co/ui-styles-v3.0.0-next.13) (2024-06-25)
 
 
