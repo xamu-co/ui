@@ -182,7 +182,6 @@
 	/**
 	 * Form Stages
 	 * TODO: enable transitions conditionally
-	 * TODO: cache forms to reduce rerenders
 	 *
 	 * @see https://vuejs.org/guide/built-ins/keep-alive.html
 	 * @see https://vuejs.org/api/built-in-directives.html#v-memo
@@ -249,7 +248,7 @@
 
 		// reset
 		const newLocalStages: string[][] = [];
-		const newLocalFormInputs: Record<string, iForm> = {};
+		const newLocalForms: Record<string, iForm> = {};
 		const wasListened = lastListened.value;
 
 		newStages
@@ -263,24 +262,19 @@
 
 					keys.push(key);
 
-					// Prefer local value
 					if (wasListened) {
-						newLocalFormInputs[key] = formInputs.value[key] || reForm;
+						// Prefer local value
+						newLocalForms[key] = formInputs.value[key] || reForm;
+					} else newLocalForms[key] = reForm; // full reset
 
-						return;
-					}
-
-					// full reset
-					newLocalFormInputs[key] = reForm;
-
-					if (form.listen) emit("input-values", getValues(reForm.inputs));
+					if (form.listen) emit("input-values", getValues(newLocalForms[key].inputs));
 				});
 
 				newLocalStages.push(keys);
 			});
 
 		formInputsKeys.value = newLocalStages;
-		formInputs.value = newLocalFormInputs;
+		formInputs.value = newLocalForms;
 		loading.value = false;
 	}
 
