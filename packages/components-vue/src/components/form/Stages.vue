@@ -58,6 +58,7 @@
 							stagesLength: stages && stages.length,
 							setActiveStage,
 							canSubmit,
+							submit,
 						}"
 					>
 						<div class="flx --flxRow --flx-start-center --flx-fill --gap-5 --gap:md">
@@ -113,6 +114,7 @@
 							stagesLength: stages && stages.length,
 							setActiveStage,
 							canSubmit,
+							submit,
 						}"
 					>
 						<div class="flx --flxRow --flx-end-center --gap-5 --gap-10:sm --gap:md">
