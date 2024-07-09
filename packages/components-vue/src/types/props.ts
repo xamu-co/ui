@@ -60,6 +60,11 @@ export interface iUseThemeProps {
 }
 
 export interface iUseThemeTooltipProps {
+	/**
+	 * Show given text as tooltip on hover.
+	 *
+	 * Includes aria-label tag automatically
+	 */
 	tooltip?: tProp;
 	tooltipPosition?: "right" | "left" | "bottom" | "top";
 	tooltipAsText?: boolean;
