@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.29](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.28...@open-xamu-co/ui-components-vue-v3.0.0-next.29) (2024-07-09)
+
+
+### Bug Fixes
+
+* **vue:** stages not always emitting ([ad84e72](https://github.com/xamu-co/ui/commit/ad84e72d9414fae9cb61123df6fad73abd661a60))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.29"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.28](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.27...@open-xamu-co/ui-components-vue-v3.0.0-next.28) (2024-07-07)
 
 
