@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.30](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.29...@open-xamu-co/ui-components-vue-v3.0.0-next.30) (2024-07-09)
+
+
+### Features
+
+* **vue:** expose submit on form stages ([3df4546](https://github.com/xamu-co/ui/commit/3df454649048166cb05236089fc664f2e5e8280a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.30"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.29](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.28...@open-xamu-co/ui-components-vue-v3.0.0-next.29) (2024-07-09)
 
 
