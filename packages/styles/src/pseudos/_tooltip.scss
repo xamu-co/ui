@@ -16,6 +16,7 @@
 				overflow: hidden;
 				z-index: 15;
 				position: absolute;
+				opacity: 0;
 
 				// vertical-align: bottom;
 				color: utils.color(light);
@@ -32,10 +33,10 @@
 				text-shadow: none;
 			}
 
-			&:not(:hover)::before {
-				@media (any-pointer: coarse) {
+			&:hover::before {
+				@media (any-pointer: fine) {
 					// dektop only
-					opacity: 0;
+					opacity: 1;
 				}
 			}
 

@@ -17,7 +17,12 @@
 				>
 					<slot
 						name="header"
-						v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
+						v-bind="{
+							toggleModal,
+							model,
+							modalRef,
+							invertedTheme: invertedThemeValues,
+						}"
 					>
 						<div
 							v-if="title"
@@ -38,17 +43,35 @@
 					</slot>
 					<slot
 						name="content"
-						v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
+						v-bind="{
+							toggleModal,
+							model,
+							modalRef,
+							invertedTheme: invertedThemeValues,
+						}"
 					>
-						<div class="scroll --vertical --width-100 modal-content">
+						<div
+							class="scroll --vertical --width-100 modal-content"
+							:class="modalContentClass"
+						>
 							<!-- Main modal content -->
 							<slot
-								v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
+								v-bind="{
+									toggleModal,
+									model,
+									modalRef,
+									invertedTheme: invertedThemeValues,
+								}"
 							></slot>
 						</div>
 						<slot
 							name="footer"
-							v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"
+							v-bind="{
+								toggleModal,
+								model,
+								modalRef,
+								invertedTheme: invertedThemeValues,
+							}"
 						>
 							<div
 								v-if="!hideFooter"
@@ -110,7 +133,15 @@
 				</LoaderSimple>
 			</dialog>
 		</BaseWrapper>
-		<slot v-else v-bind="{ toggleModal, model, invertedTheme: invertedThemeValues }"></slot>
+		<slot
+			v-else
+			v-bind="{
+				toggleModal,
+				model,
+				modalRef,
+				invertedTheme: invertedThemeValues,
+			}"
+		></slot>
 	</BaseErrorBoundary>
 </template>
 
@@ -162,7 +193,7 @@
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
 	const resolver = ref<(r?: boolean) => void>();
-	const localModel = ref<boolean>();
+	const localModel = ref<boolean>(props.modelValue);
 	const modalRef = ref<HTMLDialogElement>();
 	/** Are the requirements for the modal are taking longer than usual? */
 	const loadingTooLong = ref(false);
@@ -240,8 +271,12 @@
 	onMounted(() => {
 		watch(
 			() => props.modelValue,
-			(show) => show && openModal(),
-			{ immediate: true }
+			(show) => {
+				if (show) return openModal();
+
+				closeModal();
+			},
+			{ immediate: false }
 		);
 
 		if (!router?.currentRoute) return;

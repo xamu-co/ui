@@ -91,7 +91,6 @@
 			}
 		}
 	}
-
 	@layer defaults {
 		::selection {
 			background: utils.$color-select-bg;
@@ -208,7 +207,7 @@
 			width: 100%;
 			height: 100%;
 			overflow: hidden auto;
-			font-size: 95%;
+			font-size: 98%;
 			font-weight: utils.weight();
 			color: utils.$color-text;
 			line-height: utils.$size-line-height;
@@ -219,21 +218,17 @@
 					@media (width <= utils.$querie-tv) {
 						font-size: 100%;
 					}
-
 					@media (width <= utils.$querie-desktop) {
-						font-size: 105%;
+						font-size: 102%;
 					}
-
 					@media (width <= utils.$querie-tablet) {
-						font-size: 110%;
+						font-size: 104%;
 					}
-
 					@media (width <= utils.$querie-smartphone) {
-						font-size: 115%;
+						font-size: 106%;
 					}
-
 					@media (width <= utils.$querie-smartwatch) {
-						font-size: 120%;
+						font-size: 108%;
 					}
 				}
 			}

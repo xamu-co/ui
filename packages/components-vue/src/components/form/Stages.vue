@@ -49,7 +49,7 @@
 				</form>
 			</div>
 			<slot name="actions">
-				<div class="flx --flxRow --flx-start-center --width-100 modal-content">
+				<div class="flx --flxRow-wrap --flx-start-center --width-100 modal-content">
 					<slot
 						v-if="stages?.length"
 						name="primary-actions"
@@ -61,7 +61,7 @@
 							submit,
 						}"
 					>
-						<div class="flx --flxRow --flx-start-center --flx-fill --gap-5 --gap:md">
+						<div class="flx --flxRow --flx-start-center --flx --gap-5 --gap:md">
 							<ActionButtonToggle
 								v-if="formInputsKeys.length > 1 && activeStage"
 								key="button-back"
@@ -117,7 +117,9 @@
 							submit,
 						}"
 					>
-						<div class="flx --flxRow --flx-end-center --gap-5 --gap-10:sm --gap:md">
+						<div
+							class="flx --flxRow-wrap --flx-end-center --gap-5 --gap-10:sm --gap:md"
+						>
 							<slot name="secondary-actions"></slot>
 							<ActionLink
 								:aria-label="t('clear')"

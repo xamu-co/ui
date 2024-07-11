@@ -135,6 +135,12 @@ export interface iModalProps extends iUseThemeProps {
 	 */
 	modalClass?: string | string[] | Record<string, boolean>;
 	/**
+	 * :class object which is attached to the modal modal content element
+	 *
+	 * Useless if content slot is used
+	 */
+	modalContentClass?: string | string[] | Record<string, boolean>;
+	/**
 	 * Save button config
 	 */
 	saveButton?: iModalButtonConfig & { disabled?: boolean };
