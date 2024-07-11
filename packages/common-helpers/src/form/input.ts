@@ -41,25 +41,25 @@ function getIcon(
 /**
  * get form input default
  */
-function getDefault<V extends iFormValue = iFormValue>(
+function getDefault<V extends iFormValue = iFormValue, Vk extends V | V[] = V>(
 	type?: eFormTypeSimple | eFormTypeComplex,
 	defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]]
-): V | V[] {
+): Vk {
 	switch (type) {
 		case eFormType.LOCATION:
 			// 3 values
-			return Array(3).fill("");
+			return Array(3).fill("") as Vk;
 		case eFormType.ID:
 		case eFormType.PHONE:
 		case eFormType.CELLPHONE:
 		case eFormType.NEW_PASSWORD:
 			// 2 values
-			return Array(2).fill("");
+			return Array(2).fill("") as Vk;
 		default:
 			// 1 value
 			if (!defaults) return Array(1).fill("")[0];
 
-			return Array(defaults.length).fill("");
+			return Array(defaults.length).fill("") as Vk;
 	}
 }
 
@@ -111,13 +111,13 @@ export class FormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFo
 	}
 }
 
-export class FormInput<V extends iFormValue = iFormValue>
+export class FormInput<V extends iFormValue = iFormValue, Vk extends V | V[] = V | V[]>
 	extends FormInputDefault<eFormTypeSimple | eFormTypeComplex>
-	implements iFormInput<V>
+	implements iFormInput<V, Vk>
 {
 	// private
 	private _options!: iSelectOption[];
-	private _values!: (V | V[])[];
+	private _values!: Vk[];
 	private _defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]];
 	// public readonly
 	public readonly name!: string;
@@ -132,9 +132,9 @@ export class FormInput<V extends iFormValue = iFormValue>
 	 * @param _onUpdatedValues hook that is called when the values are updated
 	 */
 	constructor(
-		formInput: iFormInput<V>,
-		private _onUpdatedValues?: (updatedValues: (V | V[])[]) => (V | V[])[] | undefined | void,
-		rerender?: (fi?: Partial<iFormInput<V>>) => void
+		formInput: iFormInput<V, Vk>,
+		private _onUpdatedValues?: (updatedValues: Vk[]) => Vk[] | undefined | void,
+		rerender?: (fi?: Partial<iFormInput<V, Vk>>) => void
 	) {
 		super(formInput, rerender);
 
@@ -152,7 +152,7 @@ export class FormInput<V extends iFormValue = iFormValue>
 			if (this.required && !this._values.length) {
 				const values = this.options.map(({ value }) => value);
 
-				this._values = values.slice(0, Math.max(1, this.min)) as V[];
+				this._values = values.slice(0, Math.max(1, this.min)) as Vk[];
 			}
 		} else if (this.type !== eFormType.FILE) {
 			const length = Math.max(1, this.min); // negative values fallback
@@ -178,19 +178,19 @@ export class FormInput<V extends iFormValue = iFormValue>
 		if (isChoiceType(this.type)) {
 			// autoset single value if required
 			if (this.required && !this._values.length) {
-				const values = this.options.map(({ value }) => value);
+				const values = <Vk[]>this.options.map(({ value }) => value);
 
-				this._values = values.slice(0, Math.max(1, this.min)) as V[];
+				this._values = values.slice(0, Math.max(1, this.min));
 			}
 		}
 
 		this.rerender();
 	}
 
-	get values(): (V | V[])[] {
+	get values(): Vk[] {
 		return this._values;
 	}
-	set values(updatedValues: (V | V[])[] | undefined) {
+	set values(updatedValues: Vk[] | undefined) {
 		if (updatedValues === undefined) {
 			// set defaults
 			this._values = [];
@@ -198,9 +198,9 @@ export class FormInput<V extends iFormValue = iFormValue>
 			if (isChoiceType(this.type)) {
 				// autoset single value if required
 				if (this.required && !this._values.length) {
-					const values = this.options.map(({ value }) => value);
+					const values = <Vk[]>this.options.map(({ value }) => value);
 
-					this._values = values.slice(0, Math.max(1, this.min)) as V[];
+					this._values = values.slice(0, Math.max(1, this.min));
 				}
 			} else if (this.type !== eFormType.FILE) {
 				const length = Math.max(1, this.min); // negative values fallback
@@ -239,7 +239,7 @@ export class FormInput<V extends iFormValue = iFormValue>
 	/**
 	 * add new model to the models
 	 */
-	public addValue(newValue: V | V[] = getDefault(this.type, this.defaults)) {
+	public addValue(newValue: Vk = getDefault(this.type, this.defaults)) {
 		if (this.values.length < this.max) {
 			this.values = [...this.values, newValue];
 		}
@@ -261,10 +261,10 @@ export class FormInput<V extends iFormValue = iFormValue>
 	 * Clone this object
 	 */
 	public clone(
-		overrides?: Omit<iFormInput<V>, "name"> & { name?: string },
-		onUpdatedValues?: (updatedValues: (V | V[])[]) => (V | V[])[] | undefined | void
+		overrides?: Omit<iFormInput<V, Vk>, "name"> & { name?: string },
+		onUpdatedValues?: (updatedValues: Vk[]) => Vk[] | undefined | void
 	) {
-		const oldFormInput: iFormInput<V> = {
+		const oldFormInput: iFormInput<V, Vk> = {
 			...this,
 			options: this.options,
 			values: this.values,
@@ -281,7 +281,9 @@ export class FormInput<V extends iFormValue = iFormValue>
 	/**
 	 * Get simple object
 	 */
-	public getObject<Vi extends iFormValue = iFormValue>(input: FormInput<Vi>): iFormInput<Vi> {
+	public getObject<Vi extends iFormValue = iFormValue, Vik extends Vi | Vi[] = Vi>(
+		input: FormInput<Vi, Vik>
+	): iFormInput<Vi, Vik> {
 		return {
 			required: input.required,
 			type: input.type,

@@ -95,7 +95,7 @@ export type iFormIconProps = { brand?: boolean; regular?: boolean };
 
 export type tFormIcon = [IconName | undefined, iFormIconProps];
 
-export type iFormValue = string | number | boolean | File;
+export type iFormValue = string | number | boolean | File | Date;
 
 /**
  * Simple input
@@ -114,7 +114,7 @@ export interface iFormInputDefault<T extends eFormTypeSimple | eFormTypeComplex 
 /**
  * Complex input, sub input support
  */
-export interface iFormInput<V extends iFormValue = iFormValue>
+export interface iFormInput<V extends iFormValue = iFormValue, Vk extends V | V[] = V | V[]>
 	extends iFormInputDefault<eFormTypeSimple | eFormTypeComplex> {
 	name: string;
 	options?: (string | number | iFormOption)[];
@@ -123,7 +123,7 @@ export interface iFormInput<V extends iFormValue = iFormValue>
 	 *
 	 * @old value
 	 */
-	values?: (V | V[])[];
+	values?: Vk[];
 	defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]];
 	/**
 	 * Visible over the field, should describe it
