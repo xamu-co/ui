@@ -1,5 +1,29 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.14...@open-xamu-co/ui-common-types-v3.0.0-next.15) (2024-07-12)
+
+
+### Bug Fixes
+
+* improve form input values assertion ([4a15278](https://github.com/xamu-co/ui/commit/4a152788efa900f354efdedeb6251136b87b897e))
+
+
+### Features
+
+* hidden input type ([6952c39](https://github.com/xamu-co/ui/commit/6952c39ddeab462d419eb25770884704ff5022ed))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.15"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.13...@open-xamu-co/ui-common-types-v3.0.0-next.14) (2024-06-25)
 
 
