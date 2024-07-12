@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.31](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.30...@open-xamu-co/ui-components-vue-v3.0.0-next.31) (2024-07-12)
+
+
+### Bug Fixes
+
+* tooltips, modals & layouts ([b889e59](https://github.com/xamu-co/ui/commit/b889e59ab594463b5fab2b58f2f5d1050a38e0ff))
+
+
+### Features
+
+* hidden input type ([6952c39](https://github.com/xamu-co/ui/commit/6952c39ddeab462d419eb25770884704ff5022ed))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.31"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.30](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.29...@open-xamu-co/ui-components-vue-v3.0.0-next.30) (2024-07-09)
 
 
