@@ -27,7 +27,7 @@
 			/>
 			<!-- Future inner loop input -->
 			<FormInputLoop
-				v-else
+				v-else-if="input.type !== eFT.HIDDEN"
 				v-slot="{ i }"
 				:key="input.options.length + models.length"
 				:models="models"

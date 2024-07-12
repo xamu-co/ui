@@ -9,7 +9,12 @@ import type {
 	tFormAutocomplete,
 	tFormIcon,
 } from "@open-xamu-co/ui-common-types";
-import { eFormType, eFormTypeSimple, eFormTypeComplex } from "@open-xamu-co/ui-common-enums";
+import {
+	eFormType,
+	eFormTypeBase,
+	eFormTypeSimple,
+	eFormTypeComplex,
+} from "@open-xamu-co/ui-common-enums";
 
 import { toOption } from "../format";
 
@@ -18,7 +23,7 @@ import { toOption } from "../format";
  */
 function getIcon(
 	icon?: IconName | tFormIcon,
-	type?: eFormTypeSimple | eFormTypeComplex
+	type?: eFormTypeBase | eFormTypeSimple | eFormTypeComplex
 ): tFormIcon {
 	if (icon) return Array.isArray(icon) ? icon : [icon, {}];
 
@@ -42,7 +47,7 @@ function getIcon(
  * get form input default
  */
 function getDefault<V extends iFormValue = iFormValue, Vk extends V | V[] = V>(
-	type?: eFormTypeSimple | eFormTypeComplex,
+	type?: eFormTypeBase | eFormTypeSimple | eFormTypeComplex,
 	defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]]
 ): Vk {
 	switch (type) {
@@ -63,8 +68,8 @@ function getDefault<V extends iFormValue = iFormValue, Vk extends V | V[] = V>(
 	}
 }
 
-function isChoiceType(type: eFormTypeSimple | eFormTypeComplex): boolean {
-	const types: (eFormTypeSimple | eFormTypeComplex)[] = [
+function isChoiceType(type: eFormTypeBase | eFormTypeSimple | eFormTypeComplex): boolean {
+	const types: (eFormTypeBase | eFormTypeSimple | eFormTypeComplex)[] = [
 		eFormType.CHOICE,
 		eFormType.SELECT,
 		eFormType.SELECT_FILTER,
@@ -73,8 +78,9 @@ function isChoiceType(type: eFormTypeSimple | eFormTypeComplex): boolean {
 	return types.includes(type);
 }
 
-export class FormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFormTypeSimple>
-	implements iFormInputDefault<T>
+export class FormInputDefault<
+	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple,
+> implements iFormInputDefault<T>
 {
 	// public
 	public type!: T;
@@ -112,7 +118,7 @@ export class FormInputDefault<T extends eFormTypeSimple | eFormTypeComplex = eFo
 }
 
 export class FormInput<V extends iFormValue = iFormValue, Vk extends V | V[] = V | V[]>
-	extends FormInputDefault<eFormTypeSimple | eFormTypeComplex>
+	extends FormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>
 	implements iFormInput<V, Vk>
 {
 	// private

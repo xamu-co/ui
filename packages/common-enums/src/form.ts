@@ -1,3 +1,8 @@
+export enum eFormTypeBase {
+	// miscellaneous
+	HIDDEN = "HIDDEN",
+}
+
 export enum eFormTypeSimple {
 	// select, options are required
 	SELECT = "SELECT",
@@ -38,6 +43,7 @@ export enum eFormTypeComplex {
  * Form types
  */
 export const eFormType = {
+	...eFormTypeBase,
 	...eFormTypeSimple,
 	...eFormTypeComplex,
 };
