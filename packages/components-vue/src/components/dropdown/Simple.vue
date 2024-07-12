@@ -8,9 +8,23 @@
 		>
 			<slot name="toggle" v-bind="{ model, setModel }"></slot>
 		</div>
-		<Modal v-model="localModel" :disabled="!isModal" :theme="theme" :invert-theme="invertTheme">
+		<Modal
+			v-slot="{ modalRef }"
+			v-model="localModel"
+			:disabled="!isModal"
+			:theme="theme"
+			:invert-theme="invertTheme"
+		>
 			<div ref="dropdownRef" :class="dropdownClasses">
-				<slot v-bind="{ model, setModel, invertedTheme: invertedThemeValues }"></slot>
+				<slot
+					v-bind="{
+						model,
+						setModel,
+						modalRef,
+						dropdownRef,
+						invertedTheme: invertedThemeValues,
+					}"
+				></slot>
 			</div>
 		</Modal>
 	</BaseWrapper>
@@ -84,7 +98,7 @@
 	const toggleRef = ref<HTMLElement>();
 	const dropdownRef = ref<HTMLElement>();
 	const isModal = ref(false);
-	const model = ref(props.modelValue);
+	const model = ref<boolean>(props.modelValue);
 	const dropdownClasses = computed<string[]>(() => {
 		if (isModal.value) return [];
 
@@ -101,14 +115,19 @@
 	});
 
 	function setModel(value = !model.value) {
-		if (value) document.addEventListener("click", clickOutside, true);
+		if (value) return openDropdown();
 
-		return (model.value = value);
+		closeDropdown();
+	}
+
+	function openDropdown() {
+		document.addEventListener("click", clickOutside, true);
+		model.value = true;
 	}
 
 	function closeDropdown() {
 		emit("close");
-		emit("update:model-value", setModel(false));
+		emit("update:model-value", (model.value = false));
 		document.removeEventListener("click", clickOutside, true);
 	}
 	function clickOutside(e: MouseEvent) {
@@ -126,7 +145,7 @@
 	 */
 	const localModel = computed({
 		get: () => props.modelValue || model.value,
-		set: closeDropdown,
+		set: setModel,
 	});
 
 	// lifecycle

@@ -6,7 +6,12 @@ import type {
 	iFormResults,
 	iInvalidInput,
 } from "@open-xamu-co/ui-common-types";
-import { eFormType, eFormTypeComplex, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
+import {
+	eFormType,
+	eFormTypeComplex,
+	eFormTypeSimple,
+	eFormTypeBase,
+} from "@open-xamu-co/ui-common-enums";
 
 import { FormInput } from "./input";
 
@@ -102,7 +107,7 @@ export const isValidFormInputValue = (input: FormInput, ignoreRequired = false):
 
 /** suffixes used on values */
 export function getInputSuffixes(
-	type?: eFormTypeSimple | eFormTypeComplex
+	type?: eFormTypeBase | eFormTypeSimple | eFormTypeComplex
 ): [string, string, string?] {
 	switch (type) {
 		case eFormType.ID:

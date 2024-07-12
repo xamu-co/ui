@@ -670,9 +670,9 @@
 	 *
 	 * @single
 	 */
-	async function cloneNodeAndRefresh(node: T, setModel: (m?: boolean) => boolean) {
+	async function cloneNodeAndRefresh(node: T, toggleModal: (m?: boolean) => any) {
 		// close modal
-		setModel(false);
+		toggleModal(false);
 		// display loader
 		Swal.fireLoader();
 
@@ -709,7 +709,7 @@
 	 *
 	 * @single
 	 */
-	async function deleteNodeAndRefresh(node: T, setModel: (m?: boolean) => boolean) {
+	async function deleteNodeAndRefresh(node: T, toggleModal: (m?: boolean) => any) {
 		// request confirmation
 		const { value } = await Swal.firePrevent({
 			title: t("table_delete"),
@@ -720,7 +720,7 @@
 		if (!value) return;
 
 		// close dropdown/modal
-		setModel(false);
+		toggleModal(false);
 		// display loader
 		Swal.fireLoader();
 

@@ -8,13 +8,19 @@ import type { iPluginOptions, tSwal, tSwalOptions } from "@open-xamu-co/ui-commo
 import useI18n from "./i18n";
 
 function getTarget(possibleTarget?: tSwalOptions["target"]): string | HTMLElement {
-	if (possibleTarget instanceof Event) {
-		const dialog = (possibleTarget?.target as HTMLElement)?.closest("dialog");
+	let dialog: HTMLElement | undefined | null;
 
-		if (dialog) return dialog;
+	if (typeof possibleTarget !== "string") {
+		if (possibleTarget instanceof Event) {
+			dialog = (possibleTarget?.target as HTMLElement | undefined)?.closest("dialog");
+		} else {
+			dialog = possibleTarget?.closest("dialog");
+		}
+	} else {
+		return possibleTarget || "body";
 	}
 
-	return "body";
+	return dialog || "body";
 }
 
 /**

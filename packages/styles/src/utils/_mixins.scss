@@ -36,7 +36,6 @@ $default-viewports: if(
 	@if not $omit-non-media {
 		@content;
 	}
-
 	@if variables.$allow-responsive-classes {
 		@each $name, $viewport in $viewports {
 			// default: class selector
@@ -49,7 +48,6 @@ $default-viewports: if(
 						@content;
 					}
 				}
-
 				@if $desktop-first {
 					&-inv {
 						@if $omit-media {
