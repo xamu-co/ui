@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.32](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.31...@open-xamu-co/ui-components-vue-v3.0.0-next.32) (2024-07-29)
+
+
+### Bug Fixes
+
+* improve stages rerendering detection ([9734b37](https://github.com/xamu-co/ui/commit/9734b37025db967c4e63b1382204bdadc4362246))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.32"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.31](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.30...@open-xamu-co/ui-components-vue-v3.0.0-next.31) (2024-07-12)
 
 
