@@ -140,6 +140,7 @@
 <script setup lang="ts">
 	import { onBeforeUnmount, ref, watch } from "vue";
 	import debounce from "lodash-es/debounce";
+	import isEqual from "lodash-es/isEqual";
 
 	import type { iInvalidInput, tProps } from "@open-xamu-co/ui-common-types";
 	import {
@@ -263,13 +264,15 @@
 				stage.forEach((form, formIndex) => {
 					const key = form.key || generateFormKey(stageIndex, formIndex);
 					const reForm = { ...form, inputs: form.inputs.map((input) => input.clone()) };
+					const formTypes = formInputs.value[key]?.inputs.map(({ type }) => type);
+					const reFormTypes = reForm.inputs.map(({ type }) => type);
 
 					keys.push(key);
 
-					if (wasListened) {
+					if (wasListened && isEqual(formTypes, reFormTypes)) {
 						// Prefer local value
 						newLocalForms[key] = formInputs.value[key] || reForm;
-					} else newLocalForms[key] = reForm; // full reset
+					} else newLocalForms[key] = reForm; // initialize or full reset
 
 					if (form.listen) emit("input-values", getValues(newLocalForms[key].inputs));
 				});
