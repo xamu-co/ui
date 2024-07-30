@@ -6,11 +6,19 @@
 			:key="`choice-${option.value}-${option.alias}-${options?.length}`"
 			:theme="theme"
 			:aria-label="option.alias || option.value"
-			:active="modelValue.includes(option.value)"
-			:title="modelValue.includes(option.value) ? t('select_selected') : ''"
-			:disabled="disabled || (!multiple && modelValue.includes(option.value))"
+			:active="modelValue?.includes(option.value)"
+			:title="modelValue?.includes(option.value) ? t('select_selected') : ''"
+			:disabled="
+				disabled || option.disabled || (!multiple && modelValue?.includes(option.value))
+			"
 			:round="round(option)"
-			:tooltip="{ [option.alias || option.value]: !!(option.pattern || option.icon) }"
+			:tooltip="{
+				[option.placeholder || option.alias || option.value]: !!(
+					option.placeholder ||
+					option.pattern ||
+					option.icon
+				),
+			}"
 			tooltip-as-text
 			tooltip-position="bottom"
 			@click="choose(option.value)"
@@ -25,7 +33,7 @@
 				<figure
 					class="avatar --size-xs --bdr"
 					:class="`--bdrColor-${
-						themeValues[!multiple && modelValue.includes(option.value) ? 0 : 1]
+						themeValues[!multiple && modelValue?.includes(option.value) ? 0 : 1]
 					}`"
 					:style="
 						isURL(option.pattern)
@@ -68,7 +76,7 @@
 		 * Vue model value
 		 * @private
 		 */
-		modelValue: (string | number)[];
+		modelValue?: (string | number)[];
 		/**
 		 * Preffer button toggle
 		 */
@@ -94,12 +102,14 @@
 	});
 
 	function choose(value: string | number) {
-		if (props.multiple) {
-			if (props.modelValue.includes(value)) {
-				const index = props.modelValue.indexOf(value);
+		const modelValue = props.modelValue || [""];
 
-				if (index > -1) emit("update:model-value", props.modelValue.toSpliced(index, 1));
-			} else emit("update:model-value", [...props.modelValue, value]);
+		if (props.multiple) {
+			if (modelValue.includes(value)) {
+				const index = modelValue.indexOf(value);
+
+				if (index > -1) emit("update:model-value", modelValue.toSpliced(index, 1));
+			} else emit("update:model-value", [...modelValue, value]);
 		} else {
 			// single value
 			emit("update:model-value", [value]);

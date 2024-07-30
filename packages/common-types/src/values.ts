@@ -2,6 +2,7 @@ export interface iSelectOption {
 	value: string | number;
 	alias?: string;
 	selected?: boolean;
+	disabled?: boolean;
 }
 
 /**
@@ -25,6 +26,10 @@ export interface iProperty<
 	 * The parent is given since the node doesn't exist yet
 	 */
 	createNode?: iNodeFn<P, [P?]>;
+	/**
+	 * Conditionally disable creating children for this particular property
+	 */
+	disableCreateNode?: (p: P) => boolean;
 	/**
 	 * Function to clone a node within the relation
 	 */
