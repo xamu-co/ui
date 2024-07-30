@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.15...@open-xamu-co/ui-common-types-v3.0.0-next.16) (2024-07-30)
+
+
+### Features
+
+* conditionally disable create children ([e296cf4](https://github.com/xamu-co/ui/commit/e296cf44bb2843fdccd49cef59612b4db6ed7064))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.16"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.14...@open-xamu-co/ui-common-types-v3.0.0-next.15) (2024-07-12)
 
 
