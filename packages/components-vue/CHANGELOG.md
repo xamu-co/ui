@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.33](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.32...@open-xamu-co/ui-components-vue-v3.0.0-next.33) (2024-07-30)
+
+
+### Features
+
+* conditionally disable create children ([e296cf4](https://github.com/xamu-co/ui/commit/e296cf44bb2843fdccd49cef59612b4db6ed7064))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.33"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.32](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.31...@open-xamu-co/ui-components-vue-v3.0.0-next.32) (2024-07-29)
 
 
