@@ -13,6 +13,7 @@
 				tooltip-as-text
 				tooltip-position="bottom"
 				:size="size"
+				:disabled="!!property?.disableCreateNode?.(node)"
 				round
 				@click="createNodeAndRefresh"
 			>

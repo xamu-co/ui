@@ -16,7 +16,11 @@
 		<option v-once hidden disabled value="">
 			{{ t("select_placeholder") }}
 		</option>
-		<option v-for="({ value, alias }, index) in selectOptions" :key="index" :value="value">
+		<option
+			v-for="({ value, alias, disabled }, index) in selectOptions"
+			:key="index"
+			v-bind="{ value, disabled }"
+		>
 			{{ alias || value }}
 		</option>
 	</select>

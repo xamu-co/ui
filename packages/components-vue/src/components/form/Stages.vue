@@ -263,15 +263,26 @@
 
 				stage.forEach((form, formIndex) => {
 					const key = form.key || generateFormKey(stageIndex, formIndex);
+					const activeForm = formInputs.value[key];
+					// prevent circular reference
 					const reForm = { ...form, inputs: form.inputs.map((input) => input.clone()) };
-					const formTypes = formInputs.value[key]?.inputs.map(({ type }) => type);
-					const reFormTypes = reForm.inputs.map(({ type }) => type);
+					// check if type, icon or options length differ
+					const activeFormDiff = activeForm?.inputs.map(({ type, icon, options }) => ({
+						type,
+						icon,
+						options: options.length,
+					}));
+					const reFormDiff = reForm.inputs.map(({ type, icon, options }) => ({
+						type,
+						icon,
+						options: options.length,
+					}));
 
 					keys.push(key);
 
-					if (wasListened && isEqual(formTypes, reFormTypes)) {
+					if (wasListened && isEqual(activeFormDiff, reFormDiff)) {
 						// Prefer local value
-						newLocalForms[key] = formInputs.value[key] || reForm;
+						newLocalForms[key] = activeForm || reForm;
 					} else newLocalForms[key] = reForm; // initialize or full reset
 
 					if (form.listen) emit("input-values", getValues(newLocalForms[key].inputs));
