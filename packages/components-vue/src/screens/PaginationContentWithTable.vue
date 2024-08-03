@@ -7,15 +7,22 @@
 		class="flx --flxColumn --flx-start-end --gap-5 --width-100"
 	>
 		<Table
+			v-model:sort="sort"
 			:nodes="content"
-			can-sort
 			:modal-props="{ theme: [eColors.LIGHT, eColors.SECONDARY], class: '--txtColor' }"
 		/>
 	</PaginationContent>
 </template>
 
 <script setup lang="ts">
-	import type { iFormResponse, iPage, iPagination } from "@open-xamu-co/ui-common-types";
+	import { ref } from "vue";
+
+	import type {
+		iFormResponse,
+		iPage,
+		iPagination,
+		tOrderBy,
+	} from "@open-xamu-co/ui-common-types";
 	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	import PaginationContent from "../components/pagination/Content.vue";
@@ -33,6 +40,8 @@
 	 *
 	 * @screen
 	 */
+
+	const sort = ref<tOrderBy>();
 
 	const page = async (_params?: iPagination): Promise<iFormResponse<iPage<iSector, number>>> => {
 		const data = {
