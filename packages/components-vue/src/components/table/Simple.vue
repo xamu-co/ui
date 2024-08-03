@@ -44,7 +44,7 @@
 						<!-- TODO: define filters, filter table contents -->
 						<th
 							class="--sticky"
-							:class="{ ['is--selected']: canSort && !!ordering['id'] }"
+							:class="{ ['is--selected']: sort && !!ordering['id'] }"
 							data-column-name="id"
 							data-column="id"
 						>
@@ -58,7 +58,7 @@
 									:size="size"
 									@update:model-value="toggleAll"
 								/>
-								<span v-if="!canSort">#</span>
+								<span v-if="!sort">#</span>
 								<ActionLink
 									v-else
 									:theme="theme || themeValues"
@@ -83,7 +83,7 @@
 							class="--maxWidth-440"
 							:class="[
 								`--txtSize-${size}`,
-								{ ['is--selected']: meta.canSort && !!ordering[meta.value] },
+								{ ['is--selected']: meta.sort && !!ordering[meta.value] },
 							]"
 							:data-column-name="meta.value"
 							:data-column="meta.alias"
@@ -93,7 +93,7 @@
 									: 'auto'
 							"
 						>
-							<span v-if="!meta.canSort" :title="meta.value">
+							<span v-if="!meta.sort" :title="meta.value">
 								{{ meta.alias }}
 							</span>
 							<ActionLink
@@ -413,7 +413,7 @@
 	interface iPropertyMeta<Ti extends Record<string, any>>
 		extends iProperty<Record<string, any>, Ti> {
 		value: string;
-		canSort: boolean;
+		sort: boolean;
 	}
 
 	interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
@@ -440,7 +440,7 @@
 		/**
 		 * Do nodes support pagination?
 		 */
-		canSort?: boolean | tOrderBy;
+		sort?: boolean | tOrderBy;
 		/**
 		 * Function used to update a node
 		 */
@@ -485,6 +485,7 @@
 		 */
 		omitRefresh?: boolean;
 		size?: tSizeModifier;
+		withRoute?: boolean;
 	}
 
 	/**
@@ -501,6 +502,7 @@
 	const props = withDefaults(defineProps<iTableProps<T>>(), {
 		size: eSizes.SM,
 	});
+	const emit = defineEmits(["update:sort"]);
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
@@ -521,13 +523,11 @@
 	 * TODO: require & use order getter fn instead
 	 */
 	const ordering = computed(() => {
-		let [sortKey = "id", sortValue = "desc"] = Array.isArray(props.canSort)
-			? props.canSort
-			: [];
+		let [sortKey = "id", sortValue = "desc"] = Array.isArray(props.sort) ? props.sort : [];
 
 		let orderBy: Record<string, tOrder> = { [sortKey]: sortValue };
 
-		if (router) {
+		if (props.withRoute && router) {
 			const route = router.currentRoute.value;
 
 			const routeOrderBy = useOrderBy(route.query.orderBy);
@@ -566,7 +566,7 @@
 					...property,
 					value: String(property.value),
 					alias: upperFirst(startCase(property.alias || tet(aliasKey))),
-					canSort: !!props.canSort && isPlainValue(value),
+					sort: !!props.sort && isPlainValue(value),
 				};
 			})
 			.filter(({ value }) => !["id", props.childrenCountKey].includes(value));
@@ -605,8 +605,6 @@
 	/**
 	 * set pagination order
 	 *
-	 * TODO: require & use order target fn instead
-	 *
 	 * @replace
 	 */
 	function setOrdering(property: string) {
@@ -617,13 +615,12 @@
 			order = ordering.value[property] === "desc" ? "asc" : "desc";
 		}
 
-		const orderBy = `${property}:${order}`;
+		if (props.withRoute && router) {
+			const route = router.currentRoute.value;
+			const orderBy = `${property}:${order}`;
 
-		if (!router) return;
-
-		const route = router.currentRoute.value;
-
-		router.push({ path: route.path, hash: route.hash, query: { ...route.query, orderBy } });
+			router.push({ path: route.path, hash: route.hash, query: { ...route.query, orderBy } });
+		} else emit("update:sort", [property, order]);
 	}
 
 	/**
