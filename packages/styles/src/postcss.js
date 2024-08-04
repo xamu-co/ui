@@ -27,7 +27,6 @@ module.exports = {
 					},
 				],
 			}),
-			require("postcss-merge-selectors")({}),
 			require("postcss-merge-at-rules")({}), // flatten & merge
 			require("postcss-sort-media-queries")(sort),
 			require("postcss-precision")({}),
