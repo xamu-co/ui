@@ -1,5 +1,6 @@
 // Forward here to minimize imports
 @forward "../../utils/module";
+
 @use "../../utils/module";
 
 @mixin dropdown-visible-styles {
@@ -26,7 +27,6 @@
 		}
 	}
 }
-
 @mixin dropdown-toggle-styles {
 	+ .#{module.$layout-dropdown} {
 		@include dropdown-visible-styles;
