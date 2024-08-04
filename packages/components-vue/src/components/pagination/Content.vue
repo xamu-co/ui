@@ -126,25 +126,18 @@
 	const routePagination = computed<iPagination>(() => {
 		if (!router) return {};
 
-		const { first, at } = propsPagination.value;
+		const { orderBy, first, at } = propsPagination.value;
 
 		const route = router.currentRoute.value;
-		const newPagination: iPagination = { first, at };
 		const routeFirst = route.query.first;
-
-		if (routeFirst && !Array.isArray(routeFirst)) newPagination.first = Number(first);
-
 		const routeAt = route.query.at;
+		const routeOrderBy = useOrderBy(route.query.orderBy);
 
-		if (routeAt && !Array.isArray(at)) {
-			const newAt = Number(at);
-
-			newPagination.at = isNaN(newAt) ? routeAt : newAt;
-		}
-
-		newPagination.orderBy = useOrderBy(route.query.orderBy);
-
-		return newPagination;
+		return {
+			orderBy: routeOrderBy.length ? routeOrderBy : orderBy,
+			first: Number(routeFirst ?? first),
+			at: routeAt ?? at,
+		};
 	});
 	const pagination = computed<iPagination>({
 		get() {
@@ -153,11 +146,19 @@
 			return propsPagination.value;
 		},
 		set(newPagination) {
-			propsPagination.value = {
-				orderBy: newPagination?.orderBy ?? propsPagination.value?.orderBy,
-				first: newPagination?.first ?? propsPagination.value?.first,
-				at: newPagination?.at ?? propsPagination.value?.at,
-			};
+			if (props.withRoute) {
+				if (!router) return;
+
+				const route = router.currentRoute.value;
+
+				return router.push({
+					path: route.path,
+					hash: route.hash,
+					query: { ...route.query, ...newPagination },
+				});
+			}
+
+			propsPagination.value = newPagination;
 		},
 	});
 

@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts" generic="T, C extends string | number">
-	import { computed, getCurrentInstance, inject } from "vue";
+	import { computed, inject } from "vue";
 
 	import type { iPagination, iPage, iPluginOptions } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -70,10 +70,6 @@
 
 	export interface iPaginationSimpleProps<Ti, Ci extends string | number> extends iUseThemeProps {
 		/**
-		 * paginate using route
-		 */
-		withRoute?: boolean;
-		/**
 		 * hide page length picker
 		 */
 		hidePageLength?: boolean;
@@ -86,7 +82,6 @@
 
 	/**
 	 * Pagination controls
-	 * TODO: support non router pagination
 	 *
 	 * @component
 	 * @example
@@ -95,12 +90,11 @@
 
 	defineOptions({ name: "PaginationSimple", inheritAttrs: false });
 
-	const emit = defineEmits(["update:pagination"]);
+	const emit = defineEmits(["update:model-value"]);
 	const props = defineProps<iPaginationSimpleProps<T, C>>();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const { t } = useHelpers(useI18n);
-	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
 	/**
 	 * Set at
@@ -109,17 +103,7 @@
 	 * @replace
 	 */
 	function setAt(at?: string | number) {
-		if (props.withRoute) {
-			if (!router) return;
-
-			const route = router.currentRoute.value;
-
-			return router.push({ path: route.path, query: { ...route.query, at } });
-		}
-
-		const pagination: iPagination = { ...props.modelValue, at };
-
-		emit("update:pagination", pagination);
+		emit("update:model-value", { ...props.modelValue, at });
 	}
 
 	/**
@@ -128,17 +112,7 @@
 	const firstModel = computed({
 		get: () => props.modelValue?.first ?? xamuOptions?.first,
 		set(first) {
-			if (props.withRoute) {
-				if (!router) return;
-
-				const route = router.currentRoute.value;
-
-				return router.push({ path: route.path, query: { first } });
-			}
-
-			const pagination: iPagination = { ...props.modelValue, first };
-
-			emit("update:pagination", pagination);
+			emit("update:model-value", { ...props.modelValue, first });
 		},
 	});
 </script>
