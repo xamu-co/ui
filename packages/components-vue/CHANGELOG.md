@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.34](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.33...@open-xamu-co/ui-components-vue-v3.0.0-next.34) (2024-08-04)
+
+
+### Bug Fixes
+
+* **vue:** pagination model ([50b4a57](https://github.com/xamu-co/ui/commit/50b4a571d0b329e186776231a81c7238e4811672))
+
+
+### BREAKING CHANGES
+
+* **vue:** rename table canSort to sort
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.34"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.33](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.32...@open-xamu-co/ui-components-vue-v3.0.0-next.33) (2024-07-30)
 
 
