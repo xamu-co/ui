@@ -11,14 +11,13 @@
 		<Modal
 			v-slot="{ modalRef }"
 			v-model="localModel"
-			:disabled="!isModal"
-			:theme="theme"
-			:invert-theme="invertTheme"
+			v-bind="{ ...modalProps, theme, invertTheme, disabled: !isModal }"
 		>
 			<div ref="dropdownRef" :class="dropdownClasses">
 				<slot
 					v-bind="{
 						model,
+						isModal,
 						setModel,
 						modalRef,
 						dropdownRef,
@@ -48,7 +47,7 @@
 	import BaseWrapper from "../base/Wrapper.vue";
 	import Modal from "../modal/Simple.vue";
 
-	import type { iUseModifiersProps, iUseThemeProps } from "../../types/props";
+	import type { iModalProps, iUseModifiersProps, iUseThemeProps } from "../../types/props";
 	import useBrowser from "../../composables/browser";
 	import useModifiers from "../../composables/modifiers";
 	import useTheme from "../../composables/theme";
@@ -74,6 +73,7 @@
 		 * @private
 		 */
 		modelValue?: boolean;
+		modalProps?: iModalProps;
 	}
 
 	/**
