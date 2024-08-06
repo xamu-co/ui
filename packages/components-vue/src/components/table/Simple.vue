@@ -639,7 +639,7 @@
 		const updated = await props.updateNode?.(node);
 
 		// unfinished task
-		if (updated === undefined) {
+		if (typeof updated !== "boolean") {
 			if (Swal.isLoading()) Swal.close();
 
 			return;
@@ -677,7 +677,7 @@
 		const cloned = await props.cloneNode?.(node);
 
 		// unfinished task
-		if (cloned === undefined) {
+		if (typeof cloned !== "boolean") {
 			if (Swal.isLoading()) Swal.close();
 
 			return;
@@ -725,7 +725,7 @@
 		const deleted = await props.deleteNode?.(node);
 
 		// unfinished task
-		if (deleted === undefined) {
+		if (typeof deleted !== "boolean") {
 			if (Swal.isLoading()) Swal.close();
 
 			return;
