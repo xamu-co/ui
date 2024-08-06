@@ -638,8 +638,11 @@
 		// run process
 		const updated = await props.updateNode?.(node);
 
-		// unfinished task
-		if (updated === undefined) {
+		/**  unfinished task:
+		 * updated can take the values: undefined or Event when the modal is closed without completing the task
+		 * a boolean is expected when the task has been completed
+		 * */
+		if (typeof updated !== "boolean") {
 			if (Swal.isLoading()) Swal.close();
 
 			return;
