@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.36](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.35...@open-xamu-co/ui-components-vue-v3.0.0-next.36) (2024-08-07)
+
+
+### Bug Fixes
+
+* **vue:** prefer isURL defaults ([d055de2](https://github.com/xamu-co/ui/commit/d055de281482d767ddb890a45ac2c05a85182533))
+* **vue:** prevent swal on esc key pressed ([3226381](https://github.com/xamu-co/ui/commit/32263810d0c7f36d5389a40085083230faef6e7e))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.36"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.35](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.34...@open-xamu-co/ui-components-vue-v3.0.0-next.35) (2024-08-04)
 
 
