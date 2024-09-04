@@ -8,14 +8,13 @@
 @mixin input-text {
 	@layer definitions {
 		.#{module.$component-input-text} {
-			@include module.action-styles;
-			@include module.action-border-styles;
-			@include module.action-disabled-styles;
-
 			width: 100%;
 			display: block;
 			padding: 0 0.8rem;
 
+			@include module.action-styles;
+			@include module.action-border-styles;
+			@include module.action-disabled-styles;
 			@include module.flex-box(column, nowrap, center, center);
 
 			@at-root textarea#{&} {

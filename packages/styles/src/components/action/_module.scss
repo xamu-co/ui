@@ -1,16 +1,19 @@
 // Forward here to minimize imports
 @forward "../../utils/module";
+
 @use "../../utils/module";
 @use "sass:meta";
 @use "sass:math";
 
 @mixin action-styles {
-	color: var(--cl, transparent); // should inherit?
-	background-color: var(--bg, transparent);
-	border-color: var(--bc, transparent); // by default
-	border-style: solid;
-	text-shadow: none;
-	font-size: 1em;
+	& {
+		color: var(--cl, transparent); // should inherit?
+		background-color: var(--bg, transparent);
+		border-color: var(--bc, transparent); // by default
+		border-style: solid;
+		text-shadow: none;
+		font-size: 1em;
+	}
 }
 
 // button defaults & round modifier
@@ -67,8 +70,10 @@
 //
 // @group SharedStyles,
 @mixin action-aligment-styles {
-	flex: 0 0 auto;
-	gap: 0.4em;
+	& {
+		flex: 0 0 auto;
+		gap: 0.4em;
+	}
 
 	@include module.flex-box(row, nowrap, center, center, inline-flex);
 }

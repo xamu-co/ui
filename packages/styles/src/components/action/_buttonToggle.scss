@@ -9,6 +9,8 @@
 @mixin button-toggle {
 	@layer definitions {
 		.#{module.$component-button-toggle} {
+			--cl-a: var(--cl);
+
 			@include module.action-styles;
 			@include module.action-round-styles;
 			@include module.action-aligment-styles;
@@ -17,8 +19,6 @@
 			@include module.action-border-styles;
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles;
-
-			--cl-a: var(--cl);
 
 			&.#{module.$status-is-alert}:after {
 				background-color: var(--bg, transparent);

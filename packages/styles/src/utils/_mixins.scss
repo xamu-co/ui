@@ -34,7 +34,9 @@ $default-viewports: if(
 	$omit-non-media: false
 ) {
 	@if not $omit-non-media {
-		@content;
+		& {
+			@content;
+		}
 	}
 	@if variables.$allow-responsive-classes {
 		@each $name, $viewport in $viewports {
@@ -228,10 +230,12 @@ $default-viewports: if(
 // flexbox en una sola linea
 // ej: row, nowrap, space-around, strecth
 @mixin flex-box($t, $m, $j, $a, $d: flex) {
-	display: $d;
-	flex-flow: $t $m;
-	justify-content: $j;
-	align-items: $a;
+	& {
+		display: $d;
+		flex-flow: $t $m;
+		justify-content: $j;
+		align-items: $a;
+	}
 }
 
 // Mixin printing a linear-gradient

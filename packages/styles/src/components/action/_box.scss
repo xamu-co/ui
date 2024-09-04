@@ -12,30 +12,28 @@
 @mixin box {
 	@layer definitions {
 		.#{module.$component-box} {
-			@include module.action-alert-styles;
-			@include module.action-disabled-styles;
-
 			// width: 100%;
 			border: 2px solid transparent;
 			overflow: visible;
+
+			@include module.action-alert-styles;
+			@include module.action-disabled-styles;
 
 			&.#{module.$status-is-alert}:after {
 				background-color: var(--bg, transparent);
 			}
 
+			// @defaults
 			@layer defaults {
 				& {
-					// @defaults
+					gap: 1rem;
 
 					@include module.flex-box(column, nowrap, flex-start, stretch);
-
-					gap: 1rem;
 
 					&:not(
 							.#{module.$prefix-default}--button,
 							.#{module.$prefix-default}--#{module.$component-button}
 						) {
-						// @defaults p
 						padding: 1rem;
 					}
 				}
@@ -44,7 +42,6 @@
 			// size
 			//
 			// @group Modifiers
-
 			@include module.extend-sizes using($size, $unit) {
 				border-radius: $size * (module.strip-unit(module.$size-radius-box) + 0.333);
 			}
@@ -52,7 +49,6 @@
 			// Box theme
 			//
 			// @group Modifiers
-
 			@include module.extend-themes using($name, $value, $is-default) {
 				&.#{module.$prefix-default}--bdr-solid,
 				&.#{module.$prefix-default}--bdr-dashed {
