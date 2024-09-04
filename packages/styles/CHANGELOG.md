@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.16...@open-xamu-co/ui-styles-v3.0.0-next.17) (2024-09-04)
+
+
+### Bug Fixes
+
+* **styles:** sass mixed decls ([0dbf041](https://github.com/xamu-co/ui/commit/0dbf0419ce8565fcbeddb56bee04e75e69c354ee))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.17"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.15...@open-xamu-co/ui-styles-v3.0.0-next.16) (2024-08-04)
 
 
