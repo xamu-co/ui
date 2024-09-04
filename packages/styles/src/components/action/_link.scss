@@ -8,14 +8,14 @@
 @mixin link {
 	@layer definitions {
 		.#{module.$component-link} {
+			// display: inline-block;
+			--bg: transparent;
+
 			@include module.action-styles;
 			@include module.action-aligment-styles;
 			@include module.action-alert-styles;
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles;
-
-			// display: inline-block;
-			--bg: transparent;
 
 			&.#{module.$status-is-alert}:after {
 				--bc: var(--cl-h, var(--cl-a));

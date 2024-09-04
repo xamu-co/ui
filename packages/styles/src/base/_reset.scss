@@ -77,15 +77,15 @@
 		}
 
 		input[type="number"]:not(.#{utils.$prefix-default}--arrows) {
+			/* Firefox */
+			appearance: textfield;
+
 			/* Chrome, Safari, Edge, Opera */
 			&::-webkit-outer-spin-button,
 			&::-webkit-inner-spin-button {
 				appearance: none;
 				margin: 0;
 			}
-
-			/* Firefox */
-			appearance: textfield;
 		}
 
 		i:not(.#{utils.$component-icon}, .#{utils.$component-svg}) {

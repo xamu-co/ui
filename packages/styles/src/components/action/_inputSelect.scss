@@ -13,18 +13,18 @@ $select-path-end: "'/%3E%3C/svg%3E";
 @mixin input-select {
 	@layer definitions {
 		.#{module.$component-input-select} {
+			width: 100%;
+			display: inline-block;
+			background-repeat: no-repeat;
+			background-size: auto 0.4em;
+			appearance: none;
+
 			@include module.action-styles;
 			@include module.action-theme-union-styles;
 			@include module.action-size-styles;
 			@include module.action-border-styles;
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles(false);
-
-			width: 100%;
-			display: inline-block;
-			background-repeat: no-repeat;
-			background-size: auto 0.4em;
-			appearance: none;
 
 			&::-ms-expand {
 				display: none;
