@@ -44,10 +44,12 @@ $font-size-xx: $font-size-md * 3.6 !default; // extra extra large
 $font-size-mx: $font-size-md * 4.8 !default; // maximum
 
 // FONT WEIGHTS
+$font-weight-thin: 100 !default;
 $font-weight-light: 200 !default;
 $font-weight-regular: 400 !default;
-$font-weight-bold: 600 !default;
-$font-weight-black: 800 !default;
+$font-weight-medium: 500 !default;
+$font-weight-bold: 700 !default;
+$font-weight-black: 900 !default;
 
 // COLORS, theme
 $color-primary: #f39c12 !default; // primary theme colors
@@ -77,6 +79,8 @@ $querie-tv: 1280px !default; // xl
 // SIZES
 $size-px: 1080, 480, 440, 220, 180, 90 !default;
 $size-px-default: 1200 !default;
+
+// TODO: fix broken naming
 $size-min-column-size: $font-size-md * 18 !default; // min column size, 280px aprox
 $size-max-text-width: 66ch !default; // max text block width, 780px aprox
 $size-line-height: 1.2em !default; // main line height
@@ -182,8 +186,10 @@ $font-sizes: (
 	mx: $font-size-mx,
 );
 $font-weights: (
+	thin: $font-weight-thin,
 	light: $font-weight-light,
 	regular: $font-weight-regular,
+	medium: $font-weight-medium,
 	bold: $font-weight-bold,
 	black: $font-weight-black,
 );
