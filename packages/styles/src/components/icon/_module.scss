@@ -1,5 +1,6 @@
 // Forward here to minimize imports
 @forward "../../utils/module";
+
 @use "../../utils/module";
 @use "sass:math";
 
@@ -28,13 +29,12 @@
 	// icon size
 	//
 	// @group Modifiers
-	@for $i from 2 through 10 {
+	@for $i from 2 through module.$loop-icon-sizes {
 		&.#{module.$prefix-default}--size-#{$i * 5} {
 			font-size: math.div($i, 3) * 1em;
 		}
 	}
 }
-
 @mixin svg-active-styles {
 	--cl: var(--cl-a, #{module.$color-text});
 	&.#{module.$prefix-default}--logo {

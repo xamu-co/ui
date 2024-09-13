@@ -87,13 +87,11 @@
 
 				> li {
 					text-align: left;
-					white-space: pre-line;
 
 					@layer defaults {
 						// @defaults txtAlign, txtWrap
 						* {
 							text-align: left;
-							white-space: pre-line;
 						}
 					}
 

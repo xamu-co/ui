@@ -11,7 +11,6 @@
 			&::before {
 				content: attr(data-#{utils.$pseudo-tooltip});
 				width: max-content;
-				white-space: pre-line;
 				display: block;
 				overflow: hidden;
 				z-index: 15;

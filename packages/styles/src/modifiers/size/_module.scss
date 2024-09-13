@@ -1,5 +1,6 @@
 // Forward here to minimize imports
 @forward "../../utils/module";
+
 @use "../../utils/module";
 @use "sass:math";
 @use "sass:string";
@@ -29,7 +30,7 @@
 		}
 	}
 
-	@for $i from 1 through 20 {
+	@for $i from 1 through module.$loop-gaps {
 		$value: math.div($i, 3);
 
 		// all sides
@@ -68,7 +69,7 @@
 				#{$property}-#{$direction}: 1rem;
 			}
 
-			@for $i from 1 through 20 {
+			@for $i from 1 through module.$loop-gaps {
 				&-#{$i * 5} {
 					@include module.extend-viewports-classes {
 						#{$property}-#{$direction}: math.div($i, 3) * 1rem;
@@ -141,7 +142,7 @@
 			#{$property}: 25 * $unit;
 		}
 
-		@for $i from 3 through 10 {
+		@for $i from 3 through module.$loop-dimensions {
 			&-#{$i * 10} {
 				@include module.extend-viewports-classes {
 					#{$property}: ($i * 10) * $unit-old;
