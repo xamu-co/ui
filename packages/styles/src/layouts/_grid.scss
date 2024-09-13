@@ -199,7 +199,7 @@
 					}
 				}
 
-				@for $i from 2 through 12 {
+				@for $i from 2 through utils.$loop-columns {
 					&-auto#{$i} {
 						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 							grid-template-columns: repeat(
@@ -317,7 +317,7 @@
 			// grid column span, restricted to wide viewports
 			//
 			// @group Modifiers
-			@for $i from 2 through 12 {
+			@for $i from 2 through utils.$loop-columns {
 				&.#{utils.$prefix-default}--grdColumnSpan-#{$i} {
 					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-column: span #{$i};

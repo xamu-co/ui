@@ -14,7 +14,7 @@
 				}
 			}
 
-			@for $i from 0 through 6 {
+			@for $i from 0 through module.$loop-letter-spacings {
 				$value: math.div($i, 3) * 1em;
 
 				&-#{$i * 5} {
