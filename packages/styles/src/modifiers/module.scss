@@ -1,4 +1,5 @@
 @forward "forward";
+
 @use "forward";
 
 // color modifiers
@@ -37,6 +38,7 @@
 	@include forward.text-transform;
 	@include forward.text-weight;
 	@include forward.text-wrap;
+	@include forward.text-line-height;
 }
 
 // all modifiers

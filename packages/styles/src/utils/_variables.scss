@@ -84,8 +84,12 @@ $size-px-default: 1200 !default;
 $size-min-column-size: $font-size-md * 18 !default; // min column size, 280px aprox
 $size-max-text-width: 66ch !default; // max text block width, 780px aprox
 $size-line-height: 1.2em !default; // main line height
+$size-line-height-xs: $size-line-height * 0.7 !default;
+$size-line-height-sm: $size-line-height * 0.9 !default;
 $size-line-height-lg: $size-line-height * 1.2 !default;
 $size-line-height-xl: $size-line-height-lg * 1.2 !default;
+$size-line-height-xx: $size-line-height-xl * 1.2 !default;
+$size-line-height-mx: $size-line-height-xx * 1.2 !default;
 $size-view-top-buffer: 5rem !default;
 
 // SIZES, border radius
@@ -192,6 +196,15 @@ $font-weights: (
 	medium: $font-weight-medium,
 	bold: $font-weight-bold,
 	black: $font-weight-black,
+);
+$font-line-heights: (
+	xs: $size-line-height-xs,
+	sm: $size-line-height-sm,
+	md: $size-line-height,
+	lg: $size-line-height-lg,
+	xl: $size-line-height-xl,
+	xx: $size-line-height-xx,
+	mx: $size-line-height-mx,
 );
 $theme-colors: (
 	primary: $color-primary,
