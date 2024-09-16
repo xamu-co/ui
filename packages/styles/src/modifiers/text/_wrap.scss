@@ -16,7 +16,7 @@
 			&,
 			&-wrap {
 				@include module.extend-viewports-classes {
-					white-space: pre-line;
+					white-space: normal;
 				}
 			}
 		}

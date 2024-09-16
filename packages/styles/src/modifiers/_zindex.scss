@@ -10,7 +10,7 @@
 				z-index: 999;
 			}
 
-			@for $i from 1 through 10 {
+			@for $i from 1 through utils.$loop-zindexes {
 				&-#{$i} {
 					@include utils.extend-viewports-classes {
 						z-index: $i;

@@ -1,5 +1,6 @@
 @use "system";
 @use "sass:map";
+@use "sass:math";
 
 // PREFIXES
 $prefix-default: "" !default;
@@ -44,10 +45,15 @@ $font-size-xx: $font-size-md * 3.6 !default; // extra extra large
 $font-size-mx: $font-size-md * 4.8 !default; // maximum
 
 // FONT WEIGHTS
-$font-weight-light: 200 !default;
+$font-weight-thin: 100 !default;
+$font-weight-lighter: 200 !default;
+$font-weight-light: 300 !default;
 $font-weight-regular: 400 !default;
-$font-weight-bold: 600 !default;
-$font-weight-black: 800 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+$font-weight-bolder: 800 !default;
+$font-weight-black: 900 !default;
 
 // COLORS, theme
 $color-primary: #f39c12 !default; // primary theme colors
@@ -74,14 +80,30 @@ $querie-tablet: 768px !default; // md
 $querie-desktop: 1080px !default; // lg
 $querie-tv: 1280px !default; // xl
 
+// LOOPS
+$loop-gaps: 10 !default; // gap, margin, padding
+$loop-animations: 20 !default;
+$loop-icon-sizes: 10 !default;
+$loop-columns: 12 !default; // grid & cols
+$loop-orders: 10 !default;
+$loop-zindexes: 10 !default;
+$loop-dimensions: 10 !default; // width, height
+$loop-letter-spacings: 6 !default;
+
 // SIZES
 $size-px: 1080, 480, 440, 220, 180, 90 !default;
 $size-px-default: 1200 !default;
+
+// TODO: fix broken naming
 $size-min-column-size: $font-size-md * 18 !default; // min column size, 280px aprox
 $size-max-text-width: 66ch !default; // max text block width, 780px aprox
 $size-line-height: 1.2em !default; // main line height
+$size-line-height-sm: math.div($size-line-height, 1.2) !default;
+$size-line-height-xs: math.div($size-line-height-sm, 1.2) !default;
 $size-line-height-lg: $size-line-height * 1.2 !default;
 $size-line-height-xl: $size-line-height-lg * 1.2 !default;
+$size-line-height-xx: $size-line-height-xl * 1.2 !default;
+$size-line-height-mx: $size-line-height-xx * 1.2 !default;
 $size-view-top-buffer: 5rem !default;
 
 // SIZES, border radius
@@ -182,18 +204,36 @@ $font-sizes: (
 	mx: $font-size-mx,
 );
 $font-weights: (
-	light: $font-weight-light,
-	regular: $font-weight-regular,
-	bold: $font-weight-bold,
-	black: $font-weight-black,
+	"thin": $font-weight-thin,
+	"lighter": $font-weight-lighter,
+	"light": $font-weight-light,
+	"regular": $font-weight-regular,
+	"medium": $font-weight-medium,
+	"semibold": $font-weight-semibold,
+	"bold": $font-weight-bold,
+	"bolder": $font-weight-bolder,
+	"black": $font-weight-black,
 );
-$theme-colors: (
-	primary: $color-primary,
-	primary-complement: $color-primary-complement,
-	secondary: $color-secondary,
-	secondary-complement: $color-secondary-complement,
-	danger: $color-danger,
-	success: $color-success,
+$font-line-heights: (
+	xs: $size-line-height-xs,
+	sm: $size-line-height-sm,
+	md: $size-line-height,
+	lg: $size-line-height-lg,
+	xl: $size-line-height-xl,
+	xx: $size-line-height-xx,
+	mx: $size-line-height-mx,
+);
+$extra-colors: () !default;
+$theme-colors: map.merge(
+	$extra-colors,
+	(
+		primary: $color-primary,
+		primary-complement: $color-primary-complement,
+		secondary: $color-secondary,
+		secondary-complement: $color-secondary-complement,
+		danger: $color-danger,
+		success: $color-success,
+	)
 );
 $base-colors: (
 	light: $color-light,

@@ -1,0 +1,22 @@
+@use "module";
+
+// text line height
+//
+// @group Modifiers
+@mixin text-line-height {
+	@layer modifiers {
+		.#{module.$prefix-default}--txtLineHeight {
+			@include module.extend-viewports-classes {
+				line-height: module.$size-line-height;
+			}
+
+			@each $name, $line-height in module.$font-line-heights {
+				&-#{$name} {
+					@include module.extend-viewports-classes {
+						line-height: $line-height;
+					}
+				}
+			}
+		}
+	}
+}

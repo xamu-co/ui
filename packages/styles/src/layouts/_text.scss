@@ -8,7 +8,6 @@
 		.#{utils.$layout-text} {
 			// @defaults txtWrap, txtColor, maxWidth, txtAlign
 			text-align: left;
-			white-space: pre-line;
 			max-width: utils.$size-max-text-width;
 			gap: 0.8em;
 
@@ -20,7 +19,6 @@
 			}
 		}
 	}
-
 	@layer definitions {
 		.#{utils.$layout-text} {
 			// Childs

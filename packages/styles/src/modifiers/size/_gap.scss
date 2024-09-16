@@ -56,7 +56,7 @@
 				}
 			}
 
-			@for $i from 1 through 10 {
+			@for $i from 1 through module.$loop-gaps {
 				$value: math.div($i, 3) * 1rem;
 
 				// grid Gap, future flex gap

@@ -178,8 +178,20 @@
 			}
 		}
 
+		h3:not([class*="swal"]) {
+			// @defaults txtSize
+			font-size: utils.size(md);
+
+			@if utils.$allow-responsive {
+				@media (width > utils.$querie-tablet) {
+					font-size: utils.size(lg);
+				}
+			}
+		}
+
 		h1:not([class*="swal"]),
-		h2:not([class*="swal"]) {
+		h2:not([class*="swal"]),
+		h3:not([class*="swal"]) {
 			br {
 				display: none;
 			}
@@ -191,11 +203,6 @@
 					}
 				}
 			}
-		}
-
-		h3:not([class*="swal"]) {
-			// @defaults txtSize
-			font-size: utils.size(lg);
 		}
 
 		h4:not([class*="swal"]) {
