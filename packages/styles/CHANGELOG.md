@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.17...@open-xamu-co/ui-styles-v3.0.0-next.18) (2024-09-16)
+
+
+### Features
+
+* **styles:** line heights ([4acc6d8](https://github.com/xamu-co/ui/commit/4acc6d87491f548b578537d1c7d265232e0a5698))
+* **styles:** loops as variables ([ab24941](https://github.com/xamu-co/ui/commit/ab249418e0835f7e242022d18d3b1d22be56a91f))
+* **styles:** support extra colors ([afa0619](https://github.com/xamu-co/ui/commit/afa061993634ae6e05cda7a2739f17ce5acf97dd))
+* **styles:** support thin & medium font weights ([342a705](https://github.com/xamu-co/ui/commit/342a705033d2051623a5022f3b7faab3478060b7))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.18"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.16...@open-xamu-co/ui-styles-v3.0.0-next.17) (2024-09-04)
 
 
