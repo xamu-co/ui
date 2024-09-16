@@ -223,13 +223,17 @@ $font-line-heights: (
 	xx: $size-line-height-xx,
 	mx: $size-line-height-mx,
 );
-$theme-colors: (
-	primary: $color-primary,
-	primary-complement: $color-primary-complement,
-	secondary: $color-secondary,
-	secondary-complement: $color-secondary-complement,
-	danger: $color-danger,
-	success: $color-success,
+$extra-colors: () !default;
+$theme-colors: map.merge(
+	$extra-colors,
+	(
+		primary: $color-primary,
+		primary-complement: $color-primary-complement,
+		secondary: $color-secondary,
+		secondary-complement: $color-secondary-complement,
+		danger: $color-danger,
+		success: $color-success,
+	)
 );
 $base-colors: (
 	light: $color-light,

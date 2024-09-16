@@ -32,8 +32,10 @@
 				@include module.flex-box(row, nowrap, center, center, inline-flex);
 			}
 
-			[fill]:not([fill="none"]) {
-				fill: var(--cl, var(--cls, #{module.color(secondary)}));
+			&:not(.#{module.$status-no-override}) {
+				[fill]:not([fill="none"], .#{module.$status-no-override}) {
+					fill: var(--cl, var(--cls, #{module.color(secondary)}));
+				}
 			}
 
 			&:hover,
