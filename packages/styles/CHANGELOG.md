@@ -1,5 +1,27 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.18...@open-xamu-co/ui-styles-v3.0.0-next.19) (2024-09-26)
+
+
+### Features
+
+* **styles:** responsive sizes ([2ac9679](https://github.com/xamu-co/ui/commit/2ac9679c8728ea780b928f064f21f64c5f75fc80))
+
+
+### BREAKING CHANGES
+
+* **styles:** prefer lg over xl as is a more common viewport
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.19"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.17...@open-xamu-co/ui-styles-v3.0.0-next.18) (2024-09-16)
 
 
