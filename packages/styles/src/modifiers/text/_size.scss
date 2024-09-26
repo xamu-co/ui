@@ -8,14 +8,14 @@
 		.#{module.$prefix-default}--txtSize {
 			&,
 			&-normal {
-				@include module.extend-viewports-classes {
+				@include module.extend-viewports-classes(true, module.$viewports) {
 					font-size: module.size();
 				}
 			}
 
 			@each $name, $size in module.$font-sizes {
 				&-#{$name} {
-					@include module.extend-viewports-classes {
+					@include module.extend-viewports-classes(true, module.$viewports) {
 						font-size: $size;
 					}
 				}
