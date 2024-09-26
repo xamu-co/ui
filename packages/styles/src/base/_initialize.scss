@@ -221,7 +221,7 @@
 
 			// Dinamically switch UI size
 			@media (hover: none) {
-				@if utils.$allow-responsive {
+				@if utils.$allow-responsive and utils.$allow-responsive-upscaling {
 					@media (width <= utils.$querie-tv) {
 						font-size: 100%;
 					}

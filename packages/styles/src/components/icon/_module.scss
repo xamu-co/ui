@@ -31,7 +31,9 @@
 	// @group Modifiers
 	@for $i from 2 through module.$loop-icon-sizes {
 		&.#{module.$prefix-default}--size-#{$i * 5} {
-			font-size: math.div($i, 3) * 1em;
+			@include module.extend-viewports-classes(true, module.$viewports) {
+				font-size: math.div($i, 3) * 1em;
+			}
 		}
 	}
 }

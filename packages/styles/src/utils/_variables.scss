@@ -25,6 +25,7 @@ $allow-avatar: $prefix-default-with-separator + "avatar" !default; // avatar bas
 
 // ALLOWANCES, RESPONSIVE
 $allow-responsive: true !default; // responsive & media queries
+$allow-responsive-upscaling: true !default; // responsive & media queries
 $allow-responsive-classes: $allow-responsive !default; // responsive class modifiers
 $allow-responsive-classes-desktop-first: false !default; // include desktop first class modifiers
 $allow-responsive-classes-all-viewports: false !default; // use all viewports
@@ -243,7 +244,7 @@ $colors: map.merge($theme-colors, $base-colors);
 $common-viewports: (
 	sm: $querie-smartphone,
 	md: $querie-tablet,
-	xl: $querie-tv,
+	lg: $querie-desktop,
 );
 $viewports: (
 	xs: $querie-smartwatch,

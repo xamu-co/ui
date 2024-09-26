@@ -22,8 +22,10 @@
 					md
 				)
 				using($name, $value, $is-default) {
-				width: $value;
-				height: $value;
+				@include module.extend-viewports-classes(true, module.$viewports) {
+					width: $value;
+					height: $value;
+				}
 			}
 
 			img {
