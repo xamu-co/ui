@@ -5,9 +5,6 @@
 	@layer modifiers {
 		.#{module.$prefix-default}--m {
 			@include module.extend-gutters(margin);
-			@include module.extend-viewports-classes {
-				margin: 1rem;
-			}
 
 			&-center {
 				@include module.extend-viewports-classes {

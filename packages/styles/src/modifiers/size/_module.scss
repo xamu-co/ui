@@ -7,26 +7,57 @@
 
 // Gutters
 @mixin extend-gutters($property) {
+	@include module.extend-viewports-classes {
+		#{$property}: 1rem;
+	}
+
 	// all sides
+	&-0,
 	&-none {
 		@include module.extend-viewports-classes {
+			#{$property}: unset;
+			#{$property}: none;
 			#{$property}: 0;
 		}
 	}
 
 	// X axis
-	&X-none {
+	&X {
 		@include module.extend-viewports-classes {
-			#{$property}-left: 0;
-			#{$property}-right: 0;
+			#{$property}-left: 1rem;
+			#{$property}-right: 1rem;
+		}
+
+		&-0,
+		&-none {
+			@include module.extend-viewports-classes {
+				#{$property}-left: unset;
+				#{$property}-left: none;
+				#{$property}-left: 0;
+				#{$property}-right: unset;
+				#{$property}-right: none;
+				#{$property}-right: 0;
+			}
 		}
 	}
 
 	// Y axis
-	&Y-none {
+	&Y {
 		@include module.extend-viewports-classes {
-			#{$property}-top: 0;
-			#{$property}-bottom: 0;
+			#{$property}-top: 1rem;
+			#{$property}-bottom: 1rem;
+		}
+
+		&-0,
+		&-none {
+			@include module.extend-viewports-classes {
+				#{$property}-top: unset;
+				#{$property}-top: none;
+				#{$property}-top: 0;
+				#{$property}-bottom: unset;
+				#{$property}-bottom: none;
+				#{$property}-bottom: 0;
+			}
 		}
 	}
 
@@ -69,6 +100,15 @@
 				#{$property}-#{$direction}: 1rem;
 			}
 
+			&-0,
+			&-none {
+				@include module.extend-viewports-classes {
+					#{$property}-#{$direction}: unset;
+					#{$property}-#{$direction}: none;
+					#{$property}-#{$direction}: 0;
+				}
+			}
+
 			@for $i from 1 through module.$loop-gaps {
 				&-#{$i * 5} {
 					@include module.extend-viewports-classes {
@@ -103,10 +143,12 @@
 		}
 	}
 
+	&-0,
 	&-none {
 		@include module.extend-viewports-classes {
 			#{$property}: unset;
 			#{$property}: none;
+			#{$property}: 0;
 		}
 	}
 

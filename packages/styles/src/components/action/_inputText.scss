@@ -21,9 +21,7 @@
 				min-height: 6rem;
 				padding-top: 0.4rem;
 				padding-bottom: 0.4rem;
-
-				// form-sizing: content;
-				// max-lines: 100;
+				field-sizing: content;
 			}
 
 			&:not(textarea) {
