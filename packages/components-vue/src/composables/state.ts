@@ -13,6 +13,12 @@ import { useHelpers } from "../composables/utils";
 export default function useState(props: iUseStateProps) {
 	const { getModifierClasses: GMC } = useHelpers(useUtils);
 
+	const noStateClasses = computed<string[]>(() => {
+		const values: Record<string, boolean>[] = [{ noOverrides: !!props.noOverrides }];
+
+		return props.noOverrides ? GMC(values, { prefix: "no" }) : [];
+	});
+
 	const stateClasses = computed<string[]>(() => {
 		const values: Record<string, boolean>[] = [
 			{
@@ -24,8 +30,9 @@ export default function useState(props: iUseStateProps) {
 		];
 
 		const hasState = !!(props.state || props.active || props.alert || props.invalid);
+		const classes = hasState ? GMC(values, { prefix: "is" }) : [];
 
-		return hasState ? GMC(values, { prefix: "is" }) : [];
+		return [...classes, ...noStateClasses.value];
 	});
 
 	return { stateClasses };
