@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.37](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.36...@open-xamu-co/ui-components-vue-v3.0.0-next.37) (2024-10-08)
+
+
+### Features
+
+* **vue:** conditionally disable theme overrides ([d2884c2](https://github.com/xamu-co/ui/commit/d2884c20bd49223d9d95344a3731a64559969239))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.37"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.36](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.35...@open-xamu-co/ui-components-vue-v3.0.0-next.36) (2024-08-07)
 
 
