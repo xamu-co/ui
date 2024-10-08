@@ -42,6 +42,13 @@ export interface iUseStateProps {
 	 */
 	invalid?: boolean;
 	/**
+	 * prevent theme overrides
+	 *
+	 * @state
+	 * @example no--overrides
+	 */
+	noOverrides?: boolean;
+	/**
 	 * Component states
 	 *
 	 * @example invalid, active, alert
