@@ -55,7 +55,7 @@
 					</template>
 				</Modal>
 				<div v-else class="flx --flxRow --flx-start-center --gap-5">
-					<div v-for="(childValue, childValueIndex) in value" :key="childValueIndex">
+					<template v-for="(childValue, childValueIndex) in value" :key="childValueIndex">
 						<ValueSimple
 							v-bind="{
 								value: childValue,
@@ -69,7 +69,7 @@
 							}"
 						/>
 						<span v-if="childValueIndex < value.length - 1">⋅</span>
-					</div>
+					</template>
 				</div>
 			</template>
 			<span v-else-if="!property?.createNode">-</span>
@@ -167,7 +167,7 @@
 		/>
 		<template #fallback?>
 			<!-- Error fallback -->
-			<span>{{ value ?? "-" }}</span>
+			<span class="--txtColor-danger">{{ value ?? "-" }}</span>
 		</template>
 	</BaseErrorBoundary>
 </template>
