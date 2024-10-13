@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { type Preview, setup } from "@storybook/vue3";
 
 import locale from "@open-xamu-co/ui-common-helpers/en";
-import "@open-xamu-co/ui-styles/dist/index.min.css";
+import "@open-xamu-co/ui-styles/src/index.scss";
 
 import { XamuPlugin } from "../src/plugin";
 

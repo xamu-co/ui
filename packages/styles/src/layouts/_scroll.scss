@@ -36,6 +36,12 @@
 						padding: 0.1rem 0;
 					}
 				}
+
+				// bypass nested
+				.#{utils.$layout-scroll} {
+					max-height: unset;
+					overflow: unset;
+				}
 			}
 
 			&.#{utils.$prefix-default}--horizontal {
@@ -43,19 +49,43 @@
 				// @modifier
 				&.#{utils.$prefix-default}--always {
 					max-height: 100%;
-					max-width: min(100%, 100vw);
 					overflow: auto hidden;
 					box-sizing: content-box;
 
-					@media (width <= utils.$querie-tablet) {
-						&:has(:only-child) {
-							width: calc(min(100%, 100vw) + 2rem);
-							max-width: none;
-							margin: 0 -1rem;
+					@layer defaults {
+						& {
+							width: min(100%, 100vw);
+						}
+					}
 
-							> :only-child {
-								border-right: 1rem solid transparent;
-								border-left: 1rem solid transparent;
+					@if utils.$allow-responsive {
+						// mobile & hover only
+						@media (width <= utils.$querie-tablet) {
+							&:has(:only-child) {
+								@layer defaults {
+									& {
+										width: calc(min(100%, 100vw) + 2rem);
+										margin: 0 -1rem;
+									}
+								}
+
+								> :only-child {
+									border-right: 1rem solid transparent;
+									border-left: 1rem solid transparent;
+
+									table.#{utils.$layout-table}-helper {
+										th,
+										td {
+											&.#{utils.$prefix-default}--sticky {
+												left: 1rem;
+
+												&:last-child {
+													right: 1rem;
+												}
+											}
+										}
+									}
+								}
 							}
 						}
 					}
@@ -75,17 +105,46 @@
 							}
 						}
 					}
+
+					// bypass nested
+					.#{utils.$layout-scroll} {
+						overflow: unset;
+
+						@if utils.$allow-responsive {
+							// mobile & hover only
+							@media (width <= utils.$querie-tablet) {
+								&:has(:only-child) {
+									@layer defaults {
+										& {
+											width: 100%;
+											margin: unset;
+										}
+									}
+									> :only-child {
+										border-right: unset;
+										border-left: unset;
+									}
+								}
+							}
+						}
+
+						> * {
+							&:last-child:not(dialog) {
+								margin-bottom: unset;
+							}
+						}
+					}
 				}
 
 				@if utils.$allow-responsive {
 					// mobile & hover only
 					@media (width <= utils.$querie-tablet) {
-						table.#{utils.$layout-table} {
-							thead,
-							tbody {
-								tr {
-									th,
-									td {
+						> table.#{utils.$layout-table} {
+							> thead,
+							> tbody {
+								> tr {
+									> th,
+									> td {
 										&.#{utils.$prefix-default}--sticky {
 											position: relative;
 										}

@@ -39,25 +39,27 @@
 			<span>{{ value }}</span>
 		</ActionLink>
 
-		<!-- String, URL -->
-		<template v-else-if="typeof value === 'string' && isURL(value)">
-			<!-- Image URL -->
-			<!-- TODO: trigger gallery/slideshow component/modal -->
-			<BaseAction
-				v-if="isImgUrl(value)"
-				class="avatar --size-sm"
-				:href="value"
-				target="_blank"
-			>
-				<BaseImg preset="avatar" :src="value" :alt="value" />
-			</BaseAction>
+		<!-- String, Image path -->
+		<BaseAction
+			v-else-if="typeof value === 'string' && isImgUrl(value)"
+			class="avatar --size-sm"
+			:href="value"
+			target="_blank"
+		>
+			<BaseImg preset="avatar" :src="value" :alt="value" class="--bgColor-none" />
+		</BaseAction>
 
-			<!-- Plain URL -->
-			<ActionLink v-else :theme="theme" :href="value" :size="size" target="_blank">
-				<IconFa name="arrow-up-right-from-square" />
-				<span>{{ t("table_open_url") }}</span>
-			</ActionLink>
-		</template>
+		<!-- String, URL -->
+		<ActionLink
+			v-else-if="typeof value === 'string' && isURL(value)"
+			:theme="theme"
+			:href="value"
+			:size="size"
+			target="_blank"
+		>
+			<IconFa name="arrow-up-right-from-square" />
+			<span>{{ t("table_open_url") }}</span>
+		</ActionLink>
 
 		<!-- String, Long text -->
 		<Modal
@@ -129,6 +131,14 @@
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import { useHelpers } from "../../composables/utils";
 
+	/**
+	 * Simple value
+	 *
+	 * TODO: trigger gallery/slideshow, component/modal (Complex value)
+	 *
+	 * @component
+	 */
+
 	interface iValueSimpleProps<Pi extends Record<string, any>> extends iUseThemeProps {
 		/**
 		 * Cell value
@@ -175,13 +185,13 @@
 		const [firstPart] = url.split("?");
 
 		// host is required
-		if (xamuOptions?.imageHosts && isURL(firstPart)) {
+		if (isURL(firstPart) && xamuOptions?.imageHosts?.length) {
 			const url = new URL(firstPart);
 
 			if (xamuOptions.imageHosts.includes(url.host)) return true;
 		}
 
-		return /\.(jpg|jpeg|png|webp|avif|gif)$/.test(firstPart);
+		return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(firstPart);
 	}
 	function isDate(dateString: string): boolean {
 		try {
