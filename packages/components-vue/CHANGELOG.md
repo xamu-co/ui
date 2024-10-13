@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.38](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.37...@open-xamu-co/ui-components-vue-v3.0.0-next.38) (2024-10-13)
+
+
+### Features
+
+* **vue:** refactor table slot ([22cf2a3](https://github.com/xamu-co/ui/commit/22cf2a379d728f2d28f73c976467533c6b3d84c6))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.38"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.37](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.36...@open-xamu-co/ui-components-vue-v3.0.0-next.37) (2024-10-08)
 
 
