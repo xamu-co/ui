@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.20](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.19...@open-xamu-co/ui-styles-v3.0.0-next.20) (2024-10-13)
+
+
+### Features
+
+* **vue:** refactor table slot ([22cf2a3](https://github.com/xamu-co/ui/commit/22cf2a379d728f2d28f73c976467533c6b3d84c6))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.20"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.18...@open-xamu-co/ui-styles-v3.0.0-next.19) (2024-09-26)
 
 
