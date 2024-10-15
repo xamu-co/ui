@@ -1,22 +1,17 @@
-import {
-	type Plugin,
-	type Component as VueComponent,
-	type DefineComponent,
-	type FunctionalComponent,
-	defineCustomElement,
-} from "vue";
+import { type Plugin, type DefineComponent, defineCustomElement } from "vue";
 import upperFirst from "lodash-es/upperFirst";
 import camelCase from "lodash-es/camelCase";
 
-import type { tPropertyMapping, iPluginOptions } from "@open-xamu-co/ui-common-types";
+import type { tPropertyMapping } from "@open-xamu-co/ui-common-types";
 import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";
 
+import type { iVuePluginOptions } from "./types/plugin";
 import * as components from ".";
 
-export const XamuPlugin: Plugin<
-	iPluginOptions<VueComponent | FunctionalComponent | DefineComponent>
-> = {
+export * from "./types/plugin";
+
+export const XamuPlugin: Plugin<iVuePluginOptions> = {
 	install(V, options) {
 		options = {
 			// Set plugin defaults

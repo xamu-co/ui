@@ -11,7 +11,6 @@
 				disabled
 			/>
 		</span>
-
 		<!-- String, Color -->
 		<span
 			v-else-if="typeof value === 'string' && value.includes('#') && isHexColor(value)"
@@ -19,7 +18,6 @@
 		>
 			<InputColor :model-value="value" :theme="theme" :size="size" disabled />
 		</span>
-
 		<!-- String, Date -->
 		<span
 			v-else-if="(typeof value === 'string' && isDate(value)) || value instanceof Date"
@@ -27,7 +25,6 @@
 		>
 			{{ timeAgo(new Date(value), locale) }}
 		</span>
-
 		<!-- String, Email -->
 		<ActionLink
 			v-else-if="typeof value === 'string' && isEmail(value)"
@@ -38,7 +35,6 @@
 			<IconFa v-if="verbose" name="envelope" force-regular />
 			<span>{{ value }}</span>
 		</ActionLink>
-
 		<!-- String, Image path -->
 		<BaseAction
 			v-else-if="typeof value === 'string' && isImgUrl(value)"
@@ -48,7 +44,6 @@
 		>
 			<BaseImg preset="avatar" :src="value" :alt="value" class="--bgColor-none" />
 		</BaseAction>
-
 		<!-- String, URL -->
 		<ActionLink
 			v-else-if="typeof value === 'string' && isURL(value)"
@@ -60,7 +55,6 @@
 			<IconFa name="arrow-up-right-from-square" />
 			<span>{{ t("table_open_url") }}</span>
 		</ActionLink>
-
 		<!-- String, Long text -->
 		<Modal
 			v-else-if="typeof value === 'string' && value.length > maxLength"
@@ -92,7 +86,6 @@
 				/>
 			</template>
 		</Modal>
-
 		<!-- Plain data, short string, number or no data -->
 		<span v-else :title="property?.alias">
 			{{
