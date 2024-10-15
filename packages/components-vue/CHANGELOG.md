@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.39](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.38...@open-xamu-co/ui-components-vue-v3.0.0-next.39) (2024-10-15)
+
+
+### Features
+
+* **vue:** support asyncData composable ([6d8681a](https://github.com/xamu-co/ui/commit/6d8681a0544aa8a579bc917bb34a2020eaed306f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.39"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.38](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.37...@open-xamu-co/ui-components-vue-v3.0.0-next.38) (2024-10-13)
 
 
