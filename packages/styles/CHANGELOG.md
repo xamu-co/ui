@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.21](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.20...@open-xamu-co/ui-styles-v3.0.0-next.21) (2024-10-15)
+
+
+### Features
+
+* **vue:** support asyncData composable ([6d8681a](https://github.com/xamu-co/ui/commit/6d8681a0544aa8a579bc917bb34a2020eaed306f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.21"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.20](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.19...@open-xamu-co/ui-styles-v3.0.0-next.20) (2024-10-13)
 
 
