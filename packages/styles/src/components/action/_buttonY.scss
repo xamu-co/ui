@@ -20,11 +20,9 @@
 			@include module.action-size-styles(false) using($size) {
 				padding: #{$size * 0.8} #{$size * 0.2};
 			}
-
 			@include module.action-border-styles using($radius) {
 				border-radius: 0.4 * $radius;
 			}
-
 			@include module.action-theme-union-styles;
 			@include module.action-disabled-styles(false);
 		}

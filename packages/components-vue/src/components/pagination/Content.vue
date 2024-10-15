@@ -4,7 +4,7 @@
 		:promise="patchedPromise"
 		:payload="[{ ...pagination, ...defaults }]"
 		:class="$attrs.class"
-		v-bind="{ preventAutoload, theme, noContentMessage, label, isContent }"
+		v-bind="{ preventAutoload, theme, noContentMessage, label, isContent, url }"
 		@refresh="$emit('refresh', $event)"
 	>
 		<slot
@@ -44,6 +44,10 @@
 		 * Function used to fetch the page
 		 */
 		page: any;
+		/**
+		 * Path used as key for the cache
+		 */
+		url?: string;
 		/**
 		 * paginate using route
 		 *
@@ -117,7 +121,6 @@
 
 		return async (v) => transform(await props.page(v));
 	});
-
 	const propsPagination = ref<iPagination>({
 		orderBy: props.orderBy,
 		first: props.first ?? xamuOptions?.first,

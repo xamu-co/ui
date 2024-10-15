@@ -1,13 +1,11 @@
-import type { DefineComponent, FunctionalComponent, Component as VueComponent } from "vue";
 import type { ModuleOptions as NuxtImageOptions } from "@nuxt/image";
 
-import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
+import type { iVuePluginOptions } from "@open-xamu-co/ui-components-vue/plugin";
 
 /**
  * Nuxt specific configuration
  */
-export interface XamuModuleOptions
-	extends iPluginOptions<VueComponent | FunctionalComponent | DefineComponent> {
+export interface XamuModuleOptions extends iVuePluginOptions {
 	/**
 	 * Nuxt image module options
 	 */

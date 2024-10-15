@@ -25,6 +25,7 @@
     "p:vue": "yarn workspace @open-xamu-co/ui-components-vue",
     "p:nuxt": "yarn workspace @open-xamu-co/ui-nuxt",
     "dev:vue": "yarn p:vue dev",
+    "dev:nuxt": "yarn p:nuxt dev",
     "build": "yarn workspaces run build",
     "build:nuxt": "yarn p:vue build && yarn p:nuxt build",
     "build:css": "yarn p:styles build",

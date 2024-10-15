@@ -32,6 +32,7 @@
 		computed,
 		onActivated,
 		onDeactivated,
+		inject,
 	} from "vue";
 	import isEqual from "lodash-es/isEqual";
 
@@ -41,6 +42,8 @@
 	import LoaderContent from "./Content.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
+	import type { iVuePluginOptions } from "../../types/plugin";
+	import { useAsyncDataFn } from "../../composables/async";
 
 	interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
 		noContentMessage?: string;
@@ -54,6 +57,11 @@
 		noLoader?: boolean;
 		fallback?: Ti;
 		unwrap?: boolean;
+		/**
+		 * URL to fetch from
+		 *
+		 * Used as key if promise or hydratablePromise are provided.
+		 */
 		url?: false | string;
 		promise?: false | ((...args: Pi) => Promise<Ti>);
 		hydratablePromise?: false | ((hydrate: tHydrate<Ti>) => (...args: Pi) => Promise<Ti>);
@@ -84,14 +92,48 @@
 	const props = defineProps<iLoaderContentFetchProps<T, P>>();
 	const emit = defineEmits(["refresh"]);
 
-	const loading = ref(false);
-	const errors = ref();
-	const fetchedContent = ref<T>();
+	const xamuOptions = inject<iVuePluginOptions>("xamu");
+	const useAsyncData = xamuOptions?.asyncDataFn ?? useAsyncDataFn;
+
+	const {
+		data: fetchedContent,
+		pending: loading,
+		error: errors,
+		refresh,
+	} = useAsyncData(
+		props.url || "",
+		async (): Promise<T | null> => {
+			let newData: T | null = null;
+
+			if (props.preventAutoload && !firstLoad.value) return null;
+			if (!props.promise && !props.hydratablePromise && !props.url) return null;
+			if (props.fallback) firstLoad.value = true; // use fallback while the real content loads
+			if (props.promise || props.hydratablePromise) {
+				const payload = <P>(props.payload || []);
+
+				if (props.promise) {
+					newData = await props.promise(...payload);
+				} else if (props.hydratablePromise) {
+					newData = await props.hydratablePromise(hydrate)(...payload);
+				}
+			} else if (props.url) {
+				const response = await (await fetch(props.url)).json();
+				const data = "data" in response ? response.data : response;
+
+				if (response.error) throw new Error(response.error);
+				if (data) newData = data;
+			}
+
+			firstLoad.value = true;
+
+			return newData;
+		},
+		{}
+	);
+
 	const firstLoad = ref(false);
 	const hydrated = ref(false);
-	/**
-	 * Whether component was deactivated by keep-alive
-	 */
+	/** Whether component was deactivated by keep-alive */
 	const deactivated = ref(false);
 	/**
 	 * Hydrate content
@@ -112,48 +154,6 @@
 	function patchedIsContent(c?: T): boolean {
 		return props.isContent?.(c) ?? !!c;
 	}
-
-	async function refresh() {
-		// prevent refresh
-		if (deactivated.value) return;
-
-		try {
-			if (props.promise || props.hydratablePromise || props.url) {
-				loading.value = true;
-
-				// use fallback while the real content loads
-				if (props.fallback) firstLoad.value = true;
-
-				if (props.promise || props.hydratablePromise) {
-					const payload = <P>(props.payload || []);
-
-					if (props.promise) {
-						fetchedContent.value = await props.promise(...payload);
-					} else if (props.hydratablePromise) {
-						fetchedContent.value = await props.hydratablePromise(hydrate)(...payload);
-					}
-				} else if (props.url) {
-					const response = await (await fetch(props.url)).json();
-					const data = "data" in response ? response.data : response;
-
-					if (response.error) throw new Error(response.error);
-					if (data) fetchedContent.value = data;
-				}
-
-				// success, clear errors
-				errors.value = undefined;
-			}
-			// else, do nothing
-		} catch (err) {
-			console.error(err);
-			fetchedContent.value = undefined;
-			errors.value = err;
-		}
-
-		firstLoad.value = true;
-		loading.value = false;
-	}
-
 	function validatePromiseLike(newPromise: any, oldPromise: any) {
 		/**
 		 * The same promise would trigger the watcher
@@ -169,11 +169,7 @@
 	}
 
 	// lifecycle
-	if (!props.preventAutoload) refresh();
-
-	// Allow the parent to manually force an update
-	emit("refresh", refresh);
-
+	emit("refresh", refresh); // Allow the parent to manually force an update
 	// refetch on url or promise change
 	watch(
 		() => props.url,
@@ -204,11 +200,6 @@
 		},
 		{ immediate: false }
 	);
-
-	onActivated(() => {
-		deactivated.value = false;
-	});
-	onDeactivated(() => {
-		deactivated.value = true;
-	});
+	onActivated(() => (deactivated.value = false));
+	onDeactivated(() => (deactivated.value = true));
 </script>
