@@ -2,8 +2,8 @@
 	<BaseErrorBoundary :theme="theme">
 		<LoaderContent
 			v-bind="{
-				content: !!content && patchedIsContent(content),
-				errors: !!errors,
+				content: patchedIsContent(content) && content,
+				errors,
 				loading: loading,
 				refresh,
 				unwrap,
@@ -11,6 +11,7 @@
 				noContentMessage,
 				label,
 				noLoader,
+				ignoreErrors,
 			}"
 			:class="$attrs.class"
 		>
@@ -61,6 +62,7 @@
 		 * URL to fetch from
 		 *
 		 * Used as key if promise or hydratablePromise are provided.
+		 * Make sure to use preventAutoload to avoid invalid fetching
 		 */
 		url?: false | string;
 		promise?: false | ((...args: Pi) => Promise<Ti>);
@@ -75,6 +77,10 @@
 		 * Additional content validation before rendering fetched data
 		 */
 		isContent?: (c?: any) => boolean;
+		/**
+		 * Ignore errors and display existing content.
+		 */
+		ignoreErrors?: boolean;
 	}
 
 	/**
@@ -95,6 +101,10 @@
 	const xamuOptions = inject<iVuePluginOptions>("xamu");
 	const useAsyncData = xamuOptions?.asyncDataFn ?? useAsyncDataFn;
 
+	const firstLoad = ref(false);
+	const hydrated = ref(false);
+	/** Whether component was deactivated by keep-alive */
+	const deactivated = ref(false);
 	const {
 		data: fetchedContent,
 		pending: loading,
@@ -105,36 +115,46 @@
 		async (): Promise<T | null> => {
 			let newData: T | null = null;
 
-			if (props.preventAutoload && !firstLoad.value) return null;
-			if (!props.promise && !props.hydratablePromise && !props.url) return null;
-			if (props.fallback) firstLoad.value = true; // use fallback while the real content loads
-			if (props.promise || props.hydratablePromise) {
-				const payload = <P>(props.payload || []);
+			try {
+				if (!props.promise && !props.hydratablePromise && !props.url) return null;
+				if (props.preventAutoload) {
+					// is promise like
+					const pl = props.promise !== undefined || props.hydratablePromise !== undefined;
 
-				if (props.promise) {
-					newData = await props.promise(...payload);
-				} else if (props.hydratablePromise) {
-					newData = await props.hydratablePromise(hydrate)(...payload);
+					// Prevent on first load or if url is used as key
+					if (!firstLoad.value || (!!props.url && pl)) return null;
 				}
-			} else if (props.url) {
-				const response = await (await fetch(props.url)).json();
-				const data = "data" in response ? response.data : response;
+				if (props.fallback) firstLoad.value = true; // use fallback while the real content loads
+				if (props.promise || props.hydratablePromise) {
+					const payload = <P>(props.payload || []);
 
-				if (response.error) throw new Error(response.error);
-				if (data) newData = data;
+					if (props.promise) {
+						newData = await props.promise(...payload);
+					} else if (props.hydratablePromise) {
+						newData = await props.hydratablePromise(hydrate)(...payload);
+					}
+				} else if (props.url) {
+					const response = await (await fetch(props.url)).json();
+					const data = "data" in response ? response.data : response;
+
+					if (response.error) throw new Error(response.error);
+					if (data) newData = data;
+				}
+			} catch (err) {
+				console.error(err);
+
+				throw err; // throw error anyway
 			}
 
 			firstLoad.value = true;
 
 			return newData;
 		},
-		{}
+		{
+			default: () => props.fallback,
+			watch: [() => props.url, () => props.preventAutoload],
+		}
 	);
-
-	const firstLoad = ref(false);
-	const hydrated = ref(false);
-	/** Whether component was deactivated by keep-alive */
-	const deactivated = ref(false);
 	/**
 	 * Hydrate content
 	 *
@@ -171,27 +191,8 @@
 	// lifecycle
 	emit("refresh", refresh); // Allow the parent to manually force an update
 	// refetch on url or promise change
-	watch(
-		() => props.url,
-		(newUrl, oldUrl) => {
-			// prevent muntiple requests
-			if (newUrl === oldUrl) return;
-
-			// refresh
-			if (!loading.value && !!newUrl) refresh();
-		},
-		{ immediate: false }
-	);
 	watch(() => props.promise, validatePromiseLike, { immediate: false });
 	watch(() => props.hydratablePromise, validatePromiseLike, { immediate: false });
-	watch(
-		() => props.preventAutoload,
-		(prevent) => {
-			// load if the firstLoad was prevented
-			if (!prevent && !firstLoad.value) refresh();
-		},
-		{ immediate: false }
-	);
 	watch(
 		() => props.payload,
 		(newPayload, oldPayload) => {

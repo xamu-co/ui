@@ -106,12 +106,10 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 */
 	country?: string;
 	/**
-	 * Countries API base endpoint
+	 * Countries API base endpoint (full URL)
 	 *
 	 * If using nuxt, get better performance with the module
 	 * @see https://www.npmjs.com/package/nuxt-countries-api
-	 *
-	 * Using an absolute path will enable the module
 	 *
 	 * @default "https://countries.xamu.com.co/api/v1"
 	 */

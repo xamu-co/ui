@@ -5,10 +5,13 @@
 			v-slot="{ content }"
 			:theme="theme"
 			:label="t('form_loading_countries')"
-			:promise="(withLocationInput || !!withPhoneInput) && getCountriesAndStates"
+			:prevent-autoload="!(withLocationInput || withPhoneInput)"
+			:promise="(withLocationInput || withPhoneInput) && getCountriesAndStates"
+			:url="`/countries${defaultCountry ? '?states' : ''}`"
 			class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
 			:el="noForm ? 'fieldset' : 'form'"
 			:fallback="{ countries: [], states: [] }"
+			ignore-errors
 		>
 			<legend v-if="title">
 				<h4>{{ title }}:</h4>
@@ -101,10 +104,10 @@
 	const firstMake = ref(false);
 
 	const withLocationInput = computed(() => {
-		return props.modelValue?.some(({ type }) => type === eFormType.LOCATION);
+		return !!props.modelValue?.some(({ type }) => type === eFormType.LOCATION);
 	});
 	const withPhoneInput = computed(() => {
-		return props.modelValue?.some(({ type }) => {
+		return !!props.modelValue?.some(({ type }) => {
 			return type === eFormType.CELLPHONE || type === eFormType.PHONE;
 		});
 	});

@@ -6,16 +6,20 @@
 			:wrap="!states && !!countryValue"
 			:theme="theme"
 			:promise="getCountryStates"
+			:url="`/${model[0]}?states`"
 			:payload="[countryValue]"
 			unwrap
 		>
 			<LoaderContentFetch
 				v-slot="citiesReq"
 				:theme="theme"
+				:prevent-autoload="!model[1]"
 				:promise="!!model[1] && getStateCities"
+				:url="`/${model[0]}/${model[1]}?cities`"
 				:payload="[countryValue, model[1]]"
 				:no-loader="statesReq.loading"
 				:fallback="[]"
+				ignore-errors
 				unwrap
 			>
 				<slot v-bind="{ statesReq, citiesReq }"></slot>
