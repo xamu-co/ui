@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.7...@open-xamu-co/ui-nuxt-v3.0.0-next.8) (2024-10-16)
+
+
+### Bug Fixes
+
+* **nuxt:** expect url as countriesUrl ([1f34ba4](https://github.com/xamu-co/ui/commit/1f34ba42a9773b52a07346e91307b3eafe695645))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.6...@open-xamu-co/ui-nuxt-v3.0.0-next.7) (2024-10-15)
 
 
