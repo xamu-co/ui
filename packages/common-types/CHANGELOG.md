@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.16...@open-xamu-co/ui-common-types-v3.0.0-next.17) (2024-10-16)
+
+
+### Bug Fixes
+
+* **nuxt:** expect url as countriesUrl ([1f34ba4](https://github.com/xamu-co/ui/commit/1f34ba42a9773b52a07346e91307b3eafe695645))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.17"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.15...@open-xamu-co/ui-common-types-v3.0.0-next.16) (2024-07-30)
 
 
