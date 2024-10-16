@@ -16,6 +16,10 @@ export interface XamuModuleOptions extends iVuePluginOptions {
 	 * @default false
 	 */
 	disableCSSMeta?: boolean;
+	/**
+	 * Disable NUXT countries module
+	 */
+	disableCountriesModule?: boolean;
 }
 
 declare module "nuxt/schema" {

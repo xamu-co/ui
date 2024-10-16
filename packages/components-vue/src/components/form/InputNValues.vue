@@ -1,7 +1,7 @@
 <template>
 	<div
 		v-if="Array.isArray(model) && modelHasLength"
-		class="flx --flxColumn --flxRow-wrap:md --flx-start-stretch --gap-5 --flx"
+		class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
 	>
 		<slot></slot>
 	</div>

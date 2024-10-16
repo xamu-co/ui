@@ -4,7 +4,7 @@
 		:promise="patchedPromise"
 		:payload="[{ ...pagination, ...defaults }]"
 		:class="$attrs.class"
-		v-bind="{ preventAutoload, theme, noContentMessage, label, isContent, url }"
+		v-bind="{ preventAutoload, theme, noContentMessage, label, isContent, url, ignoreErrors }"
 		@refresh="$emit('refresh', $event)"
 	>
 		<slot
@@ -81,6 +81,10 @@
 		 * Nodes arr only
 		 */
 		processContent?: (n: Ti[]) => Ti[];
+		/**
+		 * Ignore errors and display existing content.
+		 */
+		ignoreErrors?: boolean;
 	}
 
 	export interface iPCProps<Ti, Ci extends string | number = string> extends iPCBaseProps<Ti> {

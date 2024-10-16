@@ -65,7 +65,6 @@ export function useAsyncDataFn<T, E>(
 			data.value = await handler();
 			error.value = null; // success, clear errors
 		} catch (err) {
-			console.error(err);
 			data.value = null;
 			error.value = err as E;
 		}
@@ -74,7 +73,8 @@ export function useAsyncDataFn<T, E>(
 	}
 
 	// lifecycle
-	watch(options?.watch || [], refresh, { immediate: true });
+	refresh(); // get first load
+	watch(options?.watch || [], refresh, { immediate: false });
 	onActivated(() => (deactivated.value = false));
 	onDeactivated(() => (deactivated.value = true));
 
