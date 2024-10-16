@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import path from "node:path";
 import {
 	defineNuxtModule,
 	addPlugin,
@@ -50,12 +49,13 @@ export default defineNuxtModule<XamuModuleOptions>({
 		locale,
 		lang: "en",
 		first: 10,
-		countriesUrl: "https://countries.xamu.com.co/api/v1",
 	},
 	async setup(moduleOptions, nuxt) {
 		const { globalComponents, componentPrefix, image, countriesUrl } = moduleOptions;
 		const { resolve, resolvePath } = createResolver(import.meta.url);
 		const runtimePath = resolve("./runtime");
+
+		nuxt.options.vite.resolve = { ...nuxt.options.vite.resolve, preserveSymlinks: true };
 
 		// @ts-ignore
 		nuxt.options.appConfig.xamu = moduleOptions;
@@ -83,8 +83,14 @@ export default defineNuxtModule<XamuModuleOptions>({
 			...image,
 		});
 
-		if (countriesUrl && path.isAbsolute(countriesUrl)) {
-			await installModule("nuxt-countries-api", { base: countriesUrl });
+		if (
+			countriesUrl &&
+			!countriesUrl.includes("countries.xamu.com.co/api/v1") &&
+			!moduleOptions.disableCountriesModule
+		) {
+			const { pathname } = new URL(countriesUrl);
+
+			await installModule("nuxt-countries-api", { base: pathname });
 		}
 
 		// Filter and register components if enabled

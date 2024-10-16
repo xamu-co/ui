@@ -1,7 +1,7 @@
 <template>
 	<BaseWrapper :el="Transition" :wrap="!unwrap" name="fade" appear>
 		<div
-			v-if="!content || errors"
+			v-if="!content || (errors && !ignoreErrors)"
 			class="flx --flxColumn --flx-center --width-100"
 			:class="loaderClasses"
 		>
@@ -73,7 +73,6 @@
 	interface iLoaderContentProps extends iUseThemeProps {
 		/**
 		 * has content
-		 * content was loaded but didnt existed
 		 */
 		content?: boolean;
 		/**
@@ -85,9 +84,13 @@
 		 */
 		noLoader?: boolean;
 		/**
-		 * is loading
+		 * has errors
 		 */
-		errors?: boolean;
+		errors?: unknown;
+		/**
+		 * Ignore errors and display existing content.
+		 */
+		ignoreErrors?: boolean;
 		noContentMessage?: string;
 		/**
 		 * Loader label

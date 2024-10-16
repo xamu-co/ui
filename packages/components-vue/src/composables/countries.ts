@@ -58,6 +58,7 @@ export default function useCountries() {
 
 	return {
 		defaultCountry,
+		countriesUrl,
 		fallbackCountry,
 		getCountries,
 		getCountry,

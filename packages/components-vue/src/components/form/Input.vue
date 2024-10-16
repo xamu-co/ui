@@ -38,7 +38,7 @@
 				<!-- Flexible input type -->
 				<div
 					v-if="input.defaults && input.defaults.length >= 2"
-					class="flx --flxColumn --flxRow-wrap:md --flx-start-stretch --flx --gap-5"
+					class="flx --flxRow-wrap --flx-start-stretch --flx --gap-5"
 				>
 					<!-- Recursion -->
 					<Input
@@ -166,11 +166,11 @@
 					/>
 					<div
 						v-if="models[i].value.length === 3"
-						class="flx --flxColumn --flxRow-wrap:md --flx-start-stretch --gap-5 --flx"
+						class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
 					>
 						<SelectFilter
 							:model-value="models[i].value[1]"
-							:options="statesArr || statesReq?.content?.map(stateToOption)"
+							:options="statesArr || statesReq?.content?.map?.(stateToOption)"
 							name="state"
 							icon="mountain-sun"
 							:theme="theme"
@@ -181,7 +181,7 @@
 						/>
 						<SelectFilter
 							:model-value="models[i].value[2]"
-							:options="citiesReq.content.map(cityToOption)"
+							:options="citiesReq?.content?.map?.(cityToOption)"
 							name="city"
 							icon="city"
 							:theme="theme"
