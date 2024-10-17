@@ -1,5 +1,27 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.22](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.21...@open-xamu-co/ui-styles-v3.0.0-next.22) (2024-10-17)
+
+
+### Features
+
+* **vue:** nested table property ([0a9ad05](https://github.com/xamu-co/ui/commit/0a9ad05884c2a2c7a93e295b7d8ae4fbea62da50))
+
+
+### BREAKING CHANGES
+
+* **vue:** extraCols > nested & removed nested scroll styles
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.22"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.21](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.20...@open-xamu-co/ui-styles-v3.0.0-next.21) (2024-10-15)
 
 
