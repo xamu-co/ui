@@ -1,6 +1,10 @@
 <template>
-	<div v-if="nodes.length" :class="$attrs.class" class="scroll --horizontal --always">
-		<table :id="tableId" class="tbl" :class="themeClasses">
+	<div v-if="nodes.length" :class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]">
+		<table
+			:id="tableId"
+			class="tbl --minWidth-100"
+			:class="[{ '--nested': nested }, themeClasses]"
+		>
 			<thead>
 				<tr v-if="!isReadOnly || $slots.default" class="no--hover">
 					<td :colspan="propertiesMeta.length + 2">
@@ -113,9 +117,6 @@
 						]"
 						:data-column-name="meta.value"
 						:data-column="meta.alias"
-						:width="
-							extraCols && metaIndex === propertiesMeta.length - 1 ? '99%' : 'auto'
-						"
 					>
 						<span v-if="!meta.canSort" :title="meta.value">
 							{{ meta.alias }}
@@ -482,7 +483,10 @@
 		 * Refresh the content
 		 */
 		refresh?: () => unknown;
-		extraCols?: boolean;
+		/**
+		 * Table is nested within another
+		 */
+		nested?: boolean;
 		/**
 		 * Default children visibility
 		 */
