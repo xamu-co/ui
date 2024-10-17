@@ -36,12 +36,6 @@
 						padding: 0.1rem 0;
 					}
 				}
-
-				// bypass nested
-				.#{utils.$layout-scroll} {
-					max-height: unset;
-					overflow: unset;
-				}
 			}
 
 			&.#{utils.$prefix-default}--horizontal {
@@ -105,41 +99,13 @@
 							}
 						}
 					}
-
-					// bypass nested
-					.#{utils.$layout-scroll} {
-						overflow: unset;
-
-						@if utils.$allow-responsive {
-							// mobile & hover only
-							@media (width <= utils.$querie-tablet) {
-								&:has(:only-child) {
-									@layer defaults {
-										& {
-											width: 100%;
-											margin: unset;
-										}
-									}
-									> :only-child {
-										border-right: unset;
-										border-left: unset;
-									}
-								}
-							}
-						}
-
-						> * {
-							&:last-child:not(dialog) {
-								margin-bottom: unset;
-							}
-						}
-					}
 				}
 
 				@if utils.$allow-responsive {
 					// mobile & hover only
 					@media (width <= utils.$querie-tablet) {
-						> table.#{utils.$layout-table} {
+						> table.#{utils.$layout-table},
+						table.#{utils.$layout-table}.--nested {
 							> thead,
 							> tbody {
 								> tr {
