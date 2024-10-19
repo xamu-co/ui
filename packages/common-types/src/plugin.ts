@@ -98,6 +98,7 @@ export interface iPluginOptions<ComponentType = unknown> {
 		overrides?: SweetAlertOptions;
 		preventOverrides?: SweetAlertOptions;
 		loaderOverrides?: SweetAlertOptions;
+		toastOverrides?: SweetAlertOptions;
 	};
 	/**
 	 * Iso2 code for the default country

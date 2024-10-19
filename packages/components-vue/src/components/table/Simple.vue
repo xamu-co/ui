@@ -15,6 +15,7 @@
 										<ActionButtonLink
 											:theme="theme"
 											:active="openNodesCount === selectedNodes.length"
+											round=":sm-inv"
 											@click="
 												toggleAll(
 													!(openNodesCount === selectedNodes.length),
@@ -22,7 +23,7 @@
 												)
 											"
 										>
-											<span>
+											<span class="--hidden-full:sm-inv">
 												{{
 													openNodesCount === selectedNodes.length
 														? t("table_hide_all")

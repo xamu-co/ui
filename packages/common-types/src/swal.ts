@@ -15,6 +15,8 @@ export type tSwal = Omit<typeof DefaultSwal, "fire"> & {
 	fire: <T = any>(options?: tSwalOptions) => Promise<SweetAlertResult<Awaited<T>>>;
 	firePrevent: <T = any>(options?: tSwalOptions) => Promise<SweetAlertResult<Awaited<T>>>;
 	fireLoader: <T = any>(options?: tSwalOptions) => Promise<SweetAlertResult<Awaited<T>>>;
+	fireToast: <T = any>(options?: tSwalOptions) => Promise<SweetAlertResult<Awaited<T>>>;
 	firePreventDefaults: SweetAlertOptions;
 	fireLoaderDefaults: SweetAlertOptions;
+	fireToastDefaults: SweetAlertOptions;
 };
