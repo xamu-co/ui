@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.17...@open-xamu-co/ui-common-types-v3.0.0-next.18) (2024-10-21)
+
+
+### Features
+
+* **helpers:** swal toast ([02a5527](https://github.com/xamu-co/ui/commit/02a552747ce4bf8bcc06594bdb02ddf99861f2c4))
+* **vue:** support extended data on table node events ([bc57155](https://github.com/xamu-co/ui/commit/bc57155a99009b79996d38a0c79debc6aa6232f3))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.18"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.16...@open-xamu-co/ui-common-types-v3.0.0-next.17) (2024-10-16)
 
 
