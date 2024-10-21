@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.13...@open-xamu-co/ui-common-helpers-v3.0.0-next.14) (2024-10-21)
+
+
+### Features
+
+* **helpers:** swal toast ([02a5527](https://github.com/xamu-co/ui/commit/02a552747ce4bf8bcc06594bdb02ddf99861f2c4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.0-next.14"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.12...@open-xamu-co/ui-common-helpers-v3.0.0-next.13) (2024-07-12)
 
 
