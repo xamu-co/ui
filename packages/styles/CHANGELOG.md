@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.23](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.22...@open-xamu-co/ui-styles-v3.0.0-next.23) (2024-10-21)
+
+
+### Features
+
+* **helpers:** swal toast ([02a5527](https://github.com/xamu-co/ui/commit/02a552747ce4bf8bcc06594bdb02ddf99861f2c4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.23"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.22](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.21...@open-xamu-co/ui-styles-v3.0.0-next.22) (2024-10-17)
 
 
