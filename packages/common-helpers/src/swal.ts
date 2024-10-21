@@ -86,6 +86,16 @@ export default function useSwal(options: iPluginOptions = {}, overrides: SweetAl
 		},
 		swal?.loaderOverrides
 	);
+	const swalToastDefaults: SweetAlertOptions = Object.assign(
+		{},
+		swalDefaults,
+		{
+			toast: true,
+			position: "bottom-right",
+			timerProgressBar: true,
+		},
+		swal?.toastOverrides
+	);
 
 	const Swal = <tSwal>DefaultSwal.mixin({});
 
@@ -107,6 +117,14 @@ export default function useSwal(options: iPluginOptions = {}, overrides: SweetAl
 
 	Swal.fireLoader = function <T>(swalLoaderOverrides: tSwalOptions = {}) {
 		const overrides = Object.assign({}, swalLoaderDefaults, swalLoaderOverrides);
+
+		overrides.target = getTarget(overrides.target);
+
+		return <Promise<SweetAlertResult<Awaited<T>>>>DefaultSwal.fire(overrides);
+	};
+
+	Swal.fireToast = function <T>(swalToastOverrides: tSwalOptions = {}) {
+		const overrides = Object.assign({}, swalToastDefaults, swalToastOverrides);
 
 		overrides.target = getTarget(overrides.target);
 

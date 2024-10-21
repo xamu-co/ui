@@ -15,6 +15,7 @@
 										<ActionButtonLink
 											:theme="theme"
 											:active="openNodesCount === selectedNodes.length"
+											round=":sm-inv"
 											@click="
 												toggleAll(
 													!(openNodesCount === selectedNodes.length),
@@ -22,7 +23,7 @@
 												)
 											"
 										>
-											<span>
+											<span class="--hidden-full:sm-inv">
 												{{
 													openNodesCount === selectedNodes.length
 														? t("table_hide_all")
@@ -396,6 +397,7 @@
 
 	import type {
 		iNodeFn,
+		iNodeFnResponse,
 		iProperty,
 		tOrder,
 		tOrderBy,
@@ -642,6 +644,20 @@
 		} else emit("update:sort", [property, order]);
 	}
 
+	async function resolveNodeFn(
+		promise:
+			| boolean
+			| undefined
+			| iNodeFnResponse
+			| Promise<boolean | undefined | iNodeFnResponse>
+	): Promise<iNodeFnResponse> {
+		const resolve = await promise;
+
+		if (Array.isArray(resolve)) return resolve;
+
+		return [resolve];
+	}
+
 	/**
 	 * Updates given node
 	 * sometimes it could fail but still update (api issue)
@@ -655,29 +671,28 @@
 		Swal.fireLoader();
 
 		// run process
-		const updated = await props.updateNode?.(node);
+		const [updated, event, willOpen] = await resolveNodeFn(props.updateNode?.(node));
 
 		// unfinished task
 		if (typeof updated !== "boolean") {
 			if (Swal.isLoading()) Swal.close();
-
-			return;
-		}
-
-		if (updated) {
+		} else if (updated) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_updated"),
+				willOpen,
+				didDestroy() {
+					if (!props.omitRefresh) props.refresh?.();
+				},
 			});
 		} else {
 			Swal.fire({
 				icon: "warning",
 				title: t("swal.table_updated"),
 				text: t("swal.table_possibly_not_updated"),
+				target: <HTMLElement>event?.target,
 			});
 		}
-
-		if (!props.omitRefresh) props.refresh?.();
 	}
 
 	/**
@@ -693,30 +708,28 @@
 		Swal.fireLoader();
 
 		// run process
-		const cloned = await props.cloneNode?.(node);
+		const [cloned, event, willOpen] = await resolveNodeFn(props.cloneNode?.(node));
 
 		// unfinished task
 		if (typeof cloned !== "boolean") {
 			if (Swal.isLoading()) Swal.close();
-
-			return;
-		}
-
-		if (cloned) {
+		} else if (cloned) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_cloned"),
+				willOpen,
+				didDestroy() {
+					if (!props.omitRefresh) props.refresh?.();
+				},
 			});
 		} else {
 			Swal.fire({
 				icon: "warning",
 				title: t("swal.table_cloned"),
 				text: t("swal.table_possibly_not_cloned"),
+				target: <HTMLElement>event?.target,
 			});
 		}
-
-		// update no matter what
-		if (!props.omitRefresh) props.refresh?.();
 	}
 
 	/**
@@ -741,30 +754,28 @@
 		Swal.fireLoader();
 
 		// run process
-		const deleted = await props.deleteNode?.(node);
+		const [deleted, event, willOpen] = await resolveNodeFn(props.deleteNode?.(node));
 
 		// unfinished task
 		if (typeof deleted !== "boolean") {
 			if (Swal.isLoading()) Swal.close();
-
-			return;
-		}
-
-		if (deleted) {
+		} else if (deleted) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_deleted"),
+				willOpen,
+				didDestroy() {
+					if (!props.omitRefresh) props.refresh?.();
+				},
 			});
 		} else {
 			Swal.fire({
 				icon: "warning",
 				title: t("swal.table_deleted"),
 				text: t("swal.table_possibly_not_deleted"),
+				target: <HTMLElement>event?.target,
 			});
 		}
-
-		// update no matter what
-		if (!props.omitRefresh) props.refresh?.();
 	}
 
 	/**
@@ -790,30 +801,30 @@
 		const deleted = await Promise.all(
 			props.nodes
 				.filter((_, nodeIndex) => selectedNodes.value[nodeIndex][0])
-				.map(async (node) => await props.deleteNode?.(node))
+				.map(async (node) => await resolveNodeFn(props.deleteNode?.(node)))
 		);
+		const [, event, willOpen] = deleted[0];
 
 		// unfinished task
-		if (deleted.every((d) => d === undefined)) {
+		if (deleted.every(([d]) => d === undefined)) {
 			if (Swal.isLoading()) Swal.close();
-
-			return;
-		}
-
-		if (deleted.every((d) => d)) {
+		} else if (deleted.every(([d]) => d)) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_deleted"),
+				willOpen,
+				didDestroy() {
+					if (!props.omitRefresh) props.refresh?.();
+				},
 			});
 		} else {
 			Swal.fire({
 				icon: "warning",
 				title: t("swal.table_deleted"),
 				text: t("swal.table_possibly_not_deleted", props.nodes.length),
+				target: <HTMLElement>event?.target,
 			});
 		}
-		// update no matter what
-		if (!props.omitRefresh) props.refresh?.();
 	}
 
 	// lifecycle

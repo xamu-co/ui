@@ -5,6 +5,8 @@ export interface iSelectOption {
 	disabled?: boolean;
 }
 
+export type iNodeFnResponse = [boolean?, Event?, (() => void)?];
+
 /**
  * Funtions that uses a node and perform some action
  *
@@ -12,7 +14,7 @@ export interface iSelectOption {
  */
 export type iNodeFn<T extends Record<string, any>, Ta extends [T?, ...any[]] = [T]> = (
 	...args: Ta
-) => boolean | undefined | Promise<boolean | undefined>;
+) => boolean | undefined | iNodeFnResponse | Promise<boolean | undefined | iNodeFnResponse>;
 
 /**
  * used on FactoryTable and related components
