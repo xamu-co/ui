@@ -41,7 +41,7 @@
 			<LoaderSimple v-else-if="!noLoader" :label="label" :theme="theme" />
 		</div>
 		<BaseWrapper v-else :wrap="!unwrap" :el="el" v-bind="$attrs">
-			<div v-if="loading && !noLoader" class="back --overlay is--active">
+			<div class="back --overlay" :class="{ 'is--active': loading && !noLoader }">
 				<LoaderSimple :label="label" :theme="theme" />
 			</div>
 			<slot></slot>

@@ -1,0 +1,26 @@
+@use "../utils/module" as utils;
+@use "sass:math";
+
+// Opacity
+//
+// @group Modifiers
+@mixin opacity {
+	@layer modifiers {
+		.#{utils.$prefix-default}--opacity {
+			&,
+			&-10 {
+				@include utils.extend-viewports-classes {
+					opacity: 1;
+				}
+			}
+
+			@for $i from 1 through 9 {
+				&-0#{$i} {
+					@include utils.extend-viewports-classes {
+						opacity: math.div($i, 10);
+					}
+				}
+			}
+		}
+	}
+}
