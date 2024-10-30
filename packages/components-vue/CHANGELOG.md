@@ -1,5 +1,30 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.43](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.42...@open-xamu-co/ui-components-vue-v3.0.0-next.43) (2024-10-30)
+
+
+### Code Refactoring
+
+* **vue:** expose refs on hydration ([78ed5a1](https://github.com/xamu-co/ui/commit/78ed5a17cccf45f8cc32e7dbe024a658ffcc60cf))
+
+
+### Features
+
+* **styles:** opacity modifier ([3e3722b](https://github.com/xamu-co/ui/commit/3e3722b10235377b8f8aa723cb0cc9d2f711dc47))
+
+
+### BREAKING CHANGES
+
+* **vue:** hydratable promise no longer exposes fn, refs instead
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.43"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.42](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.41...@open-xamu-co/ui-components-vue-v3.0.0-next.42) (2024-10-21)
 
 
