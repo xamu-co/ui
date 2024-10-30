@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.8...@open-xamu-co/ui-nuxt-v3.0.0-next.9) (2024-10-30)
+
+
+### Code Refactoring
+
+* **vue:** expose refs on hydration ([78ed5a1](https://github.com/xamu-co/ui/commit/78ed5a17cccf45f8cc32e7dbe024a658ffcc60cf))
+
+
+### BREAKING CHANGES
+
+* **vue:** hydratable promise no longer exposes fn, refs instead
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.7...@open-xamu-co/ui-nuxt-v3.0.0-next.8) (2024-10-16)
 
 
