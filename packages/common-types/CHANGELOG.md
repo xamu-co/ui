@@ -1,5 +1,29 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.18...@open-xamu-co/ui-common-types-v3.0.0-next.19) (2024-10-30)
+
+
+### Code Refactoring
+
+* **vue:** expose refs on hydration ([78ed5a1](https://github.com/xamu-co/ui/commit/78ed5a17cccf45f8cc32e7dbe024a658ffcc60cf))
+
+
+### BREAKING CHANGES
+
+* **vue:** hydratable promise no longer exposes fn, refs instead
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.19"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.17...@open-xamu-co/ui-common-types-v3.0.0-next.18) (2024-10-21)
 
 
