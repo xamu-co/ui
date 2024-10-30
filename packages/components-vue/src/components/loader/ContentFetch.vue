@@ -30,14 +30,13 @@
 		type Component as VueComponent,
 		type FunctionalComponent,
 		type DefineComponent,
+		type Ref,
 		computed,
 		onActivated,
 		onDeactivated,
 		inject,
 	} from "vue";
 	import isEqual from "lodash-es/isEqual";
-
-	import type { tHydrate } from "@open-xamu-co/ui-common-types";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import LoaderContent from "./Content.vue";
@@ -66,7 +65,20 @@
 		 */
 		url?: false | string;
 		promise?: false | ((...args: Pi) => Promise<Ti>);
-		hydratablePromise?: false | ((hydrate: tHydrate<Ti>) => (...args: Pi) => Promise<Ti>);
+		/**
+		 * Hydrate values after promise if resolved
+		 * Useful with firebase
+		 *
+		 * @see https://firebase.google.com/docs/database/
+		 *
+		 * Hydration is conditioned to the context (disabled, loading...)
+		 */
+		hydratablePromise?:
+			| false
+			| ((
+					content: Ref<Ti | null | undefined>,
+					errors: Ref<unknown>
+			  ) => (...args: Pi) => Promise<Ti>);
 		payload?: Pi;
 		/**
 		 * Component or tag to render
@@ -105,6 +117,30 @@
 	const hydrated = ref(false);
 	/** Whether component was deactivated by keep-alive */
 	const deactivated = ref(false);
+
+	const hydrateContent = computed({
+		get: () => (typeof fetchedContent !== "undefined" ? fetchedContent.value : undefined),
+		set: (newContent) => {
+			// prevent hydration
+			if (deactivated.value) return;
+			if (fetchedContent.value && !hydrated.value) return (hydrated.value = true);
+			if (!props.preventAutoload && !firstLoad.value) return;
+
+			fetchedContent.value = newContent;
+		},
+	});
+	const hydrateErrors = computed({
+		get: () => (typeof errors !== "undefined" ? errors.value : undefined),
+		set: (newContent) => {
+			// prevent hydration
+			if (deactivated.value) return;
+			if (errors.value && !hydrated.value) return (hydrated.value = true);
+			if (!props.preventAutoload && !firstLoad.value) return;
+
+			errors.value = newContent;
+		},
+	});
+
 	const {
 		data: fetchedContent,
 		pending: loading,
@@ -131,7 +167,10 @@
 					if (props.promise) {
 						newData = await props.promise(...payload);
 					} else if (props.hydratablePromise) {
-						newData = await props.hydratablePromise(hydrate)(...payload);
+						newData = await props.hydratablePromise(
+							hydrateContent,
+							hydrateErrors
+						)(...payload);
 					}
 				} else if (props.url) {
 					const response = await (await fetch(props.url)).json();
@@ -155,20 +194,7 @@
 			watch: [() => props.url, () => props.preventAutoload],
 		}
 	);
-	/**
-	 * Hydrate content
-	 *
-	 * Useful with firebase client approach
-	 */
-	const hydrate: tHydrate<T> = (newContent, newErrors) => {
-		// prevent hydration
-		if (deactivated.value) return;
-		if (fetchedContent.value && !hydrated.value) return (hydrated.value = true);
-		if (!props.preventAutoload && !firstLoad.value) return;
 
-		fetchedContent.value = newContent;
-		errors.value = newErrors;
-	};
 	const content = computed(() => fetchedContent.value ?? props.fallback);
 
 	function patchedIsContent(c?: T): boolean {
