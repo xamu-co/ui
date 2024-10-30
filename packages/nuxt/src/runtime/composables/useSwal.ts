@@ -3,7 +3,7 @@
 import type { SweetAlertOptions } from "sweetalert2/dist/sweetalert2";
 
 import { useSwal as originalUseSwal } from "@open-xamu-co/ui-common-helpers";
-import type { tSwal } from "@open-xamu-co/ui-common-types";
+import type { iPluginOptions, tSwal } from "@open-xamu-co/ui-common-types";
 
 import { useAppConfig } from "#imports";
 
@@ -13,5 +13,5 @@ import { useAppConfig } from "#imports";
 export function useSwal(overrides: SweetAlertOptions = {}): tSwal {
 	const { xamu } = useAppConfig();
 
-	return originalUseSwal(xamu, overrides);
+	return originalUseSwal(xamu as iPluginOptions, overrides);
 }
