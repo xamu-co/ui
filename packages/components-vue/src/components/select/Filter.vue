@@ -1,5 +1,5 @@
 <template>
-	<datalist :id="selectFilterName">
+	<BaseWrapper :id="selectFilterName" el="datalist" :wrap="supportsDatalist">
 		<!-- Select is also used as fallback for older browsers -->
 		<SelectSimple
 			v-model="aliasModel"
@@ -20,7 +20,7 @@
 				theme,
 			}"
 		/>
-	</datalist>
+	</BaseWrapper>
 	<div v-if="supportsDatalist" class="flx --flxRow --flx-start-center --gap-5" v-bind="$attrs">
 		<ActionLink
 			v-if="modelValue && selectOptions.length > 1"
@@ -65,6 +65,7 @@
 	import type { iFormIconProps, iFormOption } from "@open-xamu-co/ui-common-types";
 	import { toOption, useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
 
+	import BaseWrapper from "../base/Wrapper.vue";
 	import SelectSimple from "./Simple.vue";
 	import InputText from "../input/Text.vue";
 	import ActionLink from "../action/Link.vue";
@@ -106,7 +107,7 @@
 	const { t } = useHelpers(useI18n);
 	const { isBrowser } = useHelpers(useUtils);
 
-	const supportsDatalist = ref(true);
+	const supportsDatalist = ref(false);
 	/** Prefer a predictable identifier */
 	const selectFilterName = computed(() => {
 		const seed = deburr(props.placeholder || props.title);
@@ -153,5 +154,19 @@
 	}
 
 	// lifecycle
-	if (isBrowser) supportsDatalist.value = !!HTMLDataListElement;
+	if (isBrowser) {
+		const isFunction = typeof HTMLDataListElement === "function";
+		const hasOptions = "options" in document.createElement("datalist");
+		const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
+		const isAndroid = navigator.platform.toLowerCase().includes("android");
+		/**
+		 * Datalist support
+		 *
+		 * Does not work on firefox android
+		 * @see https://caniuse.com/datalist
+		 */
+		const isFirefoxAndroid = isFirefox && isAndroid;
+
+		supportsDatalist.value = isFunction && hasOptions && !isFirefoxAndroid;
+	}
 </script>
