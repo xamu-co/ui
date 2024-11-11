@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.0.0-next.20](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.19...@open-xamu-co/ui-common-types-v3.0.0-next.20) (2024-11-11)
+
+
+### Features
+
+* **vue:** support custom cell components ([a573753](https://github.com/xamu-co/ui/commit/a573753a4e2cfb35fd37309bea5f1f25ba15dceb))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.0.0-next.20"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.0.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.0-next.18...@open-xamu-co/ui-common-types-v3.0.0-next.19) (2024-10-30)
 
 
