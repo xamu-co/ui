@@ -22,6 +22,7 @@ export type iNodeFn<T extends Record<string, any>, Ta extends [T?, ...any[]] = [
 export interface iProperty<
 	T extends Record<string, any> = Record<string, any>,
 	P extends Record<string, any> = Record<string, any>,
+	ComponentType = unknown,
 > extends iSelectOption {
 	/**
 	 * Function to create a node within the relation
@@ -44,6 +45,10 @@ export interface iProperty<
 	 * Function to delete a node within the relation
 	 */
 	deleteNode?: iNodeFn<T, [T?]>;
+	/**
+	 * Render using this component instead
+	 */
+	component?: ComponentType;
 }
 
 export type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;

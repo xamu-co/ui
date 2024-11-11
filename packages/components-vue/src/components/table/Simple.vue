@@ -195,13 +195,14 @@
 							]"
 							class="--maxWidth-440"
 						>
-							<ValueComplex
+							<component
+								:is="property.component || ValueComplex"
 								v-bind="{
 									value: node[property.value],
 									property: {
 										...property,
 										...(property.updateNode && {
-											updateNode: (n) => property.updateNode?.(n, node),
+											updateNode: (n: any) => property.updateNode?.(n, node),
 										}),
 									},
 									node,
@@ -389,7 +390,16 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>">
-	import { ref, computed, watch, getCurrentInstance, type AllowedComponentProps } from "vue";
+	import {
+		ref,
+		computed,
+		watch,
+		getCurrentInstance,
+		type AllowedComponentProps,
+		type Component as VueComponent,
+		type FunctionalComponent,
+		type DefineComponent,
+	} from "vue";
 	import upperFirst from "lodash-es/upperFirst";
 	import snakeCase from "lodash-es/snakeCase";
 	import startCase from "lodash-es/startCase";
@@ -429,7 +439,11 @@
 	import { useHelpers, useOrderBy } from "../../composables/utils";
 
 	interface iPropertyMeta<Ti extends Record<string, any>>
-		extends iProperty<Record<string, any>, Ti> {
+		extends iProperty<
+			Record<string, any>,
+			Ti,
+			VueComponent | FunctionalComponent | DefineComponent
+		> {
 		value: string;
 		canSort: boolean;
 	}
@@ -448,7 +462,11 @@
 		 *
 		 * @old columns
 		 */
-		properties?: iProperty<any, NoInfer<Ti>>[];
+		properties?: iProperty<
+			any,
+			NoInfer<Ti>,
+			VueComponent | FunctionalComponent | DefineComponent
+		>[];
 		propertyOrder?: tPropertyOrderFn;
 		/**
 		 * read only table
