@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.45](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.44...@open-xamu-co/ui-components-vue-v3.0.0-next.45) (2024-11-11)
+
+
+### Features
+
+* **vue:** support custom cell components ([a573753](https://github.com/xamu-co/ui/commit/a573753a4e2cfb35fd37309bea5f1f25ba15dceb))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.45"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.44](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.43...@open-xamu-co/ui-components-vue-v3.0.0-next.44) (2024-11-05)
 
 
