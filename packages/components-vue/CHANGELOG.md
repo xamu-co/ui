@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.46](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.45...@open-xamu-co/ui-components-vue-v3.0.0-next.46) (2024-11-13)
+
+
+### Bug Fixes
+
+* **vue:** improve string as date validation ([f12eaf2](https://github.com/xamu-co/ui/commit/f12eaf28e85177b8ed28191f03d1230159000388))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.46"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.45](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.44...@open-xamu-co/ui-components-vue-v3.0.0-next.45) (2024-11-11)
 
 
