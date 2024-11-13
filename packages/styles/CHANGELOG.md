@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.25](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.24...@open-xamu-co/ui-styles-v3.0.0-next.25) (2024-11-13)
+
+
+### Bug Fixes
+
+* **vue:** improve string as date validation ([f12eaf2](https://github.com/xamu-co/ui/commit/f12eaf28e85177b8ed28191f03d1230159000388))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.25"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.24](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.23...@open-xamu-co/ui-styles-v3.0.0-next.24) (2024-10-30)
 
 
