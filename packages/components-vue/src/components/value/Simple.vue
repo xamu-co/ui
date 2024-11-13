@@ -189,7 +189,7 @@
 	function isDate(dateString: string): boolean {
 		try {
 			// bypass numbers
-			if (!!Number(dateString)) return false;
+			if (!!Number(dateString) || !dateString.includes(":")) return false;
 
 			const property = String(props.property?.value);
 
