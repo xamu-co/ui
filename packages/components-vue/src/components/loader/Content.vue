@@ -50,12 +50,7 @@
 </template>
 
 <script setup lang="ts">
-	import {
-		type Component as VueComponent,
-		type FunctionalComponent,
-		type DefineComponent,
-		Transition,
-	} from "vue";
+	import { Transition } from "vue";
 
 	import type { tProps } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -67,6 +62,7 @@
 	import LoaderSimple from "./Simple.vue";
 	import BoxMessage from "../box/Message.vue";
 
+	import type { vComponent } from "../../types/plugin";
 	import type { iUseThemeProps } from "../../types/props";
 	import { useHelpers } from "../../composables/utils";
 
@@ -107,7 +103,7 @@
 		/**
 		 * Component or tag to render
 		 */
-		el?: VueComponent | FunctionalComponent | DefineComponent | string;
+		el?: vComponent | string;
 		loaderClasses?: tProps<string>;
 	}
 

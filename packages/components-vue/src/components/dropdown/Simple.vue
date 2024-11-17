@@ -30,23 +30,14 @@
 </template>
 
 <script setup lang="ts">
-	import {
-		computed,
-		ref,
-		watch,
-		onMounted,
-		onBeforeUnmount,
-		type Component as VueComponent,
-		type DefineComponent,
-		type FunctionalComponent,
-		getCurrentInstance,
-	} from "vue";
+	import { computed, ref, watch, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
 
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseWrapper from "../base/Wrapper.vue";
 	import Modal from "../modal/Simple.vue";
 
+	import type { vComponent } from "../../types/plugin";
 	import type { iModalProps, iUseModifiersProps, iUseThemeProps } from "../../types/props";
 	import useBrowser from "../../composables/browser";
 	import useModifiers from "../../composables/modifiers";
@@ -67,7 +58,7 @@
 		/**
 		 * Component or tag to render
 		 */
-		el?: VueComponent | FunctionalComponent | DefineComponent | string;
+		el?: vComponent | string;
 		/**
 		 * Shows/hides the dropdown
 		 * @private

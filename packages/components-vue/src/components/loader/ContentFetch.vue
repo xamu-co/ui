@@ -24,23 +24,13 @@
 </template>
 
 <script setup lang="ts" generic="T, P extends any[] = any[]">
-	import {
-		ref,
-		watch,
-		type Component as VueComponent,
-		type FunctionalComponent,
-		type DefineComponent,
-		type Ref,
-		computed,
-		onActivated,
-		onDeactivated,
-		inject,
-	} from "vue";
+	import { ref, watch, type Ref, computed, onActivated, onDeactivated, inject } from "vue";
 	import isEqual from "lodash-es/isEqual";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import LoaderContent from "./Content.vue";
 
+	import type { vComponent } from "../../types/plugin";
 	import type { iUseThemeProps } from "../../types/props";
 	import type { iVuePluginOptions } from "../../types/plugin";
 	import { useAsyncDataFn } from "../../composables/async";
@@ -83,7 +73,7 @@
 		/**
 		 * Component or tag to render
 		 */
-		el?: VueComponent | FunctionalComponent | DefineComponent | string;
+		el?: vComponent | string;
 		preventAutoload?: boolean;
 		/**
 		 * Additional content validation before rendering fetched data
