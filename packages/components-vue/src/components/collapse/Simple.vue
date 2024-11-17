@@ -12,22 +12,17 @@
 	</nav>
 </template>
 <script setup lang="ts">
-	import {
-		type Component as VueComponent,
-		type DefineComponent,
-		type FunctionalComponent,
-	} from "vue";
-
 	import BaseInput from "../base/Input.vue";
 	import IconFa from "../icon/Fa.vue";
 
+	import type { vComponent } from "../../types/plugin";
 	import type { iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
 
 	interface Collapse extends iUseThemeProps {
 		title?: string;
 		checked?: boolean;
-		el?: VueComponent | FunctionalComponent | DefineComponent | string;
+		el?: vComponent | string;
 	}
 
 	/**

@@ -166,7 +166,13 @@
 							data-column-name="id"
 							data-column="id"
 						>
-							<div class="flx --flxRow --flx-start-center --gap-10">
+							<component
+								:is="preferId"
+								v-if="preferId && typeof preferId !== 'boolean'"
+								:index="nodeIndex"
+								:node="node"
+							/>
+							<div v-else class="flx --flxRow --flx-start-center --gap-10">
 								<InputToggle
 									v-if="!isReadOnly"
 									:id="tableId + String(node.id ?? nodeIndex)"
@@ -176,7 +182,7 @@
 									:size="size"
 								/>
 								<span :title="String(node.id ?? nodeIndex)">
-									{{ node.id ? node.id : nodeIndex + 1 }}
+									{{ node.id && preferId ? node.id : nodeIndex + 1 }}
 								</span>
 							</div>
 						</th>
@@ -386,16 +392,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>">
-	import {
-		ref,
-		computed,
-		watch,
-		getCurrentInstance,
-		type AllowedComponentProps,
-		type Component as VueComponent,
-		type FunctionalComponent,
-		type DefineComponent,
-	} from "vue";
+	import { ref, computed, watch, getCurrentInstance, type AllowedComponentProps } from "vue";
 	import upperFirst from "lodash-es/upperFirst";
 	import snakeCase from "lodash-es/snakeCase";
 	import startCase from "lodash-es/startCase";
@@ -430,18 +427,20 @@
 	import BoxMessage from "../box/Message.vue";
 	import Dropdown from "../dropdown/Simple.vue";
 
-	import type { iModalProps, iUseThemeProps } from "../../types/props";
+	import type { vComponent } from "../../types/plugin";
+	import type { iModalProps, iUseThemeProps, iValueComplexProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
 	import { useHelpers, useOrderBy } from "../../composables/utils";
 
 	interface iPropertyMeta<Ti extends Record<string, any>>
-		extends iProperty<
-			Record<string, any>,
-			Ti,
-			VueComponent | FunctionalComponent | DefineComponent
-		> {
+		extends iProperty<Record<string, any>, Ti, vComponent<iValueComplexProps>> {
 		value: string;
 		canSort: boolean;
+	}
+
+	interface iIdComponentProps<Ti extends Record<string, any>> {
+		index: number;
+		node: Ti;
 	}
 
 	interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
@@ -458,11 +457,7 @@
 		 *
 		 * @old columns
 		 */
-		properties?: iProperty<
-			any,
-			NoInfer<Ti>,
-			VueComponent | FunctionalComponent | DefineComponent
-		>[];
+		properties?: iProperty<any, NoInfer<Ti>, vComponent<iValueComplexProps>>[];
 		propertyOrder?: tPropertyOrderFn;
 		/**
 		 * read only table
@@ -521,6 +516,10 @@
 		omitRefresh?: boolean;
 		size?: tSizeModifier;
 		withRoute?: boolean;
+		/**
+		 * Show real node id or given component
+		 */
+		preferId?: boolean | vComponent<iIdComponentProps<Ti>>;
 	}
 
 	/**

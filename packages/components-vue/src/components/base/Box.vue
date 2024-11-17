@@ -18,15 +18,11 @@
 	</component>
 </template>
 <script setup lang="ts">
-	import {
-		type Component as VueComponent,
-		type FunctionalComponent,
-		type DefineComponent,
-		computed,
-	} from "vue";
+	import { computed } from "vue";
 
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
+	import type { vComponent } from "../../types/plugin";
 	import type { iUseModifiersProps, iUseStateProps, iUseThemeProps } from "../../types/props";
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
@@ -37,7 +33,7 @@
 		/**
 		 * Component or tag to render
 		 */
-		el?: VueComponent | FunctionalComponent | DefineComponent | string;
+		el?: vComponent | string;
 		/**
 		 * less padding
 		 */

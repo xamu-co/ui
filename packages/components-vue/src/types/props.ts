@@ -8,8 +8,9 @@ import type {
 	tThemeModifier,
 	tThemeTuple,
 	tSizeModifier,
+	iProperty,
 } from "@open-xamu-co/ui-common-types";
-import type { RendererElement } from "vue";
+import type { AllowedComponentProps, RendererElement } from "vue";
 
 export interface iUseModifiersProps {
 	hidden?: string | tPropsModifier<string>;
@@ -175,4 +176,34 @@ export interface iModalProps extends iUseThemeProps {
 	 */
 	modelValue?: boolean;
 	target?: string | RendererElement;
+}
+
+export interface iValueComplexProps extends iUseThemeProps {
+	/**
+	 * Cell value
+	 */
+	value: any;
+	/**
+	 * Cell column property
+	 */
+	property?: iProperty<any, any>;
+	/**
+	 * Cell node, aka parent node
+	 *
+	 * The value prop will be a property of this node
+	 */
+	node?: Record<string, any>;
+	readonly?: boolean;
+	classes?: tProps<string>;
+	/**
+	 * Refresh the content
+	 */
+	refresh?: () => unknown;
+	modalProps?: iModalProps & AllowedComponentProps;
+	/**
+	 * Prevent node functions from triggering refresh event (useful with firebase hydration)
+	 */
+	omitRefresh?: boolean;
+	verbose?: boolean;
+	size?: tSizeModifier;
 }

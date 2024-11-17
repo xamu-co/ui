@@ -6,12 +6,9 @@
 </template>
 
 <script setup lang="ts">
-	import type {
-		Component as VueComponent,
-		FunctionalComponent,
-		DefineComponent,
-		PropType,
-	} from "vue";
+	import type { PropType } from "vue";
+
+	import type { vComponent } from "../../types/plugin";
 
 	/**
 	 * Wrapper Component
@@ -36,9 +33,7 @@
 		 * Component or tag to render
 		 */
 		el: {
-			type: [String, Object, Function] as PropType<
-				VueComponent | FunctionalComponent | DefineComponent | string
-			>,
+			type: [String, Object, Function] as PropType<vComponent | string>,
 			default: "div",
 		},
 	});
