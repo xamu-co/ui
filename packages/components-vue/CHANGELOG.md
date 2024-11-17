@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.48](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.47...@open-xamu-co/ui-components-vue-v3.0.0-next.48) (2024-11-17)
+
+
+### Features
+
+* **vue:** table id component ([5598ea3](https://github.com/xamu-co/ui/commit/5598ea3924fdb00d9935a8c3e4c338ab6185ef61))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.48"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.47](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.46...@open-xamu-co/ui-components-vue-v3.0.0-next.47) (2024-11-17)
 
 
