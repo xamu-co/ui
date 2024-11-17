@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.47](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.46...@open-xamu-co/ui-components-vue-v3.0.0-next.47) (2024-11-17)
+
+
+### Features
+
+* **styles:** extended grid support ([4a450b7](https://github.com/xamu-co/ui/commit/4a450b709e5dcb847da505420b3318dfdf4e68bc))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.47"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.46](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.45...@open-xamu-co/ui-components-vue-v3.0.0-next.46) (2024-11-13)
 
 
