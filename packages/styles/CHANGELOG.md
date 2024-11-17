@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.26](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.25...@open-xamu-co/ui-styles-v3.0.0-next.26) (2024-11-17)
+
+
+### Features
+
+* **styles:** extended grid support ([4a450b7](https://github.com/xamu-co/ui/commit/4a450b709e5dcb847da505420b3318dfdf4e68bc))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.26"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.25](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.24...@open-xamu-co/ui-styles-v3.0.0-next.25) (2024-11-13)
 
 
