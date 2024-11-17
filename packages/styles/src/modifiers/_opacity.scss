@@ -7,6 +7,13 @@
 @mixin opacity {
 	@layer modifiers {
 		.#{utils.$prefix-default}--opacity {
+			&-0,
+			&-none {
+				@include utils.extend-viewports-classes {
+					opacity: 0;
+				}
+			}
+
 			&,
 			&-10 {
 				@include utils.extend-viewports-classes {

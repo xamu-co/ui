@@ -176,11 +176,7 @@
 									:size="size"
 								/>
 								<span :title="String(node.id ?? nodeIndex)">
-									{{
-										node.id && typeof node.id === "number"
-											? node.id
-											: nodeIndex + 1
-									}}
+									{{ node.id ? node.id : nodeIndex + 1 }}
 								</span>
 							</div>
 						</th>

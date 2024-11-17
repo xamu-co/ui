@@ -112,6 +112,7 @@
 
 @mixin grid {
 	$column-third: math.div(utils.$size-min-column-size, 3);
+	$row-third: math.div(utils.$size-min-row, 3);
 
 	@layer definitions {
 		.#{utils.$layout-grid} {
@@ -140,6 +141,67 @@
 			&.#{utils.$prefix-default}--autoRows {
 				@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 					grid-auto-rows: minmax(min-content, 100%);
+				}
+			}
+			&.#{utils.$prefix-default}--grdRows {
+				// default, the same as .--grdRows-auto3
+				@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+					grid-template-rows: repeat(auto-fit, minmax(#{utils.$size-min-row}, 1fr));
+				}
+
+				&-single {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: 1fr;
+					}
+				}
+
+				&-autoFit {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: repeat(auto-fit, minmax(0, 1fr));
+					}
+				}
+
+				&-autoFitMin {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: repeat(auto-fit, minmax(#{$row-third}, max-content));
+					}
+				}
+
+				&-autoFillMin {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: repeat(auto-fill, minmax(#{$row-third}, max-content));
+					}
+				}
+
+				&-autoFitColumn {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: repeat(auto-fit, minmax(#{utils.$size-min-row}, 1fr));
+					}
+				}
+
+				&-autoFillColumn {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: repeat(auto-fill, minmax(#{utils.$size-min-row}, 1fr));
+					}
+				}
+
+				@for $i from 2 through utils.$loop-rows {
+					&-auto#{$i} {
+						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+							grid-template-rows: repeat(
+								auto-fit,
+								minmax(#{math.div(utils.$size-min-row, $i) * 3}, 1fr)
+							);
+						}
+					}
+					&-#{$i} {
+						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+							grid-template-rows: repeat(
+								#{$i},
+								minmax(#{math.div(utils.$size-min-row, $i) * 3}, 1fr)
+							);
+						}
+					}
 				}
 			}
 			&.#{utils.$prefix-default}--grdColumns {
