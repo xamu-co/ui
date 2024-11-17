@@ -86,6 +86,7 @@ $loop-gaps: 10 !default; // gap, margin, padding
 $loop-animations: 20 !default;
 $loop-icon-sizes: 10 !default;
 $loop-columns: 12 !default; // grid & cols
+$loop-rows: 12 !default; // grid & rows
 $loop-orders: 10 !default;
 $loop-zindexes: 10 !default;
 $loop-dimensions: 10 !default; // width, height
@@ -97,6 +98,7 @@ $size-px-default: 1200 !default;
 
 // TODO: fix broken naming
 $size-min-column-size: $font-size-md * 18 !default; // min column size, 280px aprox
+$size-min-row: $font-size-md * 9 !default; // min row size, 280px aprox
 $size-max-text-width: 66ch !default; // max text block width, 780px aprox
 $size-line-height: 1.2em !default; // main line height
 $size-line-height-sm: math.div($size-line-height, 1.2) !default;
