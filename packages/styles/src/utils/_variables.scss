@@ -63,16 +63,17 @@ $color-secondary: #0f47af !default; // secondary theme colors
 $color-secondary-complement: system.secondary($color-secondary) !default;
 $color-danger: #e74c3c !default;
 $color-success: #259c21 !default;
+$color-warning: #ffeaa7 !default;
 
 // COLORS, base
 $color-light: #fff !default;
 $color-dark: #000 !default;
 
 // COLORS, utils
-$color-bg: $color-light !default;
-$color-text: $color-secondary-complement !default; // used over bg
-$color-select-bg: $color-secondary !default;
-$color-select-txt: $color-light !default;
+$color-bg: rgb(var(--rbg-light) 1) !default;
+$color-text: rgb(var(--rbg-secondary-complement) 1) !default; // used over bg
+$color-select-bg: rgb(var(--rbg-secondary) 1) !default;
+$color-select-txt: rgb(var(--rbg-light) 1) !default;
 
 // MEDIA QUERIES
 $querie-smartwatch: 358px !default; // xs
@@ -236,6 +237,7 @@ $theme-colors: map.merge(
 		secondary-complement: $color-secondary-complement,
 		danger: $color-danger,
 		success: $color-success,
+		warning: $color-warning,
 	)
 );
 $base-colors: (

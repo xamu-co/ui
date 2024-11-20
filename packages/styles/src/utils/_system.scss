@@ -8,17 +8,17 @@
 // layer order
 @layer resets, defaults, definitions, modifiers;
 
-// return default primary color complement
+// Return default primary color complement
 @function primary($color) {
 	@return color.adjust(
-		color.adjust($color, $red: -90deg, $green: -90deg, $blue: -90deg),
+		color.adjust($color, $red: -90, $green: -90, $blue: -90),
 		$lightness: -10%
 	);
 }
 
-// return default secondary color complement
+// Return default secondary color complement
 @function secondary($color) {
-	@return color.adjust($color, $red: 60deg, $blue: -90deg);
+	@return color.adjust(color.adjust($color, $red: 60, $blue: -90));
 }
 
 // return value with dash
@@ -28,7 +28,11 @@
 
 // coverts color to rgb, making it compatible with custom vars and opacity
 @function to-rgb($color) {
-	@return color.red($color) + ", " + color.green($color) + ", " + color.blue($color);
+	$red: color.channel($color, "red", $space: rgb);
+	$green: color.channel($color, "green", $space: rgb);
+	$blue: color.channel($color, "blue", $space: rgb);
+
+	@return string.unquote($red + ", " + $green + ", " + $blue);
 }
 
 // busca y elimina la string dada
