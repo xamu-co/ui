@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.27](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.26...@open-xamu-co/ui-styles-v3.0.0-next.27) (2024-11-20)
+
+
+### Features
+
+* **styles:** custom properties colors ([0851135](https://github.com/xamu-co/ui/commit/0851135c6289348b59acdafbff95809f730e4b71))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.27"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.26](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.25...@open-xamu-co/ui-styles-v3.0.0-next.26) (2024-11-17)
 
 
