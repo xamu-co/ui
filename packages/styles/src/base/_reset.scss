@@ -1,4 +1,5 @@
 @use "../utils/module" as utils;
+@use "../utils/system";
 
 // CSS reset
 // General styling, layout agnostig classes and rules
@@ -7,6 +8,12 @@
 
 @mixin reset {
 	@layer resets {
+		:root {
+			@each $name, $color in utils.$colors {
+				--rbg-#{$name}: #{system.to-rgb($color)}; // rgb
+			}
+		}
+
 		* {
 			margin: 0;
 			padding: 0;
