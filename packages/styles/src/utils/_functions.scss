@@ -41,7 +41,7 @@
 @function color($color-name, $rgb: false) {
 	$rgb: if($rgb, $rgb, 1);
 
-	@return string.unquote("rgba(var(--rbg-" + $color-name + "), " + $rgb + ")");
+	@return string.unquote("rgba(var(--rgb-" + $color-name + "), " + $rgb + ")");
 }
 
 // Capitalize string

@@ -10,7 +10,7 @@
 	@layer resets {
 		:root {
 			@each $name, $color in utils.$colors {
-				--rbg-#{$name}: #{system.to-rgb($color)}; // rgb
+				--rgb-#{$name}: #{system.to-rgb($color)}; // rgb
 			}
 		}
 
