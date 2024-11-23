@@ -27,7 +27,7 @@ export default function useI18n<L extends Record<string, string | Record<string,
 		let locale = get(options.locale || {}, key, fallback);
 		const interpolate = /\{(.+?)\}/g;
 		const plurals = locale.split("|");
-		const count = typeof data === "number" ? data : data?.count ?? -1;
+		const count = typeof data === "number" ? data : (data?.count ?? -1);
 
 		// Pluralization
 		if (count > -1 && plurals.length > 1) {

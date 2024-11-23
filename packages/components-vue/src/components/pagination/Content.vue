@@ -23,7 +23,7 @@
 	</LoaderContentFetch>
 </template>
 
-<script setup lang="ts" generic="T, C extends string | number = string, R extends any = any">
+<script setup lang="ts" generic="T, C extends string | number = string, R = never">
 	import { computed, getCurrentInstance, inject, ref } from "vue";
 
 	import type {
@@ -39,11 +39,15 @@
 	import type { iUseThemeProps } from "../../types/props";
 	import { useOrderBy } from "../../composables/utils";
 
-	export interface iPCBaseProps<Ti> extends iPagination, iUseThemeProps {
+	export interface iPCProps<Ti, Ci extends string | number = string, Ri = never>
+		extends iPagination,
+			iUseThemeProps {
 		/**
 		 * Function used to fetch the page
 		 */
-		page: any;
+		page: Ri extends iGetPage<Ti, Ci>
+			? iGetPage<Ti, Ci>
+			: (params?: iPagination) => Promise<Ri | undefined>;
 		/**
 		 * Path used as key for the cache
 		 */
@@ -74,27 +78,17 @@
 		 *
 		 * Raw promise payload
 		 */
-		transform?: any;
+		transform?: (r: Ri) => iPage<Ti, Ci> | undefined;
 		/**
 		 * When additional operations are required on content
 		 *
 		 * Nodes arr only
 		 */
-		processContent?: (n: Ti[]) => Ti[];
+		processContent?: (n: NoInfer<Ti>[]) => NoInfer<Ti>[];
 		/**
 		 * Ignore errors and display existing content.
 		 */
 		ignoreErrors?: boolean;
-	}
-
-	export interface iPCProps<Ti, Ci extends string | number = string> extends iPCBaseProps<Ti> {
-		page: iGetPage<Ti, Ci>;
-		transform?: undefined;
-	}
-	export interface iPCWithTransformProps<Ti, Ci extends string | number = string, Ri = any>
-		extends iPCBaseProps<Ti> {
-		page: (params?: iPagination) => Promise<Ri | undefined>;
-		transform: (r: Ri) => iPage<Ti, Ci> | undefined;
 	}
 
 	/**
@@ -108,7 +102,7 @@
 
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
 
-	const props = withDefaults(defineProps<iPCProps<T, C> | iPCWithTransformProps<T, C, R>>(), {
+	const props = withDefaults(defineProps<iPCProps<T, C, R>>(), {
 		processContent: (c: T[]) => c,
 	});
 
@@ -120,11 +114,12 @@
 	/**
 	 * Patched promise
 	 */
-	const patchedPromise = computed<iGetPage<T, C>>(() => {
+	const patchedPromise: iGetPage<T, C> = async (v) => {
 		const transform: (r: any) => iPage<T, C> | undefined = props.transform || ((v) => v);
+		const page = await props.page(v);
 
-		return async (v) => transform(await props.page(v));
-	});
+		return transform(page);
+	};
 	const propsPagination = ref<iPagination>({
 		orderBy: props.orderBy,
 		first: props.first ?? xamuOptions?.first,

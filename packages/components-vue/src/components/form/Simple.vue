@@ -66,7 +66,7 @@
 	import useCountries from "../../composables/countries";
 	import { useHelpers } from "../../composables/utils";
 
-	interface iFormSimple<P extends any[]> extends iUseThemeProps {
+	export interface iFormSimple<P extends any[]> extends iUseThemeProps {
 		title?: string;
 		emptyMessage?: string;
 		modelValue?: FormInputClass[];

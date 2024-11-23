@@ -160,7 +160,7 @@
 	import type { iUseThemeProps } from "../../types/props";
 	import { useHelpers } from "../../composables/utils";
 
-	interface iFormStages extends iUseThemeProps {
+	export interface iFormStages extends iUseThemeProps {
 		/**
 		 * Label for the submit button
 		 */

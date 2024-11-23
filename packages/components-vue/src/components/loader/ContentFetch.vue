@@ -35,7 +35,7 @@
 	import type { iVuePluginOptions } from "../../types/plugin";
 	import { useAsyncDataFn } from "../../composables/async";
 
-	interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
+	export interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
 		noContentMessage?: string;
 		/**
 		 * Loader label
@@ -45,7 +45,7 @@
 		 * Hide loader
 		 */
 		noLoader?: boolean;
-		fallback?: Ti;
+		fallback?: NoInfer<Ti>;
 		unwrap?: boolean;
 		/**
 		 * URL to fetch from

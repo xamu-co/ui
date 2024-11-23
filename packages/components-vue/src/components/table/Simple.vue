@@ -432,18 +432,18 @@
 	import useTheme from "../../composables/theme";
 	import { useHelpers, useOrderBy } from "../../composables/utils";
 
-	interface iPropertyMeta<Ti extends Record<string, any>>
+	export interface iTablePropertyMeta<Ti extends Record<string, any>>
 		extends iProperty<Record<string, any>, Ti, vComponent<iValueComplexProps>> {
 		value: string;
 		canSort: boolean;
 	}
 
-	interface iIdComponentProps<Ti extends Record<string, any>> {
+	export interface iTableIdComponentProps<Ti extends Record<string, any>> {
 		index: number;
 		node: Ti;
 	}
 
-	interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
+	export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
 		/**
 		 * Table nodes
 		 * an array of nodes
@@ -519,7 +519,7 @@
 		/**
 		 * Show real node id or given component
 		 */
-		preferId?: boolean | vComponent<iIdComponentProps<Ti>>;
+		preferId?: boolean | vComponent<iTableIdComponentProps<NoInfer<Ti>>>;
 	}
 
 	/**
@@ -588,7 +588,7 @@
 	/**
 	 * This one assumes all objects within nodes are all the same
 	 */
-	const propertiesMeta = computed<iPropertyMeta<T>[]>(() => {
+	const propertiesMeta = computed<iTablePropertyMeta<T>[]>(() => {
 		return Object.entries(props.nodes[0])
 			.sort(props.propertyOrder || useOrderProperty)
 			.map(([key, value]) => {

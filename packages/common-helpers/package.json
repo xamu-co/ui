@@ -88,7 +88,6 @@
   "devDependencies": {
     "@open-xamu-co/ui-common-types": "link:../common-types",
     "@types/lodash-es": "^4.14.192",
-    "@types/node": "^18.14.0",
     "@types/validator": "^13.11.1"
   },
   "engines": {
