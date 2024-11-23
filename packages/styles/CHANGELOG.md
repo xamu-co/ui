@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.28](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.27...@open-xamu-co/ui-styles-v3.0.0-next.28) (2024-11-23)
+
+
+### Bug Fixes
+
+* **styles:** dev sassdoc ([aaa7f22](https://github.com/xamu-co/ui/commit/aaa7f2229684a53dcd6c604c4622c3359e82d720))
+* **vue:** missing table types ([e42a14a](https://github.com/xamu-co/ui/commit/e42a14ac0d1834e78a37a0f2c69343e0a75e9229))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.28"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.27](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.26...@open-xamu-co/ui-styles-v3.0.0-next.27) (2024-11-20)
 
 
