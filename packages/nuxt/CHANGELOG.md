@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.9...@open-xamu-co/ui-nuxt-v3.0.0-next.10) (2024-11-23)
+
+
+### Bug Fixes
+
+* **vue:** missing table types ([e42a14a](https://github.com/xamu-co/ui/commit/e42a14ac0d1834e78a37a0f2c69343e0a75e9229))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.8...@open-xamu-co/ui-nuxt-v3.0.0-next.9) (2024-10-30)
 
 
