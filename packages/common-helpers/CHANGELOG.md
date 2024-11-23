@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.14...@open-xamu-co/ui-common-helpers-v3.0.0-next.15) (2024-11-23)
+
+
+### Bug Fixes
+
+* **vue:** missing table types ([e42a14a](https://github.com/xamu-co/ui/commit/e42a14ac0d1834e78a37a0f2c69343e0a75e9229))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.0-next.15"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.13...@open-xamu-co/ui-common-helpers-v3.0.0-next.14) (2024-10-21)
 
 
