@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.29](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.28...@open-xamu-co/ui-styles-v3.0.0-next.29) (2024-11-23)
+
+
+### Bug Fixes
+
+* **styles:** rgb variable typo ([f57f192](https://github.com/xamu-co/ui/commit/f57f192c97f32a828e62291cfdaf8493407114b6))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.29"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.28](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.27...@open-xamu-co/ui-styles-v3.0.0-next.28) (2024-11-23)
 
 
