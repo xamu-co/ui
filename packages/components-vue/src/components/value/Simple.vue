@@ -20,7 +20,10 @@
 		</span>
 		<!-- String, Date -->
 		<span
-			v-else-if="(typeof value === 'string' && isDate(value)) || value instanceof Date"
+			v-else-if="
+				(typeof value === 'string' && isDate(value)) ||
+				typeof value?.getMonth === 'function'
+			"
 			:title="String(value)"
 		>
 			{{ timeAgo(new Date(value), locale) }}
@@ -90,7 +93,7 @@
 		<span v-else :title="property?.alias">
 			{{
 				(typeof value === "string" && value.length) || typeof value === "number"
-					? value ?? "-"
+					? (value ?? "-")
 					: "-"
 			}}
 		</span>
@@ -132,7 +135,7 @@
 	 * @component
 	 */
 
-	interface iValueSimpleProps<Pi extends Record<string, any>> extends iUseThemeProps {
+	export interface iValueSimpleProps<Pi extends Record<string, any>> extends iUseThemeProps {
 		/**
 		 * Cell value
 		 */

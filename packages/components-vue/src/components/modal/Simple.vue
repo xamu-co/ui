@@ -2,7 +2,12 @@
 	<BaseErrorBoundary :theme="theme">
 		<slot v-if="$slots.toggle" name="toggle" v-bind="{ toggleModal, model }"></slot>
 		<BaseWrapper v-if="!disabled" :key="modalId" :el="Teleport" :wrap="!!target" :to="target">
-			<dialog :id="modalId" ref="modalRef" @close="closeModal" @mousedown="clickOutside">
+			<dialog
+				:id="modalId"
+				ref="modalRef"
+				@close="() => closeModal()"
+				@mousedown="clickOutside"
+			>
 				<!-- v-show is used so the slot can run any required task for the modal to be enabled -->
 				<div
 					v-show="!loading && !hide"

@@ -68,8 +68,6 @@
 		}
 	},
 	"dependencies": {
-		"sassdoc": "^2.7.3",
-		"sassdoc-theme-herman": "^5.0.1",
 		"serve": "^11.3.2"
 	},
 	"devDependencies": {
@@ -83,7 +81,9 @@
 		"postcss-precision": "vis97c/postcss-precision",
 		"postcss-preset-env": "^8.4.1",
 		"postcss-sort-media-queries": "^5.2.0",
-		"sass": "^1.81.0"
+		"sass": "^1.81.0",
+		"sassdoc": "^2.7.3",
+		"sassdoc-theme-herman": "^5.0.1"
 	},
 	"engines": {
 		"node": ">=18",

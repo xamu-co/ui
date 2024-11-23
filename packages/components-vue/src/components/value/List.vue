@@ -39,7 +39,7 @@
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
 	import type { AllowedComponentProps } from "vue";
 
-	interface iValueListProps extends iUseThemeProps {
+	export interface iValueListProps extends iUseThemeProps {
 		/**
 		 * Cell value
 		 */
