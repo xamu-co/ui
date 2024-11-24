@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.50](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.49...@open-xamu-co/ui-components-vue-v3.0.0-next.50) (2024-11-24)
+
+
+### Bug Fixes
+
+* **vue:** form model cardinality as model value ([02e34c6](https://github.com/xamu-co/ui/commit/02e34c66b8eb499afb377bbca021beca38846d85))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.50"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.49](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.48...@open-xamu-co/ui-components-vue-v3.0.0-next.49) (2024-11-23)
 
 
