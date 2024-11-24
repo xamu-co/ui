@@ -16,26 +16,27 @@
 			<legend v-if="title">
 				<h4>{{ title }}:</h4>
 			</legend>
-			<div
-				v-for="(input, inputIndex) in model"
-				:key="inputIndex"
-				class="flx --flxColumn --flx-start-stretch --gap-5"
-			>
-				<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
-					{{ getSuggestedTitle(input) }}
-				</p>
-				<FormInput
-					:key="`simple-${input.name}-${input.options.length}`"
-					:readonly="readonly"
-					:theme="theme"
-					:input="input"
-					:invalid="getInvalid(input.name)"
-					:countries="content.countries"
-					:states="withLocationInput && !!defaultCountry ? content.states : undefined"
-					:model-value="model[inputIndex].values"
-					@update:model-value="updateValues(inputIndex, $event)"
-				/>
-			</div>
+			<template v-for="(input, inputIndex) in model" :key="inputIndex">
+				<div
+					v-if="input && model[inputIndex]"
+					class="flx --flxColumn --flx-start-stretch --gap-5"
+				>
+					<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
+						{{ getSuggestedTitle(input) }}
+					</p>
+					<FormInput
+						:key="`simple-${input.name}-${input.options.length}`"
+						:readonly="readonly"
+						:theme="theme"
+						:input="input"
+						:invalid="getInvalid(input.name)"
+						:countries="content.countries"
+						:states="withLocationInput && !!defaultCountry ? content.states : undefined"
+						:model-value="model[inputIndex].values"
+						@update:model-value="updateValues(inputIndex, $event)"
+					/>
+				</div>
+			</template>
 		</LoaderContentFetch>
 		<slot v-else>
 			<!-- No inputs given -->
@@ -127,9 +128,10 @@
 	}
 
 	function updateValues(index: number, values: any[]) {
-		model.value[index].values = values;
+		if (!model.value[index]) return;
 
 		// update values
+		model.value[index].values = values;
 		emit("update:model-value", props.modelValue?.toSpliced(index, 1, model.value[index]));
 
 		if (!props.invalid?.length) return;
@@ -138,27 +140,29 @@
 		emit(
 			"update:invalid",
 			props.invalid.filter(({ invalidValue, name }) => {
-				return model.value[index].name !== name || isEqual(invalidValue, values);
+				return model.value[index]?.name !== name || isEqual(invalidValue, values);
 			})
 		);
 	}
 
 	/**
 	 * Form model
-	 * maps inputs into computed values that could actually listen for changes then rolls back before emiting
+	 * Maps valid inputs as null. To preserve indexes
 	 */
-	const model = computed<FormInputClass[]>(() =>
-		(props.modelValue || []).filter(({ type, options, required }) => {
+	const model = computed<(FormInputClass | null)[]>(() =>
+		(props.modelValue || []).map((input) => {
+			const { type, options, required } = input;
+
 			// omit non required if options are not present
 			if (
 				eFormTypeSimple.SELECT === type ||
 				eFormTypeSimple.SELECT_FILTER === type ||
 				eFormTypeSimple.CHOICE === type
 			) {
-				if (!options?.length && !required) return false;
+				if (!options?.length && !required) return null;
 			}
 
-			return true;
+			return input;
 		})
 	);
 
