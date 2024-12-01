@@ -76,21 +76,19 @@
 			}
 		}
 
-		* > {
-			a,
-			b,
-			h1,
-			h2,
-			h3,
-			h4,
-			h5,
-			h6,
-			th,
-			button,
-			strong {
-				// @defaults txtWeight
-				font-weight: utils.weight(bold);
-			}
+		a,
+		b,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6,
+		th,
+		button,
+		strong {
+			// @defaults txtWeight
+			font-weight: utils.weight(bold);
 		}
 
 		h1,

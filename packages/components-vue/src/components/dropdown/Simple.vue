@@ -9,12 +9,42 @@
 			<slot name="toggle" v-bind="{ model, setModel }"></slot>
 		</div>
 		<Modal
-			v-slot="{ modalRef }"
 			v-model="localModel"
 			v-bind="{ ...modalProps, theme, invertTheme, disabled: !isModal }"
 		>
-			<div ref="dropdownRef" :class="dropdownClasses">
+			<template #default="{ modalRef }">
+				<div
+					ref="dropdownRef"
+					:class="dropdownClasses"
+					class="flx --flxColumn --flx-start-stretch"
+				>
+					<slot
+						v-bind="{
+							model,
+							isModal,
+							setModel,
+							modalRef,
+							dropdownRef,
+							invertedTheme: invertedThemeValues,
+						}"
+					></slot>
+					<slot
+						v-if="!isModal"
+						name="actions"
+						v-bind="{
+							model,
+							isModal,
+							setModel,
+							modalRef,
+							dropdownRef,
+							invertedTheme: invertedThemeValues,
+						}"
+					></slot>
+				</div>
+			</template>
+			<template v-if="isModal" #footer-actions="{ modalRef }">
 				<slot
+					name="actions"
 					v-bind="{
 						model,
 						isModal,
@@ -24,7 +54,7 @@
 						invertedTheme: invertedThemeValues,
 					}"
 				></slot>
-			</div>
+			</template>
 		</Modal>
 	</BaseWrapper>
 </template>
