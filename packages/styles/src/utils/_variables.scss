@@ -70,10 +70,10 @@ $color-light: #fff !default;
 $color-dark: #000 !default;
 
 // COLORS, utils
-$color-bg: rgb(var(--rgb-light) 1) !default;
-$color-text: rgb(var(--rgb-secondary-complement) 1) !default; // used over bg
-$color-select-bg: rgb(var(--rgb-secondary) 1) !default;
-$color-select-txt: rgb(var(--rgb-light) 1) !default;
+$color-bg: rgb(var(--rgb-light)) !default;
+$color-text: rgb(var(--rgb-secondary-complement)) !default; // used over bg
+$color-select-bg: rgb(var(--rgb-secondary)) !default;
+$color-select-txt: rgb(var(--rgb-light)) !default;
 
 // MEDIA QUERIES
 $querie-smartwatch: 358px !default; // xs

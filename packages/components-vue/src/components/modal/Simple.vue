@@ -40,7 +40,7 @@
 							<ActionLink
 								:theme="invertedThemeValues"
 								:aria-label="cancelButtonOptions.title"
-								@click.stop="closeModal()"
+								@click.stop="() => closeModal()"
 							>
 								<IconFa name="xmark" :size="20" />
 							</ActionLink>
@@ -83,16 +83,27 @@
 								class="flx --flxRow --flx-between-center --width-100 modal-content"
 							>
 								<div class="flx --flxRow --flx-start-center">
-									<ActionButton
-										v-if="saveButtonOptions.visible"
-										:theme="invertedThemeValues"
-										:aria-label="saveButtonOptions.title"
-										:class="saveButtonOptions.btnClass"
-										:disabled="saveButtonOptions.disabled"
-										@click="emit('save', closeModal, $event)"
+									<slot
+										name="footer-actions"
+										v-bind="{
+											toggleModal,
+											model,
+											modalRef,
+											invertedTheme: invertedThemeValues,
+											save: (e: Event) => emit('save', closeModal, e),
+										}"
 									>
-										{{ saveButtonOptions.title }}
-									</ActionButton>
+										<ActionButton
+											v-if="saveButtonOptions.visible"
+											:theme="invertedThemeValues"
+											:aria-label="saveButtonOptions.title"
+											:class="saveButtonOptions.btnClass"
+											:disabled="saveButtonOptions.disabled"
+											@click="(e) => emit('save', closeModal, e)"
+										>
+											{{ saveButtonOptions.title }}
+										</ActionButton>
+									</slot>
 								</div>
 								<ActionButtonToggle
 									v-if="cancelButtonOptions.visible"
@@ -101,7 +112,7 @@
 									:class="cancelButtonOptions.btnClass"
 									data-dismiss="modal"
 									round=":sm-inv"
-									@click.stop="closeModal()"
+									@click.stop="() => closeModal()"
 								>
 									<IconFa name="xmark" hidden="-full:sm" />
 									<IconFa name="xmark" regular hidden="-full:sm" />
@@ -129,7 +140,7 @@
 							<ActionButton
 								:theme="invertedThemeValues"
 								:aria-label="t('close')"
-								@click="closeModal()"
+								@click="() => closeModal()"
 							>
 								{{ t("close") }}
 							</ActionButton>
@@ -178,10 +189,11 @@
 	import { useHelpers } from "../../composables/utils";
 
 	/**
+	 * Modal
+	 *
 	 * Based on @innologica/vue-stackable-modal
 	 * Modified to support vue3
 	 * It now uses dialog
-	 *
 	 * @see https://github.com/Innologica/vue-stackable-modal
 	 */
 
