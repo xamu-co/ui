@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.30](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.29...@open-xamu-co/ui-styles-v3.0.0-next.30) (2024-12-01)
+
+
+### Features
+
+* **vue:** footer actions slot ([d6a448f](https://github.com/xamu-co/ui/commit/d6a448ff226f813c1615b26f3d0b7d121fdd831b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.30"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.29](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.28...@open-xamu-co/ui-styles-v3.0.0-next.29) (2024-11-23)
 
 
