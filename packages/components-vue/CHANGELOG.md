@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.51](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.50...@open-xamu-co/ui-components-vue-v3.0.0-next.51) (2024-12-01)
+
+
+### Features
+
+* **vue:** footer actions slot ([d6a448f](https://github.com/xamu-co/ui/commit/d6a448ff226f813c1615b26f3d0b7d121fdd831b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.51"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.50](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.49...@open-xamu-co/ui-components-vue-v3.0.0-next.50) (2024-11-24)
 
 
