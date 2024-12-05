@@ -71,9 +71,9 @@ export const imageMimeTypes: iMime[] = [...gifImageMimeTypes, ...stillImageMimeT
  * Check if file matches given mimetype array
  */
 export const fileMatchesMimeTypes = (file: File, mimeTypes: iMime[]) => {
-	//check if mime and bytes are image type
+	// check if mime and bytes are image type
 	const reader = new FileReader();
-	const blob = file.slice(0, 4); //read the first 4 bytes of the file;
+	const blob = file.slice(0, 4); // read the first 4 bytes of the file;
 	const check = (bytes: Uint8Array, mime: iMime) => {
 		for (let i = 0, l = mime.mask.length; i < l; ++i) {
 			if ((bytes[i] & mime.mask[i]) - mime.pattern[i] !== 0) {
@@ -96,7 +96,7 @@ export const fileMatchesMimeTypes = (file: File, mimeTypes: iMime[]) => {
 					}
 				}
 
-				// mime unknow
+				// mime unknown
 				resolve(false);
 			}
 		};
