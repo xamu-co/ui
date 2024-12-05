@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.15...@open-xamu-co/ui-common-helpers-v3.0.0-next.16) (2024-12-05)
+
+
+### Bug Fixes
+
+* **vue:** prefer array over filelist ([3cbd0cc](https://github.com/xamu-co/ui/commit/3cbd0ccf05d32ca2720f38ee35c31902be03e1b6))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.0-next.16"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.14...@open-xamu-co/ui-common-helpers-v3.0.0-next.15) (2024-11-23)
 
 
