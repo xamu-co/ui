@@ -246,11 +246,12 @@
 		isLoading.value = true;
 
 		// copy the files
+		const filesArr = [...files]; // FileList is unstable
 		const savedFiles = [...props.modelValue].filter((v) => v instanceof File);
 		const savedThumbs = [...thumbnails.value];
 
 		try {
-			for (let i = 0; i < files.length; i++) {
+			for (let i = 0; i < filesArr.length; i++) {
 				// omit if max file reached
 				if (savedFiles.length >= maxAmount.value) {
 					Swal.fire({
@@ -267,7 +268,7 @@
 
 				// TODO: Allow for multiple file types
 				// validate file "mime type"
-				const isImage = await fileMatchesMimeTypes(files[i], standardImageMimeTypes);
+				const isImage = await fileMatchesMimeTypes(filesArr[i], standardImageMimeTypes);
 
 				// 50MB max file size
 				if (!isImage) {
@@ -279,11 +280,11 @@
 					});
 				} else {
 					// is image file
-					if (files[i].size < maxFileSize.value) {
+					if (filesArr[i].size < maxFileSize.value) {
 						const fileName = `${props.filePrefix ?? "image"}_${i}`;
 
-						savedFiles.push(renameFile(files[i], fileName));
-						savedThumbs.push(await getBase64FromImageFile(files[i]));
+						savedFiles.push(renameFile(filesArr[i], fileName));
+						savedThumbs.push(await getBase64FromImageFile(filesArr[i]));
 					} else {
 						// file too big
 						Swal.fire({
