@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.52](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.51...@open-xamu-co/ui-components-vue-v3.0.0-next.52) (2024-12-05)
+
+
+### Bug Fixes
+
+* **vue:** prefer array over filelist ([3cbd0cc](https://github.com/xamu-co/ui/commit/3cbd0ccf05d32ca2720f38ee35c31902be03e1b6))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.52"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.51](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.50...@open-xamu-co/ui-components-vue-v3.0.0-next.51) (2024-12-01)
 
 
