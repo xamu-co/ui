@@ -27,6 +27,8 @@
 	import { ref, watch, type Ref, computed, onActivated, onDeactivated, inject } from "vue";
 	import isEqual from "lodash-es/isEqual";
 
+	import { useUtils } from "@open-xamu-co/ui-common-helpers";
+
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import LoaderContent from "./Content.vue";
 
@@ -34,6 +36,7 @@
 	import type { iUseThemeProps } from "../../types/props";
 	import type { iVuePluginOptions } from "../../types/plugin";
 	import { useAsyncDataFn } from "../../composables/async";
+	import { useHelpers } from "../../composables/utils";
 
 	export interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
 		noContentMessage?: string;
@@ -100,6 +103,7 @@
 	const props = defineProps<iLoaderContentFetchProps<T, P>>();
 	const emit = defineEmits(["refresh"]);
 
+	const { logger } = useHelpers(useUtils);
 	const xamuOptions = inject<iVuePluginOptions>("xamu");
 	const useAsyncData = xamuOptions?.asyncDataFn ?? useAsyncDataFn;
 
@@ -170,7 +174,9 @@
 					if (data) newData = data;
 				}
 			} catch (err) {
-				console.error(err);
+				const errorMessage = err instanceof Error ? err.message : "unknown error";
+
+				logger("LoaderContentFetch:useAsyncData", errorMessage, err);
 
 				throw err; // throw error anyway
 			}

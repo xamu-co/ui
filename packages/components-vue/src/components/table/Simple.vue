@@ -258,7 +258,9 @@
 											<IconFa name="ellipsis-vertical" />
 										</ActionLink>
 									</template>
-									<template #default="{ setModel, invertedTheme, model }">
+									<template
+										#default="{ setModel, invertedTheme, model, dropdownRef }"
+									>
 										<ul
 											v-if="model"
 											class="flx --flxColumn --flx-start-stretch --gap-10"
@@ -281,7 +283,13 @@
 													:theme="dangerThemeValues"
 													:size="size"
 													:aria-label="t('table_delete')"
-													@click="deleteNodeAndRefresh(node, setModel)"
+													@click="
+														deleteNodeAndRefresh(
+															node,
+															setModel,
+															dropdownRef
+														)
+													"
 												>
 													<IconFa name="trash-can" />
 													<span>{{ t("table_delete") }}</span>
@@ -703,7 +711,7 @@
 				icon: "warning",
 				title: t("swal.table_updated"),
 				text: t("swal.table_possibly_not_updated"),
-				target: <HTMLElement>event?.target,
+				target: event,
 			});
 		}
 	}
@@ -740,7 +748,7 @@
 				icon: "warning",
 				title: t("swal.table_cloned"),
 				text: t("swal.table_possibly_not_cloned"),
-				target: <HTMLElement>event?.target,
+				target: event,
 			});
 		}
 	}
@@ -751,12 +759,17 @@
 	 *
 	 * @single
 	 */
-	async function deleteNodeAndRefresh(node: T, toggleModal: (m?: boolean) => any) {
+	async function deleteNodeAndRefresh(
+		node: T,
+		toggleModal: (m?: boolean) => any,
+		modalRef?: HTMLElement
+	) {
 		// request confirmation
 		const { value } = await Swal.firePrevent({
 			title: t("table_delete"),
 			text: t("swal.table_delete_node_title"),
 			footer: t("swal.table_delete_node_disclaimer"),
+			target: modalRef,
 		});
 
 		if (!value) return;
@@ -786,7 +799,7 @@
 				icon: "warning",
 				title: t("swal.table_deleted"),
 				text: t("swal.table_possibly_not_deleted"),
-				target: <HTMLElement>event?.target,
+				target: event,
 			});
 		}
 	}
@@ -835,7 +848,7 @@
 				icon: "warning",
 				title: t("swal.table_deleted"),
 				text: t("swal.table_possibly_not_deleted", props.nodes.length),
-				target: <HTMLElement>event?.target,
+				target: event,
 			});
 		}
 	}

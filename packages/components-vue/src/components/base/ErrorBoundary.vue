@@ -11,7 +11,7 @@
 <script setup lang="ts">
 	import { ref, onErrorCaptured } from "vue";
 
-	import { useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import BoxMessage from "../box/Message.vue";
 
@@ -36,13 +36,14 @@
 	const props = defineProps<iLoaderContentProps>();
 
 	const { t } = useHelpers(useI18n);
+	const { logger } = useHelpers(useUtils);
 	const { dangerThemeValues } = useTheme(props);
 
 	const errors = ref();
 
 	// lifecycle
 	onErrorCaptured((err) => {
-		console.error(err);
+		logger("ErrorBoundary", err);
 		errors.value = err;
 
 		return false;

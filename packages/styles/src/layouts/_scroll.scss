@@ -7,22 +7,24 @@
 	@layer definitions {
 		.#{utils.$layout-scroll} {
 			@media (any-pointer: coarse) {
-				&::-webkit-scrollbar {
-					width: 0.4rem;
-					height: 0.4rem;
-				}
+				@layer defaults {
+					&::-webkit-scrollbar {
+						width: 0.4rem;
+						height: 0.4rem;
+					}
 
-				&::-webkit-scrollbar-track {
-					background-color: utils.color(light);
-				}
+					&::-webkit-scrollbar-track {
+						background-color: utils.color(light);
+					}
 
-				&::-webkit-scrollbar-thumb {
-					background-color: utils.color(dark, 0.3);
-				}
+					&::-webkit-scrollbar-thumb {
+						background-color: utils.color(dark, 0.3);
+					}
 
-				&::-webkit-scrollbar-track,
-				&::-webkit-scrollbar-thumb {
-					border-radius: 100px * utils.strip-unit(utils.$size-radius);
+					&::-webkit-scrollbar-track,
+					&::-webkit-scrollbar-thumb {
+						border-radius: 100px * utils.strip-unit(utils.$size-radius);
+					}
 				}
 			}
 

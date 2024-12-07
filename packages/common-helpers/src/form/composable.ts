@@ -26,7 +26,7 @@ import { FormInput } from "./input";
  */
 export default function useForm(options: iPluginOptions = {}) {
 	const { t } = useI18n(options);
-	const { isBrowser } = useUtils(options);
+	const { isBrowser, logger } = useUtils(options);
 	const Swal = useSwal(options);
 
 	/**
@@ -63,10 +63,10 @@ export default function useForm(options: iPluginOptions = {}) {
 				}
 			} catch (err) {
 				// Network error probably
+				const errorMessage = err instanceof Error ? err.message : "unknown error";
 
 				errors = err;
-				// eslint-disable-next-line no-console
-				console.error(err);
+				logger("useForm:getResponse", errorMessage, err);
 
 				if (withSwal) {
 					const { value } = await Swal.fire({

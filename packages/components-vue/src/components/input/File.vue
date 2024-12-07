@@ -198,7 +198,7 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { isBrowser } = useHelpers(useUtils);
+	const { isBrowser, logger } = useHelpers(useUtils);
 	const Swal = useHelpers(useSwal);
 	const { themeClasses, dangerThemeClasses, themeValues, dangerThemeValues } = useTheme(props);
 
@@ -242,11 +242,11 @@
 	/**
 	 * stores the files
 	 */
-	async function storeFiles(files: FileList) {
+	async function storeFiles(files: FileList, target: Event) {
 		isLoading.value = true;
 
 		// copy the files
-		const filesArr = [...files]; // FileList is unstable
+		const filesArr = Array.from(files); // FileList is unstable
 		const savedFiles = [...props.modelValue].filter((v) => v instanceof File);
 		const savedThumbs = [...thumbnails.value];
 
@@ -261,6 +261,7 @@
 							amount: maxAmount.value,
 						}),
 						icon: "warning",
+						target,
 					});
 
 					break;
@@ -277,6 +278,7 @@
 						title: t("swal.file_wrong_format_image"),
 						text: t("swal.file_wrong_format_image_text"),
 						icon: "warning",
+						target,
 					});
 				} else {
 					// is image file
@@ -291,6 +293,7 @@
 							title: t("swal.file_too_big"),
 							text: t("swal.file_too_big_text"),
 							icon: "warning",
+							target,
 						});
 					}
 				}
@@ -298,15 +301,15 @@
 
 			// last one, save all.
 			setFiles(savedFiles, savedThumbs);
-		} catch (error) {
-			console.log(error);
-
+		} catch (err) {
+			logger("InputFile:storeFiles", err);
 			Swal.fire({
 				title: t("swal.file_unknown_error"),
 				text: t("swal.file_unknown_error_text"),
 				icon: "error",
 				timer: undefined,
 				showConfirmButton: true,
+				target,
 			});
 		}
 
@@ -359,7 +362,7 @@
 		const { dataTransfer, originalEvent } = e as iDropEvent;
 
 		handleMouseOut(e);
-		storeFiles(dataTransfer?.files || originalEvent.dataTransfer.files);
+		storeFiles(dataTransfer?.files || originalEvent.dataTransfer.files, e);
 	}
 	/**
 	 * file was selected from file explorer
@@ -373,7 +376,7 @@
 		if (!target.files) return;
 
 		prevent(e);
-		storeFiles(target.files);
+		storeFiles(target.files, e);
 	}
 
 	// lifecycle
