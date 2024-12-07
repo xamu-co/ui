@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.16...@open-xamu-co/ui-common-helpers-v3.0.0-next.17) (2024-12-07)
+
+
+### Features
+
+* support logger ([b4acccc](https://github.com/xamu-co/ui/commit/b4accccc063599ce421ffb37ad740e91681ff0df))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.0-next.17"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.15...@open-xamu-co/ui-common-helpers-v3.0.0-next.16) (2024-12-05)
 
 
