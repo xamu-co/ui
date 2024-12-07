@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.10...@open-xamu-co/ui-nuxt-v3.0.0-next.11) (2024-12-07)
+
+
+### Features
+
+* support logger ([b4acccc](https://github.com/xamu-co/ui/commit/b4accccc063599ce421ffb37ad740e91681ff0df))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0-next.9...@open-xamu-co/ui-nuxt-v3.0.0-next.10) (2024-11-23)
 
 
