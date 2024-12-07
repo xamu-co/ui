@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.53](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.52...@open-xamu-co/ui-components-vue-v3.0.0-next.53) (2024-12-07)
+
+
+### Bug Fixes
+
+* use target on swals ([cce89a6](https://github.com/xamu-co/ui/commit/cce89a603a8627ec41fd019aeed5016fe5b0e1db))
+
+
+### Features
+
+* support logger ([b4acccc](https://github.com/xamu-co/ui/commit/b4accccc063599ce421ffb37ad740e91681ff0df))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.53"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.52](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.51...@open-xamu-co/ui-components-vue-v3.0.0-next.52) (2024-12-05)
 
 
