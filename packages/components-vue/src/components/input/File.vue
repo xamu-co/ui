@@ -198,7 +198,7 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { isBrowser } = useHelpers(useUtils);
+	const { isBrowser, logger } = useHelpers(useUtils);
 	const Swal = useHelpers(useSwal);
 	const { themeClasses, dangerThemeClasses, themeValues, dangerThemeValues } = useTheme(props);
 
@@ -246,7 +246,7 @@
 		isLoading.value = true;
 
 		// copy the files
-		const filesArr = [...files]; // FileList is unstable
+		const filesArr = Array.from(files); // FileList is unstable
 		const savedFiles = [...props.modelValue].filter((v) => v instanceof File);
 		const savedThumbs = [...thumbnails.value];
 
@@ -298,9 +298,8 @@
 
 			// last one, save all.
 			setFiles(savedFiles, savedThumbs);
-		} catch (error) {
-			console.log(error);
-
+		} catch (err) {
+			logger("InputFile:storeFiles", err);
 			Swal.fire({
 				title: t("swal.file_unknown_error"),
 				text: t("swal.file_unknown_error_text"),

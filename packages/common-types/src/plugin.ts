@@ -4,6 +4,7 @@ import type { tPluginLocale } from "./locale.js";
 import type { SweetAlertOptions } from "sweetalert2";
 
 export type tComponent = (typeof componentNames)[number];
+export type tLogger = (at: string, ...logs: unknown[]) => any;
 
 export type tSupportedLangs =
 	| "kr"
@@ -133,4 +134,10 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 * @default 10
 	 */
 	first?: number;
+	/**
+	 * Logger function for debugging purposes
+	 *
+	 * @default console.log
+	 */
+	logger?: tLogger;
 }

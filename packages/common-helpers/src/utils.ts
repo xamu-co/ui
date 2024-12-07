@@ -1,4 +1,4 @@
-import type { iPluginOptions, tProp, tPropsModifier } from "@open-xamu-co/ui-common-types";
+import type { iPluginOptions, tLogger, tProp, tPropsModifier } from "@open-xamu-co/ui-common-types";
 
 interface igetModifiersArgs {
 	modifier?: string;
@@ -120,15 +120,41 @@ function createUrlSearchParams(object: Record<string, any>) {
 }
 
 /**
+ * Simple logger
+ *
+ * @composable
+ */
+const logger: tLogger = (at, errorOrMessage, error) => {
+	if (!error) {
+		if (errorOrMessage instanceof Error) {
+			console.error(at, errorOrMessage.message, errorOrMessage);
+
+			return;
+		} else if (typeof errorOrMessage === "string") {
+			console.log(at, errorOrMessage);
+
+			return;
+		}
+	} else if (typeof errorOrMessage === "string") {
+		console.error(at, errorOrMessage, error);
+
+		return;
+	}
+
+	console.error(at, "Unknown error", error);
+};
+
+/**
  * Utils Composable
  *
  * @composable
  */
-export default function useUtils(_options: iPluginOptions = {}) {
+export default function useUtils(options: iPluginOptions = {}) {
 	const isBrowser = typeof window !== "undefined";
 	const isTouchDevice = isBrowser && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
 	return {
+		logger: options.logger || logger,
 		isBrowser,
 		isTouchDevice,
 		getModifierClasses,

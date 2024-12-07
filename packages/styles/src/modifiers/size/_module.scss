@@ -167,7 +167,7 @@
 	@each $size in module.$size-px {
 		&-#{$size} {
 			@include module.extend-viewports-classes {
-				#{$property}: math.round(math.div($size, 15)) * 1rem;
+				#{$property}: min(math.round(math.div($size, 15)) * 1rem, 100%);
 			}
 		}
 	}
