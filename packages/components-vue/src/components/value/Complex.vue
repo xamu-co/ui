@@ -215,7 +215,7 @@
 	 * Creates given node
 	 * sometimes it could fail but still create (api issue)
 	 */
-	async function createNodeAndRefresh() {
+	async function createNodeAndRefresh(target: Event) {
 		// display loader
 		Swal.fireLoader();
 
@@ -233,12 +233,14 @@
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_created"),
+				target,
 			});
 		} else {
 			Swal.fire({
 				icon: "warning",
 				title: t("swal.table_created"),
 				text: t("swal.table_possibly_not_created"),
+				target,
 			});
 		}
 

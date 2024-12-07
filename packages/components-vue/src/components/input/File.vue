@@ -242,7 +242,7 @@
 	/**
 	 * stores the files
 	 */
-	async function storeFiles(files: FileList) {
+	async function storeFiles(files: FileList, target: Event) {
 		isLoading.value = true;
 
 		// copy the files
@@ -261,6 +261,7 @@
 							amount: maxAmount.value,
 						}),
 						icon: "warning",
+						target,
 					});
 
 					break;
@@ -277,6 +278,7 @@
 						title: t("swal.file_wrong_format_image"),
 						text: t("swal.file_wrong_format_image_text"),
 						icon: "warning",
+						target,
 					});
 				} else {
 					// is image file
@@ -291,6 +293,7 @@
 							title: t("swal.file_too_big"),
 							text: t("swal.file_too_big_text"),
 							icon: "warning",
+							target,
 						});
 					}
 				}
@@ -306,6 +309,7 @@
 				icon: "error",
 				timer: undefined,
 				showConfirmButton: true,
+				target,
 			});
 		}
 
@@ -358,7 +362,7 @@
 		const { dataTransfer, originalEvent } = e as iDropEvent;
 
 		handleMouseOut(e);
-		storeFiles(dataTransfer?.files || originalEvent.dataTransfer.files);
+		storeFiles(dataTransfer?.files || originalEvent.dataTransfer.files, e);
 	}
 	/**
 	 * file was selected from file explorer
@@ -372,7 +376,7 @@
 		if (!target.files) return;
 
 		prevent(e);
-		storeFiles(target.files);
+		storeFiles(target.files, e);
 	}
 
 	// lifecycle
