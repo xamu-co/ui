@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.54](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.53...@open-xamu-co/ui-components-vue-v3.0.0-next.54) (2024-12-16)
+
+
+### Bug Fixes
+
+* **vue:** use locale on list ([b8ffb11](https://github.com/xamu-co/ui/commit/b8ffb11a31cebd0d0abcaba142a0c0c6ac173c83))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.54"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.53](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.52...@open-xamu-co/ui-components-vue-v3.0.0-next.53) (2024-12-07)
 
 
