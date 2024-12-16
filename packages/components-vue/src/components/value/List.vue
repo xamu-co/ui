@@ -1,21 +1,19 @@
 <template>
 	<ul class="flx --flxColumn --minWidth-220" :class="classes">
 		<li
-			v-for="([childValueName, childValue], childValueIndex) in useSortObject(value)"
-			:key="childValueIndex"
+			v-for="(child, childIndex) in list"
+			:key="childIndex"
 			class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
 		>
-			<span class="--txtSize-xs" :title="childValueName">
-				{{ upperFirst(startCase(childValueName)) }}
-			</span>
+			<span class="--txtSize-xs" :title="child.key">{{ child.alias }}</span>
 			<!-- Recursion -->
 			<ValueComplex
 				v-bind="{
-					value: childValue,
+					value: child.value,
 					node,
 					property: {
-						value: childValueName,
-						alias: upperFirst(startCase(childValueName)),
+						value: child.key,
+						alias: child.alias,
 					},
 					readonly,
 					theme,
@@ -30,14 +28,16 @@
 <script setup lang="ts" generic="P extends Record<string, any>">
 	import startCase from "lodash-es/startCase";
 	import upperFirst from "lodash-es/upperFirst";
+	import snakeCase from "lodash-es/snakeCase";
+	import { type AllowedComponentProps, computed } from "vue";
 
 	import type { iProperty, tProps } from "@open-xamu-co/ui-common-types";
-	import { useSortObject } from "@open-xamu-co/ui-common-helpers";
+	import { useSortObject, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import ValueComplex from "./Complex.vue";
 
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
-	import type { AllowedComponentProps } from "vue";
+	import { useHelpers } from "../../composables/utils";
 
 	export interface iValueListProps extends iUseThemeProps {
 		/**
@@ -66,5 +66,18 @@
 	 */
 
 	defineOptions({ name: "ValueList", inheritAttrs: false });
-	defineProps<iValueListProps>();
+
+	const props = defineProps<iValueListProps>();
+
+	const { tet } = useHelpers(useI18n);
+
+	const list = computed(() => {
+		return useSortObject(props.value).map(([key, value]) => {
+			return {
+				key,
+				value,
+				alias: upperFirst(startCase(tet(snakeCase(key)))),
+			};
+		});
+	});
 </script>

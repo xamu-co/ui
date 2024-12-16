@@ -55,7 +55,7 @@
 					</template>
 				</Modal>
 				<div v-else class="flx --flxRow --flx-start-center --gap-5">
-					<template v-for="(childValue, childValueIndex) in value" :key="childValueIndex">
+					<template v-for="(childValue, childIndex) in value" :key="childIndex">
 						<ValueSimple
 							v-bind="{
 								value: childValue,
@@ -68,7 +68,7 @@
 								size,
 							}"
 						/>
-						<span v-if="childValueIndex < value.length - 1">⋅</span>
+						<span v-if="childIndex < value.length - 1">⋅</span>
 					</template>
 				</div>
 			</template>
@@ -87,15 +87,15 @@
 				class="flx --flxRow --flx-start-center --gap-5"
 			>
 				<template
-					v-for="([childValueName, childValue], childValueIndex) in useSortObject(value)"
-					:key="childValueIndex"
+					v-for="([childKey, childValue], childIndex) in useSortObject(value)"
+					:key="childIndex"
 				>
 					<ValueSimple
 						v-bind="{
 							value: childValue,
 							property: {
-								value: childValueName,
-								alias: upperFirst(startCase(childValueName)),
+								value: childKey,
+								alias: upperFirst(startCase(tet(snakeCase(childKey)))),
 							},
 							readonly,
 							theme,
@@ -105,7 +105,7 @@
 							size,
 						}"
 					/>
-					<span v-if="childValueIndex < Object.keys(value).length - 1">⋅</span>
+					<span v-if="childIndex < Object.keys(value).length - 1">⋅</span>
 				</template>
 			</div>
 			<!-- Any other object -->
@@ -174,6 +174,7 @@
 <script setup lang="ts">
 	import upperFirst from "lodash-es/upperFirst";
 	import startCase from "lodash-es/startCase";
+	import snakeCase from "lodash-es/snakeCase";
 
 	import { useI18n, useSwal, useSortObject } from "@open-xamu-co/ui-common-helpers";
 
@@ -202,7 +203,7 @@
 	const props = defineProps<iValueComplexProps>();
 
 	const { themeValues } = useTheme(props);
-	const { t } = useHelpers(useI18n);
+	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
 
 	function remapValues(values: unknown[]): Record<string, any>[] {
