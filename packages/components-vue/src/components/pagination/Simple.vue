@@ -77,7 +77,7 @@
 		 * pagination params
 		 */
 		modelValue?: iPagination;
-		currentPage: iPage<Ti, Ci> | null;
+		currentPage?: iPage<Ti, Ci> | null;
 	}
 
 	/**

@@ -12,6 +12,7 @@
 				label,
 				noLoader,
 				ignoreErrors,
+				el: loaderEl,
 			}"
 			:class="$attrs.class"
 		>
@@ -40,21 +41,18 @@
 
 	export interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
 		noContentMessage?: string;
-		/**
-		 * Loader label
-		 */
+		/** Loader label */
 		label?: string;
-		/**
-		 * Hide loader
-		 */
+		/** Hide loader */
 		noLoader?: boolean;
 		fallback?: NoInfer<Ti>;
+		/** Remove loader wrapper element */
 		unwrap?: boolean;
 		/**
 		 * URL to fetch from
 		 *
 		 * Used as key if promise or hydratablePromise are provided.
-		 * Make sure to use preventAutoload to avoid invalid fetching
+		 * Make sure to use preventAutoload to avoid invalid fetching.
 		 */
 		url?: false | string;
 		promise?: false | ((...args: Pi) => Promise<Ti>);
@@ -74,17 +72,13 @@
 			  ) => (...args: Pi) => Promise<Ti>);
 		payload?: Pi;
 		/**
-		 * Component or tag to render
+		 * Component or tag to render on loader
 		 */
-		el?: vComponent | string;
+		loaderEl?: vComponent | string;
 		preventAutoload?: boolean;
-		/**
-		 * Additional content validation before rendering fetched data
-		 */
-		isContent?: (c?: any) => boolean;
-		/**
-		 * Ignore errors and display existing content.
-		 */
+		/** Additional content validation before rendering fetched data */
+		isContent?: (c?: NoInfer<Ti>) => boolean;
+		/** Ignore errors and display existing content */
 		ignoreErrors?: boolean;
 	}
 

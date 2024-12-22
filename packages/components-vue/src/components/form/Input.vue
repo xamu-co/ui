@@ -121,6 +121,8 @@
 				</FormInputNValues>
 				<FormInputNValues
 					v-else-if="input.type === eFT.PHONE || input.type === eFT.CELLPHONE"
+					v-bind="{ loading, errors, refresh }"
+					:content="!!indicativesArr.length"
 					:model="models[i].value"
 					:values="[2]"
 				>
@@ -147,8 +149,7 @@
 				<FormInputCountriesAPI
 					v-else-if="input.type === eFT.LOCATION"
 					v-slot="{ statesReq, citiesReq }"
-					:states="states"
-					:theme="theme"
+					v-bind="{ theme, states, countries, loading, errors, refresh }"
 					:model="models[i].value"
 				>
 					<SelectFilter
@@ -318,6 +319,9 @@
 		invalid?: iInvalidInput;
 		countries?: iCountry[];
 		states?: iState[];
+		loading?: boolean;
+		errors?: unknown;
+		refresh?: (...args: any[]) => any;
 		/** Make all inputs read only by disabling them */
 		readonly?: boolean;
 	}
