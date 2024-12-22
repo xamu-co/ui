@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.55](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.54...@open-xamu-co/ui-components-vue-v3.0.0-next.55) (2024-12-22)
+
+
+### Bug Fixes
+
+* **vue:** improve countries api error handling on form ([5891ffe](https://github.com/xamu-co/ui/commit/5891ffeca7bff05b167dcce45851ec9fa809ea1e))
+
+
+### Features
+
+* **vue:** head actions slot on table ([52e4ea8](https://github.com/xamu-co/ui/commit/52e4ea8f1b19cd216398a73e935e8a57b3c1dc20))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.55"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.54](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.53...@open-xamu-co/ui-components-vue-v3.0.0-next.54) (2024-12-16)
 
 
