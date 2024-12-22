@@ -105,8 +105,7 @@
 	const props = withDefaults(defineProps<iPCProps<T, C, R>>(), {
 		processContent: (c: T[]) => c,
 	});
-
-	defineEmits(["refresh"]);
+	const emit = defineEmits(["refresh", "hasContent"]);
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
@@ -165,6 +164,10 @@
 	});
 
 	function isContent(c?: iPage<T, C>): boolean {
-		return !!c?.edges.length;
+		const hasContent = !!c?.edges.length;
+
+		emit("hasContent", hasContent);
+
+		return hasContent;
 	}
 </script>

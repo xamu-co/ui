@@ -1,37 +1,48 @@
 <template>
-	<div v-if="nodes.length" :class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]">
+	<div
+		v-if="nodes.length || $slots.headActions"
+		:class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]"
+	>
 		<table
 			:id="tableId"
 			class="tbl --minWidth-100"
 			:class="[{ '--nested': nested }, themeClasses]"
 		>
 			<thead>
-				<tr v-if="!isReadOnly || $slots.default" class="no--hover">
+				<tr v-if="!isReadOnly || $slots.default || $slots.headActions" class="no--hover">
 					<td :colspan="propertiesMeta.length + 2">
+						<!-- Sticky scrolling fix  -->
 						<table :id="`bulk_${tableId}`" class="tbl tbl-helper" :class="themeClasses">
 							<tbody>
 								<tr class="no--hover">
-									<th v-if="$slots.default" class="--sticky --pBottom-10">
-										<ActionButtonLink
-											:theme="theme"
-											:active="openNodesCount === selectedNodes.length"
-											round=":sm-inv"
-											@click="
-												toggleAll(
-													!(openNodesCount === selectedNodes.length),
-													1
-												)
-											"
-										>
-											<span class="--hidden-full:sm-inv">
-												{{
-													openNodesCount === selectedNodes.length
-														? t("table_hide_all")
-														: t("table_show_all")
-												}}
-											</span>
-											<IconFa class="--indicator" name="chevron-up" />
-										</ActionButtonLink>
+									<th
+										v-if="$slots.default || $slots.headActions"
+										class="--sticky --pBottom-10"
+									>
+										<div class="flx --flxRow --flx-start-center --flx">
+											<ActionButtonLink
+												v-if="$slots.default && nodes.length"
+												:theme="theme"
+												:active="openNodesCount === selectedNodes.length"
+												round=":sm-inv"
+												@click="
+													toggleAll(
+														!(openNodesCount === selectedNodes.length),
+														1
+													)
+												"
+											>
+												<span class="--hidden-full:sm-inv">
+													{{
+														openNodesCount === selectedNodes.length
+															? t("table_hide_all")
+															: t("table_show_all")
+													}}
+												</span>
+												<IconFa class="--indicator" name="chevron-up" />
+											</ActionButtonLink>
+											<slot name="headActions"></slot>
+										</div>
 									</th>
 									<td
 										class="--pBottom-10"
@@ -39,7 +50,7 @@
 										width="99%"
 									></td>
 									<th
-										v-if="!isReadOnly"
+										v-if="!isReadOnly && nodes.length"
 										class="--sticky --pBottom-10"
 										colspan="0"
 										width="1px"
@@ -71,7 +82,7 @@
 						</table>
 					</td>
 				</tr>
-				<tr class="--txtAlign" :class="`--txtSize-${size}`">
+				<tr v-if="nodes.length" class="--txtAlign" :class="`--txtSize-${size}`">
 					<!-- TODO: define filters, filter table contents -->
 					<th
 						class="--sticky"
@@ -151,7 +162,7 @@
 					</th>
 				</tr>
 			</thead>
-			<tbody :class="classes">
+			<tbody v-if="nodes.length" :class="classes">
 				<template v-for="(node, nodeIndex) in nodes" :key="nodeIndex">
 					<tr
 						class="--txtAlign"
@@ -491,7 +502,7 @@
 		/**
 		 * Function used to create a node children
 		 *
-		 * Useful to display the add button for the slot contents
+		 * Useful to display the add button for the default slot contents
 		 */
 		createNodeChildren?: iNodeFn<NoInfer<Ti>>;
 		/**

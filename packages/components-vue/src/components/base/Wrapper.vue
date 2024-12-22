@@ -40,5 +40,5 @@
 	/**
 	 * TODO: improve type safety for scoped slots in wrapper
 	 */
-	defineSlots<{ default(v: Record<string, any>): Record<string, any> }>();
+	defineSlots<{ default(v: Record<string, any>): void }>();
 </script>
