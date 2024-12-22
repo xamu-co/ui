@@ -6,8 +6,6 @@
 </template>
 
 <script setup lang="ts">
-	import type { PropType } from "vue";
-
 	import type { vComponent } from "../../types/plugin";
 
 	/**
@@ -21,22 +19,15 @@
 	 */
 
 	defineOptions({ name: "BaseWrapper", inheritAttrs: false });
-	defineProps({
-		/**
-		 * Wheter or not render the wrapper
-		 */
-		wrap: {
-			type: Boolean,
-			required: true,
-		},
-		/**
-		 * Component or tag to render
-		 */
-		el: {
-			type: [String, Object, Function] as PropType<vComponent | string>,
-			default: "div",
-		},
-	});
+	withDefaults(
+		defineProps<{
+			/** Wheter or not render the wrapper */
+			wrap: boolean;
+			/** Component or tag to render */
+			el?: vComponent | string;
+		}>(),
+		{ el: "div" }
+	);
 	/**
 	 * TODO: improve type safety for scoped slots in wrapper
 	 */

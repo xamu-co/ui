@@ -1,13 +1,19 @@
 <template>
-	<FormInputNValues :key="states?.length" :model="model" :values="[1, 3]">
+	<FormInputNValues
+		:key="states?.length"
+		v-bind="{ model, loading, errors, refresh }"
+		:content="!!countries?.length"
+		:values="[1, 3]"
+	>
 		<BaseWrapper
 			v-slot="statesReq"
 			:el="LoaderContentFetch"
-			:wrap="!states && !!countryValue"
+			:wrap="!loading && !states && !!countryValue"
 			:theme="theme"
 			:promise="getCountryStates"
 			:url="`/${model[0]}?states`"
 			:payload="[countryValue]"
+			:is-content="hasLength"
 			unwrap
 		>
 			<LoaderContentFetch
@@ -17,9 +23,8 @@
 				:promise="!!model[1] && getStateCities"
 				:url="`/${model[0]}/${model[1]}?cities`"
 				:payload="[countryValue, model[1]]"
-				:no-loader="statesReq.loading"
-				:fallback="[]"
-				ignore-errors
+				:no-loader="statesReq?.loading"
+				:is-content="hasLength"
 				unwrap
 			>
 				<slot v-bind="{ statesReq, citiesReq }"></slot>
@@ -37,12 +42,16 @@
 	import FormInputNValues from "./InputNValues.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
-	import type { iState } from "../../types/countries";
+	import type { iCountry, iState } from "../../types/countries";
 	import useCountries from "../../composables/countries";
 
 	interface iFormInputCountriesApi extends iUseThemeProps {
 		model: string[];
+		countries?: iCountry[];
 		states?: iState[];
+		loading?: boolean;
+		errors?: unknown;
+		refresh?: (...args: any[]) => any;
 	}
 
 	/**
@@ -53,9 +62,13 @@
 
 	defineOptions({ name: "FormInputCountriesApi", inheritAttrs: true });
 
-	const props = defineProps<iFormInputCountriesApi>();
+	const props = withDefaults(defineProps<iFormInputCountriesApi>(), { states: () => [] });
 
 	const { defaultCountry, getCountryStates, getStateCities } = useCountries();
 
 	const countryValue = computed(() => props.model[0] || defaultCountry || "");
+
+	function hasLength(array?: any[]) {
+		return !!array?.length;
+	}
 </script>

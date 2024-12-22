@@ -3,7 +3,7 @@ import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 
 import type { useAsyncDataFn } from "../composables/async";
 
-export type vComponent<P extends Record<string, any> = any> =
+export type vComponent<P extends Record<string, any> = Record<string, any>> =
 	| VueComponent<P>
 	| FunctionalComponent<P>
 	| DefineComponent<P>;

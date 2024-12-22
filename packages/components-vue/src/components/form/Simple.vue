@@ -1,43 +1,47 @@
 <template>
 	<BaseErrorBoundary :theme="theme">
-		<LoaderContentFetch
+		<div
 			v-if="model.length"
-			v-slot="{ content }"
-			:theme="theme"
-			:label="t('form_loading_countries')"
-			:prevent-autoload="!(withLocationInput || withPhoneInput)"
-			:promise="(withLocationInput || withPhoneInput) && getCountriesAndStates"
-			:url="`/countries${defaultCountry ? '?states' : ''}`"
 			class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
-			:el="noForm ? 'fieldset' : 'form'"
-			:fallback="{ countries: [], states: [] }"
-			ignore-errors
 		>
 			<legend v-if="title">
 				<h4>{{ title }}:</h4>
 			</legend>
-			<template v-for="(input, inputIndex) in model" :key="inputIndex">
-				<div
-					v-if="input && model[inputIndex]"
-					class="flx --flxColumn --flx-start-stretch --gap-5"
-				>
-					<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
-						{{ getSuggestedTitle(input) }}
-					</p>
-					<FormInput
-						:key="`simple-${input.name}-${input.options.length}`"
-						:readonly="readonly"
-						:theme="theme"
-						:input="input"
-						:invalid="getInvalid(input.name)"
-						:countries="content.countries"
-						:states="withLocationInput && !!defaultCountry ? content.states : undefined"
-						:model-value="model[inputIndex].values"
-						@update:model-value="updateValues(inputIndex, $event)"
-					/>
-				</div>
-			</template>
-		</LoaderContentFetch>
+			<LoaderContentFetch
+				v-slot="{ content, loading, errors, refresh }"
+				:theme="theme"
+				:label="t('form_loading_countries')"
+				:prevent-autoload="!withLocationInput && !withPhoneInput"
+				:promise="(withLocationInput || withPhoneInput) && getCountriesAndStates"
+				:url="`/countries${defaultCountry ? '?states' : ''}`"
+				:el="noForm ? 'fieldset' : 'form'"
+				:fallback="{ countries: [], states: [] }"
+				ignore-errors
+				unwrap
+			>
+				<template v-for="(input, inputIndex) in model" :key="inputIndex">
+					<div
+						v-if="input && model[inputIndex]"
+						class="flx --flxColumn --flx-start-stretch --gap-5"
+					>
+						<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
+							{{ getSuggestedTitle(input) }}
+						</p>
+						<FormInput
+							:key="`input-${input.name}-${input.options.length}`"
+							v-bind="{ readonly, theme, input, loading, errors, refresh }"
+							:invalid="getInvalid(input.name)"
+							:countries="content.countries"
+							:states="
+								withLocationInput && !!defaultCountry ? content.states : undefined
+							"
+							:model-value="model[inputIndex].values"
+							@update:model-value="updateValues(inputIndex, $event)"
+						/>
+					</div>
+				</template>
+			</LoaderContentFetch>
+		</div>
 		<slot v-else>
 			<!-- No inputs given -->
 			<BaseBox class="--width-100" :theme="theme" button dashed transparent>

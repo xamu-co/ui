@@ -1,13 +1,15 @@
 <template>
-	<div
-		v-if="Array.isArray(model) && modelHasLength"
-		class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
-	>
-		<slot></slot>
-	</div>
-	<p v-else class="--txtColor-danger">
-		{{ values.map((l) => t("form_requires_n_values", l)).join(" or ") }}
-	</p>
+	<LoaderContent v-bind="{ loading, content, errors, refresh }">
+		<div
+			v-if="Array.isArray(model) && modelHasLength"
+			class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
+		>
+			<slot></slot>
+		</div>
+		<p v-else class="--txtColor-danger">
+			{{ values.map((l) => t("form_requires_n_values", l)).join(" or ") }}
+		</p>
+	</LoaderContent>
 </template>
 
 <script setup lang="ts" generic="T">
@@ -15,11 +17,18 @@
 
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
+	import LoaderContent from "../loader/Content.vue";
+
 	import { useHelpers } from "../../composables/utils";
 
 	export interface iFormInputNValues<Ti> {
 		model: Ti[];
+		/** Expected model lengths */
 		values: number[];
+		content?: boolean;
+		loading?: boolean;
+		errors?: unknown;
+		refresh?: (...args: any[]) => any;
 	}
 
 	/**
@@ -30,7 +39,7 @@
 
 	defineOptions({ name: "FormInputNValues", inheritAttrs: true });
 
-	const props = defineProps<iFormInputNValues<T>>();
+	const props = withDefaults(defineProps<iFormInputNValues<T>>(), { content: true });
 
 	const { t } = useHelpers(useI18n);
 
