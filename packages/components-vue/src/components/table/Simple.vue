@@ -19,7 +19,9 @@
 										v-if="$slots.default || $slots.headActions"
 										class="--sticky --pBottom-10"
 									>
-										<div class="flx --flxRow --flx-start-center --flx">
+										<div
+											class="flx --flxRow --flx-start-center --gap-10 --gap:md --flx"
+										>
 											<ActionButtonLink
 												v-if="$slots.default && nodes.length"
 												:theme="theme"
@@ -55,7 +57,9 @@
 										colspan="0"
 										width="1px"
 									>
-										<div class="flx --flxRow --flx-end-center --flx">
+										<div
+											class="flx --flxRow --flx-end-center --gap-10 --gap:md --flx"
+										>
 											<ActionButton
 												v-if="deleteNode"
 												:tooltip="t('table_delete')"
