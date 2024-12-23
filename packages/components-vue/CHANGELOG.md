@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.56](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.55...@open-xamu-co/ui-components-vue-v3.0.0-next.56) (2024-12-23)
+
+
+### Bug Fixes
+
+* **vue:** table head responsive gap ([bb3dc16](https://github.com/xamu-co/ui/commit/bb3dc165bc667913012362765e61ba237caed612))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.56"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.55](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.54...@open-xamu-co/ui-components-vue-v3.0.0-next.55) (2024-12-22)
 
 
