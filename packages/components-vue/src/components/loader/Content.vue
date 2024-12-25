@@ -1,5 +1,5 @@
 <template>
-	<BaseWrapper :el="Transition" :wrap="!unwrap" name="fade" appear>
+	<BaseWrapper :wrapper="Transition" :wrap="!unwrap" name="fade" appear>
 		<div
 			v-if="!content || (errors && !ignoreErrors)"
 			class="flx --flxColumn --flx-center --width-100"

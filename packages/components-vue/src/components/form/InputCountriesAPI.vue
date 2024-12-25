@@ -7,7 +7,7 @@
 	>
 		<BaseWrapper
 			v-slot="statesReq"
-			:el="LoaderContentFetch"
+			:wrapper="LoaderContentFetch"
 			:wrap="!loading && !states && !!countryValue"
 			:theme="theme"
 			:promise="getCountryStates"
