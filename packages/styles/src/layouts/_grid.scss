@@ -111,7 +111,7 @@
 ///  </div>
 
 @mixin grid {
-	$column-third: math.div(utils.$size-min-column-size, 3);
+	$column-third: math.div(utils.$size-min-column, 3);
 	$row-third: math.div(utils.$size-min-row, 3);
 
 	@layer definitions {
@@ -207,10 +207,7 @@
 			&.#{utils.$prefix-default}--grdColumns {
 				// default, the same as .--grdColumns-auto3
 				@include utils.extend-viewports-classes($viewports: utils.$viewports) {
-					grid-template-columns: repeat(
-						auto-fit,
-						minmax(#{utils.$size-min-column-size}, 1fr)
-					);
+					grid-template-columns: repeat(auto-fit, minmax(#{utils.$size-min-column}, 1fr));
 				}
 
 				&-single {
@@ -247,7 +244,7 @@
 					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(
 							auto-fit,
-							minmax(#{utils.$size-min-column-size}, 1fr)
+							minmax(#{utils.$size-min-column}, 1fr)
 						);
 					}
 				}
@@ -256,7 +253,7 @@
 					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(
 							auto-fill,
-							minmax(#{utils.$size-min-column-size}, 1fr)
+							minmax(#{utils.$size-min-column}, 1fr)
 						);
 					}
 				}
@@ -266,7 +263,7 @@
 						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 							grid-template-columns: repeat(
 								auto-fit,
-								minmax(#{math.div(utils.$size-min-column-size, $i) * 3}, 1fr)
+								minmax(#{math.div(utils.$size-min-column, $i) * 3}, 1fr)
 							);
 						}
 					}
@@ -274,7 +271,7 @@
 						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 							grid-template-columns: repeat(
 								#{$i},
-								minmax(#{math.div(utils.$size-min-column-size, $i) * 3}, 1fr)
+								minmax(#{math.div(utils.$size-min-column, $i) * 3}, 1fr)
 							);
 						}
 					}

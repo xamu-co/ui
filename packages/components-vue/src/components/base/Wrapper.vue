@@ -1,5 +1,5 @@
 <template>
-	<component :is="el" v-if="wrap" v-slot="elSlots" v-bind="{ ...$attrs, ...$slots }">
+	<component :is="wrapper" v-if="wrap" v-slot="elSlots" v-bind="{ ...$attrs, ...$slots }">
 		<slot v-bind="{ ...elSlots }"></slot>
 	</component>
 	<slot v-else></slot>
@@ -23,10 +23,10 @@
 		defineProps<{
 			/** Wheter or not render the wrapper */
 			wrap: boolean;
-			/** Component or tag to render */
-			el?: vComponent | string;
+			/** Component or tag to render as wrapper */
+			wrapper?: vComponent | string;
 		}>(),
-		{ el: "div" }
+		{ wrapper: "div" }
 	);
 	/**
 	 * TODO: improve type safety for scoped slots in wrapper

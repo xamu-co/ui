@@ -96,9 +96,7 @@ $loop-letter-spacings: 6 !default;
 // SIZES
 $size-px: 1080, 480, 440, 220, 180, 90 !default;
 $size-px-default: 1200 !default;
-
-// TODO: fix broken naming
-$size-min-column-size: $font-size-md * 18 !default; // min column size, 280px aprox
+$size-min-column: $font-size-md * 18 !default; // min column size, 280px aprox
 $size-min-row: $font-size-md * 9 !default; // min row size, 280px aprox
 $size-max-text-width: 66ch !default; // max text block width, 780px aprox
 $size-line-height: 1.2em !default; // main line height

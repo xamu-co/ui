@@ -1,20 +1,21 @@
 <template>
 	<BaseErrorBoundary :theme="theme">
-		<div
+		<component
+			:is="noForm ? 'fieldset' : 'form'"
 			v-if="model.length"
 			class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
 		>
 			<legend v-if="title">
 				<h4>{{ title }}:</h4>
 			</legend>
-			<LoaderContentFetch
-				v-slot="{ content, loading, errors, refresh }"
+			<BaseWrapper
+				v-slot="{ content, ...countriesAndStatesReq } = {}"
+				:wrapper="LoaderContentFetch"
+				:wrap="withLocationInput || withPhoneInput"
 				:theme="theme"
 				:label="t('form_loading_countries')"
-				:prevent-autoload="!withLocationInput && !withPhoneInput"
-				:promise="(withLocationInput || withPhoneInput) && getCountriesAndStates"
+				:promise="getCountriesAndStates"
 				:url="`/countries${defaultCountry ? '?states' : ''}`"
-				:el="noForm ? 'fieldset' : 'form'"
 				:fallback="{ countries: [], states: [] }"
 				ignore-errors
 				unwrap
@@ -29,19 +30,21 @@
 						</p>
 						<FormInput
 							:key="`input-${input.name}-${input.options.length}`"
-							v-bind="{ readonly, theme, input, loading, errors, refresh }"
+							v-bind="{
+								...content,
+								...countriesAndStatesReq,
+								readonly,
+								theme,
+								input,
+							}"
 							:invalid="getInvalid(input.name)"
-							:countries="content.countries"
-							:states="
-								withLocationInput && !!defaultCountry ? content.states : undefined
-							"
 							:model-value="model[inputIndex].values"
 							@update:model-value="updateValues(inputIndex, $event)"
 						/>
 					</div>
 				</template>
-			</LoaderContentFetch>
-		</div>
+			</BaseWrapper>
+		</component>
 		<slot v-else>
 			<!-- No inputs given -->
 			<BaseBox class="--width-100" :theme="theme" button dashed transparent>
@@ -61,6 +64,7 @@
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
 	import { type FormInput as FormInputClass, useI18n } from "@open-xamu-co/ui-common-helpers";
 
+	import BaseWrapper from "../base/Wrapper.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import BaseBox from "../base/Box.vue";
 	import FormInput from "./Input.vue";

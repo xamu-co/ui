@@ -27,6 +27,17 @@
 				display: initial;
 			}
 
+			// Edge case.
+			// Tooltips on head will display over the first row
+			> thead:first-child {
+				> tr:first-child {
+					z-index: 1;
+				}
+				> tr:nth-child(2) {
+					z-index: 0;
+				}
+			}
+
 			thead {
 				z-index: 3;
 
@@ -66,7 +77,7 @@
 						}
 
 						td {
-							min-width: math.div(utils.$size-min-column-size, 5);
+							min-width: math.div(utils.$size-min-column, 5);
 						}
 					}
 

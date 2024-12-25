@@ -1,5 +1,5 @@
 <template>
-	<BaseWrapper :id="selectFilterName" el="datalist" :wrap="supportsDatalist">
+	<BaseWrapper :id="selectFilterName" wrapper="datalist" :wrap="supportsDatalist">
 		<!-- Select is also used as fallback for older browsers -->
 		<SelectSimple
 			v-model="aliasModel"
