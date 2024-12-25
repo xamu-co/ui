@@ -1,5 +1,28 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.32](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.31...@open-xamu-co/ui-styles-v3.0.0-next.32) (2024-12-25)
+
+
+### Bug Fixes
+
+* **styles:** allow tooltip overflow on table head ([1e0fe86](https://github.com/xamu-co/ui/commit/1e0fe86265a84e46f560ce2c8696b502052b81ea))
+* countries inputs not rendering ([2d7b4c7](https://github.com/xamu-co/ui/commit/2d7b4c722984bb78662c219f8e6eaf9f9ebf304f))
+
+
+### BREAKING CHANGES
+
+* prop el>>wrapper on wrapper & renamed sass size-column
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.32"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.31](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.30...@open-xamu-co/ui-styles-v3.0.0-next.31) (2024-12-07)
 
 
