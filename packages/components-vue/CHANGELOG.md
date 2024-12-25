@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.57](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.56...@open-xamu-co/ui-components-vue-v3.0.0-next.57) (2024-12-25)
+
+
+### Bug Fixes
+
+* countries inputs not rendering ([2d7b4c7](https://github.com/xamu-co/ui/commit/2d7b4c722984bb78662c219f8e6eaf9f9ebf304f))
+
+
+### BREAKING CHANGES
+
+* prop el>>wrapper on wrapper & renamed sass size-column
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.57"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.56](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.55...@open-xamu-co/ui-components-vue-v3.0.0-next.56) (2024-12-23)
 
 
