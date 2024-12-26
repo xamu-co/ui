@@ -1,27 +1,5 @@
 <template>
-	<BaseWrapper :id="selectFilterName" wrapper="datalist" :wrap="supportsDatalist">
-		<!-- Select is also used as fallback for older browsers -->
-		<SelectSimple
-			v-model="aliasModel"
-			v-bind="{
-				...$attrs,
-				...omit(props, 'modelValue'),
-				options: selectOptions.map(({ value, alias }) => ({
-					alias,
-					value: alias ?? value,
-				})),
-				placeholder: placeholder ?? t('select_placeholder'),
-				disabled,
-				hidden,
-				size,
-				active,
-				invalid,
-				state,
-				theme,
-			}"
-		/>
-	</BaseWrapper>
-	<div v-if="supportsDatalist" class="flx --flxRow --flx-start-center --gap-5" v-bind="$attrs">
+	<div class="flx --flxRow --flx-start-center --gap-5" v-bind="$attrs">
 		<ActionLink
 			v-if="modelValue && selectOptions.length > 1"
 			:theme="theme"
@@ -37,35 +15,46 @@
 			:list="selectFilterName"
 			autocomplete="off"
 			v-bind="{
-				...omit(props, ['modelValue', 'autocomplete']),
+				...properties,
 				type: 'text',
 				placeholder: t('select_filter_options'),
 				disabled: (!!modelValue && !isInvalid) || disabled,
-				hidden,
-				size,
-				active,
 				invalid: isInvalid,
-				state,
-				theme,
 				icon,
 				iconProps,
 			}"
 			class="--flx"
 		/>
 	</div>
+	<datalist :id="selectFilterName">
+		<!-- Select is also used as fallback for older browsers -->
+		<SelectSimple
+			v-model="aliasModel"
+			v-bind="{
+				...$attrs,
+				...properties,
+				options: selectOptions.map(({ value, alias }) => ({
+					alias,
+					value: alias ?? value,
+				})),
+				placeholder: placeholder ?? t('select_placeholder'),
+				disabled,
+				invalid,
+			}"
+		/>
+	</datalist>
 </template>
 
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
-	import { computed, ref } from "vue";
+	import { computed } from "vue";
 	import deburr from "lodash-es/deburr";
 	import omit from "lodash-es/omit";
 	import { Md5 } from "ts-md5";
 
 	import type { iFormIconProps, iFormOption } from "@open-xamu-co/ui-common-types";
-	import { toOption, useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
+	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
-	import BaseWrapper from "../base/Wrapper.vue";
 	import SelectSimple from "./Simple.vue";
 	import InputText from "../input/Text.vue";
 	import ActionLink from "../action/Link.vue";
@@ -105,16 +94,16 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { isBrowser } = useHelpers(useUtils);
 
-	const supportsDatalist = ref(false);
 	/** Prefer a predictable identifier */
 	const selectFilterName = computed(() => {
 		const seed = deburr(props.placeholder || props.title);
 
 		return props.name || props.id || Md5.hashStr(`select-filter-${seed}`);
 	});
-	const selectOptions = computed<iFormOption[]>(() => (props.options ?? []).map(toOption));
+	const selectOptions = computed<iFormOption[]>(() => {
+		return (props.options || []).map(toOption).filter(({ hidden }) => !hidden);
+	});
 	/**
 	 * Prefers alias instead of value
 	 */
@@ -145,28 +134,21 @@
 
 		return (props.modelValue && !option) || props.invalid;
 	});
+	const properties = computed(() => {
+		return {
+			...omit(props, ["modelValue"]),
+			hidden: props.hidden,
+			size: props.size,
+			active: props.active,
+			state: props.state,
+			theme: props.theme,
+		};
+	});
 
 	/**
 	 * Clears up input model
 	 */
 	function resetModel() {
 		emit("update:model-value", "");
-	}
-
-	// lifecycle
-	if (isBrowser) {
-		const isFunction = typeof HTMLDataListElement === "function";
-		const hasOptions = "options" in document.createElement("datalist");
-		const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
-		const isAndroid = navigator.platform.toLowerCase().includes("android");
-		/**
-		 * Datalist support
-		 *
-		 * Does not work on firefox android
-		 * @see https://caniuse.com/datalist
-		 */
-		const isFirefoxAndroid = isFirefox && isAndroid;
-
-		supportsDatalist.value = isFunction && hasOptions && !isFirefoxAndroid;
 	}
 </script>

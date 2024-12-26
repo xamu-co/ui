@@ -23,7 +23,11 @@
 											class="flx --flxRow --flx-start-center --gap-10 --gap:md --flx"
 										>
 											<ActionButtonLink
-												v-if="$slots.default && nodes.length"
+												v-if="
+													$slots.default &&
+													nodes.length &&
+													nodes.some(childrenCount)
+												"
 												:theme="theme"
 												:active="openNodesCount === selectedNodes.length"
 												round=":sm-inv"
@@ -123,37 +127,44 @@
 							</ActionLink>
 						</div>
 					</th>
-					<td
-						v-for="(meta, metaIndex) in propertiesMeta"
-						:key="metaIndex"
-						class="--maxWidth-440"
-						:class="[
-							`--txtSize-${size}`,
-							{ ['is--selected']: meta.canSort && !!ordering[meta.value] },
-						]"
-						:data-column-name="meta.value"
-						:data-column="meta.alias"
-					>
-						<span v-if="!meta.canSort" :title="meta.value">
-							{{ meta.alias }}
-						</span>
-						<ActionLink
-							v-else
-							:theme="theme || themeValues"
-							:title="meta.value"
-							:tooltip="t('table_sort_by_name', { name: meta.alias })"
-							tooltip-as-text
-							tooltip-position="bottom"
-							:size="size"
-							@click="setOrdering(meta.value)"
+					<template v-for="(meta, metaIndex) in propertiesMeta" :key="metaIndex">
+						<td
+							v-if="!meta.hidden"
+							class="--maxWidth-440"
+							:class="[
+								`--txtSize-${size}`,
+								{ ['is--selected']: meta.canSort && !!ordering[meta.value] },
+							]"
+							:data-column-name="meta.value"
+							:data-column="meta.alias"
+							:width="
+								nested && metaIndex === propertiesMeta.length - 1 ? '99%' : 'auto'
+							"
 						>
-							<span>{{ meta.alias }}</span>
-							<template v-if="!!ordering[meta.value]">
-								<IconFa v-if="ordering[meta.value] === 'asc'" name="arrow-down" />
-								<IconFa v-else name="arrow-up" />
-							</template>
-						</ActionLink>
-					</td>
+							<span v-if="!meta.canSort" :title="meta.value">
+								{{ meta.alias }}
+							</span>
+							<ActionLink
+								v-else
+								:theme="theme || themeValues"
+								:title="meta.value"
+								:tooltip="t('table_sort_by_name', { name: meta.alias })"
+								tooltip-as-text
+								tooltip-position="bottom"
+								:size="size"
+								@click="setOrdering(meta.value)"
+							>
+								<span>{{ meta.alias }}</span>
+								<template v-if="!!ordering[meta.value]">
+									<IconFa
+										v-if="ordering[meta.value] === 'asc'"
+										name="arrow-down"
+									/>
+									<IconFa v-else name="arrow-up" />
+								</template>
+							</ActionLink>
+						</td>
+					</template>
 					<th
 						v-if="!isReadOnly && (!!updateNode || !!deleteNode || !!cloneNode)"
 						class="--sticky --txtAlign-center"
@@ -183,7 +194,7 @@
 						>
 							<component
 								:is="preferId"
-								v-if="preferId && typeof preferId !== 'boolean'"
+								v-if="preferId && preferId !== true"
 								:index="nodeIndex"
 								:node="node"
 							/>
@@ -201,38 +212,39 @@
 								</span>
 							</div>
 						</th>
-						<td
-							v-for="property in propertiesMeta"
-							:key="property.value"
-							:data-column-name="property.value"
-							:data-column="property.alias"
-							:class="[
-								`--txtSize-${size}`,
-								{ ['is--selected']: ordering.name === property.value },
-							]"
-							class="--maxWidth-440"
-						>
-							<component
-								:is="property.component || ValueComplex"
-								v-bind="{
-									value: node[property.value],
-									property: {
-										...property,
-										...(property.updateNode && {
-											updateNode: (n: any) => property.updateNode?.(n, node),
-										}),
-									},
-									node,
-									readonly: isReadOnly,
-									theme: theme || themeValues,
-									modalProps: { theme: theme || themeValues, ...modalProps },
-									classes,
-									refresh,
-									omitRefresh,
-									size,
-								}"
-							/>
-						</td>
+						<template v-for="meta in propertiesMeta" :key="meta.value">
+							<td
+								v-if="!meta.hidden"
+								:data-column-name="meta.value"
+								:data-column="meta.alias"
+								:class="[
+									`--txtSize-${size}`,
+									{ ['is--selected']: ordering.name === meta.value },
+								]"
+								class="--maxWidth-440"
+							>
+								<component
+									:is="meta.component || ValueComplex"
+									v-bind="{
+										value: node[meta.value],
+										meta: {
+											...meta,
+											...(meta.updateNode && {
+												updateNode: (n: any) => meta.updateNode?.(n, node),
+											}),
+										},
+										node,
+										readonly: isReadOnly,
+										theme: theme || themeValues,
+										modalProps: { theme: theme || themeValues, ...modalProps },
+										classes,
+										refresh,
+										omitRefresh,
+										size,
+									}"
+								/>
+							</td>
+						</template>
 						<th
 							v-if="!isReadOnly && (!!updateNode || !!deleteNode || !!cloneNode)"
 							class="--sticky --txtAlign-center"
@@ -455,15 +467,13 @@
 	import useTheme from "../../composables/theme";
 	import { useHelpers, useOrderBy } from "../../composables/utils";
 
+	/**
+	 * Table property with additional meta for internal usage
+	 */
 	export interface iTablePropertyMeta<Ti extends Record<string, any>>
 		extends iProperty<Record<string, any>, Ti, vComponent<iValueComplexProps>> {
 		value: string;
 		canSort: boolean;
-	}
-
-	export interface iTableIdComponentProps<Ti extends Record<string, any>> {
-		index: number;
-		node: Ti;
 	}
 
 	export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
@@ -542,7 +552,13 @@
 		/**
 		 * Show real node id or given component
 		 */
-		preferId?: boolean | vComponent<iTableIdComponentProps<NoInfer<Ti>>>;
+		preferId?:
+			| boolean
+			| string
+			| vComponent<{
+					index: number;
+					node: NoInfer<Ti>;
+			  }>;
 	}
 
 	/**
