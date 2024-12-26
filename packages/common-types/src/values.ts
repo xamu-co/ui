@@ -3,6 +3,7 @@ export interface iSelectOption {
 	alias?: string;
 	selected?: boolean;
 	disabled?: boolean;
+	hidden?: boolean;
 }
 
 export type iNodeFnResponse = [boolean?, Event?, (() => void)?];

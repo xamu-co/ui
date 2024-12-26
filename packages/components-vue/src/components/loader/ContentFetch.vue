@@ -172,7 +172,7 @@
 
 				logger("LoaderContentFetch:useAsyncData", errorMessage, err);
 
-				throw err; // throw error anyway
+				throw err; // throw error anyway, asyncData will intercept it
 			}
 
 			firstLoad.value = true;

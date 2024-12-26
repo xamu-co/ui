@@ -17,9 +17,9 @@
 			{{ t("select_placeholder") }}
 		</option>
 		<option
-			v-for="({ value, alias, disabled }, index) in selectOptions"
+			v-for="({ value, alias, disabled, hidden }, index) in selectOptions"
 			:key="index"
-			v-bind="{ value, disabled }"
+			v-bind="{ value, disabled, hidden }"
 		>
 			{{ alias || value }}
 		</option>

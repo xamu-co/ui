@@ -98,7 +98,7 @@
 	const { themeValues } = useTheme(props, true);
 
 	const choiceOptions = computed<iFormOption[]>(() => {
-		return props.options?.map(toOption) || [];
+		return (props.options || []).map(toOption).filter(({ hidden }) => !hidden);
 	});
 
 	function choose(value: string | number) {
