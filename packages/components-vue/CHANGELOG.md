@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.58](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.57...@open-xamu-co/ui-components-vue-v3.0.0-next.58) (2024-12-26)
+
+
+### Features
+
+* hide properties on table ([335f3d5](https://github.com/xamu-co/ui/commit/335f3d50be58c7ef1bc53abaf8004d921bf43468))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.58"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.57](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.56...@open-xamu-co/ui-components-vue-v3.0.0-next.57) (2024-12-25)
 
 
