@@ -13,18 +13,18 @@
 			:promise="getCountryStates"
 			:url="`/${model[0]}?states`"
 			:payload="[countryValue]"
-			:is-content="hasLength"
+			:fallback="[]"
 			unwrap
 		>
 			<LoaderContentFetch
 				v-slot="citiesReq"
 				:theme="theme"
 				:prevent-autoload="!model[1]"
-				:promise="!!model[1] && getStateCities"
+				:no-loader="statesReq?.loading"
+				:promise="getStateCities"
 				:url="`/${model[0]}/${model[1]}?cities`"
 				:payload="[countryValue, model[1]]"
-				:no-loader="statesReq?.loading"
-				:is-content="hasLength"
+				:fallback="[]"
 				unwrap
 			>
 				<slot v-bind="{ statesReq, citiesReq }"></slot>
@@ -67,8 +67,4 @@
 	const { defaultCountry, getCountryStates, getStateCities } = useCountries();
 
 	const countryValue = computed(() => props.model[0] || defaultCountry || "");
-
-	function hasLength(array?: any[]) {
-		return !!array?.length;
-	}
 </script>
