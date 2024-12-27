@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.33](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.32...@open-xamu-co/ui-styles-v3.0.0-next.33) (2024-12-27)
+
+
+### Bug Fixes
+
+* **styles:** rollback sizes behavior (no clamp) ([a86271f](https://github.com/xamu-co/ui/commit/a86271f969a8d8cbd7fa813d1b7a3df3cf9948b4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.33"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.32](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.31...@open-xamu-co/ui-styles-v3.0.0-next.32) (2024-12-25)
 
 
