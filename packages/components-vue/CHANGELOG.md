@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.59](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.58...@open-xamu-co/ui-components-vue-v3.0.0-next.59) (2024-12-27)
+
+
+### Bug Fixes
+
+* **vue:** use fallback on countries api input so empty inputs do show ([0090b87](https://github.com/xamu-co/ui/commit/0090b871743cdc0df085c81066a293048f95f3d4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.59"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.58](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.57...@open-xamu-co/ui-components-vue-v3.0.0-next.58) (2024-12-26)
 
 
