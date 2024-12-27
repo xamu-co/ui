@@ -1,15 +1,14 @@
 <template>
-	<LoaderContent v-bind="{ loading, content, errors, refresh }">
-		<div
-			v-if="Array.isArray(model) && modelHasLength"
-			class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
-		>
-			<slot></slot>
-		</div>
-		<p v-else class="--txtColor-danger">
-			{{ values.map((l) => t("form_requires_n_values", l)).join(" or ") }}
-		</p>
+	<LoaderContent
+		v-if="Array.isArray(model) && modelHasLength"
+		class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
+		v-bind="{ loading, content, errors, refresh }"
+	>
+		<slot></slot>
 	</LoaderContent>
+	<p v-else class="--txtColor-danger">
+		{{ values.map((l) => t("form_requires_n_values", l)).join(" or ") }}
+	</p>
 </template>
 
 <script setup lang="ts" generic="T">
