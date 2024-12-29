@@ -23,6 +23,7 @@ export enum eThemeColors {
 	SECONDARY_COMPLEMENT = "secondary-complement",
 	DANGER = "danger",
 	SUCCESS = "success",
+	WARNING = "warning",
 }
 
 /**

@@ -129,17 +129,19 @@
 				@include module.dropdown-visible-styles;
 			}
 
-			&:not(.#{module.$status-has-items}),
-			&-item {
+			&:not(:has(> .#{module.$layout-dropdown}-item)),
+			> .#{module.$layout-dropdown}-item {
 				box-shadow: 3px 3px 9px module.color(dark, 0.3);
+			}
 
-				// Dropdown theme
-				//
-				// @group Modifiers
-				@include module.extend-unions
-					using($theme, $theme-value, $base, $base-value, $is-default) {
+			// Dropdown theme
+			//
+			// @group Modifiers
+			@include module.extend-unions using($theme, $tv, $base, $bv, $d) {
+				&:not(:has(> .#{module.$layout-dropdown}-item)),
+				> .#{module.$layout-dropdown}-item {
+					// @defaults bgColor, color
 					@layer defaults {
-						// @defaults bgColor
 						& {
 							color: module.color($base, 0.7);
 							background-color: module.color($theme);
@@ -153,9 +155,12 @@
 						}
 					}
 				}
+			}
 
-				// size
-				@include module.extend-sizes using($size, $unit) {
+			// size
+			@include module.extend-sizes using($size, $unit) {
+				&:not(:has(> .#{module.$layout-dropdown}-item)),
+				> .#{module.$layout-dropdown}-item {
 					padding: ($size * 0.7) $size;
 					border-radius: $size * (module.strip-unit(module.$size-radius-box) + 0.333);
 				}
