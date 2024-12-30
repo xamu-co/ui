@@ -9,7 +9,10 @@
 			:class="[{ '--nested': nested }, themeClasses]"
 		>
 			<thead>
-				<tr v-if="!isReadOnly || $slots.default || $slots.headActions" class="no--hover">
+				<tr
+					v-if="(!isReadOnly && nodes.length > 1) || $slots.default || $slots.headActions"
+					class="no--hover"
+				>
 					<td :colspan="propertiesMeta.length + 2">
 						<!-- Sticky scrolling fix  -->
 						<table :id="`bulk_${tableId}`" class="tbl tbl-helper" :class="themeClasses">
@@ -25,7 +28,7 @@
 											<ActionButtonLink
 												v-if="
 													$slots.default &&
-													nodes.length &&
+													nodes.length > 1 &&
 													nodes.some(childrenCount)
 												"
 												:theme="theme"
@@ -47,7 +50,16 @@
 												</span>
 												<IconFa class="--indicator" name="chevron-up" />
 											</ActionButtonLink>
-											<slot name="headActions"></slot>
+											<slot
+												name="headActions"
+												v-bind="{
+													nodes,
+													updateNodeAndRefresh,
+													cloneNodeAndRefresh,
+													deleteNodeAndRefresh,
+													deleteNodesAndRefresh,
+												}"
+											></slot>
 										</div>
 									</th>
 									<td
@@ -56,7 +68,7 @@
 										width="99%"
 									></td>
 									<th
-										v-if="!isReadOnly && nodes.length"
+										v-if="!isReadOnly && nodes.length > 1 && deleteNode"
 										class="--sticky --pBottom-10"
 										colspan="0"
 										width="1px"
@@ -65,7 +77,6 @@
 											class="flx --flxRow --flx-end-center --gap-10 --gap:md --flx"
 										>
 											<ActionButton
-												v-if="deleteNode"
 												:tooltip="t('table_delete')"
 												tooltip-as-text
 												tooltip-position="bottom"
@@ -93,6 +104,7 @@
 				<tr v-if="nodes.length" class="--txtAlign" :class="`--txtSize-${size}`">
 					<!-- TODO: define filters, filter table contents -->
 					<th
+						v-if="nodes.length > 1"
 						class="--sticky"
 						:class="{ ['is--selected']: sort && !!ordering['id'] }"
 						data-column-name="id"
@@ -187,6 +199,7 @@
 						]"
 					>
 						<th
+							v-if="nodes.length > 1"
 							class="--sticky"
 							:class="{ ['is--selected']: !!ordering['id'] }"
 							data-column-name="id"
@@ -332,15 +345,13 @@
 						<tr class="no--hover --width-100">
 							<td :colspan="propertiesMeta.length + 2">
 								<div
-									v-show="selectedNodes[nodeIndex][1] && !!childrenCount(node)"
+									v-show="showChildren(nodeIndex, node)"
 									class="box --button --bdr-solid --bgColor-none"
 								>
 									<slot
 										v-bind="{
 											node,
-											show:
-												selectedNodes[nodeIndex][1] &&
-												!!childrenCount(node),
+											show: showChildren(nodeIndex, node),
 										}"
 									></slot>
 								</div>
@@ -352,9 +363,7 @@
 									<ActionLink
 										:theme="theme || themeValues"
 										:size="size"
-										:active="
-											selectedNodes[nodeIndex][1] && !!childrenCount(node)
-										"
+										:active="showChildren(nodeIndex, node)"
 										:tooltip="
 											t('table_see_name', {
 												name:
@@ -364,7 +373,7 @@
 											})
 										"
 										tooltip-position="right"
-										:disabled="!childrenCount(node)"
+										:disabled="!childrenCount(node) || showNodeChildren?.(node)"
 										class="--p-5"
 										@click="toggleChildren(nodeIndex)"
 									>
@@ -377,6 +386,7 @@
 										v-if="createNodeChildren"
 										:theme="theme || themeValues"
 										:size="size"
+										:disabled="!!disableCreateNodeChildren?.(node)"
 										:tooltip="
 											t('table_create_new_name', {
 												name:
@@ -520,6 +530,14 @@
 		 */
 		createNodeChildren?: iNodeFn<NoInfer<Ti>>;
 		/**
+		 * Conditionally disable creating children for this particular property
+		 */
+		disableCreateNodeChildren?: (p: NoInfer<Ti>) => boolean;
+		/**
+		 * Conditionally show children for this particular property,
+		 */
+		showNodeChildren?: (p: NoInfer<Ti>) => boolean;
+		/**
 		 * Content clasess
 		 */
 		classes?: tProps<string>;
@@ -652,10 +670,16 @@
 		return Md5.hashStr(`table-${childrenBased}-${metaBased}`);
 	});
 
+	function showChildren(nodeIndex: number, node: T) {
+		const shouldShow = selectedNodes.value[nodeIndex][1] && !!childrenCount(node);
+
+		return props.showNodeChildren?.(node) || shouldShow;
+	}
 	function reFillNodes(length: number): [boolean, boolean][] {
 		return Array.from({ length }, () => [false, !!props.childrenVisibility]);
 	}
-	function childrenCount(node: T) {
+	/** Count childrens */
+	function childrenCount(node: T): number {
 		if (props.childrenCountKey) {
 			const countValue = node[props.childrenCountKey];
 
@@ -753,9 +777,9 @@
 	 *
 	 * @single
 	 */
-	async function cloneNodeAndRefresh(node: T, toggleModal: (m?: boolean) => any) {
+	async function cloneNodeAndRefresh(node: T, toggleModal?: (m?: boolean) => any) {
 		// close modal
-		toggleModal(false);
+		toggleModal?.(false);
 		// display loader
 		Swal.fireLoader();
 
@@ -792,7 +816,7 @@
 	 */
 	async function deleteNodeAndRefresh(
 		node: T,
-		toggleModal: (m?: boolean) => any,
+		toggleModal?: (m?: boolean) => any,
 		modalRef?: HTMLElement
 	) {
 		// request confirmation
@@ -806,7 +830,7 @@
 		if (!value) return;
 
 		// close dropdown/modal
-		toggleModal(false);
+		toggleModal?.(false);
 		// display loader
 		Swal.fireLoader();
 
