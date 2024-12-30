@@ -178,10 +178,6 @@ $status-no-override: $status-no + "override" !default;
 $status-no-route: $status-no + "route" !default;
 $status-no-route-exact: $status-no + "routeExact" !default;
 
-// STATUS CLASSES, HAS
-$status-has: $prefix-default-with-separator + "has" + "--" !default; // has
-$status-has-items: $status-has + "items" !default;
-
 // STATUS CLASSES, ONLY
 $status-only: $prefix-default-with-separator + "only" + "--" !default; // only
 $status-only-active: $status-only + "active" !default;

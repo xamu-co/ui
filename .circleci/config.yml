@@ -3,8 +3,6 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2.1
-orbs:
-    node: circleci/node@5.2.0
 defaults: &defaults
     working_directory: ~/repo
     docker:
@@ -14,6 +12,9 @@ release: &release
     <<: *defaults
     steps:
         - checkout
+        - restore_cache:
+              name: Restore Yarn Package Cache
+              key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
         - attach_workspace:
               at: ~/repo
         - run:
@@ -26,21 +27,18 @@ jobs:
         steps:
             - checkout
             # Download and cache dependencies
-            - node/install-packages:
-                  cache-version: v4
-                  pkg-manager: yarn
-            - persist_to_workspace:
-                  root: ~/repo
+            - restore_cache:
+                  name: Restore Yarn Package Cache
+                  key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+            - run:
+                  name: Install dependencies
+                  command: yarn
+            - save_cache:
+                  name: Save Yarn packages cache
+                  key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
                   paths:
                       - node_modules
                       - packages/**/node_modules
-
-    check_commit_message:
-        <<: *defaults
-        steps:
-            - checkout
-            - attach_workspace:
-                  at: ~/repo
             - run:
                   name: Define environment variable with lastest commit's message
                   command: |
@@ -54,8 +52,10 @@ jobs:
         <<: *defaults
         steps:
             - checkout
-            - attach_workspace:
-                  at: ~/repo
+            # Download and cache dependencies
+            - restore_cache:
+                  name: Restore Yarn Package Cache
+                  key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
             - run:
                   name: Build distributables
                   command: yarn build
@@ -65,10 +65,13 @@ jobs:
                       - packages/**/dist
                       - packages/nuxt/.nuxt
 
-    check_code:
+    tests:
         <<: *defaults
         steps:
             - checkout
+            - restore_cache:
+                  name: Restore Yarn Package Cache
+                  key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
             - attach_workspace:
                   at: ~/repo
             - run:
@@ -82,6 +85,9 @@ jobs:
         <<: *defaults
         steps:
             - checkout
+            - restore_cache:
+                  name: Restore Yarn Package Cache
+                  key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
             - attach_workspace:
                   at: ~/repo
             - run:
@@ -95,19 +101,16 @@ workflows:
     check_and_release_workflow:
         jobs:
             - setup
-            - check_commit_message:
-                  requires:
-                      - setup
             - build:
                   requires:
-                      - check_commit_message
-            - check_code:
+                      - setup
+            - tests:
                   requires:
                       - build
             - prerelease:
                   context: npm-deploy
                   requires:
-                      - check_code
+                      - build
                   filters:
                       branches:
                           only:
@@ -131,7 +134,7 @@ workflows:
             - release:
                   context: npm-deploy
                   requires:
-                      - check_code
+                      - tests
                       - dry_release
                       - approve_release
                   filters:

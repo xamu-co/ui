@@ -39,11 +39,15 @@
 				background-image: url("#{$rule-svg-path-x}#{system.str-replace(#{$value}, '#')}#{$rule-svg-path-end}");
 
 				&.#{utils.$prefix-default}--vertical {
-					background-image: url("#{$rule-svg-path-y}#{system.str-replace(#{$value}, '#')}#{$rule-svg-path-end}");
+					@include utils.extend-viewports-classes {
+						background-image: url("#{$rule-svg-path-y}#{system.str-replace(#{$value}, '#')}#{$rule-svg-path-end}");
+					}
 				}
 
 				&.#{utils.$prefix-default}--solid {
-					background: utils.color($name);
+					@include utils.extend-viewports-classes {
+						background: utils.color($name);
+					}
 				}
 			}
 

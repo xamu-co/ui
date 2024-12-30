@@ -13,11 +13,7 @@
 			v-bind="{ ...modalProps, theme, invertTheme, disabled: !isModal }"
 		>
 			<template #default="{ modalRef }">
-				<div
-					ref="dropdownRef"
-					:class="dropdownClasses"
-					class="flx --flxColumn --flx-start-stretch"
-				>
+				<div ref="dropdownRef" :class="dropdownClasses">
 					<slot
 						v-bind="{
 							model,
@@ -95,6 +91,8 @@
 		 */
 		modelValue?: boolean;
 		modalProps?: iModalProps;
+		/** Dropdown el classes */
+		classes?: string;
 	}
 
 	/**
@@ -107,6 +105,7 @@
 
 	const props = withDefaults(defineProps<iDropdownProps>(), {
 		theme: eColors.SECONDARY,
+		classes: "flx --flxColumn --flx-start-stretch",
 	});
 	const emit = defineEmits(["close", "update:model-value"]);
 
@@ -121,9 +120,12 @@
 	const isModal = ref(false);
 	const model = ref<boolean>(props.modelValue);
 	const dropdownClasses = computed<string[]>(() => {
-		if (isModal.value) return [];
+		const classes = [props.classes];
+
+		if (isModal.value) return classes;
 
 		return [
+			...classes,
 			...modifiersClasses.value,
 			...themeClasses.value,
 			...GMC([{ active: props.modelValue }], { prefix: "is" }),
