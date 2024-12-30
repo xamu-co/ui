@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.61](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.60...@open-xamu-co/ui-components-vue-v3.0.0-next.61) (2024-12-30)
+
+
+### Features
+
+* **vue:** improve table with single element nodes ([00dac65](https://github.com/xamu-co/ui/commit/00dac65a2832e17f538ec0381b439b36af599147))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.61"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.60](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.59...@open-xamu-co/ui-components-vue-v3.0.0-next.60) (2024-12-30)
 
 
