@@ -1,5 +1,31 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v3.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.0.0-next.6...@open-xamu-co/ui-common-enums-v3.0.0-next.7) (2024-12-30)
+
+
+### Bug Fixes
+
+* dropdown item styling ([31a4967](https://github.com/xamu-co/ui/commit/31a49676faa7c5ccfee042ac599ddb66be7340cd))
+
+
+### BREAKING CHANGES
+
+* removed has items variable
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-enums" version "3.0.0-next.7"[0m
+[34mUpdating "common-types"[0m
+[34mSuccesfully updated "common-types" package[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-enums-v3.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.0.0-next.5...@open-xamu-co/ui-common-enums-v3.0.0-next.6) (2024-07-12)
 
 
