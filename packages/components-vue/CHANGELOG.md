@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.60](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.59...@open-xamu-co/ui-components-vue-v3.0.0-next.60) (2024-12-30)
+
+
+### Bug Fixes
+
+* dropdown item styling ([31a4967](https://github.com/xamu-co/ui/commit/31a49676faa7c5ccfee042ac599ddb66be7340cd))
+
+
+### BREAKING CHANGES
+
+* removed has items variable
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.60"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.59](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.58...@open-xamu-co/ui-components-vue-v3.0.0-next.59) (2024-12-27)
 
 
