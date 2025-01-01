@@ -10,8 +10,8 @@
 			title,
 			autocomplete: autocomplete ?? 'on',
 			required,
-			disabled: disabled || undefined,
-			tabindex: (disabled && '-1') || undefined,
+			disabled: disabled || null,
+			tabindex: (disabled && '-1') || tabindex || null,
 			...(useChecked ? { checked: modelValue ?? !!$attrs.checked } : { value: modelValue }),
 		}"
 		@input="handleInput"
