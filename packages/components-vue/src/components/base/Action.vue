@@ -3,7 +3,7 @@
 		:is="actionComponent"
 		v-bind="{ ...$attrs, ...props, ...getHref }"
 		:type="currentTag === 'button' && !to && !href ? type || 'button' : null"
-		:tabindex="(props.disabled && '-1') || null"
+		:tabindex="(props.disabled && '-1') || props.tabindex || null"
 		:class="classes"
 	>
 		<slot>
@@ -81,8 +81,12 @@
 	const toTel = computed(() => {
 		if (props.to || !props.tel) return "";
 
-		const whatsappPath = `https://web.whatsapp.com/send/?phone=${indicativeNumber.value}${props.tel}`;
+		let whatsappPath = `https://wa.me/${indicativeNumber.value}${props.tel}`;
 		const telPath = `tel:+(${indicativeNumber.value})${props.tel}`;
+
+		if (props.whatsapp && typeof props.whatsapp == "string") {
+			whatsappPath += `?=text=${encodeURI(props.whatsapp)}`;
+		}
 
 		return props.whatsapp ? whatsappPath : telPath;
 	});

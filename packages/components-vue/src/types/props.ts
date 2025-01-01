@@ -91,8 +91,9 @@ export interface iActionProps {
 	round?: string | tPropsModifier<string>;
 	toggleState?: tProps<string>;
 	indicative?: tIndicative;
-	whatsapp?: boolean;
+	whatsapp?: boolean | string;
 	download?: string;
+	tabindex?: string;
 }
 
 interface iInputLikeProps {
@@ -102,6 +103,7 @@ interface iInputLikeProps {
 	title?: string;
 	required?: boolean;
 	disabled?: boolean;
+	tabindex?: string;
 }
 
 export interface iInputProps extends iInputLikeProps {
