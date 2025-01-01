@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.62](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.61...@open-xamu-co/ui-components-vue-v3.0.0-next.62) (2025-01-01)
+
+
+### Features
+
+* **vue:** whatsapp link with text, focusable actions & selects ([bfa5dfc](https://github.com/xamu-co/ui/commit/bfa5dfc0090024489520a9d1b1f405d606dd4923))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.62"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.61](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.60...@open-xamu-co/ui-components-vue-v3.0.0-next.61) (2024-12-30)
 
 
