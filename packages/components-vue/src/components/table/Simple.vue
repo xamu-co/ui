@@ -279,6 +279,7 @@
 									<IconFa name="pencil" />
 								</ActionButton>
 								<Dropdown
+									v-if="!!deleteNode || !!cloneNode"
 									class="flx --flxRow --flx-center"
 									:position="['left', 'center']"
 									:size="size"
@@ -298,13 +299,8 @@
 											<IconFa name="ellipsis-vertical" />
 										</ActionLink>
 									</template>
-									<template
-										#default="{ setModel, invertedTheme, model, dropdownRef }"
-									>
-										<ul
-											v-if="model"
-											class="flx --flxColumn --flx-start-stretch --gap-10"
-										>
+									<template #default="{ setModel, invertedTheme, dropdownRef }">
+										<ul class="flx --flxColumn --flx-start-stretch --gap-10">
 											<li v-if="!!cloneNode">
 												<ActionLink
 													:theme="invertedTheme"
