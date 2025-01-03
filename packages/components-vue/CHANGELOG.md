@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.63](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.62...@open-xamu-co/ui-components-vue-v3.0.0-next.63) (2025-01-03)
+
+
+### Bug Fixes
+
+* **vue:** conditionally show edit dropdown ([9a165b9](https://github.com/xamu-co/ui/commit/9a165b91a4af0c16e17c187d1d101ad156ef8cbd))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.63"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.62](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.61...@open-xamu-co/ui-components-vue-v3.0.0-next.62) (2025-01-01)
 
 
