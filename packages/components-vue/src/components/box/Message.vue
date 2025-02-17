@@ -2,7 +2,12 @@
 <template>
 	<div class="flx --flxColumn --flx-center" :class="$attrs.class">
 		<div class="txt --txtAlign-center --width-100">
-			<BaseBox class="--width-100" with-color v-bind="props">
+			<BaseBox
+				v-bind="props"
+				:el="to || href ? BaseAction : undefined"
+				class="--width-100"
+				with-color
+			>
 				<p v-if="text" v-html="text"></p>
 				<slot v-else></slot>
 			</BaseBox>
@@ -12,6 +17,7 @@
 
 <script setup lang="ts">
 	import BaseBox from "../base/Box.vue";
+	import BaseAction from "../base/Action.vue";
 
 	import type {
 		iUseModifiersProps,
