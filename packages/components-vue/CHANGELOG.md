@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.64](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.63...@open-xamu-co/ui-components-vue-v3.0.0-next.64) (2025-02-17)
+
+
+### Bug Fixes
+
+* use action within message box ([97e81f4](https://github.com/xamu-co/ui/commit/97e81f4376b4545d9c9167565c9b76464e82c567))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.64"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.63](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.62...@open-xamu-co/ui-components-vue-v3.0.0-next.63) (2025-01-03)
 
 
