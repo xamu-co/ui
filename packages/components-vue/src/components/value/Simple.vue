@@ -84,7 +84,7 @@
 					v-if="model"
 					:text="value"
 					:theme="invertedTheme"
-					class="--txtAlign --width-100"
+					class="--txtAlign --txtWrap --width-100"
 					:class="classes"
 				/>
 			</template>
