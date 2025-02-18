@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.65](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.64...@open-xamu-co/ui-components-vue-v3.0.0-next.65) (2025-02-18)
+
+
+### Bug Fixes
+
+* wrap long value text ([a7f9698](https://github.com/xamu-co/ui/commit/a7f969801534d6d80d71f960f6e5d0d04a5e4786))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.65"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.64](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.63...@open-xamu-co/ui-components-vue-v3.0.0-next.64) (2025-02-17)
 
 
