@@ -394,3 +394,5 @@ export interface iTableChildProps<Ti extends Record<string, any>> extends iTable
 	 */
 	deleteNodesAndRefresh(nodes?: Ti[]): Promise<void>;
 }
+
+export {};
