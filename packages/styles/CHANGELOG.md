@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0-next.36](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.35...@open-xamu-co/ui-styles-v3.0.0-next.36) (2025-02-22)
+
+
+### Bug Fixes
+
+* table scoped slots ([7c3da7e](https://github.com/xamu-co/ui/commit/7c3da7ee9decc1a356c51efb886de1cdfbbac7c0))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "3.0.0-next.36"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v3.0.0-next.35](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0-next.34...@open-xamu-co/ui-styles-v3.0.0-next.35) (2025-02-17)
 
 
