@@ -197,12 +197,17 @@
 								:size="size"
 								:active="showChildren(nodeIndex, node)"
 								:tooltip="
-									t('table_see_name', {
-										name:
-											childrenName ||
-											childrenCountKey ||
-											String(node.id ?? nodeIndex).split('/')[0],
-									})
+									t(
+										showChildren(nodeIndex, node)
+											? 'table_hide_name'
+											: 'table_see_name',
+										{
+											name:
+												childrenName ||
+												childrenCountKey ||
+												String(node.id ?? nodeIndex).split('/')[0],
+										}
+									)
 								"
 								tooltip-position="right"
 								:disabled="!childrenCount(node) || showNodeChildren?.(node)"

@@ -9,17 +9,22 @@
 			:class="[{ '--nested': nested }, themeClasses]"
 		>
 			<TableHead v-bind="childrenProps" :with-default-slot="!!$slots.default">
-				<slot v-if="$slots.headActions" name="headActions"></slot>
+				<template v-if="$slots.headActions" #headActions="headScope">
+					<slot name="headActions" v-bind="headScope"></slot>
+				</template>
 			</TableHead>
 			<TableBody v-bind="childrenProps">
-				<template v-if="$slots.default" #default>
-					<slot name="default"></slot>
+				<template v-if="$slots.default" #default="defaultScope">
+					<slot name="default" v-bind="defaultScope"></slot>
 				</template>
-				<template v-if="$slots.modifyActions" #modifyActions>
-					<slot name="modifyActions"></slot>
+				<template v-if="$slots.modifyActions" #modifyActions="modifyScope">
+					<slot name="modifyActions" v-bind="modifyScope"></slot>
 				</template>
-				<template v-if="$slots.modifyDropdownActions" #modifyDropdownActions>
-					<slot name="modifyDropdownActions"></slot>
+				<template
+					v-if="$slots.modifyDropdownActions"
+					#modifyDropdownActions="modifyDropdownScope"
+				>
+					<slot name="modifyDropdownActions" v-bind="modifyDropdownScope"></slot>
 				</template>
 			</TableBody>
 		</table>
