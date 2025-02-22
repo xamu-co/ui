@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.66](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.65...@open-xamu-co/ui-components-vue-v3.0.0-next.66) (2025-02-22)
+
+
+### Bug Fixes
+
+* table scoped slots ([7c3da7e](https://github.com/xamu-co/ui/commit/7c3da7ee9decc1a356c51efb886de1cdfbbac7c0))
+
+
+### Features
+
+* expose props ([4865f86](https://github.com/xamu-co/ui/commit/4865f86f5ca1876c7dbf7044f00db37384a5e740))
+* table modify slots ([9b2cc5f](https://github.com/xamu-co/ui/commit/9b2cc5f96a0cc95c393a922acd3a605b26f3e683))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.66"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.65](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.64...@open-xamu-co/ui-components-vue-v3.0.0-next.65) (2025-02-18)
 
 
