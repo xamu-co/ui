@@ -259,12 +259,30 @@
 							</td>
 						</template>
 						<th
-							v-if="!isReadOnly && (!!updateNode || !!deleteNode || !!cloneNode)"
+							v-if="
+								!isReadOnly &&
+								(!!updateNode ||
+									!!deleteNode ||
+									!!cloneNode ||
+									$slots.modifyActions ||
+									$slots.modifyDropdownActions)
+							"
 							class="--sticky --txtAlign-center"
 							data-column-name="modify"
 							:data-column="t('table_modify')"
 						>
 							<div class="flx --flxRow --flx-center --gap-10">
+								<slot
+									name="modifyActions"
+									v-bind="{
+										node,
+										updateNodeAndRefresh,
+										cloneNodeAndRefresh,
+										deleteNodeAndRefresh,
+										deleteNodesAndRefresh,
+										show: showChildren(nodeIndex, node),
+									}"
+								></slot>
 								<ActionButton
 									v-if="!!updateNode"
 									:tooltip="t('table_update')"
@@ -279,7 +297,9 @@
 									<IconFa name="pencil" />
 								</ActionButton>
 								<Dropdown
-									v-if="!!deleteNode || !!cloneNode"
+									v-if="
+										!!deleteNode || !!cloneNode || $slots.modifyDropdownActions
+									"
 									class="flx --flxRow --flx-center"
 									:position="['left', 'center']"
 									:size="size"
@@ -331,6 +351,17 @@
 													<span>{{ t("table_delete") }}</span>
 												</ActionLink>
 											</li>
+											<slot
+												name="modifyDropdownActions"
+												v-bind="{
+													node,
+													updateNodeAndRefresh,
+													cloneNodeAndRefresh,
+													deleteNodeAndRefresh,
+													deleteNodesAndRefresh,
+													show: showChildren(nodeIndex, node),
+												}"
+											></slot>
 										</ul>
 									</template>
 								</Dropdown>
@@ -347,6 +378,10 @@
 									<slot
 										v-bind="{
 											node,
+											updateNodeAndRefresh,
+											cloneNodeAndRefresh,
+											deleteNodeAndRefresh,
+											deleteNodesAndRefresh,
 											show: showChildren(nodeIndex, node),
 										}"
 									></slot>
@@ -666,10 +701,11 @@
 		return Md5.hashStr(`table-${childrenBased}-${metaBased}`);
 	});
 
+	/** Can the node be shown? */
 	function showChildren(nodeIndex: number, node: T) {
 		const shouldShow = selectedNodes.value[nodeIndex][1] && !!childrenCount(node);
 
-		return props.showNodeChildren?.(node) || shouldShow;
+		return props.showNodeChildren?.(node) ?? shouldShow;
 	}
 	function reFillNodes(length: number): [boolean, boolean][] {
 		return Array.from({ length }, () => [false, !!props.childrenVisibility]);
