@@ -9,8 +9,13 @@ import type {
 	tThemeTuple,
 	tSizeModifier,
 	iProperty,
+	iNodeFn,
+	tOrderBy,
+	tPropertyOrderFn,
+	tOrder,
 } from "@open-xamu-co/ui-common-types";
 import type { AllowedComponentProps, RendererElement } from "vue";
+import type { vComponent } from "./plugin";
 
 export interface iUseModifiersProps {
 	hidden?: string | tPropsModifier<string>;
@@ -208,4 +213,184 @@ export interface iValueComplexProps extends iUseThemeProps {
 	omitRefresh?: boolean;
 	verbose?: boolean;
 	size?: tSizeModifier;
+}
+
+/**
+ * Table property with additional meta for internal usage
+ */
+export interface iTablePropertyMeta<Ti extends Record<string, any>>
+	extends iProperty<Record<string, any>, Ti, vComponent<iValueComplexProps>> {
+	value: string;
+	canSort: boolean;
+}
+
+export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
+	/**
+	 * Table nodes
+	 * an array of nodes
+	 *
+	 * @old rows
+	 */
+	nodes: Ti[];
+	/**
+	 * Table column names
+	 * an array of property names
+	 *
+	 * @old columns
+	 */
+	properties?: iProperty<any, NoInfer<Ti>, vComponent<iValueComplexProps>>[];
+	propertyOrder?: tPropertyOrderFn;
+	/**
+	 * read only table
+	 * @old editable(inverse)
+	 */
+	readonly?: boolean;
+	/**
+	 * Do nodes support pagination?
+	 */
+	sort?: boolean | tOrderBy;
+	/**
+	 * Function used to update a node
+	 */
+	updateNode?: iNodeFn<NoInfer<Ti>>;
+	/**
+	 * Function used to delete a node
+	 */
+	deleteNode?: iNodeFn<NoInfer<Ti>>;
+	/**
+	 * Function used to duplicate a node
+	 */
+	cloneNode?: iNodeFn<NoInfer<Ti>>;
+	/**
+	 * Function used to create a node children
+	 *
+	 * Useful to display the add button for the default slot contents
+	 */
+	createNodeChildren?: iNodeFn<NoInfer<Ti>>;
+	/**
+	 * Conditionally disable creating children for this particular property
+	 */
+	disableCreateNodeChildren?: (p: NoInfer<Ti>) => boolean;
+	/**
+	 * Conditionally show children for this particular property,
+	 */
+	showNodeChildren?: (p: NoInfer<Ti>) => boolean;
+	/**
+	 * Content clasess
+	 */
+	classes?: tProps<string>;
+	/**
+	 * Refresh the content
+	 */
+	refresh?: () => unknown;
+	/**
+	 * Table is nested within another
+	 */
+	nested?: boolean;
+	/**
+	 * Default children visibility
+	 */
+	childrenVisibility?: boolean;
+	/**
+	 * Human readable name
+	 *
+	 * @fallback property name
+	 */
+	childrenName?: string;
+	childrenCountKey?: keyof NoInfer<Ti>;
+	modalProps?: iModalProps & AllowedComponentProps;
+	/**
+	 * Prevent node functions from triggering refresh event (useful with firebase hydration)
+	 */
+	omitRefresh?: boolean;
+	size?: tSizeModifier;
+	withRoute?: boolean;
+	/**
+	 * Show real node id or given component
+	 */
+	preferId?:
+		| boolean
+		| string
+		| vComponent<{
+				index: number;
+				node: NoInfer<Ti>;
+		  }>;
+}
+
+export interface iTableChildProps<Ti extends Record<string, any>> extends iTableProps<Ti> {
+	/**
+	 * Table unique identifier
+	 *
+	 * Prefer a predictable identifier
+	 */
+	tableId: string;
+	/**
+	 * Node property metadata
+	 *
+	 * This one assumes all objects within nodes are all the same
+	 */
+	propertiesMeta: iTablePropertyMeta<Ti>[];
+	isReadOnly: boolean;
+	/** Ordering property */
+	ordering: Record<string, tOrder>;
+	/**
+	 * Visible and selected nodes
+	 *
+	 * [selected, show]
+	 */
+	selectedNodes: [boolean, boolean][];
+	selectedNodesCount: number;
+	openNodesCount: number;
+	/**
+	 * Count childrens
+	 *
+	 * node['propertyWithChildren']
+	 */
+	childrenCount(node: Ti): number;
+	/**
+	 * Set pagination order
+	 *
+	 * @replace
+	 */
+	setOrdering(property: string): void;
+	/**
+	 * Toggle nodes selection
+	 */
+	toggleAll(value?: boolean, index?: number): void;
+	/**
+	 * Toggle nodes children visibility
+	 */
+	toggleChildren(index: number): void;
+	/**
+	 * Updates given node
+	 * sometimes it could fail but still update (api issue)
+	 *
+	 * @single
+	 */
+	updateNodeAndRefresh(node: Ti): Promise<void>;
+	/**
+	 * Clones given node
+	 * sometimes it could fail but still clone (api issue)
+	 *
+	 * @single
+	 */
+	cloneNodeAndRefresh(node: Ti, toggleModal?: (m?: boolean) => any): Promise<void>;
+	/**
+	 * Deletes given node
+	 * sometimes it could fail but still delete (api issue)
+	 *
+	 * @single
+	 */
+	deleteNodeAndRefresh(
+		node: Ti,
+		toggleModal?: (m?: boolean) => any,
+		modalRef?: HTMLElement
+	): Promise<void>;
+	/**
+	 * Deletes multiple selected nodes
+	 * sometimes it could fail but still delete (api issue)
+	 *
+	 * @batch
+	 */
+	deleteNodesAndRefresh(nodes?: Ti[]): Promise<void>;
 }
