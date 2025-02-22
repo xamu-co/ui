@@ -11,6 +11,7 @@
 			:nodes="Array(2).fill(subContent)"
 			:modal-props="{ theme: [eColors.LIGHT, eColors.SECONDARY], class: '--txtColor' }"
 			:delete-node="deleteNode"
+			nested
 		/>
 	</Table>
 </template>

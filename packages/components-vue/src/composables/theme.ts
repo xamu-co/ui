@@ -85,7 +85,7 @@ export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolea
 
 		return tooltipText
 			? {
-					"arial-label": tooltipText,
+					"aria-label": tooltipText,
 					"data-tooltip": tooltipText,
 					"data-tooltip-position": props.tooltipPosition,
 					"data-tooltip-text": props.tooltipAsText ?? true,

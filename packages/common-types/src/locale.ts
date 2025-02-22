@@ -209,6 +209,8 @@ export type tLocaleTable = {
 	table_see_values: string;
 	/** @example "See: \"{name}\"" */
 	table_see_name: string;
+	/** @example "Hide: \"{name}\"" */
+	table_hide_name: string;
 	/** @example "Create new" */
 	table_create_new: string;
 	/** @example "Crear nuevo" */

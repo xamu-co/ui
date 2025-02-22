@@ -49,6 +49,16 @@
 			text-shadow: inherit;
 		}
 
+		p {
+			a {
+				@layer defaults {
+					&:hover {
+						opacity: 0.7;
+					}
+				}
+			}
+		}
+
 		// broken asset fallback styles
 		img,
 		iframe {

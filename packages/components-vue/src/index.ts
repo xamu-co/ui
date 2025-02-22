@@ -1,3 +1,5 @@
+export * from "./types/props";
+
 // base
 export { default as BaseImg } from "./components/base/Img.vue";
 export { default as BaseAction } from "./components/base/Action.vue";

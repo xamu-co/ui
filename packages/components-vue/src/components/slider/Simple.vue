@@ -86,7 +86,7 @@
 	import { useHelpers } from "../../composables/utils";
 	import type { iUseThemeProps } from "../../types/props";
 
-	interface iSliderProps extends iUseThemeProps {
+	export interface iSliderProps extends iUseThemeProps {
 		/**
 		 * Show controls
 		 */
@@ -138,7 +138,6 @@
 		transitionDuration: 700,
 		intervalDuration: 7000,
 	});
-	const slots = useSlots();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const { t } = useHelpers(useI18n);
@@ -159,7 +158,7 @@
 	});
 
 	const sliderTag = computed(() => {
-		const children = slots.default?.() || [];
+		const children = useSlots().default?.() || [];
 
 		return children.length && children[0].type === "li" ? "ul" : "div";
 	});
