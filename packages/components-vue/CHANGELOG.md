@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.67](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.66...@open-xamu-co/ui-components-vue-v3.0.0-next.67) (2025-03-02)
+
+
+### Bug Fixes
+
+* colliding readonly property as any ([038ca2d](https://github.com/xamu-co/ui/commit/038ca2d15a834e1d290b86daa26d98530fc5f5e0))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.67"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.66](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.65...@open-xamu-co/ui-components-vue-v3.0.0-next.66) (2025-02-22)
 
 
