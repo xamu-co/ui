@@ -200,7 +200,11 @@ export interface iValueComplexProps extends iUseThemeProps {
 	 * The value prop will be a property of this node
 	 */
 	node?: Record<string, any>;
-	readonly?: boolean;
+	/**
+	 * This type seems to collide with nuxt/vue types
+	 * Setting it to any for compatibility
+	 */
+	readonly?: any;
 	classes?: tProps<string>;
 	/**
 	 * Refresh the content
