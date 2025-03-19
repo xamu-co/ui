@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.18...@open-xamu-co/ui-common-helpers-v3.0.0-next.19) (2025-03-19)
+
+
+### Bug Fixes
+
+* handle future at time ago ([8aebab9](https://github.com/xamu-co/ui/commit/8aebab9d229a01e7333bbbb46895e127d7ca85a9))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.0-next.19"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0-next.17...@open-xamu-co/ui-common-helpers-v3.0.0-next.18) (2025-02-22)
 
 
