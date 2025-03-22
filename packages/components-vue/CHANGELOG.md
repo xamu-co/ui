@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.0-next.68](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.67...@open-xamu-co/ui-components-vue-v3.0.0-next.68) (2025-03-22)
+
+
+### Features
+
+* conditional client only async data ([a13cb49](https://github.com/xamu-co/ui/commit/a13cb4948adbbfb410ee04c979cba6b6c6b1c4e6))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.0-next.68"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.0-next.67](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0-next.66...@open-xamu-co/ui-components-vue-v3.0.0-next.67) (2025-03-02)
 
 
