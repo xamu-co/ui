@@ -80,6 +80,10 @@
 		isContent?: (c?: NoInfer<Ti>) => boolean;
 		/** Ignore errors and display existing content */
 		ignoreErrors?: boolean;
+		/**
+		 * Whether to fetch data on client side only
+		 */
+		client?: boolean;
 	}
 
 	/**
@@ -99,7 +103,7 @@
 
 	const { logger } = useHelpers(useUtils);
 	const xamuOptions = inject<iVuePluginOptions>("xamu");
-	const useAsyncData = xamuOptions?.asyncDataFn ?? useAsyncDataFn;
+	const useAsyncData: typeof useAsyncDataFn = xamuOptions?.asyncDataFn ?? useAsyncDataFn;
 
 	const firstLoad = ref(false);
 	const hydrated = ref(false);
@@ -182,6 +186,7 @@
 		{
 			default: () => props.fallback,
 			watch: [() => props.url, () => props.preventAutoload],
+			server: !props.client,
 		}
 	);
 

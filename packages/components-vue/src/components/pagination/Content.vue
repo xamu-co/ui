@@ -4,7 +4,16 @@
 		:promise="patchedPromise"
 		:payload="[{ ...pagination, ...defaults }]"
 		:class="$attrs.class"
-		v-bind="{ preventAutoload, theme, noContentMessage, label, isContent, url, ignoreErrors }"
+		v-bind="{
+			preventAutoload,
+			theme,
+			noContentMessage,
+			label,
+			isContent,
+			url,
+			ignoreErrors,
+			client,
+		}"
 		@refresh="$emit('refresh', $event)"
 	>
 		<slot
@@ -89,6 +98,10 @@
 		 * Ignore errors and display existing content.
 		 */
 		ignoreErrors?: boolean;
+		/**
+		 * Whether to fetch data on client side only
+		 */
+		client?: boolean;
 	}
 
 	/**

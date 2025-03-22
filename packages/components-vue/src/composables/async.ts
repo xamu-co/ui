@@ -11,6 +11,7 @@ type AsyncDataOptions<T> = {
 	default?: () => T | Ref<T> | null;
 	transform?: (input: T) => T | Promise<T>;
 	watch?: WatchSource[];
+	server?: boolean;
 };
 
 type tAsyncDataHandler<T> = (nuxtApp?: any) => Promise<T>;
