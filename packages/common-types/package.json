@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-common-types": "^6.4.0",
-    "@open-xamu-co/ui-common-enums": "link:../common-enums",
+    "@open-xamu-co/ui-common-enums": "^3.0.0",
     "sweetalert2": "^11.11.1"
   },
   "description": "Xamu shared types",
