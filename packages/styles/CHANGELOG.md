@@ -1,5 +1,17 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v3.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.0.1...@open-xamu-co/ui-styles-v3.0.0) (2025-03-30)
+
+
+### Bug Fixes
+
+* to v3 ([d60d7f9](https://github.com/xamu-co/ui/commit/d60d7f9259ce57220d55fab16170bd34279df159))
+
+
+### BREAKING CHANGES
+
+* I'm dumb
+
 # [@open-xamu-co/ui-styles-v2.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v2.0.0...@open-xamu-co/ui-styles-v2.0.1) (2023-12-18)
 
 
