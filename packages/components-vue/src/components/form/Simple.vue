@@ -61,8 +61,9 @@
 	import isEqual from "lodash-es/isEqual";
 
 	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
+	import type { tFormInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
-	import { type FormInput as FormInputClass, useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseWrapper from "../base/Wrapper.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
@@ -78,7 +79,7 @@
 	export interface iFormSimple<P extends any[]> extends iUseThemeProps {
 		title?: string;
 		emptyMessage?: string;
-		modelValue?: FormInputClass[];
+		modelValue?: tFormInput[];
 		noForm?: boolean;
 		invalid?: iInvalidInput[];
 		/**
@@ -88,7 +89,7 @@
 		/**
 		 * Make model
 		 */
-		make?: (...args: P) => FormInputClass[];
+		make?: (...args: P) => tFormInput[];
 		/** Make all inputs read only by disabling them */
 		readonly?: boolean;
 	}
@@ -157,7 +158,7 @@
 	 * Form model
 	 * Maps valid inputs as null. To preserve indexes
 	 */
-	const model = computed<(FormInputClass | null)[]>(() =>
+	const model = computed<(tFormInput | null)[]>(() =>
 		(props.modelValue || []).map((input) => {
 			const { type, options, required } = input;
 
@@ -178,7 +179,7 @@
 	 * Get input title
 	 * If no title is provided then it takes one of the suggested options
 	 */
-	function getSuggestedTitle({ type, title, required }: FormInputClass): string {
+	function getSuggestedTitle({ type, title, required }: tFormInput): string {
 		if (!title) {
 			switch (type) {
 				case eFormType.LOCATION:

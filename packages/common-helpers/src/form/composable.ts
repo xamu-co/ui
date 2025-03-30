@@ -2,6 +2,7 @@ import type {
 	iFetchResponse,
 	iFormResponse,
 	iPluginOptions,
+	tFormInput,
 	tResponseFn,
 } from "@open-xamu-co/ui-common-types";
 
@@ -17,7 +18,6 @@ import {
 	isValidValue,
 	notEmptyValue,
 } from "./utils";
-import { FormInput } from "./input";
 
 /**
  * Form Composable
@@ -38,7 +38,7 @@ export default function useForm(options: iPluginOptions = {}) {
 	 */
 	async function getResponse<R, RV extends Record<string, any> = Record<string, any>>(
 		request: tResponseFn<R, RV>,
-		inputs: RV | FormInput[] = [],
+		inputs: RV | tFormInput[] = [],
 		event?: Event,
 		silent = false,
 		plainValues = true

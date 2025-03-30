@@ -2,7 +2,7 @@ import type { IconName } from "@fortawesome/fontawesome-common-types";
 
 import { eFormTypeBase, eFormTypeComplex, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
 
-import type { iSelectOption } from "./values.js";
+import type { iSelectOption } from "../values.js";
 
 export interface iFormOption extends iSelectOption {
 	/**
@@ -101,10 +101,10 @@ export type iFormValue = string | number | boolean | File | Date;
  * Simple input
  */
 export interface iFormInputDefault<
-	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple,
+	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple.TEXT,
 > {
-	required?: boolean;
 	type?: T;
+	required?: boolean;
 	/**
 	 * String without the dots
 	 */

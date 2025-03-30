@@ -8,6 +8,7 @@ import type {
 	iSelectOption,
 	tFormAutocomplete,
 	tFormIcon,
+	tFormInputDefault,
 } from "@open-xamu-co/ui-common-types";
 import {
 	eFormType,
@@ -78,28 +79,28 @@ function isChoiceType(type: eFormTypeBase | eFormTypeSimple | eFormTypeComplex):
 	return types.includes(type);
 }
 
-export class FormInputDefault<
-	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple,
-> implements iFormInputDefault<T>
+export abstract class FormInputDefault<
+	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple.TEXT,
+> implements tFormInputDefault<T>
 {
 	// public
-	public type!: T;
+	public type: T;
 	// public readonly
-	public readonly required!: boolean;
-	public readonly placeholder!: string;
-	public readonly icon!: tFormIcon;
-	public readonly autocomplete!: tFormAutocomplete;
+	public readonly required: boolean;
+	public readonly placeholder: string;
+	public readonly icon?: tFormIcon;
+	public readonly autocomplete?: tFormAutocomplete;
 
 	constructor(
 		formInput: iFormInputDefault<T>,
 		private _rerender?: (fi?: Partial<iFormInputDefault<T>>) => void
 	) {
+		this.type = formInput.type || (eFormTypeSimple.TEXT as T);
 		this.required = formInput.required ?? false;
+		this.placeholder = formInput.placeholder || "";
+		this.autocomplete = formInput.autocomplete;
 
-		if (formInput.type) this.type = formInput.type;
-		if (formInput.placeholder) this.placeholder = formInput.placeholder;
 		if (formInput.icon) this.icon = getIcon(formInput.icon, formInput.type);
-		if (formInput.autocomplete) this.autocomplete = formInput.autocomplete;
 	}
 
 	/** Rerender component */
@@ -107,9 +108,7 @@ export class FormInputDefault<
 		this._rerender?.(this);
 	}
 
-	/**
-	 * set rerender function
-	 */
+	/** set rerender function */
 	public setRerender(rerender: (fi?: Partial<iFormInputDefault<T>>) => void) {
 		this._rerender = rerender;
 
@@ -122,15 +121,15 @@ export class FormInput<V extends iFormValue = iFormValue, Vk extends V | V[] = V
 	implements iFormInput<V, Vk>
 {
 	// private
-	private _options!: iSelectOption[];
-	private _values!: Vk[];
+	private _options: iSelectOption[];
+	private _values: Vk[];
 	private _defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]];
 	// public readonly
-	public readonly name!: string;
-	public readonly title!: string;
-	public readonly multiple!: boolean;
-	public readonly min!: number;
-	public readonly max!: number;
+	public readonly name: string;
+	public readonly title?: string;
+	public readonly multiple: boolean;
+	public readonly min: number;
+	public readonly max: number;
 
 	/**
 	 * Form input constructor
@@ -144,7 +143,11 @@ export class FormInput<V extends iFormValue = iFormValue, Vk extends V | V[] = V
 	) {
 		super(formInput, rerender);
 
+		this.name = formInput.name;
+		this.multiple = formInput.multiple ?? false;
+		this.title = formInput.title;
 		this._options = formInput.options?.map(toOption) ?? [];
+		this._defaults = formInput.defaults;
 		this.min = formInput.min ?? 1;
 
 		// max cannot be lower than min or more than options if they exist
@@ -167,12 +170,6 @@ export class FormInput<V extends iFormValue = iFormValue, Vk extends V | V[] = V
 			// use defaults
 			if (this._values.length < length) this._values = values;
 		}
-
-		this.name = formInput.name;
-		this.multiple = formInput.multiple ?? false;
-
-		if (formInput.defaults) this._defaults = formInput.defaults;
-		if (formInput.title) this.title = formInput.title;
 	}
 
 	get options(): iSelectOption[] {
@@ -288,7 +285,7 @@ export class FormInput<V extends iFormValue = iFormValue, Vk extends V | V[] = V
 	 * Get simple object
 	 */
 	public getObject<Vi extends iFormValue = iFormValue, Vik extends Vi | Vi[] = Vi>(
-		input: FormInput<Vi, Vik>
+		input: iFormInput<Vi, Vik>
 	): iFormInput<Vi, Vik> {
 		return {
 			required: input.required,
@@ -310,18 +307,4 @@ export class FormInput<V extends iFormValue = iFormValue, Vk extends V | V[] = V
 	public isEqual(other: FormInput): boolean {
 		return isEqual(this.getObject(this), this.getObject(other));
 	}
-}
-
-export interface iForm {
-	/**
-	 * Optional form key
-	 */
-	key?: string;
-	title?: string;
-	inputs: FormInput[];
-	listen?: boolean;
-	/** Make all inputs read only by disabling them */
-	readonly?: boolean;
-	/** Message when no valid inputs are rendered */
-	emptyMessage?: string;
 }

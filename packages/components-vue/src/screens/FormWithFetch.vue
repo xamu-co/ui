@@ -8,7 +8,7 @@
 	import { markRaw, ref } from "vue";
 	import { FormInput } from "@open-xamu-co/ui-common-helpers";
 	import { eFormType } from "@open-xamu-co/ui-common-enums";
-	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
+	import type { iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
 
 	import Form from "../components/form/Simple.vue";
 
@@ -21,7 +21,7 @@
 	const invalid = ref<iInvalidInput[]>([]);
 	const instanceInputs = ref(markRaw(useInstanceInputs()));
 
-	function useInstanceInputs(): FormInput[] {
+	function useInstanceInputs(): tFormInput[] {
 		const instance = {
 			locationState: "VAC",
 			locationCity: "Cali",

@@ -283,13 +283,9 @@
 	import snakeCase from "lodash-es/snakeCase";
 	import omit from "lodash-es/omit";
 
-	import type { iInvalidInput, iSelectOption } from "@open-xamu-co/ui-common-types";
+	import type { iInvalidInput, iSelectOption, tFormInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType as eFT } from "@open-xamu-co/ui-common-enums";
-	import {
-		type FormInput as FormInputClass,
-		useI18n,
-		useForm,
-	} from "@open-xamu-co/ui-common-helpers";
+	import { useI18n, useForm } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseBox from "../base/Box.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
@@ -315,7 +311,7 @@
 
 	interface iFormInputProps extends iUseThemeProps {
 		modelValue: any[];
-		input: FormInputClass;
+		input: tFormInput;
 		invalid?: iInvalidInput;
 		countries?: iCountry[];
 		states?: iState[];

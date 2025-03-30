@@ -43,8 +43,8 @@
 <script setup lang="ts">
 	import { computed } from "vue";
 
-	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
-	import { FormInput, useForm, type iForm } from "@open-xamu-co/ui-common-helpers";
+	import type { iForm, iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
+	import { useForm } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../components/icon/Fa.vue";
 	import ActionButtonToggle from "../components/action/ButtonToggle.vue";
@@ -68,7 +68,7 @@
 		if (uiComponent) console.log(uiComponent);
 	}
 
-	async function submitFn(inputs: FormInput[]): Promise<boolean | iInvalidInput[]> {
+	async function submitFn(inputs: tFormInput[]): Promise<boolean | iInvalidInput[]> {
 		const { utils } = useForm();
 
 		const { values, invalidInputs } = utils.getFormValues(inputs);

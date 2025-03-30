@@ -6,7 +6,8 @@
 <script setup lang="ts">
 	import { ref } from "vue";
 
-	import { FormInput, toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
+	import type { tFormInput } from "@open-xamu-co/ui-common-types";
+	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import { useHelpers } from "../../composables/utils";
 
@@ -18,7 +19,7 @@
 
 	defineOptions({ name: "FormInputOptions", inheritAttrs: true });
 
-	const props = defineProps<{ input: FormInput }>();
+	const props = defineProps<{ input: tFormInput }>();
 
 	const { t } = useHelpers(useI18n);
 

@@ -198,7 +198,7 @@ export const localePagination: tLocalePagination = {
  *
  * @locale en
  */
-const etLocale: tPluginLocale = {
+const enLocale: tPluginLocale = {
 	...omit(localeBase, "swal"),
 	...omit(localeInput, "swal"),
 	...omit(localeModal, "swal"),
@@ -215,4 +215,4 @@ const etLocale: tPluginLocale = {
 	},
 };
 
-export default etLocale;
+export default enLocale;

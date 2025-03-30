@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
-import { type iForm, FormInput, useForm } from "@open-xamu-co/ui-common-helpers";
+import { FormInput, useForm } from "@open-xamu-co/ui-common-helpers";
 import { eFormType } from "@open-xamu-co/ui-common-enums";
-import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
+import type { iForm, iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
 
 import StagesComponent from "./Stages.vue";
 
@@ -98,7 +98,7 @@ export const stagesData: iForm[][] = [
 	],
 ];
 
-async function submitFn(inputs: FormInput[]): Promise<boolean | iInvalidInput[]> {
+async function submitFn(inputs: tFormInput[]): Promise<boolean | iInvalidInput[]> {
 	const { utils } = useForm();
 
 	const { values, invalidInputs } = utils.getFormValues(inputs);

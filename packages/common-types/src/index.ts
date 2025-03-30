@@ -1,5 +1,5 @@
 export * from "./files.js";
-export * from "./form.js";
+export * from "./form/index.js";
 export * from "./transform.js";
 export * from "./styles.js";
 export * from "./props.js";

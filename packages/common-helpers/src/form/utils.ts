@@ -5,6 +5,7 @@ import type {
 	iFormValue,
 	iFormResults,
 	iInvalidInput,
+	tFormInput,
 } from "@open-xamu-co/ui-common-types";
 import {
 	eFormType,
@@ -12,8 +13,6 @@ import {
 	eFormTypeSimple,
 	eFormTypeBase,
 } from "@open-xamu-co/ui-common-enums";
-
-import { FormInput } from "./input";
 
 /**
  * Wheter or not value is empty
@@ -39,7 +38,7 @@ export function notEmptyValue<V extends iFormValue = iFormValue>(
  */
 export function isValidValue<V extends iFormValue = iFormValue>(
 	value: V | V[],
-	input: FormInput
+	input: tFormInput
 ): boolean {
 	// empty values are falsy
 	if (!notEmptyValue(value, input.defaults)) return false;
@@ -66,7 +65,7 @@ export function isValidValue<V extends iFormValue = iFormValue>(
  *
  * Array.every is truthy for empty arrays
  */
-export const isValidFormInputValue = (input: FormInput, ignoreRequired = false): boolean => {
+export const isValidFormInputValue = (input: tFormInput, ignoreRequired = false): boolean => {
 	const { values, multiple, type, min, max } = input;
 	const required = input.required && !ignoreRequired;
 
@@ -121,7 +120,7 @@ export function getInputSuffixes(
 			return ["", ""];
 	}
 }
-export function getFormInputsInvalids(inputs: FormInput[]): iInvalidInput[] {
+export function getFormInputsInvalids(inputs: tFormInput[]): iInvalidInput[] {
 	const invalidInputs: iInvalidInput[] = [];
 
 	inputs.forEach((input) => {
@@ -143,7 +142,7 @@ export function getFormInputsInvalids(inputs: FormInput[]): iInvalidInput[] {
  * @returns
  */
 export function getFormInputsValues<V extends Record<string, any>>(
-	inputs: FormInput[],
+	inputs: tFormInput[],
 	plainValues = true
 ): V {
 	return inputs.reduce((acc, input, index) => {
@@ -231,7 +230,7 @@ export function getFormInputsValues<V extends Record<string, any>>(
  * @returns An object containing the form values and invalid inputs.
  */
 export function getFormValues<V extends Record<string, any>>(
-	inputs: V | FormInput[],
+	inputs: V | tFormInput[],
 	plainValues = true
 ): iFormResults<V> {
 	if (!Array.isArray(inputs)) return { values: inputs, invalidInputs: [] };

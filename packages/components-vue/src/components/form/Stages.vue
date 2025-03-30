@@ -142,12 +142,8 @@
 	import debounce from "lodash-es/debounce";
 	import isEqual from "lodash-es/isEqual";
 
-	import type { iInvalidInput, tProps } from "@open-xamu-co/ui-common-types";
-	import {
-		type iForm,
-		FormInput as FormInputClass,
-		useI18n,
-	} from "@open-xamu-co/ui-common-helpers";
+	import type { iForm, iInvalidInput, tFormInput, tProps } from "@open-xamu-co/ui-common-types";
+	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import IconFa from "../icon/Fa.vue";
@@ -171,7 +167,7 @@
 		/**
 		 * submit fn
 		 */
-		submitFn?: (values: FormInputClass[], event?: Event) => Promise<boolean | iInvalidInput[]>;
+		submitFn?: (values: tFormInput[], event?: Event) => Promise<boolean | iInvalidInput[]>;
 		/** Perform additional actions if submit succeds */
 		successFn?: () => void;
 		/**
@@ -245,7 +241,7 @@
 	function generateFormKey(stageIndex: number, formIndex: number) {
 		return `form-${stageIndex}-${formIndex}`;
 	}
-	function getValues(inputs: FormInputClass[]): Record<string, unknown[]> {
+	function getValues(inputs: tFormInput[]): Record<string, unknown[]> {
 		return inputs.reduce((acc, input) => ({ ...acc, [input.name]: input.values }), {});
 	}
 	function setStages(newStages: iForm[][]) {
@@ -309,7 +305,7 @@
 		activeStage.value = 0;
 	}
 
-	function updateForm(key: string, newInputs: FormInputClass[]) {
+	function updateForm(key: string, newInputs: tFormInput[]) {
 		formInputs.value[key].inputs = newInputs;
 
 		// allow submiting after changes are detected

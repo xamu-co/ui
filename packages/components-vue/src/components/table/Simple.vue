@@ -258,7 +258,7 @@
 		Swal.fireLoader();
 
 		// run process
-		const [updated, event, willOpen] = await resolveNodeFn(props.updateNode?.(node));
+		const [updated, event, closeModal] = await resolveNodeFn(props.updateNode?.(node));
 
 		// unfinished task
 		if (typeof updated !== "boolean") {
@@ -267,8 +267,9 @@
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_updated"),
-				willOpen,
-				didDestroy() {
+				willOpen() {
+					closeModal?.();
+
 					if (!props.omitRefresh) props.refresh?.();
 				},
 			});
@@ -295,7 +296,7 @@
 		Swal.fireLoader();
 
 		// run process
-		const [cloned, event, willOpen] = await resolveNodeFn(props.cloneNode?.(node));
+		const [cloned, event, closeModal] = await resolveNodeFn(props.cloneNode?.(node));
 
 		// unfinished task
 		if (typeof cloned !== "boolean") {
@@ -304,8 +305,9 @@
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_cloned"),
-				willOpen,
-				didDestroy() {
+				willOpen() {
+					closeModal?.();
+
 					if (!props.omitRefresh) props.refresh?.();
 				},
 			});
@@ -346,7 +348,7 @@
 		Swal.fireLoader();
 
 		// run process
-		const [deleted, event, willOpen] = await resolveNodeFn(props.deleteNode?.(node));
+		const [deleted, event, closeModal] = await resolveNodeFn(props.deleteNode?.(node));
 
 		// unfinished task
 		if (typeof deleted !== "boolean") {
@@ -355,8 +357,9 @@
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_deleted"),
-				willOpen,
-				didDestroy() {
+				willOpen() {
+					closeModal?.();
+
 					if (!props.omitRefresh) props.refresh?.();
 				},
 			});
@@ -395,7 +398,7 @@
 		const deleted = await Promise.all(
 			nodes.map(async (node) => await resolveNodeFn(props.deleteNode?.(node)))
 		);
-		const [, event, willOpen] = deleted[0];
+		const [, event, closeModal] = deleted[0];
 
 		// unfinished task
 		if (deleted.every(([d]) => d === undefined)) {
@@ -404,8 +407,9 @@
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_deleted"),
-				willOpen,
-				didDestroy() {
+				willOpen() {
+					closeModal?.();
+
 					if (!props.omitRefresh) props.refresh?.();
 				},
 			});

@@ -56,12 +56,8 @@
 <script setup lang="ts" generic="T extends iFormValue">
 	import type { WritableComputedRef } from "vue";
 
-	import type { iFormValue } from "@open-xamu-co/ui-common-types";
-	import {
-		type FormInput as FormInputClass,
-		useForm,
-		useI18n,
-	} from "@open-xamu-co/ui-common-helpers";
+	import type { iFormValue, tFormInput } from "@open-xamu-co/ui-common-types";
+	import { useForm, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseBox from "../base/Box.vue";
 	import IconFa from "../icon/Fa.vue";
@@ -74,7 +70,7 @@
 	import { eSizes } from "@open-xamu-co/ui-common-enums";
 
 	export interface iFormInputLoop<Ti> extends iUseThemeProps {
-		input: FormInputClass;
+		input: tFormInput;
 		models: WritableComputedRef<Ti | Ti[]>[];
 		/** Make all inputs read only by disabling them */
 		readonly?: boolean;
