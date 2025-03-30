@@ -101,7 +101,7 @@ export type iFormValue = string | number | boolean | File | Date;
  * Simple input
  */
 export interface iFormInputDefault<
-	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple.TEXT,
+	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple,
 > {
 	type?: T;
 	required?: boolean;
@@ -116,8 +116,10 @@ export interface iFormInputDefault<
 /**
  * Complex input, sub input support
  */
-export interface iFormInput<V extends iFormValue = iFormValue, Vk extends V | V[] = V | V[]>
-	extends iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex> {
+export interface iFormInput<
+	V extends iFormValue | iFormValue[],
+	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex,
+> extends iFormInputDefault<T> {
 	name: string;
 	options?: (string | number | iFormOption)[];
 	/**
@@ -125,8 +127,12 @@ export interface iFormInput<V extends iFormValue = iFormValue, Vk extends V | V[
 	 *
 	 * @old value
 	 */
-	values?: Vk[];
-	defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]];
+	values?: V[];
+	defaults?: [
+		iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>,
+		iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>,
+		...iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>[],
+	];
 	/**
 	 * Visible over the field, should describe it
 	 */
