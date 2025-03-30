@@ -110,7 +110,7 @@ workflows:
             - prerelease:
                   context: npm-deploy
                   requires:
-                      - build
+                      - tests
                   filters:
                       branches:
                           only:
