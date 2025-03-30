@@ -80,13 +80,13 @@
     "build": "yarn build:entries && yarn build:types"
   },
   "dependencies": {
-    "@open-xamu-co/ui-common-enums": "link:../common-enums",
+    "@open-xamu-co/ui-common-enums": "^3.0.0",
     "lodash-es": "^4.17.21",
     "sweetalert2": "^11.11.1",
     "validator": "^13.11.0"
   },
   "devDependencies": {
-    "@open-xamu-co/ui-common-types": "link:../common-types",
+    "@open-xamu-co/ui-common-types": "^3.0.0",
     "@types/lodash-es": "^4.14.192",
     "@types/validator": "^13.11.1"
   },
