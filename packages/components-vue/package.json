@@ -62,15 +62,15 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-common-types": "^6.4.0",
-    "@open-xamu-co/ui-common-enums": "link:../common-enums",
-    "@open-xamu-co/ui-common-helpers": "link:../common-helpers",
+    "@open-xamu-co/ui-common-enums": "^3.0.0",
+    "@open-xamu-co/ui-common-helpers": "^3.0.0",
     "lodash-es": "^4.17.21",
     "sweetalert2": "^11.11.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "1.4.0",
-    "@open-xamu-co/ui-common-types": "link:../common-types",
-    "@open-xamu-co/ui-styles": "link:../styles",
+    "@open-xamu-co/ui-common-types": "^3.0.0",
+    "@open-xamu-co/ui-styles": "^4.0.0",
     "@storybook/addon-essentials": "^8.1.1",
     "@storybook/addon-interactions": "^8.1.1",
     "@storybook/addon-links": "^8.1.1",
