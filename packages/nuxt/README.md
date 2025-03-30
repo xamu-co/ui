@@ -10,8 +10,8 @@ yarn add @open-xamu-co/ui-nuxt
 
 ## Features
 
--   I18n support
--   Image optimization with nuxt/image
+- I18n support
+- Image optimization with nuxt/image
 
 ## Usage
 
