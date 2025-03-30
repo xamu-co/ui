@@ -1,5 +1,54 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.1.2...@open-xamu-co/ui-nuxt-v3.0.0) (2025-03-30)
+
+
+### Bug Fixes
+
+* form input from types ([fc100dc](https://github.com/xamu-co/ui/commit/fc100dc97e55c8a194b9d0b05d84bff786599afe))
+* more formatting ([fd01986](https://github.com/xamu-co/ui/commit/fd01986e48426a10445022e7eebb6bab739145d4))
+* to v3 ([d60d7f9](https://github.com/xamu-co/ui/commit/d60d7f9259ce57220d55fab16170bd34279df159))
+* **nuxt:** expect url as countriesUrl ([1f34ba4](https://github.com/xamu-co/ui/commit/1f34ba42a9773b52a07346e91307b3eafe695645))
+* **vue:** missing table types ([e42a14a](https://github.com/xamu-co/ui/commit/e42a14ac0d1834e78a37a0f2c69343e0a75e9229))
+* no default imports ([f4e2827](https://github.com/xamu-co/ui/commit/f4e2827970c5326a216075a896100f4abb2fc631))
+* required types as dependencies ([f360fc1](https://github.com/xamu-co/ui/commit/f360fc17446208a9a5e045dc56ff43bc207d5580))
+* transpile components on nuxt module ([9b28776](https://github.com/xamu-co/ui/commit/9b2877681d17cbe7f9fe6cbd16d85a883ea0c957))
+* use lodash-es ([a31ae43](https://github.com/xamu-co/ui/commit/a31ae432cc1bdd1f39e78352570d1ca865c384d5))
+* use nuxt imports ([2dd5f72](https://github.com/xamu-co/ui/commit/2dd5f72a5ee7a623ea0ed605f51c2e7ef1a76ee5))
+
+
+### Code Refactoring
+
+* **vue:** expose refs on hydration ([78ed5a1](https://github.com/xamu-co/ui/commit/78ed5a17cccf45f8cc32e7dbe024a658ffcc60cf))
+
+
+### Features
+
+* support logger ([b4acccc](https://github.com/xamu-co/ui/commit/b4accccc063599ce421ffb37ad740e91681ff0df))
+* **nuxt:** inject css metadata ([925b967](https://github.com/xamu-co/ui/commit/925b9674f675726272d03f53e645b448198c48ce))
+* **vue:** support asyncData composable ([6d8681a](https://github.com/xamu-co/ui/commit/6d8681a0544aa8a579bc917bb34a2020eaed306f))
+* countries api url as option ([48ab3a4](https://github.com/xamu-co/ui/commit/48ab3a4fab08117944aeac0475ab31a6f98712c7))
+* generic useI18n ([30ad604](https://github.com/xamu-co/ui/commit/30ad6044fd2523264a76b1607019daca29120d55))
+* include nuxt-country-api module ([599cdc6](https://github.com/xamu-co/ui/commit/599cdc645589ecc265d59a8867ecb35179ac6033))
+* inject useTimeAgo & useFormInput composables ([64c18df](https://github.com/xamu-co/ui/commit/64c18df9a26cbff6d2e32cd53f4c45695a091713))
+* useSwal composable ([fd4616a](https://github.com/xamu-co/ui/commit/fd4616a62e61b1bf23d1f566b2269331d8bfac68))
+* vue theme composable ([463ebc1](https://github.com/xamu-co/ui/commit/463ebc19da06dfff9060421b228bcb1aca584afc))
+
+
+### BREAKING CHANGES
+
+* I'm dumb
+* iForm moved to types
+* **vue:** hydratable promise no longer exposes fn, refs instead
+* **nuxt:** remove unused from locale pagination
+* related types renamed
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v2.1.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.1.1...@open-xamu-co/ui-nuxt-v2.1.2) (2023-12-18)
 
 
