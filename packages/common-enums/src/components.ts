@@ -1,3 +1,6 @@
+/**
+ * Available components
+ */
 export const componentNames = [
 	// base
 	"BaseImg",
@@ -5,6 +8,8 @@ export const componentNames = [
 	"BaseInput",
 	"BaseSelect",
 	"BaseWrapper",
+	"BaseBox",
+	"BaseErrorBoundary",
 	// icon
 	"Icon",
 	"IconFa",
@@ -17,11 +22,14 @@ export const componentNames = [
 	"InputFile",
 	"InputText",
 	"InputToggle",
+	"InputColor",
 	// select
 	"Select",
 	"SelectFilter",
+	"SelectChoice",
 	// value
 	"Value",
+	"ValueList",
 	"ValueComplex",
 	// box
 	"BoxAction",
@@ -42,4 +50,5 @@ export const componentNames = [
 	"Dropdown",
 	"Table",
 	"Slider",
+	"Collapse",
 ] as const;

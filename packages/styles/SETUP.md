@@ -27,8 +27,8 @@ Sass is an amazing preprocesor but some of their rules could become missused
 
 #### Ampersand usage is allowed for modifiers & similar
 
--   This is because usually you would be only searching for the element or the modifier name
--   As you can see this doesn't break the first rule
+- This is because usually you would be only searching for the element or the modifier name
+- As you can see this doesn't break the first rule
 
 ```scss
 .x-elementName {
@@ -43,7 +43,7 @@ Sass is an amazing preprocesor but some of their rules could become missused
 
 #### For conditional modifiers prepending is prefered
 
--   This limits the nesting and shows the required modifier
+- This limits the nesting and shows the required modifier
 
 ```scss
 .x-elementName {
@@ -58,13 +58,13 @@ Sass is an amazing preprocesor but some of their rules could become missused
 
 #### Each property should follow the next order
 
--   Tag, element or layout (a, .x-elementname, etc...)
--   Pseudoselectors (:hover, :focus, etc...)
--   Statuses (.is--statusname, etc...)
--   Modifiers (.--modifiername-value, etc...)
--   Subelements or childs
--   Overwrites
--   Media queries
+- Tag, element or layout (a, .x-elementname, etc...)
+- Pseudoselectors (:hover, :focus, etc...)
+- Statuses (.is--statusname, etc...)
+- Modifiers (.--modifiername-value, etc...)
+- Subelements or childs
+- Overwrites
+- Media queries
 
 #### And for each grouped rules should go in the end
 

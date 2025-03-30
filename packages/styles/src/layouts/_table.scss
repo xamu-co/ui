@@ -9,7 +9,6 @@
 		table.#{utils.$layout-table} {
 			table-layout: fixed;
 			border-collapse: collapse;
-			box-sizing: border-box;
 			border-spacing: 0;
 
 			@layer defaults {
@@ -26,6 +25,17 @@
 
 			img {
 				display: initial;
+			}
+
+			// Edge case.
+			// Tooltips on head will display over the first row
+			> thead:first-child {
+				> tr:first-child {
+					z-index: 1;
+				}
+				> tr:nth-child(2) {
+					z-index: 0;
+				}
 			}
 
 			thead {
@@ -60,17 +70,19 @@
 							padding: 0.4rem 1rem;
 							transition: color 0.1s ease-out;
 							font-weight: utils.weight();
+
+							@media (width <= utils.$querie-tablet) {
+								padding: 0.4rem 0.6667rem;
+							}
 						}
 
 						td {
-							min-width: math.div(utils.$size-min-column-size, 5);
+							min-width: math.div(utils.$size-min-column, 5);
 						}
 					}
 
 					th,
 					td {
-						box-sizing: border-box;
-
 						&,
 						> * {
 							vertical-align: middle;
@@ -89,7 +101,6 @@
 							transition: all 0.1s ease-out;
 							border-top: 2px solid transparent;
 							border-bottom: 2px solid transparent;
-							box-sizing: border-box;
 						}
 
 						$radius-table: 0.7rem * utils.strip-unit(utils.$size-radius-table);
@@ -134,48 +145,47 @@
 			// table theme
 			//
 			// @group Modifiers
-			@include utils.extend-unions
-				using($theme, $theme-value, $base, $base-value, $is-default) {
-				thead {
-					tr {
+			@include utils.extend-themes using($name, $value, $is-default) {
+				> thead {
+					> tr {
 						&:not(.#{utils.$status-no-hover}) {
-							color: utils.color($theme, 0.6);
+							color: utils.color($name, 0.6);
 
 							&:hover {
 								> th::before,
 								> td::before {
-									border-color: utils.color($theme, 0.05);
+									border-color: utils.color($name, 0.05);
 								}
 							}
 
 							> th,
 							> td {
 								&.#{utils.$status-is-selected} {
-									color: utils.color($theme);
+									color: utils.color($name);
 								}
 
 								&::before {
-									background: utils.color($theme, 0.1);
+									background: utils.color($name, 0.1);
 								}
 							}
 						}
 					}
 				}
 
-				tbody {
-					tr {
+				> tbody {
+					> tr {
 						&:not(.#{utils.$status-no-hover}) {
 							&.#{utils.$status-is-selected} {
 								&:hover {
 									> th::before,
 									> td::before {
-										border-color: utils.color($theme, 0.3);
+										border-color: utils.color($name, 0.3);
 									}
 								}
 
 								> th::before,
 								> td::before {
-									border-color: utils.color($theme, 0.1);
+									border-color: utils.color($name, 0.1);
 								}
 							}
 							&:hover,
@@ -183,22 +193,10 @@
 								> th,
 								> td {
 									&::before {
-										color: utils.color($theme);
-										background: utils.color($theme, 0.1);
+										color: utils.color($name);
+										background: utils.color($name, 0.1);
 									}
 								}
-							}
-						}
-					}
-				}
-
-				thead,
-				tbody {
-					tr {
-						th,
-						td {
-							&.#{utils.$prefix-default}--sticky {
-								background: utils.color($base);
 							}
 						}
 					}
@@ -206,7 +204,7 @@
 			}
 
 			@if utils.$allow-responsive {
-				@media (max-width: utils.$querie-tablet) {
+				@media (width <= utils.$querie-tablet) {
 					// TODO: fix this
 					&.#{utils.$prefix-default}--collapseOnMobile {
 						&,
@@ -251,7 +249,6 @@
 									flex: 0 0 auto;
 									height: 100%;
 									padding-right: 1rem;
-									white-space: pre-line;
 									overflow: hidden;
 									text-overflow: ellipsis;
 

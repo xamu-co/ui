@@ -49,7 +49,7 @@
 				background-color: utils.color(secondary);
 
 				@if utils.$allow-responsive {
-					@media (min-width: (utils.$querie-tablet + 1)) {
+					@media (width > utils.$querie-tablet) {
 						background-attachment: fixed;
 
 						@supports (-webkit-overflow-scrolling: touch) {
@@ -63,7 +63,7 @@
 
 							@include utils.linear-gradient(
 								to bottom,
-								color(dark, 0.3),
+								utils.color(dark, 0.3),
 								transparent
 							);
 						}
@@ -83,7 +83,7 @@
 				&::after {
 					display: none;
 
-					@include utils.linear-gradient(to right, color(dark, 0.5), transparent);
+					@include utils.linear-gradient(to right, utils.color(dark, 0.5), transparent);
 				}
 
 				&::before,

@@ -6,10 +6,8 @@
 		.#{module.$prefix-default}--m {
 			@include module.extend-gutters(margin);
 
-			@include module.extend-viewports-classes {
-				margin: 1rem;
-
-				&-center {
+			&-center {
+				@include module.extend-viewports-classes {
 					margin: 0 auto;
 				}
 			}

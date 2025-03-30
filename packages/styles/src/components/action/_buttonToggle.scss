@@ -9,17 +9,16 @@
 @mixin button-toggle {
 	@layer definitions {
 		.#{module.$component-button-toggle} {
+			--cl-a: var(--cl);
+
 			@include module.action-styles;
 			@include module.action-round-styles;
 			@include module.action-aligment-styles;
-			@include module.action-gaping-styles;
 			@include module.action-alert-styles;
 			@include module.action-size-styles;
 			@include module.action-border-styles;
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles;
-
-			--cl-a: var(--cl);
 
 			&.#{module.$status-is-alert}:after {
 				background-color: var(--bg, transparent);
@@ -27,7 +26,8 @@
 
 			&.#{module.$status-is-alert},
 			&.#{module.$status-is-active},
-			&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+			&.#{module.$status-is-route-exact}:not(
+					.#{module.$status-no-route},
 					.#{module.$status-no-route-exact}
 				) {
 				// hide regular
@@ -39,18 +39,16 @@
 							--fa-display: none;
 
 							display: none;
-
-							&:first-child + * {
-								margin-left: 0;
-							}
 						}
 					}
 				}
 			}
-			&:not(.#{module.$status-is-alert}):not(.#{module.$status-is-active}) {
+			&:not(.#{module.$status-is-alert}, .#{module.$status-is-active}) {
 				&:not(.#{module.$status-is-route-exact}),
-				&.#{module.$status-is-route-exact}.#{module.$status-no-route},
-				&.#{module.$status-is-route-exact}.#{module.$status-no-route-exact} {
+				&.#{module.$status-is-route-exact}:where(
+						.#{module.$status-no-route},
+						.#{module.$status-no-route-exact}
+					) {
 					// hide solid
 					&,
 					.#{module.$component-button-toggle}-icon {
@@ -86,12 +84,13 @@
 					--bc: #{module.color($name)};
 					--bg: #{module.color(light)};
 				}
-				&.#{module.$status-is-route-exact} {
-					&:not(.#{module.$status-no-route}):not(.#{module.$status-no-route-exact}) {
-						--cl: #{module.color(light)};
-						--bg: #{module.color($name, 0.5)};
-						--bc: #{module.color(light, 0.3)};
-					}
+				&.#{module.$status-is-route-exact}:not(
+						.#{module.$status-no-route},
+						.#{module.$status-no-route-exact}
+					) {
+					--cl: #{module.color(light)};
+					--bg: #{module.color($name, 0.5)};
+					--bc: #{module.color(light, 0.3)};
 				}
 			}
 

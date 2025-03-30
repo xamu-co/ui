@@ -1,11 +1,11 @@
-import type { iSelectOption } from "@open-xamu-co/ui-common-types";
+import type { iFormOption, iSelectOption } from "@open-xamu-co/ui-common-types";
 
 /**
- * create iSelectOption from compatible values
+ * create iSelectOption or iFormOption from compatible values
  */
-export function toSelectOption<T extends iSelectOption = iSelectOption>(
+export function toOption<T extends iSelectOption | iFormOption = iSelectOption>(
 	option: string | number | T
-): iSelectOption | T {
+): T extends iFormOption ? iFormOption : iSelectOption {
 	if (typeof option === "object" && option !== null) return option;
 
 	return { value: option };
@@ -27,24 +27,29 @@ export function formatAsCurrency(x: number): string {
 
 /**
  * Get localized time ago string
+ *
+ * Uses Intl js api
  * @param date
  * @param locale
  * @returns
  */
 export function timeAgo(date: Date, locale = "en-US") {
+	/** Difference in seconds */
 	const difference = (new Date().getTime() - date.getTime()) / 1000;
-	const minutes = Math.floor(difference / 60);
-	const hours = Math.floor(minutes / 60);
-	const days = Math.floor(hours / 24);
-	const months = Math.floor(days / 30);
-	const years = Math.floor(months / 12);
+	const minutes = difference / 60;
+	const hours = minutes / 60;
+	const days = hours / 24;
+	const months = days / 30;
+	const years = months / 12;
 	const relative = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+	// Use absolute value before rounding
+	const moreThan = (v: number) => Math.floor(Math.abs(v)) > 0;
 
-	if (years > 0) return relative.format(0 - years, "year");
-	else if (months > 0) return relative.format(0 - months, "month");
-	else if (days > 0) return relative.format(0 - days, "day");
-	else if (hours > 0) return relative.format(0 - hours, "hour");
-	else if (minutes > 0) return relative.format(0 - minutes, "minute");
+	if (moreThan(years)) return relative.format(0 - Math.floor(years), "year");
+	else if (moreThan(months)) return relative.format(0 - Math.floor(months), "month");
+	else if (moreThan(days)) return relative.format(0 - Math.floor(days), "day");
+	else if (moreThan(hours)) return relative.format(0 - Math.floor(hours), "hour");
+	else if (moreThan(minutes)) return relative.format(0 - Math.floor(minutes), "minute");
 
 	return relative.format(0 - difference, "second");
 }

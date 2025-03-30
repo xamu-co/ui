@@ -3,9 +3,11 @@
 </template>
 
 <script setup lang="ts">
-	import { type PropType, computed, inject, type Component as VueComponent } from "vue";
+	import { type PropType, computed, inject } from "vue";
 
 	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
+
+	import type { vComponent } from "../../types/plugin";
 
 	/**
 	 * Img Prototype
@@ -39,7 +41,7 @@
 		},
 	});
 
-	const xamuOptions = inject<iPluginOptions<VueComponent>>("xamu");
+	const xamuOptions = inject<iPluginOptions<vComponent>>("xamu");
 
 	const imageComponent = computed(() => xamuOptions?.imageComponent || "img");
 </script>

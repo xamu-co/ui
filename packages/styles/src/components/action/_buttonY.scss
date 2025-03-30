@@ -9,12 +9,22 @@
 		.#{module.$component-button-y} {
 			@include module.action-styles;
 			@include module.action-aligment-styles;
+			@include module.action-alert-styles;
+
+			&.#{module.$status-is-alert}:after {
+				--bc: var(--bg);
+
+				background-color: var(--bg-a, #{module.$color-bg});
+			}
+
+			@include module.action-size-styles(false) using($size) {
+				padding: #{$size * 0.8} #{$size * 0.2};
+			}
+			@include module.action-border-styles using($radius) {
+				border-radius: 0.4 * $radius;
+			}
 			@include module.action-theme-union-styles;
 			@include module.action-disabled-styles(false);
-
-			padding: 0.8rem 0.2rem;
-			border-radius: 0.4rem * module.$radius-action;
-			border-width: 2px;
 		}
 	}
 }

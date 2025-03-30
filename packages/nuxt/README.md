@@ -10,8 +10,8 @@ yarn add @open-xamu-co/ui-nuxt
 
 ## Features
 
--   I18n support
--   Image optimization with nuxt/image
+- I18n support
+- Image optimization with nuxt/image
 
 ## Usage
 
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
 });
 ```
 
-| Name               | Type                                                                                                          | Type                                                           | Description                                                                                                                                                                                           |
+| Name               | Type                                                                                                          | Default                                                        | Description                                                                                                                                                                                           |
 | ------------------ | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | webComponents      | boolean                                                                                                       | false                                                          | Use web components                                                                                                                                                                                    |
 | globalComponents   | boolean \| tComponent[]                                                                                       | true                                                           | Register all or specific components globally. If `true`, all components will be registered globally. If an array is provided, only the components specified in the array will be registered globally. |

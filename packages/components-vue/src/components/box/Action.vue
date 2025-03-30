@@ -1,30 +1,36 @@
 <template>
-	<BaseAction
+	<BaseBox
+		:el="BaseAction"
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
-		:class="getClassesString([modifiersClasses, stateClasses, themeClasses])"
-		class="box --button"
+		:aria-label="label"
+		button
 	>
-		<div :class="getClassesString([innerThemeClasses])" class="box --square-sm">
-			<IconFa v-if="!src" v-bind="{ ...iconProps, name: icon ?? 'cubes', size: 50 }" />
-			<BaseImg v-else class="--bgColor-light --width --height" :src="src" :alt="text" />
+		<div v-if="icon || src" :class="innerThemeClasses" class="box --square">
+			<IconFa v-if="icon" v-bind="{ size: 35, ...iconProps, name: icon }" />
+			<BaseImg
+				v-else-if="src"
+				class="--bgColor-light --width-100 --height-100"
+				:src="src"
+				:alt="label"
+			/>
 		</div>
 		<p>
-			<!-- Since we only accept text there is no room for slot here -->
-			<b>{{ text }}</b>
+			<!-- Since we only accept label there is no room for slot here -->
+			<b>{{ label }}</b>
 		</p>
-	</BaseAction>
+	</BaseBox>
 </template>
 
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
 
 	import type { iFormIconProps } from "@open-xamu-co/ui-common-types";
-	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 	import { eColors } from "@open-xamu-co/ui-common-enums";
 
+	import BaseBox from "../base/Box.vue";
 	import BaseImg from "../base/Img.vue";
-	import IconFa from "../icon/Fa.vue";
 	import BaseAction from "../base/Action.vue";
+	import IconFa from "../icon/Fa.vue";
 
 	import type {
 		iUseModifiersProps,
@@ -33,10 +39,7 @@
 		iActionProps,
 		iUseThemeTooltipProps,
 	} from "../../types/props";
-	import useModifiers from "../../composables/modifiers";
-	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
 
 	interface iBoxActionProps
 		extends iActionProps,
@@ -48,16 +51,17 @@
 		 * FontAwesome icon
 		 */
 		icon?: IconName;
-		iconProps?: iFormIconProps;
+		iconProps?: iFormIconProps & { size: number };
 		/**
 		 * image url or path
 		 */
 		src?: string;
 		/**
-		 * action text
-		 * @required
+		 * action label
+		 * @old text - collision with router-link attribute
+		 * @required true
 		 */
-		text: string;
+		label: string;
 	}
 
 	/**
@@ -72,9 +76,6 @@
 
 	const props = defineProps<iBoxActionProps>();
 
-	const { getClassesString } = useHelpers(useUtils);
-	const { modifiersClasses } = useModifiers(props);
-	const { stateClasses } = useState(props);
-	const { themeClasses, tooltipAttributes } = useTheme(props);
+	const { tooltipAttributes } = useTheme(props);
 	const { themeClasses: innerThemeClasses } = useTheme({ theme: eColors.LIGHT });
 </script>

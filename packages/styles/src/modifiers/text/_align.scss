@@ -6,133 +6,87 @@
 @mixin text-align {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtAlign {
-			// txtAlignFlx
-			&Flx {
-				&-right {
-					@include module.extend-viewports-classes {
+			&-right {
+				@include module.extend-viewports-classes(true, module.$viewports) {
+					text-align: right;
+
+					@layer defaults {
+						* {
+							// @defaults txtAlign
+							text-align: right;
+						}
+					}
+
+					&:not(table, thead, tbody, tr, td, th) {
 						align-items: flex-end;
-
-						@layer defaults {
-							* > * {
-								// @defaults txtAlignFlx
-								align-items: flex-end;
-							}
-						}
-					}
-				}
-
-				&-center {
-					@include module.extend-viewports-classes {
-						align-items: center;
-
-						@layer defaults {
-							* > * {
-								// @defaults txtAlignFlx
-								align-items: center;
-							}
-						}
-					}
-				}
-
-				&-justify {
-					@include module.extend-viewports-classes {
-						align-items: stretch;
-
-						@layer defaults {
-							* > * {
-								// @defaults txtAlignFlx
-								align-items: stretch;
-							}
-						}
-					}
-				}
-
-				// default
-				&,
-				&-left {
-					@include module.extend-viewports-classes {
-						align-items: flex-start;
-
-						@layer defaults {
-							* > * {
-								// @defaults txtAlignFlx
-								align-items: flex-start;
-							}
-						}
-					}
-				}
-
-				&,
-				&-left,
-				&-justify,
-				&-center,
-				&-right {
-					@include module.extend-viewports-classes {
-						flex-flow: column nowrap;
-						justify-content: flex-start;
-
-						&:not(table, thead, tbody) {
-							// Gaping
-							display: inline-flex;
-						}
 					}
 				}
 			}
 
-			// txtAlign & txtAlignFlx
+			&-center {
+				@include module.extend-viewports-classes(true, module.$viewports) {
+					text-align: center;
+
+					@layer defaults {
+						* {
+							// @defaults txtAlign
+							text-align: center;
+						}
+					}
+
+					&:not(table, thead, tbody, tr, td, th) {
+						align-items: center;
+					}
+				}
+			}
+
+			&-justify {
+				@include module.extend-viewports-classes(true, module.$viewports) {
+					text-align: justify;
+
+					@layer defaults {
+						* {
+							// @defaults txtAlign
+							text-align: justify;
+						}
+					}
+
+					&:not(table, thead, tbody, tr, td, th) {
+						align-items: stretch;
+					}
+				}
+			}
+
+			// default
 			&,
-			&Flx {
-				&-right {
-					@include module.extend-viewports-classes {
-						text-align: right;
+			&-left {
+				@include module.extend-viewports-classes(true, module.$viewports) {
+					text-align: left;
 
-						@layer defaults {
-							* {
-								// @defaults txtAlign
-								text-align: right;
-							}
+					@layer defaults {
+						* {
+							// @defaults txtAlign
+							text-align: left;
 						}
 					}
-				}
 
-				&-center {
-					@include module.extend-viewports-classes {
-						text-align: center;
-
-						@layer defaults {
-							* {
-								// @defaults txtAlign
-								text-align: center;
-							}
-						}
+					&:not(table, thead, tbody, tr, td, th) {
+						align-items: flex-start;
 					}
 				}
+			}
 
-				&-justify {
-					@include module.extend-viewports-classes {
-						text-align: justify;
-
-						@layer defaults {
-							* {
-								// @defaults txtAlign
-								text-align: justify;
-							}
-						}
-					}
-				}
-
-				// default
-				&,
-				&-left {
-					@include module.extend-viewports-classes {
-						text-align: left;
-
-						@layer defaults {
-							* {
-								// @defaults txtAlign
-								text-align: left;
-							}
-						}
+			&,
+			&-left,
+			&-justify,
+			&-center,
+			&-right {
+				@include module.extend-viewports-classes(true, module.$viewports) {
+					&:not(.#{module.$layout-text}, table, thead, tbody, tr, td, th) {
+						// Gaping
+						justify-content: flex-start;
+						display: inline-flex;
+						flex-flow: column nowrap;
 					}
 				}
 			}

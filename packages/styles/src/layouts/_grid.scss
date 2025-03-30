@@ -111,7 +111,8 @@
 ///  </div>
 
 @mixin grid {
-	$column-third: math.div(utils.$size-min-column-size, 3);
+	$column-third: math.div(utils.$size-min-column, 3);
+	$row-third: math.div(utils.$size-min-row, 3);
 
 	@layer definitions {
 		.#{utils.$layout-grid} {
@@ -131,7 +132,6 @@
 
 				> * {
 					width: 100%;
-					box-sizing: border-box;
 				}
 			}
 
@@ -139,33 +139,91 @@
 			//
 			// @group Modifiers
 			&.#{utils.$prefix-default}--autoRows {
-				@include utils.extend-viewports-classes {
+				@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 					grid-auto-rows: minmax(min-content, 100%);
+				}
+			}
+			&.#{utils.$prefix-default}--grdRows {
+				// default, the same as .--grdRows-auto3
+				@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+					grid-template-rows: repeat(auto-fit, minmax(#{utils.$size-min-row}, 1fr));
+				}
+
+				&-single {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: 1fr;
+					}
+				}
+
+				&-autoFit {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: repeat(auto-fit, minmax(0, 1fr));
+					}
+				}
+
+				&-autoFitMin {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: repeat(auto-fit, minmax(#{$row-third}, max-content));
+					}
+				}
+
+				&-autoFillMin {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: repeat(auto-fill, minmax(#{$row-third}, max-content));
+					}
+				}
+
+				&-autoFitColumn {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: repeat(auto-fit, minmax(#{utils.$size-min-row}, 1fr));
+					}
+				}
+
+				&-autoFillColumn {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+						grid-template-rows: repeat(auto-fill, minmax(#{utils.$size-min-row}, 1fr));
+					}
+				}
+
+				@for $i from 2 through utils.$loop-rows {
+					&-auto#{$i} {
+						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+							grid-template-rows: repeat(
+								auto-fit,
+								minmax(#{math.div(utils.$size-min-row, $i) * 3}, 1fr)
+							);
+						}
+					}
+					&-#{$i} {
+						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+							grid-template-rows: repeat(
+								#{$i},
+								minmax(#{math.div(utils.$size-min-row, $i) * 3}, 1fr)
+							);
+						}
+					}
 				}
 			}
 			&.#{utils.$prefix-default}--grdColumns {
 				// default, the same as .--grdColumns-auto3
-				@include utils.extend-viewports-classes {
-					grid-template-columns: repeat(
-						auto-fit,
-						minmax(#{utils.$size-min-column-size}, 1fr)
-					);
+				@include utils.extend-viewports-classes($viewports: utils.$viewports) {
+					grid-template-columns: repeat(auto-fit, minmax(#{utils.$size-min-column}, 1fr));
 				}
 
 				&-single {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: 1fr;
 					}
 				}
 
 				&-autoFit {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
 					}
 				}
 
 				&-autoFitMin {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(
 							auto-fit,
 							minmax(#{$column-third}, max-content)
@@ -174,7 +232,7 @@
 				}
 
 				&-autoFillMin {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(
 							auto-fill,
 							minmax(#{$column-third}, max-content)
@@ -183,37 +241,37 @@
 				}
 
 				&-autoFitColumn {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(
 							auto-fit,
-							minmax(#{utils.$size-min-column-size}, 1fr)
+							minmax(#{utils.$size-min-column}, 1fr)
 						);
 					}
 				}
 
 				&-autoFillColumn {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(
 							auto-fill,
-							minmax(#{utils.$size-min-column-size}, 1fr)
+							minmax(#{utils.$size-min-column}, 1fr)
 						);
 					}
 				}
 
-				@for $i from 2 through 12 {
+				@for $i from 2 through utils.$loop-columns {
 					&-auto#{$i} {
-						@include utils.extend-viewports-classes {
+						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 							grid-template-columns: repeat(
 								auto-fit,
-								minmax(#{math.div(utils.$size-min-column-size, $i) * 3}, 1fr)
+								minmax(#{math.div(utils.$size-min-column, $i) * 3}, 1fr)
 							);
 						}
 					}
 					&-#{$i} {
-						@include utils.extend-viewports-classes {
+						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 							grid-template-columns: repeat(
 								#{$i},
-								minmax(#{math.div(utils.$size-min-column-size, $i) * 3}, 1fr)
+								minmax(#{math.div(utils.$size-min-column, $i) * 3}, 1fr)
 							);
 						}
 					}
@@ -228,28 +286,28 @@
 				&,
 				&-1,
 				&-1-1 {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(2, 1fr);
 						grid-template-areas: ". a";
 					}
 				}
 
 				&-1-4 {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(5, 1fr);
 						grid-template-areas: ". a a a a";
 					}
 				}
 
 				&-2-3 {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(5, 1fr);
 						grid-template-areas: ". . a a a";
 					}
 				}
 
 				&-3-2 {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(5, 1fr);
 						grid-template-areas: ". . . a a";
 					}
@@ -261,7 +319,7 @@
 				&-1-4,
 				&-2-3,
 				&-3-2 {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						> *:last-child {
 							// The compiler converts this to "a" always causing issues if other word is used
 							grid-area: a;
@@ -275,21 +333,21 @@
 				&,
 				&-1,
 				&-1-1 {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(2, 1fr);
 						grid-template-areas: "a .";
 					}
 				}
 
 				&-4-1 {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(5, 1fr);
 						grid-template-areas: "a a a a .";
 					}
 				}
 
 				&-3-2 {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-template-columns: repeat(5, 1fr);
 						grid-template-areas: "a a a . .";
 					}
@@ -301,7 +359,7 @@
 				&-4-1,
 				&-3-2,
 				&-2-3 {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						> *:first-child {
 							grid-area: a;
 						}
@@ -318,14 +376,14 @@
 			// grid column span, restricted to wide viewports
 			//
 			// @group Modifiers
-			@for $i from 2 through 12 {
+			@for $i from 2 through utils.$loop-columns {
 				&.#{utils.$prefix-default}--grdColumnSpan-#{$i} {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-column: span #{$i};
 					}
 				}
 				&.#{utils.$prefix-default}--grdRowSpan-#{$i} {
-					@include utils.extend-viewports-classes {
+					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 						grid-row: span #{$i};
 					}
 				}
@@ -333,12 +391,12 @@
 
 			// defaults
 			&.#{utils.$prefix-default}--grdColumnSpan {
-				@include utils.extend-viewports-classes {
+				@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 					grid-column: span 2;
 				}
 			}
 			&.#{utils.$prefix-default}--grdRowSpan {
-				@include utils.extend-viewports-classes {
+				@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 					grid-row: span 2;
 				}
 			}

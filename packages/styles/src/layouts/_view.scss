@@ -6,24 +6,6 @@
 // @group Layouts
 
 @mixin view {
-	// Define las diferentes secciones de cada vista
-	//
-	// @name Columns
-	// @group Layouts
-
-	.#{utils.$layout-view}-item {
-		&.#{utils.$prefix-default}--minHeight-100 {
-			min-height: calc(100vh - utils.$size-view-top-buffer);
-
-			@if utils.$allow-responsive {
-				@media (max-device-width: utils.$querie-tablet) {
-					// mobile only, 56px: navigation bar
-					min-height: calc((100vh - utils.$size-view-top-buffer) - 56px);
-				}
-			}
-		}
-	}
-
 	@layer definitions {
 		.#{utils.$layout-view} {
 			@include utils.flex-box(column, nowrap, center, stretch);
@@ -33,11 +15,9 @@
 		//
 		// @name Columns
 		// @group Layouts
-
 		.#{utils.$layout-view}-item {
 			overflow: visible;
 			height: auto;
-			box-sizing: border-box;
 
 			@include utils.flex-box(row, nowrap, center, stretch);
 
@@ -48,14 +28,20 @@
 				& {
 					// @defaults minHeight
 					min-height: 60vh;
+					min-height: 60dvh;
 				}
+			}
+
+			&.#{utils.$prefix-default}--minHeight-100 {
+				min-height: calc(100vh - utils.$size-view-top-buffer);
+				min-height: calc(100dvh - utils.$size-view-top-buffer);
 			}
 
 			> .#{utils.$layout-holder} {
 				@include utils.flex-box(column, nowrap, center, stretch);
 
 				@layer defaults {
-					> :not(:last-child) {
+					&:not([class*="--gap"]) > :not(:last-child) {
 						// @defaults mBottom
 						margin-bottom: 2rem;
 					}

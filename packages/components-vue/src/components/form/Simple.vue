@@ -1,72 +1,97 @@
 <template>
-	<LoaderContentFetch
-		v-slot="countries"
-		:theme="theme"
-		:promise="((withLocationInput && !defaultCountry) || withPhoneInput) && getCountries"
-		class="flx --flxColumn --flx-start-stretch --gap-10 --gap:md --maxWidth-full"
-		:fallback="[]"
-		:el="noForm ? 'fieldset' : 'form'"
-	>
-		<LoaderContentFetch
-			v-slot="states"
-			:theme="theme"
-			:promise="
-				withLocationInput &&
-				!!defaultCountry &&
-				(() => getCountryStates(defaultCountry || ''))
-			"
-			:fallback="[]"
-			unwrap
+	<BaseErrorBoundary :theme="theme">
+		<component
+			:is="noForm ? 'fieldset' : 'form'"
+			v-if="model.length"
+			class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
 		>
 			<legend v-if="title">
 				<h4>{{ title }}:</h4>
 			</legend>
-			<div
-				v-for="(input, inputIndex) in model"
-				:key="inputIndex"
-				class="flx --flxColumn --flx-start-stretch --gap-5"
+			<BaseWrapper
+				v-slot="{ content, ...countriesAndStatesReq } = {}"
+				:wrapper="LoaderContentFetch"
+				:wrap="withLocationInput || withPhoneInput"
+				:theme="theme"
+				:label="t('form_loading_countries')"
+				:promise="getCountriesAndStates"
+				:url="`/countries${defaultCountry ? '?states' : ''}`"
+				:fallback="{ countries: [], states: [] }"
+				ignore-errors
+				unwrap
 			>
-				<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
-					{{ getSuggestedTitle(input) }}
-				</p>
-				<FormInput
-					:theme="theme"
-					:input="input"
-					:invalid="getInvalid(input.name)"
-					:countries="countries.content"
-					:states="(withLocationInput && !!defaultCountry && states.content) || undefined"
-					:model-value="model[inputIndex].values"
-					@update:model-value="updateValues(inputIndex, $event)"
-				/>
-			</div>
-		</LoaderContentFetch>
-	</LoaderContentFetch>
+				<template v-for="(input, inputIndex) in model" :key="inputIndex">
+					<div
+						v-if="input && model[inputIndex]"
+						class="flx --flxColumn --flx-start-stretch --gap-5"
+					>
+						<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
+							{{ getSuggestedTitle(input) }}
+						</p>
+						<FormInput
+							:key="`input-${input.name}-${input.options.length}`"
+							v-bind="{
+								...content,
+								...countriesAndStatesReq,
+								readonly,
+								theme,
+								input,
+							}"
+							:invalid="getInvalid(input.name)"
+							:model-value="model[inputIndex].values"
+							@update:model-value="updateValues(inputIndex, $event)"
+						/>
+					</div>
+				</template>
+			</BaseWrapper>
+		</component>
+		<slot v-else>
+			<!-- No inputs given -->
+			<BaseBox class="--width-100" :theme="theme" button dashed transparent>
+				<div class="flx --flxRow --flx-center">
+					<span>{{ emptyMessage || t("nothing_to_show") }}</span>
+				</div>
+			</BaseBox>
+		</slot>
+	</BaseErrorBoundary>
 </template>
 
-<script setup lang="ts">
-	import { computed, watch } from "vue";
-	import _ from "lodash";
+<script setup lang="ts" generic="P extends any[] = any[]">
+	import { computed, ref, watch } from "vue";
+	import isEqual from "lodash-es/isEqual";
 
 	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
+	import type { tFormInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
-	import { type FormInput as FormInputClass, useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
+	import BaseWrapper from "../base/Wrapper.vue";
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
+	import BaseBox from "../base/Box.vue";
 	import FormInput from "./Input.vue";
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
+	import type { iState } from "../../types/countries";
 	import useCountries from "../../composables/countries";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
-	interface iFormSimple extends iUseThemeProps {
+	export interface iFormSimple<P extends any[]> extends iUseThemeProps {
 		title?: string;
-		modelValue?: FormInputClass[];
+		emptyMessage?: string;
+		modelValue?: tFormInput[];
 		noForm?: boolean;
 		invalid?: iInvalidInput[];
 		/**
+		 * If the make function requires a payload
+		 */
+		payload?: P;
+		/**
 		 * Make model
 		 */
-		make?: FormInputClass[];
+		make?: (...args: P) => tFormInput[];
+		/** Make all inputs read only by disabling them */
+		readonly?: boolean;
 	}
 
 	/**
@@ -77,25 +102,45 @@
 
 	defineOptions({ name: "FormSimple", inheritAttrs: true });
 
-	const props = defineProps<iFormSimple>();
+	const props = defineProps<iFormSimple<P>>();
 	const emit = defineEmits(["update:invalid", "update:model-value"]);
 
 	const { t, tet } = useHelpers(useI18n);
 	const { defaultCountry, getCountries, getCountryStates } = useCountries();
 
+	/**
+	 * Was make used?
+	 */
+	const firstMake = ref(false);
+
 	const withLocationInput = computed(() => {
-		return props.modelValue?.some(({ type }) => type === eFormType.LOCATION);
+		return !!props.modelValue?.some(({ type }) => type === eFormType.LOCATION);
 	});
 	const withPhoneInput = computed(() => {
-		return props.modelValue?.some(({ type }) => {
+		return !!props.modelValue?.some(({ type }) => {
 			return type === eFormType.CELLPHONE || type === eFormType.PHONE;
 		});
 	});
 
+	/**
+	 * Fetch states if country is provided
+	 *
+	 * TODO: save to shared state to avoid over fetching
+	 */
+	async function getCountriesAndStates() {
+		const countries = await getCountries();
+		let states: iState[] = [];
+
+		if (defaultCountry) states = await getCountryStates(defaultCountry);
+
+		return { countries, states };
+	}
+
 	function updateValues(index: number, values: any[]) {
-		model.value[index].values = values;
+		if (!model.value[index]) return;
 
 		// update values
+		model.value[index].values = values;
 		emit("update:model-value", props.modelValue?.toSpliced(index, 1, model.value[index]));
 
 		if (!props.invalid?.length) return;
@@ -104,27 +149,29 @@
 		emit(
 			"update:invalid",
 			props.invalid.filter(({ invalidValue, name }) => {
-				return model.value[index].name !== name || _.isEqual(invalidValue, values);
+				return model.value[index]?.name !== name || isEqual(invalidValue, values);
 			})
 		);
 	}
 
 	/**
 	 * Form model
-	 * maps inputs into computed values that could actually listen for changes then rolls back before emiting
+	 * Maps valid inputs as null. To preserve indexes
 	 */
-	const model = computed<FormInputClass[]>(() =>
-		(props.modelValue || []).filter(({ type, options, required }) => {
+	const model = computed<(tFormInput | null)[]>(() =>
+		(props.modelValue || []).map((input) => {
+			const { type, options, required } = input;
+
 			// omit non required if options are not present
 			if (
 				eFormTypeSimple.SELECT === type ||
 				eFormTypeSimple.SELECT_FILTER === type ||
 				eFormTypeSimple.CHOICE === type
 			) {
-				if (!options?.length && !required) return false;
+				if (!options?.length && !required) return null;
 			}
 
-			return true;
+			return input;
 		})
 	);
 
@@ -132,7 +179,7 @@
 	 * Get input title
 	 * If no title is provided then it takes one of the suggested options
 	 */
-	function getSuggestedTitle({ type, title, required }: FormInputClass): string {
+	function getSuggestedTitle({ type, title, required }: tFormInput): string {
 		if (!title) {
 			switch (type) {
 				case eFormType.LOCATION:
@@ -170,11 +217,12 @@
 
 	// lifecycle
 	watch(
-		() => props.make,
-		(newMake, oldMake) => {
-			if (oldMake && newMake?.every((input, index) => input.isEqual(oldMake[index]))) return;
+		() => props.payload,
+		(newPayload, oldPayload) => {
+			if (!props.make || (firstMake.value && isEqual(newPayload, oldPayload))) return;
 
-			emit("update:model-value", newMake);
+			firstMake.value = true;
+			emit("update:model-value", props.make(...(<P>(newPayload || []))));
 		},
 		{ immediate: true }
 	);

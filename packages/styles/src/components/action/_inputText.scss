@@ -8,23 +8,20 @@
 @mixin input-text {
 	@layer definitions {
 		.#{module.$component-input-text} {
-			@include module.action-styles;
-			@include module.action-border-styles;
-			@include module.action-disabled-styles;
-
 			width: 100%;
 			display: block;
 			padding: 0 0.8rem;
 
+			@include module.action-styles;
+			@include module.action-border-styles;
+			@include module.action-disabled-styles;
 			@include module.flex-box(column, nowrap, center, center);
 
 			@at-root textarea#{&} {
 				min-height: 6rem;
 				padding-top: 0.4rem;
 				padding-bottom: 0.4rem;
-
-				// form-sizing: content;
-				// max-lines: 100;
+				field-sizing: content;
 			}
 
 			&:not(textarea) {
@@ -45,7 +42,6 @@
 					height: 100%;
 					padding-left: 1.6rem;
 					font-weight: inherit;
-					box-sizing: border-box;
 
 					&[placeholder],
 					&:placeholder-shown {
@@ -73,12 +69,14 @@
 				// theme overrides
 				//
 				// @group Modifiers
-				&.#{module.$prefix-default}--tm-light {
-					--bg: #{module.color(light, 0.3)};
-					--bc: #{module.color(light, 0.7)};
-					--cl-a: #{module.color(light, 0.7)};
+				@if module.$allow-theme-overrides {
+					&.#{module.$prefix-default}--tm-light:not(.#{module.$status-no-override}) {
+						--bg: #{module.color(light, 0.3)};
+						--bc: #{module.color(light, 0.7)};
+						--cl-a: #{module.color(light, 0.7)};
 
-					text-shadow: 1px 1px 1px module.color(dark, 0.3);
+						text-shadow: 1px 1px 1px module.color(dark, 0.3);
+					}
 				}
 			}
 

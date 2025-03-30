@@ -1,11 +1,15 @@
 @use "system";
 @use "sass:map";
+@use "sass:math";
 
 // PREFIXES
 $prefix-default: "" !default;
 $prefix-default-with-separator: system.dashed($prefix-default) !default;
 
 // ALLOWANCES
+$allow-theme-overrides: true !default; // aesthetic overrides
+
+// ALLOWANCES, MODULES
 $allow-reset: true !default;
 $allow-initialize: true !default;
 $allow-animations: true !default;
@@ -21,12 +25,14 @@ $allow-avatar: $prefix-default-with-separator + "avatar" !default; // avatar bas
 
 // ALLOWANCES, RESPONSIVE
 $allow-responsive: true !default; // responsive & media queries
+$allow-responsive-upscaling: true !default; // responsive & media queries
 $allow-responsive-classes: $allow-responsive !default; // responsive class modifiers
 $allow-responsive-classes-desktop-first: false !default; // include desktop first class modifiers
 $allow-responsive-classes-all-viewports: false !default; // use all viewports
 
 // FONT FAMILIES
 $font-default: ("Poppins", sans-serif) !default;
+$font-title: $font-default !default;
 $font-code: ("Courier New", courier, monospace) !default;
 $font-icons: "Font Awesome 5 Free" !default;
 
@@ -40,10 +46,15 @@ $font-size-xx: $font-size-md * 3.6 !default; // extra extra large
 $font-size-mx: $font-size-md * 4.8 !default; // maximum
 
 // FONT WEIGHTS
-$font-weight-light: 200 !default;
+$font-weight-thin: 100 !default;
+$font-weight-lighter: 200 !default;
+$font-weight-light: 300 !default;
 $font-weight-regular: 400 !default;
-$font-weight-bold: 600 !default;
-$font-weight-black: 800 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+$font-weight-bolder: 800 !default;
+$font-weight-black: 900 !default;
 
 // COLORS, theme
 $color-primary: #f39c12 !default; // primary theme colors
@@ -52,16 +63,17 @@ $color-secondary: #0f47af !default; // secondary theme colors
 $color-secondary-complement: system.secondary($color-secondary) !default;
 $color-danger: #e74c3c !default;
 $color-success: #259c21 !default;
+$color-warning: #ffeaa7 !default;
 
 // COLORS, base
 $color-light: #fff !default;
 $color-dark: #000 !default;
 
 // COLORS, utils
-$color-bg: $color-light !default;
-$color-text: $color-secondary-complement !default; // used over bg
-$color-select-bg: $color-secondary !default;
-$color-select-txt: $color-light !default;
+$color-bg: rgb(var(--rgb-light)) !default;
+$color-text: rgb(var(--rgb-secondary-complement)) !default; // used over bg
+$color-select-bg: rgb(var(--rgb-secondary)) !default;
+$color-select-txt: rgb(var(--rgb-light)) !default;
 
 // MEDIA QUERIES
 $querie-smartwatch: 358px !default; // xs
@@ -70,19 +82,36 @@ $querie-tablet: 768px !default; // md
 $querie-desktop: 1080px !default; // lg
 $querie-tv: 1280px !default; // xl
 
+// LOOPS
+$loop-gaps: 10 !default; // gap, margin, padding
+$loop-animations: 20 !default;
+$loop-icon-sizes: 10 !default;
+$loop-columns: 12 !default; // grid & cols
+$loop-rows: 12 !default; // grid & rows
+$loop-orders: 10 !default;
+$loop-zindexes: 10 !default;
+$loop-dimensions: 10 !default; // width, height
+$loop-letter-spacings: 6 !default;
+
 // SIZES
 $size-px: 1080, 480, 440, 220, 180, 90 !default;
 $size-px-default: 1200 !default;
-$size-min-column-size: $font-size-md * 18 !default; // min column size, 280px aprox
+$size-min-column: $font-size-md * 18 !default; // min column size, 280px aprox
+$size-min-row: $font-size-md * 9 !default; // min row size, 280px aprox
 $size-max-text-width: 66ch !default; // max text block width, 780px aprox
 $size-line-height: 1.2em !default; // main line height
+$size-line-height-sm: math.div($size-line-height, 1.2) !default;
+$size-line-height-xs: math.div($size-line-height-sm, 1.2) !default;
 $size-line-height-lg: $size-line-height * 1.2 !default;
 $size-line-height-xl: $size-line-height-lg * 1.2 !default;
+$size-line-height-xx: $size-line-height-xl * 1.2 !default;
+$size-line-height-mx: $size-line-height-xx * 1.2 !default;
 $size-view-top-buffer: 5rem !default;
 
 // SIZES, border radius
 $size-radius: $font-size-md !default;
 $size-radius-action: $size-radius !default;
+$size-radius-action-round: 50% !default;
 $size-radius-avatar: $size-radius !default;
 $size-radius-box: $size-radius !default;
 $size-radius-table: $size-radius !default;
@@ -145,12 +174,9 @@ $status-is-selected: $status-is + "selected" !default;
 $status-no: $prefix-default-with-separator + "no" + "--" !default; // no
 $status-no-focus: $status-no + "focus" !default;
 $status-no-hover: $status-no + "hover" !default;
+$status-no-override: $status-no + "override" !default;
 $status-no-route: $status-no + "route" !default;
 $status-no-route-exact: $status-no + "routeExact" !default;
-
-// STATUS CLASSES, HAS
-$status-has: $prefix-default-with-separator + "has" + "--" !default; // has
-$status-has-items: $status-has + "items" !default;
 
 // STATUS CLASSES, ONLY
 $status-only: $prefix-default-with-separator + "only" + "--" !default; // only
@@ -162,6 +188,7 @@ $status-toggle-dropdown: $status-toggle + "dropdown" !default;
 $status-toggle-list: $status-toggle + "list" !default;
 $fonts: (
 	default: $font-default,
+	title: $font-title,
 	code: $font-code,
 	icons: $font-icons,
 );
@@ -175,18 +202,37 @@ $font-sizes: (
 	mx: $font-size-mx,
 );
 $font-weights: (
-	light: $font-weight-light,
-	regular: $font-weight-regular,
-	bold: $font-weight-bold,
-	black: $font-weight-black,
+	"thin": $font-weight-thin,
+	"lighter": $font-weight-lighter,
+	"light": $font-weight-light,
+	"regular": $font-weight-regular,
+	"medium": $font-weight-medium,
+	"semibold": $font-weight-semibold,
+	"bold": $font-weight-bold,
+	"bolder": $font-weight-bolder,
+	"black": $font-weight-black,
 );
-$theme-colors: (
-	primary: $color-primary,
-	primary-complement: $color-primary-complement,
-	secondary: $color-secondary,
-	secondary-complement: $color-secondary-complement,
-	danger: $color-danger,
-	success: $color-success,
+$font-line-heights: (
+	xs: $size-line-height-xs,
+	sm: $size-line-height-sm,
+	md: $size-line-height,
+	lg: $size-line-height-lg,
+	xl: $size-line-height-xl,
+	xx: $size-line-height-xx,
+	mx: $size-line-height-mx,
+);
+$extra-colors: () !default;
+$theme-colors: map.merge(
+	$extra-colors,
+	(
+		primary: $color-primary,
+		primary-complement: $color-primary-complement,
+		secondary: $color-secondary,
+		secondary-complement: $color-secondary-complement,
+		danger: $color-danger,
+		success: $color-success,
+		warning: $color-warning,
+	)
 );
 $base-colors: (
 	light: $color-light,
@@ -196,7 +242,7 @@ $colors: map.merge($theme-colors, $base-colors);
 $common-viewports: (
 	sm: $querie-smartphone,
 	md: $querie-tablet,
-	xl: $querie-tv,
+	lg: $querie-desktop,
 );
 $viewports: (
 	xs: $querie-smartwatch,
@@ -208,8 +254,9 @@ $viewports: (
 
 // element sizes
 $element-sizes: (
-	xs: $font-size-md * 2,
+	xs: $font-size-md * 1.8,
 	sm: $font-size-md * 3,
-	md: $font-size-md * 6,
-	lg: $font-size-md * 9,
+	md: $font-size-md * 4.5,
+	lg: $font-size-md * 6,
+	xl: $font-size-md * 9,
 );

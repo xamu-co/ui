@@ -10,9 +10,9 @@
 			title,
 			autocomplete: autocomplete ?? 'on',
 			required,
-			disabled: disabled || undefined,
-			tabindex: (disabled && '-1') || undefined,
-			...(useChecked ? { checked: modelValue ?? $attrs.checked } : { value: modelValue }),
+			disabled: disabled || null,
+			tabindex: (disabled && '-1') || tabindex || null,
+			...(useChecked ? { checked: modelValue ?? !!$attrs.checked } : { value: modelValue }),
 		}"
 		@input="handleInput"
 	/>
@@ -21,9 +21,10 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
+	import deburr from "lodash-es/deburr";
+	import { Md5 } from "ts-md5";
 
 	import type { iInputProps } from "../../types/props";
-	import useUUID from "../../composables/uuid";
 
 	interface iBaseInputProps extends iInputProps {
 		/**
@@ -46,14 +47,14 @@
 	const props = defineProps<iBaseInputProps>();
 	const emit = defineEmits(["update:model-value"]);
 
-	const { uuid } = useUUID();
+	/** Prefer a predictable identifier */
+	const inputId = computed(() => {
+		const seed = deburr(props.name || props.placeholder || props.title);
 
-	const randomId = uuid().replace("-", "").substring(0, 8);
+		return props.id || Md5.hashStr(`input-${seed}`);
+	});
 	const useChecked = computed(() => {
 		return props.type === "checkbox" || props.type === "radio";
-	});
-	const inputId = computed(() => {
-		return props.id ?? `input${randomId}`;
 	});
 
 	function handleInput(e: Event) {

@@ -1,15 +1,14 @@
 <template>
 	<BaseAction
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
-		:class="getClassesString([modifiersClasses, stateClasses, themeClasses])"
-		class="bttn"
+		:class="[modifiersClasses, stateClasses, themeClasses, buttonTypeClass]"
 	>
 		<slot></slot>
 	</BaseAction>
 </template>
 
 <script setup lang="ts">
-	import { useUtils } from "@open-xamu-co/ui-common-helpers";
+	import { computed } from "vue";
 
 	import BaseAction from "../base/Action.vue";
 
@@ -23,14 +22,18 @@
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
 
 	interface iActionButtonProps
 		extends iActionProps,
 			iUseModifiersProps,
 			iUseStateProps,
 			iUseThemeProps,
-			iUseThemeTooltipProps {}
+			iUseThemeTooltipProps {
+		/**
+		 * Use vertical button
+		 */
+		y?: boolean;
+	}
 
 	/**
 	 * Action Button Component
@@ -44,11 +47,11 @@
 
 	const props = defineProps<iActionButtonProps>();
 
-	const { getClassesString } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
-	const { themeClasses, tooltipAttributes } = useTheme({
-		...props,
-		themeAsUnion: true,
+	const { themeClasses, tooltipAttributes } = useTheme(props, true);
+
+	const buttonTypeClass = computed(() => {
+		return props.y ? "bttnY" : "bttn";
 	});
 </script>

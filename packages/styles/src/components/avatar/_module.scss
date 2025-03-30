@@ -1,5 +1,6 @@
 // Forward here to minimize imports
 @forward "../../utils/module";
+
 @use "../../utils/module";
 
 // avatar & avatarAureo shared styles
@@ -10,7 +11,6 @@
 	overflow: hidden;
 	flex: 0 0 auto;
 	background-color: module.color(light);
-	box-sizing: border-box;
 
 	// avatar size
 	//
@@ -31,7 +31,8 @@
 		label#{&} {
 			&:hover,
 			&.#{module.$status-is-active},
-			&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+			&.#{module.$status-is-route-exact}:not(
+					.#{module.$status-no-route},
 					.#{module.$status-no-route-exact}
 				) {
 				// box-shadow: 1px 1px 3px module.color(dark, 0.2);

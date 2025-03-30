@@ -8,32 +8,33 @@
 // Comment
 //
 // @group Components
+
 @mixin box {
 	@layer definitions {
 		.#{module.$component-box} {
-			@include module.action-disabled-styles;
-
 			// width: 100%;
-			box-sizing: border-box;
 			border: 2px solid transparent;
 			overflow: visible;
 
-			@layer defaults {
-				&:not(.#{module.$prefix-default}--button):not(
-						.#{module.$prefix-default}--#{module.$component-button}
-					) {
-					// @defaults p
-					padding: 1rem;
-				}
+			@include module.action-alert-styles;
+			@include module.action-disabled-styles;
+
+			&.#{module.$status-is-alert}:after {
+				background-color: var(--bg, transparent);
 			}
 
-			&:not(.#{module.$layout-flexbox}) {
-				@include module.flex-box(column, nowrap, flex-start, stretch);
+			// @defaults
+			@layer defaults {
+				& {
+					gap: 1rem;
 
-				@layer defaults {
-					> :not(:last-child) {
-						// @defaults mBottom
-						margin-bottom: 1rem;
+					@include module.flex-box(column, nowrap, flex-start, stretch);
+
+					&:not(
+							.#{module.$prefix-default}--button,
+							.#{module.$prefix-default}--#{module.$component-button}
+						) {
+						padding: 1rem;
 					}
 				}
 			}
@@ -60,10 +61,10 @@
 						background: module.color($name, 0.1);
 					}
 				}
-
 				&:hover {
 					border-color: module.color($name, 0.1);
 				}
+
 				&.#{module.$prefix-default}--button,
 				&.#{module.$prefix-default}--#{module.$component-button} {
 					@layer defaults {
@@ -75,18 +76,18 @@
 
 					&:hover,
 					&.#{module.$status-is-active},
-					&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+					&.#{module.$status-is-route-exact}:not(
+							.#{module.$status-no-route},
 							.#{module.$status-no-route-exact}
 						) {
 						background: module.color($name, 0.2);
 					}
 
-					.#{module.$component-box} {
-						&:not(.#{module.$prefix-default}--bdr-solid):not(
-								.#{module.$prefix-default}--bdr-dashed
-							) {
-							box-shadow: 3px 3px 9px module.color($name, 0.3);
-						}
+					.#{module.$component-box}:not(
+							.#{module.$prefix-default}--bdr-solid,
+							.#{module.$prefix-default}--bdr-dashed
+						) {
+						box-shadow: 3px 3px 9px module.color($name, 0.3);
 					}
 				}
 			}
@@ -97,50 +98,60 @@
 			&.#{module.$prefix-default}--button,
 			&.#{module.$prefix-default}--#{module.$component-button} {
 				padding: 0.8rem;
-
 				p {
 					text-align: center;
 				}
-				.#{module.$component-box} {
-					&:not(.#{module.$prefix-default}--bdr-solid):not(
-							.#{module.$prefix-default}--bdr-dashed
-						) {
-						border-color: transparent !important;
+				.#{module.$component-box}:not(
+						.#{module.$prefix-default}--bdr-solid,
+						.#{module.$prefix-default}--bdr-dashed
+					) {
+					border-color: transparent !important;
+				}
+			}
+
+			// Square shape
+			// this assummes there is only one child
+			//
+			// @group Modifiers
+			&[class*="--square"] {
+				margin-left: auto;
+				margin-right: auto;
+				overflow: hidden;
+				&::before {
+					content: "";
+					display: block;
+					width: 100%;
+					height: 0;
+					padding-bottom: 100%;
+				}
+				> * {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+				}
+				&:has(img) {
+					padding: 0;
+				}
+
+				@include module.extend-themes using($name, $value, $is-default) {
+					@layer defaults {
+						// @defaults bgColor
+						& {
+							background: module.color($name);
+						}
 					}
 				}
 			}
 
-			& & {
-				// Square shape
-				// this assummes there is only one child
-				//
-				// @group Modifiers
-				@include module.extend-maps(
-						module.$element-sizes,
-						meta.get-function("box-square-size-selector"),
-						md,
-						".--square"
-					)
-					using($name, $value, $is-default) {
-					width: $value;
-					margin: 0 auto;
-					overflow: hidden;
-
-					&::before {
-						content: "";
-						display: block;
-						width: 100%;
-						height: 0;
-						padding-bottom: 100%;
-					}
-
-					> * {
-						position: absolute;
-						top: 50%;
-						left: 50%;
-						transform: translate(-50%, -50%);
-					}
-				}
+			@include module.extend-maps(
+					module.$element-sizes,
+					meta.get-function("box-square-size-selector"),
+					md,
+					".#{module.$prefix-default}--square"
+				)
+				using($name, $value, $is-default) {
+				width: $value;
 			}
 		}
 	}

@@ -3,9 +3,11 @@
  * @mq
  */
 export enum eMQ {
+	TV = "(max-width: 1280px)",
 	LAPTOP = "(max-width: 1080px)",
 	TABLET = "(max-width: 768px)",
 	MOBILE = "(max-width: 576px)",
+	SMARTWATCH = "(max-width: 358px)",
 }
 
 /**
@@ -21,6 +23,7 @@ export enum eThemeColors {
 	SECONDARY_COMPLEMENT = "secondary-complement",
 	DANGER = "danger",
 	SUCCESS = "success",
+	WARNING = "warning",
 }
 
 /**
@@ -45,3 +48,13 @@ export const eColors = {
 	...eBaseColors,
 };
 export type eColors = typeof eColors;
+
+export enum eSizes {
+	XS = "xs",
+	SM = "sm",
+	MD = "md",
+	LG = "lg",
+	XL = "xl",
+	XX = "xx",
+	MX = "mx",
+}

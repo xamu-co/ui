@@ -1,32 +1,44 @@
 // Forward here to minimize imports
 @forward "../../utils/module";
+
 @use "../../utils/module";
 @use "sass:meta";
 @use "sass:math";
 
-$radius-action: module.strip-unit(module.$size-radius-action);
-
 @mixin action-styles {
-	color: var(--cl, transparent); // should inherit?
-	background-color: var(--bg, transparent);
-	border-color: var(--bc, transparent); // by default
-	border-style: solid;
-	text-shadow: none;
-	box-sizing: border-box;
-	font-size: 1em;
+	& {
+		color: var(--cl, transparent); // should inherit?
+		background-color: var(--bg, transparent);
+		border-color: var(--bc, transparent); // by default
+		border-style: solid;
+		text-shadow: none;
+		font-size: 1em;
+		opacity: 1;
+	}
 }
 
 // button defaults & round modifier
 //
 // @group SharedStyles
 @mixin action-round-styles {
+	// round button
+	//
+	// @group Modifiers
+	&.#{module.$prefix-default}--round {
+		@include module.extend-viewports-classes(true, module.$viewports) {
+			> * + * {
+				margin-left: 0;
+			}
+		}
+	}
+
 	@at-root :not([class*="#{module.$status-toggle}"])
 			> :not([class*="#{module.$status-toggle}"])#{&} {
 		// round button
 		//
 		// @group Modifiers
 		&.#{module.$prefix-default}--round {
-			@include module.extend-viewports-classes(true, true) {
+			@include module.extend-viewports-classes(true, module.$viewports) {
 				i.#{module.$component-icon},
 				.#{module.$component-svg} {
 					+ span {
@@ -42,14 +54,15 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 	// @group SharedStyles
 	@include module.extend-sizes using($size, $unit) {
 		&.#{module.$prefix-default}--round {
-			@include module.extend-viewports-classes(
-				module.$allow-responsive-classes-desktop-first,
-				true,
-				true
-			) {
+			@include module.extend-viewports-classes(true, module.$viewports) {
 				padding: 0; // button padding
 				width: $size * 2.4;
 			}
+		}
+		&:has(i.#{module.$component-icon}:only-child),
+		&:has(.#{module.$component-svg}:only-child) {
+			padding: 0; // button padding
+			width: $size * 2.4;
 		}
 	}
 }
@@ -58,25 +71,12 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 //
 // @group SharedStyles,
 @mixin action-aligment-styles {
-	flex: 0 0 auto;
+	& {
+		flex: 0 0 auto;
+		gap: 0.4em;
+	}
 
 	@include module.flex-box(row, nowrap, center, center, inline-flex);
-}
-
-// content gaping behavior
-//
-// @group SharedStyles
-@mixin action-gaping-styles {
-	> * + * {
-		margin-left: 0.4em;
-	}
-	&.#{module.$prefix-default}--round {
-		@include module.extend-viewports-classes(true, true) {
-			> * + * {
-				margin-left: 0;
-			}
-		}
-	}
 }
 
 // is alert
@@ -93,9 +93,9 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 		bottom: -0.4rem;
 		border-width: 4px;
 		border-style: solid;
-		border-radius: 50% * $radius-action;
-		box-sizing: border-box;
+		border-radius: module.$size-radius-action-round;
 		border-color: var(--bc, transparent);
+		box-shadow: 1px 1px 3px module.color(dark, 0.2);
 	}
 }
 
@@ -156,7 +156,8 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 	// OVERRIDE: dejar en el final
 	&.#{module.$status-is-active},
 	&.#{module.$status-is-route}:not(.#{module.$status-no-route}),
-	&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+	&.#{module.$status-is-route-exact}:not(
+			.#{module.$status-no-route},
 			.#{module.$status-no-route-exact}
 		) {
 		--cl: var(--bg);
@@ -177,7 +178,8 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 	}
 
 	&.#{module.$status-is-active},
-	&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+	&.#{module.$status-is-route-exact}:not(
+			.#{module.$status-no-route},
 			.#{module.$status-no-route-exact}
 		),
 	&.#{module.$status-is-route}:not(.#{module.$status-no-route}),
@@ -195,7 +197,7 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 	// text, select, button & buttonToggle shared styles
 	//
 	// @group SharedStyles
-	@include module.extend-sizes($all-viewports: true) using($size, $is-default) {
+	@include module.extend-sizes($viewports: module.$viewports) using($size, $unit) {
 		height: $size * 2.4; // button size: height/width
 
 		@if $with-padding {
@@ -210,6 +212,8 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 //
 // @group SharedStyles
 @mixin action-border-styles {
+	$radius-action: module.strip-unit(module.$size-radius-action);
+
 	@include module.extend-sizes using($size, $unit) {
 		border-radius: $size * $radius-action;
 		border-width: $unit * 1px;
@@ -224,10 +228,12 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 @mixin action-capitalize-styles {
 	@layer defaults {
 		// @defaults txtTransform
-		&,
-		> :not(.#{module.$component-icon}) {
-			::first-letter {
-				text-transform: capitalize;
+		&:not([href^="mailto"], [href^="tel"]) {
+			&,
+			> :not(.#{module.$component-icon}) {
+				::first-letter {
+					text-transform: capitalize;
+				}
 			}
 		}
 	}
@@ -261,19 +267,16 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 			content: "";
 			vertical-align: middle;
 			display: inline-block;
-			width: 1.8rem;
-			height: 1.8rem;
-			border-width: 2px;
 			border-style: solid;
 			font-family: module.family(icons);
 			font-weight: 900;
 			text-align: center;
-			line-height: 1.7rem;
-			box-sizing: border-box;
+			line-height: 1.7em;
 			flex: 0 0 auto;
 			background-color: var(--bg, transparent);
 			border-color: var(--bc, transparent);
-			font-size: 1rem;
+
+			@include module.flex-box(row, nowrap, center, center);
 		}
 
 		> * {
@@ -309,7 +312,20 @@ $radius-action: module.strip-unit(module.$size-radius-action);
 		@include module.flex-box(row, nowrap, space-between, center);
 	}
 
-	// Radio theme
+	// Toggle size
+	@include module.extend-sizes($viewports: module.$viewports) using($size, $unit) {
+		+ label {
+			&::after {
+				content: "";
+				width: $size * 2;
+				height: $size * 2;
+				border-width: $unit * 1px;
+				font-size: $size;
+			}
+		}
+	}
+
+	// Toggle theme
 	//
 	// @group Modifiers
 	@layer defaults {

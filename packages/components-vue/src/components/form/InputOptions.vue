@@ -1,20 +1,15 @@
 <template>
-	<slot
-		v-if="!!input.options?.length"
-		v-bind="{ options: input.options.map(toSelectOption) }"
-	></slot>
+	<slot v-if="!!options.length" v-bind="{ options }" :key="options.length"></slot>
 	<p v-else class="--txtColor-danger">{{ t("form_required_options") }}</p>
 </template>
 
 <script setup lang="ts">
-	import type { iFormInput } from "@open-xamu-co/ui-common-types";
-	import { toSelectOption, useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { ref } from "vue";
 
-	import useHelpers from "../../composables/helpers";
+	import type { tFormInput } from "@open-xamu-co/ui-common-types";
+	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
-	interface iFormInputOptions {
-		input: iFormInput;
-	}
+	import { useHelpers } from "../../composables/utils";
 
 	/**
 	 * Require options
@@ -23,7 +18,15 @@
 	 */
 
 	defineOptions({ name: "FormInputOptions", inheritAttrs: true });
-	defineProps<iFormInputOptions>();
+
+	const props = defineProps<{ input: tFormInput }>();
 
 	const { t } = useHelpers(useI18n);
+
+	const options = ref(props.input.options?.map(toOption) || []);
+
+	// lifecycle
+	props.input.setRerender((updatedInput) => {
+		options.value = updatedInput?.options?.map(toOption) || [];
+	});
 </script>

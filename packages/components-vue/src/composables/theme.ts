@@ -5,16 +5,22 @@ import { useUtils } from "@open-xamu-co/ui-common-helpers";
 import { eColors } from "@open-xamu-co/ui-common-enums";
 
 import type { iUseThemeProps, iUseThemeTooltipProps } from "../types/props";
-import useHelpers from "../composables/helpers";
+import { useHelpers } from "../composables/utils";
 
-type tThemes = [tThemeModifier, tThemeModifier];
+interface iAllUseThemeProps extends iUseThemeProps, iUseThemeTooltipProps {}
 
-interface iAllUseThemeProps extends iUseThemeProps, iUseThemeTooltipProps {
-	/**
-	 * Theme as union
-	 * @private
-	 */
-	themeAsUnion?: boolean;
+/** Return theme tuple */
+function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemeTuple {
+	if (Array.isArray(values)) {
+		return [values[0], values[1] || eColors.LIGHT];
+	} else if (typeof values === "object" && values !== null) {
+		const themeArr = Object.entries(values).filter(([_key, value]) => value);
+
+		// There could be multiple valid theme combinations, but we are only returning the first one
+		return getThemeValues([themeArr[0][0] as tThemeModifier]);
+	}
+
+	return getThemeValues([values]);
 }
 
 /**
@@ -22,15 +28,56 @@ interface iAllUseThemeProps extends iUseThemeProps, iUseThemeTooltipProps {
  *
  * @composable
  */
-export default function useTheme(props: iAllUseThemeProps) {
+export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolean) {
 	const { getModifierClasses: GMC, getPropData } = useHelpers(useUtils);
 
-	const themeValues = computed(() => {
-		return getThemeValues(props.theme || eColors.SECONDARY);
+	const invertedThemeValues = computed(() => {
+		const [first, second] = getThemeValues(props.theme ?? eColors.SECONDARY);
+
+		const values: [tThemeModifier, tThemeModifier] = [first, second || eColors.LIGHT];
+
+		if (!props.invertTheme) values.reverse();
+
+		return values;
 	});
-	/** TODO: make theme classes reactive */
+
+	/** actual theme */
+	const themeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
+		return [invertedThemeValues.value[1], invertedThemeValues.value[0]];
+	});
+	const dangerThemeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
+		return [
+			eColors.DANGER,
+			themeValues.value[1] === eColors.DARK ? eColors.DARK : eColors.LIGHT,
+		];
+	});
+	const shadowClasses = computed<string[]>(() => {
+		let withShadow;
+
+		if (typeof props.shadow === "boolean") withShadow = props.shadow;
+		else {
+			if (!props.shadow?.length) return [];
+
+			withShadow = props.shadow.some((theme) => themeValues.value[0] === theme);
+		}
+
+		if (!withShadow) return [];
+
+		return GMC([{ shadow: withShadow }], { prefix: "" });
+	});
 	const themeClasses = computed<string[]>(() => {
-		return props.theme ? getThemeClasses(themeValues.value) : [];
+		if (!props.theme) return [];
+
+		const values = themeAsUnion ? themeValues.value : [themeValues.value[0]];
+
+		return GMC([values.join("-")], { modifier: "tm", divider: "-" });
+	});
+	const dangerThemeClasses = computed<string[]>(() => {
+		if (!props.theme) return [];
+
+		const values = themeAsUnion ? dangerThemeValues.value : [dangerThemeValues.value[0]];
+
+		return GMC([values.join("-")], { modifier: "tm", divider: "-" });
 	});
 	const tooltipAttributes = computed(() => {
 		const tooltipText = props.tooltip && getPropData(props.tooltip);
@@ -38,7 +85,7 @@ export default function useTheme(props: iAllUseThemeProps) {
 
 		return tooltipText
 			? {
-					"arial-label": tooltipText,
+					"aria-label": tooltipText,
 					"data-tooltip": tooltipText,
 					"data-tooltip-position": props.tooltipPosition,
 					"data-tooltip-text": props.tooltipAsText ?? true,
@@ -48,27 +95,13 @@ export default function useTheme(props: iAllUseThemeProps) {
 			: null;
 	});
 
-	/** Return theme tuple */
-	function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemes {
-		if (Array.isArray(values)) {
-			return [values[0], values[1] || eColors.LIGHT];
-		} else if (typeof values === "object" && values !== null) {
-			const themeArr = Object.entries(values).filter(([_key, value]) => value);
-
-			// There could be multiple valid theme combinations, but we are only returning the first one
-			return getThemeValues([themeArr[0][0] as tThemeModifier]);
-		}
-
-		return getThemeValues([values]);
-	}
-	/** Returns the theme classes */
-	function getThemeClasses(values: tThemeTuple): string[] {
-		values[1] = values[1] || eColors.LIGHT;
-
-		if (!props.themeAsUnion) values = [values[0]];
-
-		return GMC([values.join("-")], { modifier: "tm", divider: "-" });
-	}
-
-	return { themeValues, themeClasses, tooltipAttributes };
+	return {
+		invertedThemeValues,
+		themeValues,
+		dangerThemeValues,
+		themeClasses,
+		dangerThemeClasses,
+		shadowClasses,
+		tooltipAttributes,
+	};
 }

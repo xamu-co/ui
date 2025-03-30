@@ -1,9 +1,13 @@
+export * from "./types/props";
+
 // base
 export { default as BaseImg } from "./components/base/Img.vue";
 export { default as BaseAction } from "./components/base/Action.vue";
 export { default as BaseInput } from "./components/base/Input.vue";
 export { default as BaseSelect } from "./components/base/Select.vue";
 export { default as BaseWrapper } from "./components/base/Wrapper.vue";
+export { default as BaseBox } from "./components/base/Box.vue";
+export { default as BaseErrorBoundary } from "./components/base/ErrorBoundary.vue";
 
 // icon
 export { default as Icon } from "./components/icon/Simple.vue";
@@ -19,13 +23,16 @@ export { default as ActionLink } from "./components/action/Link.vue";
 export { default as InputFile } from "./components/input/File.vue";
 export { default as InputText } from "./components/input/Text.vue";
 export { default as InputToggle } from "./components/input/Toggle.vue";
+export { default as InputColor } from "./components/input/Color.vue";
 
 // select
 export { default as Select } from "./components/select/Simple.vue";
 export { default as SelectFilter } from "./components/select/Filter.vue";
+export { default as SelectChoice } from "./components/select/Choice.vue";
 
 // value
 export { default as Value } from "./components/value/Simple.vue";
+export { default as ValueList } from "./components/value/List.vue";
 export { default as ValueComplex } from "./components/value/Complex.vue";
 
 // box
@@ -47,7 +54,11 @@ export { default as Form } from "./components/form/Simple.vue";
 export { default as FormStages } from "./components/form/Stages.vue";
 
 // singletons
-export { default as Modal } from "./components/Modal.vue";
-export { default as Dropdown } from "./components/Dropdown.vue";
-export { default as Table } from "./components/Table.vue";
-export { default as Slider } from "./components/Slider.vue";
+export { default as Modal } from "./components/modal/Simple.vue";
+export { default as Dropdown } from "./components/dropdown/Simple.vue";
+export { default as Table } from "./components/table/Simple.vue";
+export { default as Slider } from "./components/slider/Simple.vue";
+export { default as Collapse } from "./components/collapse/Simple.vue";
+
+// composables
+export { default as useTheme } from "./composables/theme";

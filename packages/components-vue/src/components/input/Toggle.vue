@@ -1,17 +1,16 @@
 <template>
-	<div :class="{ '--width': fullWidth }">
+	<div :class="{ '--width-100': fullWidth }">
 		<BaseInput
 			v-slot="{ id, modelValue }"
-			:class="
-				getClassesString([
-					modifiersClasses,
-					stateClasses,
-					themeClasses,
-					`i${_.capitalize(inputType)}`,
-				])
-			"
+			:class="[modifiersClasses, stateClasses, themeClasses, `i${capitalize(inputType)}`]"
 			class="--full"
-			v-bind="{ ...$attrs, type: inputType, disabled }"
+			v-bind="{
+				...$attrs,
+				...omit(props, ['modelValue', 'size']),
+				type: inputType,
+				disabled,
+				title: label,
+			}"
 		>
 			<!-- Do not hide, since this is used by a pseudo element -->
 			<label :for="id" class="flx --flxRow --flx-start-center --gap-none">
@@ -21,7 +20,7 @@
 				>
 					<span v-if="label">{{ label }}</span>
 					<span v-else-if="showPlaceholder">
-						{{ t(modelValue ? "yes" : "no") }}
+						{{ modelValue ? t("yes") : t("no") }}
 					</span>
 					<slot></slot>
 				</div>
@@ -32,9 +31,10 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import _ from "lodash";
+	import capitalize from "lodash-es/capitalize";
+	import omit from "lodash-es/omit";
 
-	import { useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseInput from "../base/Input.vue";
 
@@ -47,7 +47,7 @@
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iInputToggleProps
 		extends iInputProps,
@@ -71,7 +71,6 @@
 	const props = defineProps<iInputToggleProps>();
 
 	const { t } = useHelpers(useI18n);
-	const { getClassesString } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
 	const { themeClasses } = useTheme(props);

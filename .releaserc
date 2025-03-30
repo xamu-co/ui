@@ -21,7 +21,7 @@
     [
       "@semantic-release/exec",
       {
-        "successCmd": "node version.cjs tag=${nextRelease.version}"
+        "generateNotesCmd": "node version.cjs tag=${nextRelease.version}"
       }
     ]
   ],

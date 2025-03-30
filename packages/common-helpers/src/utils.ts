@@ -1,4 +1,4 @@
-import type { iPluginOptions, tProp, tPropsModifier } from "@open-xamu-co/ui-common-types";
+import type { iPluginOptions, tLogger, tProp, tPropsModifier } from "@open-xamu-co/ui-common-types";
 
 interface igetModifiersArgs {
 	modifier?: string;
@@ -8,13 +8,6 @@ interface igetModifiersArgs {
 	 * internal usage only
 	 */
 	modifierClass?: `${string}--${string}`;
-}
-
-/**
- * Returns a valid HTML class string
- */
-function getClassesString(classes: string | string[] | (string | string[])[]): string {
-	return [...new Set([classes].flat(2))].join(" ").trim();
 }
 
 /**
@@ -83,19 +76,90 @@ function getPropData<T extends string>(prop: tProp<T>, index = 0): T | undefined
 }
 
 /**
+ * create a new formdata object
+ *
+ * @export
+ * @param {object} object object with the payload
+ * @returns {FormData} fomrdata object from object
+ */
+function createFormData(object: Record<string, any>) {
+	const formData = new FormData();
+
+	for (const key in object) {
+		const isFile =
+			Array.isArray(object[key]) && object[key].every((entry: any) => entry instanceof File);
+
+		if (!isFile) {
+			formData.append(key, object[key]);
+
+			continue;
+		}
+
+		// as file Input
+		object[key].forEach((file: any) => formData.append(`${key}[]`, file));
+	}
+
+	return formData;
+}
+
+/**
+ * create a new urlSearchParams object
+ *
+ * @export
+ * @param {object} object object with the payload
+ * @returns {URLSearchParams} urlSearchParams object from object
+ */
+function createUrlSearchParams(object: Record<string, any>) {
+	const urlSearchParams = new URLSearchParams();
+
+	for (const key in object) {
+		urlSearchParams.append(key, object[key]);
+	}
+
+	return urlSearchParams;
+}
+
+/**
+ * Simple logger
+ *
+ * @composable
+ */
+const logger: tLogger = (at, errorOrMessage, error) => {
+	if (!error) {
+		if (errorOrMessage instanceof Error) {
+			console.error(at, errorOrMessage.message, errorOrMessage);
+
+			return;
+		} else if (typeof errorOrMessage === "string") {
+			console.log(at, errorOrMessage);
+
+			return;
+		}
+	} else if (typeof errorOrMessage === "string") {
+		console.error(at, errorOrMessage, error);
+
+		return;
+	}
+
+	console.error(at, "Unknown error", error);
+};
+
+/**
  * Utils Composable
  *
  * @composable
  */
-export default function useUtils(_options: iPluginOptions = {}) {
+export default function useUtils(options: iPluginOptions = {}) {
 	const isBrowser = typeof window !== "undefined";
 	const isTouchDevice = isBrowser && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
 	return {
+		logger: options.logger || logger,
 		isBrowser,
 		isTouchDevice,
-		getClassesString,
 		getModifierClasses,
 		getPropData,
+		createFormData,
+		createUrlSearchParams,
 	};
 }

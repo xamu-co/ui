@@ -1,13 +1,13 @@
 <template>
-	<BaseWrapper :el="Transition" :wrap="!unwrap" name="fade" appear>
+	<BaseWrapper :wrapper="Transition" :wrap="!unwrap" name="fade" appear>
 		<div
-			v-if="!content || errors"
-			class="flx --flxColumn --flx-center --width"
+			v-if="!content || (errors && !ignoreErrors)"
+			class="flx --flxColumn --flx-center --width-100"
 			:class="loaderClasses"
 		>
 			<!-- first load -->
 			<template v-if="!loading">
-				<BoxMessage v-if="errors" :theme="eColors.DANGER">
+				<BoxMessage v-if="errors" :theme="eColors.DANGER" class="--width-100">
 					<div class="flx --flxRow --flx-center">
 						<span>{{ t("could_not_get_data") }}</span>
 						<ActionButtonToggle
@@ -22,7 +22,7 @@
 						</ActionButtonToggle>
 					</div>
 				</BoxMessage>
-				<BoxMessage v-else :theme="theme">
+				<BoxMessage v-else :theme="theme" class="--width-100">
 					<div class="flx --flxRow --flx-center">
 						<span>{{ noContentMessage || t("nothing_to_show") }}</span>
 						<ActionButtonToggle
@@ -38,10 +38,10 @@
 					</div>
 				</BoxMessage>
 			</template>
-			<LoaderSimple v-else :label="label" :theme="theme" />
+			<LoaderSimple v-else-if="!noLoader" :label="label" :theme="theme" />
 		</div>
 		<BaseWrapper v-else :wrap="!unwrap" :el="el" v-bind="$attrs">
-			<div v-if="loading" class="back --overlay is--active">
+			<div class="back --overlay" :class="{ 'is--active': loading && !noLoader }">
 				<LoaderSimple :label="label" :theme="theme" />
 			</div>
 			<slot></slot>
@@ -50,12 +50,7 @@
 </template>
 
 <script setup lang="ts">
-	import {
-		type Component as VueComponent,
-		type FunctionalComponent,
-		type DefineComponent,
-		Transition,
-	} from "vue";
+	import { Transition } from "vue";
 
 	import type { tProps } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -67,13 +62,13 @@
 	import LoaderSimple from "./Simple.vue";
 	import BoxMessage from "../box/Message.vue";
 
+	import type { vComponent } from "../../types/plugin";
 	import type { iUseThemeProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iLoaderContentProps extends iUseThemeProps {
 		/**
 		 * has content
-		 * content was loaded but didnt existed
 		 */
 		content?: boolean;
 		/**
@@ -81,10 +76,21 @@
 		 */
 		loading?: boolean;
 		/**
-		 * is loading
+		 * Hide loader
 		 */
-		errors?: boolean;
+		noLoader?: boolean;
+		/**
+		 * has errors
+		 */
+		errors?: unknown;
+		/**
+		 * Ignore errors and display existing content.
+		 */
+		ignoreErrors?: boolean;
 		noContentMessage?: string;
+		/**
+		 * Loader label
+		 */
 		label?: string;
 		/**
 		 * Refresh the content
@@ -97,7 +103,7 @@
 		/**
 		 * Component or tag to render
 		 */
-		el?: VueComponent | FunctionalComponent | DefineComponent | string;
+		el?: vComponent | string;
 		loaderClasses?: tProps<string>;
 	}
 

@@ -9,20 +9,29 @@
 			&-lower,
 			&-lowercase {
 				@include module.extend-viewports-classes {
-					text-transform: lowercase;
+					&,
+					&::first-letter {
+						text-transform: lowercase;
+					}
 				}
 			}
 
 			&-upper,
 			&-uppercase {
 				@include module.extend-viewports-classes {
-					text-transform: uppercase;
+					&,
+					&::first-letter {
+						text-transform: uppercase;
+					}
 				}
 			}
 
 			&-capitalize {
 				@include module.extend-viewports-classes {
-					text-transform: capitalize;
+					&,
+					&::first-letter {
+						text-transform: capitalize;
+					}
 				}
 			}
 
@@ -30,7 +39,38 @@
 			&,
 			&-none {
 				@include module.extend-viewports-classes {
-					text-transform: none;
+					&,
+					&::first-letter {
+						text-transform: none;
+					}
+				}
+			}
+		}
+
+		.#{module.$prefix-default}--txtDecoration {
+			&-none {
+				@include module.extend-viewports-classes {
+					& {
+						text-decoration: none;
+					}
+				}
+			}
+
+			&-under,
+			&-underline {
+				@include module.extend-viewports-classes {
+					& {
+						text-decoration: underline;
+					}
+				}
+			}
+
+			&-through,
+			&-lineThrough {
+				@include module.extend-viewports-classes {
+					& {
+						text-decoration: line-through;
+					}
 				}
 			}
 		}

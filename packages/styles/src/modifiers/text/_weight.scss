@@ -6,28 +6,15 @@
 @mixin text-weight {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtWeight {
-			&-light {
-				@include module.extend-viewports-classes {
-					font-weight: module.weight(light);
-				}
+			@include module.extend-viewports-classes {
+				font-weight: module.weight();
 			}
 
-			&-bold {
-				@include module.extend-viewports-classes {
-					font-weight: module.weight(bold);
-				}
-			}
-
-			&-black {
-				@include module.extend-viewports-classes {
-					font-weight: module.weight(black);
-				}
-			}
-
-			&,
-			&-regular {
-				@include module.extend-viewports-classes {
-					font-weight: module.weight();
+			@each $name, $weight in module.$font-weights {
+				&-#{$name} {
+					@include module.extend-viewports-classes {
+						font-weight: $weight;
+					}
 				}
 			}
 		}

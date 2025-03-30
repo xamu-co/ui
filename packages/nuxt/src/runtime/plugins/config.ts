@@ -1,19 +1,25 @@
 /* eslint-disable import/no-unresolved */
-import type { Component as VueComponent } from "vue";
 
-import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
+import type { iVuePluginOptions } from "@open-xamu-co/ui-components-vue/plugin";
+import type { tLogger } from "@open-xamu-co/ui-common-types";
 
-import { defineNuxtPlugin, useAppConfig } from "#imports";
+import { defineNuxtPlugin, useAppConfig, useAsyncData } from "#imports";
 import { NuxtLink, NuxtImg } from "#components";
 
 export default defineNuxtPlugin(({ vueApp }) => {
-	const config = useAppConfig();
-	const xamu: iPluginOptions<VueComponent> = {
+	const options = useAppConfig().xamu as iVuePluginOptions;
+	const xamu: iVuePluginOptions = {
 		routerComponent: NuxtLink,
 		imageComponent: NuxtImg,
+		asyncDataFn: useAsyncData,
 		// override defaults
-		...config.xamu,
+		...options,
 	};
+
+	// Logger with nuxt context
+	if (options.logger) {
+		xamu.logger = (...args: Parameters<tLogger>) => options.logger?.(...args);
+	}
 
 	vueApp.provide("xamu", xamu);
 

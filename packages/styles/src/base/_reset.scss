@@ -1,11 +1,19 @@
 @use "../utils/module" as utils;
+@use "../utils/system";
 
 // CSS reset
 // General styling, layout agnostig classes and rules
 //
 // @group Base
+
 @mixin reset {
 	@layer resets {
+		:root {
+			@each $name, $color in utils.$colors {
+				--rgb-#{$name}: #{system.to-rgb($color)}; // rgb
+			}
+		}
+
 		* {
 			margin: 0;
 			padding: 0;
@@ -17,46 +25,38 @@
 			scroll-behavior: smooth;
 			-webkit-tap-highlight-color: transparent;
 			vertical-align: inherit;
-
+			box-sizing: border-box;
 			&::before,
 			&::after {
 				// line-height: 1.2em;
 				box-sizing: inherit;
 			}
-
 			&:active,
 			&:focus,
 			&:hover {
 				outline: 0;
 			}
 		}
-
 		svg {
 			width: inherit;
 			height: inherit;
-
 			[_fill] {
 				fill: none;
 				stroke: none;
 			}
 		}
-
 		textarea {
 			resize: vertical;
 		}
-
 		button {
 			background: transparent;
 		}
-
 		small {
 			font-size: 0.7em;
 		}
-
 		a {
 			text-decoration: none;
 		}
-
 		p {
 			white-space: inherit;
 
@@ -72,92 +72,69 @@
 
 			/* Adds a hyphen where the word breaks, if supported (No Blink) */
 			hyphens: none;
-
 			> a,
 			> button {
-				display: inline !important;
+				display: inline-flex;
 
 				// white-space: normal !important;
 			}
 		}
-
-		hr {
-			box-sizing: border-box;
-		}
-
 		html {
 			text-rendering: optimizelegibility;
 		}
 
 		input[type="number"]:not(.#{utils.$prefix-default}--arrows) {
+			/* Firefox */
+			appearance: textfield;
+
 			/* Chrome, Safari, Edge, Opera */
 			&::-webkit-outer-spin-button,
 			&::-webkit-inner-spin-button {
 				appearance: none;
 				margin: 0;
 			}
-
-			/* Firefox */
-			appearance: textfield;
 		}
 
-		i:not(.#{utils.$component-icon}):not(.#{utils.$component-svg}) {
+		i:not(.#{utils.$component-icon}, .#{utils.$component-svg}) {
 			font-style: italic;
 		}
-
 		ul,
 		ol {
 			list-style: none;
 		}
-
 		a,
 		button,
 		textarea {
 			appearance: none;
 		}
-
 		a,
 		button,
 		label {
 			text-align: center;
-		}
 
+			// @see https://stackoverflow.com/questions/3025348/how-do-i-use-jquery-for-click-event-in-iphone-web-application/4910962#4910962
+			cursor: pointer;
+		}
 		a,
 		button,
 		label,
 		select,
 		datalist {
-			vertical-align: middle;
-
 			@layer defaults {
 				& {
 					// @defaults txtWrap
 					white-space: nowrap;
 				}
 			}
-
 			&:not(:disabled, [disabled]:not([disabled="false"])):hover {
 				cursor: pointer;
 			}
-			&:not([class*="#{utils.$status-toggle}"]).#{utils.$status-is-route-exact}:not(
-					.#{utils.$status-no-route}
-				):not(.#{utils.$status-no-route-exact}):not([class*="#{utils.$status-toggle}"]) {
+			&.#{utils.$status-is-route-exact}:not(
+					[class*="#{utils.$status-toggle}"],
+					.#{utils.$status-no-route},
+					.#{utils.$status-no-route-exact}
+				) {
 				pointer-events: none;
-			}
-		}
-
-		h1,
-		h2,
-		h3,
-		h4,
-		h5,
-		h6 {
-			@layer defaults {
-				&,
-				* {
-					// @defaults txtWrap
-					white-space: pre-line;
-				}
 			}
 		}
 

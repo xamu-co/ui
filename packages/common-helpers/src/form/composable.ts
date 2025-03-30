@@ -1,21 +1,23 @@
-import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
+import type {
+	iFetchResponse,
+	iFormResponse,
+	iPluginOptions,
+	tFormInput,
+	tResponseFn,
+} from "@open-xamu-co/ui-common-types";
 
-import useI18n from "../i18n.js";
-import useUtils from "../utils.js";
-import useSwal from "../swal.js";
+import useI18n from "../i18n";
+import useUtils from "../utils";
+import useSwal from "../swal";
 import {
 	getFormInputsInvalids,
 	getFormInputsValues,
 	getFormValues,
 	getInputSuffixes,
-	iFetchResponse,
-	iFormResponse,
 	isValidFormInputValue,
 	isValidValue,
 	notEmptyValue,
-	tResponseFn,
-} from "./utils.js";
-import { FormInput } from "./input.js";
+} from "./utils";
 
 /**
  * Form Composable
@@ -24,50 +26,49 @@ import { FormInput } from "./input.js";
  */
 export default function useForm(options: iPluginOptions = {}) {
 	const { t } = useI18n(options);
-	const { isBrowser } = useUtils(options);
+	const { isBrowser, logger } = useUtils(options);
 	const Swal = useSwal(options);
 
 	/**
 	 * Wraps callback function with common error handling
 	 *
-	 * @param inputs array of iFormFactoryInput or actual data object
+	 * @param inputs array of FormInput or actual data object
 	 * @param callback actual request
 	 * @returns {object} response with errors
 	 */
 	async function getResponse<R, RV extends Record<string, any> = Record<string, any>>(
 		request: tResponseFn<R, RV>,
-		inputs: RV | FormInput[] = [],
-		event?: Event
-	): Promise<iFormResponse<R | null>> {
-		const { values, invalidInputs } = getFormValues<RV>(inputs);
-		const modalTarget = (event?.target as HTMLElement)?.closest("dialog") || "body";
+		inputs: RV | tFormInput[] = [],
+		event?: Event,
+		silent = false,
+		plainValues = true
+	): Promise<iFormResponse<R>> {
+		const { values, invalidInputs } = getFormValues<RV>(inputs, plainValues);
+		const withSwal = !silent && isBrowser;
 		let errors;
 		let requestHadErrors = false;
-		let newResponse: iFetchResponse<R | null> = { data: null };
+		let newResponse: iFetchResponse<R> = {};
 
 		if (!invalidInputs.length) {
 			try {
-				if (isBrowser) {
-					Swal.fireLoader({ target: modalTarget });
-				}
+				if (withSwal) Swal.fireLoader({ target: event });
 
 				newResponse = await request(values);
+				// request went ok, but still returned errors
+				errors = newResponse.errors;
 
-				if (newResponse?.errors) {
-					errors = newResponse.errors;
-
-					if (errors || !newResponse.data) requestHadErrors = true;
+				// empty response can be server error
+				if (newResponse.data === null || newResponse.data === undefined) {
+					requestHadErrors = true;
 				}
 			} catch (err) {
-				/**
-				 * Network error probably
-				 */
-				errors = err;
-				requestHadErrors = true;
-				// eslint-disable-next-line no-console
-				console.error(err);
+				// Network error probably
+				const errorMessage = err instanceof Error ? err.message : "unknown error";
 
-				if (isBrowser) {
+				errors = err;
+				logger("useForm:getResponse", errorMessage, err);
+
+				if (withSwal) {
 					const { value } = await Swal.fire({
 						title: t("swal.connection_error"),
 						text: t("swal.connection_error_message"),
@@ -75,29 +76,37 @@ export default function useForm(options: iPluginOptions = {}) {
 						timer: undefined,
 						showConfirmButton: true,
 						confirmButtonText: t("swal.connection_error_confirm"),
-						target: modalTarget,
+						target: event,
 					});
 
 					// Page reload if user wish to
 					if (value) location.reload();
 				}
+
+				return {
+					invalidInputs,
+					withErrors: true,
+					requestHadErrors: true,
+					validationHadErrors: false,
+					errors,
+				};
 			}
-		} else if (isBrowser) {
+		} else if (withSwal) {
 			// invalid input filling
 			Swal.fire({
 				title: t("swal.incomplete_data"),
 				text: t("swal.incomplete_data_message"),
 				icon: "warning",
-				target: modalTarget,
+				target: event,
 			});
 		}
 
-		const validationHadErrors = invalidInputs.length > 0 || !!(errors && !requestHadErrors);
-		const withErrors = requestHadErrors || validationHadErrors;
+		const validationHadErrors = invalidInputs.length > 0;
+		const withErrors = !!errors || requestHadErrors || validationHadErrors;
 		const response = newResponse.data;
 
-		// hide loader
-		if (isBrowser && !validationHadErrors && response) Swal.close();
+		// success, hide loader
+		if (withSwal && !validationHadErrors) Swal.close();
 
 		return {
 			response,
@@ -106,7 +115,6 @@ export default function useForm(options: iPluginOptions = {}) {
 			requestHadErrors,
 			validationHadErrors,
 			errors,
-			modalTarget,
 		};
 	}
 

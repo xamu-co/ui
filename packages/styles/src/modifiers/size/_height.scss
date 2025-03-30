@@ -6,9 +6,12 @@
 		.#{module.$prefix-default}--height {
 			@include module.extend-dimensions(height);
 
-			// default
-			@include module.extend-viewports-classes {
-				height: 100%;
+			&,
+			&-auto {
+				// default
+				@include module.extend-viewports-classes {
+					height: auto;
+				}
 			}
 
 			&-fit {
@@ -41,6 +44,24 @@
 					min-height: math.div(module.$size-px-default, 16) * 1rem;
 				}
 			}
+
+			&-fit {
+				@include module.extend-viewports-classes {
+					min-height: fit-content;
+				}
+			}
+
+			&-max {
+				@include module.extend-viewports-classes {
+					min-height: max-content;
+				}
+			}
+
+			&-min {
+				@include module.extend-viewports-classes {
+					min-height: min-content;
+				}
+			}
 		}
 
 		.#{module.$prefix-default}--maxHeight {
@@ -52,6 +73,24 @@
 				@include module.extend-viewports-classes {
 					// 1200 = 75rem
 					max-height: math.div(module.$size-px-default, 16) * 1rem;
+				}
+			}
+
+			&-fit {
+				@include module.extend-viewports-classes {
+					max-height: fit-content;
+				}
+			}
+
+			&-max {
+				@include module.extend-viewports-classes {
+					max-height: max-content;
+				}
+			}
+
+			&-min {
+				@include module.extend-viewports-classes {
+					max-height: min-content;
 				}
 			}
 		}

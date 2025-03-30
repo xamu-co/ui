@@ -3,7 +3,7 @@
  *
  * @localeType
  */
-export interface iLocaleBase {
+export type tLocaleBase = {
 	/** @example "Yes" */
 	yes: string;
 	/** @example "No" */
@@ -46,12 +46,18 @@ export interface iLocaleBase {
 	pick: string;
 	/** @example "Refresh" */
 	refresh: string;
+	/** @example "Couldn't render the contents due to an unknown error" */
+	render_error: string;
 	swal: {
 		/** @example "Cancel" */
 		cancel: string;
 		/** @example "Continue" */
 		continue: string;
-		/** @example "¡Connection error!" */
+		/** @example "Error!" */
+		error: string;
+		/** @example "Something went wrong!" */
+		error_message: string;
+		/** @example "Connection error!" */
 		connection_error: string;
 		/** @example "The server is not responding. Please check your network or try again later" */
 		connection_error_message: string;
@@ -64,14 +70,16 @@ export interface iLocaleBase {
 		/** @example "Don't close this window while we finish the task" */
 		dont_close_window: string;
 	};
-}
+};
 
 /**
  * Input locale
  *
  * @localeType
  */
-export interface iLocaleInput {
+export type tLocaleInput = {
+	/** @example "Selected" */
+	select_selected: string;
 	/** @example "--SELECT--" */
 	select_placeholder: string;
 	/** @example "Restablish field" */
@@ -114,14 +122,14 @@ export interface iLocaleInput {
 		/** @example "There was an error uploding the files, try again later" */
 		file_unknown_error_text: string;
 	};
-}
+};
 
 /**
  * Modal locale
  *
  * @localeType
  */
-export interface iLocaleModal {
+export type tLocaleModal = {
 	/** @example "Taking too long?" */
 	modal_taking_too_long: string;
 	swal: {
@@ -130,18 +138,20 @@ export interface iLocaleModal {
 		/** @example "You are not allowed to perform this action" */
 		modal_unauthorized_text: string;
 	};
-}
+};
 
 /**
  * Form locale
  *
  * @localeType
  */
-export interface iLocaleForm {
+export type tLocaleForm = {
 	/** @example "Options are required" */
 	form_required_options: string;
 	/** @example "No values are required | A value is required | {count} values are required" */
 	form_requires_n_values: string;
+	/** @example "Loading countries..." */
+	form_loading_countries: string;
 	/** @example "Look for country" */
 	form_country: string;
 	/** @example "Look for state" */
@@ -168,7 +178,9 @@ export interface iLocaleForm {
 	form_complete_the_field: string;
 	/** @example "Location" */
 	form_location: string;
-	/** @example "This field is required" */
+	/** @example "This field is invalid, fill it properly" */
+	form_invalid_field: string;
+	/** @example "This field is required and can't be empty" */
 	form_required_field: string;
 	/** @example "You should use a valid E-mail address" */
 	form_use_valid_email: string;
@@ -180,21 +192,29 @@ export interface iLocaleForm {
 	form_unmatching_passwords: string;
 	/** @example "Invalid data" */
 	form_invalid_data: string;
+	/** @example "No values" */
+	form_no_values: string;
+	/** @example "New value" */
+	form_new_value: string;
 	// swal: {};
-}
+};
 
 /**
  * Table locale
  *
  * @localeType
  */
-export interface iLocaleTable {
+export type tLocaleTable = {
 	/** @example "See {name}" */
 	table_see_values: string;
 	/** @example "See: \"{name}\"" */
 	table_see_name: string;
+	/** @example "Hide: \"{name}\"" */
+	table_hide_name: string;
 	/** @example "Create new" */
 	table_create_new: string;
+	/** @example "Crear nuevo" */
+	table_create_new_name: string;
 	/** @example "Quantity: {count} */
 	table_quantity: string;
 	/** @example "Modify" */
@@ -221,6 +241,10 @@ export interface iLocaleTable {
 	table_options: string;
 	/** @example "Open URL" */
 	table_open_url: string;
+	/** @example "Hide all" */
+	table_hide_all: string;
+	/** @example "Show all" */
+	table_show_all: string;
 	swal: {
 		/** @example "Are you sure you want to delete this element?" */
 		table_delete_node_title: string;
@@ -238,59 +262,38 @@ export interface iLocaleTable {
 		table_updated: string;
 		/** @example "The item may not have been updated | The items may not have been updated" */
 		table_possibly_not_updated: string;
+		/** @example "Successfull update" */
+		table_created: string;
+		/** @example "The item may not have been created | The items may not have been created" */
+		table_possibly_not_created: string;
 		/** @example "Successfull cloning" */
 		table_cloned: string;
 		/** @example "The item may not have been cloned | The items may not have been cloned" */
 		table_possibly_not_cloned: string;
 	};
-}
+};
 
 /**
  * Pagination locale
  *
  * @localeType
  */
-export interface iLocalePagination {
+export type tLocalePagination = {
 	/** @example "No items | Single item | {count} items" */
 	pagination_items: string;
 	/** @example "No pages | Single page | {count} pages" */
 	pagination_pages: string;
-	/** @example "Order: relevance" */
-	pagination_order_relevance: string;
-	/** @example "Order: more recent" */
-	pagination_order_recent: string;
-	/** @example "Order: more older" */
-	pagination_order_older: string;
-	/** @example "Order: lower price" */
-	pagination_order_expensive: string;
-	/** @example "Order: high price" */
-	pagination_order_cheaper: string;
-	/** @example "Order: alphabetically (Asc.)" */
-	pagination_order_az: string;
-	/** @example "Order: alphabetically (Desc.)" */
-	pagination_order_za: string;
-	/** @example "Filter by:" */
-	pagination_filter_by: string;
 	// swal: {};
-}
+};
 
 /**
  * Plugin locale
  *
  * @localeType
  */
-export type tPluginLocale = iLocaleBase &
-	iLocaleInput &
-	iLocaleModal &
-	iLocaleForm &
-	iLocaleTable &
-	iLocalePagination;
-
-/**
- * Plugin locale key union
- *
- * @localeType
- */
-export type tPluginLocaleKey =
-	| Exclude<keyof tPluginLocale, "swal">
-	| `swal.${keyof Required<tPluginLocale>["swal"]}`;
+export type tPluginLocale = tLocaleBase &
+	tLocaleInput &
+	tLocaleModal &
+	tLocaleForm &
+	tLocaleTable &
+	tLocalePagination;

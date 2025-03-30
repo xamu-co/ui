@@ -8,15 +8,14 @@
 @mixin link {
 	@layer definitions {
 		.#{module.$component-link} {
+			// display: inline-block;
+			--bg: transparent;
+
 			@include module.action-styles;
 			@include module.action-aligment-styles;
-			@include module.action-gaping-styles;
 			@include module.action-alert-styles;
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles;
-
-			// display: inline-block;
-			--bg: transparent;
 
 			&.#{module.$status-is-alert}:after {
 				--bc: var(--cl-h, var(--cl-a));
@@ -24,7 +23,8 @@
 				background-color: var(--cl, var(--bg));
 			}
 			&.#{module.$status-is-active},
-			&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
+			&.#{module.$status-is-route-exact}:not(
+					.#{module.$status-no-route},
 					.#{module.$status-no-route-exact}
 				) {
 				color: var(--cl-a);
@@ -46,13 +46,7 @@
 
 			// shadow
 			&.#{module.$prefix-default}--shadow {
-				&:hover,
-				&.#{module.$status-is-active},
-				&.#{module.$status-is-route-exact}:not(.#{module.$status-no-route}):not(
-						.#{module.$status-no-route-exact}
-					) {
-					text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
-				}
+				text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
 			}
 
 			// link theme
@@ -68,22 +62,12 @@
 				}
 			}
 
-			// theme overrides
-			//
-			// @group Modifiers
-			&.#{module.$prefix-default}--tm-light {
-				--cl-a: #{module.color(primary)};
-			}
-			&.#{module.$prefix-default}--tm-dark {
-				--cl-a: #{module.color(primary)};
-			}
-
 			// link round handling
 			&.#{module.$prefix-default}--round {
-				@include module.extend-viewports-classes(true, true) {
+				@include module.extend-viewports-classes(true, module.$viewports) {
 					i.#{module.$component-icon},
 					.#{module.$component-svg} {
-						&:last-child {
+						&:last-child:not(:only-child) {
 							--fa-display: none;
 
 							display: none;
@@ -94,35 +78,40 @@
 
 			@if module.$allow-responsive {
 				// desktop only, use hover
-				@media (min-width: (module.$querie-tablet + 1)) {
+				@media (width > module.$querie-tablet) {
 					// hover status
 					@at-root *:hover
 							> .#{module.$status-toggle-dropdown}:not(
 								.#{module.$status-only-active}
 							)#{&} {
 						color: var(--cl-h, var(--cl-a));
-
-						// link shadow
-						&.#{module.$prefix-default}--shadow {
-							text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
-						}
 					}
 				}
 
 				// mobile only, use focus
-				@media (max-width: module.$querie-tablet) {
+				@media (width <= module.$querie-tablet) {
 					// focus status
 					@at-root *:focus-within:not(.#{module.$status-no-focus})
 							> .#{module.$status-toggle-dropdown}:not(
 								.#{module.$status-only-active}
 							)#{&} {
 						color: var(--cl-h, var(--cl-a));
-
-						// link shadow
-						&.#{module.$prefix-default}--shadow {
-							text-shadow: 1px 1px 1px var(--sh, #{module.color(dark, 0.3)});
-						}
 					}
+				}
+			}
+		}
+
+		// theme overrides
+		//
+		// @group Modifiers
+		@if module.$allow-theme-overrides {
+			// could break on modals & dropdows
+			:not(.#{module.$layout-dropdown}, .#{module.$layout-modal}) .#{module.$component-link} {
+				&.#{module.$prefix-default}--tm-light:not(.#{module.$status-no-override}) {
+					--cl-a: #{module.color(primary)};
+				}
+				&.#{module.$prefix-default}--tm-dark:not(.#{module.$status-no-override}) {
+					--cl-a: #{module.color(primary)};
 				}
 			}
 		}

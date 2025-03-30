@@ -58,7 +58,7 @@
 			animation-iteration-count: infinite;
 		}
 
-		@for $i from 1 through 20 {
+		@for $i from 1 through utils.$loop-animations {
 			&.#{utils.$prefix-default}--delay-#{$i} {
 				animation-delay: math.div($i, 10) * 1s;
 			}
@@ -107,6 +107,7 @@
 		&-topFade {
 			opacity: 0;
 			transform: translateY(-5vh);
+			transform: translateY(-5dvh);
 			&.#{utils.$status-is-animated} {
 				animation-name: topFade;
 				animation-duration: 0.6s;
@@ -121,6 +122,7 @@
 		&-bottomFade {
 			opacity: 0;
 			transform: translateY(5vh);
+			transform: translateY(5dvh);
 			&.#{utils.$status-is-animated} {
 				animation-name: bottomFade;
 				animation-duration: 0.6s;
@@ -135,6 +137,7 @@
 		&-leftFade {
 			opacity: 0;
 			transform: translateX(-5vh);
+			transform: translateX(-5dvh);
 			&.#{utils.$status-is-animated} {
 				animation-name: leftFade;
 				animation-duration: 0.6s;
@@ -149,6 +152,7 @@
 		&-rightFade {
 			opacity: 0;
 			transform: translateX(5vh);
+			transform: translateX(5dvh);
 			&.#{utils.$status-is-animated} {
 				animation-name: rightFade;
 				animation-duration: 0.6s;
@@ -196,7 +200,6 @@
 			opacity: 1;
 		}
 	}
-
 	@keyframes growingIn {
 		100% {
 			// opacity: 1;
@@ -206,7 +209,6 @@
 			// transform: translateY(0);
 		}
 	}
-
 	@keyframes fadeIn {
 		100% {
 			opacity: 1;
@@ -214,28 +216,24 @@
 			// transform: translateY(0);
 		}
 	}
-
 	@keyframes topFade {
 		100% {
 			opacity: 1;
 			transform: translateY(0);
 		}
 	}
-
 	@keyframes bottomFade {
 		100% {
 			opacity: 1;
 			transform: translateY(0);
 		}
 	}
-
 	@keyframes leftFade {
 		100% {
 			opacity: 1;
 			transform: translateX(0);
 		}
 	}
-
 	@keyframes rightFade {
 		100% {
 			opacity: 1;

@@ -5,13 +5,11 @@
 	"scripts": {
 		"i": "yarn --frozen-lockfile",
 		"format": "copy-files-from-to && prettier dist/*.formatted.css --no-config --write",
-		"sass": "sass src/index.scss dist/index.css",
-		"postcss": "postcss dist/index.css -o dist/index.min.css --no-map",
-		"build": "yarn sass && yarn postcss --verbose",
+		"sass": "sass src/index.scss dist/index.css --verbose",
+		"postcss": "postcss dist/index.css -o dist/index.min.css --no-map --verbose",
+		"build": "yarn sass && yarn postcss",
 		"build:prod": "cross-env NODE_ENV=production yarn build && yarn docs:compile",
 		"watch": "yarn sass --watch",
-		"lint": "stylelint src/{*,**/*,**/**/*}.{css,scss} --syntax=scss && prettier src/{*,**/*,**/**/*}.{css,scss} --check",
-		"prepare": "yarn build",
 		"docs:compile": "sassdoc src/{**/{_*,summary},**/**/{_*,summary}}.scss --dest docs",
 		"docs:serve": "yarn serve docs",
 		"docs": "yarn docs:compile && start http://localhost:5000 && yarn serve docs"
@@ -70,23 +68,22 @@
 		}
 	},
 	"dependencies": {
-		"sassdoc": "^2.7.3",
-		"sassdoc-theme-herman": "^5.0.1",
 		"serve": "^11.3.2"
 	},
 	"devDependencies": {
 		"copy-files-from-to": "^3.2.0",
 		"cross-env": "^7.0.3",
-		"cssnano": "^6.0.1",
-		"cssnano-preset-advanced": "^6.0.1",
-		"postcss": "^8.2.10",
+		"cssnano": "^7.0.1",
+		"cssnano-preset-advanced": "^7.0.1",
+		"postcss": "^8.4.41",
 		"postcss-cli": "^8.3.1",
-		"postcss-merge-at-rules": "^1.0.1",
-		"postcss-merge-selectors": "vis97c/postcss-merge-selectors",
+		"postcss-merge-at-rules": "^1.2.0",
 		"postcss-precision": "vis97c/postcss-precision",
 		"postcss-preset-env": "^8.4.1",
 		"postcss-sort-media-queries": "^5.2.0",
-		"sass": "^1.60.0"
+		"sass": "^1.81.0",
+		"sassdoc": "^2.7.3",
+		"sassdoc-theme-herman": "^5.0.1"
 	},
 	"engines": {
 		"node": ">=18",

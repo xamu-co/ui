@@ -1,19 +1,29 @@
-export type tOrderBy = [string, ("desc" | "asc")?];
+export type tOrder = "desc" | "asc";
+
+/**
+ * Order using column or property
+ *
+ * @example [["id", "asc" ]], order ascendente de id
+ * @example [["id", "desc" ]] or [["id"]], order descendente de id
+ */
+export type tOrderBy = [string, tOrder?];
 
 export interface iPageEdge<T, C extends string | number = string> {
 	cursor: C;
 	node: T;
 }
 
+export interface iPageInfo<C extends string | number = string> {
+	nextCursor?: C;
+	previousCursor?: C;
+	hasNextPage: boolean;
+	hasPreviousPage: boolean;
+	path?: string;
+}
+
 export interface iPage<T, C extends string | number = string> {
 	edges: iPageEdge<T, C>[];
-	pageInfo: {
-		nextCursor?: C;
-		previousCursor?: C;
-		hasNextPage: boolean;
-		hasPreviousPage: boolean;
-		path?: string;
-	};
+	pageInfo: iPageInfo<C>;
 	totalCount: number;
 }
 
@@ -28,21 +38,9 @@ export interface iPagination {
 	 * Cantidad de elementos (limite)
 	 */
 	first?: number;
-	/**
-	 * JSON string
-	 * aplica a cualquiera columna
-	 * ej: ["id", "asc" ], order ascendente de id
-	 * ej: ["id", "desc" ], order descendente de id
-	 */
-	orderBy?: tOrderBy;
+	orderBy?: tOrderBy[];
 }
 
-/**
- * Hydrate fetch ref (no refresh)
- */
-export type tHydrate<T> = (c: T, e?: unknown) => void;
-
 export type iGetPage<T, C extends string | number = string> = (
-	hydrate: tHydrate<iPage<T, C> | null>,
 	params?: iPagination
-) => Promise<iPage<T, C>>;
+) => Promise<iPage<T, C> | undefined>;

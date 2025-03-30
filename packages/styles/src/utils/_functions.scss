@@ -1,6 +1,7 @@
 @use "sass:string";
 @use "sass:map";
 @use "sass:math";
+@use "sass:meta";
 @use "system";
 @use "variables";
 
@@ -14,7 +15,7 @@
 // @param {Number} $number - Number to remove unit from
 // @return {Number} - Unitless number
 @function strip-unit($number) {
-	@if type-of($number) == "number" and not unitless($number) {
+	@if meta.type-of($number) == "number" and not math.is-unitless($number) {
 		@return math.div($number, ($number * 0 + 1));
 	}
 
@@ -36,15 +37,11 @@
 	@return map.get(variables.$font-weights, $font-weight);
 }
 
-// retorna el color del mapa de colores
+// returns the color from the color map
 @function color($color-name, $rgb: false) {
-	@if $rgb {
-		$color: system.to-rgb(map.get(variables.$colors, $color-name));
+	$rgb: if($rgb, $rgb, 1);
 
-		@return unquote("rgba(" + $color + "," + $rgb + ")");
-	} @else {
-		@return map.get(variables.$colors, $color-name);
-	}
+	@return string.unquote("rgba(var(--rgb-" + $color-name + "), " + $rgb + ")");
 }
 
 // Capitalize string

@@ -5,32 +5,6 @@
 	@layer modifiers {
 		.#{module.$prefix-default}--p {
 			@include module.extend-gutters(padding);
-
-			@include module.extend-viewports-classes {
-				padding: 1rem;
-			}
-
-			// box paddings
-			// X axis
-			//
-			// @group GlobalModifiers
-			&X {
-				@include module.extend-viewports-classes {
-					padding-left: 1rem;
-					padding-right: 1rem;
-				}
-			}
-
-			// box paddings
-			// Y axis
-			//
-			// @group GlobalModifiers
-			&Y {
-				@include module.extend-viewports-classes {
-					padding-top: 1rem;
-					padding-bottom: 1rem;
-				}
-			}
 		}
 	}
 }

@@ -5,6 +5,8 @@ node_modules
 CHANGELOG.md
 index.css
 index.min.css
+.output
 .nuxt
 *.json
 .*rc
+storybook-static

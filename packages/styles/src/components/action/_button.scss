@@ -12,25 +12,31 @@
 			@include module.action-styles;
 			@include module.action-round-styles;
 			@include module.action-aligment-styles;
-			@include module.action-gaping-styles;
+			@include module.action-alert-styles;
 			@include module.action-theme-union-styles;
 			@include module.action-size-styles;
 			@include module.action-border-styles;
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles(false);
 
-			@at-root :not([class*="#{module.$status-toggle}"])
-					> :not([class*="#{module.$status-toggle}"])#{&} {
-				// round button
-				//
-				// @group Modifiers
-				&.#{module.$prefix-default}--round {
-					@include module.extend-viewports-classes(true, true) {
-						:not(:only-child) {
-							&:not(:last-child),
-							&:not(:nth-child(2)) {
-								display: none;
-							}
+			&.#{module.$status-is-alert}:after {
+				--bc: var(--bg);
+
+				background-color: var(--bg-a, #{module.$color-bg});
+			}
+		}
+
+		:not([class*="#{module.$status-toggle}"])
+			> :not([class*="#{module.$status-toggle}"]).#{module.$component-button} {
+			// round button
+			//
+			// @group Modifiers
+			&.#{module.$prefix-default}--round {
+				@include module.extend-viewports-classes(true, module.$viewports) {
+					:not(:only-child) {
+						&:not(:last-child),
+						&:not(:nth-child(2)) {
+							display: none;
 						}
 					}
 				}

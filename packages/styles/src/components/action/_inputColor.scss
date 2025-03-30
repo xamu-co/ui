@@ -6,18 +6,24 @@
 @mixin input-color {
 	@layer definitions {
 		.#{module.$component-input-color} {
-			@include module.action-styles;
-
-			@include module.action-size-styles(false) using ($size) {
-				width: $size;
-			}
-
-			@include module.action-border-styles;
-			@include module.action-disabled-styles;
-
 			display: block;
 			overflow: hidden;
 			cursor: pointer;
+
+			@include module.action-styles;
+			@include module.action-size-styles(false) using ($size) {
+				width: $size;
+			}
+			@include module.action-border-styles using($radius) {
+				&::-webkit-color-swatch {
+					border-radius: $radius;
+				}
+
+				&::-moz-color-swatch {
+					border-radius: $radius;
+				}
+			}
+			@include module.action-disabled-styles;
 
 			&::-webkit-color-swatch-wrapper {
 				padding: 0;
@@ -25,14 +31,12 @@
 
 			&::-webkit-color-swatch {
 				border: none;
-				border-radius: 50%;
 				width: 50%;
 				height: 50%;
 			}
 
 			&::-moz-color-swatch {
 				border: none;
-				border-radius: 50%;
 				width: 50%;
 				height: 50%;
 			}

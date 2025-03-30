@@ -46,10 +46,10 @@
 				}
 			}
 
-			@for $i from 2 through 12 {
+			@for $i from 2 through utils.$loop-columns {
 				&.#{utils.$prefix-default}--count-#{$i} {
 					@include utils.extend-viewports-classes {
-						columns: (math.div(utils.$size-min-column-size, $i) * 3) $i;
+						columns: (math.div(utils.$size-min-column, $i) * 3) $i;
 					}
 				}
 			}
@@ -58,7 +58,7 @@
 			&.#{utils.$prefix-default}--count,
 			&:not([class*="--count"]) {
 				// Count
-				columns: (math.div(utils.$size-min-column-size, 2) * 3) 2;
+				columns: (math.div(utils.$size-min-column, 2) * 3) 2;
 			}
 		}
 	}

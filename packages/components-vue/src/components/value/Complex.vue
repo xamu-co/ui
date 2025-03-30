@@ -1,180 +1,196 @@
 <template>
-	<!-- Array only -->
-	<div
-		v-if="Array.isArray(value)"
-		class="flx --flxRow --flx-start-center --gap-5"
-		:title="value.length ? t('table_quantity', value.length) : ''"
-	>
-		<ActionButton
-			v-if="!readOnly && createFn"
-			:theme="theme"
-			:tooltip="t('table_create_new')"
-			tooltip-as-text
-			tooltip-position="bottom"
-			round
-			@click="triggerUpdate(createFn())"
+	<BaseErrorBoundary :theme="theme">
+		<!-- Array only -->
+		<div
+			v-if="Array.isArray(value)"
+			class="flx --flxRow --flx-start-center --gap-5"
+			:title="value.length ? t('table_quantity', value.length) : ''"
 		>
-			<IconFa name="plus" />
-		</ActionButton>
-		<template v-if="value.length">
-			<span class="--txtWrap-nowrap">
-				<b :class="`--txtColor-${themeValues[0]}`">{{ value.length }}</b>
-				⋅
-			</span>
-			<Modal
-				v-if="value.every((v) => typeof v === 'object') || value.length > 3"
-				class="--txtSize"
-				:theme="modalTheme || theme"
-				:title="property?.alias"
-				:target="modalTarget"
+			<ActionButton
+				v-if="!readonly && property?.createNode"
+				:theme="theme"
+				:tooltip="t('table_create_new')"
+				tooltip-as-text
+				tooltip-position="bottom"
+				:size="size"
+				:disabled="!!property?.disableCreateNode?.(node)"
+				round
+				@click="createNodeAndRefresh"
 			>
-				<template #toggle="{ setModel }">
-					<ActionButtonToggle
+				<IconFa name="plus" />
+			</ActionButton>
+			<template v-if="value.length">
+				<div class="--txtWrap-nowrap">
+					{{ !readonly && property?.createNode ? "⋅" : "" }}
+					<b :class="`--txtColor-${themeValues[0]}`">{{ value.length }}</b>
+					⋅
+				</div>
+				<Modal
+					v-if="value.every((v) => typeof v === 'object') || value.length > 3"
+					class="--txtSize"
+					:title="property?.alias"
+					v-bind="{ theme, ...modalProps }"
+				>
+					<template #toggle="{ toggleModal }">
+						<component
+							:is="property?.updateNode ? ActionButton : ActionButtonToggle"
+							:theme="theme"
+							:size="size"
+							@click="toggleModal"
+						>
+							{{ t("table_see_values", { name: property?.alias?.toLowerCase() }) }}
+						</component>
+					</template>
+					<template #default="{ model, invertedTheme }">
+						<Table
+							v-if="model"
+							:nodes="remapValues(value)"
+							:theme="invertedTheme"
+							:modal-props="{ theme, ...modalProps }"
+							:classes="classes"
+							:clone-node="property?.cloneNode"
+							:update-node="property?.updateNode"
+							:delete-node="property?.deleteNode"
+						/>
+					</template>
+				</Modal>
+				<div v-else class="flx --flxRow --flx-start-center --gap-5">
+					<template v-for="(childValue, childIndex) in value" :key="childIndex">
+						<ValueSimple
+							v-bind="{
+								value: childValue,
+								property,
+								readonly,
+								theme,
+								modalProps,
+								classes,
+								verbose,
+								size,
+							}"
+						/>
+						<span v-if="childIndex < value.length - 1">⋅</span>
+					</template>
+				</div>
+			</template>
+			<span v-else-if="!property?.createNode">-</span>
+		</div>
+		<!-- Object only -->
+		<template
+			v-else-if="typeof value === 'object' && value !== null && Object.keys(value).length"
+		>
+			<!-- Small object with small values -->
+			<div
+				v-if="
+					Object.keys(value).length <= 3 &&
+					Object.values(value).every((v) => typeof v === 'string' && v.length <= 7)
+				"
+				class="flx --flxRow --flx-start-center --gap-5"
+			>
+				<template
+					v-for="([childKey, childValue], childIndex) in useSortObject(value)"
+					:key="childIndex"
+				>
+					<ValueSimple
+						v-bind="{
+							value: childValue,
+							property: {
+								value: childKey,
+								alias: upperFirst(startCase(tet(snakeCase(childKey)))),
+							},
+							readonly,
+							theme,
+							modalProps,
+							classes,
+							verbose,
+							size,
+						}"
+					/>
+					<span v-if="childIndex < Object.keys(value).length - 1">⋅</span>
+				</template>
+			</div>
+			<!-- Any other object -->
+			<Modal
+				v-else
+				class="--txtSize"
+				:title="property?.alias"
+				v-bind="{ theme, ...modalProps }"
+			>
+				<template #toggle="{ toggleModal }">
+					<ActionLink
+						v-if="'name' in value || 'slug' in value"
 						:theme="theme"
-						:aria-label="
-							t('table_see_values', { name: property?.alias?.toLowerCase() })
-						"
-						size="sm"
-						@click="setModel()"
+						:tooltip="t('see_value')"
+						tooltip-as-text
+						tooltip-position="bottom"
+						:size="size"
+						@click="toggleModal"
 					>
-						{{ t("table_see_values", { name: property?.alias?.toLowerCase() }) }}
+						<IconFa name="lemon" force-regular />
+						<span>{{ value.name || value.slug }}</span>
+					</ActionLink>
+					<ActionButtonToggle
+						v-else
+						:theme="theme"
+						:tooltip="t('see_value')"
+						tooltip-as-text
+						tooltip-position="bottom"
+						:size="size"
+						round
+						@click="toggleModal"
+					>
+						<IconFa name="lemon" />
+						<IconFa name="lemon" force-regular />
 					</ActionButtonToggle>
 				</template>
-				<template #default="{ model }">
-					<Table
+				<template #default="{ model, invertedTheme }">
+					<!-- Recursion -->
+					<ValueList
 						v-if="model"
-						:nodes="remapValues(value)"
-						:theme="theme"
-						:modal-theme="modalTheme"
-						:classes="classes"
+						v-bind="{
+							value,
+							node,
+							property,
+							readonly,
+							theme: invertedTheme,
+							modalProps: { theme, ...modalProps },
+						}"
+						:class="classes"
+						verbose
 					/>
 				</template>
 			</Modal>
-			<span v-else>{{ value.join(", ") }}</span>
 		</template>
-		<span v-else-if="!createFn">-</span>
-	</div>
-	<!-- Object only -->
-	<Modal
-		v-else-if="typeof value === 'object' && value !== null && Object.keys(value).length"
-		class="--txtSize"
-		:theme="modalTheme || theme"
-		:title="property?.alias"
-		:target="modalTarget"
-	>
-		<template #toggle="{ setModel }">
-			<ActionLink
-				v-if="'name' in value"
-				:theme="theme"
-				:tooltip="t('see_value')"
-				tooltip-as-text
-				tooltip-position="bottom"
-				size="sm"
-				@click="setModel()"
-			>
-				<IconFa name="lemon" force-regular />
-				<span>{{ value.name }}</span>
-			</ActionLink>
-			<ActionButtonToggle
-				v-else
-				:theme="theme"
-				:tooltip="t('see_value')"
-				tooltip-as-text
-				tooltip-position="bottom"
-				size="sm"
-				round
-				@click="setModel()"
-			>
-				<IconFa name="lemon" />
-				<IconFa name="lemon" force-regular />
-			</ActionButtonToggle>
+		<!-- Plain value -->
+		<ValueSimple
+			v-else
+			v-bind="{ value, property, readonly, theme, modalProps, classes, verbose, size }"
+		/>
+		<template #fallback?>
+			<!-- Error fallback -->
+			<span class="--txtColor-danger">{{ value ?? "-" }}</span>
 		</template>
-		<template #default="{ model }">
-			<ul v-if="model" class="flx --flxColumn --minWidth-220 --txtSize-sm" :class="classes">
-				<li
-					v-for="([childValueName, childValue], childValueIndex) in sort(value)"
-					:key="childValueIndex"
-					class="flx --flxColumn --flx-center-start --gap-5 --flx-fit"
-				>
-					<span class="--txtSize-xs" :class="`--txtColor-${themeValues[0]}`">
-						{{ _.capitalize(_.startCase(childValueName)) }}
-					</span>
-					<!-- Recursion -->
-					<Complex
-						v-bind="{
-							value: childValue,
-							node,
-							property: {
-								value: childValueName,
-								alias: _.capitalize(_.startCase(childValueName)),
-							},
-							readOnly,
-							theme,
-							modalTheme,
-							modalTarget,
-						}"
-						:class="classes"
-					/>
-				</li>
-			</ul>
-		</template>
-	</Modal>
-	<!-- Plain value -->
-	<ValueSimple
-		v-else
-		v-bind="{ value, property, readOnly, theme, modalTheme, classes, modalTarget }"
-	/>
+	</BaseErrorBoundary>
 </template>
 <script setup lang="ts">
-	import type { RendererElement } from "vue";
-	import _ from "lodash";
+	import upperFirst from "lodash-es/upperFirst";
+	import startCase from "lodash-es/startCase";
+	import snakeCase from "lodash-es/snakeCase";
 
-	import type {
-		iSelectOption,
-		tProp,
-		tProps,
-		tThemeModifier,
-		tThemeTuple,
-	} from "@open-xamu-co/ui-common-types";
-	import { useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n, useSwal, useSortObject } from "@open-xamu-co/ui-common-helpers";
 
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import IconFa from "../icon/Fa.vue";
 	import ActionLink from "../action/Link.vue";
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
 	import ValueSimple from "./Simple.vue";
-	import Modal from "../Modal.vue";
-	import Table from "../Table.vue";
+	import ValueList from "./List.vue";
+	import Modal from "../modal/Simple.vue";
+	import Table from "../table/Simple.vue";
 
-	import type { iUseThemeProps } from "../../types/props";
+	import type { iValueComplexProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
-
-	interface iValueComplexProps extends iUseThemeProps {
-		/**
-		 * Cell value
-		 */
-		value: unknown;
-		/**
-		 * Cell column property
-		 */
-		property?: iSelectOption;
-		/**
-		 * Cell node
-		 */
-		node?: Record<string, unknown>;
-		readOnly?: boolean;
-		readFn?: () => Promise<boolean>;
-		createFn?: () => Promise<boolean>;
-		deleteFn?: () => Promise<boolean>;
-		classes?: tProps<string>;
-		/**
-		 * Refresh the content
-		 */
-		refresh?: () => unknown;
-		modalTarget?: string | RendererElement;
-		modalTheme?: tThemeTuple | tProp<tThemeModifier>;
-	}
+	import { useHelpers } from "../../composables/utils";
 
 	/**
 	 * Complex value
@@ -187,33 +203,48 @@
 	const props = defineProps<iValueComplexProps>();
 
 	const { themeValues } = useTheme(props);
-	const { t } = useHelpers(useI18n);
+	const { t, tet } = useHelpers(useI18n);
+	const Swal = useHelpers(useSwal);
 
-	function remapValues(values: unknown[]) {
+	function remapValues(values: unknown[]): Record<string, any>[] {
 		return values.map((value) => {
 			return typeof value === "object" && value !== null ? value : { value };
 		});
 	}
 
-	async function triggerUpdate(promise?: Promise<boolean>) {
-		if (!(await promise)) return;
+	/**
+	 * Creates given node
+	 * sometimes it could fail but still create (api issue)
+	 */
+	async function createNodeAndRefresh(target: Event) {
+		// display loader
+		Swal.fireLoader();
 
-		props.refresh?.();
-	}
+		// run process
+		const created = await props.property?.createNode?.(props.node);
 
-	function sort(data: Record<string, any>) {
-		return Object.entries(data)
-			.sort(([a], [b]) => {
-				// updatedAt, updatedBy, createdAt and createdBy to last position
-				if (a.endsWith("At") || a.endsWith("By") || b.endsWith("At") || b.endsWith("By")) {
-					if (a.endsWith("At") || a.endsWith("By")) return 1;
+		// unfinished task
+		if (created === undefined) {
+			if (Swal.isLoading()) Swal.close();
 
-					return -1;
-				} else if (a > b) return 1;
-				else if (a < b) return -1;
+			return;
+		}
 
-				return 0;
-			})
-			.filter(([property]) => property !== "id");
+		if (created) {
+			Swal.fire({
+				icon: "success",
+				title: t("swal.table_created"),
+				target,
+			});
+		} else {
+			Swal.fire({
+				icon: "warning",
+				title: t("swal.table_created"),
+				text: t("swal.table_possibly_not_created"),
+				target,
+			});
+		}
+
+		if (!props.omitRefresh) props.refresh?.();
 	}
 </script>

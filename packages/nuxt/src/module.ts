@@ -1,30 +1,41 @@
-import type { DefineComponent, FunctionalComponent, Component as VueComponent } from "vue";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
 	defineNuxtModule,
 	addPlugin,
 	addComponent,
 	createResolver,
 	installModule,
+	addImports,
+	addImportsDir,
 } from "@nuxt/kit";
-import _ from "lodash";
-import type { ModuleOptions as NuxtImageOptions } from "@nuxt/image";
+import upperFirst from "lodash-es/upperFirst";
+import camelCase from "lodash-es/camelCase";
 
-import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";
 
+import type { XamuModuleOptions } from "./types";
+
 /**
- * Nuxt specific configuration
+ * Preload stylesheet and once loaded call them
+ * @param {string} href - Resource url
+ * @returns {object} Link object
  */
-interface iNuxtOptions
-	extends iPluginOptions<VueComponent | FunctionalComponent | DefineComponent> {
-	/**
-	 * Nuxt image plugin options
-	 */
-	image?: Partial<NuxtImageOptions>;
+function getStyleSheetPreload(href: string) {
+	return {
+		rel: "preload",
+		as: "style" as const,
+		onload: "this.onload=null;this.rel='stylesheet'",
+		href,
+	};
 }
 
-export default defineNuxtModule<iNuxtOptions>({
+const stylesheets: string[] = [
+	"https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css",
+	"https://unpkg.com/sweetalert2@^11/dist/sweetalert2.min.css",
+];
+
+export default defineNuxtModule<XamuModuleOptions>({
 	meta: {
 		name: "@open-xamu-co/ui-nuxt",
 		configKey: "xamu",
@@ -40,11 +51,27 @@ export default defineNuxtModule<iNuxtOptions>({
 		first: 10,
 	},
 	async setup(moduleOptions, nuxt) {
-		const { globalComponents, componentPrefix, image } = moduleOptions;
-		const { resolve } = createResolver(import.meta.url);
+		const { globalComponents, componentPrefix, image, countriesUrl } = moduleOptions;
+		const { resolve, resolvePath } = createResolver(import.meta.url);
 		const runtimePath = resolve("./runtime");
 
-		nuxt.options.build.transpile.push("@open-xamu-co/ui-components-vue");
+		nuxt.options.vite.resolve = { ...nuxt.options.vite.resolve, preserveSymlinks: true };
+
+		// @ts-ignore
+		nuxt.options.appConfig.xamu = moduleOptions;
+
+		if (!moduleOptions.disableCSSMeta) {
+			// inject css
+			nuxt.options.app = { ...nuxt.options.app };
+			nuxt.options.app.head = { ...nuxt.options.app.head };
+			nuxt.options.app.head.link ||= [];
+			nuxt.options.app.head.link.push(
+				{ rel: "preconnect", href: "https://unpkg.com/", crossorigin: "anonymous" },
+				{ rel: "dns-prefetch", href: "https://unpkg.com/" },
+				...stylesheets.map(getStyleSheetPreload)
+			);
+		}
+
 		// Register components config plugin
 		addPlugin(resolve(runtimePath, "plugins", "config"));
 
@@ -56,18 +83,39 @@ export default defineNuxtModule<iNuxtOptions>({
 			...image,
 		});
 
-		// Filter and register components
-		const components = Array.isArray(globalComponents) ? globalComponents : componentNames;
+		if (
+			countriesUrl &&
+			!countriesUrl.includes("countries.xamu.com.co/api/v1") &&
+			!moduleOptions.disableCountriesModule
+		) {
+			const { pathname } = new URL(countriesUrl);
 
-		if (!globalComponents) return;
+			await installModule("nuxt-countries-api", { base: pathname });
+		}
 
-		components.forEach((name) => {
-			addComponent({
-				name: _.capitalize(_.camelCase(componentPrefix)) + name,
-				filePath: "@open-xamu-co/ui-components-vue",
-				export: name,
-				mode: "all",
+		// Filter and register components if enabled
+		if (globalComponents) {
+			const components = Array.isArray(globalComponents) ? globalComponents : componentNames;
+			const filePath = await resolvePath("@open-xamu-co/ui-components-vue"); // node_modules/@open-xamu-co/ui-components-vue/dist/index.mjs
+
+			components.forEach((name) => {
+				addComponent({
+					name: upperFirst(camelCase(componentPrefix)) + name,
+					filePath,
+					export: name,
+					mode: "all",
+				});
 			});
+		}
+
+		// Theme composable
+		addImports({
+			name: "useTheme",
+			as: "useTheme",
+			from: "@open-xamu-co/ui-components-vue",
 		});
+
+		// Other composables, config required
+		addImportsDir(resolve(runtimePath, "composables"));
 	},
 });

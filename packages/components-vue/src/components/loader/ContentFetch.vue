@@ -1,46 +1,89 @@
 <template>
-	<LoaderContent
-		v-bind="{
-			...$attrs,
-			content: !!content,
-			errors: !!errors,
-			loading,
-			refresh,
-			unwrap,
-			theme,
-		}"
-	>
-		<slot v-if="content" v-bind="{ content, refresh, loading, errors }"></slot>
-	</LoaderContent>
+	<BaseErrorBoundary :theme="theme">
+		<LoaderContent
+			v-bind="{
+				content: !!content && patchedIsContent(content),
+				errors,
+				loading: loading,
+				refresh,
+				unwrap,
+				theme,
+				noContentMessage,
+				label,
+				noLoader,
+				ignoreErrors,
+				el: loaderEl,
+			}"
+			:class="$attrs.class"
+		>
+			<slot
+				v-if="!!content && patchedIsContent(content) && (!loading || firstLoad)"
+				v-bind="{ content, refresh, loading, errors }"
+			></slot>
+		</LoaderContent>
+	</BaseErrorBoundary>
 </template>
 
-<script setup lang="ts" generic="T, P extends unknown[] = unknown[]">
-	import {
-		ref,
-		watch,
-		type Component as VueComponent,
-		type FunctionalComponent,
-		type DefineComponent,
-	} from "vue";
-	import _ from "lodash";
+<script setup lang="ts" generic="T, P extends any[] = any[]">
+	import { ref, watch, type Ref, computed, onActivated, onDeactivated, inject } from "vue";
+	import isEqual from "lodash-es/isEqual";
 
-	import type { tHydrate } from "@open-xamu-co/ui-common-types";
+	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import LoaderContent from "./Content.vue";
 
+	import type { vComponent } from "../../types/plugin";
 	import type { iUseThemeProps } from "../../types/props";
+	import type { iVuePluginOptions } from "../../types/plugin";
+	import { useAsyncDataFn } from "../../composables/async";
+	import { useHelpers } from "../../composables/utils";
 
-	export interface iLoaderContentFetchProps<Ti, Pi extends unknown[]> extends iUseThemeProps {
-		promise?: false | ((hydrate: tHydrate<Ti>, ...args: Pi) => Promise<Ti>);
-		url?: false | string;
-		fallback?: Ti;
+	export interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
+		noContentMessage?: string;
+		/** Loader label */
+		label?: string;
+		/** Hide loader */
+		noLoader?: boolean;
+		fallback?: NoInfer<Ti>;
+		/** Remove loader wrapper element */
 		unwrap?: boolean;
+		/**
+		 * URL to fetch from
+		 *
+		 * Used as key if promise or hydratablePromise are provided.
+		 * Make sure to use preventAutoload to avoid invalid fetching.
+		 */
+		url?: false | string;
+		promise?: false | ((...args: Pi) => Promise<Ti>);
+		/**
+		 * Hydrate values after promise if resolved
+		 * Useful with firebase
+		 *
+		 * @see https://firebase.google.com/docs/database/
+		 *
+		 * Hydration is conditioned to the context (disabled, loading...)
+		 */
+		hydratablePromise?:
+			| false
+			| ((
+					content: Ref<Ti | null | undefined>,
+					errors: Ref<unknown>
+			  ) => (...args: Pi) => Promise<Ti>);
 		payload?: Pi;
 		/**
-		 * Component or tag to render
+		 * Component or tag to render on loader
 		 */
-		el?: VueComponent | FunctionalComponent | DefineComponent | string;
+		loaderEl?: vComponent | string;
 		preventAutoload?: boolean;
+		/** Additional content validation before rendering fetched data */
+		isContent?: (c?: NoInfer<Ti>) => boolean;
+		/** Ignore errors and display existing content */
+		ignoreErrors?: boolean;
+		/**
+		 * Whether to fetch data on client side only
+		 */
+		client?: boolean;
 	}
 
 	/**
@@ -58,89 +101,127 @@
 	const props = defineProps<iLoaderContentFetchProps<T, P>>();
 	const emit = defineEmits(["refresh"]);
 
-	const loading = ref(false);
-	const errors = ref();
-	const content = ref<T>();
+	const { logger } = useHelpers(useUtils);
+	const xamuOptions = inject<iVuePluginOptions>("xamu");
+	const useAsyncData: typeof useAsyncDataFn = xamuOptions?.asyncDataFn ?? useAsyncDataFn;
+
 	const firstLoad = ref(false);
 	const hydrated = ref(false);
-	const hydrate: tHydrate<T> = (newContent, newErrors) => {
-		// prevent hydration
-		if (content.value && !hydrated.value) return (hydrated.value = true);
-		if (!props.preventAutoload && !firstLoad.value) return;
+	/** Whether component was deactivated by keep-alive */
+	const deactivated = ref(false);
 
-		content.value = newContent;
-		errors.value = newErrors;
-	};
+	const hydrateContent = computed({
+		get: () => (typeof fetchedContent !== "undefined" ? fetchedContent.value : undefined),
+		set: (newContent) => {
+			// prevent hydration
+			if (deactivated.value) return;
+			if (fetchedContent.value && !hydrated.value) return (hydrated.value = true);
+			if (!props.preventAutoload && !firstLoad.value) return;
 
-	async function refresh(fallback?: T) {
-		if (fallback) content.value = fallback;
-		if (!(props.promise || props.url)) return;
+			fetchedContent.value = newContent;
+		},
+	});
+	const hydrateErrors = computed({
+		get: () => (typeof errors !== "undefined" ? errors.value : undefined),
+		set: (newContent) => {
+			// prevent hydration
+			if (deactivated.value) return;
+			if (errors.value && !hydrated.value) return (hydrated.value = true);
+			if (!props.preventAutoload && !firstLoad.value) return;
 
-		try {
-			loading.value = true;
+			errors.value = newContent;
+		},
+	});
 
-			if (props.promise) {
-				content.value = await props.promise(hydrate, ...(<P>(props.payload || [])));
-			} else if (props.url) {
-				const response = await (await fetch(props.url)).json();
-				const data = "data" in response ? response.data : response;
+	const {
+		data: fetchedContent,
+		pending: loading,
+		error: errors,
+		refresh,
+	} = useAsyncData(
+		props.url || "",
+		async (): Promise<T | null> => {
+			let newData: T | null = null;
 
-				if (response.error) throw new Error(response.error);
-				if (data) content.value = data;
+			try {
+				if (!props.promise && !props.hydratablePromise && !props.url) return null;
+				if (props.preventAutoload) {
+					// is promise like
+					const pl = props.promise !== undefined || props.hydratablePromise !== undefined;
+
+					// Prevent on first load or if url is used as key
+					if (!firstLoad.value || (!!props.url && pl)) return null;
+				}
+				if (props.fallback) firstLoad.value = true; // use fallback while the real content loads
+				if (props.promise || props.hydratablePromise) {
+					const payload = <P>(props.payload || []);
+
+					if (props.promise) {
+						newData = await props.promise(...payload);
+					} else if (props.hydratablePromise) {
+						newData = await props.hydratablePromise(
+							hydrateContent,
+							hydrateErrors
+						)(...payload);
+					}
+				} else if (props.url) {
+					const response = await (await fetch(props.url)).json();
+					const data = "data" in response ? response.data : response;
+
+					if (response.error) throw new Error(response.error);
+					if (data) newData = data;
+				}
+			} catch (err) {
+				const errorMessage = err instanceof Error ? err.message : "unknown error";
+
+				logger("LoaderContentFetch:useAsyncData", errorMessage, err);
+
+				throw err; // throw error anyway, asyncData will intercept it
 			}
 
-			// success, clear errors
-			errors.value = undefined;
-		} catch (err) {
-			console.error(err);
-			content.value = undefined;
-			errors.value = err;
-		}
+			firstLoad.value = true;
 
-		firstLoad.value = true;
-		loading.value = false;
-		// Allow the parent to manually force an update
-		emit("refresh", refresh);
+			return newData;
+		},
+		{
+			default: () => props.fallback,
+			watch: [() => props.url, () => props.preventAutoload],
+			server: !props.client,
+		}
+	);
+
+	const content = computed(() => fetchedContent.value ?? props.fallback);
+
+	function patchedIsContent(c?: T): boolean {
+		return props.isContent?.(c) ?? !!c;
+	}
+	function validatePromiseLike(newPromise: any, oldPromise: any) {
+		/**
+		 * The same promise would trigger the watcher
+		 * We assume here that the same promise is provided
+		 */
+		const possibleSamePromise = !!newPromise && !!oldPromise;
+
+		// prevent muntiple requests
+		if (newPromise === oldPromise || !!possibleSamePromise) return;
+
+		// refresh
+		if (!loading.value && !!newPromise) refresh();
 	}
 
 	// lifecycle
-	if (!props.preventAutoload) refresh(props.fallback);
-
+	emit("refresh", refresh); // Allow the parent to manually force an update
 	// refetch on url or promise change
-	watch(
-		[() => props.url, () => props.promise],
-		(newValues, oldValues) => {
-			const sameUrl = newValues[0] === oldValues[0];
-			const samePromise = newValues[1] === oldValues[1];
-			/**
-			 * The same promise would trigger the watcher
-			 * We assume here that the same promise is provided
-			 */
-			const possibleSamePromise = newValues[1] && oldValues[1];
-
-			// prevent muntiple requests
-			if ((sameUrl && samePromise) || !!possibleSamePromise) return;
-
-			// refresh
-			if (!loading.value && !!(newValues[1] || newValues[0])) refresh();
-			else if (props.fallback) content.value = props.fallback;
-		},
-		{ immediate: false }
-	);
-	// load if the firstLoad was prevented
-	watch(
-		() => props.preventAutoload,
-		(prevent) => {
-			if (!prevent && !firstLoad.value) refresh();
-		},
-		{ immediate: false }
-	);
-	// Refresh if payload changes
+	watch(() => props.promise, validatePromiseLike, { immediate: false });
+	watch(() => props.hydratablePromise, validatePromiseLike, { immediate: false });
 	watch(
 		() => props.payload,
 		(newPayload, oldPayload) => {
-			if (firstLoad.value && !_.isEqual(newPayload, oldPayload)) refresh();
+			// Refresh if payload changes
+			if (firstLoad.value && !isEqual(newPayload, oldPayload)) refresh();
 		},
 		{ immediate: false }
 	);
+	onActivated(() => (deactivated.value = false));
+	onDeactivated(() => (deactivated.value = true));
 </script>

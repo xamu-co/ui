@@ -1,5 +1,5 @@
 <template>
-	<span class="flx --flxColumn --flx-center">
+	<span class="flx --flxColumn --flx-center --width-100">
 		<span>
 			<span
 				:class="`--bgColor-${themeValues[0]}`"
@@ -33,6 +33,9 @@
 	import type { CSSProperties } from "vue";
 
 	interface iLoaderSimpleProps extends iUseThemeProps {
+		/**
+		 * Loader label
+		 */
 		label?: string;
 		size?: string;
 		margin?: string;

@@ -4,6 +4,7 @@ import type { tPluginLocale } from "./locale.js";
 import type { SweetAlertOptions } from "sweetalert2";
 
 export type tComponent = (typeof componentNames)[number];
+export type tLogger = (at: string, ...logs: unknown[]) => any;
 
 export type tSupportedLangs =
 	| "kr"
@@ -98,6 +99,7 @@ export interface iPluginOptions<ComponentType = unknown> {
 		overrides?: SweetAlertOptions;
 		preventOverrides?: SweetAlertOptions;
 		loaderOverrides?: SweetAlertOptions;
+		toastOverrides?: SweetAlertOptions;
 	};
 	/**
 	 * Iso2 code for the default country
@@ -105,6 +107,15 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 * When a country is provided forms will omit that field
 	 */
 	country?: string;
+	/**
+	 * Countries API base endpoint (full URL)
+	 *
+	 * If using nuxt, get better performance with the module
+	 * @see https://www.npmjs.com/package/nuxt-countries-api
+	 *
+	 * @default "https://countries.xamu.com.co/api/v1"
+	 */
+	countriesUrl?: string;
 	/**
 	 * Disable automatic animations
 	 *
@@ -123,4 +134,10 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 * @default 10
 	 */
 	first?: number;
+	/**
+	 * Logger function for debugging purposes
+	 *
+	 * @default console.log
+	 */
+	logger?: tLogger;
 }

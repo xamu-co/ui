@@ -1,13 +1,24 @@
 <template>
 	<LoaderContentFetch
 		v-slot="{ content, refresh }"
-		:promise="page"
-		:payload="[pagination]"
-		v-bind="{ ...$attrs, preventAutoload, theme }"
+		:promise="patchedPromise"
+		:payload="[{ ...pagination, ...defaults }]"
+		:class="$attrs.class"
+		v-bind="{
+			preventAutoload,
+			theme,
+			noContentMessage,
+			label,
+			isContent,
+			url,
+			ignoreErrors,
+			client,
+		}"
+		@refresh="$emit('refresh', $event)"
 	>
 		<slot
 			v-bind="{
-				content: content.edges.map(({ node }) => node),
+				content: processContent(content.edges.map(({ node }) => node)),
 				pagination,
 				currentPage: content,
 				refresh,
@@ -15,39 +26,46 @@
 		></slot>
 		<PaginationSimple
 			v-if="!hideControls"
-			v-bind="{ pagination, currentPage: content, withRoute, theme }"
+			v-model="pagination"
+			v-bind="{ currentPage: content, withRoute, theme }"
 		/>
 	</LoaderContentFetch>
 </template>
 
-<script setup lang="ts" generic="T, C extends string | number = string">
-	import { computed, getCurrentInstance, inject } from "vue";
+<script setup lang="ts" generic="T, C extends string | number = string, R = never">
+	import { computed, getCurrentInstance, inject, ref } from "vue";
 
 	import type {
 		iGetPage,
+		iPage,
 		iPagination,
 		iPluginOptions,
-		tOrderBy,
 	} from "@open-xamu-co/ui-common-types";
 
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
 	import PaginationSimple from "./Simple.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
+	import { useOrderBy } from "../../composables/utils";
 
-	export interface iPaginationContentProps<Ti, Ci extends string | number = string>
+	export interface iPCProps<Ti, Ci extends string | number = string, Ri = never>
 		extends iPagination,
 			iUseThemeProps {
 		/**
 		 * Function used to fetch the page
 		 */
-		page: iGetPage<Ti, Ci>;
+		page: Ri extends iGetPage<Ti, Ci>
+			? iGetPage<Ti, Ci>
+			: (params?: iPagination) => Promise<Ri | undefined>;
 		/**
-		 * paginate using props
+		 * Path used as key for the cache
 		 */
-		withProps?: boolean;
+		url?: string;
 		/**
 		 * paginate using route
+		 *
+		 * @example "?orderBy=id:asc" single order property
+		 * @example "?orderBy=id:asc&orderBy=createdAt" multiple order properties
 		 */
 		withRoute?: boolean;
 		/**
@@ -55,12 +73,40 @@
 		 */
 		hideControls?: boolean;
 		preventAutoload?: boolean;
+		/**
+		 * Additional parameters to send every request
+		 */
+		defaults?: Record<string, any>;
+		noContentMessage?: string;
+		/**
+		 * Loader label
+		 */
+		label?: string;
+		/**
+		 * When additional operations are required on fetched data
+		 *
+		 * Raw promise payload
+		 */
+		transform?: (r: Ri) => iPage<Ti, Ci> | undefined;
+		/**
+		 * When additional operations are required on content
+		 *
+		 * Nodes arr only
+		 */
+		processContent?: (n: NoInfer<Ti>[]) => NoInfer<Ti>[];
+		/**
+		 * Ignore errors and display existing content.
+		 */
+		ignoreErrors?: boolean;
+		/**
+		 * Whether to fetch data on client side only
+		 */
+		client?: boolean;
 	}
 
 	/**
-	 * Menu de paginacion [PROGRESS]
+	 * Menu de paginacion
 	 * Redirecciona a la misma ruta + el query de pagina
-	 * TODO: Add consitional items per page selector
 	 *
 	 * @component
 	 * @example
@@ -69,43 +115,72 @@
 
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
 
-	const props = defineProps<iPaginationContentProps<T, C>>();
+	const props = withDefaults(defineProps<iPCProps<T, C, R>>(), {
+		processContent: (c: T[]) => c,
+	});
+	const emit = defineEmits(["refresh", "hasContent"]);
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
-	const propsPagination = computed<iPagination>(() => {
-		const { orderBy, first, at } = props;
+	/**
+	 * Patched promise
+	 */
+	const patchedPromise: iGetPage<T, C> = async (v) => {
+		const transform: (r: any) => iPage<T, C> | undefined = props.transform || ((v) => v);
+		const page = await props.page(v);
 
-		return { orderBy, first: first || xamuOptions?.first, at };
+		return transform(page);
+	};
+	const propsPagination = ref<iPagination>({
+		orderBy: props.orderBy,
+		first: props.first ?? xamuOptions?.first,
+		at: props.at,
 	});
 	const routePagination = computed<iPagination>(() => {
 		if (!router) return {};
 
+		const { orderBy, first, at } = propsPagination.value;
+
 		const route = router.currentRoute.value;
-		const newPagination = { ...propsPagination.value };
-		const [cursorName, order] = Array.isArray(route.query.orderBy) ? route.query.orderBy : [];
-		const ascOrDesc = order === "asc" || order === "desc" ? order : "desc";
-		const orderBy: tOrderBy = [cursorName ?? "createdAt", ascOrDesc];
-		const first = route.query.first;
-		const at = route.query.at;
+		const routeFirst = route.query.first;
+		const routeAt = route.query.at;
+		const routeOrderBy = useOrderBy(route.query.orderBy);
 
-		newPagination.orderBy = orderBy;
-
-		if (first && !Array.isArray(first)) newPagination.first = Number(first);
-		if (at && !Array.isArray(at)) {
-			const newAt = Number(at);
-
-			newPagination.at = isNaN(newAt) ? at : newAt;
-		}
-
-		return newPagination;
+		return {
+			orderBy: routeOrderBy.length ? routeOrderBy : orderBy,
+			first: Number(routeFirst ?? first),
+			at: routeAt ?? at,
+		};
 	});
-	const pagination = computed<iPagination | undefined>(() => {
-		if (props.withProps) return propsPagination.value;
-		else if (props.withRoute) return routePagination.value;
+	const pagination = computed<iPagination>({
+		get() {
+			if (props.withRoute) return routePagination.value;
 
-		// unpaginated
-		return undefined;
+			return propsPagination.value;
+		},
+		set(newPagination) {
+			if (props.withRoute) {
+				if (!router) return;
+
+				const route = router.currentRoute.value;
+
+				return router.push({
+					path: route.path,
+					hash: route.hash,
+					query: { ...route.query, ...newPagination },
+				});
+			}
+
+			propsPagination.value = newPagination;
+		},
 	});
+
+	function isContent(c?: iPage<T, C>): boolean {
+		const hasContent = !!c?.edges.length;
+
+		emit("hasContent", hasContent);
+
+		return hasContent;
+	}
 </script>

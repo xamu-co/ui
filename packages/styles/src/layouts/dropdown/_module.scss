@@ -1,13 +1,19 @@
 // Forward here to minimize imports
 @forward "../../utils/module";
+
 @use "../../utils/module";
 
 @mixin dropdown-visible-styles {
+	$local-viewports: (
+		xs: module.$querie-smartwatch,
+		sm: module.$querie-smartphone,
+	);
+
 	display: block;
 	&.#{module.$layout-flexbox} {
 		display: flex;
 		&.#{module.$prefix-default}--display-inline {
-			@include module.extend-viewports-classes {
+			@include module.extend-viewports-classes($viewports: $local-viewports) {
 				display: inline-flex;
 			}
 		}
@@ -15,13 +21,12 @@
 	&.#{module.$layout-grid} {
 		display: grid;
 		&.#{module.$prefix-default}--display-inline {
-			@include module.extend-viewports-classes {
+			@include module.extend-viewports-classes($viewports: $local-viewports) {
 				display: inline-grid;
 			}
 		}
 	}
 }
-
 @mixin dropdown-toggle-styles {
 	+ .#{module.$layout-dropdown} {
 		@include dropdown-visible-styles;

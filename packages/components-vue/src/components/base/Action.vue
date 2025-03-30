@@ -3,8 +3,8 @@
 		:is="actionComponent"
 		v-bind="{ ...$attrs, ...props, ...getHref }"
 		:type="currentTag === 'button' && !to && !href ? type || 'button' : null"
-		:tabindex="(props.disabled && '-1') || null"
-		:class="getClassesString([classes])"
+		:tabindex="(props.disabled && '-1') || props.tabindex || null"
+		:class="classes"
 	>
 		<slot>
 			<template v-if="mailto">{{ mailto }}</template>
@@ -20,7 +20,7 @@
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import type { iActionProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	/**
 	 * Action Prototype
@@ -35,7 +35,7 @@
 	const props = defineProps<iActionProps>();
 
 	const xamuOptions = inject<iPluginOptions>("xamu");
-	const { getModifierClasses: GMC, getClassesString } = useHelpers(useUtils);
+	const { getModifierClasses: GMC } = useHelpers(useUtils);
 
 	const currentTag = computed(() => {
 		if (!props.mailto && !props.tel && !props.href) return props.tag ?? "button";
@@ -81,8 +81,12 @@
 	const toTel = computed(() => {
 		if (props.to || !props.tel) return "";
 
-		const whatsappPath = `https://web.whatsapp.com/send/?phone=${indicativeNumber.value}${props.tel}`;
+		let whatsappPath = `https://wa.me/${indicativeNumber.value}${props.tel}`;
 		const telPath = `tel:+(${indicativeNumber.value})${props.tel}`;
+
+		if (props.whatsapp && typeof props.whatsapp == "string") {
+			whatsappPath += `?=text=${encodeURI(props.whatsapp)}`;
+		}
 
 		return props.whatsapp ? whatsappPath : telPath;
 	});
@@ -91,6 +95,6 @@
 
 		if (!href) return {};
 
-		return { to: undefined, href, target: "_blank" };
+		return { to: undefined, href, target: props.target || "_blank" };
 	});
 </script>

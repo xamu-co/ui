@@ -1,13 +1,16 @@
-import _ from "lodash";
-
-import type { iPluginOptions, tPluginLocaleKey } from "@open-xamu-co/ui-common-types";
+import template from "lodash-es/template";
+import get from "lodash-es/get";
+import trim from "lodash-es/trim";
+import has from "lodash-es/has";
 
 /**
  * I18n Composable
  *
  * @composable
  */
-export default function useI18n(options: iPluginOptions = {}) {
+export default function useI18n<L extends Record<string, string | Record<string, string>>>(
+	options: { locale?: L } = {}
+) {
 	/**
 	 * Interpolates localized text
 	 *
@@ -15,16 +18,16 @@ export default function useI18n(options: iPluginOptions = {}) {
 	 * @param data Optional number or variables to interpolate into text
 	 * @returns {string}
 	 */
-	function t(
-		key: tPluginLocaleKey,
+	function t<K extends string & keyof L, Ko extends L[K], KA extends string & keyof Ko>(
+		key: Ko extends string ? K : `${K}.${KA}`,
 		data: number | { [key: string]: unknown; count?: number } = {},
 		fallback = `No locale for "${key}" provided`
 	): string {
 		// Empty string string if locale doesn't exist
-		let locale = _.get(options.locale || {}, key, fallback);
+		let locale = get(options.locale || {}, key, fallback);
 		const interpolate = /\{(.+?)\}/g;
 		const plurals = locale.split("|");
-		const count = typeof data === "number" ? data : data?.count ?? -1;
+		const count = typeof data === "number" ? data : (data?.count ?? -1);
 
 		// Pluralization
 		if (count > -1 && plurals.length > 1) {
@@ -37,7 +40,7 @@ export default function useI18n(options: iPluginOptions = {}) {
 			}
 		}
 
-		const compile = _.template(_.trim(locale), { interpolate });
+		const compile = template(trim(locale), { interpolate });
 
 		return compile(typeof data === "number" ? { count } : data);
 	}
@@ -48,8 +51,10 @@ export default function useI18n(options: iPluginOptions = {}) {
 	 * @param key interpolation key to check
 	 * @returns {boolean} true if the key exists
 	 */
-	function te(key: string): key is tPluginLocaleKey {
-		return _.has(options.locale || {}, key);
+	function te<K extends string & keyof L, Ko extends L[K], KA extends string & keyof Ko>(
+		key: string
+	): key is Ko extends string ? K : `${K}.${KA}` {
+		return has(options.locale || {}, key);
 	}
 
 	/**

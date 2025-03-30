@@ -1,38 +1,45 @@
 {
-   "compilerOptions": {
-      "module": "ESNext",
-      "moduleResolution": "Node",
-      "target": "ES2020",
-      "declaration": true,
-      "declarationMap": true,
-      "esModuleInterop": true,
-      "allowJs": true,
-      "isolatedModules": true,
-      "strict": true,
-      "noImplicitAny": true,
-      "baseUrl": ".",
-      "forceConsistentCasingInFileNames": true,
-      "skipLibCheck": true,
-      "outDir": "./dist/esm",
-      "rootDir": "src",
-      "types": [
-         "node"
-      ],
-      "lib": [
-         "ESNext",
-         "ESNext.AsyncIterable",
-         "DOM"
-      ],
-      "typeRoots": [
-         "../../node_modules/@types"
-      ]
-   },
-   "include": [
-      "*.d.ts",
-      "./src/**/*"
-   ],
-   "exclude": [
-      "node_modules",
-      "dist",
-   ]
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "module": "ESNext",
+        "target": "ES2021",
+        "skipLibCheck": true,
+        "lib": [
+            "ESNext",
+            "ESNext.AsyncIterable",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "types": [
+            "node",
+            "vite/client"
+        ],
+        /* Compilation */
+        "useDefineForClassFields": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "verbatimModuleSyntax": true,
+        /* Bundler mode */
+        "esModuleInterop": true,
+        "moduleResolution": "Bundler",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+    },
+    "include": [
+        "src/*.ts",
+        "src/**/*.ts",
+    ],
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        },
+    ]
 }

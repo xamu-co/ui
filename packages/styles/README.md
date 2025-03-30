@@ -4,16 +4,16 @@
 
 These are the basic guidelines behind this project.
 
--   based in BEM but reinterpreted for sass and vue
--   prefixes prevent the collision with vendor styling
--   the "x" stands for xamu
+- based in BEM but reinterpreted for sass and vue
+- prefixes prevent the collision with vendor styling
+- the "x" stands for xamu
 
 Explore the [docs](https://styles.xamu.com.co/) or learn how to setup the project for development at: [Setup](SETUP.md)
 
 Older package names
 
--   @xamu-co/style-system
--   @xamu-co/styles
+- @xamu-co/style-system
+- @xamu-co/styles
 
 #Xamu UI, style systemElements & layouts:
 
@@ -210,8 +210,8 @@ We are following a similar approach to the tailwind framework (only for global m
 }
 ```
 
--   **xs**: 358px, extra small, enabled in specific cases
--   **sm**: 576px, small, enabled in specific cases
--   **md**: 768px, medium
--   **lg**: 1080px, large, enabled in specific cases
--   **xl**: 1280px, extralarge
+- **xs**: 358px, extra small, enabled in specific cases
+- **sm**: 576px, small, enabled in specific cases
+- **md**: 768px, medium
+- **lg**: 1080px, large, enabled in specific cases
+- **xl**: 1280px, extralarge

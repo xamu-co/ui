@@ -1,64 +1,59 @@
 <template>
+	<div class="flx --flxRow --flx-start-center --gap-5" v-bind="$attrs">
+		<ActionLink
+			v-if="modelValue && selectOptions.length > 1"
+			:theme="theme"
+			:disabled="disabled"
+			:aria-label="t('select_restablish_field')"
+			:title="t('select_restablish_field')"
+			@click.prevent="resetModel"
+		>
+			<IconFa name="xmark" :size="20" />
+		</ActionLink>
+		<InputText
+			v-model="aliasModel"
+			:list="selectFilterName"
+			autocomplete="off"
+			v-bind="{
+				...properties,
+				type: 'text',
+				placeholder: t('select_filter_options'),
+				disabled: (!!modelValue && !isInvalid) || disabled,
+				invalid: isInvalid,
+				icon,
+				iconProps,
+			}"
+			class="--flx"
+		/>
+	</div>
 	<datalist :id="selectFilterName">
 		<!-- Select is also used as fallback for older browsers -->
 		<SelectSimple
-			v-model="model"
+			v-model="aliasModel"
 			v-bind="{
 				...$attrs,
+				...properties,
 				options: selectOptions.map(({ value, alias }) => ({
 					alias,
 					value: alias ?? value,
 				})),
 				placeholder: placeholder ?? t('select_placeholder'),
 				disabled,
-				hidden,
-				size,
-				active,
 				invalid,
-				state,
-				theme,
 			}"
 		/>
 	</datalist>
-	<div v-if="supportsDatalist" class="flx --flxRow --flx-start-center --gap-5" v-bind="$attrs">
-		<InputText
-			v-model="textModel"
-			:list="selectFilterName"
-			v-bind="{
-				type: 'text',
-				placeholder: t('select_filter_options'),
-				disabled: (!!model && !isInvalid) || disabled,
-				hidden,
-				size,
-				active,
-				invalid: isInvalid,
-				state,
-				theme,
-				icon,
-				iconProps,
-			}"
-			class="--flx"
-			@change="handleInputChange"
-		/>
-		<ActionLink
-			v-if="model && selectOptions.length > 1"
-			:theme="theme"
-			:aria-label="t('select_restablish_field')"
-			:title="t('select_restablish_field')"
-			@click.prevent="model = ''"
-		>
-			<IconFa name="xmark" size="20" />
-		</ActionLink>
-	</div>
 </template>
 
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
-	import { computed, ref } from "vue";
-	import _ from "lodash";
+	import { computed } from "vue";
+	import deburr from "lodash-es/deburr";
+	import omit from "lodash-es/omit";
+	import { Md5 } from "ts-md5";
 
-	import type { iFormIconProps, iSelectOption } from "@open-xamu-co/ui-common-types";
-	import { toSelectOption, useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
+	import type { iFormIconProps, iFormOption } from "@open-xamu-co/ui-common-types";
+	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import SelectSimple from "./Simple.vue";
 	import InputText from "../input/Text.vue";
@@ -71,8 +66,7 @@
 		iUseThemeProps,
 		iSelectProps,
 	} from "../../types/props";
-	import useUUID from "../../composables/uuid";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iSelectFilterProps
 		extends iSelectProps,
@@ -100,61 +94,61 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { isBrowser } = useHelpers(useUtils);
-	const { uuid } = useUUID();
 
-	const randomId = uuid().replace("-", "").substring(0, 8);
-	const supportsDatalist = ref(true);
+	/** Prefer a predictable identifier */
 	const selectFilterName = computed(() => {
-		return props.name ?? `select-filter${randomId}`;
+		const seed = deburr(props.placeholder || props.title);
+
+		return props.name || props.id || Md5.hashStr(`select-filter-${seed}`);
 	});
-	const selectOptions = computed<iSelectOption[]>(() => {
-		return (props.options ?? []).map(toSelectOption);
+	const selectOptions = computed<iFormOption[]>(() => {
+		return (props.options || []).map(toOption).filter(({ hidden }) => !hidden);
 	});
-	const textModel = ref<string | number>(props.modelValue || "");
 	/**
-	 * Input model
+	 * Prefers alias instead of value
 	 */
-	const model = computed({
-		get: () => props.modelValue,
-		set: (newModel = "") => {
-			const deburr = (string: string) => _.deburr(string).toLowerCase();
+	const aliasModel = computed({
+		get: () => {
+			const option = selectOptions.value.find(({ value }) => value === props.modelValue);
 
+			// alias first
+			return option?.alias ?? option?.value ?? "";
+		},
+		set(valueOrAlias: string | number) {
+			// This assumes that aliases are distinct enough
+			const deburrer = (v: string | number) => deburr(String(v)).toLowerCase();
+			const newModel = deburrer(valueOrAlias);
 			// look for alias first
-			const option = selectOptions.value.find(({ value, alias }) => {
-				const match = alias ?? value;
-
-				if (typeof newModel === "string" && typeof match === "string") {
-					if (deburr(match) === deburr(newModel)) return true;
-				}
+			const option = selectOptions.value.find(({ alias, value }) => {
+				const match = deburrer(alias ?? value);
 
 				return match === newModel;
 			});
 
-			if (option) {
-				textModel.value = option.alias || option.value;
-				emit("update:model-value", option.value);
-			} else if (newModel === "") {
-				textModel.value = newModel;
-				emit("update:model-value", newModel);
-			}
+			// emit if valid
+			if (option) emit("update:model-value", option.value);
 		},
 	});
 	const isInvalid = computed<boolean>(() => {
-		const option = selectOptions.value.find(({ value }) => value === model.value);
+		const option = selectOptions.value.find(({ value }) => value === props.modelValue);
 
-		return (model.value && !option) || props.invalid;
+		return (props.modelValue && !option) || props.invalid;
+	});
+	const properties = computed(() => {
+		return {
+			...omit(props, ["modelValue"]),
+			hidden: props.hidden,
+			size: props.size,
+			active: props.active,
+			state: props.state,
+			theme: props.theme,
+		};
 	});
 
 	/**
-	 * Handle select input
-	 * @listenerOverride select filter requires specific event handling
+	 * Clears up input model
 	 */
-	function handleInputChange(e: Event) {
-		const { target } = e as Event & { target: HTMLSelectElement };
-
-		model.value = target.value;
+	function resetModel() {
+		emit("update:model-value", "");
 	}
-
-	if (isBrowser) supportsDatalist.value = !!HTMLDataListElement;
 </script>

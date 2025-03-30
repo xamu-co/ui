@@ -3,12 +3,26 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2.1
-orbs:
-    node: circleci/node@5.1.1
 defaults: &defaults
     working_directory: ~/repo
     docker:
-        - image: cimg/node:18.19.0
+        - image: cimg/node:20.18.3
+
+release: &release
+    <<: *defaults
+    steps:
+        - checkout
+        - attach_workspace:
+              at: ~/repo
+        - restore_cache:
+              name: Restore Yarn Package Cache
+              key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+        - run:
+              name: Install dependencies
+              command: yarn
+        - run:
+              name: Release to npm
+              command: yarn release
 
 jobs:
     setup:
@@ -16,21 +30,23 @@ jobs:
         steps:
             - checkout
             # Download and cache dependencies
-            - node/install-packages:
-                  cache-version: v3
-                  pkg-manager: yarn
-            - persist_to_workspace:
-                  root: ~/repo
+            - restore_cache:
+                  name: Restore Yarn Package Cache
+                  key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+            - run:
+                  name: Install dependencies
+                  command: yarn
+            - save_cache:
+                  name: Save Yarn packages cache
+                  key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
                   paths:
                       - node_modules
-                      - packages/**/node_modules
-
-    check_commit_message:
-        <<: *defaults
-        steps:
-            - checkout
-            - attach_workspace:
-                  at: ~/repo
+                      - packages/common-helpers/node_modules
+                      - packages/common-types/node_modules
+                      - packages/common-enums/node_modules
+                      - packages/components-vue/node_modules
+                      - packages/nuxt/node_modules
+                      - packages/styles/node_modules
             - run:
                   name: Define environment variable with lastest commit's message
                   command: |
@@ -44,10 +60,15 @@ jobs:
         <<: *defaults
         steps:
             - checkout
-            - attach_workspace:
-                  at: ~/repo
+            # Download and cache dependencies
+            - restore_cache:
+                  name: Restore Yarn Package Cache
+                  key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
             - run:
-                  name: Pre-build distributables
+                  name: Install dependencies
+                  command: yarn
+            - run:
+                  name: Build distributables
                   command: yarn build
             - persist_to_workspace:
                   root: ~/repo
@@ -55,15 +76,24 @@ jobs:
                       - packages/**/dist
                       - packages/nuxt/.nuxt
 
-    check_code:
+    tests:
         <<: *defaults
         steps:
             - checkout
             - attach_workspace:
                   at: ~/repo
+            - restore_cache:
+                  name: Restore Yarn Package Cache
+                  key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+            - run:
+                  name: Install dependencies
+                  command: yarn
             - run:
                   name: Lint & check
                   command: yarn lint
+
+    prerelease:
+        <<: *release
 
     dry_release:
         <<: *defaults
@@ -71,57 +101,60 @@ jobs:
             - checkout
             - attach_workspace:
                   at: ~/repo
+            - restore_cache:
+                  name: Restore Yarn Package Cache
+                  key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+            - run:
+                  name: Install dependencies
+                  command: yarn
             - run:
                   name: Dry release
                   command: yarn release:dry
 
     release:
-        <<: *defaults
-        steps:
-            - checkout
-            - attach_workspace:
-                  at: ~/repo
-            - run:
-                  name: Release to npm
-                  command: yarn release
+        <<: *release
 
 workflows:
     check_and_release_workflow:
         jobs:
             - setup
-            - check_commit_message:
-                  requires:
-                      - setup
             - build:
                   requires:
-                      - check_commit_message
-            - check_code:
+                      - setup
+            - tests:
                   requires:
                       - build
+            - prerelease:
+                  context: npm-deploy
+                  requires:
+                      - tests
+                  filters:
+                      branches:
+                          only:
+                              - next
             - dry_release:
                   context: npm-deploy
                   requires:
-                      - check_code
+                      - build
                   filters:
                       branches:
                           only:
                               - master
-                              - next
             - approve_release:
                   type: approval
                   requires:
-                      - dry_release
+                      - build
                   filters:
                       branches:
                           only:
                               - master
-                              - next
             - release:
                   context: npm-deploy
                   requires:
+                      - tests
+                      - dry_release
                       - approve_release
                   filters:
                       branches:
                           only:
                               - master
-                              - next

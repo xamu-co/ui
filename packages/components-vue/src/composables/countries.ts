@@ -11,15 +11,15 @@ import useFetch from "./fetch";
  * @composable
  */
 export default function useCountries() {
-	const { country: defaultCountry } = inject<iPluginOptions>("xamu") || {};
-	const { getUrlParams } = useFetch();
+	const { country: defaultCountry, countriesUrl = "https://countries.xamu.com.co/api/v1" } =
+		inject<iPluginOptions>("xamu") || {};
+	const { withUrlParams } = useFetch();
 
-	const countriesUrl = "https://countries.xamu.com.co/api/v1";
 	const fallbackCountry = {} as iCountry & { states?: iState[] };
 
 	async function getCountries(): Promise<iCountry[]> {
-		const url = `${countriesUrl}?${getUrlParams()}`;
-		const { data, error } = await (await fetch(url)).json();
+		const url = withUrlParams(`${countriesUrl}`);
+		const { data, error } = await (await fetch(url, { cache: "force-cache" })).json();
 
 		if (error) throw new Error(error);
 
@@ -29,8 +29,8 @@ export default function useCountries() {
 	async function getCountry(country: string): Promise<iCountry & { states: iState[] }> {
 		if (!country) throw new Error("A valid country is required");
 
-		const url = `${countriesUrl}/${country}?${getUrlParams({ states: "" })}`;
-		const { data, error } = await (await fetch(url)).json();
+		const url = withUrlParams(`${countriesUrl}/${country}`, { states: "" });
+		const { data, error } = await (await fetch(url, { cache: "force-cache" })).json();
 
 		if (error) throw new Error(error);
 
@@ -44,8 +44,8 @@ export default function useCountries() {
 	async function getState(country: string, state: string): Promise<iState & { cities: iCity[] }> {
 		if (!country || !state) throw new Error("A valid country and state are required");
 
-		const url = `${countriesUrl}/${country}/${state}?${getUrlParams({ cities: "" })}`;
-		const { data, error } = await (await fetch(url)).json();
+		const url = withUrlParams(`${countriesUrl}/${country}/${state}`, { cities: "" });
+		const { data, error } = await (await fetch(url, { cache: "force-cache" })).json();
 
 		if (error) throw new Error(error);
 
@@ -58,6 +58,7 @@ export default function useCountries() {
 
 	return {
 		defaultCountry,
+		countriesUrl,
 		fallbackCountry,
 		getCountries,
 		getCountry,

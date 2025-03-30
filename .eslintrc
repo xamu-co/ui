@@ -21,6 +21,7 @@
 			],
 			"rules": {
 				"indent": "off",
+				"vue/require-default-prop": "off",
 				"vue/no-v-for-template-key-on-child": "off",
 				"vue/singleline-html-element-content-newline": "off",
 				"vue/script-indent": "off",

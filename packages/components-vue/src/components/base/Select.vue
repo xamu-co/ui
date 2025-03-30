@@ -2,6 +2,7 @@
 	<select
 		v-bind="{
 			...$attrs,
+			...omit(props, ['modelValue', 'options']),
 			id: selectId,
 			name: name ?? selectId,
 			title,
@@ -15,7 +16,11 @@
 		<option v-once hidden disabled value="">
 			{{ t("select_placeholder") }}
 		</option>
-		<option v-for="({ value, alias }, index) in selectOptions" :key="index" :value="value">
+		<option
+			v-for="({ value, alias, disabled, hidden }, index) in selectOptions"
+			:key="index"
+			v-bind="{ value, disabled, hidden }"
+		>
 			{{ alias || value }}
 		</option>
 	</select>
@@ -23,14 +28,16 @@
 
 <script setup lang="ts">
 	import { computed, watch } from "vue";
+	import deburr from "lodash-es/deburr";
+	import omit from "lodash-es/omit";
+	import { Md5 } from "ts-md5";
 
-	import type { iSelectOption } from "@open-xamu-co/ui-common-types";
+	import type { iFormOption } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
-	import { toSelectOption } from "@open-xamu-co/ui-common-helpers";
+	import { toOption } from "@open-xamu-co/ui-common-helpers";
 
 	import type { iSelectProps } from "../../types/props";
-	import useUUID from "../../composables/uuid";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iBaseSelectProps extends iSelectProps {
 		/**
@@ -54,14 +61,15 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { uuid } = useUUID();
 
-	const randomId = uuid().replace("-", "").substring(0, 8);
-	const selectOptions = computed<iSelectOption[]>(() => {
-		return (props.options ?? []).map(toSelectOption);
+	const selectOptions = computed<iFormOption[]>(() => {
+		return (props.options ?? []).map(toOption);
 	});
+	/** Prefer a predictable identifier */
 	const selectId = computed(() => {
-		return props.id ?? `select${randomId}`;
+		const seed = deburr(props.name || props.placeholder || props.title);
+
+		return props.id || Md5.hashStr(`select-${seed}`);
 	});
 
 	function handleInput(e: Event) {
@@ -71,18 +79,14 @@
 	}
 
 	// lifecycle
-
-	// set single option as value
-	if (selectOptions.value.length === 1) emit("update:model-value", selectOptions.value[0].value);
-
 	watch(
 		selectOptions,
 		(options) => {
-			// reset model
-			if (!options.length) emit("update:model-value", "");
-			// set single option as value
-			if (options.length === 1) emit("update:model-value", options[0].value);
+			// set single option as value if required
+			if (props.required && options.length === 1 && props.modelValue !== options[0].value) {
+				emit("update:model-value", options[0].value);
+			}
 		},
-		{ immediate: false }
+		{ immediate: true }
 	);
 </script>

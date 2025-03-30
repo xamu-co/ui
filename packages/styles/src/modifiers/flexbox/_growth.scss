@@ -6,20 +6,20 @@
 @mixin flex-growth {
 	@layer modifiers {
 		.#{module.$prefix-default}--flx {
-			&-fit {
+			&-fill {
 				@include module.extend-viewports-classes {
-					flex: 0 0 auto;
-					max-width: 100%;
-					max-height: 100%;
+					flex: 1 1 100%;
 				}
 			}
-
+			&-fit {
+				@include module.extend-viewports-classes {
+					flex: 1 0 auto;
+				}
+			}
 			&,
 			&-auto {
 				@include module.extend-viewports-classes {
 					flex: 1 1 auto;
-					max-width: 100%;
-					max-height: 100%;
 				}
 			}
 		}

@@ -6,32 +6,32 @@
 @mixin scroll {
 	@layer definitions {
 		.#{utils.$layout-scroll} {
-			box-sizing: border-box;
-
 			@media (any-pointer: coarse) {
-				&::-webkit-scrollbar {
-					width: 0.4rem;
-					height: 0.4rem;
-				}
+				@layer defaults {
+					&::-webkit-scrollbar {
+						width: 0.4rem;
+						height: 0.4rem;
+					}
 
-				&::-webkit-scrollbar-track {
-					background-color: utils.$color-bg;
-				}
+					&::-webkit-scrollbar-track {
+						background-color: utils.color(light);
+					}
 
-				&::-webkit-scrollbar-thumb {
-					background-color: utils.color(dark, 0.3);
-				}
+					&::-webkit-scrollbar-thumb {
+						background-color: utils.color(dark, 0.3);
+					}
 
-				&::-webkit-scrollbar-track,
-				&::-webkit-scrollbar-thumb {
-					border-radius: 100px * utils.strip-unit(utils.$size-radius);
+					&::-webkit-scrollbar-track,
+					&::-webkit-scrollbar-thumb {
+						border-radius: 100px * utils.strip-unit(utils.$size-radius);
+					}
 				}
 			}
 
 			&.#{utils.$prefix-default}--vertical {
-				max-height: 100%;
-				overflow-x: hidden;
-				overflow-y: auto;
+				max-width: 100%;
+				max-height: min(100%, 100vh);
+				overflow: hidden auto;
 
 				@layer defaults {
 					& {
@@ -44,15 +44,52 @@
 				// always only mode
 				// @modifier
 				&.#{utils.$prefix-default}--always {
-					max-width: 100%;
-					overflow-x: auto;
-					overflow-y: hidden;
+					max-height: 100%;
+					overflow: auto hidden;
+					box-sizing: content-box;
+
+					@layer defaults {
+						& {
+							width: min(100%, 100vw);
+						}
+					}
+
+					@if utils.$allow-responsive {
+						// mobile & hover only
+						@media (width <= utils.$querie-tablet) {
+							&:has(:only-child) {
+								@layer defaults {
+									& {
+										width: calc(min(100%, 100vw) + 2rem);
+										margin: 0 -1rem;
+									}
+								}
+
+								> :only-child {
+									border-right: 1rem solid transparent;
+									border-left: 1rem solid transparent;
+
+									table.#{utils.$layout-table}-helper {
+										th,
+										td {
+											&.#{utils.$prefix-default}--sticky {
+												left: 1rem;
+
+												&:last-child {
+													right: 1rem;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 
 					> * {
 						min-width: 100%;
-						box-sizing: border-box;
 
-						&:last-child {
+						&:last-child:not(dialog) {
 							margin-bottom: 0.7rem;
 						}
 
@@ -68,13 +105,14 @@
 
 				@if utils.$allow-responsive {
 					// mobile & hover only
-					@media (max-width: utils.$querie-tablet) {
-						table.#{utils.$layout-table} {
-							thead,
-							tbody {
-								tr {
-									th,
-									td {
+					@media (width <= utils.$querie-tablet) {
+						> table.#{utils.$layout-table},
+						table.#{utils.$layout-table}.--nested {
+							> thead,
+							> tbody {
+								> tr {
+									> th,
+									> td {
 										&.#{utils.$prefix-default}--sticky {
 											position: relative;
 										}
@@ -85,11 +123,9 @@
 
 						@media (hover: none) {
 							&:not(.#{utils.$prefix-default}--always) {
-								max-width: 100vw;
+								max-width: min(100%, 100vw);
 								height: auto;
-								box-sizing: border-box;
-								overflow-x: auto;
-								overflow-y: hidden;
+								overflow: auto hidden;
 								padding-right: 0;
 
 								> * {
@@ -126,7 +162,7 @@
 									> * {
 										flex: 0 0 auto;
 
-										&:last-child {
+										&:last-child:not(dialog) {
 											margin-right: 0 !important;
 										}
 									}

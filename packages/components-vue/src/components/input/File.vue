@@ -1,7 +1,8 @@
 <template>
-	<div
-		:class="[classes, getClassesString([modifiersClasses, stateClasses, themeClasses])]"
-		class="box --button flx --flxColumn --flx-start-stretch --gap-10 --width"
+	<BaseBox
+		class="flx --flxColumn --flx-start-stretch --gap-10 --width-100"
+		button
+		v-bind="{ ...props, theme: fileInputTheme.themeValues }"
 	>
 		<div
 			v-if="minAmount !== maxAmount && thumbnails.length"
@@ -23,7 +24,7 @@
 							<BaseImg :src="thumb" :alt="t('file_thumb')" />
 						</div>
 						<ActionLink :theme="eColors.LIGHT" class="--shadow">
-							<IconFa name="xmark" size="20" />
+							<IconFa name="xmark" :size="20" />
 						</ActionLink>
 					</BaseAction>
 				</li>
@@ -31,7 +32,7 @@
 			<span class="--txtWrap-nowrap">
 				{{
 					t("file_one_of_amount", {
-						count: modelValue.length,
+						count: thumbnails.length,
 						amount: maxAmount,
 					})
 				}}
@@ -43,6 +44,7 @@
 			style="display: none"
 			v-bind="{
 				...$attrs,
+				...omit(props, ['modelValue', 'size']),
 				type: 'file',
 				accept: (accept ?? ['image/*']).join(','),
 				multiple: maxAmount > 1,
@@ -51,11 +53,15 @@
 			@change="handleInputChange"
 		>
 			<template v-if="!isLoading">
-				<label
-					v-if="modelValue.length < maxAmount"
+				<BaseBox
+					v-if="thumbnails.length < maxAmount"
 					:for="id"
-					:class="[...themeClasses, { '--bgColor-none': !isDragover }]"
-					class="box --bdr-dashed --size-xs flx --flxColumn --flx-center --minHeight-90"
+					class="flx --flxColumn --flx-center --minHeight-90"
+					el="label"
+					dashed
+					:size="eSizes.XS"
+					:theme="fileInputTheme.themeValues"
+					:transparent="!isDragover"
 					@drag="prevent"
 					@dragstart="prevent"
 					@dragend="handleMouseOut"
@@ -64,7 +70,7 @@
 					@dragover="handleMouseOver"
 					@dragenter="handleMouseOver"
 				>
-					<div class="txt --txtAlignFlx-center">
+					<div class="txt --txtAlign-center">
 						<template v-if="!isDragover">
 							<p>
 								<b>{{ t("file_choose_file", maxAmount) }}</b>
@@ -83,39 +89,45 @@
 							<b>{{ t("file_drop_files_here", maxAmount) }}</b>
 						</p>
 					</div>
-				</label>
-				<div
+				</BaseBox>
+				<BaseBox
 					v-else
-					:class="themeClasses"
-					class="box --bdr-solid --size-xs --bgColor-none flx --flxRow --flx-center"
+					class="flx --flxRow --flx-center"
+					:theme="fileInputTheme.themeValues"
+					:size="eSizes.XS"
+					solid
+					transparent
 				>
 					<p>{{ t("file_completed") }}</p>
 					<ActionButton
-						:theme="theme"
+						:theme="fileInputTheme.themeValues"
 						:aria-label="t('file_delete_files', maxAmount)"
 						@click.prevent="setFiles()"
 					>
 						{{ t("file_delete_files", maxAmount) }}
 					</ActionButton>
-				</div>
+				</BaseBox>
 			</template>
-			<div
+			<BaseBox
 				v-else
-				:class="themeClasses"
-				class="box --bdr-solid --size-xs --bgColor-none flx --flxRow --flx-center"
+				class="flx --flxRow --flx-center"
+				:theme="fileInputTheme.themeValues"
+				:size="eSizes.XS"
+				solid
+				transparent
 			>
 				{{ t("file_loading_files", maxAmount) }}
-			</div>
+			</BaseBox>
 		</BaseInput>
-	</div>
+	</BaseBox>
 </template>
 
 <script setup lang="ts">
 	import { ref, computed } from "vue";
-	import _ from "lodash";
+	import debounce from "lodash-es/debounce";
+	import omit from "lodash-es/omit";
 
-	import type { tProps } from "@open-xamu-co/ui-common-types";
-	import { eColors } from "@open-xamu-co/ui-common-enums";
+	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {
 		fileMatchesMimeTypes,
 		standardImageMimeTypes,
@@ -129,6 +141,7 @@
 	import BaseImg from "../base/Img.vue";
 	import BaseAction from "../base/Action.vue";
 	import BaseInput from "../base/Input.vue";
+	import BaseBox from "../base/Box.vue";
 	import IconFa from "../icon/Fa.vue";
 	import ActionButton from "../action/Button.vue";
 	import ActionLink from "../action/Link.vue";
@@ -139,10 +152,8 @@
 		iUseThemeProps,
 		iInputProps,
 	} from "../../types/props";
-	import useModifiers from "../../composables/modifiers";
-	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iInputFileProps
 		extends iInputProps,
@@ -164,10 +175,6 @@
 		accept?: string[];
 		// PRIVATE
 		modelValue: File[];
-		/**
-		 * Content clasess
-		 */
-		classes?: tProps<string>;
 	}
 
 	interface iDropEvent extends DragEvent {
@@ -191,11 +198,18 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { getClassesString, isBrowser } = useHelpers(useUtils);
+	const { isBrowser, logger } = useHelpers(useUtils);
 	const Swal = useHelpers(useSwal);
-	const { modifiersClasses } = useModifiers(props);
-	const { stateClasses } = useState(props);
-	const { themeClasses } = useTheme(props);
+	const { themeClasses, dangerThemeClasses, themeValues, dangerThemeValues } = useTheme(props);
+
+	const fileInputTheme = computed(() => {
+		const invalid = props.invalid;
+
+		return {
+			themeClasses: invalid ? dangerThemeClasses.value : themeClasses.value,
+			themeValues: invalid ? dangerThemeValues.value : themeValues.value,
+		};
+	});
 
 	const fileInput = ref<HTMLInputElement>();
 	const thumbnails = ref<string[]>([]);
@@ -228,15 +242,16 @@
 	/**
 	 * stores the files
 	 */
-	async function storeFiles(files: FileList) {
+	async function storeFiles(files: FileList, target: Event) {
 		isLoading.value = true;
 
 		// copy the files
-		const savedFiles = [...props.modelValue];
+		const filesArr = Array.from(files); // FileList is unstable
+		const savedFiles = [...props.modelValue].filter((v) => v instanceof File);
 		const savedThumbs = [...thumbnails.value];
 
 		try {
-			for (let i = 0; i < files.length; i++) {
+			for (let i = 0; i < filesArr.length; i++) {
 				// omit if max file reached
 				if (savedFiles.length >= maxAmount.value) {
 					Swal.fire({
@@ -246,6 +261,7 @@
 							amount: maxAmount.value,
 						}),
 						icon: "warning",
+						target,
 					});
 
 					break;
@@ -253,45 +269,47 @@
 
 				// TODO: Allow for multiple file types
 				// validate file "mime type"
-				const isImage = await fileMatchesMimeTypes(files[i], standardImageMimeTypes);
+				const isImage = await fileMatchesMimeTypes(filesArr[i], standardImageMimeTypes);
 
 				// 50MB max file size
-				if (isImage) {
+				if (!isImage) {
+					// not image
+					Swal.fire({
+						title: t("swal.file_wrong_format_image"),
+						text: t("swal.file_wrong_format_image_text"),
+						icon: "warning",
+						target,
+					});
+				} else {
 					// is image file
-					if (files[i].size < maxFileSize.value) {
+					if (filesArr[i].size < maxFileSize.value) {
 						const fileName = `${props.filePrefix ?? "image"}_${i}`;
 
-						savedFiles.push(renameFile(files[i], fileName));
-						savedThumbs.push(await getBase64FromImageFile(files[i]));
+						savedFiles.push(renameFile(filesArr[i], fileName));
+						savedThumbs.push(await getBase64FromImageFile(filesArr[i]));
 					} else {
 						// file too big
 						Swal.fire({
 							title: t("swal.file_too_big"),
 							text: t("swal.file_too_big_text"),
 							icon: "warning",
+							target,
 						});
 					}
-				} else {
-					// not image
-					Swal.fire({
-						title: t("swal.file_wrong_format_image"),
-						text: t("swal.file_wrong_format_image_text"),
-						icon: "warning",
-					});
 				}
 			}
 
 			// last one, save all.
 			setFiles(savedFiles, savedThumbs);
-		} catch (error) {
-			console.log(error);
-
+		} catch (err) {
+			logger("InputFile:storeFiles", err);
 			Swal.fire({
 				title: t("swal.file_unknown_error"),
 				text: t("swal.file_unknown_error_text"),
 				icon: "error",
 				timer: undefined,
 				showConfirmButton: true,
+				target,
 			});
 		}
 
@@ -301,7 +319,7 @@
 	/**
 	 * remove the given file in the given key
 	 */
-	const removeFile = _.debounce((index: number) => {
+	const removeFile = debounce((index: number) => {
 		// modify and set again
 		setFiles(props.modelValue.toSpliced(index, 1), thumbnails.value.toSpliced(index, 1));
 	});
@@ -344,7 +362,7 @@
 		const { dataTransfer, originalEvent } = e as iDropEvent;
 
 		handleMouseOut(e);
-		storeFiles(dataTransfer?.files || originalEvent.dataTransfer.files);
+		storeFiles(dataTransfer?.files || originalEvent.dataTransfer.files, e);
 	}
 	/**
 	 * file was selected from file explorer
@@ -358,7 +376,7 @@
 		if (!target.files) return;
 
 		prevent(e);
-		storeFiles(target.files);
+		storeFiles(target.files, e);
 	}
 
 	// lifecycle

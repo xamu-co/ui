@@ -47,7 +47,7 @@
 
 		.#{utils.$prefix-default}--hidden {
 			// hide visually only
-			@include utils.extend-viewports-classes(true, true) {
+			@include utils.extend-viewports-classes(true, utils.$viewports) {
 				width: 0.1px;
 				height: 0.1px;
 				opacity: 0;
@@ -57,28 +57,8 @@
 			}
 
 			&-full {
-				@include utils.extend-viewports-classes(true, true) {
+				@include utils.extend-viewports-classes(true, utils.$viewports) {
 					display: none !important;
-				}
-			}
-		}
-
-		a,
-		label,
-		button {
-			> .#{utils.$prefix-default}--hidden {
-				@include utils.extend-viewports-classes(true, true) {
-					& + * {
-						margin-left: 0;
-					}
-				}
-
-				&-full {
-					@include utils.extend-viewports-classes(true, true) {
-						& + * {
-							margin-left: 0;
-						}
-					}
 				}
 			}
 		}

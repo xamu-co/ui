@@ -4,18 +4,21 @@
 //
 // @group Components
 @mixin input-radio {
+	$radius-action-round: module.strip-unit(module.$size-radius-action-round);
+
 	@layer definitions {
-		.#{module.$component-input-radio} {
-			@at-root input[type^="r"]#{&} {
-				@include module.action-toggle-styles;
+		input[type^="r"].#{module.$component-input-radio} {
+			@include module.action-toggle-styles;
 
+			// Toggle size
+			@include module.extend-sizes($viewports: module.$viewports) using($size, $unit) {
 				+ label::after {
-					border-radius: 50% * module.$radius-action;
+					border-radius: $size * $radius-action-round;
 				}
+			}
 
-				&:checked + label::after {
-					content: "\f111";
-				}
+			&:checked + label::after {
+				content: "\f111";
 			}
 		}
 	}

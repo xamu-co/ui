@@ -4,7 +4,8 @@
 			<BaseInput
 				v-model="model"
 				v-bind="{
-					..._.omit($attrs, 'class'),
+					...omit($attrs, 'class'),
+					...omit(props, ['modelValue', 'size']),
 					type: textarea ? 'textarea' : inputType,
 					placeholder,
 					disabled,
@@ -20,9 +21,9 @@
 		</BaseWrapper>
 		<template v-if="type === 'number' && (Number.isInteger(min) || Number.isInteger(max))">
 			<ActionButtonToggle
-				:disabled="Number(model) <= minValue"
+				:disabled="disabled || Number(model) <= minValue"
 				:size="size"
-				:theme="theme"
+				:theme="textInputTheme"
 				:aria-label="t('decrease')"
 				:tooltip="t('decrease')"
 				tooltip-position="left"
@@ -34,9 +35,9 @@
 				<IconFa name="minus" regular />
 			</ActionButtonToggle>
 			<ActionButtonToggle
-				:disabled="Number(model) >= maxValue"
+				:disabled="disabled || Number(model) >= maxValue"
 				:size="size"
-				:theme="theme"
+				:theme="textInputTheme"
 				:tooltip="t('increase')"
 				tooltip-position="left"
 				round
@@ -50,12 +51,12 @@
 </template>
 
 <script setup lang="ts">
-	import { computed } from "vue";
-	import _ from "lodash";
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
+	import { computed } from "vue";
+	import omit from "lodash-es/omit";
 
 	import type { iFormIconProps, tTextInputType } from "@open-xamu-co/ui-common-types";
-	import { useI18n, useUtils } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseWrapper from "../base/Wrapper.vue";
 	import BaseInput from "../base/Input.vue";
@@ -71,7 +72,7 @@
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
 	import useTheme from "../../composables/theme";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	interface iInputTextProps
 		extends iInputProps,
@@ -112,10 +113,9 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { getClassesString } = useHelpers(useUtils);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
-	const { themeClasses } = useTheme(props);
+	const { themeClasses, themeValues, dangerThemeValues } = useTheme(props);
 
 	const inputType = computed(() => props.type ?? "text");
 	const minValue = computed(() => Number(props.min) || 0);
@@ -137,10 +137,10 @@
 		set: (value) => emit("update:model-value", value),
 	});
 	const inputClasses = computed(() => {
-		return [
-			"iTxt",
-			getClassesString([modifiersClasses.value, stateClasses.value, themeClasses.value]),
-		];
+		return [modifiersClasses.value, stateClasses.value, themeClasses.value, "iTxt"];
+	});
+	const textInputTheme = computed(() => {
+		return props.invalid ? dangerThemeValues.value : themeValues.value;
 	});
 
 	/**

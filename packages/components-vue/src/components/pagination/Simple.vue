@@ -1,21 +1,24 @@
 <template>
-	<ul v-if="currentPage" class="flx --flxRow-wrap --flx-center --gap-5 --gap:sm">
-		<li v-if="pagination?.first">
+	<ul
+		v-if="currentPage && modelValue"
+		class="flx --flxRow-wrap --flx-center --gap-5 --gap-10:sm --gap:md --width-fit"
+	>
+		<li v-if="modelValue.first">
 			<p class="--txtSize-sm">
 				{{ t("pagination_items", currentPage.totalCount) }}
 				⋅
-				{{ t("pagination_pages", Math.ceil(currentPage.totalCount / pagination?.first)) }}
+				{{ t("pagination_pages", Math.ceil(currentPage.totalCount / modelValue.first)) }}
 			</p>
 		</li>
-		<li v-if="withRoute">
+		<li v-if="!hidePageLength && currentPage.totalCount > 5">
 			<ul class="flx --flxRow-wrap --flx-center --gap-5 --gap:sm">
-				<li v-if="!hidePageLength && currentPage.totalCount > 5">
+				<li>
 					<SelectSimple
-						id="order"
+						id="first"
 						v-model="firstModel"
 						:theme="theme"
 						class="--maxWidthVw-60"
-						name="order"
+						name="first"
 						:options="[5, 10, 25, 50, 100]"
 					/>
 				</li>
@@ -53,9 +56,9 @@
 </template>
 
 <script setup lang="ts" generic="T, C extends string | number">
-	import { computed, getCurrentInstance } from "vue";
+	import { computed, inject } from "vue";
 
-	import type { iPagination, iPage } from "@open-xamu-co/ui-common-types";
+	import type { iPagination, iPage, iPluginOptions } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -63,13 +66,9 @@
 	import SelectSimple from "../select/Simple.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
-	import useHelpers from "../../composables/helpers";
+	import { useHelpers } from "../../composables/utils";
 
 	export interface iPaginationSimpleProps<Ti, Ci extends string | number> extends iUseThemeProps {
-		/**
-		 * paginate using route
-		 */
-		withRoute?: boolean;
 		/**
 		 * hide page length picker
 		 */
@@ -77,13 +76,12 @@
 		/**
 		 * pagination params
 		 */
-		pagination?: iPagination;
-		currentPage: iPage<Ti, Ci> | null;
+		modelValue?: iPagination;
+		currentPage?: iPage<Ti, Ci> | null;
 	}
 
 	/**
 	 * Pagination controls
-	 * TODO: support non router pagination
 	 *
 	 * @component
 	 * @example
@@ -92,11 +90,11 @@
 
 	defineOptions({ name: "PaginationSimple", inheritAttrs: false });
 
+	const emit = defineEmits(["update:model-value"]);
 	const props = defineProps<iPaginationSimpleProps<T, C>>();
 
+	const xamuOptions = inject<iPluginOptions>("xamu");
 	const { t } = useHelpers(useI18n);
-
-	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
 	/**
 	 * Set at
@@ -105,24 +103,16 @@
 	 * @replace
 	 */
 	function setAt(at?: string | number) {
-		if (!router) return;
-
-		const route = router.currentRoute.value;
-
-		router.push({ path: route.path, query: { ...route.query, at } });
+		emit("update:model-value", { ...props.modelValue, at });
 	}
 
 	/**
 	 * PaginationSimple first model
 	 */
 	const firstModel = computed({
-		get: () => String(props.pagination?.first),
-		set(first: string | number) {
-			if (!router) return;
-
-			const route = router.currentRoute.value;
-
-			router.push({ path: route.path, query: { first } });
+		get: () => props.modelValue?.first ?? xamuOptions?.first,
+		set(first) {
+			emit("update:model-value", { ...props.modelValue, first });
 		},
 	});
 </script>
