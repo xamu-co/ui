@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.0...@open-xamu-co/ui-common-helpers-v3.0.1) (2025-03-31)
+
+
+### Bug Fixes
+
+* retype form inputs ([96edb0e](https://github.com/xamu-co/ui/commit/96edb0e1edaedb743fc34fc804790c244d5db6c8))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.1"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v2.0.0...@open-xamu-co/ui-common-helpers-v3.0.0) (2025-03-30)
 
 
