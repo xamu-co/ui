@@ -19,9 +19,13 @@ import {
  * @param value any value
  * @returns {boolean}
  */
-export function notEmptyValue<V extends iFormValue = iFormValue>(
-	value: V | V[],
-	defaults?: [iFormInputDefault, iFormInputDefault, ...iFormInputDefault[]]
+export function notEmptyValue<V extends iFormValue | iFormValue[] = iFormValue | iFormValue[]>(
+	value: V,
+	defaults?: [
+		iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>,
+		iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>,
+		...iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>[],
+	]
 ): boolean {
 	if (Array.isArray(value)) {
 		// if not required bypass
@@ -36,10 +40,10 @@ export function notEmptyValue<V extends iFormValue = iFormValue>(
 /**
  * check if single FormInput value from values is valid
  */
-export function isValidValue<V extends iFormValue = iFormValue>(
-	value: V | V[],
-	input: tFormInput
-): boolean {
+export function isValidValue<
+	V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
+	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple,
+>(value: V, input: tFormInput<V, T>): boolean {
 	// empty values are falsy
 	if (!notEmptyValue(value, input.defaults)) return false;
 

@@ -1,6 +1,6 @@
 import type {
-	iFormInput,
 	tFormAutocomplete,
+	tFormInput,
 	tLocaleForm,
 	tTextInputType,
 } from "@open-xamu-co/ui-common-types";
@@ -9,7 +9,7 @@ import { eFormType } from "@open-xamu-co/ui-common-enums";
 
 import { useHelpers } from "../composables/utils";
 
-export default function useInput({ input }: { input: iFormInput }) {
+export default function useInput({ input }: { input: tFormInput }) {
 	const { t, tet } = useHelpers(useI18n);
 
 	/**
