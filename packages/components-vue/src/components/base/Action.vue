@@ -34,7 +34,7 @@
 
 	const props = defineProps<iActionProps>();
 
-	const xamuOptions = inject<iPluginOptions>("xamu");
+	const { routerComponent } = inject<iPluginOptions>("xamu") || {};
 	const { getModifierClasses: GMC } = useHelpers(useUtils);
 
 	const currentTag = computed(() => {
@@ -44,7 +44,7 @@
 	});
 
 	const actionComponent = computed(() => {
-		return (props.to && xamuOptions?.routerComponent) || currentTag.value;
+		return (props.to && routerComponent) || currentTag.value;
 	});
 
 	/**

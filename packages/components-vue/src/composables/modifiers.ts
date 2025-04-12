@@ -11,16 +11,19 @@ import { useHelpers } from "../composables/utils";
  * @composable
  */
 export default function useModifiers(props: iUseModifiersProps) {
-	const { getModifierClasses: GMC } = useHelpers(useUtils);
+	return useHelpers((xo) => {
+		const { getModifierClasses: GMC } = useUtils(xo);
 
-	const modifiersClasses = computed<string[]>(() => {
-		const hidden = props.hidden || (typeof props.hidden === "string" && !props.hidden.length);
+		const modifiersClasses = computed<string[]>(() => {
+			const hidden =
+				props.hidden || (typeof props.hidden === "string" && !props.hidden.length);
 
-		return [
-			props.size ? GMC([String(props.size)], { modifier: "size", divider: "-" }) : [],
-			hidden ? GMC(hidden, { modifier: "hidden" }) : [],
-		].flat(2);
+			return [
+				props.size ? GMC([String(props.size)], { modifier: "size", divider: "-" }) : [],
+				hidden ? GMC(hidden, { modifier: "hidden" }) : [],
+			].flat(2);
+		});
+
+		return { modifiersClasses };
 	});
-
-	return { modifiersClasses };
 }

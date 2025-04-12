@@ -29,79 +29,81 @@ function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemeTupl
  * @composable
  */
 export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolean) {
-	const { getModifierClasses: GMC, getPropData } = useHelpers(useUtils);
+	return useHelpers((xo) => {
+		const { getModifierClasses: GMC, getPropData } = useUtils(xo);
 
-	const invertedThemeValues = computed(() => {
-		const [first, second] = getThemeValues(props.theme ?? eColors.SECONDARY);
+		const invertedThemeValues = computed(() => {
+			const [first, second] = getThemeValues(props.theme ?? eColors.SECONDARY);
 
-		const values: [tThemeModifier, tThemeModifier] = [first, second || eColors.LIGHT];
+			const values: [tThemeModifier, tThemeModifier] = [first, second || eColors.LIGHT];
 
-		if (!props.invertTheme) values.reverse();
+			if (!props.invertTheme) values.reverse();
 
-		return values;
+			return values;
+		});
+
+		/** actual theme */
+		const themeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
+			return [invertedThemeValues.value[1], invertedThemeValues.value[0]];
+		});
+		const dangerThemeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
+			return [
+				eColors.DANGER,
+				themeValues.value[1] === eColors.DARK ? eColors.DARK : eColors.LIGHT,
+			];
+		});
+		const shadowClasses = computed<string[]>(() => {
+			let withShadow;
+
+			if (typeof props.shadow === "boolean") withShadow = props.shadow;
+			else {
+				if (!props.shadow?.length) return [];
+
+				withShadow = props.shadow.some((theme) => themeValues.value[0] === theme);
+			}
+
+			if (!withShadow) return [];
+
+			return GMC([{ shadow: withShadow }], { prefix: "" });
+		});
+		const themeClasses = computed<string[]>(() => {
+			if (!props.theme) return [];
+
+			const values = themeAsUnion ? themeValues.value : [themeValues.value[0]];
+
+			return GMC([values.join("-")], { modifier: "tm", divider: "-" });
+		});
+		const dangerThemeClasses = computed<string[]>(() => {
+			if (!props.theme) return [];
+
+			const values = themeAsUnion ? dangerThemeValues.value : [dangerThemeValues.value[0]];
+
+			return GMC([values.join("-")], { modifier: "tm", divider: "-" });
+		});
+		const tooltipAttributes = computed(() => {
+			const tooltipText = props.tooltip && getPropData(props.tooltip);
+			const hasColor = themeValues.value[1] !== eColors.LIGHT;
+
+			return tooltipText
+				? {
+						"aria-label": tooltipText,
+						"data-tooltip": tooltipText,
+						"data-tooltip-position": props.tooltipPosition,
+						"data-tooltip-text": props.tooltipAsText ?? true,
+						"data-tooltip-bg": themeValues.value[0],
+						"data-tooltip-color": hasColor ? themeValues.value[1] : undefined,
+					}
+				: null;
+		});
+
+		return {
+			invertedThemeValues,
+			themeValues,
+			dangerThemeValues,
+			themeClasses,
+			dangerThemeClasses,
+			shadowClasses,
+			tooltipAttributes,
+		};
 	});
-
-	/** actual theme */
-	const themeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
-		return [invertedThemeValues.value[1], invertedThemeValues.value[0]];
-	});
-	const dangerThemeValues = computed<[tThemeModifier, tThemeModifier]>(() => {
-		return [
-			eColors.DANGER,
-			themeValues.value[1] === eColors.DARK ? eColors.DARK : eColors.LIGHT,
-		];
-	});
-	const shadowClasses = computed<string[]>(() => {
-		let withShadow;
-
-		if (typeof props.shadow === "boolean") withShadow = props.shadow;
-		else {
-			if (!props.shadow?.length) return [];
-
-			withShadow = props.shadow.some((theme) => themeValues.value[0] === theme);
-		}
-
-		if (!withShadow) return [];
-
-		return GMC([{ shadow: withShadow }], { prefix: "" });
-	});
-	const themeClasses = computed<string[]>(() => {
-		if (!props.theme) return [];
-
-		const values = themeAsUnion ? themeValues.value : [themeValues.value[0]];
-
-		return GMC([values.join("-")], { modifier: "tm", divider: "-" });
-	});
-	const dangerThemeClasses = computed<string[]>(() => {
-		if (!props.theme) return [];
-
-		const values = themeAsUnion ? dangerThemeValues.value : [dangerThemeValues.value[0]];
-
-		return GMC([values.join("-")], { modifier: "tm", divider: "-" });
-	});
-	const tooltipAttributes = computed(() => {
-		const tooltipText = props.tooltip && getPropData(props.tooltip);
-		const hasColor = themeValues.value[1] !== eColors.LIGHT;
-
-		return tooltipText
-			? {
-					"aria-label": tooltipText,
-					"data-tooltip": tooltipText,
-					"data-tooltip-position": props.tooltipPosition,
-					"data-tooltip-text": props.tooltipAsText ?? true,
-					"data-tooltip-bg": themeValues.value[0],
-					"data-tooltip-color": hasColor ? themeValues.value[1] : undefined,
-				}
-			: null;
-	});
-
-	return {
-		invertedThemeValues,
-		themeValues,
-		dangerThemeValues,
-		themeClasses,
-		dangerThemeClasses,
-		shadowClasses,
-		tooltipAttributes,
-	};
 }

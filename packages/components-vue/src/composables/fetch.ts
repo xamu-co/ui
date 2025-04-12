@@ -1,23 +1,29 @@
-import { inject } from "vue";
-
-import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
+import { useHelpers } from "./utils";
 
 /**
  * Fetch composable
  *
  * @composable
  */
-export default function useFetch() {
-	const { lang } = inject<iPluginOptions>("xamu") || {};
+export default function useFetchUtils() {
+	return useHelpers(({ lang, internals: { ofetch } = {} }) => {
+		function withUrlParams(url: string, params: Record<string, string> = {}) {
+			const urlParams = new URLSearchParams({
+				...params,
+				...(lang && lang !== "en" ? { lang } : {}),
+			});
 
-	function withUrlParams(url: string, params: Record<string, string> = {}) {
-		const urlParams = new URLSearchParams({
-			...params,
-			...(lang && lang !== "en" ? { lang } : {}),
-		});
+			return `${url.split("?")[0]}?${urlParams}`;
+		}
 
-		return `${url.split("?")[0]}?${urlParams}`;
-	}
+		async function useFetch<T>(url: string, params: Record<string, string> = {}): Promise<T> {
+			url = withUrlParams(url, params);
 
-	return { withUrlParams };
+			if (ofetch) return ofetch(url, { cache: "force-cache" });
+
+			return (await fetch(url, { cache: "force-cache" })).json();
+		}
+
+		return { withUrlParams, useFetch };
+	});
 }

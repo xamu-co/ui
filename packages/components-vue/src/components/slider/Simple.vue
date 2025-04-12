@@ -139,7 +139,7 @@
 		intervalDuration: 7000,
 	});
 
-	const xamuOptions = inject<iPluginOptions>("xamu");
+	const { disableAutoAnimate } = inject<iPluginOptions>("xamu") || {};
 	const { t } = useHelpers(useI18n);
 	const { isBrowser } = useHelpers(useUtils);
 
@@ -154,7 +154,7 @@
 	const childCount = ref(0);
 
 	const allowAutoAnimate = computed<boolean>(() => {
-		return !xamuOptions?.disableAutoAnimate && props.animate;
+		return !disableAutoAnimate && props.animate;
 	});
 
 	const sliderTag = computed(() => {

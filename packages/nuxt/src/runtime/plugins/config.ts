@@ -1,5 +1,7 @@
 /* eslint-disable import/no-unresolved */
 
+import { ofetch } from "ofetch";
+
 import type { iVuePluginOptions } from "@open-xamu-co/ui-components-vue/plugin";
 import type { tLogger } from "@open-xamu-co/ui-common-types";
 
@@ -11,7 +13,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
 	const xamu: iVuePluginOptions = {
 		routerComponent: NuxtLink,
 		imageComponent: NuxtImg,
-		asyncDataFn: useAsyncData,
+		internals: { useAsyncData, ofetch },
 		// override defaults
 		...options,
 	};

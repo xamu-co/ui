@@ -93,7 +93,7 @@
 	const emit = defineEmits(["update:model-value"]);
 	const props = defineProps<iPaginationSimpleProps<T, C>>();
 
-	const xamuOptions = inject<iPluginOptions>("xamu");
+	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
 	const { t } = useHelpers(useI18n);
 
 	/**
@@ -110,7 +110,7 @@
 	 * PaginationSimple first model
 	 */
 	const firstModel = computed({
-		get: () => props.modelValue?.first ?? xamuOptions?.first,
+		get: () => props.modelValue?.first ?? defaultFirst,
 		set(first) {
 			emit("update:model-value", { ...props.modelValue, first });
 		},
