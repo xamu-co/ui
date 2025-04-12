@@ -49,6 +49,7 @@ export default defineNuxtModule<XamuModuleOptions>({
 		locale,
 		lang: "en",
 		first: 10,
+		countriesUrl: "/_countries",
 	},
 	async setup(moduleOptions, nuxt) {
 		const { globalComponents, componentPrefix, image, countriesUrl } = moduleOptions;
@@ -57,7 +58,7 @@ export default defineNuxtModule<XamuModuleOptions>({
 
 		nuxt.options.vite.resolve = { ...nuxt.options.vite.resolve, preserveSymlinks: true };
 
-		// @ts-ignore
+		// @ts-ignore Inject plugin options
 		nuxt.options.appConfig.xamu = moduleOptions;
 
 		if (!moduleOptions.disableCSSMeta) {
@@ -85,10 +86,16 @@ export default defineNuxtModule<XamuModuleOptions>({
 
 		if (
 			countriesUrl &&
-			!countriesUrl.includes("countries.xamu.com.co/api/v1") &&
+			!countriesUrl?.includes("countries.xamu.com.co") &&
 			!moduleOptions.disableCountriesModule
 		) {
-			const { pathname } = new URL(countriesUrl);
+			let pathname = countriesUrl;
+
+			try {
+				pathname = new URL(countriesUrl).pathname;
+			} catch (err) {
+				// Do nothing, will crash if pathname only
+			}
 
 			await installModule("nuxt-countries-api", { base: pathname });
 		}

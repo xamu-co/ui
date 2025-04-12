@@ -120,7 +120,7 @@
 	});
 	const emit = defineEmits(["refresh", "hasContent"]);
 
-	const xamuOptions = inject<iPluginOptions>("xamu");
+	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
 	/**
@@ -134,7 +134,7 @@
 	};
 	const propsPagination = ref<iPagination>({
 		orderBy: props.orderBy,
-		first: props.first ?? xamuOptions?.first,
+		first: props.first ?? defaultFirst,
 		at: props.at,
 	});
 	const routePagination = computed<iPagination>(() => {

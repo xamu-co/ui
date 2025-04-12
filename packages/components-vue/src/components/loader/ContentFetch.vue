@@ -102,8 +102,8 @@
 	const emit = defineEmits(["refresh"]);
 
 	const { logger } = useHelpers(useUtils);
-	const xamuOptions = inject<iVuePluginOptions>("xamu");
-	const useAsyncData: typeof useAsyncDataFn = xamuOptions?.asyncDataFn ?? useAsyncDataFn;
+	const { internals } = inject<iVuePluginOptions>("xamu") || {};
+	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
 
 	const firstLoad = ref(false);
 	const hydrated = ref(false);

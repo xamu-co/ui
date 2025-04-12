@@ -108,7 +108,9 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 */
 	country?: string;
 	/**
-	 * Countries API base endpoint (full URL)
+	 * Countries API base endpoint
+	 *
+	 * Pathname or full URL (With pathname)
 	 *
 	 * If using nuxt, get better performance with the module
 	 * @see https://www.npmjs.com/package/nuxt-countries-api

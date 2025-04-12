@@ -1,11 +1,16 @@
 import { inject } from "vue";
 
-import type { iPluginOptions, tOrder, tOrderBy } from "@open-xamu-co/ui-common-types";
+import type { tOrder, tOrderBy } from "@open-xamu-co/ui-common-types";
 
-export function useHelpers<T>(helper: (o?: iPluginOptions) => T): ReturnType<typeof helper> {
-	const xamuOptions = inject<iPluginOptions>("xamu");
+import type { iVuePluginOptions } from "../plugin";
 
-	return helper(xamuOptions);
+export function useHelpers<T>(
+	helper: (o: iVuePluginOptions & { countriesUrl: string }) => T
+): ReturnType<typeof helper> {
+	const { countriesUrl = "https://countries.xamu.com.co/api/v1", ...xo } =
+		inject<iVuePluginOptions>("xamu") || {};
+
+	return helper({ ...xo, countriesUrl });
 }
 
 export function useOrderBy(orderByParam: any): tOrderBy[] {

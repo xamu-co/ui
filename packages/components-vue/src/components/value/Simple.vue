@@ -161,13 +161,10 @@
 
 	const props = defineProps<iValueSimpleProps<P>>();
 
-	const xamuOptions = inject<iPluginOptions>("xamu");
+	const { lang = "en", country = "US", imageHosts = [] } = inject<iPluginOptions>("xamu") || {};
 	const { t } = useHelpers(useI18n);
 
 	const locale = computed(() => {
-		const lang = xamuOptions?.lang || "en";
-		const country = xamuOptions?.country || "US";
-
 		return `${lang}-${country}`;
 	});
 
@@ -181,10 +178,10 @@
 		const [firstPart] = url.split("?");
 
 		// host is required
-		if (isURL(firstPart) && xamuOptions?.imageHosts?.length) {
+		if (isURL(firstPart) && imageHosts.length) {
 			const url = new URL(firstPart);
 
-			if (xamuOptions.imageHosts.includes(url.host)) return true;
+			if (imageHosts.includes(url.host)) return true;
 		}
 
 		return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(firstPart);

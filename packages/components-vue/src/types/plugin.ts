@@ -9,5 +9,14 @@ export type vComponent<P extends Record<string, any> = Record<string, any>> =
 	| DefineComponent<P>;
 
 export interface iVuePluginOptions extends iPluginOptions<vComponent> {
-	asyncDataFn?: typeof useAsyncDataFn;
+	internals?: {
+		/**
+		 * Nuxt Async data
+		 */
+		useAsyncData?: typeof useAsyncDataFn;
+		/**
+		 * Nitro fetch
+		 */
+		ofetch?: <T>(url: string, options?: Record<string, any>) => Promise<T>;
+	};
 }
