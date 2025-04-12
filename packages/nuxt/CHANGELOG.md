@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.1-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0...@open-xamu-co/ui-nuxt-v3.0.1-next.1) (2025-04-12)
+
+
+### Bug Fixes
+
+* prefer ofetch ([b97fe6c](https://github.com/xamu-co/ui/commit/b97fe6c82f4158a519e5b80e0d2730e8217a36cc))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v2.1.2...@open-xamu-co/ui-nuxt-v3.0.0) (2025-03-30)
 
 
