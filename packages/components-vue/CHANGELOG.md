@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.0.2-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.1...@open-xamu-co/ui-components-vue-v3.0.2-next.1) (2025-04-12)
+
+
+### Bug Fixes
+
+* prefer ofetch ([b97fe6c](https://github.com/xamu-co/ui/commit/b97fe6c82f4158a519e5b80e0d2730e8217a36cc))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.2-next.1"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0...@open-xamu-co/ui-components-vue-v3.0.1) (2025-03-31)
 
 
