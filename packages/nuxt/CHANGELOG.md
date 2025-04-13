@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.1-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.1-next.1...@open-xamu-co/ui-nuxt-v3.0.1-next.2) (2025-04-13)
+
+
+### Bug Fixes
+
+* use global ([fc17577](https://github.com/xamu-co/ui/commit/fc1757767b93b288c7460a5173f90a13c4e0657a))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.1-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0...@open-xamu-co/ui-nuxt-v3.0.1-next.1) (2025-04-12)
 
 
