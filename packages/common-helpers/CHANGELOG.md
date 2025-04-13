@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.0.2-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.2-next.2...@open-xamu-co/ui-common-helpers-v3.0.2-next.3) (2025-04-13)
+
+
+### Bug Fixes
+
+* omit plugin config from locale ([64a4041](https://github.com/xamu-co/ui/commit/64a40415387fa6760d90036c3cd1defc9a70f6b6))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.0.2-next.3"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.2-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.2-next.1...@open-xamu-co/ui-common-helpers-v3.0.2-next.2) (2025-04-13)
 
 
