@@ -3,8 +3,6 @@ import get from "lodash-es/get";
 import trim from "lodash-es/trim";
 import has from "lodash-es/has";
 
-import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
-
 interface iUseI18n<L extends Record<string, string | Record<string, string>>> {
 	/**
 	 * Interpolates localized text
@@ -41,7 +39,7 @@ interface iUseI18n<L extends Record<string, string | Record<string, string>>> {
  * @composable
  */
 export default function useI18n<L extends Record<string, string | Record<string, string>>>(
-	options: iPluginOptions & { locale?: L } = {}
+	options: { locale?: L } = {}
 ): iUseI18n<L> {
 	function t<K extends string & keyof L, Ko extends L[K], KA extends string & keyof Ko>(
 		key: Ko extends string ? K : `${K}.${KA}`,
