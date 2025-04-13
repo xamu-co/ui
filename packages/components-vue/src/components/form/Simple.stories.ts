@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
-import SimpleComponent from "./Simple.vue";
 import { FormInput } from "@open-xamu-co/ui-common-helpers";
 import { eFormType } from "@open-xamu-co/ui-common-enums";
+
+import FormSimpleComponent from "./Simple.vue";
 
 const inputs: FormInput[] = [
 	new FormInput({
@@ -60,13 +61,13 @@ const inputs: FormInput[] = [
 	}),
 ];
 
-const meta = {
+const meta: Meta = {
 	title: "Form/Form Simple",
-	component: SimpleComponent as Record<keyof typeof SimpleComponent, unknown>,
+	component: FormSimpleComponent as any,
 	args: { modelValue: inputs },
-} satisfies Meta<typeof SimpleComponent>;
+};
 
-type Story = StoryObj<typeof SimpleComponent>;
+type Story = StoryObj<typeof meta>;
 
 export const Form: Story = {
 	args: { modelValue: inputs },
