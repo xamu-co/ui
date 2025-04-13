@@ -89,40 +89,42 @@ export default function useUtils(options: iPluginOptions = {}): iUseUtils {
 		console.error(at, "Unknown error", error);
 	};
 
+	function getModifierClasses(values: tPropsModifier, config: igetModifiersArgs = {}): string[] {
+		if (!values) return [];
+
+		const { prefix, modifier, divider } = {
+			prefix: "",
+			modifier: "",
+			divider: "",
+			// override defaults
+			...config,
+		};
+		const modifierClass = config?.modifierClass || `${prefix}--${modifier}`;
+
+		if (Array.isArray(values)) {
+			return values
+				.map((value) => {
+					if (typeof value === "string") return modifierClass + divider + value;
+
+					return Object.keys(value).map((key) => {
+						// validate truthiness
+						if (!!value[key]) return modifierClass + key;
+					});
+				})
+				.flat(2)
+				.filter((value): value is string => !!value);
+		} else if (typeof values === "boolean") {
+			return [modifierClass];
+		}
+
+		return getModifierClasses([values], { modifierClass });
+	}
+
 	return {
 		logger: options.logger || logger,
 		isBrowser,
 		isTouchDevice,
-		getModifierClasses(values: tPropsModifier, config: igetModifiersArgs = {}): string[] {
-			if (!values) return [];
-
-			const { prefix, modifier, divider } = {
-				prefix: "",
-				modifier: "",
-				divider: "",
-				// override defaults
-				...config,
-			};
-			const modifierClass = config?.modifierClass || `${prefix}--${modifier}`;
-
-			if (Array.isArray(values)) {
-				return values
-					.map((value) => {
-						if (typeof value === "string") return modifierClass + divider + value;
-
-						return Object.keys(value).map((key) => {
-							// validate truthiness
-							if (!!value[key]) return modifierClass + key;
-						});
-					})
-					.flat(2)
-					.filter((value): value is string => !!value);
-			} else if (typeof values === "boolean") {
-				return [modifierClass];
-			}
-
-			return this.getModifierClasses([values], { modifierClass });
-		},
+		getModifierClasses,
 		getPropData<T extends string>(prop: tProp<T>, index = 0): T | undefined {
 			if (typeof prop !== "string") {
 				const [key, value] = Object.entries(prop)[index];
