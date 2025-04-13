@@ -4,9 +4,9 @@ import type { tOrder, tOrderBy } from "@open-xamu-co/ui-common-types";
 
 import type { iVuePluginOptions } from "../plugin";
 
-export function useHelpers<T>(
+export function useHelpers<T = any>(
 	helper: (o: iVuePluginOptions & { countriesUrl: string }) => T
-): ReturnType<typeof helper> {
+): T {
 	const { countriesUrl = "https://countries.xamu.com.co/api/v1", ...xo } =
 		inject<iVuePluginOptions>("xamu") || {};
 

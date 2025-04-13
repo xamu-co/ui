@@ -309,7 +309,7 @@
 	import useCountries from "../../composables/countries";
 	import { useHelpers } from "../../composables/utils";
 
-	interface iFormInputProps extends iUseThemeProps {
+	export interface iFormInputProps extends iUseThemeProps {
 		modelValue: any[];
 		input: tFormInput;
 		invalid?: iInvalidInput;
