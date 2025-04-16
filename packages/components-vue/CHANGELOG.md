@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.2-next.2...@open-xamu-co/ui-components-vue-v3.1.0-next.1) (2025-04-16)
+
+
+### Features
+
+* conditional image placeholder ([6a93593](https://github.com/xamu-co/ui/commit/6a935939bdac87bbb66ea656dbaead813e6b902f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.1"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.2-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.2-next.1...@open-xamu-co/ui-components-vue-v3.0.2-next.2) (2025-04-13)
 
 
