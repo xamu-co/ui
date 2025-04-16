@@ -1,13 +1,15 @@
 <template>
-	<component :is="imageComponent" v-bind="{ ...$attrs, ...props }" />
+	<component
+		:is="imageComponent"
+		v-bind="{ ...$attrs, ...props }"
+		:placeholder="placeholder || imagePlaceholder"
+	/>
 </template>
 
 <script setup lang="ts">
 	import { type PropType, inject } from "vue";
 
-	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
-
-	import type { vComponent } from "../../types/plugin";
+	import type { iVuePluginOptions } from "../../types/plugin";
 
 	/**
 	 * Img Prototype
@@ -39,7 +41,15 @@
 			type: String as PropType<"eager" | "lazy">,
 			default: "lazy",
 		},
+		/**
+		 * Url to an image to be used as placeholder for images that failed to load
+		 * Overrides the plugin's imagePlaceholder
+		 */
+		placeholder: {
+			type: String,
+			default: null,
+		},
 	});
 
-	const { imageComponent = "img" } = inject<iPluginOptions<vComponent>>("xamu") || {};
+	const { imageComponent = "img", imagePlaceholder } = inject<iVuePluginOptions>("xamu") || {};
 </script>
