@@ -50,6 +50,11 @@ export interface iProperty<
 	 * Render using this component instead
 	 */
 	component?: ComponentType;
+	/**
+	 * Url to an image to be used as placeholder for images that failed to load
+	 * Overrides the plugin's imagePlaceholder
+	 */
+	imagePlaceholder?: string;
 }
 
 export type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;

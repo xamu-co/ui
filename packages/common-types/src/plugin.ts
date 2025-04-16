@@ -52,6 +52,10 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 */
 	imageComponent?: ComponentType | string;
 	/**
+	 * Url to an image to be used as placeholder for images that failed to load
+	 */
+	imagePlaceholder?: string;
+	/**
 	 * Host that contain images
 	 * Treat the url within them as images
 	 *

@@ -12,6 +12,7 @@
 				class="--bgColor-light --width-100 --height-100"
 				:src="src"
 				:alt="label"
+				:placeholder="imagePlaceholder"
 			/>
 		</div>
 		<p>
@@ -62,6 +63,11 @@
 		 * @required true
 		 */
 		label: string;
+		/**
+		 * Url to an image to be used as placeholder for images that failed to load
+		 * Overrides the plugin's imagePlaceholder
+		 */
+		imagePlaceholder?: string;
 	}
 
 	/**

@@ -45,7 +45,13 @@
 			:href="value"
 			target="_blank"
 		>
-			<BaseImg preset="avatar" :src="value" :alt="value" class="--bgColor-none" />
+			<BaseImg
+				preset="avatar"
+				:src="value"
+				:alt="value"
+				:placeholder="property?.imagePlaceholder"
+				class="--bgColor-none"
+			/>
 		</BaseAction>
 		<!-- String, URL -->
 		<ActionLink
