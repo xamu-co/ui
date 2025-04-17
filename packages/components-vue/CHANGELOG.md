@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.1...@open-xamu-co/ui-components-vue-v3.1.0-next.2) (2025-04-17)
+
+
+### Bug Fixes
+
+* file thumbnail aligment ([8c1eacc](https://github.com/xamu-co/ui/commit/8c1eacc4b6fc77ab9e9b508b26ae832793bcb83b))
+* optimize table visibility ([b09b97d](https://github.com/xamu-co/ui/commit/b09b97de0aae068e9589449c86198917c19064a5))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.2"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.2-next.2...@open-xamu-co/ui-components-vue-v3.1.0-next.1) (2025-04-16)
 
 
