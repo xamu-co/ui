@@ -87,7 +87,7 @@
 								cloneNodeAndRefresh,
 								deleteNodeAndRefresh,
 								deleteNodesAndRefresh,
-								show: showChildren(nodeIndex, node),
+								show: visibility[nodeIndex].show,
 							}"
 						></slot>
 						<ActionButton
@@ -99,7 +99,7 @@
 							:size="size"
 							round
 							:disabled="selectedNodes.some(([n]) => n)"
-							@click="updateNodeAndRefresh(node)"
+							@click="() => updateNodeAndRefresh(node)"
 						>
 							<IconFa name="pencil" />
 						</ActionButton>
@@ -119,7 +119,7 @@
 									:size="size"
 									:disabled="selectedNodes.some(([n]) => n)"
 									toggle="dropdown"
-									@click="setModel()"
+									@click="() => setModel()"
 								>
 									<IconFa name="ellipsis-vertical" />
 								</ActionLink>
@@ -131,7 +131,7 @@
 											:theme="invertedTheme"
 											:size="size"
 											:aria-label="t('table_duplicate')"
-											@click="cloneNodeAndRefresh(node, setModel)"
+											@click="() => cloneNodeAndRefresh(node, setModel)"
 										>
 											<IconFa name="clone" />
 											<span>
@@ -145,7 +145,12 @@
 											:size="size"
 											:aria-label="t('table_delete')"
 											@click="
-												deleteNodeAndRefresh(node, setModel, dropdownRef)
+												() =>
+													deleteNodeAndRefresh(
+														node,
+														setModel,
+														dropdownRef
+													)
 											"
 										>
 											<IconFa name="trash-can" />
@@ -160,7 +165,7 @@
 											cloneNodeAndRefresh,
 											deleteNodeAndRefresh,
 											deleteNodesAndRefresh,
-											show: showChildren(nodeIndex, node),
+											show: visibility[nodeIndex].show,
 										}"
 									></slot>
 								</ul>
@@ -173,7 +178,7 @@
 				<tr class="no--hover --width-100">
 					<td :colspan="propertiesMeta.length + 2">
 						<div
-							v-show="showChildren(nodeIndex, node)"
+							v-show="visibility[nodeIndex].show"
 							class="box --button --bdr-solid --bgColor-none"
 						>
 							<slot
@@ -183,7 +188,7 @@
 									cloneNodeAndRefresh,
 									deleteNodeAndRefresh,
 									deleteNodesAndRefresh,
-									show: showChildren(nodeIndex, node),
+									show: visibility[nodeIndex].show,
 								}"
 							></slot>
 						</div>
@@ -195,10 +200,10 @@
 							<ActionLink
 								:theme="theme || themeValues"
 								:size="size"
-								:active="showChildren(nodeIndex, node)"
+								:active="visibility[nodeIndex].show"
 								:tooltip="
 									t(
-										showChildren(nodeIndex, node)
+										visibility[nodeIndex].show
 											? 'table_hide_name'
 											: 'table_see_name',
 										{
@@ -210,12 +215,15 @@
 									)
 								"
 								tooltip-position="right"
-								:disabled="!childrenCount(node) || showNodeChildren?.(node)"
+								:disabled="
+									!visibility[nodeIndex].childrenCount ||
+									visibility[nodeIndex].showNodeChildren
+								"
 								class="--p-5"
-								@click="toggleChildren(nodeIndex)"
+								@click="() => toggleChildren(nodeIndex)"
 							>
-								<span v-if="childrenCount(node) >= 1">
-									{{ childrenCount(node) }}
+								<span v-if="visibility[nodeIndex].childrenCount >= 1">
+									{{ visibility[nodeIndex].childrenCount }}
 								</span>
 								<IconFa name="chevron-down" indicator />
 							</ActionLink>
@@ -223,7 +231,7 @@
 								v-if="createNodeChildren"
 								:theme="theme || themeValues"
 								:size="size"
-								:disabled="!!disableCreateNodeChildren?.(node)"
+								:disabled="visibility[nodeIndex].disableCreateNodeChildren"
 								:tooltip="
 									t('table_create_new_name', {
 										name:
@@ -236,7 +244,7 @@
 								class="--p-5:md-inv"
 								link-button
 								round
-								@click="createNodeChildren(node)"
+								@click="() => createNodeChildren?.(node)"
 							>
 								<IconFa name="plus" />
 							</ActionButtonLink>
@@ -254,6 +262,8 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>">
+	import { computed } from "vue";
+
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -270,6 +280,13 @@
 
 	export interface iTableBodyProps<Ti extends Record<string, any>> extends iTableChildProps<Ti> {}
 
+	interface INodeVisibility {
+		disableCreateNodeChildren?: boolean;
+		showNodeChildren?: boolean;
+		childrenCount: number;
+		show: boolean;
+	}
+
 	/**
 	 * Table body
 	 *
@@ -283,10 +300,27 @@
 	const { t } = useHelpers(useI18n);
 	const { themeValues, dangerThemeValues } = useTheme(props);
 
-	/** Can the node be shown? */
-	function showChildren(nodeIndex: number, node: T) {
-		const shouldShow = props.selectedNodes[nodeIndex][1] && !!props.childrenCount(node);
+	/**
+	 * Cached node visibility
+	 */
+	const visibility = computed(() => {
+		return props.nodes.reduce(
+			(acc, node, nodeIndex) => {
+				const disableCreateNodeChildren = props.disableCreateNodeChildren?.(node);
+				const showNodeChildren = props.showNodeChildren?.(node);
+				const childrenCount = props.childrenCount(node);
+				const shouldShow = props.selectedNodes[nodeIndex][1] && !!childrenCount;
 
-		return props.showNodeChildren?.(node) ?? shouldShow;
-	}
+				acc[nodeIndex] = {
+					disableCreateNodeChildren,
+					showNodeChildren,
+					childrenCount,
+					show: showNodeChildren ?? shouldShow,
+				};
+
+				return acc;
+			},
+			{} as Record<number, INodeVisibility>
+		);
+	});
 </script>

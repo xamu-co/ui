@@ -26,7 +26,11 @@
 										:active="openNodesCount === selectedNodes.length"
 										round=":sm-inv"
 										@click="
-											toggleAll(!(openNodesCount === selectedNodes.length), 1)
+											() =>
+												toggleAll(
+													!(openNodesCount === selectedNodes.length),
+													1
+												)
 										"
 									>
 										<span class="--hidden-full:sm-inv">
@@ -115,7 +119,7 @@
 						tooltip-as-text
 						tooltip-position="bottom"
 						:size="size"
-						@click="setOrdering('id')"
+						@click="() => setOrdering('id')"
 					>
 						<span>#</span>
 						<template v-if="!!ordering['id']">
@@ -148,7 +152,7 @@
 						tooltip-as-text
 						tooltip-position="bottom"
 						:size="size"
-						@click="setOrdering(meta.value)"
+						@click="() => setOrdering(meta.value)"
 					>
 						<span>{{ meta.alias }}</span>
 						<template v-if="!!ordering[meta.value]">
