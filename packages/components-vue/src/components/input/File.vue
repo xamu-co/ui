@@ -15,7 +15,7 @@
 					class="flx --flxRow --flx-start-center --gap-5"
 				>
 					<BaseAction
-						class="avatar --index --bdr"
+						class="avatar --index --bdr flx --flx-center"
 						:tooltip="t('file_delete_files', 1)"
 						tooltip-position="bottom"
 						@click.prevent="removeFile(thumb_index)"
