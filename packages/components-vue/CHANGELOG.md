@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.2...@open-xamu-co/ui-components-vue-v3.1.0-next.3) (2025-04-19)
+
+
+### Bug Fixes
+
+* no black page on loader fetch ([07e90cc](https://github.com/xamu-co/ui/commit/07e90cc813ace8a366b165d3b61e79ae55031aff))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.3"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.1...@open-xamu-co/ui-components-vue-v3.1.0-next.2) (2025-04-17)
 
 
