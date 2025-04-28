@@ -21,6 +21,7 @@ export default function useFetchUtils() {
 
 			if (ofetch) return ofetch(url, { cache: "force-cache" });
 
+			// Fallback to default fetch
 			return (await fetch(url, { cache: "force-cache" })).json();
 		}
 

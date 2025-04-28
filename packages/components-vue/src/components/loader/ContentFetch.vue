@@ -4,7 +4,7 @@
 			v-bind="{
 				content: !!content && patchedIsContent(content) && firstLoad,
 				errors,
-				loading: loading,
+				loading,
 				refresh,
 				unwrap,
 				theme,
@@ -38,6 +38,7 @@
 	import type { iVuePluginOptions } from "../../types/plugin";
 	import { useAsyncDataFn } from "../../composables/async";
 	import { useHelpers } from "../../composables/utils";
+	import useFetchUtils from "../../composables/fetch";
 
 	export interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
 		noContentMessage?: string;
@@ -102,6 +103,7 @@
 	const emit = defineEmits(["refresh"]);
 
 	const { logger } = useHelpers(useUtils);
+	const { useFetch } = useFetchUtils();
 	const { internals } = inject<iVuePluginOptions>("xamu") || {};
 	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
 
@@ -144,6 +146,7 @@
 			let newData: T | null = null;
 
 			try {
+				if (props.fallback) firstLoad.value = true; // use fallback while the real content loads
 				if (!props.promise && !props.hydratablePromise && !props.url) return null;
 				if (props.preventAutoload) {
 					// is promise like
@@ -152,7 +155,6 @@
 					// Prevent on first load or if url is used as key
 					if (!firstLoad.value || (!!props.url && pl)) return null;
 				}
-				if (props.fallback) firstLoad.value = true; // use fallback while the real content loads
 				if (props.promise || props.hydratablePromise) {
 					const payload = <P>(props.payload || []);
 
@@ -165,7 +167,7 @@
 						)(...payload);
 					}
 				} else if (props.url) {
-					const response = await (await fetch(props.url)).json();
+					const response = await useFetch<any>(props.url);
 					const data = "data" in response ? response.data : response;
 
 					if (response.error) throw new Error(response.error);
@@ -202,7 +204,7 @@
 		 */
 		const possibleSamePromise = !!newPromise && !!oldPromise;
 
-		// prevent muntiple requests
+		// prevent multiple requests
 		if (newPromise === oldPromise || !!possibleSamePromise) return;
 
 		// refresh
