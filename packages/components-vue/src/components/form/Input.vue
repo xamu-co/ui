@@ -122,6 +122,7 @@
 				<FormInputNValues
 					v-else-if="input.type === eFT.PHONE || input.type === eFT.CELLPHONE"
 					v-bind="{ loading, errors, refresh }"
+					:key="indicativesArr.length"
 					:content="!!indicativesArr.length"
 					:model="models[i].value"
 					:values="[2]"
@@ -150,6 +151,7 @@
 					v-else-if="input.type === eFT.LOCATION"
 					v-slot="{ statesReq, citiesReq }"
 					v-bind="{ theme, states, countries, loading, errors, refresh }"
+					:key="`${defaultCountry}-${countriesArr.length}-${statesArr?.length}`"
 					:model="models[i].value"
 				>
 					<SelectFilter
