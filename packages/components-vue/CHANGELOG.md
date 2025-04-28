@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.3...@open-xamu-co/ui-components-vue-v3.1.0-next.4) (2025-04-28)
+
+
+### Bug Fixes
+
+* **vue:** show content no matter what if fallback us provided ([42ebfd0](https://github.com/xamu-co/ui/commit/42ebfd0159ca10d0e08360478c9110f6263a3dee))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.4"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.2...@open-xamu-co/ui-components-vue-v3.1.0-next.3) (2025-04-19)
 
 
