@@ -2,7 +2,7 @@
 	<BaseErrorBoundary :theme="theme">
 		<LoaderContent
 			v-bind="{
-				content: !!content && patchedIsContent(content) && firstLoad,
+				content: !!content && patchedIsContent(content) && (!!fallback || firstLoad),
 				errors,
 				loading,
 				refresh,
@@ -17,7 +17,7 @@
 			:class="$attrs.class"
 		>
 			<slot
-				v-if="!!content && patchedIsContent(content) && firstLoad"
+				v-if="!!content && patchedIsContent(content) && (!!fallback || firstLoad)"
 				v-bind="{ content, refresh, loading, errors }"
 			></slot>
 		</LoaderContent>
@@ -146,7 +146,6 @@
 			let newData: T | null = null;
 
 			try {
-				if (props.fallback) firstLoad.value = true; // use fallback while the real content loads
 				if (!props.promise && !props.hydratablePromise && !props.url) return null;
 				if (props.preventAutoload) {
 					// is promise like
