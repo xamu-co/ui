@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.4...@open-xamu-co/ui-components-vue-v3.1.0-next.5) (2025-04-28)
+
+
+### Bug Fixes
+
+* **vue:** redo faulty fallback fix ([cfc06f8](https://github.com/xamu-co/ui/commit/cfc06f81a16f099816292d08bf683a681a91e7cf))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.5"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.3...@open-xamu-co/ui-components-vue-v3.1.0-next.4) (2025-04-28)
 
 
