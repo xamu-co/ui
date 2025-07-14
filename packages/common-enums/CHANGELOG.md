@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v3.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.0.1-next.1...@open-xamu-co/ui-common-enums-v3.1.0-next.1) (2025-07-14)
+
+
+### Features
+
+* pagination content table ([703652b](https://github.com/xamu-co/ui/commit/703652bc0ba569678392405a214f4cfc9bbfa09a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-enums" version "3.1.0-next.1"[0m
+[34mUpdating "common-types"[0m
+[34mSuccesfully updated "common-types" package[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-enums-v3.0.1-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.0.0...@open-xamu-co/ui-common-enums-v3.0.1-next.1) (2025-07-14)
 
 
