@@ -2,8 +2,7 @@
 	<BaseErrorBoundary :theme="theme">
 		<LoaderContent
 			v-bind="{
-				content:
-					!!content && patchedIsContent(content) && (!!fallback || firstLoad || hydrated),
+				content: patchedIsContent(content) && (!!fallback || firstLoad || hydrated),
 				errors,
 				loading,
 				refresh,
@@ -18,9 +17,7 @@
 			:class="$attrs.class"
 		>
 			<slot
-				v-if="
-					!!content && patchedIsContent(content) && (!!fallback || firstLoad || hydrated)
-				"
+				v-if="patchedIsContent(content) && (!!fallback || firstLoad || hydrated)"
 				v-bind="{ content, refresh, loading, errors }"
 			></slot>
 		</LoaderContent>
@@ -198,8 +195,9 @@
 		},
 	});
 
-	function patchedIsContent(c?: T): boolean {
-		return props.isContent?.(c) ?? !!c;
+	function patchedIsContent(c?: T | null): c is NonNullable<T> {
+		// isContent needs to run always
+		return props.isContent?.(c ?? undefined) ?? !!c;
 	}
 	function validatePromiseLike(newPromise: any, oldPromise: any) {
 		/**
