@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v3.0.1-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.0.0...@open-xamu-co/ui-common-enums-v3.0.1-next.1) (2025-07-14)
+
+
+### Bug Fixes
+
+* handle nuxt hydration behavior ([7d1cd53](https://github.com/xamu-co/ui/commit/7d1cd53b0a0a0ffa4d4dde9f36e60cf45a871412))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-enums" version "3.0.1-next.1"[0m
+[34mUpdating "common-types"[0m
+[34mSuccesfully updated "common-types" package[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-enums-v3.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v2.0.0...@open-xamu-co/ui-common-enums-v3.0.0) (2025-03-30)
 
 
