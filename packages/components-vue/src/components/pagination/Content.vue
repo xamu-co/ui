@@ -177,7 +177,7 @@
 	});
 
 	function isContent(c?: iPage<T, C>): boolean {
-		const hasContent = !!c?.edges.length;
+		const hasContent = !!c?.edges?.length;
 
 		emit("hasContent", hasContent);
 
