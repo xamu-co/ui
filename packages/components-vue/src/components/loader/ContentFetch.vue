@@ -2,7 +2,8 @@
 	<BaseErrorBoundary :theme="theme">
 		<LoaderContent
 			v-bind="{
-				content: !!content && patchedIsContent(content) && (!!fallback || firstLoad),
+				content:
+					!!content && patchedIsContent(content) && (!!fallback || firstLoad || hydrated),
 				errors,
 				loading,
 				refresh,
@@ -17,7 +18,9 @@
 			:class="$attrs.class"
 		>
 			<slot
-				v-if="!!content && patchedIsContent(content) && (!!fallback || firstLoad)"
+				v-if="
+					!!content && patchedIsContent(content) && (!!fallback || firstLoad || hydrated)
+				"
 				v-bind="{ content, refresh, loading, errors }"
 			></slot>
 		</LoaderContent>
@@ -108,35 +111,11 @@
 	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
 
 	const firstLoad = ref(false);
-	const hydrated = ref(false);
 	/** Whether component was deactivated by keep-alive */
 	const deactivated = ref(false);
 
-	const hydrateContent = computed({
-		get: () => (typeof fetchedContent !== "undefined" ? fetchedContent.value : undefined),
-		set: (newContent) => {
-			// prevent hydration
-			if (deactivated.value) return;
-			if (fetchedContent.value && !hydrated.value) return (hydrated.value = true);
-			if (!props.preventAutoload && !firstLoad.value) return;
-
-			fetchedContent.value = newContent;
-		},
-	});
-	const hydrateErrors = computed({
-		get: () => (typeof errors !== "undefined" ? errors.value : undefined),
-		set: (newContent) => {
-			// prevent hydration
-			if (deactivated.value) return;
-			if (errors.value && !hydrated.value) return (hydrated.value = true);
-			if (!props.preventAutoload && !firstLoad.value) return;
-
-			errors.value = newContent;
-		},
-	});
-
 	const {
-		data: fetchedContent,
+		data: content,
 		pending: loading,
 		error: errors,
 		refresh,
@@ -182,7 +161,7 @@
 
 			firstLoad.value = true;
 
-			return newData;
+			return newData ?? props.fallback ?? null;
 		},
 		{
 			default: () => props.fallback,
@@ -191,7 +170,33 @@
 		}
 	);
 
-	const content = computed(() => fetchedContent.value ?? props.fallback);
+	/**
+	 * Whether content was hydrated
+	 * By default, if firstLoad is not set but there is content, it means it was hydrated
+	 */
+	const hydrated = ref<boolean>(!props.fallback && !!content.value);
+	const hydrateContent = computed({
+		get: () => (typeof content !== "undefined" ? content.value : undefined),
+		set: (newContent) => {
+			// prevent hydration
+			if (deactivated.value) return;
+			if (content.value && !hydrated.value) return (hydrated.value = true);
+			if (!props.preventAutoload && !firstLoad.value) return;
+
+			content.value = newContent;
+		},
+	});
+	const hydrateErrors = computed({
+		get: () => (typeof errors !== "undefined" ? errors.value : undefined),
+		set: (newContent) => {
+			// prevent hydration
+			if (deactivated.value) return;
+			if (errors.value && !hydrated.value) return (hydrated.value = true);
+			if (!props.preventAutoload && !firstLoad.value) return;
+
+			errors.value = newContent;
+		},
+	});
 
 	function patchedIsContent(c?: T): boolean {
 		return props.isContent?.(c) ?? !!c;

@@ -86,7 +86,7 @@
 		"sassdoc-theme-herman": "^5.0.1"
 	},
 	"engines": {
-		"node": ">=18",
+		"node": ">=20.19.3",
 		"yarn": ">=1.22.4"
 	},
 	"browserslist": [

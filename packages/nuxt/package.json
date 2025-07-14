@@ -34,7 +34,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=18",
+    "node": ">=20.19.3",
     "yarn": ">=1.22.4"
   },
   "scripts": {
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@nuxt/image": "^1.10.0",
-    "@nuxt/kit": "^3.16.1",
+    "@nuxt/kit": "^3.17.6",
     "@open-xamu-co/ui-common-enums": "^3.0.0",
     "@open-xamu-co/ui-common-helpers": "^3.0.2-next.1",
     "@open-xamu-co/ui-components-vue": "^3.0.2-next.2",
@@ -64,7 +64,7 @@
     "@types/lodash-es": "^4.14.192",
     "lodash-es": "^4.17.21",
     "nuxi": "^3.23.1",
-    "nuxt": "^3.16.1",
+    "nuxt": "^3.17.6",
     "vitest": "^0.33.0"
   }
 }
