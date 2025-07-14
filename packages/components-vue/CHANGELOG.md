@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.6...@open-xamu-co/ui-components-vue-v3.1.0-next.7) (2025-07-14)
+
+
+### Features
+
+* pagination content table ([703652b](https://github.com/xamu-co/ui/commit/703652bc0ba569678392405a214f4cfc9bbfa09a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.7"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.5...@open-xamu-co/ui-components-vue-v3.1.0-next.6) (2025-07-14)
 
 
