@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.5...@open-xamu-co/ui-components-vue-v3.1.0-next.6) (2025-07-14)
+
+
+### Bug Fixes
+
+* handle nuxt hydration behavior ([7d1cd53](https://github.com/xamu-co/ui/commit/7d1cd53b0a0a0ffa4d4dde9f36e60cf45a871412))
+* handle undefined edges ([8eb7215](https://github.com/xamu-co/ui/commit/8eb7215de8239ba223df4c34f19c57b4fbc799a3))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.6"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.4...@open-xamu-co/ui-components-vue-v3.1.0-next.5) (2025-04-28)
 
 
