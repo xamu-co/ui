@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.0.1-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.1-next.2...@open-xamu-co/ui-nuxt-v3.0.1-next.3) (2025-07-14)
+
+
+### Bug Fixes
+
+* handle nuxt hydration behavior ([7d1cd53](https://github.com/xamu-co/ui/commit/7d1cd53b0a0a0ffa4d4dde9f36e60cf45a871412))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.1-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.1-next.1...@open-xamu-co/ui-nuxt-v3.0.1-next.2) (2025-04-13)
 
 

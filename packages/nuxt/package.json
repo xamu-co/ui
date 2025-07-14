@@ -1,6 +1,6 @@
 {
   "name": "@open-xamu-co/ui-nuxt",
-  "version": "3.0.1-next.2",
+  "version": "3.0.1-next.3",
   "description": "Nuxt 3 module for the xamu project",
   "repository": {
     "type": "git",
@@ -48,9 +48,9 @@
   "dependencies": {
     "@nuxt/image": "^1.10.0",
     "@nuxt/kit": "^3.17.6",
-    "@open-xamu-co/ui-common-enums": "^3.0.0",
-    "@open-xamu-co/ui-common-helpers": "^3.0.2-next.1",
-    "@open-xamu-co/ui-components-vue": "^3.0.2-next.2",
+    "@open-xamu-co/ui-common-enums": "^3.0.1-next.1",
+    "@open-xamu-co/ui-common-helpers": "^3.0.2-next.4",
+    "@open-xamu-co/ui-components-vue": "^3.1.0-next.6",
     "nuxt-countries-api": "^1.0.3",
     "sweetalert2": "^11.11.1"
   },
@@ -59,8 +59,8 @@
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/schema": "^3.16.1",
     "@nuxt/test-utils": "^3.17.2",
-    "@open-xamu-co/ui-common-types": "^3.0.2-next.1",
-    "@open-xamu-co/ui-styles": "^4.0.0",
+    "@open-xamu-co/ui-common-types": "^3.1.0-next.2",
+    "@open-xamu-co/ui-styles": "^4.0.1-next.1",
     "@types/lodash-es": "^4.14.192",
     "lodash-es": "^4.17.21",
     "nuxi": "^3.23.1",
