@@ -10,10 +10,9 @@
 			</div>
 			<PaginationContent
 				v-slot="{ content }"
-				v-bind="{ page, url, noContentMessage, preventAutoload, theme, client }"
-				with-route
-				:defaults="{ page: true, ...defaults }"
+				v-bind="{ page, url, noContentMessage, preventAutoload, theme, client, defaults }"
 				class="flx --flxColumn --flx-start-end"
+				with-route
 				@refresh="emittedRefresh = $event"
 				@has-content="hasContent = $event"
 			>
@@ -105,6 +104,7 @@
 	 *
 	 * @component
 	 */
+	defineOptions({ name: "PaginationContentTable" });
 
 	const props = withDefaults(defineProps<iPaginationContentTableProps<T, TM>>(), {
 		mapNode: (node: T) => node as unknown as TM,
