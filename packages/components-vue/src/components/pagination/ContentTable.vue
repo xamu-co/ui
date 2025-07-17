@@ -16,38 +16,33 @@
 				@refresh="emittedRefresh = $event"
 				@has-content="hasContent = $event"
 			>
-				<!-- Prevent hydration issues, data is fetched no matter what -->
-				<BrowserOnly>
-					<Table
-						:nodes="mapNodes(content)"
-						:refresh="refreshData"
-						:class="tableClass"
-						v-bind="{
-							...tableProps,
-							theme,
-							modalProps: {
-								invertTheme: true,
-								class: modalClass ?? tableClass,
-								...tableProps?.modalProps,
-							},
-						}"
-					>
-						<template v-if="$slots.headActions" #headActions>
-							<div class="flx --flxRow --flx-start-center --gap-10 --gap:md">
-								<slot
-									name="headActions"
-									v-bind="{ hasContent, refreshData }"
-								></slot>
-							</div>
-						</template>
-						<template v-if="$slots.tableChildren" #default="tableChildrenScope">
-							<slot
-								name="tableChildren"
-								v-bind="{ ...tableChildrenScope, hasContent, refreshData }"
-							></slot>
-						</template>
-					</Table>
-				</BrowserOnly>
+				<Table
+					:key="JSON.stringify({ url, defaults, length: content?.length })"
+					:nodes="mapNodes(content)"
+					:refresh="refreshData"
+					:class="tableClass"
+					v-bind="{
+						...tableProps,
+						theme,
+						modalProps: {
+							invertTheme: true,
+							class: modalClass ?? tableClass,
+							...tableProps?.modalProps,
+						},
+					}"
+				>
+					<template v-if="$slots.headActions" #headActions>
+						<div class="flx --flxRow --flx-start-center --gap-10 --gap:md">
+							<slot name="headActions" v-bind="{ hasContent, refreshData }"></slot>
+						</div>
+					</template>
+					<template v-if="$slots.tableChildren" #default="tableChildrenScope">
+						<slot
+							name="tableChildren"
+							v-bind="{ ...tableChildrenScope, hasContent, refreshData }"
+						></slot>
+					</template>
+				</Table>
 			</PaginationContent>
 		</div>
 	</BaseErrorBoundary>
@@ -60,7 +55,6 @@
 	import type { iTableProps } from "@open-xamu-co/ui-components-vue";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
-	import BrowserOnly from "../base/BrowserOnly.vue";
 	import Table from "../table/Simple.vue";
 	import PaginationContent from "./Content.vue";
 
