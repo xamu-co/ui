@@ -1,5 +1,6 @@
 <template>
 	<thead>
+		<!-- Action bar -->
 		<tr
 			v-if="(!isReadOnly && nodes.length > 1) || withDefaultSlot || $slots.headActions"
 			class="no--hover"
@@ -91,10 +92,11 @@
 				</table>
 			</td>
 		</tr>
+		<!-- Table header -->
 		<tr v-if="nodes.length" class="--txtAlign" :class="`--txtSize-${size}`">
 			<!-- TODO: define filters, filter table contents -->
 			<th
-				v-if="nodes.length > 1"
+				v-if="nodes.length > 1 || withDefaultSlot"
 				class="--sticky"
 				:class="{ ['is--selected']: sort && !!ordering['id'] }"
 				data-column-name="id"
