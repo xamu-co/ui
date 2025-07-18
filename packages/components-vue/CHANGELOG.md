@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.8...@open-xamu-co/ui-components-vue-v3.1.0-next.9) (2025-07-18)
+
+
+### Bug Fixes
+
+* use box on table to match theme ([7c8a04b](https://github.com/xamu-co/ui/commit/7c8a04b2b8b01ae356f615f51bb217e0f726541b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.9"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.7...@open-xamu-co/ui-components-vue-v3.1.0-next.8) (2025-07-18)
 
 
