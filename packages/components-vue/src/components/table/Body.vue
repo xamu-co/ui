@@ -180,9 +180,12 @@
 				<!-- Row children content -->
 				<tr class="no--hover --width-100">
 					<td :colspan="propertiesMeta.length + 2">
-						<div
+						<BaseBox
 							v-show="visibility[nodeIndex].show"
-							class="box --button --bdr-solid --bgColor-none"
+							:theme="theme || themeValues"
+							transparent
+							button
+							solid
 						>
 							<slot
 								v-bind="{
@@ -194,7 +197,7 @@
 									show: visibility[nodeIndex].show,
 								}"
 							></slot>
-						</div>
+						</BaseBox>
 					</td>
 				</tr>
 				<!-- Row children actions (Acts as a divider of rows when children are hidden) -->
@@ -277,6 +280,7 @@
 	import InputToggle from "../input/Toggle.vue";
 	import ValueComplex from "../value/Complex.vue";
 	import Dropdown from "../dropdown/Simple.vue";
+	import BaseBox from "../base/Box.vue";
 
 	import type { iTableChildProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
