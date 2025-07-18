@@ -1,12 +1,13 @@
 <template>
 	<tbody v-if="nodes.length" :class="classes">
 		<template v-for="(node, nodeIndex) in nodes" :key="nodeIndex">
+			<!-- Row -->
 			<tr
 				class="--txtAlign"
 				:class="[`--txtSize-${size}`, { ['is--selected']: selectedNodes[nodeIndex][0] }]"
 			>
 				<th
-					v-if="nodes.length > 1"
+					v-if="nodes.length > 1 || $slots.default"
 					class="--sticky"
 					:class="{ ['is--selected']: !!ordering['id'] }"
 					data-column-name="id"
@@ -174,7 +175,9 @@
 					</div>
 				</th>
 			</tr>
+			<!-- Row children (Nested table) -->
 			<template v-if="$slots.default">
+				<!-- Row children content -->
 				<tr class="no--hover --width-100">
 					<td :colspan="propertiesMeta.length + 2">
 						<div
@@ -194,6 +197,7 @@
 						</div>
 					</td>
 				</tr>
+				<!-- Row children actions (Acts as a divider of rows when children are hidden) -->
 				<tr class="no--hover">
 					<th class="--sticky --pX-10 --pY-5 --vAlign">
 						<div class="flx --flxRow --flx-end-center --gap-10 --bdr">

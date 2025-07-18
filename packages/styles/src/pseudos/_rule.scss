@@ -23,7 +23,7 @@
 				// @defaults margin
 				& {
 					height: 2px;
-					width: calc(100% + 1rem);
+					width: auto;
 					margin: 0 -0.4rem;
 				}
 			}
@@ -57,8 +57,7 @@
 						// @defaults margin
 						& {
 							width: 2px;
-							height: 100%;
-							height: calc(100% + 1rem);
+							height: auto;
 							margin: -0.4rem 0;
 						}
 					}
