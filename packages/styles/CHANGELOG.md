@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v4.0.1-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.0.1-next.1...@open-xamu-co/ui-styles-v4.0.1-next.2) (2025-07-18)
+
+
+### Bug Fixes
+
+* rule extension ([95eab3f](https://github.com/xamu-co/ui/commit/95eab3ff5848351380f7bd95e935c97858f8fa30))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.0.1-next.2"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v4.0.1-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.0.0...@open-xamu-co/ui-styles-v4.0.1-next.1) (2025-07-14)
 
 
