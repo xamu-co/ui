@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.7...@open-xamu-co/ui-components-vue-v3.1.0-next.8) (2025-07-18)
+
+
+### Bug Fixes
+
+* always show id for tables with children ([340b5f7](https://github.com/xamu-co/ui/commit/340b5f7ae4a4d7a0da31b6196d62af4d30e9da1c))
+* unasuming pagination table defaults ([71f9d00](https://github.com/xamu-co/ui/commit/71f9d00bef64f417b8621ce81a376d9626571f0e))
+* use key on pagination table content ([1f40232](https://github.com/xamu-co/ui/commit/1f40232b1a568421a2924921e21d0589d055e587))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.8"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.6...@open-xamu-co/ui-components-vue-v3.1.0-next.7) (2025-07-14)
 
 
