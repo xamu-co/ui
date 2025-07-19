@@ -10,11 +10,7 @@
 				<table :id="`bulk_${tableId}`" class="tbl tbl-helper" :class="themeClasses">
 					<tbody>
 						<tr class="no--hover">
-							<th
-								v-if="withDefaultSlot || $slots.headActions"
-								class="--sticky"
-								:class="{ '--pBottom-10': !nested }"
-							>
+							<th v-if="withDefaultSlot || $slots.headActions" class="--sticky">
 								<div
 									class="flx --flxRow --flx-start-center --gap-10 --gap:md --flx"
 								>
@@ -56,15 +52,10 @@
 									></slot>
 								</div>
 							</th>
-							<td
-								:class="{ '--pBottom-10': !nested }"
-								:colspan="propertiesMeta.length"
-								width="99%"
-							></td>
+							<td :colspan="propertiesMeta.length" width="99%"></td>
 							<th
 								v-if="!isReadOnly && nodes.length > 1 && deleteNode"
 								class="--sticky"
-								:class="{ '--pBottom-10': !nested }"
 								colspan="0"
 								width="1px"
 							>
