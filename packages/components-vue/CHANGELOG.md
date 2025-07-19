@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.9...@open-xamu-co/ui-components-vue-v3.1.0-next.10) (2025-07-19)
+
+
+### Features
+
+* opaque table ([4e69e86](https://github.com/xamu-co/ui/commit/4e69e86e892f3566068e7d536282036bcc80b482))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.10"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.8...@open-xamu-co/ui-components-vue-v3.1.0-next.9) (2025-07-18)
 
 
