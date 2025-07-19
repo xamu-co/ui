@@ -1,34 +1,53 @@
 <template>
-	<div
-		v-if="nodes.length || $slots.headActions"
-		:class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]"
-	>
+	<template v-if="nodes.length || $slots.headActions">
 		<table
-			:id="tableId"
-			class="tbl --minWidth-100"
+			:id="`${tableId}_actions`"
+			class="tbl --minWidth-100 table-actions"
 			:class="[{ '--nested': nested }, themeClasses]"
 		>
-			<TableHead v-bind="childrenProps" :with-default-slot="!!$slots.default">
+			<TableHeadActions v-bind="childrenProps" :with-default-slot="!!$slots.default">
 				<template v-if="$slots.headActions" #headActions="headScope">
 					<slot name="headActions" v-bind="headScope"></slot>
 				</template>
-			</TableHead>
-			<TableBody v-bind="childrenProps">
-				<template v-if="$slots.default" #default="defaultScope">
-					<slot name="default" v-bind="defaultScope"></slot>
-				</template>
-				<template v-if="$slots.modifyActions" #modifyActions="modifyScope">
-					<slot name="modifyActions" v-bind="modifyScope"></slot>
-				</template>
-				<template
-					v-if="$slots.modifyDropdownActions"
-					#modifyDropdownActions="modifyDropdownScope"
-				>
-					<slot name="modifyDropdownActions" v-bind="modifyDropdownScope"></slot>
-				</template>
-			</TableBody>
+			</TableHeadActions>
 		</table>
-	</div>
+		<BaseWrapper
+			class="--gap-none --p-10 --maxWidth-100"
+			:wrap="!!opaque"
+			:wrapper="BaseBox"
+			:theme="invertedThemeValues"
+			:size="eSizes.SM"
+			solid
+			opaque
+		>
+			<div :class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]">
+				<table
+					:id="`${tableId}_content`"
+					class="tbl --minWidth-100 table-content"
+					:class="[{ '--nested': nested }, themeClasses]"
+				>
+					<TableHeadContent
+						v-bind="childrenProps"
+						:with-default-slot="!!$slots.default"
+					/>
+					<TableBody v-bind="childrenProps">
+						<template v-if="$slots.default" #default="defaultScope">
+							<slot name="default" v-bind="defaultScope"></slot>
+						</template>
+						<template v-if="$slots.modifyActions" #modifyActions="modifyScope">
+							<slot name="modifyActions" v-bind="modifyScope"></slot>
+						</template>
+						<template
+							v-if="$slots.modifyDropdownActions"
+							#modifyDropdownActions="modifyDropdownScope"
+						>
+							<slot name="modifyDropdownActions" v-bind="modifyDropdownScope"></slot>
+						</template>
+					</TableBody>
+				</table>
+			</div>
+		</BaseWrapper>
+	</template>
 	<BoxMessage v-else :theme="theme || themeValues" class="--width-100">
 		<div class="flx --flxRow --flx-center">
 			<span>{{ t("nothing_to_show") }}</span>
@@ -54,7 +73,7 @@
 	import { Md5 } from "ts-md5";
 
 	import type { iNodeFnResponse, tOrder } from "@open-xamu-co/ui-common-types";
-	import { eSizes } from "@open-xamu-co/ui-common-enums";
+	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {
 		toOption,
 		useI18n,
@@ -67,7 +86,10 @@
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
 	import BoxMessage from "../box/Message.vue";
 	import TableBody from "./Body.vue";
-	import TableHead from "./Head.vue";
+	import TableHeadContent from "./HeadContent.vue";
+	import TableHeadActions from "./HeadActions.vue";
+	import BaseBox from "../base/Box.vue";
+	import BaseWrapper from "../base/Wrapper.vue";
 
 	import useTheme from "../../composables/theme";
 	import { useHelpers, useOrderBy } from "../../composables/utils";
@@ -86,12 +108,13 @@
 
 	const props = withDefaults(defineProps<iTableProps<T>>(), {
 		size: eSizes.SM,
+		theme: eColors.SECONDARY,
 	});
 	const emit = defineEmits(["update:sort"]);
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
-	const { themeClasses, themeValues } = useTheme(props);
+	const { themeClasses, themeValues, invertedThemeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
 	/** [selected, show] */

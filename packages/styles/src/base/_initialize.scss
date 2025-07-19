@@ -196,12 +196,14 @@
 		}
 
 		body {
+			--inherit-bg: #{utils.$color-bg};
+
 			min-height: 100%;
 			width: 100%;
 			font-family: utils.family(default);
 			font-size: utils.size();
 			overflow: hidden;
-			background-color: utils.$color-bg;
+			background-color: var(--inherit-bg);
 
 			@if utils.$allow-responsive {
 				@media (width <= utils.$querie-tablet) and (hover: none) {
@@ -211,13 +213,6 @@
 						height: 100%;
 						overflow: hidden auto;
 					}
-				}
-			}
-
-			th,
-			td {
-				&.#{utils.$prefix-default}--sticky {
-					background-color: utils.$color-bg;
 				}
 			}
 		}

@@ -28,6 +28,7 @@
 			v-if="!hideControls"
 			v-model="pagination"
 			v-bind="{ currentPage: content, withRoute, theme }"
+			:class="paginationClass"
 		/>
 	</LoaderContentFetch>
 </template>
@@ -102,6 +103,12 @@
 		 * Whether to fetch data on client side only
 		 */
 		client?: boolean;
+		/**
+		 * Additional class for the pagination
+		 *
+		 * @example --txtColor
+		 */
+		paginationClass?: string | string[] | Record<string, boolean>;
 	}
 
 	/**

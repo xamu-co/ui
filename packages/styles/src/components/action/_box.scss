@@ -59,6 +59,13 @@
 					// @defaults bgColor
 					& {
 						background: module.color($name, 0.1);
+
+						// Only opaque should inherit
+						&.#{module.$prefix-default}--opaque {
+							--inherit-bg: #{module.color($name)};
+
+							background: var(--inherit-bg);
+						}
 					}
 				}
 				&:hover {
@@ -132,15 +139,6 @@
 				}
 				&:has(img) {
 					padding: 0;
-				}
-
-				@include module.extend-themes using($name, $value, $is-default) {
-					@layer defaults {
-						// @defaults bgColor
-						& {
-							background: module.color($name);
-						}
-					}
 				}
 			}
 
