@@ -1,7 +1,10 @@
 <template>
 	<ul
 		v-if="currentPage && modelValue"
-		class="flx --flxRow-wrap --flx-center --gap-5 --gap-10:sm --gap:md --width-fit"
+		:class="
+			$attrs.class ||
+			'flx --flxRow-wrap --flx-center --gap-5 --gap-10:sm --gap:md --width-fit'
+		"
 	>
 		<li v-if="modelValue.first">
 			<p class="--txtSize-sm">

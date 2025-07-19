@@ -319,6 +319,10 @@ export interface iTableProps<Ti extends Record<string, any>> extends iUseThemePr
 				index: number;
 				node: NoInfer<Ti>;
 		  }>;
+	/**
+	 * Make the table container opaque
+	 */
+	opaque?: boolean;
 }
 
 export interface iTableChildProps<Ti extends Record<string, any>> extends iTableProps<Ti> {

@@ -7,6 +7,8 @@
 			stateClasses,
 			themeClasses,
 			GMC(button ?? false, { modifier: 'button' }),
+			{ ' --opaque': opaque },
+			{ ' --square': square },
 			{ ' --bdr-dashed': dashed },
 			{ ' --bdr-solid': solid && !dashed },
 			{ '--bgColor-none': transparent },
@@ -42,6 +44,12 @@
 		solid?: boolean;
 		transparent?: boolean;
 		withColor?: boolean;
+		/** Prefer an opaque background */
+		opaque?: boolean;
+		/**
+		 * Square shape
+		 */
+		square?: boolean;
 	}
 
 	/**
@@ -62,7 +70,11 @@
 	const { themeClasses, themeValues } = useTheme(props);
 
 	const colorClasses = computed(() => {
-		const classes = GMC([themeValues.value[0]], { modifier: "txtColor", divider: "-" });
+		const [theme, themeWithColor] = themeValues.value;
+		const classes = GMC([props.opaque ? themeWithColor : theme], {
+			modifier: "txtColor",
+			divider: "-",
+		});
 
 		return props.withColor ? classes : [];
 	});

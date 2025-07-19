@@ -5,7 +5,7 @@
 		:aria-label="label"
 		button
 	>
-		<div v-if="icon || src" :class="innerThemeClasses" class="box --square">
+		<BaseBox v-if="icon || src" :class="innerThemeClasses" square opaque>
 			<IconFa v-if="icon" v-bind="{ size: 35, ...iconProps, name: icon }" />
 			<BaseImg
 				v-else-if="src"
@@ -14,7 +14,7 @@
 				:alt="label"
 				:placeholder="imagePlaceholder"
 			/>
-		</div>
+		</BaseBox>
 		<p>
 			<!-- Since we only accept label there is no room for slot here -->
 			<b>{{ label }}</b>

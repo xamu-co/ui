@@ -11,7 +11,8 @@
 			<PaginationContent
 				v-slot="{ content }"
 				v-bind="{ page, url, noContentMessage, preventAutoload, theme, client, defaults }"
-				class="flx --flxColumn --flx-start-end"
+				pagination-class="flx --flxRow-wrap --flx-end-center --gap-5 --gap-10:sm --gap:md"
+				class="flx --flxColumn --flx-start-stretch"
 				with-route
 				@refresh="emittedRefresh = $event"
 				@has-content="hasContent = $event"
@@ -22,8 +23,8 @@
 					:refresh="refreshData"
 					:class="tableClass"
 					v-bind="{
-						...tableProps,
 						theme,
+						...tableProps,
 						modalProps: {
 							invertTheme: true,
 							class: modalClass ?? tableClass,
