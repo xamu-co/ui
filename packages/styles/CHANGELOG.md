@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v4.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.0.1-next.2...@open-xamu-co/ui-styles-v4.1.0-next.1) (2025-07-19)
+
+
+### Features
+
+* opaque table ([4e69e86](https://github.com/xamu-co/ui/commit/4e69e86e892f3566068e7d536282036bcc80b482))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.1"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v4.0.1-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.0.1-next.1...@open-xamu-co/ui-styles-v4.0.1-next.2) (2025-07-18)
 
 
