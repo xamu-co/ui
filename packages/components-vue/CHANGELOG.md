@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.10...@open-xamu-co/ui-components-vue-v3.1.0-next.11) (2025-07-19)
+
+
+### Bug Fixes
+
+* remove unnecesary padding on table ([774d88c](https://github.com/xamu-co/ui/commit/774d88ce2c59900b6dc7582a7072a28d6d0f93e2))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.11"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.9...@open-xamu-co/ui-components-vue-v3.1.0-next.10) (2025-07-19)
 
 
