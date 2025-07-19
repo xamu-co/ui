@@ -91,6 +91,7 @@
 
 	import IconFa from "../icon/Fa.vue";
 	import ActionLink from "../action/Link.vue";
+	import InputToggle from "../input/Toggle.vue";
 
 	import type { iTableChildProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
