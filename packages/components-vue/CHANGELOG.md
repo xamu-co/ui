@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.11...@open-xamu-co/ui-components-vue-v3.1.0-next.12) (2025-07-20)
+
+
+### Bug Fixes
+
+* prevent hydration duplication on pagination table content ([0319b83](https://github.com/xamu-co/ui/commit/0319b83a778e17280571b1266db4078810457059))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.12"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.10...@open-xamu-co/ui-components-vue-v3.1.0-next.11) (2025-07-19)
 
 
