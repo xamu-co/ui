@@ -15,6 +15,7 @@
 			client,
 		}"
 		@refresh="$emit('refresh', $event)"
+		@has-content="$emit('has-content', $event)"
 	>
 		<slot
 			v-bind="{
@@ -121,24 +122,15 @@
 	 */
 
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
+	defineEmits(["refresh", "has-content"]);
 
 	const props = withDefaults(defineProps<iPCProps<T, C, R>>(), {
 		processContent: (c: T[]) => c,
 	});
-	const emit = defineEmits(["refresh", "hasContent"]);
 
 	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
-	/**
-	 * Patched promise
-	 */
-	const patchedPromise: iGetPage<T, C> = async (v) => {
-		const transform: (r: any) => iPage<T, C> | undefined = props.transform || ((v) => v);
-		const page = await props.page(v);
-
-		return transform(page);
-	};
 	const propsPagination = ref<iPagination>({
 		orderBy: props.orderBy,
 		first: props.first ?? defaultFirst,
@@ -183,11 +175,17 @@
 		},
 	});
 
+	/**
+	 * Patched promise
+	 */
+	const patchedPromise: iGetPage<T, C> = async (v) => {
+		const transform: (r: any) => iPage<T, C> | undefined = props.transform || ((v) => v);
+		const page = await props.page(v);
+
+		return transform(page);
+	};
+
 	function isContent(c?: iPage<T, C>): boolean {
-		const hasContent = !!c?.edges?.length;
-
-		emit("hasContent", hasContent);
-
-		return hasContent;
+		return !!c?.edges?.length;
 	}
 </script>

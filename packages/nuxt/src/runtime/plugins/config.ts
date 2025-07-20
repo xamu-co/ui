@@ -4,14 +4,14 @@ import type { iVuePluginOptions } from "@open-xamu-co/ui-components-vue/plugin";
 import type { tLogger } from "@open-xamu-co/ui-common-types";
 
 import { defineNuxtPlugin, useAppConfig, useAsyncData } from "#imports";
-import { NuxtLink, NuxtImg } from "#components";
+import { NuxtLink, NuxtImg, ClientOnly } from "#components";
 
 export default defineNuxtPlugin(({ vueApp }) => {
 	const options = useAppConfig().xamu as iVuePluginOptions;
 	const xamu: iVuePluginOptions = {
 		routerComponent: NuxtLink,
 		imageComponent: NuxtImg,
-		internals: { useAsyncData, ofetch: $fetch },
+		internals: { useAsyncData, ofetch: $fetch, clientOnly: ClientOnly },
 		// override defaults
 		...options,
 	};
