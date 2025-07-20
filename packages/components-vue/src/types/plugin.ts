@@ -9,7 +9,15 @@ export type vComponent<P extends Record<string, any> = Record<string, any>> =
 	| DefineComponent<P>;
 
 export interface iVuePluginOptions extends iPluginOptions<vComponent> {
+	/**
+	 * Override internal behavior
+	 * Useful to setup nuxt modules
+	 */
 	internals?: {
+		/**
+		 * Client only component
+		 */
+		clientOnly?: vComponent;
 		/**
 		 * Nuxt Async data
 		 */

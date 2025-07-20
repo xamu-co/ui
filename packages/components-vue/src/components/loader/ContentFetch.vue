@@ -2,7 +2,7 @@
 	<BaseErrorBoundary :theme="theme">
 		<LoaderContent
 			v-bind="{
-				content: patchedIsContent(content) && (!!fallback || firstLoad || hydrated),
+				content: patchedIsContent(content),
 				errors,
 				loading,
 				refresh,
@@ -17,7 +17,7 @@
 			:class="$attrs.class"
 		>
 			<slot
-				v-if="patchedIsContent(content) && (!!fallback || firstLoad || hydrated)"
+				v-if="patchedIsContent(content)"
 				v-bind="{ content, refresh, loading, errors }"
 			></slot>
 		</LoaderContent>
@@ -100,9 +100,9 @@
 	defineOptions({ name: "LoaderContentFetch", inheritAttrs: false });
 
 	const props = defineProps<iLoaderContentFetchProps<T, P>>();
-	const emit = defineEmits(["refresh"]);
+	const emit = defineEmits(["refresh", "has-content"]);
 
-	const { logger } = useHelpers(useUtils);
+	const { logger, isBrowser } = useHelpers(useUtils);
 	const { useFetch } = useFetchUtils();
 	const { internals } = inject<iVuePluginOptions>("xamu") || {};
 	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
@@ -197,7 +197,13 @@
 
 	function patchedIsContent(c?: T | null): c is NonNullable<T> {
 		// isContent needs to run always
-		return props.isContent?.(c ?? undefined) ?? !!c;
+		const isValid = props.isContent?.(c ?? undefined) ?? !!c;
+		const wasFetched = firstLoad.value || !!props.fallback || hydrated.value;
+		const isContent = isValid && wasFetched;
+
+		if (isBrowser) emit("has-content", isContent);
+
+		return isContent;
 	}
 	function validatePromiseLike(newPromise: any, oldPromise: any) {
 		/**

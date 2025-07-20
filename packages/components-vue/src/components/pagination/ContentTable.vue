@@ -32,7 +32,7 @@
 						},
 					}"
 				>
-					<template v-if="$slots.headActions" #headActions>
+					<template v-if="hasContent && $slots.headActions" #headActions>
 						<div class="flx --flxRow --flx-start-center --gap-10 --gap:md">
 							<slot name="headActions" v-bind="{ hasContent, refreshData }"></slot>
 						</div>
@@ -105,7 +105,7 @@
 		mapNode: (node: T) => node as unknown as TM,
 	});
 
-	const hasContent = ref(false);
+	const hasContent = ref(true);
 	const emittedRefresh = ref();
 
 	function refreshData() {
