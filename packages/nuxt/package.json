@@ -48,7 +48,7 @@
   "dependencies": {
     "@nuxt/image": "^1.10.0",
     "@nuxt/kit": "^3.17.6",
-    "@open-xamu-co/ui-common-enums": "^3.0.1-next.1",
+    "@open-xamu-co/ui-common-enums": "^3.1.0-next.1",
     "@open-xamu-co/ui-common-helpers": "^3.0.2-next.4",
     "@open-xamu-co/ui-components-vue": "^3.1.0-next.6",
     "nuxt-countries-api": "^1.0.3",
