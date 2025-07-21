@@ -48,7 +48,7 @@
 							:theme="invertedTheme"
 							:modal-props="{ theme, ...modalProps }"
 							:classes="classes"
-							:clone-node="property?.cloneNode"
+							:clone-node="property?.cloneNode || undefined"
 							:update-node="property?.updateNode"
 							:delete-node="property?.deleteNode"
 						/>
