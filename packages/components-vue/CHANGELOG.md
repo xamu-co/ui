@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.12...@open-xamu-co/ui-components-vue-v3.1.0-next.13) (2025-07-21)
+
+
+### Features
+
+* omit properties from being cloned ([09bf62a](https://github.com/xamu-co/ui/commit/09bf62a3a7a0fd56177a08ac429a4a183e29185f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.13"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.11...@open-xamu-co/ui-components-vue-v3.1.0-next.12) (2025-07-20)
 
 
