@@ -18,7 +18,10 @@ export type iNodeFn<T extends Record<string, any>, Ta extends [T?, ...any[]] = [
 ) => boolean | undefined | iNodeFnResponse | Promise<boolean | undefined | iNodeFnResponse>;
 
 /**
- * used on FactoryTable and related components
+ * Used on Table and related components
+ *
+ * @action Any task performed at each row cell (property)
+ * @nested Any task performed at a relation table within a modal
  */
 export interface iProperty<
 	T extends Record<string, any> = Record<string, any>,
@@ -28,6 +31,9 @@ export interface iProperty<
 	/**
 	 * Function to create a node within the relation
 	 * The parent is given since the node doesn't exist yet
+	 *
+	 * @action Showcases an button to create a new node/value within this property/relation
+	 * @nested Passed down to the related table if any
 	 */
 	createNode?: iNodeFn<P, [P?]>;
 	/**
@@ -36,18 +42,28 @@ export interface iProperty<
 	disableCreateNode?: (p: P) => boolean;
 	/**
 	 * Function to clone a node within the relation
+	 * Set to false to omit cloning this property/relation
+	 *
+	 * @action No inline action
+	 * @nested Passed down to the related table if any
 	 */
-	cloneNode?: iNodeFn<T, [T?]>;
+	cloneNode?: iNodeFn<T, [T?]> | false;
 	/**
 	 * Function to update a node within the relation
+	 *
+	 * @action Showcases an button to update this node/value within this property/relation
+	 * @nested Passed down to the related table if any
 	 */
 	updateNode?: iNodeFn<T, [T?, P?]>;
 	/**
 	 * Function to delete a node within the relation
+	 *
+	 * @action No inline action
+	 * @nested Passed down to the related table if any
 	 */
 	deleteNode?: iNodeFn<T, [T?]>;
 	/**
-	 * Render using this component instead
+	 * Render row cell (property) using this component instead
 	 */
 	component?: ComponentType;
 	/**

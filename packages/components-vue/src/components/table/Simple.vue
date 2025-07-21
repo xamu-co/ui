@@ -318,8 +318,15 @@
 		// display loader
 		Swal.fireLoader();
 
+		// Remove properties that should not be cloned
+		const clearNode = { ...node };
+
+		for (const property of propertiesMeta.value) {
+			if (property.cloneNode === false) delete clearNode[property.value];
+		}
+
 		// run process
-		const [cloned, event, closeModal] = await resolveNodeFn(props.cloneNode?.(node));
+		const [cloned, event, closeModal] = await resolveNodeFn(props.cloneNode?.(clearNode));
 
 		// unfinished task
 		if (typeof cloned !== "boolean") {
