@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.14...@open-xamu-co/ui-components-vue-v3.1.0-next.15) (2025-07-22)
+
+
+### Bug Fixes
+
+* invert table head theme ([d1f5860](https://github.com/xamu-co/ui/commit/d1f5860227f0ab969c1df936500dafa4957604d0))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.15"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.13...@open-xamu-co/ui-components-vue-v3.1.0-next.14) (2025-07-22)
 
 
