@@ -5,7 +5,11 @@
 			class="tbl --minWidth-100 table-actions"
 			:class="[{ '--nested': nested }, themeClasses]"
 		>
-			<TableHeadActions v-bind="childrenProps" :with-default-slot="!!$slots.default">
+			<TableHeadActions
+				v-bind="childrenProps"
+				:theme="opaque ? invertedThemeValues : theme"
+				:with-default-slot="!!$slots.default"
+			>
 				<template v-if="$slots.headActions" #headActions="headScope">
 					<slot name="headActions" v-bind="headScope"></slot>
 				</template>
