@@ -59,7 +59,7 @@
 		 * FontAwesome icon
 		 */
 		icon?: IconName;
-		iconProps?: iFormIconProps & { size: number };
+		iconProps?: iFormIconProps & { size?: number };
 		/**
 		 * image url or path
 		 */
