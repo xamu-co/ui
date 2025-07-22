@@ -2,10 +2,18 @@
 	<BaseBox
 		:el="BaseAction"
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
+		:invert-theme="false"
 		:aria-label="label"
 		button
 	>
-		<BaseBox v-if="icon || src" :class="innerThemeClasses" square opaque>
+		<BaseBox
+			v-if="icon || src"
+			:theme="themeValues"
+			:invert-theme="invertTheme"
+			square
+			opaque
+			with-color
+		>
 			<IconFa v-if="icon" v-bind="{ size: 35, ...iconProps, name: icon }" />
 			<BaseImg
 				v-else-if="src"
@@ -26,7 +34,6 @@
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
 
 	import type { iFormIconProps } from "@open-xamu-co/ui-common-types";
-	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	import BaseBox from "../base/Box.vue";
 	import BaseImg from "../base/Img.vue";
@@ -82,6 +89,5 @@
 
 	const props = defineProps<iBoxActionProps>();
 
-	const { tooltipAttributes } = useTheme(props);
-	const { themeClasses: innerThemeClasses } = useTheme({ theme: eColors.LIGHT });
+	const { tooltipAttributes, themeValues } = useTheme(props, true);
 </script>
