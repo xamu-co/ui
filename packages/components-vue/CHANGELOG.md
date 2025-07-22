@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.13...@open-xamu-co/ui-components-vue-v3.1.0-next.14) (2025-07-22)
+
+
+### Bug Fixes
+
+* accept union theme at box action ([bfd9e8e](https://github.com/xamu-co/ui/commit/bfd9e8e1b4975cb36db2c76059e0f647a9e671cb))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.14"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.12...@open-xamu-co/ui-components-vue-v3.1.0-next.13) (2025-07-21)
 
 
