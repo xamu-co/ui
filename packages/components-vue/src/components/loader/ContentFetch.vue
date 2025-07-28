@@ -18,7 +18,7 @@
 		>
 			<slot
 				v-if="patchedIsContent(content)"
-				v-bind="{ content, refresh, loading, errors }"
+				v-bind="{ content, refresh, loading, errors, hydrate }"
 			></slot>
 		</LoaderContent>
 	</BaseErrorBoundary>
@@ -67,10 +67,7 @@
 		 */
 		hydratablePromise?:
 			| false
-			| ((
-					content: Ref<Ti | null | undefined>,
-					errors: Ref<unknown>
-			  ) => (...args: Pi) => Promise<Ti>);
+			| ((content: Ref<Ti | null>, errors: Ref<unknown>) => (...args: Pi) => Promise<Ti>);
 		payload?: Pi;
 		/**
 		 * Component or tag to render on loader
@@ -100,7 +97,7 @@
 	defineOptions({ name: "LoaderContentFetch", inheritAttrs: false });
 
 	const props = defineProps<iLoaderContentFetchProps<T, P>>();
-	const emit = defineEmits(["refresh", "has-content"]);
+	const emit = defineEmits(["refresh", "has-content", "hydrate"]);
 
 	const { logger, isBrowser } = useHelpers(useUtils);
 	const { useFetch } = useFetchUtils();
@@ -136,6 +133,23 @@
 					if (props.promise) {
 						newData = await props.promise(...payload);
 					} else if (props.hydratablePromise) {
+						/**
+						 * Hydrate content
+						 * Returns the actual content & allows for hydration
+						 */
+						const hydrateContent = computed({
+							get: () => content.value ?? null,
+							set: (newContent) => hydrate(newContent ?? null, errors.value),
+						});
+						/**
+						 * Hydrate errors
+						 * Returns the actual errors & allows for hydration
+						 */
+						const hydrateErrors = computed({
+							get: () => errors.value ?? null,
+							set: (newErrors) => hydrate(content.value ?? null, newErrors),
+						});
+
 						newData = await props.hydratablePromise(
 							hydrateContent,
 							hydrateErrors
@@ -172,36 +186,21 @@
 	 * By default, if firstLoad is not set but there is content, it means it was hydrated
 	 */
 	const hydrated = ref<boolean>(!props.fallback && !!content.value);
-	const hydrateContent = computed({
-		get: () => (typeof content !== "undefined" ? content.value : undefined),
-		set: (newContent) => {
-			// prevent hydration
-			if (deactivated.value) return;
-			if (content.value && !hydrated.value) return (hydrated.value = true);
-			if (!props.preventAutoload && !firstLoad.value) return;
 
-			content.value = newContent;
-		},
-	});
-	const hydrateErrors = computed({
-		get: () => (typeof errors !== "undefined" ? errors.value : undefined),
-		set: (newContent) => {
-			// prevent hydration
-			if (deactivated.value) return;
-			if (errors.value && !hydrated.value) return (hydrated.value = true);
-			if (!props.preventAutoload && !firstLoad.value) return;
+	function hydrate(newContent: T | null, newErrors?: unknown) {
+		if (deactivated.value) return;
+		if (!props.preventAutoload && !firstLoad.value) return;
 
-			errors.value = newContent;
-		},
-	});
+		hydrated.value = true;
+		content.value = newContent;
+		errors.value = newErrors;
+	}
 
 	function patchedIsContent(c?: T | null): c is NonNullable<T> {
 		// isContent needs to run always
 		const isValid = props.isContent?.(c ?? undefined) ?? !!c;
 		const wasFetched = firstLoad.value || !!props.fallback || hydrated.value;
 		const isContent = isValid && wasFetched;
-
-		if (isBrowser) emit("has-content", isContent);
 
 		return isContent;
 	}
@@ -221,6 +220,7 @@
 
 	// lifecycle
 	emit("refresh", refresh); // Allow the parent to manually force an update
+	emit("hydrate", hydrate); // Allow the parent to hydrate the content
 	// refetch on url or promise change
 	watch(() => props.promise, validatePromiseLike, { immediate: false });
 	watch(() => props.hydratablePromise, validatePromiseLike, { immediate: false });
@@ -231,6 +231,15 @@
 			if (firstLoad.value && !isEqual(newPayload, oldPayload)) refresh();
 		},
 		{ immediate: false }
+	);
+	watch(
+		content,
+		(newContent) => {
+			const isContent = patchedIsContent(newContent);
+
+			if (isBrowser) emit("has-content", isContent, newContent, hydrate);
+		},
+		{ immediate: true }
 	);
 	onActivated(() => (deactivated.value = false));
 	onDeactivated(() => (deactivated.value = true));

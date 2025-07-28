@@ -11,7 +11,12 @@ export default defineNuxtPlugin(({ vueApp }) => {
 	const xamu: iVuePluginOptions = {
 		routerComponent: NuxtLink,
 		imageComponent: NuxtImg,
-		internals: { useAsyncData, ofetch: $fetch, clientOnly: ClientOnly },
+		internals: {
+			useAsyncData,
+			ofetch: $fetch,
+			clientOnly: ClientOnly,
+			debug: process.env.NODE_ENV !== "production",
+		},
 		// override defaults
 		...options,
 	};

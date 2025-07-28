@@ -6,16 +6,29 @@ export interface iSelectOption {
 	hidden?: boolean;
 }
 
-export type iNodeFnResponse = [boolean?, Event?, (() => void)?];
+/**
+ * Response from node functions
+ *
+ * Action result, event and callback
+ */
+export type iNodeFnResponse<T extends Record<string, any> = never> = [
+	(boolean | T)?,
+	Event?,
+	(() => void)?,
+];
 
 /**
  * Funtions that uses a node and perform some action
  *
  * Useful for table actions like creating, updating and deleting nodes
+ *
+ * Undefined would mean no action was performed
+ * True or an T type object would mean action was performed successfully
+ * False would mean action failed
  */
 export type iNodeFn<T extends Record<string, any>, Ta extends [T?, ...any[]] = [T]> = (
 	...args: Ta
-) => boolean | undefined | iNodeFnResponse | Promise<boolean | undefined | iNodeFnResponse>;
+) => boolean | undefined | iNodeFnResponse<T> | Promise<boolean | undefined | iNodeFnResponse<T>>;
 
 /**
  * Used on Table and related components

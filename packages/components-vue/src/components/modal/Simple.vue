@@ -105,7 +105,7 @@
 											:aria-label="saveButtonOptions.title"
 											:class="saveButtonOptions.btnClass"
 											:disabled="saveButtonOptions.disabled"
-											@click="(e) => emit('save', closeModal, e)"
+											@click="(e: Event) => emit('save', closeModal, e)"
 										>
 											{{ saveButtonOptions.title }}
 										</ActionButton>

@@ -1,7 +1,7 @@
 <template>
 	<LoaderContentFetch
 		v-slot="{ content, refresh }"
-		:promise="patchedPromise"
+		:hydratable-promise="patchedHydratablePromise"
 		:payload="[{ ...pagination, ...defaults }]"
 		:class="$attrs.class"
 		v-bind="{
@@ -15,10 +15,11 @@
 			client,
 		}"
 		@refresh="$emit('refresh', $event)"
-		@has-content="$emit('has-content', $event)"
+		@has-content="hasContent"
 	>
 		<slot
 			v-bind="{
+				hydrateNodes,
 				content: processContent(content.edges.map(({ node }) => node)),
 				pagination,
 				currentPage: content,
@@ -35,11 +36,12 @@
 </template>
 
 <script setup lang="ts" generic="T, C extends string | number = string, R = never">
-	import { computed, getCurrentInstance, inject, ref } from "vue";
+	import { computed, getCurrentInstance, inject, ref, type Ref } from "vue";
 
 	import type {
 		iGetPage,
 		iPage,
+		iPageEdge,
 		iPagination,
 		iPluginOptions,
 	} from "@open-xamu-co/ui-common-types";
@@ -56,7 +58,16 @@
 		/**
 		 * Function used to fetch the page
 		 */
-		page: Ri extends iGetPage<Ti, Ci>
+		page?: Ri extends iGetPage<Ti, Ci>
+			? iGetPage<Ti, Ci>
+			: (params?: iPagination) => Promise<Ri | undefined>;
+		/**
+		 * Function used to fetch the page and hydrate the content
+		 */
+		hydratablePage?: (
+			content: Ref<iPage<Ti, Ci> | null | undefined>,
+			errors: Ref<unknown>
+		) => Ri extends iGetPage<Ti, Ci>
 			? iGetPage<Ti, Ci>
 			: (params?: iPagination) => Promise<Ri | undefined>;
 		/**
@@ -122,13 +133,13 @@
 	 */
 
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
-	defineEmits(["refresh", "has-content"]);
 
 	const props = withDefaults(defineProps<iPCProps<T, C, R>>(), {
 		processContent: (c: T[]) => c,
 	});
+	const emit = defineEmits(["refresh", "has-content"]);
 
-	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
+	const { first: defaultFirst, cursorEncoder } = inject<iPluginOptions>("xamu") || {};
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
 	const propsPagination = ref<iPagination>({
@@ -136,6 +147,8 @@
 		first: props.first ?? defaultFirst,
 		at: props.at,
 	});
+	const hydrateNodes = ref<(newContent: T[] | null, newErrors?: unknown) => void>();
+
 	const routePagination = computed<iPagination>(() => {
 		if (!router) return {};
 
@@ -176,16 +189,48 @@
 	});
 
 	/**
-	 * Patched promise
+	 * Patched promise, with optional hydration
 	 */
-	const patchedPromise: iGetPage<T, C> = async (v) => {
-		const transform: (r: any) => iPage<T, C> | undefined = props.transform || ((v) => v);
-		const page = await props.page(v);
+	const patchedHydratablePromise = (
+		content: Ref<iPage<T, C> | null | undefined>,
+		errors: Ref<unknown>
+	): iGetPage<T, C> => {
+		const page = props.hydratablePage?.(content, errors) || props.page;
 
-		return transform(page);
+		return async (v) => {
+			const transform: (r: any) => iPage<T, C> | undefined = props.transform || ((v) => v);
+			const result = await page?.(v);
+
+			return transform(result);
+		};
 	};
 
 	function isContent(c?: iPage<T, C>): boolean {
 		return !!c?.edges?.length;
+	}
+
+	/** Override emit to handle node hydration */
+	function hasContent(
+		value: boolean,
+		page?: iPage<T, C> | null,
+		hydratePage?: (newContent: iPage<T, C> | null, newErrors?: unknown) => void
+	) {
+		function hydrateNodesFn(newContent: T[] | null, newErrors?: unknown) {
+			if (!page || !hydratePage) return;
+
+			const edges: iPageEdge<T, C>[] = (newContent || []).map((node) => {
+				const cursor = <C>cursorEncoder?.(node) || (node as any)?.id;
+
+				return { node, cursor };
+			});
+
+			hydratePage({ ...page, edges }, newErrors);
+		}
+
+		hydrateNodes.value = hydrateNodesFn;
+
+		const nodes = (page?.edges || []).map(({ node }) => node);
+
+		emit("has-content", value, nodes, hydrateNodesFn);
 	}
 </script>
