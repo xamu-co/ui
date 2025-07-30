@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.2-next.5...@open-xamu-co/ui-common-helpers-v3.1.0-next.1) (2025-07-30)
+
+
+### Features
+
+* support granular hydration ([1feb11f](https://github.com/xamu-co/ui/commit/1feb11fffd8829045c3d092614d7624cf79ba878))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.1.0-next.1"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.0.2-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.2-next.4...@open-xamu-co/ui-common-helpers-v3.0.2-next.5) (2025-07-20)
 
 
