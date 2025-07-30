@@ -69,14 +69,14 @@
 	</BoxMessage>
 </template>
 
-<script setup lang="ts" generic="T extends Record<string, any>">
+<script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
 	import { computed, getCurrentInstance, ref, watch } from "vue";
 	import upperFirst from "lodash-es/upperFirst";
 	import snakeCase from "lodash-es/snakeCase";
 	import startCase from "lodash-es/startCase";
 	import { Md5 } from "ts-md5";
 
-	import type { iNodeFnResponse, tOrder } from "@open-xamu-co/ui-common-types";
+	import type { iNodeFn, iNodeFnResponse, tOrder } from "@open-xamu-co/ui-common-types";
 	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {
 		toOption,
@@ -96,7 +96,7 @@
 	import BaseWrapper from "../base/Wrapper.vue";
 
 	import useTheme from "../../composables/theme";
-	import { useHelpers, useOrderBy } from "../../composables/utils";
+	import { useHelpers, useOrderBy, useResolveNodeFn } from "../../composables/utils";
 	import type { iTableChildProps, iTablePropertyMeta, iTableProps } from "../../types/props";
 
 	/**
@@ -110,7 +110,7 @@
 
 	defineOptions({ name: "TableSimple", inheritAttrs: false });
 
-	const props = withDefaults(defineProps<iTableProps<T>>(), {
+	const props = withDefaults(defineProps<iTableProps<T, TM>>(), {
 		size: eSizes.SM,
 		theme: eColors.SECONDARY,
 	});
@@ -120,9 +120,12 @@
 	const Swal = useHelpers(useSwal);
 	const { themeClasses, themeValues, invertedThemeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
+	const mappedNodes = computed(() => {
+		return props.mapNodes ? props.mapNodes(props.nodes) : props.nodes;
+	});
 
 	/** [selected, show] */
-	const selectedNodes = ref<[boolean, boolean][]>(reFillNodes(props.nodes.length));
+	const selectedNodes = ref<[boolean, boolean][]>([]);
 
 	const selectedNodesCount = computed(() => {
 		return selectedNodes.value.filter(([selected]) => selected).length;
@@ -143,7 +146,6 @@
 
 		if (props.withRoute && router) {
 			const route = router.currentRoute.value;
-
 			const routeOrderBy = useOrderBy(route.query.orderBy);
 
 			if (!routeOrderBy.length) return orderBy;
@@ -160,7 +162,7 @@
 	const isReadOnly = computed<boolean>(() => {
 		return (
 			props.readonly ||
-			!props.nodes.length ||
+			!mappedNodes.value.length ||
 			(!props.updateNode && !props.cloneNode && !props.deleteNode)
 		);
 	});
@@ -169,7 +171,7 @@
 	 * This one assumes all objects within nodes are all the same
 	 */
 	const propertiesMeta = computed<iTablePropertyMeta<T>[]>(() => {
-		return Object.entries(props.nodes[0])
+		return Object.entries(mappedNodes.value[0])
 			.sort(props.propertyOrder || useOrderProperty)
 			.map(([key, value]) => {
 				const options = (props.properties || []).map(toOption);
@@ -193,8 +195,9 @@
 		return Md5.hashStr(`table-${childrenBased}-${metaBased}`);
 	});
 
-	const childrenProps = computed<iTableChildProps<T>>(() => ({
+	const childrenProps = computed<iTableChildProps<T, TM>>(() => ({
 		...props,
+		nodes: mappedNodes.value,
 		tableId: tableId.value,
 		propertiesMeta: propertiesMeta.value,
 		isReadOnly: isReadOnly.value,
@@ -211,10 +214,6 @@
 		deleteNodeAndRefresh,
 		deleteNodesAndRefresh,
 	}));
-
-	function reFillNodes(length: number): [boolean, boolean][] {
-		return Array.from({ length }, () => [false, !!props.childrenVisibility]);
-	}
 
 	/**
 	 * set pagination order
@@ -258,20 +257,6 @@
 		selectedNodes.value[index] = [selected, !children];
 	}
 
-	async function resolveNodeFn(
-		promise:
-			| boolean
-			| undefined
-			| iNodeFnResponse
-			| Promise<boolean | undefined | iNodeFnResponse>
-	): Promise<iNodeFnResponse> {
-		const resolve = await promise;
-
-		if (Array.isArray(resolve)) return resolve;
-
-		return [resolve];
-	}
-
 	/**
 	 * Updates given node
 	 * sometimes it could fail but still update (api issue)
@@ -280,35 +265,55 @@
 	 *
 	 * TODO: Support batch editing
 	 */
-	async function updateNodeAndRefresh(node: T) {
+	const updateNodeAndRefresh: iNodeFn<T> = async (node: T) => {
 		// display loader
 		Swal.fireLoader();
 
 		// run process
-		const [updated, event, closeModal] = await resolveNodeFn(props.updateNode?.(node));
+		const response = await useResolveNodeFn(props.updateNode?.(node));
+		const [updated, event, closeModal] = response;
 
 		// unfinished task
-		if (typeof updated !== "boolean") {
+		if (typeof updated === "undefined" || updated === null) {
 			if (Swal.isLoading()) Swal.close();
 		} else if (updated) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_updated"),
+				text: t("swal.table_updated_text"),
 				willOpen() {
-					closeModal?.();
+					let updatedNodes: T[] | undefined;
 
-					if (!props.omitRefresh) props.refresh?.();
+					// Update single element
+					if (typeof updated === "object" && updated.id) {
+						const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+
+						// Replace the node with the updated one
+						updatedNodes = props.nodes.toSpliced(nodeIndex, 1, {
+							...node,
+							...updated,
+						});
+					}
+
+					// Prefer hydration over refreshing
+					if (props.hydrateNodes && updatedNodes) props.hydrateNodes(updatedNodes);
+					else if (!props.omitRefresh) props.refresh?.();
+
+					closeModal?.();
 				},
 			});
 		} else {
+			// Error, possibly not updated
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_updated"),
-				text: t("swal.table_possibly_not_updated"),
+				title: t("swal.table_possibly_not_updated"),
+				text: t("swal.table_possibly_not_updated_text"),
 				target: event,
 			});
 		}
-	}
+
+		return response;
+	};
 
 	/**
 	 * Clones given node
@@ -316,7 +321,10 @@
 	 *
 	 * @single
 	 */
-	async function cloneNodeAndRefresh(node: T, toggleModal?: (m?: boolean) => any) {
+	const cloneNodeAndRefresh: iNodeFn<T, [T, ((m?: boolean) => any) | undefined]> = async (
+		node: T,
+		toggleModal?: (m?: boolean) => any
+	) => {
 		// close modal
 		toggleModal?.(false);
 		// display loader
@@ -330,30 +338,50 @@
 		}
 
 		// run process
-		const [cloned, event, closeModal] = await resolveNodeFn(props.cloneNode?.(clearNode));
+		const response = await useResolveNodeFn(props.cloneNode?.(clearNode));
+		const [cloned, event, closeModal] = response;
 
 		// unfinished task
-		if (typeof cloned !== "boolean") {
+		if (typeof cloned === "undefined" || cloned === null) {
 			if (Swal.isLoading()) Swal.close();
 		} else if (cloned) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_cloned"),
+				text: t("swal.table_cloned_text"),
 				willOpen() {
-					closeModal?.();
+					let updatedNodes: T[] | undefined;
 
-					if (!props.omitRefresh) props.refresh?.();
+					// Add single new element
+					if (typeof cloned === "object" && cloned.id) {
+						const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+
+						// Add cloned node after the original node
+						updatedNodes = props.nodes.toSpliced(nodeIndex + 1, 0, {
+							...node,
+							...cloned,
+						});
+					}
+
+					// Prefer hydration over refreshing
+					if (props.hydrateNodes && updatedNodes) props.hydrateNodes(updatedNodes);
+					else if (!props.omitRefresh) props.refresh?.();
+
+					closeModal?.();
 				},
 			});
 		} else {
+			// Error, possibly not cloned
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_cloned"),
-				text: t("swal.table_possibly_not_cloned"),
+				title: t("swal.table_possibly_not_cloned"),
+				text: t("swal.table_possibly_not_cloned_text"),
 				target: event,
 			});
 		}
-	}
+
+		return response;
+	};
 
 	/**
 	 * Deletes given node
@@ -361,11 +389,10 @@
 	 *
 	 * @single
 	 */
-	async function deleteNodeAndRefresh(
-		node: T,
-		toggleModal?: (m?: boolean) => any,
-		modalRef?: HTMLElement
-	) {
+	const deleteNodeAndRefresh: iNodeFn<
+		T,
+		[T, ((m?: boolean) => any) | undefined, HTMLElement?]
+	> = async (node: T, toggleModal?: (m?: boolean) => any, modalRef?: HTMLElement) => {
 		// request confirmation
 		const { value } = await Swal.firePrevent({
 			title: t("table_delete"),
@@ -382,30 +409,44 @@
 		Swal.fireLoader();
 
 		// run process
-		const [deleted, event, closeModal] = await resolveNodeFn(props.deleteNode?.(node));
+		const response = await useResolveNodeFn(props.deleteNode?.(node));
+		const [deleted, event, closeModal] = response;
 
 		// unfinished task
-		if (typeof deleted !== "boolean") {
+		if (typeof deleted === "undefined" || deleted === null) {
 			if (Swal.isLoading()) Swal.close();
 		} else if (deleted) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_deleted"),
+				text: t("swal.table_deleted_text"),
 				willOpen() {
-					closeModal?.();
+					// Prefer refreshing over hydration
+					if (props.refresh) {
+						if (!props.omitRefresh) props.refresh?.();
+					} else if (props.hydrateNodes) {
+						const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+						// Remove the node
+						const updatedNodes: T[] = props.nodes.toSpliced(nodeIndex, 1);
 
-					if (!props.omitRefresh) props.refresh?.();
+						props.hydrateNodes(updatedNodes);
+					}
+
+					closeModal?.();
 				},
 			});
 		} else {
+			// Error, possibly not deleted
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_deleted"),
-				text: t("swal.table_possibly_not_deleted"),
+				title: t("swal.table_possibly_not_deleted"),
+				text: t("swal.table_possibly_not_deleted_text"),
 				target: event,
 			});
 		}
-	}
+
+		return response;
+	};
 
 	/**
 	 * Deletes multiple selected nodes
@@ -428,30 +469,49 @@
 		// display loader
 		Swal.fireLoader();
 
+		let updatedNodes: T[] = [...props.nodes];
 		// run process
-		const deleted = await Promise.all(
-			nodes.map(async (node) => await resolveNodeFn(props.deleteNode?.(node)))
+		const deleted: iNodeFnResponse<T>[] = await Promise.all(
+			nodes.map(async (node) => {
+				const response = await useResolveNodeFn(props.deleteNode?.(node));
+				const [deletedNode] = response;
+
+				// Remove deleted node
+				if (typeof deletedNode === "object") {
+					const nodeIndex = updatedNodes.findIndex(({ id }) => id === node.id);
+
+					// Remove single node
+					if (nodeIndex > -1) updatedNodes.splice(nodeIndex, 1);
+				}
+
+				return response;
+			})
 		);
 		const [, event, closeModal] = deleted[0];
 
 		// unfinished task
-		if (deleted.every(([d]) => d === undefined)) {
+		if (deleted.every(([d]) => d === undefined || d === null)) {
 			if (Swal.isLoading()) Swal.close();
 		} else if (deleted.every(([d]) => d)) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_deleted"),
+				text: t("swal.table_deleted_text"),
 				willOpen() {
-					closeModal?.();
+					// Prefer refreshing over hydration
+					if (props.refresh) {
+						if (!props.omitRefresh) props.refresh?.();
+					} else if (props.hydrateNodes) props.hydrateNodes(updatedNodes);
 
-					if (!props.omitRefresh) props.refresh?.();
+					closeModal?.();
 				},
 			});
 		} else {
+			// Error, possibly not deleted
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_deleted"),
-				text: t("swal.table_possibly_not_deleted", props.nodes.length),
+				title: t("swal.table_possibly_not_deleted"),
+				text: t("swal.table_possibly_not_deleted_text", props.nodes.length),
 				target: event,
 			});
 		}
@@ -459,8 +519,18 @@
 
 	// lifecycle
 	watch(
-		() => props.nodes,
-		(newNodes) => (selectedNodes.value = reFillNodes(newNodes.length)),
-		{ immediate: false }
+		[mappedNodes, () => props.withRoute && router?.currentRoute.value.fullPath],
+		([newNodes, newRoute], [oldNodes, oldRoute]) => {
+			const reFillNodes: [boolean, boolean][] = Array.from(
+				{ length: newNodes.length },
+				() => [false, !!props.childrenVisibility]
+			);
+
+			// Omit for hydration
+			if (!oldNodes || oldNodes?.length !== newNodes.length || oldRoute !== newRoute) {
+				selectedNodes.value = reFillNodes;
+			}
+		},
+		{ immediate: true }
 	);
 </script>

@@ -1,6 +1,6 @@
 import { inject } from "vue";
 
-import type { tOrder, tOrderBy } from "@open-xamu-co/ui-common-types";
+import type { iNodeFnResponse, tOrder, tOrderBy } from "@open-xamu-co/ui-common-types";
 
 import type { iVuePluginOptions } from "../plugin";
 
@@ -36,4 +36,18 @@ export function useOrderBy(orderByParam: any): tOrderBy[] {
 	}
 
 	return [];
+}
+
+export async function useResolveNodeFn<T extends Record<string, any>>(
+	promise:
+		| boolean
+		| undefined
+		| iNodeFnResponse<T>
+		| Promise<boolean | undefined | iNodeFnResponse<T>>
+): Promise<iNodeFnResponse<T>> {
+	const resolve = await promise;
+
+	if (Array.isArray(resolve)) return resolve;
+
+	return [resolve];
 }
