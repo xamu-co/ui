@@ -146,4 +146,11 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 * @default console.log
 	 */
 	logger?: tLogger;
+	/**
+	 * Function used to encode the pagination cursor
+	 *
+	 * @default node.id
+	 */
+	cursorEncoder?: (<T>(node: T) => string) | (<T>(node: T) => number);
+	internals?: Record<string, any>;
 }

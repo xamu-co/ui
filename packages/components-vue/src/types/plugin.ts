@@ -13,7 +13,7 @@ export interface iVuePluginOptions extends iPluginOptions<vComponent> {
 	 * Override internal behavior
 	 * Useful to setup nuxt modules
 	 */
-	internals?: {
+	internals?: iPluginOptions<vComponent>["internals"] & {
 		/**
 		 * Client only component
 		 */

@@ -62,6 +62,7 @@
 								refresh,
 								omitRefresh,
 								size,
+								hydrateNode,
 							}"
 						/>
 					</td>
@@ -194,7 +195,9 @@
 									cloneNodeAndRefresh,
 									deleteNodeAndRefresh,
 									deleteNodesAndRefresh,
+									createNodeChildrenAndRefresh,
 									show: visibility[nodeIndex].show,
+									hydrateParentNode: hydrateNode,
 								}"
 							></slot>
 						</BaseBox>
@@ -251,7 +254,7 @@
 								class="--p-5:md-inv"
 								link-button
 								round
-								@click="() => createNodeChildren?.(node)"
+								@click="() => createNodeChildrenAndRefresh(node)"
 							>
 								<IconFa name="plus" />
 							</ActionButtonLink>
@@ -268,10 +271,10 @@
 	</tbody>
 </template>
 
-<script setup lang="ts" generic="T extends Record<string, any>">
+<script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
 	import { computed } from "vue";
 
-	import { useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
 	import ActionLink from "../action/Link.vue";
@@ -284,9 +287,13 @@
 
 	import type { iTableChildProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import { useHelpers } from "../../composables/utils";
+	import { useHelpers, useResolveNodeFn } from "../../composables/utils";
+	import type { iNodeFn } from "@open-xamu-co/ui-common-types";
 
-	export interface iTableBodyProps<Ti extends Record<string, any>> extends iTableChildProps<Ti> {}
+	export interface iTableBodyProps<
+		Ti extends Record<string, any>,
+		TMi extends Record<string, any> = Ti,
+	> extends iTableChildProps<Ti, TMi> {}
 
 	interface INodeVisibility {
 		disableCreateNodeChildren?: boolean;
@@ -303,8 +310,9 @@
 
 	defineOptions({ name: "TableBody", inheritAttrs: false });
 
-	const props = defineProps<iTableBodyProps<T>>();
+	const props = defineProps<iTableBodyProps<T, TM>>();
 
+	const Swal = useHelpers(useSwal);
 	const { t } = useHelpers(useI18n);
 	const { themeValues, dangerThemeValues } = useTheme(props);
 
@@ -331,4 +339,59 @@
 			{} as Record<number, INodeVisibility>
 		);
 	});
+
+	function hydrateNode(newNode: T | null, _newErrors?: unknown) {
+		if (!props.hydrateNodes || !newNode) return;
+
+		// Replace the node with the updated one
+		const nodeIndex = props.nodes.findIndex(({ id }) => id === newNode.id);
+		const existingNode = props.nodes[nodeIndex];
+		const updatedNodes = props.nodes.toSpliced(nodeIndex, 1, { ...existingNode, ...newNode });
+
+		props.hydrateNodes(updatedNodes);
+	}
+
+	/**
+	 * Creates children for given node
+	 * sometimes it could fail but still update (api issue)
+	 *
+	 * @single
+	 */
+	const createNodeChildrenAndRefresh: iNodeFn<T> = async (node: T) => {
+		// display loader
+		Swal.fireLoader();
+
+		// run process
+		const response = await useResolveNodeFn(props.createNodeChildren?.(node));
+		const [updatedParent, event, closeModal] = response;
+
+		// unfinished task
+		if (typeof updatedParent === "undefined" || updatedParent === null) {
+			if (Swal.isLoading()) Swal.close();
+		} else if (updatedParent) {
+			Swal.fire({
+				icon: "success",
+				title: t("swal.table_created"),
+				text: t("swal.table_created_text"),
+				willOpen() {
+					// Prefer hydration over refreshing
+					if (props.hydrateNodes && typeof updatedParent === "object") {
+						hydrateNode({ ...node, ...updatedParent });
+					} else if (!props.omitRefresh) props.refresh?.();
+
+					closeModal?.();
+				},
+			});
+		} else {
+			// Error, children possibly not created
+			Swal.fire({
+				icon: "warning",
+				title: t("swal.table_possibly_not_created"),
+				text: t("swal.table_possibly_not_created_text"),
+				target: event,
+			});
+		}
+
+		return response;
+	};
 </script>

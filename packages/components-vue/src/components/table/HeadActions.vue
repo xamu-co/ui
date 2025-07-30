@@ -88,7 +88,7 @@
 	</thead>
 </template>
 
-<script setup lang="ts" generic="T extends Record<string, any>">
+<script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -99,7 +99,10 @@
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
 
-	export interface iTableHeadProps<Ti extends Record<string, any>> extends iTableChildProps<Ti> {
+	export interface iTableHeadProps<
+		Ti extends Record<string, any>,
+		TMi extends Record<string, any> = Ti,
+	> extends iTableChildProps<Ti, TMi> {
 		withDefaultSlot: boolean;
 	}
 
@@ -111,7 +114,7 @@
 
 	defineOptions({ name: "TableHeadActions", inheritAttrs: false });
 
-	const props = defineProps<iTableHeadProps<T>>();
+	const props = defineProps<iTableHeadProps<T, TM>>();
 
 	const { t } = useHelpers(useI18n);
 	const { themeClasses, dangerThemeValues } = useTheme(props);

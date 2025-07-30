@@ -84,6 +84,13 @@ export default function useSwal(options: iPluginOptions = {}, overrides: SweetAl
 			allowOutsideClick: () => !Swal.isLoading(),
 			allowEscapeKey: () => !Swal.isLoading(),
 		},
+		options.internals?.debug
+			? {
+					showDenyButton: true,
+					denyButtonText: t("swal.cancel"),
+					customClass: { denyButton: "link" },
+				}
+			: {},
 		swal?.loaderOverrides
 	);
 	const swalToastDefaults: SweetAlertOptions = Object.assign(
