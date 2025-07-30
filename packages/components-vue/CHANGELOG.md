@@ -1,5 +1,27 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.15...@open-xamu-co/ui-components-vue-v3.1.0-next.16) (2025-07-30)
+
+
+### Bug Fixes
+
+* do not use key at teleport ([a5600f9](https://github.com/xamu-co/ui/commit/a5600f94bceebe3e862dc1a26f56e2cf55f389c9))
+* no transition on loader ([1b00eb3](https://github.com/xamu-co/ui/commit/1b00eb37b39712716a59915b11a62c70d31643ba))
+* optional icon size on box action ([31e5d4f](https://github.com/xamu-co/ui/commit/31e5d4fa0a0062a7206769a62aa944b2a7d9891e))
+
+
+### Features
+
+* support granular hydration ([1feb11f](https://github.com/xamu-co/ui/commit/1feb11fffd8829045c3d092614d7624cf79ba878))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.16"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.14...@open-xamu-co/ui-components-vue-v3.1.0-next.15) (2025-07-22)
 
 
