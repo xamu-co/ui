@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.1-next.4...@open-xamu-co/ui-nuxt-v3.1.0-next.1) (2025-07-30)
+
+
+### Features
+
+* support granular hydration ([1feb11f](https://github.com/xamu-co/ui/commit/1feb11fffd8829045c3d092614d7624cf79ba878))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.0.1-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.1-next.3...@open-xamu-co/ui-nuxt-v3.0.1-next.4) (2025-07-20)
 
 
