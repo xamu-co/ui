@@ -183,6 +183,7 @@
 		emittedHasContent.value = value;
 		emittedContent.value = content;
 		emittedHydrateNodes.value = hydrateNodes;
+		emit("create-node-and-refresh", createNodeAndRefresh);
 	}
 
 	function refreshData() {
@@ -244,7 +245,4 @@
 
 		return response;
 	}
-
-	// Lifecycle
-	emit("create-node-and-refresh", createNodeAndRefresh);
 </script>
