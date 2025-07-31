@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.16...@open-xamu-co/ui-components-vue-v3.1.0-next.17) (2025-07-31)
+
+
+### Bug Fixes
+
+* restore external pagination table head ([ea4d277](https://github.com/xamu-co/ui/commit/ea4d2771e096869148ebb17f79e0805e6d5c8e9c))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.17"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.15...@open-xamu-co/ui-components-vue-v3.1.0-next.16) (2025-07-30)
 
 
