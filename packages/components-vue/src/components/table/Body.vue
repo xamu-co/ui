@@ -374,8 +374,12 @@
 				title: t("swal.table_created"),
 				text: t("swal.table_created_text"),
 				willOpen() {
-					// Prefer hydration over refreshing
-					if (props.hydrateNodes && typeof updatedParent === "object") {
+					// If has children, prefer hydration over refreshing
+					if (
+						props.childrenCount(node) &&
+						props.hydrateNodes &&
+						typeof updatedParent === "object"
+					) {
 						hydrateNode({ ...node, ...updatedParent });
 					} else if (!props.omitRefresh) props.refresh?.();
 

@@ -8,6 +8,22 @@
 				createNodeAndRefresh,
 			}"
 		></slot>
+		<!-- Temporary head actions -->
+		<div
+			v-if="!emittedHasContent && $slots.headActions"
+			key="external-head-actions"
+			class="flx --flxRow --flx-start-center --gap-10 --gap:md"
+		>
+			<slot
+				name="headActions"
+				v-bind="{
+					refreshData,
+					hasContent: emittedHasContent,
+					hydrateData: emittedHydrateNodes,
+					createNodeAndRefresh,
+				}"
+			></slot>
+		</div>
 		<PaginationContent
 			v-slot="{ content }"
 			v-bind="{
@@ -25,21 +41,6 @@
 			@refresh="emittedRefresh = $event"
 			@has-content="hasContent"
 		>
-			<!-- Temporary head actions -->
-			<div
-				v-if="!emittedHasContent && $slots.headActions"
-				class="flx --flxRow --flx-start-center --gap-10 --gap:md"
-			>
-				<slot
-					name="headActions"
-					v-bind="{
-						refreshData,
-						hasContent: emittedHasContent,
-						hydrateData: emittedHydrateNodes,
-						createNodeAndRefresh,
-					}"
-				></slot>
-			</div>
 			<!-- Tabulated data -->
 			<div class="flx --flxColumn --flx-start-stretch">
 				<Table
@@ -60,7 +61,10 @@
 					}"
 				>
 					<template v-if="emittedHasContent && $slots.headActions" #headActions>
-						<div class="flx --flxRow --flx-start-center --gap-10 --gap:md">
+						<div
+							key="internal-head-actions"
+							class="flx --flxRow --flx-start-center --gap-10 --gap:md"
+						>
 							<slot
 								name="headActions"
 								v-bind="{
@@ -168,7 +172,7 @@
 	const Swal = useHelpers(useSwal);
 
 	const emittedRefresh = ref<() => void>();
-	const emittedHasContent = ref<boolean>(true);
+	const emittedHasContent = ref<boolean>();
 	const emittedContent = ref<T[] | null>();
 	const emittedHydrateNodes = ref<(newContent: T[] | null, newErrors?: unknown) => void>();
 
@@ -225,8 +229,8 @@
 						createdNodes = [created, ...(emittedContent.value || [])];
 					}
 
-					// Prefer hydration over refreshing
-					if (emittedHydrateNodes.value && createdNodes) {
+					// If has content, prefer hydration over refreshing
+					if (emittedHasContent.value && emittedHydrateNodes.value && createdNodes) {
 						emittedHydrateNodes.value(createdNodes);
 					} else if (!props.omitRefresh) refreshData();
 
