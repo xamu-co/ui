@@ -470,7 +470,7 @@
 		Swal.fireLoader();
 
 		let updatedNodes: T[] = [...props.nodes];
-		// run process
+		// run process in parallel
 		const deleted: iNodeFnResponse<T>[] = await Promise.all(
 			nodes.map(async (node) => {
 				const response = await useResolveNodeFn(props.deleteNode?.(node));

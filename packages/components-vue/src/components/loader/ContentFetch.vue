@@ -99,7 +99,7 @@
 	const props = defineProps<iLoaderContentFetchProps<T, P>>();
 	const emit = defineEmits(["refresh", "has-content", "hydrate"]);
 
-	const { logger, isBrowser } = useHelpers(useUtils);
+	const { logger } = useHelpers(useUtils);
 	const { useFetch } = useFetchUtils();
 	const { internals } = inject<iVuePluginOptions>("xamu") || {};
 	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
@@ -237,7 +237,7 @@
 		(newContent) => {
 			const isContent = patchedIsContent(newContent);
 
-			if (isBrowser) emit("has-content", isContent, newContent, hydrate);
+			emit("has-content", isContent, newContent, hydrate);
 		},
 		{ immediate: true }
 	);
