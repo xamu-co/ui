@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.17...@open-xamu-co/ui-components-vue-v3.1.0-next.18) (2025-08-03)
+
+
+### Bug Fixes
+
+* actually hide hidden input type ([fc264e0](https://github.com/xamu-co/ui/commit/fc264e08b72e57eee2db424567e9701e32858527))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.18"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.16...@open-xamu-co/ui-components-vue-v3.1.0-next.17) (2025-07-31)
 
 
