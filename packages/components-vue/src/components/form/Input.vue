@@ -1,6 +1,6 @@
 <template>
 	<BaseErrorBoundary :theme="theme">
-		<div class="flx --flxColumn --flx-start --gap-5">
+		<div v-if="input.type !== eFT.HIDDEN" class="flx --flxColumn --flx-start --gap-5">
 			<FormInputOptions
 				v-if="!input.defaults && input.type === eFT.CHOICE"
 				v-slot="{ options }"
@@ -27,7 +27,7 @@
 			/>
 			<!-- Future inner loop input -->
 			<FormInputLoop
-				v-else-if="input.type !== eFT.HIDDEN"
+				v-else
 				v-slot="{ i }"
 				:key="input.options.length + models.length"
 				:models="models"
