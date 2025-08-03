@@ -22,7 +22,7 @@
 			>
 				<template v-for="(input, inputIndex) in model" :key="inputIndex">
 					<div
-						v-if="input && model[inputIndex]"
+						v-if="input && model[inputIndex] && input.type !== eFormType.HIDDEN"
 						class="flx --flxColumn --flx-start-stretch --gap-5"
 					>
 						<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
