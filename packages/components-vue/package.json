@@ -60,7 +60,9 @@
     "@fortawesome/fontawesome-common-types": "^6.4.0",
     "@open-xamu-co/ui-common-enums": "link:../common-enums",
     "@open-xamu-co/ui-common-helpers": "link:../common-helpers",
+    "@simple-m-editor/vue": "^0.0.6",
     "lodash-es": "^4.17.21",
+    "marked-highlight": "^2.2.2",
     "sweetalert2": "^11.11.1"
   },
   "devDependencies": {

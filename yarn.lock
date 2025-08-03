@@ -2596,6 +2596,7 @@
     "@fortawesome/fontawesome-common-types" "^6.4.0"
     "@open-xamu-co/ui-common-enums" "link:packages/common-enums"
     "@open-xamu-co/ui-common-helpers" "link:packages/common-helpers"
+    "@simple-m-editor/vue" "^0.0.6"
     lodash-es "^4.17.21"
     sweetalert2 "^11.11.1"
 
@@ -3263,6 +3264,11 @@
     into-stream "^6.0.0"
     lodash "^4.17.4"
     read-pkg-up "^7.0.0"
+
+"@simple-m-editor/vue@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@simple-m-editor/vue/-/vue-0.0.6.tgz#cb79e7b66c20c83d40896beb153ea99ef78f5f0c"
+  integrity sha512-0KxQLDj05bCI7qGihQqifztiBMFMpFHw//5c+I/tgEa+T/xfRGSsofifVgl6HK3RnTKYy31Xk4n8SxcabGsKqA==
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
@@ -10993,6 +10999,11 @@ markdown-it@^13.0.1:
     linkify-it "^4.0.1"
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
+
+marked-highlight@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/marked-highlight/-/marked-highlight-2.2.2.tgz#2ed092581225a16b16ef9bee7099e66612b6d8b3"
+  integrity sha512-KlHOP31DatbtPPXPaI8nx1KTrG3EW0Z5zewCwpUj65swbtKOTStteK3sNAjBqV75Pgo3fNEVNHeptg18mDuWgw==
 
 marked-terminal@^4.1.1:
   version "4.2.0"

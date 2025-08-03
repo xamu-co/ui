@@ -251,6 +251,13 @@
 					:theme="theme"
 					:disabled="readonly"
 				/>
+				<InputMarkdown
+					v-else-if="input.type === eFT.MARKDOWN"
+					v-model="models[i].value"
+					v-bind="inputProps"
+					:theme="theme"
+					:disabled="readonly"
+				/>
 				<!-- Future outer loop input -->
 				<InputText
 					v-else
@@ -295,6 +302,7 @@
 	import InputText from "../input/Text.vue";
 	import InputToggle from "../input/Toggle.vue";
 	import InputFile from "../input/File.vue";
+	import InputMarkdown from "../input/Markdown.vue";
 	import SelectSimple from "../select/Simple.vue";
 	import SelectFilter from "../select/Filter.vue";
 	import SelectChoice from "../select/Choice.vue";

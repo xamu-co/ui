@@ -19,6 +19,7 @@ export enum eFormTypeSimple {
 	PASSWORD = "PASSWORD",
 	// longtext
 	LONGTEXT = "LONGTEXT",
+	MARKDOWN = "MARKDOWN",
 	// color
 	COLOR = "COLOR",
 }
