@@ -97,7 +97,13 @@
 
 	import useTheme from "../../composables/theme";
 	import { useHelpers, useOrderBy, useResolveNodeFn } from "../../composables/utils";
-	import type { iTableChildProps, iTablePropertyMeta, iTableProps } from "../../types/props";
+	import type {
+		iTableChildProps,
+		iTablePropertyMeta,
+		iTableProps,
+		iMappedNodes,
+		iNodeVisibility,
+	} from "../../types/props";
 
 	/**
 	 * Factory component for tables
@@ -113,6 +119,7 @@
 	const props = withDefaults(defineProps<iTableProps<T, TM>>(), {
 		size: eSizes.SM,
 		theme: eColors.SECONDARY,
+		mapNodes: (nodes: T[]) => nodes as unknown as TM[],
 	});
 	const emit = defineEmits(["update:sort"]);
 
@@ -120,8 +127,46 @@
 	const Swal = useHelpers(useSwal);
 	const { themeClasses, themeValues, invertedThemeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
+	/**
+	 * Mapped nodes
+	 * Keeps the original node and the mapped node if any (filtered)
+	 */
 	const mappedNodes = computed(() => {
-		return props.mapNodes ? props.mapNodes(props.nodes) : props.nodes;
+		const nodes: iMappedNodes<T, TM> = { nodes: [], length: 0, withChildren: false };
+
+		props.nodes.forEach((node, index) => {
+			const [mappedNode] = props.mapNodes([node]);
+
+			if (!mappedNode) return;
+
+			const disableCreateNodeChildren = props.disableCreateNodeChildren?.(node);
+			const showNodeChildren = props.showNodeChildren?.(node);
+
+			const visibility: iNodeVisibility = {
+				disableCreateNodeChildren,
+				showNodeChildren,
+				childrenCount: childrenCount(node),
+			};
+
+			if (visibility.childrenCount) nodes.withChildren = true;
+
+			const hydrateNode = makeHydrateNode(index);
+			const createNodeChildrenAndRefresh = makeCreateNodeChildrenAndRefresh(
+				index,
+				visibility
+			);
+
+			nodes.nodes.push({
+				node: mappedNode,
+				index,
+				visibility,
+				hydrateNode,
+				createNodeChildrenAndRefresh,
+			});
+			nodes.length++;
+		});
+
+		return nodes;
 	});
 
 	/** [selected, show] */
@@ -171,21 +216,28 @@
 	 * This one assumes all objects within nodes are all the same
 	 */
 	const propertiesMeta = computed<iTablePropertyMeta<T>[]>(() => {
-		return Object.entries(mappedNodes.value[0])
-			.sort(props.propertyOrder || useOrderProperty)
-			.map(([key, value]) => {
-				const options = (props.properties || []).map(toOption);
-				const property = toOption(options.find((p) => p.value === key) || key);
-				const aliasKey = snakeCase(key);
+		const [mappedNode] = props.mapNodes([props.nodes[0]]);
+		const sorted = Object.entries(mappedNode).sort(props.propertyOrder || useOrderProperty);
+		const properties: iTablePropertyMeta<T>[] = [];
 
-				return {
-					...property,
-					value: String(property.value),
-					alias: upperFirst(startCase(property.alias || tet(aliasKey))),
-					canSort: !!props.sort && isPlainValue(value),
-				};
-			})
-			.filter(({ value }) => !["id", props.childrenCountKey].includes(value));
+		for (const [key, value] of sorted) {
+			const options = (props.properties || []).map(toOption);
+			const property = toOption(options.find((p) => p.value === key) || key);
+			const aliasKey = snakeCase(key);
+
+			const meta: iTablePropertyMeta<T> = {
+				...property,
+				value: String(property.value),
+				alias: upperFirst(startCase(property.alias || tet(aliasKey))),
+				canSort: !!props.sort && isPlainValue(value),
+			};
+
+			if (!["id", props.childrenCountKey].includes(meta.value)) {
+				properties.push(meta);
+			}
+		}
+
+		return properties;
 	});
 	/** Prefer a predictable identifier */
 	const tableId = computed(() => {
@@ -197,7 +249,7 @@
 
 	const childrenProps = computed<iTableChildProps<T, TM>>(() => ({
 		...props,
-		nodes: mappedNodes.value,
+		mappedNodes: mappedNodes.value,
 		tableId: tableId.value,
 		propertiesMeta: propertiesMeta.value,
 		isReadOnly: isReadOnly.value,
@@ -205,7 +257,7 @@
 		selectedNodes: selectedNodes.value,
 		selectedNodesCount: selectedNodesCount.value,
 		openNodesCount: openNodesCount.value,
-		childrenCount,
+		canShowChildren,
 		setOrdering,
 		toggleAll,
 		toggleChildren,
@@ -214,6 +266,12 @@
 		deleteNodeAndRefresh,
 		deleteNodesAndRefresh,
 	}));
+
+	function canShowChildren(visibility: iNodeVisibility, mappedIndex: number): boolean {
+		const { showNodeChildren, childrenCount } = visibility;
+
+		return showNodeChildren ?? (selectedNodes.value[mappedIndex][1] && !!childrenCount);
+	}
 
 	/**
 	 * set pagination order
@@ -255,6 +313,21 @@
 		const [selected, children] = selectedNodes.value[index];
 
 		selectedNodes.value[index] = [selected, !children];
+	}
+
+	function makeHydrateNode(nodeIndex: number) {
+		return (newNode: T | null, _newErrors?: unknown) => {
+			if (!props.hydrateNodes || !newNode) return;
+
+			// Replace the node with the updated one
+			const existingNode = props.nodes[nodeIndex];
+			const updatedNodes = props.nodes.toSpliced(nodeIndex, 1, {
+				...existingNode,
+				...newNode,
+			});
+
+			props.hydrateNodes(updatedNodes);
+		};
 	}
 
 	/**
@@ -515,6 +588,61 @@
 				target: event,
 			});
 		}
+	}
+
+	/**
+	 * Creates children for given node
+	 * sometimes it could fail but still update (api issue)
+	 *
+	 * @single
+	 */
+	function makeCreateNodeChildrenAndRefresh(
+		nodeIndex: number,
+		visibility: iNodeVisibility
+	): iNodeFn<T> {
+		return async (node: T) => {
+			// display loader
+			Swal.fireLoader();
+
+			// run process
+			const response = await useResolveNodeFn(props.createNodeChildren?.(node));
+			const [updatedParent, event, closeModal] = response;
+
+			// unfinished task
+			if (typeof updatedParent === "undefined" || updatedParent === null) {
+				if (Swal.isLoading()) Swal.close();
+			} else if (updatedParent) {
+				Swal.fire({
+					icon: "success",
+					title: t("swal.table_created"),
+					text: t("swal.table_created_text"),
+					willOpen() {
+						const hydrateNode = makeHydrateNode(nodeIndex);
+
+						// If has children, prefer hydration over refreshing
+						if (
+							visibility.childrenCount &&
+							props.hydrateNodes &&
+							typeof updatedParent === "object"
+						) {
+							hydrateNode({ ...node, ...updatedParent });
+						} else if (!props.omitRefresh) props.refresh?.();
+
+						closeModal?.();
+					},
+				});
+			} else {
+				// Error, children possibly not created
+				Swal.fire({
+					icon: "warning",
+					title: t("swal.table_possibly_not_created"),
+					text: t("swal.table_possibly_not_created_text"),
+					target: event,
+				});
+			}
+
+			return response;
+		};
 	}
 
 	// lifecycle

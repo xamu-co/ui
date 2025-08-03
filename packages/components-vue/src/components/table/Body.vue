@@ -1,13 +1,18 @@
 <template>
-	<tbody v-if="nodes.length" :class="classes">
-		<template v-for="(node, nodeIndex) in nodes" :key="nodeIndex">
+	<tbody v-if="mappedNodes.length" :class="classes">
+		<template
+			v-for="(
+				{ node, index, visibility, hydrateNode, createNodeChildrenAndRefresh }, mappedIndex
+			) in mappedNodes.nodes"
+			:key="index"
+		>
 			<!-- Row -->
 			<tr
 				class="--txtAlign"
-				:class="[`--txtSize-${size}`, { ['is--selected']: selectedNodes[nodeIndex][0] }]"
+				:class="[`--txtSize-${size}`, { ['is--selected']: selectedNodes[index][0] }]"
 			>
 				<th
-					v-if="nodes.length > 1 || $slots.default"
+					v-if="mappedNodes.length > 1 || $slots.default"
 					class="--sticky"
 					:class="{ ['is--selected']: !!ordering['id'] }"
 					data-column-name="id"
@@ -16,20 +21,19 @@
 					<component
 						:is="preferId"
 						v-if="preferId && preferId !== true"
-						:index="nodeIndex"
-						:node="node"
+						v-bind="{ index, node: nodes[index] }"
 					/>
 					<div v-else class="flx --flxRow --flx-start-center --gap-10">
 						<InputToggle
 							v-if="!isReadOnly"
-							:id="tableId + String(node.id ?? nodeIndex)"
-							v-model="selectedNodes[nodeIndex][0]"
+							:id="tableId + String(node.id ?? index)"
+							v-model="selectedNodes[mappedIndex][0]"
 							:theme="theme || themeValues"
 							:title="t('table_select')"
 							:size="size"
 						/>
-						<span :title="String(node.id ?? nodeIndex)">
-							{{ node.id && preferId ? node.id : nodeIndex + 1 }}
+						<span :title="String(node.id ?? index)">
+							{{ node.id && preferId ? node.id : index + 1 }}
 						</span>
 					</div>
 				</th>
@@ -51,7 +55,7 @@
 								meta: {
 									...meta,
 									...(meta.updateNode && {
-										updateNode: (n: any) => meta.updateNode?.(n, node),
+										updateNode: (n: any) => meta.updateNode?.(n, nodes[index]),
 									}),
 								},
 								node,
@@ -89,7 +93,7 @@
 								cloneNodeAndRefresh,
 								deleteNodeAndRefresh,
 								deleteNodesAndRefresh,
-								show: visibility[nodeIndex].show,
+								show: canShowChildren(visibility, mappedIndex),
 							}"
 						></slot>
 						<ActionButton
@@ -101,7 +105,7 @@
 							:size="size"
 							round
 							:disabled="selectedNodes.some(([n]) => n)"
-							@click="() => updateNodeAndRefresh(node)"
+							@click="() => updateNodeAndRefresh(nodes[index])"
 						>
 							<IconFa name="pencil" />
 						</ActionButton>
@@ -133,7 +137,9 @@
 											:theme="invertedTheme"
 											:size="size"
 											:aria-label="t('table_duplicate')"
-											@click="() => cloneNodeAndRefresh(node, setModel)"
+											@click="
+												() => cloneNodeAndRefresh(nodes[index], setModel)
+											"
 										>
 											<IconFa name="clone" />
 											<span>
@@ -149,7 +155,7 @@
 											@click="
 												() =>
 													deleteNodeAndRefresh(
-														node,
+														nodes[index],
 														setModel,
 														dropdownRef
 													)
@@ -167,7 +173,7 @@
 											cloneNodeAndRefresh,
 											deleteNodeAndRefresh,
 											deleteNodesAndRefresh,
-											show: visibility[nodeIndex].show,
+											show: canShowChildren(visibility, mappedIndex),
 										}"
 									></slot>
 								</ul>
@@ -182,7 +188,7 @@
 				<tr class="no--hover --width-100">
 					<td :colspan="propertiesMeta.length + 2">
 						<BaseBox
-							v-show="visibility[nodeIndex].show"
+							v-show="canShowChildren(visibility, mappedIndex)"
 							:theme="theme || themeValues"
 							transparent
 							button
@@ -196,7 +202,7 @@
 									deleteNodeAndRefresh,
 									deleteNodesAndRefresh,
 									createNodeChildrenAndRefresh,
-									show: visibility[nodeIndex].show,
+									show: canShowChildren(visibility, mappedIndex),
 									hydrateParentNode: hydrateNode,
 								}"
 							></slot>
@@ -210,30 +216,27 @@
 							<ActionLink
 								:theme="theme || themeValues"
 								:size="size"
-								:active="visibility[nodeIndex].show"
+								:active="canShowChildren(visibility, mappedIndex)"
 								:tooltip="
 									t(
-										visibility[nodeIndex].show
+										canShowChildren(visibility, mappedIndex)
 											? 'table_hide_name'
 											: 'table_see_name',
 										{
 											name:
 												childrenName ||
 												childrenCountKey ||
-												String(node.id ?? nodeIndex).split('/')[0],
+												String(node.id ?? index).split('/')[0],
 										}
 									)
 								"
 								tooltip-position="right"
-								:disabled="
-									!visibility[nodeIndex].childrenCount ||
-									visibility[nodeIndex].showNodeChildren
-								"
+								:disabled="!visibility.childrenCount || visibility.showNodeChildren"
 								class="--p-5"
-								@click="() => toggleChildren(nodeIndex)"
+								@click="() => toggleChildren(mappedIndex)"
 							>
-								<span v-if="visibility[nodeIndex].childrenCount >= 1">
-									{{ visibility[nodeIndex].childrenCount }}
+								<span v-if="visibility.childrenCount >= 1">
+									{{ visibility.childrenCount }}
 								</span>
 								<IconFa name="chevron-down" indicator />
 							</ActionLink>
@@ -241,20 +244,20 @@
 								v-if="createNodeChildren"
 								:theme="theme || themeValues"
 								:size="size"
-								:disabled="visibility[nodeIndex].disableCreateNodeChildren"
+								:disabled="visibility.disableCreateNodeChildren"
 								:tooltip="
 									t('table_create_new_name', {
 										name:
 											childrenName ||
 											childrenCountKey ||
-											String(node.id ?? nodeIndex).split('/')[0],
+											String(node.id ?? index).split('/')[0],
 									})
 								"
 								tooltip-position="right"
 								class="--p-5:md-inv"
 								link-button
 								round
-								@click="() => createNodeChildrenAndRefresh(node)"
+								@click="() => createNodeChildrenAndRefresh(nodes[index])"
 							>
 								<IconFa name="plus" />
 							</ActionButtonLink>
@@ -272,9 +275,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
-	import { computed } from "vue";
-
-	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
 	import ActionLink from "../action/Link.vue";
@@ -287,20 +288,12 @@
 
 	import type { iTableChildProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
-	import { useHelpers, useResolveNodeFn } from "../../composables/utils";
-	import type { iNodeFn } from "@open-xamu-co/ui-common-types";
+	import { useHelpers } from "../../composables/utils";
 
 	export interface iTableBodyProps<
 		Ti extends Record<string, any>,
 		TMi extends Record<string, any> = Ti,
 	> extends iTableChildProps<Ti, TMi> {}
-
-	interface INodeVisibility {
-		disableCreateNodeChildren?: boolean;
-		showNodeChildren?: boolean;
-		childrenCount: number;
-		show: boolean;
-	}
 
 	/**
 	 * Table body
@@ -312,90 +305,6 @@
 
 	const props = defineProps<iTableBodyProps<T, TM>>();
 
-	const Swal = useHelpers(useSwal);
 	const { t } = useHelpers(useI18n);
 	const { themeValues, dangerThemeValues } = useTheme(props);
-
-	/**
-	 * Cached node visibility
-	 */
-	const visibility = computed(() => {
-		return props.nodes.reduce(
-			(acc, node, nodeIndex) => {
-				const disableCreateNodeChildren = props.disableCreateNodeChildren?.(node);
-				const showNodeChildren = props.showNodeChildren?.(node);
-				const childrenCount = props.childrenCount(node);
-				const shouldShow = props.selectedNodes[nodeIndex][1] && !!childrenCount;
-
-				acc[nodeIndex] = {
-					disableCreateNodeChildren,
-					showNodeChildren,
-					childrenCount,
-					show: showNodeChildren ?? shouldShow,
-				};
-
-				return acc;
-			},
-			{} as Record<number, INodeVisibility>
-		);
-	});
-
-	function hydrateNode(newNode: T | null, _newErrors?: unknown) {
-		if (!props.hydrateNodes || !newNode) return;
-
-		// Replace the node with the updated one
-		const nodeIndex = props.nodes.findIndex(({ id }) => id === newNode.id);
-		const existingNode = props.nodes[nodeIndex];
-		const updatedNodes = props.nodes.toSpliced(nodeIndex, 1, { ...existingNode, ...newNode });
-
-		props.hydrateNodes(updatedNodes);
-	}
-
-	/**
-	 * Creates children for given node
-	 * sometimes it could fail but still update (api issue)
-	 *
-	 * @single
-	 */
-	const createNodeChildrenAndRefresh: iNodeFn<T> = async (node: T) => {
-		// display loader
-		Swal.fireLoader();
-
-		// run process
-		const response = await useResolveNodeFn(props.createNodeChildren?.(node));
-		const [updatedParent, event, closeModal] = response;
-
-		// unfinished task
-		if (typeof updatedParent === "undefined" || updatedParent === null) {
-			if (Swal.isLoading()) Swal.close();
-		} else if (updatedParent) {
-			Swal.fire({
-				icon: "success",
-				title: t("swal.table_created"),
-				text: t("swal.table_created_text"),
-				willOpen() {
-					// If has children, prefer hydration over refreshing
-					if (
-						props.childrenCount(node) &&
-						props.hydrateNodes &&
-						typeof updatedParent === "object"
-					) {
-						hydrateNode({ ...node, ...updatedParent });
-					} else if (!props.omitRefresh) props.refresh?.();
-
-					closeModal?.();
-				},
-			});
-		} else {
-			// Error, children possibly not created
-			Swal.fire({
-				icon: "warning",
-				title: t("swal.table_possibly_not_created"),
-				text: t("swal.table_possibly_not_created_text"),
-				target: event,
-			});
-		}
-
-		return response;
-	};
 </script>
