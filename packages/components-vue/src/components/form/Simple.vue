@@ -89,7 +89,7 @@
 		/**
 		 * Make model
 		 */
-		make?: (...args: P) => tFormInput[] | Promise<tFormInput[]>;
+		make?: ((...args: P) => tFormInput[]) | ((...args: P) => Promise<tFormInput[]>);
 		/** Make all inputs read only by disabling them */
 		readonly?: boolean;
 	}
