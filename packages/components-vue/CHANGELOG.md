@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.18...@open-xamu-co/ui-components-vue-v3.1.0-next.19) (2025-08-04)
+
+
+### Bug Fixes
+
+* expose table head scope in paginated table ([5b465cf](https://github.com/xamu-co/ui/commit/5b465cf22cbc939aeb70299ce29a25a202422c60))
+* generate thumbnails of file model ([ec07489](https://github.com/xamu-co/ui/commit/ec074898c419ac39d0a505c2cd771afa8a3789b9))
+* pass unmapped node to table functions ([c07cabb](https://github.com/xamu-co/ui/commit/c07cabbde027d06996dbf82d1fb87a0652cf6faa))
+* unmapped node always ([6f38d54](https://github.com/xamu-co/ui/commit/6f38d5420f3d13fad6685b6ca27310dd0c725772))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.19"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.17...@open-xamu-co/ui-components-vue-v3.1.0-next.18) (2025-08-03)
 
 
