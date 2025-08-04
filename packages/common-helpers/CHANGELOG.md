@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.1.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.1.0-next.1...@open-xamu-co/ui-common-helpers-v3.1.0-next.2) (2025-08-04)
+
+
+### Bug Fixes
+
+* generate thumbnails of file model ([ec07489](https://github.com/xamu-co/ui/commit/ec074898c419ac39d0a505c2cd771afa8a3789b9))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.1.0-next.2"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.2-next.5...@open-xamu-co/ui-common-helpers-v3.1.0-next.1) (2025-07-30)
 
 
