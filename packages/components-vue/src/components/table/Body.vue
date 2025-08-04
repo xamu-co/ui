@@ -58,7 +58,8 @@
 										updateNode: (n: any) => meta.updateNode?.(n, nodes[index]),
 									}),
 								},
-								node,
+								node: nodes[index],
+								mappedNode: node,
 								readonly: isReadOnly,
 								theme: theme || themeValues,
 								modalProps: { theme: theme || themeValues, ...modalProps },
@@ -88,7 +89,8 @@
 						<slot
 							name="modifyActions"
 							v-bind="{
-								node,
+								node: nodes[index],
+								mappedNode: node,
 								updateNodeAndRefresh,
 								cloneNodeAndRefresh,
 								deleteNodeAndRefresh,
@@ -168,7 +170,8 @@
 									<slot
 										name="modifyDropdownActions"
 										v-bind="{
-											node,
+											node: nodes[index],
+											mappedNode: node,
 											updateNodeAndRefresh,
 											cloneNodeAndRefresh,
 											deleteNodeAndRefresh,
@@ -196,7 +199,8 @@
 						>
 							<slot
 								v-bind="{
-									node,
+									node: nodes[index],
+									mappedNode: node,
 									updateNodeAndRefresh,
 									cloneNodeAndRefresh,
 									deleteNodeAndRefresh,
