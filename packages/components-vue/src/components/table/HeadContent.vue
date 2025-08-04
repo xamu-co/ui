@@ -1,10 +1,10 @@
 <template>
 	<!-- Table header -->
 	<thead>
-		<tr v-if="nodes.length" class="--txtAlign" :class="`--txtSize-${size}`">
+		<tr v-if="mappedNodes.length" class="--txtAlign" :class="`--txtSize-${size}`">
 			<!-- TODO: define filters, filter table contents -->
 			<th
-				v-if="nodes.length > 1 || withDefaultSlot"
+				v-if="mappedNodes.length > 1 || withDefaultSlot"
 				class="--sticky"
 				:class="{ ['is--selected']: sort && !!ordering['id'] }"
 				data-column-name="id"

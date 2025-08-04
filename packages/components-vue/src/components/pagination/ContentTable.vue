@@ -60,7 +60,10 @@
 						},
 					}"
 				>
-					<template v-if="emittedHasContent && $slots.headActions" #headActions>
+					<template
+						v-if="emittedHasContent && $slots.headActions"
+						#headActions="headActionsScope"
+					>
 						<div
 							key="internal-head-actions"
 							class="flx --flxRow --flx-start-center --gap-10 --gap:md"
@@ -68,6 +71,7 @@
 							<slot
 								name="headActions"
 								v-bind="{
+									...headActionsScope,
 									refreshData,
 									hasContent: emittedHasContent,
 									hydrateData: emittedHydrateNodes,

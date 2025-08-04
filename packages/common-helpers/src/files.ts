@@ -108,7 +108,7 @@ export const fileMatchesMimeTypes = (file: File, mimeTypes: iMime[]) => {
  * Create base64 image string from image file
  */
 export const getBase64FromImageFile = (file: File) => {
-	//build base64 image string
+	// build base64 image string
 	const reader = new FileReader();
 
 	return new Promise<string>((resolve) => {

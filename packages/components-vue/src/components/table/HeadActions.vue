@@ -17,8 +17,8 @@
 									<ActionButtonLink
 										v-if="
 											withDefaultSlot &&
-											nodes.length > 1 &&
-											nodes.some(childrenCount)
+											mappedNodes.length > 1 &&
+											mappedNodes.withChildren
 										"
 										:theme="theme"
 										:active="openNodesCount === selectedNodes.length"
@@ -44,6 +44,7 @@
 										name="headActions"
 										v-bind="{
 											nodes,
+											mappedNodes,
 											updateNodeAndRefresh,
 											cloneNodeAndRefresh,
 											deleteNodeAndRefresh,

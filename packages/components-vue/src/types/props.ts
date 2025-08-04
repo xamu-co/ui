@@ -237,7 +237,7 @@ export interface iTablePropertyMeta<Ti extends Record<string, any>>
 	canSort: boolean;
 }
 
-export interface iTableProps<Ti extends Record<string, any>, Tm extends Record<string, any>>
+export interface iTableProps<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti>
 	extends iUseThemeProps {
 	/**
 	 * Table nodes
@@ -341,8 +341,32 @@ export interface iTableProps<Ti extends Record<string, any>, Tm extends Record<s
 	opaque?: boolean;
 }
 
-export interface iTableChildProps<Ti extends Record<string, any>, Tm extends Record<string, any>>
-	extends iTableProps<Ti, Tm> {
+export interface iNodeVisibility {
+	disableCreateNodeChildren?: boolean;
+	showNodeChildren?: boolean;
+	childrenCount: number;
+	// show: boolean;
+}
+
+export interface iMappedNode<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti> {
+	node: Tm;
+	index: number;
+	visibility: iNodeVisibility;
+	hydrateNode: (newNode: Ti | null, _newErrors?: unknown) => void;
+	createNodeChildrenAndRefresh: iNodeFn<Ti>;
+}
+
+export interface iMappedNodes<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti> {
+	nodes: iMappedNode<Ti, Tm>[];
+	length: number;
+	withChildren: boolean;
+}
+
+export interface iTableChildProps<
+	Ti extends Record<string, any>,
+	Tm extends Record<string, any> = Ti,
+> extends iTableProps<Ti, Tm> {
+	mappedNodes: iMappedNodes<Ti, Tm>;
 	/**
 	 * Table unique identifier
 	 *
@@ -367,11 +391,9 @@ export interface iTableChildProps<Ti extends Record<string, any>, Tm extends Rec
 	selectedNodesCount: number;
 	openNodesCount: number;
 	/**
-	 * Count childrens
-	 *
-	 * node['propertyWithChildren']
+	 * Can show children
 	 */
-	childrenCount(node: Ti): number;
+	canShowChildren(visibility: iNodeVisibility, mappedIndex: number): boolean;
 	/**
 	 * Set pagination order
 	 *
