@@ -4,10 +4,7 @@
 		button
 		v-bind="{ ...props, theme: fileInputTheme.themeValues }"
 	>
-		<div
-			v-if="minAmount !== maxAmount && thumbnails.length"
-			class="flx --flxRow --flx-start-center --gap-10"
-		>
+		<div v-if="thumbnails.length" class="flx --flxRow --flx-start-center --gap-10">
 			<ul class="flx --flxRow-wrap --flx-start-center --gap-10">
 				<li
 					v-for="(thumb, thumb_index) in thumbnails"
@@ -18,7 +15,7 @@
 						class="avatar --index --bdr flx --flx-center"
 						:tooltip="t('file_delete_files', 1)"
 						tooltip-position="bottom"
-						@click.prevent="removeFile(thumb_index)"
+						@click.prevent="(e: Event) => removeFile(thumb_index, e)"
 					>
 						<div class="back">
 							<BaseImg :src="thumb" :alt="t('file_thumb')" />
@@ -123,7 +120,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, computed } from "vue";
+	import { ref, computed, watch } from "vue";
 	import debounce from "lodash-es/debounce";
 	import omit from "lodash-es/omit";
 
@@ -216,16 +213,14 @@
 	const isAdvancedUpload = ref(false);
 	const isLoading = ref(false);
 	const isDragover = ref(false);
-	const minAmount = computed(() => props.min ?? 1);
 	const maxAmount = computed(() => props.max ?? 100);
 	const maxFileSize = computed(() => props.maxSize ?? 1e7);
 
 	/**
 	 * setFiles
 	 */
-	function setFiles(files: File[] = [], thumbs: string[] = []) {
-		thumbnails.value = thumbs;
-		emit("update:model-value", files);
+	function setFiles(files: File[] = [], event?: Event) {
+		if (event) emit("update:model-value", files);
 	}
 	/**
 	 * check support for drag and drop
@@ -242,13 +237,12 @@
 	/**
 	 * stores the files
 	 */
-	async function storeFiles(files: FileList, target: Event) {
+	async function storeFiles(files: FileList | File[], event?: Event) {
 		isLoading.value = true;
 
 		// copy the files
 		const filesArr = Array.from(files); // FileList is unstable
 		const savedFiles = [...props.modelValue].filter((v) => v instanceof File);
-		const savedThumbs = [...thumbnails.value];
 
 		try {
 			for (let i = 0; i < filesArr.length; i++) {
@@ -261,7 +255,7 @@
 							amount: maxAmount.value,
 						}),
 						icon: "warning",
-						target,
+						target: event,
 					});
 
 					break;
@@ -278,7 +272,7 @@
 						title: t("swal.file_wrong_format_image"),
 						text: t("swal.file_wrong_format_image_text"),
 						icon: "warning",
-						target,
+						target: event,
 					});
 				} else {
 					// is image file
@@ -286,21 +280,20 @@
 						const fileName = `${props.filePrefix ?? "image"}_${i}`;
 
 						savedFiles.push(renameFile(filesArr[i], fileName));
-						savedThumbs.push(await getBase64FromImageFile(filesArr[i]));
 					} else {
 						// file too big
 						Swal.fire({
 							title: t("swal.file_too_big"),
 							text: t("swal.file_too_big_text"),
 							icon: "warning",
-							target,
+							target: event,
 						});
 					}
 				}
 			}
 
 			// last one, save all.
-			setFiles(savedFiles, savedThumbs);
+			setFiles(savedFiles, event);
 		} catch (err) {
 			logger("InputFile:storeFiles", err);
 			Swal.fire({
@@ -309,7 +302,7 @@
 				icon: "error",
 				timer: undefined,
 				showConfirmButton: true,
-				target,
+				target: event,
 			});
 		}
 
@@ -319,9 +312,9 @@
 	/**
 	 * remove the given file in the given key
 	 */
-	const removeFile = debounce((index: number) => {
+	const removeFile = debounce((index: number, event?: Event) => {
 		// modify and set again
-		setFiles(props.modelValue.toSpliced(index, 1), thumbnails.value.toSpliced(index, 1));
+		setFiles(props.modelValue.toSpliced(index, 1), event);
 	});
 
 	/**
@@ -381,4 +374,15 @@
 
 	// lifecycle
 	if (isBrowser) isAdvancedUpload.value = checkAdvancedUploadSupport();
+
+	watch(
+		() => props.modelValue,
+		async (newFiles) => {
+			// TODO: optimize thumbnails generation for larger filesets
+			thumbnails.value = await Promise.all(
+				newFiles.map((file) => getBase64FromImageFile(file))
+			);
+		},
+		{ immediate: true }
+	);
 </script>
