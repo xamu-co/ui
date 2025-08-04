@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.20](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.19...@open-xamu-co/ui-components-vue-v3.1.0-next.20) (2025-08-04)
+
+
+### Bug Fixes
+
+* form make as union ([305a7e4](https://github.com/xamu-co/ui/commit/305a7e48b3e524754db36bbfba53c73b53ffc869))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.20"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.18...@open-xamu-co/ui-components-vue-v3.1.0-next.19) (2025-08-04)
 
 
