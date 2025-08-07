@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
+import type { tFormInput } from "@open-xamu-co/ui-common-types";
 
 import { FormInput } from "@open-xamu-co/ui-common-helpers";
 import { eFormType } from "@open-xamu-co/ui-common-enums";
 
 import FormSimpleComponent from "./Simple.vue";
 
-const inputs: FormInput[] = [
+const inputs: tFormInput[] = [
 	new FormInput({
 		values: [""],
 		name: "firstName",
