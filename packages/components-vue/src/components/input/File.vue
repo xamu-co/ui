@@ -67,7 +67,7 @@
 					@dragover="handleMouseOver"
 					@dragenter="handleMouseOver"
 				>
-					<div class="txt --txtAlign-center">
+					<div class="txt --txtAlign-center --txtWrap">
 						<template v-if="!isDragover">
 							<p>
 								<b>{{ t("file_choose_file", maxAmount) }}</b>
