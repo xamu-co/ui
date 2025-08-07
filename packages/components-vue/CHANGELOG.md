@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.24](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.23...@open-xamu-co/ui-components-vue-v3.1.0-next.24) (2025-08-07)
+
+
+### Bug Fixes
+
+* reset at on first change ([5c318d6](https://github.com/xamu-co/ui/commit/5c318d6e0a1044dd1e24ccefa3fb9a7277a72206))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.24"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.23](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.22...@open-xamu-co/ui-components-vue-v3.1.0-next.23) (2025-08-07)
 
 
