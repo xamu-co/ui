@@ -27,12 +27,13 @@
 				</li>
 				<template v-if="currentPage.totalCount > currentPage.edges.length">
 					<li>
+						<!-- Reset at if coming from second page -->
 						<ActionButtonToggle
 							:theme="theme"
 							:aria-label="t('previous')"
-							:disabled="!currentPage.pageInfo.hasPreviousPage"
+							:disabled="!pageInfo?.hasPreviousPage"
 							round=":sm-inv"
-							@click="currentPage && setAt(currentPage.pageInfo?.previousCursor)"
+							@click="setAt(pageNumber > 2 ? pageInfo?.previousCursor : undefined)"
 						>
 							<IconFa name="arrow-left" />
 							<IconFa name="arrow-left" regular />
@@ -43,9 +44,9 @@
 						<ActionButtonToggle
 							:theme="theme"
 							:aria-label="t('next')"
-							:disabled="!currentPage.pageInfo.hasNextPage"
+							:disabled="!pageInfo?.hasNextPage"
 							round=":sm-inv"
-							@click="currentPage && setAt(currentPage.pageInfo?.nextCursor)"
+							@click="setAt(pageInfo?.nextCursor)"
 						>
 							<span class="--hidden-full:sm-inv">{{ t("next") }}</span>
 							<IconFa name="arrow-right" />
@@ -99,15 +100,8 @@
 	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
 	const { t } = useHelpers(useI18n);
 
-	/**
-	 * Set at
-	 * preserve route/pagination
-	 *
-	 * @replace
-	 */
-	function setAt(at?: string | number) {
-		emit("update:model-value", { ...props.modelValue, at });
-	}
+	const pageInfo = computed(() => props.currentPage?.pageInfo);
+	const pageNumber = computed(() => props.currentPage?.pageInfo?.pageNumber || 0);
 
 	/**
 	 * PaginationSimple first model
@@ -131,4 +125,14 @@
 
 		return pagesText;
 	});
+
+	/**
+	 * Set at
+	 * preserve route/pagination
+	 *
+	 * @replace
+	 */
+	function setAt(at?: string | number) {
+		emit("update:model-value", { ...props.modelValue, at });
+	}
 </script>
