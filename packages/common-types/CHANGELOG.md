@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.1.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.1.0-next.6...@open-xamu-co/ui-common-types-v3.1.0-next.7) (2025-08-07)
+
+
+### Features
+
+* onUpdatedValue as promise ([752c9ac](https://github.com/xamu-co/ui/commit/752c9acfe9cdee11930db380bd6c43bd5eb6cdab))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.1.0-next.7"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.1.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.1.0-next.5...@open-xamu-co/ui-common-types-v3.1.0-next.6) (2025-08-07)
 
 
