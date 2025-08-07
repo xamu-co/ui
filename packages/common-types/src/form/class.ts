@@ -75,7 +75,9 @@ export declare class tFormInput<
 	 */
 	public clone(
 		overrides?: Omit<iFormInput<V, T>, "name"> & { name?: string },
-		onUpdatedValues?: (updatedValues: V[]) => V[] | undefined | void
+		onUpdatedValues?: (
+			updatedValues: V[]
+		) => V[] | undefined | void | Promise<V[] | undefined | void>
 	): tFormInput<V, T>;
 	/**
 	 * Check if this object is equal to another
