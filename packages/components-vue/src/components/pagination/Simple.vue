@@ -109,7 +109,7 @@
 	const firstModel = computed({
 		get: () => props.modelValue?.first ?? defaultFirst ?? 0,
 		set(first) {
-			emit("update:model-value", { ...props.modelValue, first });
+			emit("update:model-value", { ...props.modelValue, first, at: undefined });
 		},
 	});
 
