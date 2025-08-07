@@ -10,7 +10,7 @@
 			<p class="--txtSize-sm">
 				{{ t("pagination_items", currentPage.totalCount) }}
 				⋅
-				{{ t("pagination_pages", Math.ceil(currentPage.totalCount / modelValue.first)) }}
+				{{ pageCountText }}
 			</p>
 		</li>
 		<li v-if="!hidePageLength && currentPage.totalCount > 5">
@@ -113,9 +113,22 @@
 	 * PaginationSimple first model
 	 */
 	const firstModel = computed({
-		get: () => props.modelValue?.first ?? defaultFirst,
+		get: () => props.modelValue?.first ?? defaultFirst ?? 0,
 		set(first) {
 			emit("update:model-value", { ...props.modelValue, first });
 		},
+	});
+
+	const pageCountText = computed(() => {
+		const totalCount = props.currentPage?.totalCount ?? 0;
+		const pagesText = t("pagination_pages", Math.ceil(totalCount / firstModel.value));
+
+		if (!props.currentPage?.pageInfo.pageNumber) {
+			const pageText = t("pagination_page", props.currentPage?.pageInfo.pageNumber);
+
+			return `${pageText} ${pagesText}`;
+		}
+
+		return pagesText;
 	});
 </script>

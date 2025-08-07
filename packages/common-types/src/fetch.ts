@@ -16,6 +16,7 @@ export interface iPageEdge<T, C extends string | number = string> {
 export interface iPageInfo<C extends string | number = string> {
 	nextCursor?: C;
 	previousCursor?: C;
+	pageNumber?: number;
 	hasNextPage: boolean;
 	hasPreviousPage: boolean;
 	path?: string;

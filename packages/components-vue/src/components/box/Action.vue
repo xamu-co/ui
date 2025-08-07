@@ -23,7 +23,7 @@
 				:placeholder="imagePlaceholder"
 			/>
 		</BaseBox>
-		<p>
+		<p class="--txtWrap">
 			<!-- Since we only accept label there is no room for slot here -->
 			<b>{{ label }}</b>
 		</p>
