@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.25](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.24...@open-xamu-co/ui-components-vue-v3.1.0-next.25) (2025-08-07)
+
+
+### Bug Fixes
+
+* wrap file input text ([e8a3b38](https://github.com/xamu-co/ui/commit/e8a3b38ca978f8dacd7f61de62766e51f07a6d1c))
+
+
+### Features
+
+* onUpdatedValue as promise ([752c9ac](https://github.com/xamu-co/ui/commit/752c9acfe9cdee11930db380bd6c43bd5eb6cdab))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.25"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.24](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.23...@open-xamu-co/ui-components-vue-v3.1.0-next.24) (2025-08-07)
 
 
