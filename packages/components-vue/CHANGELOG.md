@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.22](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.21...@open-xamu-co/ui-components-vue-v3.1.0-next.22) (2025-08-07)
+
+
+### Bug Fixes
+
+* inverted condition on pagination text ([21ab2e8](https://github.com/xamu-co/ui/commit/21ab2e8b7922ae70c3ea27b4cda52bfd0505687c))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.22"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.21](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.20...@open-xamu-co/ui-components-vue-v3.1.0-next.21) (2025-08-07)
 
 
