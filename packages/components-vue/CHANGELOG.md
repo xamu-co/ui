@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.23](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.22...@open-xamu-co/ui-components-vue-v3.1.0-next.23) (2025-08-07)
+
+
+### Bug Fixes
+
+* reset pagination on first page ([2bd449b](https://github.com/xamu-co/ui/commit/2bd449bd4a852dc3de4ffc2552d74ce0c2b865bb))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.23"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.22](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.21...@open-xamu-co/ui-components-vue-v3.1.0-next.22) (2025-08-07)
 
 
