@@ -123,8 +123,8 @@
 		const totalCount = props.currentPage?.totalCount ?? 0;
 		const pagesText = t("pagination_pages", Math.ceil(totalCount / firstModel.value));
 
-		if (!props.currentPage?.pageInfo.pageNumber) {
-			const pageText = t("pagination_page", props.currentPage?.pageInfo.pageNumber);
+		if (props.currentPage?.pageInfo.pageNumber) {
+			const pageText = t("pagination_page", props.currentPage.pageInfo.pageNumber);
 
 			return `${pageText} ${pagesText}`;
 		}
