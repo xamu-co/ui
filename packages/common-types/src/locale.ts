@@ -299,6 +299,8 @@ export type tLocalePagination = {
 	pagination_items: string;
 	/** @example "No pages | Single page | {count} pages" */
 	pagination_pages: string;
+	/** @example "Page {count} of" */
+	pagination_page: string;
 	// swal: {};
 };
 
