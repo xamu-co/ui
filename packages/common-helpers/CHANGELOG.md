@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.1.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.1.0-next.2...@open-xamu-co/ui-common-helpers-v3.1.0-next.3) (2025-08-07)
+
+
+### Features
+
+* with pageNumber ([976d81c](https://github.com/xamu-co/ui/commit/976d81c11c167d18a2e13326525ff23f7a9c3ea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.1.0-next.3"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.1.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.1.0-next.1...@open-xamu-co/ui-common-helpers-v3.1.0-next.2) (2025-08-04)
 
 
