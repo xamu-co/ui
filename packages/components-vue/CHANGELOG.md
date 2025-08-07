@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.21](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.20...@open-xamu-co/ui-components-vue-v3.1.0-next.21) (2025-08-07)
+
+
+### Bug Fixes
+
+* wrap box action label ([8a121c7](https://github.com/xamu-co/ui/commit/8a121c70c0141f733cc265bfb44fb591b4a298c5))
+
+
+### Features
+
+* with pageNumber ([976d81c](https://github.com/xamu-co/ui/commit/976d81c11c167d18a2e13326525ff23f7a9c3ea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.21"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.20](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.19...@open-xamu-co/ui-components-vue-v3.1.0-next.20) (2025-08-04)
 
 
