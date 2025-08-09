@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
-import Simple from "./Simple.vue";
+import TableSimple from "./Simple.vue";
 
 const nodes = [
 	{
@@ -9,17 +9,15 @@ const nodes = [
 		firstName: "Jhon Harrison",
 		lastName: "Doe Johnson",
 		email: "jhsj@xamu.com.co",
-		cellphoneNumber: "1234567890",
-		cellphoneIndicative: "CO+57",
-		locationCountry: "CO",
-		locationState: "VAC",
-		locationCity: "Cali",
-		address: "No address",
 		zipCode: "124876",
 		pathPhoto: "https://picsum.photos/seed/45465/100/100",
 		createdAt: "2024-05-12T03:34:22.408Z",
 		updatedAt: "2024-05-12T03:34:22.408Z",
-		emailVerifiedAt: "2024-05-11T22:34:22.345Z",
+		price: 2443535,
+		iva: false,
+		reference: "00000001",
+		variants: 1,
+		visible: true,
 		permissions: [
 			{ endpoint: "GET_OWN_USER", description: "User can get who he is" },
 			{ endpoint: "GET_USER", description: "User can get itself or another user" },
@@ -29,48 +27,104 @@ const nodes = [
 			{ endpoint: "CREATE_LOCAL", description: "User can create a local" },
 			{ endpoint: "UPDATE_LOCAL", description: "User can update a local" },
 			{ endpoint: "REMOVE_LOCAL", description: "User can remove a local" },
-			{ endpoint: "CREATE_OFFER", description: "User can create a offer" },
-			{ endpoint: "UPDATE_OFFER", description: "User can update a offer" },
-			{ endpoint: "CREATE_OFFER_IMAGES", description: "User can add images to offer" },
-			{ endpoint: "REMOVE_OFFER_IMAGE", description: "User can remove a offer image" },
-			{ endpoint: "UPDATE_OWN_USER", description: "User can update a user" },
-			{ endpoint: "GET_USERS", description: "User can get users" },
-			{ endpoint: "REMOVE_USER", description: "User can remove a user" },
-			{ endpoint: "CREATE_BUSINESS", description: "User can create their business" },
-			{ endpoint: "CREATE_CATEGORY", description: "User can create a category" },
-			{ endpoint: "UPDATE_CATEGORY", description: "User can update a category" },
-			{ endpoint: "INTERNALS", description: "" },
-			{ endpoint: "CREATE_SECTOR", description: "User can create a sector" },
-			{ endpoint: "UPDATE_SECTOR", description: "User can update a sector" },
-			{ endpoint: "UPDATE_CATEGORY_IMAGE", description: "User can update a category image" },
-			{ endpoint: "CREATE_OFFER_FIELD", description: "User can create a offer field" },
-			{ endpoint: "CREATE_PAYMENT_METHOD", description: "User can create a payment method" },
-			{ endpoint: "UPDATE_PAYMENT_METHOD", description: "User can update a payment method" },
-			{ endpoint: "UPDATE_PERMISSION", description: "User can update a permission" },
-			{ endpoint: "UPDATE_OFFER_FIELD", description: "User can update a offer field" },
-			{ endpoint: "REMOVE_CATEGORY", description: "User can remove a category" },
-			{ endpoint: "REMOVE_SECTOR", description: "User can remove a sector" },
-			{ endpoint: "REMOVE_PAYMENT_METHOD", description: "User can remove a payment method" },
-			{ endpoint: "REMOVE_OFFER_FIELD", description: "User can remove a offer field" },
 		],
+		category: {
+			name: "Labial",
+			description: "Aqui van  mis labiales",
+			keywords: ["labial", "cuidado facial"],
+			createdAt: "2024-09-29T22:14:37.562Z",
+			updatedAt: "2024-09-29T22:14:37.562Z",
+			possibleVariants: [
+				{
+					name: "marca labial",
+					type: "text",
+					values: [
+						{ name: "loreal", value: "LOREAL" },
+						{ name: "yambal", value: "YAMBAL" },
+					],
+					createdAt: "2024-09-29T22:13:20.877Z",
+					updatedAt: "2024-09-29T22:13:20.877Z",
+					id: "possibleVariants/ovXdgBbDFKM6ZAdZSqti",
+				},
+			],
+			id: "categories/YJbSamQ7Jg7lQQ5WTFtp",
+		},
 		businesses: [],
+	},
+];
+
+const subNodes = [
+	{
+		amount: 6,
+		reference: "00000001-00000001",
+		createdAt: "2024-09-29T22:20:51.313Z",
+		updatedAt: "2024-09-29T22:20:51.313Z",
+		id: "variants/8O2IV0MCEgcy2aAFcc0a",
+		images: ["/vite.svg"],
+		values: [
+			{ name: "loreal", value: "LOREAL" },
+			{ name: "yambal", value: "YAMBAL" },
+		],
 	},
 ];
 
 const meta = {
 	title: "Table",
-	component: Simple as Record<keyof typeof Simple, unknown>,
-	args: { nodes },
-} satisfies Meta<typeof Simple>;
+	component: TableSimple as Record<keyof typeof TableSimple, unknown>,
+	args: { nodes, modalProps: { class: "--txtColor", invertTheme: true } },
+} satisfies Meta<typeof TableSimple>;
 
-type Story = StoryObj<typeof Simple>;
+type Story = StoryObj<typeof TableSimple>;
 
 export const Sample: Story = {
+	render: (args) => ({
+		components: { TableSimple },
+		setup() {
+			async function deleteNode(node: Record<string, any>) {
+				return !!node;
+			}
+
+			return { args, deleteNode };
+		},
+		template: `
+			<TableSimple v-bind="args" :delete-node="deleteNode"/>
+		`,
+	}),
 	args: { nodes },
 };
 
-export const NoContent: Story = {
+export const Empty: Story = {
 	args: { nodes: [] },
+};
+
+export const Opaque: Story = {
+	render: (args) => ({
+		components: { TableSimple },
+		setup() {
+			return { args };
+		},
+		template: `
+		<div class="--width-100 --bgColor-secondary --p-30">
+			<TableSimple v-bind="args"/>
+		</div>
+		`,
+	}),
+	args: { nodes, opaque: true },
+};
+
+export const Nested: Story = {
+	render: (args) => ({
+		components: { TableSimple },
+		setup() {
+			return { args, subNodes };
+		},
+		template: `
+		<TableSimple v-bind="args" >
+			<TableSimple :modal-props="args.modalProps" :nodes="subNodes" nested />
+		</TableSimple>
+		`,
+	}),
+	args: { nodes, childrenCountKey: "variants" },
 };
 
 export default meta;

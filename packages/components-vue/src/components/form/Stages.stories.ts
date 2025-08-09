@@ -6,6 +6,19 @@ import type { iForm, iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-t
 
 import StagesComponent from "./Stages.vue";
 
+const meta = {
+	title: "Form/Form Stages",
+	component: StagesComponent,
+	args: {},
+	excludeStories: /.*Data$/,
+} satisfies Meta<typeof StagesComponent>;
+
+type Story = StoryObj<typeof StagesComponent>;
+
+export const Sample: Story = {
+	args: { stages: [] },
+};
+
 export const stagesData: iForm[][] = [
 	[
 		{
@@ -110,20 +123,11 @@ async function submitFn(inputs: tFormInput[]): Promise<boolean | iInvalidInput[]
 	return true;
 }
 
-const meta = {
-	title: "Form/Form Stages",
-	component: StagesComponent,
-	args: { stages: stagesData, submitFn },
-	excludeStories: /.*Data$/,
-} satisfies Meta<typeof StagesComponent>;
-
-type Story = StoryObj<typeof StagesComponent>;
-
-export const Stages: Story = {
+export const WithStages: Story = {
 	args: { stages: stagesData, submitFn },
 };
 
-export const StagesWithInvalidStage: Story = {
+export const WithInvalidStage: Story = {
 	args: {
 		stages: [
 			[
