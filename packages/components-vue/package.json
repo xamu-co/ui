@@ -1,6 +1,6 @@
 {
   "name": "@open-xamu-co/ui-components-vue",
-  "version": "3.1.0-next.25",
+  "version": "3.1.0-next.26",
   "description": "Vue component system for the xamu project",
   "scripts": {
     "build:entries": "rimraf dist && vite build",
@@ -59,13 +59,13 @@
   "dependencies": {
     "@fortawesome/fontawesome-common-types": "^6.4.0",
     "@open-xamu-co/ui-common-enums": "^3.1.0-next.1",
-    "@open-xamu-co/ui-common-helpers": "^3.1.0-next.4",
+    "@open-xamu-co/ui-common-helpers": "^3.1.0-next.5",
     "lodash-es": "^4.17.21",
     "sweetalert2": "^11.11.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "1.4.0",
-    "@open-xamu-co/ui-common-types": "^3.1.0-next.7",
+    "@open-xamu-co/ui-common-types": "^3.1.0-next.8",
     "@open-xamu-co/ui-styles": "^4.1.0-next.1",
     "@storybook/addon-essentials": "^8.1.1",
     "@storybook/addon-interactions": "^8.1.1",

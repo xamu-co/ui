@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.26](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.25...@open-xamu-co/ui-components-vue-v3.1.0-next.26) (2025-08-09)
+
+
+### Bug Fixes
+
+* location input not rendering if missing data ([237b595](https://github.com/xamu-co/ui/commit/237b59562e3f9a71944a1e7604d352050ae81279))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.26"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.25](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.24...@open-xamu-co/ui-components-vue-v3.1.0-next.25) (2025-08-07)
 
 
