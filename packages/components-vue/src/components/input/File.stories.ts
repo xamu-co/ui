@@ -29,7 +29,6 @@ export const Sample: Story = {
 		},
 		template: '<File v-bind="args" v-model="model" />',
 	}),
-	args: { modelValue: [] },
 };
 
 export default meta;

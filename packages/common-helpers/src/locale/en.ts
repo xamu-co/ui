@@ -108,6 +108,7 @@ export const localeForm: tLocaleForm = {
 	form_requires_n_values:
 		"No values are required | A value is required | {count} values are required",
 	form_loading_countries: "Loading countries...",
+	form_awaiting_countries: "Awaiting countries data...",
 	form_country: "Look for country",
 	form_state: "Look for state",
 	form_city: "Look for city",
