@@ -2,7 +2,7 @@
 	<LoaderContent
 		v-if="Array.isArray(model) && modelHasLength"
 		class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
-		v-bind="{ loading, content, errors, refresh }"
+		v-bind="{ loading, content, errors, refresh, label }"
 	>
 		<slot></slot>
 	</LoaderContent>
@@ -27,6 +27,8 @@
 		content?: boolean;
 		loading?: boolean;
 		errors?: unknown;
+		/** Loader label */
+		label?: string;
 		refresh?: (...args: any[]) => any;
 	}
 

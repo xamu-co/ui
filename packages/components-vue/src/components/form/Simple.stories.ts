@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import type { iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
+import { ref } from "vue";
 
-import { FormInput } from "@open-xamu-co/ui-common-helpers";
+import { FormInput, useForm } from "@open-xamu-co/ui-common-helpers";
 import { eFormType } from "@open-xamu-co/ui-common-enums";
 
 import FormSimple from "./Simple.vue";
-import { ref } from "vue";
+import ActionButton from "../action/Button.vue";
 
 const meta: Meta = {
 	title: "Form/Form Simple",
@@ -88,16 +89,58 @@ export const WithInputs: Story = {
 };
 
 export const WithLocationField: Story = {
-	args: {
-		modelValue: [
-			new FormInput({
-				values: [["CO", "VAC", "Cali"]],
-				name: "location",
-				type: eFormType.LOCATION,
-				required: true,
-			}),
-		],
-	},
+	render: (args) => ({
+		components: { FormSimple, ActionButton },
+		setup() {
+			const { getResponse } = useForm();
+			const inputs = ref<tFormInput[]>([
+				new FormInput({
+					values: [["CO", "", ""]],
+					name: "location",
+					type: eFormType.LOCATION,
+					required: true,
+				}),
+			]);
+			const invalid = ref<iInvalidInput[]>([]);
+
+			interface iLocation {
+				locationCountry: string;
+				locationState: string;
+				locationCity: string;
+			}
+
+			async function checkLocation(event: Event) {
+				const { response, invalidInputs, withErrors, validationHadErrors, errors } =
+					await getResponse<iLocation, iLocation>(
+						async (data) => ({ data }),
+						inputs.value,
+						event
+					);
+
+				invalid.value = invalidInputs;
+
+				if (!withErrors) {
+					// Succesful request
+					alert("Success");
+					console.log(response);
+				} else if (!validationHadErrors) {
+					if (!response && !errors) {
+						alert("Sin cambios");
+					} else {
+						alert("Error");
+					}
+				}
+			}
+
+			return { args, inputs, invalid, checkLocation };
+		},
+		template: `
+			<div class="flx --flxColumn --flx-start-stretch --gap-30">
+				<FormSimple v-bind="args" v-model="inputs" v-model:invalid="invalid" />
+				<ActionButton @click="checkLocation">Check location</ActionButton>
+			</div>
+		`,
+	}),
 };
 
 export const WithPhoneField: Story = {

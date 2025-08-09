@@ -1,36 +1,29 @@
 <template>
-	<FormInputNValues
-		:key="states?.length"
-		v-bind="{ model, loading, errors, refresh }"
-		:content="!!countries?.length"
-		:values="[1, 3]"
+	<BaseWrapper
+		v-slot="statesReq"
+		:wrapper="LoaderContentFetch"
+		:wrap="!loading && !states?.length"
+		:promise="getCountryStates"
+		:url="`/${model[0]}?states`"
+		:payload="[countryValue]"
+		:fallback="[]"
+		:theme="theme"
+		unwrap
 	>
 		<BaseWrapper
-			v-slot="statesReq"
+			v-slot="citiesReq"
 			:wrapper="LoaderContentFetch"
-			:wrap="!loading && !states && !!countryValue"
-			:theme="theme"
-			:promise="getCountryStates"
-			:url="`/${model[0]}?states`"
-			:payload="[countryValue]"
+			:wrap="!loading && !statesReq?.loading && !!model[1]"
+			:promise="getStateCities"
+			:url="`/${model[0]}/${model[1]}?cities`"
+			:payload="[countryValue, model[1]]"
 			:fallback="[]"
+			:theme="theme"
 			unwrap
 		>
-			<LoaderContentFetch
-				v-slot="citiesReq"
-				:theme="theme"
-				:prevent-autoload="!model[1]"
-				:no-loader="statesReq?.loading"
-				:promise="getStateCities"
-				:url="`/${model[0]}/${model[1]}?cities`"
-				:payload="[countryValue, model[1]]"
-				:fallback="[]"
-				unwrap
-			>
-				<slot v-bind="{ statesReq, citiesReq }"></slot>
-			</LoaderContentFetch>
+			<slot v-bind="{ statesReq, citiesReq }"></slot>
 		</BaseWrapper>
-	</FormInputNValues>
+	</BaseWrapper>
 </template>
 
 <script setup lang="ts">
@@ -38,8 +31,6 @@
 
 	import BaseWrapper from "../base/Wrapper.vue";
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
-	// input helper components
-	import FormInputNValues from "./InputNValues.vue";
 
 	import type { iUseThemeProps } from "../../types/props";
 	import type { iCountry, iState } from "../../types/countries";
@@ -49,6 +40,7 @@
 		model: string[];
 		countries?: iCountry[];
 		states?: iState[];
+		/** Loading countries and states */
 		loading?: boolean;
 		errors?: unknown;
 		refresh?: (...args: any[]) => any;

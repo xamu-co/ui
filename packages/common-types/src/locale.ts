@@ -152,6 +152,8 @@ export type tLocaleForm = {
 	form_requires_n_values: string;
 	/** @example "Loading countries..." */
 	form_loading_countries: string;
+	/** @example "Awaiting countries data..." */
+	form_awaiting_countries: string;
 	/** @example "Look for country" */
 	form_country: string;
 	/** @example "Look for state" */
