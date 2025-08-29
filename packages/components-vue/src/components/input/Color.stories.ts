@@ -15,7 +15,7 @@ export const Sample: Story = {
 	render: (args) => ({
 		components: { InputColor },
 		setup() {
-			const model = ref();
+			const model = ref("#000000");
 
 			return { args, model };
 		},

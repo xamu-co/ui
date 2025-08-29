@@ -331,7 +331,7 @@
 	@layer defaults {
 		@include module.extend-themes using($name, $value, $is-default) {
 			+ label {
-				--cl: #{$value};
+				--cl: #{module.color($name)};
 				--bg: #{module.color($name, 0.1)};
 				--bc: #{module.color($name, 0.1)};
 

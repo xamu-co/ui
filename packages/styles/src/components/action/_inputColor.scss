@@ -62,5 +62,77 @@
 				--bc: var(--cl);
 			}
 		}
+
+		// input-color picker
+		//
+		// @see https://github.com/linx4200/vue-color
+		// @group Components
+		.#{module.$component-input-color}-picker {
+			width: auto !important;
+
+			.body {
+				width: 7rem;
+				box-sizing: content-box;
+				gap: 0.5rem;
+
+				@include module.flex-box(row, wrap, flex-start, flex-start);
+			}
+
+			.vc-editable-input {
+				position: relative;
+				width: 100%;
+				height: 2rem;
+				border-radius: 0.7rem;
+				background-color: rgba(var(--rgb-dark), 0.05);
+				color: rgba(var(--rgb-dark), 0.6);
+				font-size: 0.9rem;
+
+				&::after {
+					content: "#";
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 2rem;
+					height: 100%;
+					color: rgba(var(--rgb-dark), 0.6);
+
+					@include module.flex-box(row, wrap, center, center);
+				}
+			}
+
+			.vc-input-input {
+				display: block;
+				width: 100%;
+				height: 100%;
+				padding: 1px 0.5rem 1px 2rem;
+				outline: none;
+				border: 0;
+				background-color: transparent;
+
+				span {
+					display: none;
+				}
+			}
+
+			.vc-input-label {
+				text-transform: capitalize;
+			}
+
+			.triangle,
+			.hash,
+			.clear {
+				display: none;
+			}
+
+			.swatch {
+				width: 2rem;
+				height: 2rem;
+				float: left;
+				border-radius: 0.7rem;
+				cursor: pointer;
+				position: relative;
+				outline: none;
+			}
+		}
 	}
 }
