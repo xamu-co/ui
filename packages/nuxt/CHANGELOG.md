@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.1.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0-next.1...@open-xamu-co/ui-nuxt-v3.1.0-next.2) (2025-08-29)
+
+
+### Features
+
+* bump nuxt version to 3.18.1 ([9f7f0f6](https://github.com/xamu-co/ui/commit/9f7f0f698838776fc48888d603ae96070beda36e))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.1-next.4...@open-xamu-co/ui-nuxt-v3.1.0-next.1) (2025-07-30)
 
 
