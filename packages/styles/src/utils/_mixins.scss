@@ -119,13 +119,13 @@ $default-viewports: if(
 	@include extend-maps(variables.$colors, meta.get-function("color-selector"), $default)
 		using($name, $value, $is-default) {
 		// plain color
-		@content ($name, $value, $is-default);
+		@content ($name, rgba(var(--rgb-#{$name}), 1), $is-default);
 
 		// shades of color
 		@if not $is-default and $shade {
 			@for $i from 1 through 9 {
 				&#{$i} {
-					@content ($name, rgba($value, math.div($i, 10)),false);
+					@content ($name, rgba(var(--rgb-#{$name}), math.div($i, 10)), false);
 				}
 			}
 		}
