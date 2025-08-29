@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.27](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.26...@open-xamu-co/ui-components-vue-v3.1.0-next.27) (2025-08-29)
+
+
+### Features
+
+* color picker on input ([88ad4c2](https://github.com/xamu-co/ui/commit/88ad4c2503b68b7a71e2a6c0a1cc69060217307a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.27"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.26](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.25...@open-xamu-co/ui-components-vue-v3.1.0-next.26) (2025-08-09)
 
 
