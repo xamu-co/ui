@@ -33,7 +33,7 @@
 			// @group Modifiers
 			&.#{module.$prefix-default}--round {
 				@include module.extend-viewports-classes(true, module.$viewports) {
-					:not(:only-child) {
+					> :not(:only-child) {
 						&:not(:last-child),
 						&:not(:nth-child(2)) {
 							display: none;

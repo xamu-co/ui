@@ -16,6 +16,7 @@
 					method="post"
 					class="flx --flxColumn --flx-start-stretch"
 					:class="stagesClasses ?? '--gap-30'"
+					@click.prevent="submit"
 				>
 					<slot></slot>
 					<template v-if="formInputsKeys?.length">

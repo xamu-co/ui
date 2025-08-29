@@ -52,7 +52,7 @@
 			// @group Modifiers
 			@layer defaults {
 				@include module.extend-themes using($name, $value, $is-default) {
-					--cls: var(--cl, #{$value});
+					--cls: var(--cl, #{module.color($name)});
 				}
 			}
 

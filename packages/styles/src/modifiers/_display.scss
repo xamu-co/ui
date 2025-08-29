@@ -28,6 +28,12 @@
 					}
 				}
 			}
+
+			&-inline-block {
+				@include utils.extend-viewports-classes {
+					display: inline-block;
+				}
+			}
 		}
 
 		.#{utils.$prefix-default}--overflow {
