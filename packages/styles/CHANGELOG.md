@@ -1,5 +1,29 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v4.1.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.2...@open-xamu-co/ui-styles-v4.1.0-next.3) (2025-08-29)
+
+
+### Bug Fixes
+
+* single level styles for action icon ([40dae95](https://github.com/xamu-co/ui/commit/40dae955057cc50e1727fad6f372818b32ff0925))
+* use custom properties on colors mixin ([12f1fa0](https://github.com/xamu-co/ui/commit/12f1fa0d07a0c5f4d9a165bb1a42dd1544c978ae))
+
+
+### Features
+
+* add presets layer ([581a577](https://github.com/xamu-co/ui/commit/581a5776a1e5b0053f11f3b2668b2c01a3c1b004))
+* color picker on input ([88ad4c2](https://github.com/xamu-co/ui/commit/88ad4c2503b68b7a71e2a6c0a1cc69060217307a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.3"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v4.1.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.1...@open-xamu-co/ui-styles-v4.1.0-next.2) (2025-08-21)
 
 
