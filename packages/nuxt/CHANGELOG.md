@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.1.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0-next.2...@open-xamu-co/ui-nuxt-v3.1.0-next.3) (2025-08-31)
+
+
+### Bug Fixes
+
+* bump countries for cors improvement ([a19c340](https://github.com/xamu-co/ui/commit/a19c34080f3120e581e033c154b218bc8e020a22))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.1.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0-next.1...@open-xamu-co/ui-nuxt-v3.1.0-next.2) (2025-08-29)
 
 
