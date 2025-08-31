@@ -2647,7 +2647,7 @@
   dependencies:
     "@octokit/openapi-types" "^12.11.0"
 
-"@open-xamu-co/eslint-config@^3.0.0":
+"@open-xamu-co/eslint-config@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@open-xamu-co/eslint-config/-/eslint-config-3.0.1.tgz#ca59152fa680710dfed911bfd1d30c68a5b64be4"
   integrity sha512-3CD5gCS405hUxbOM8rb+OEcWhIpZBomOXYwbGJjyHFM0LLh44duFgJk+IvEQRPCk1KesftKsRQfvsb26mn4gSA==
@@ -12624,10 +12624,10 @@ nuxi@^3.28.0:
   resolved "https://registry.yarnpkg.com/nuxi/-/nuxi-3.28.0.tgz#2ee5c71a79be08b0d797cfd0950a2f422d598b8c"
   integrity sha512-sH4z8U/wo9dOfeGHsngK6CMjG05lLm/Yt4PcVAQR1KrAa+Hrh+L4/U0UMKtlgQLze5KbFLit0fn4WXL6iqCZ6A==
 
-nuxt-countries-api@^1.0.3:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/nuxt-countries-api/-/nuxt-countries-api-1.1.0.tgz#49bf4f69dcc27b9ec01ee284c44cd829ab55400d"
-  integrity sha512-Ker6tFABxh6WRkc2hm9/X0J0q+KU2zm7WjIQ02Qx2f9bHTeaNWSoVMH6XuDqdtw2MKEwNP3+Bg9czMHELwgAFA==
+nuxt-countries-api@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/nuxt-countries-api/-/nuxt-countries-api-2.0.0.tgz#bc5996306b8ebe4bb31800b35b167701cfd34d05"
+  integrity sha512-IdtyMTvJGdD4sUOBCkoIlXduKil/bbpf5oGgEjY5JMTN+TmIkXe7OHkqJxFggczvbsbJ1oYiTgaojMAm7OKmeg==
 
 nuxt@^3.18.1:
   version "3.18.1"

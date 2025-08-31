@@ -51,7 +51,7 @@
     "@open-xamu-co/ui-common-enums": "link:../common-enums",
     "@open-xamu-co/ui-common-helpers": "link:../common-helpers",
     "@open-xamu-co/ui-components-vue": "link:../components-vue",
-    "nuxt-countries-api": "^1.0.3",
+    "nuxt-countries-api": "^2.0.0",
     "sweetalert2": "^11.11.1"
   },
   "devDependencies": {
