@@ -100,15 +100,17 @@
 			// theme overrides
 			//
 			// @group Modifiers
-			&.#{module.$prefix-default}--tm-light {
-				&:hover:not(:focus, :focus-within) {
-					--bc: var(--cl);
-				}
+			@if module.$allow-theme-overrides {
+				&.#{module.$prefix-default}--tm-light:not(.#{module.$status-no-override}) {
+					&:hover:not(:focus, :focus-within) {
+						--bc: var(--cl);
+					}
 
-				&:focus,
-				&:focus-within {
-					--bg: #{module.color(primary, 0.3)};
-					--bc: #{module.color(primary)};
+					&:focus,
+					&:focus-within {
+						--bg: #{module.color(primary, 0.3)};
+						--bc: #{module.color(primary)};
+					}
 				}
 			}
 
