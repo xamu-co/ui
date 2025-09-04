@@ -12,7 +12,7 @@
 		<div class="flx --flxColumn --flx-stretch-center --gap-10 --width-100">
 			<div
 				ref="sliderContainerRef"
-				:class="{ 'avatarAureo --size-lg': gallery }"
+				:class="{ 'avatarAureo --size-lg': gallery, '--invert': invertGallery }"
 				class="--overflow-hidden --width-100 --mY"
 			>
 				<component
@@ -110,6 +110,11 @@
 		 * TODO: allow opening overlay with picture gallery
 		 */
 		gallery?: boolean;
+		/**
+		 * Invert gallery
+		 * Rotates the gallery 180 degrees
+		 */
+		invertGallery?: boolean;
 		enumerate?: boolean;
 	}
 
