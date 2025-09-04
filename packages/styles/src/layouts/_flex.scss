@@ -44,9 +44,7 @@
 ///
 /// @group layout-flex
 /// @example njk
-///  <div class="flx --flxColumn">
-///   TODO: flexbox example
-///  </div>
+///  {% extends "flex.njk" %}
 
 // flexbox container
 @mixin flex {

@@ -26,6 +26,7 @@
     "p:nuxt": "yarn workspace @open-xamu-co/ui-nuxt",
     "dev:vue": "yarn p:vue dev",
     "dev:nuxt": "yarn p:nuxt dev",
+    "dev:styles": "yarn p:styles docs",
     "build": "yarn workspaces run build",
     "build:helpers": "yarn p:enums build && yarn p:helpers build",
     "build:nuxt": "yarn p:vue build && yarn p:nuxt build",

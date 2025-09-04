@@ -77,9 +77,7 @@
 ///
 /// @group layout-grid
 /// @example njk
-///  <div class="flx --flxColumn">
-///   TODO: grid example
-///  </div>
+///  {% extends "grid.njk" %}
 
 /// # Grid item
 /// Optional class with the common styles for the grid layout item
@@ -106,9 +104,7 @@
 ///
 /// @group layout-grid
 /// @example njk
-///  <div class="flx --flxColumn">
-///   TODO: grid item example
-///  </div>
+///  {% extends "grid-item.njk" %}
 
 @mixin grid {
 	$column-third: math.div(utils.$size-min-column, 3);
@@ -190,7 +186,7 @@
 						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 							grid-template-rows: repeat(
 								auto-fit,
-								minmax(#{math.div(utils.$size-min-row, $i) * 3}, 1fr)
+								minmax(#{math.div(utils.$size-min-row, $i) * 2}, 1fr)
 							);
 						}
 					}
@@ -198,7 +194,7 @@
 						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 							grid-template-rows: repeat(
 								#{$i},
-								minmax(#{math.div(utils.$size-min-row, $i) * 3}, 1fr)
+								minmax(#{math.div(utils.$size-min-row, $i) * 2}, 1fr)
 							);
 						}
 					}
@@ -263,7 +259,7 @@
 						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 							grid-template-columns: repeat(
 								auto-fit,
-								minmax(#{math.div(utils.$size-min-column, $i) * 3}, 1fr)
+								minmax(#{math.div(utils.$size-min-column, $i) * 2}, 1fr)
 							);
 						}
 					}
@@ -271,7 +267,7 @@
 						@include utils.extend-viewports-classes($viewports: utils.$viewports) {
 							grid-template-columns: repeat(
 								#{$i},
-								minmax(#{math.div(utils.$size-min-column, $i) * 3}, 1fr)
+								minmax(#{math.div(utils.$size-min-column, $i) * 2}, 1fr)
 							);
 						}
 					}

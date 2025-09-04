@@ -1,0 +1,96 @@
+{# Animation Examples #}
+<div class="flx --flxColumn --gap-50 --pY-50">
+  <!-- Basic Animations -->
+  <section>
+    <h2>Basic Animations</h2>
+    <div class="flx --flxRow --flxWrap --gap-20">
+      <!-- Fade In -->
+      <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
+        <button class="--p-10 --bgColor-primary --txtColor-light" onclick="this.parentElement.querySelector('.a-fadeIn').classList.toggle('is--animated')">
+          Toggle Fade In
+        </button>
+        <div class="a-fadeIn --p-20 --bgColor-primary --txtColor-light">
+          Fade In
+        </div>
+      </div>
+
+      <!-- Slide In -->
+      <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
+        <button class="--p-10 --bgColor-primary --txtColor-light" onclick="this.parentElement.querySelector('.a-slideInLeft').classList.toggle('is--animated')">
+          Toggle Slide In
+        </button>
+        <div class="a-slideInLeft --p-20 --bgColor-primary --txtColor-light">
+          Slide In Left
+        </div>
+      </div>
+
+      <!-- Bounce -->
+      <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
+        <button class="--p-10 --bgColor-primary --txtColor-light" onclick="this.parentElement.querySelector('.a-bounce').classList.toggle('is--animated')">
+          Toggle Bounce
+        </button>
+        <div class="a-bounce --p-20 --bgColor-primary --txtColor-light">
+          Bounce
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Animation with Delay -->
+  <section>
+    <h2>Animation with Delay</h2>
+    <div class="flx --flxColumn --gap-20">
+      <div class="flx --flxRow --flxWrap --gap-20">
+        {% for i in range(1, 4) %}
+        <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
+          <button class="--p-10 --bgColor-primary --txtColor-light" onclick="const items = this.parentElement.parentElement.querySelectorAll('.delayed-item'); items.forEach(el => el.classList.toggle('is--animated'))">
+            Toggle All
+          </button>
+          <div class="a-fadeIn --delay-{{ i }} delayed-item --p-20 --bgColor-primary --txtColor-light">
+            Delay {{ i * 0.1 }}s
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Animation Iterations -->
+  <section>
+    <h2>Animation Iterations</h2>
+    <div class="flx --flxRow --flxWrap --gap-20">
+      <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
+        <button class="--p-10 --bgColor-primary --txtColor-light" onclick="this.parentElement.querySelector('.iterating').classList.toggle('is--animated')">
+          Toggle Iteration
+        </button>
+        <div class="a-bounce --iterations-3 iterating --p-20 --bgColor-primary --txtColor-light">
+          3 Iterations
+        </div>
+      </div>
+
+      <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
+        <button class="--p-10 --bgColor-primary --txtColor-light" onclick="this.parentElement.querySelector('.infinite').classList.toggle('is--animated')">
+          Toggle Infinite
+        </button>
+        <div class="a-pulse --iterations-infinite infinite --p-20 --bgColor-primary --txtColor-light">
+          Infinite Pulse
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chained Animations -->
+  <section>
+    <h2>Chained Animations</h2>
+    <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="max-width: 400px;">
+      <button class="--p-10 --bgColor-primary --txtColor-light" onclick="const items = this.parentElement.querySelectorAll('.chained'); items.forEach((el, i) => { setTimeout(() => el.classList.toggle('is--animated'), i * 300) })">
+        Start Chained Animation
+      </button>
+      {% for i in range(1, 5) %}
+      <div class="a-fadeIn --delay-{{ i }} chained --p-10 --mY-5 --bgColor-primary --txtColor-light">
+        Item {{ i }} ({{ i * 0.3 }}s delay)
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>

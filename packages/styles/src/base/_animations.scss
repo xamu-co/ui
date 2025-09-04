@@ -45,9 +45,7 @@
 ///
 /// @group animations
 /// @example njk
-///  <div class="flx --flxColumn">
-///   TODO: animation example
-///  </div>
+///  {% extends "animations.njk" %}
 
 @mixin animations {
 	// inicia animations
