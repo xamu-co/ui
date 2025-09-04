@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v4.1.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.4...@open-xamu-co/ui-styles-v4.1.0-next.5) (2025-09-04)
+
+
+### Bug Fixes
+
+* adjust grid sizes ([01816a5](https://github.com/xamu-co/ui/commit/01816a51cc5d1af3e4226ac345e47aa9b9a2c6e0))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.5"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v4.1.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.3...@open-xamu-co/ui-styles-v4.1.0-next.4) (2025-09-01)
 
 
