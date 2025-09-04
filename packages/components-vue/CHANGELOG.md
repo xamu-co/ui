@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.28](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.27...@open-xamu-co/ui-components-vue-v3.1.0-next.28) (2025-09-04)
+
+
+### Features
+
+* rotate gallery ([0b562b2](https://github.com/xamu-co/ui/commit/0b562b2deee0cab854b23c0c50cf2aeeb22566c3))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.28"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.27](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.26...@open-xamu-co/ui-components-vue-v3.1.0-next.27) (2025-08-29)
 
 
