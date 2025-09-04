@@ -1,0 +1,33 @@
+{# Grid Item Examples #}
+<div class="flx --flxColumn --gap-50 --pY-50">
+  <!-- Basic Grid with Column Span -->
+  <section>
+    <h2>Grid Item Examples</h2>
+    <div class="flx --flxColumn --gap-30">
+      <div>
+        <h3>Basic Grid with Column Span</h3>
+        <div class="grd --grdColumns-3 --gap-10 --p-10 --bgColor-dark1">
+          {% for i in range(1, 5) %}
+            {% if i == 2 %}
+              <div class="grd-item --grdColumnSpan-2 --p-10 --bgColor-primary --txtColor-light">Item {{ i }} (spans 2 columns)</div>
+            {% else %}
+              <div class="grd-item --p-10 --bgColor-primary --txtColor-light">Item {{ i }}</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div>
+        <h3>Responsive Grid with Column Span</h3>
+        <div class="grd --grdColumns --grdColumns-2:md --grdColumns-4:lg --gap-10 --p-10 --bgColor-dark1">
+          <div class="grd-item --p-10 --bgColor-primary --txtColor-light">Item 1</div>
+          <div class="grd-item --grdColumnSpan-2 --p-10 --bgColor-success --txtColor-light">Wider Item (spans 2 columns)</div>
+          <div class="grd-item --p-10 --bgColor-primary --txtColor-light">Item 3</div>
+          <div class="grd-item --p-10 --bgColor-primary --txtColor-light">Item 4</div>
+          <div class="grd-item --p-10 --bgColor-primary --txtColor-light">Item 5</div>
+          <div class="grd-item --p-10 --bgColor-primary --txtColor-light">Item 6</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
