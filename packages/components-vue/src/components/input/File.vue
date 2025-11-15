@@ -44,6 +44,7 @@
 				...omit(props, ['modelValue', 'size']),
 				type: 'file',
 				accept: (accept ?? ['image/*']).join(','),
+				capture,
 				multiple: maxAmount > 1,
 				disabled,
 			}"
@@ -170,6 +171,10 @@
 		 * default: all image types
 		 */
 		accept?: string[];
+		/**
+		 * Capture files directly from camera
+		 */
+		capture?: boolean;
 		// PRIVATE
 		modelValue: File[];
 	}
@@ -220,7 +225,7 @@
 	 * setFiles
 	 */
 	function setFiles(files: File[] = [], event?: Event) {
-		if (event) emit("update:model-value", files);
+		emit("update:model-value", event ? files : []);
 	}
 	/**
 	 * check support for drag and drop
