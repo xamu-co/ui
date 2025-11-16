@@ -70,7 +70,8 @@
 				>
 					<div class="txt --txtAlign-center --txtWrap">
 						<template v-if="!isDragover">
-							<p>
+							<!-- Show text on desktop -->
+							<p class="--hidden-full:md-inv">
 								<b>{{ t("file_choose_file", maxAmount) }}</b>
 								{{
 									(isAdvancedUpload &&
@@ -79,6 +80,16 @@
 									""
 								}}
 							</p>
+							<!-- Show button on mobile -->
+							<ActionButton
+								:theme="fileInputTheme.themeValues"
+								:aria-label="t('file_choose_file', maxAmount)"
+								tag="label"
+								:for="id"
+								class="--hidden-full:md"
+							>
+								{{ t("file_choose_file", maxAmount) }}
+							</ActionButton>
 							<p class="--txtSize-xs">
 								{{ t("file_max_file_size_mb", { size: maxFileSize / 1e6 }) }}
 							</p>
