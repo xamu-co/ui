@@ -185,7 +185,7 @@
 		/**
 		 * Capture files directly from camera
 		 */
-		capture?: boolean;
+		capture?: "environment" | "user";
 		// PRIVATE
 		modelValue: File[];
 	}
