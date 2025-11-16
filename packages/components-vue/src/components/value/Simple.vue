@@ -185,7 +185,10 @@
 		const [firstPart] = url.split("?");
 
 		// host is required
-		if (isURL(firstPart) && imageHosts.length) {
+		if (
+			isURL(firstPart, { protocols: ["http", "https"], require_protocol: true }) &&
+			imageHosts.length
+		) {
 			const url = new URL(firstPart);
 
 			if (imageHosts.includes(url.host)) return true;
