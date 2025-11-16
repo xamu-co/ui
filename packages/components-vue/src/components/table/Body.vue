@@ -52,7 +52,7 @@
 							:is="meta.component || ValueComplex"
 							v-bind="{
 								value: node[meta.value],
-								meta: {
+								property: {
 									...meta,
 									...(meta.updateNode && {
 										updateNode: (n: any) => meta.updateNode?.(n, nodes[index]),

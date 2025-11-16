@@ -47,10 +47,11 @@
 		>
 			<BaseImg
 				preset="avatar"
+				class="--bgColor-none"
 				:src="value"
 				:alt="value"
 				:placeholder="property?.imagePlaceholder"
-				class="--bgColor-none"
+				@error="property?.onImageError"
 			/>
 		</BaseAction>
 		<!-- String, URL -->

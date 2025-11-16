@@ -84,6 +84,8 @@ export interface iProperty<
 	 * Overrides the plugin's imagePlaceholder
 	 */
 	imagePlaceholder?: string;
+	/** Event to handle image load errors */
+	onImageError?: (data?: any) => void;
 }
 
 export type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;
