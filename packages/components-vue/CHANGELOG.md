@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.30](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.29...@open-xamu-co/ui-components-vue-v3.1.0-next.30) (2025-11-16)
+
+
+### Bug Fixes
+
+* prefer button on mobile file loading ([cebdaf2](https://github.com/xamu-co/ui/commit/cebdaf2bad01043ce3ab3cf8fea9b89b23d5d6b2))
+* require protocol on image url ([ba8513e](https://github.com/xamu-co/ui/commit/ba8513e2bd289425c712bf306a93c42f4e0d3702))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.30"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.29](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.28...@open-xamu-co/ui-components-vue-v3.1.0-next.29) (2025-11-16)
 
 
