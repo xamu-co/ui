@@ -13,7 +13,11 @@
 			}"
 		>
 			<!-- Do not hide, since this is used by a pseudo element -->
-			<label :for="id" class="flx --flxRow --flx-start-center --gap-none">
+			<label
+				:for="id"
+				class="flx --flxRow --flx-start-center --gap-none"
+				v-bind="tooltipAttributes"
+			>
 				<div
 					v-if="label || showPlaceholder || $slots.default"
 					class="flx --flxColumn --flx-start --flx --gap-none"
@@ -43,6 +47,7 @@
 		iUseStateProps,
 		iUseThemeProps,
 		iInputProps,
+		iUseThemeTooltipProps,
 	} from "../../types/props";
 	import useModifiers from "../../composables/modifiers";
 	import useState from "../../composables/state";
@@ -53,7 +58,8 @@
 		extends iInputProps,
 			iUseModifiersProps,
 			iUseStateProps,
-			iUseThemeProps {
+			iUseThemeProps,
+			iUseThemeTooltipProps {
 		type?: "checkbox" | "radio" | "switch";
 		label?: string;
 		showPlaceholder?: boolean;
@@ -73,7 +79,7 @@
 	const { t } = useHelpers(useI18n);
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
-	const { themeClasses } = useTheme(props);
+	const { themeClasses, tooltipAttributes } = useTheme(props);
 
 	const inputType = computed(() => props.type || "checkbox");
 </script>
