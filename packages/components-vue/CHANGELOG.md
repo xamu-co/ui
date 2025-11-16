@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.29](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.28...@open-xamu-co/ui-components-vue-v3.1.0-next.29) (2025-11-16)
+
+
+### Bug Fixes
+
+* property on body value ([ed4514d](https://github.com/xamu-co/ui/commit/ed4514d201ddd1ab1c45358fb9bcc2fe2b510a75))
+* shorter file input text ([a85d5ee](https://github.com/xamu-co/ui/commit/a85d5ee2e4d8791e72342345ec7769390abd7e6a))
+
+
+### Features
+
+* image load events ([67b857c](https://github.com/xamu-co/ui/commit/67b857c58334a6306522812ceac1a20b81dbdfcb))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.29"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.28](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.27...@open-xamu-co/ui-components-vue-v3.1.0-next.28) (2025-09-04)
 
 
