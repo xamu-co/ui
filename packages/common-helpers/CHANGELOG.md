@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.1.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.1.0-next.6...@open-xamu-co/ui-common-helpers-v3.1.0-next.7) (2025-11-17)
+
+
+### Bug Fixes
+
+* emit change event on base inout ([20cf8b1](https://github.com/xamu-co/ui/commit/20cf8b17ba841a3d56bf6a2fc1a405d652110cd9))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.1.0-next.7"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.1.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.1.0-next.5...@open-xamu-co/ui-common-helpers-v3.1.0-next.6) (2025-11-16)
 
 
