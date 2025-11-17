@@ -35,10 +35,11 @@
 				}}
 			</span>
 		</div>
+		<!-- Do not hide input (Apple issue) -->
 		<BaseInput
 			v-slot="{ id }"
 			ref="fileInput"
-			style="display: none"
+			class="--hidden"
 			v-bind="{
 				...$attrs,
 				...omit(props, ['modelValue', 'size']),
@@ -185,7 +186,7 @@
 		/**
 		 * Capture files directly from camera
 		 */
-		capture?: boolean;
+		capture?: "environment" | "user";
 		// PRIVATE
 		modelValue: File[];
 	}

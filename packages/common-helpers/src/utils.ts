@@ -19,6 +19,7 @@ interface iUseUtils {
 	logger: tLogger;
 	isBrowser: boolean;
 	isTouchDevice: boolean;
+	isAppleDevice: boolean;
 	/**
 	 * returns the modifier classes
 	 *
@@ -68,6 +69,7 @@ interface iUseUtils {
 export default function useUtils(options: iPluginOptions = {}): iUseUtils {
 	const isBrowser = typeof window !== "undefined";
 	const isTouchDevice = isBrowser && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+	const isAppleDevice = isBrowser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 	const logger: tLogger = (at, errorOrMessage, error) => {
 		if (!error) {
@@ -124,6 +126,7 @@ export default function useUtils(options: iPluginOptions = {}): iUseUtils {
 		logger: options.logger || logger,
 		isBrowser,
 		isTouchDevice,
+		isAppleDevice,
 		getModifierClasses,
 		getPropData<T extends string>(prop: tProp<T>, index = 0): T | undefined {
 			if (typeof prop !== "string") {

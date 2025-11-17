@@ -33,6 +33,10 @@
 		 * Use vertical button
 		 */
 		y?: boolean;
+		/**
+		 * Alias for y
+		 */
+		vertical?: boolean;
 	}
 
 	/**
@@ -52,6 +56,6 @@
 	const { themeClasses, tooltipAttributes } = useTheme(props, true);
 
 	const buttonTypeClass = computed(() => {
-		return props.y ? "bttnY" : "bttn";
+		return props.y || props.vertical ? "bttnY" : "bttn";
 	});
 </script>
