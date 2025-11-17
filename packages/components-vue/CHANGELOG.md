@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.31](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.30...@open-xamu-co/ui-components-vue-v3.1.0-next.31) (2025-11-17)
+
+
+### Bug Fixes
+
+* capture issue ios ([e491cb8](https://github.com/xamu-co/ui/commit/e491cb8d3143d3bf44695a12e637ef1842653daf))
+* emit change event on base inout ([20cf8b1](https://github.com/xamu-co/ui/commit/20cf8b17ba841a3d56bf6a2fc1a405d652110cd9))
+
+
+### Features
+
+* toggle tooltip ([a728a72](https://github.com/xamu-co/ui/commit/a728a722b971123824e4883c4b4d98db4ec1b83e))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.31"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.30](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.29...@open-xamu-co/ui-components-vue-v3.1.0-next.30) (2025-11-16)
 
 
