@@ -4,9 +4,7 @@
 		v-bind="{ ...$attrs, ...props }"
 		:placeholder="placeholder || imagePlaceholder"
 		@load="emit('load', $event)"
-		@on-load="emit('load', $event)"
 		@error="emit('error', $event)"
-		@on-error="emit('error', $event)"
 	/>
 </template>
 
