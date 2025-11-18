@@ -181,7 +181,8 @@
 		sliderContainerRef.value.style.width = `${sliderWidth}px`;
 
 		// the transition needs an starting point
-		sliderRef.value.style.left = "0";
+		sliderRef.value.style.transform = "translateX(0)";
+		sliderRef.value.style.willChange = "transform";
 
 		return {
 			slides,
@@ -207,10 +208,12 @@
 
 			// copy first slide to last position
 			slides[slides.length - 1].after(slides[0].cloneNode(true));
-			slider.style.transition = `left ${transitionTime}ms ease`;
+			slider.style.transition = `transform ${transitionTime}ms ease`;
+
 			setTimeout(() => {
 				// transition
-				slider.style.left = `-${slideWidth}px`;
+				slider.style.transform = `translateX(-${slideWidth}px)`;
+
 				setTimeout(() => {
 					// remove duplicated first slide
 					slides[0].remove();
@@ -229,25 +232,24 @@
 			const { slides, slideWidth, slider } = prepareTransition();
 
 			// fake the position
-			slider.style.left = `-${slideWidth}px`;
+			slider.style.transform = `translateX(-${slideWidth}px)`;
 			// copy last slide to first position
 			slides[0].before(slides[slides.length - 1].cloneNode(true));
+			slider.style.transition = `transform ${transitionTime}ms ease`;
+
 			setTimeout(() => {
-				slider.style.transition = `left ${transitionTime}ms ease`;
+				// transition
+				slider.style.transform = "translateX(0)";
 				setTimeout(() => {
-					// transition
-					slider.style.left = "0";
-					setTimeout(() => {
-						// remove duplicated last slide
-						slides[slides.length - 1].remove();
+					// remove duplicated last slide
+					slides[slides.length - 1].remove();
 
-						const firstSlide = slider.children[0] as HTMLElement;
+					const firstSlide = slider.children[0] as HTMLElement;
 
-						if (firstSlide.dataset.id) activeSlide.value = firstSlide.dataset.id;
+					if (firstSlide.dataset.id) activeSlide.value = firstSlide.dataset.id;
 
-						resolve(true);
-					}, transitionTime);
-				}, 1);
+					resolve(true);
+				}, transitionTime);
 			}, 1);
 		});
 
@@ -275,7 +277,7 @@
 
 			// move n steps in either direction
 			for (const step of Array(steps).fill(() => tab(direction, "", halfTime))) {
-				await step(step);
+				await step();
 			}
 		} else {
 			const slide = await (sentido
