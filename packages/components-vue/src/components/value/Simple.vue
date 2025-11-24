@@ -56,7 +56,7 @@
 		</BaseAction>
 		<!-- String, URL -->
 		<ActionLink
-			v-else-if="typeof value === 'string' && isURL(value)"
+			v-else-if="typeof value === 'string' && isURL(value, UrlOptions)"
 			:theme="theme"
 			:href="value"
 			:size="size"
@@ -171,24 +171,22 @@
 	const { lang = "en", country = "US", imageHosts = [] } = inject<iPluginOptions>("xamu") || {};
 	const { t } = useHelpers(useI18n);
 
-	const locale = computed(() => {
-		return `${lang}-${country}`;
-	});
+	const UrlOptions: validator.IsURLOptions = {
+		protocols: ["http", "https"],
+		require_protocol: true,
+	};
 
+	const locale = computed(() => `${lang}-${country}`);
 	const maxLength = computed(() => (props.verbose ? 66 : 33));
 
 	/**
 	 * Url is of image type
-	 * TODO: improve image url matching
 	 */
 	function isImgUrl(url: string): boolean {
 		const [firstPart] = url.split("?");
 
 		// host is required
-		if (
-			isURL(firstPart, { protocols: ["http", "https"], require_protocol: true }) &&
-			imageHosts.length
-		) {
+		if (isURL(firstPart, UrlOptions) && imageHosts.length) {
 			const url = new URL(firstPart);
 
 			if (imageHosts.includes(url.host)) return true;
