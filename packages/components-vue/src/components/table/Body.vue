@@ -33,7 +33,11 @@
 							:size="size"
 						/>
 						<span :title="String(node.id ?? index)">
-							{{ node.id && preferId ? node.id : index + 1 }}
+							{{
+								node.id && preferId
+									? node.id
+									: (index + 1) * (pageInfo?.pageNumber || 1)
+							}}
 						</span>
 					</div>
 				</th>

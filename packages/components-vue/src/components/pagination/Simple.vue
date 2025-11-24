@@ -114,11 +114,12 @@
 	});
 
 	const pageCountText = computed(() => {
+		const page = props.currentPage?.pageInfo.pageNumber || 1;
 		const totalCount = props.currentPage?.totalCount ?? 0;
 		const pagesText = t("pagination_pages", Math.ceil(totalCount / firstModel.value));
 
-		if (props.currentPage?.pageInfo.pageNumber) {
-			const pageText = t("pagination_page", props.currentPage.pageInfo.pageNumber);
+		if (page > 1) {
+			const pageText = t("pagination_page", page);
 
 			return `${pageText} ${pagesText}`;
 		}

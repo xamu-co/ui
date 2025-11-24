@@ -25,7 +25,7 @@
 			></slot>
 		</div>
 		<PaginationContent
-			v-slot="{ content }"
+			v-slot="{ content, currentPage }"
 			v-bind="{
 				page,
 				url,
@@ -43,7 +43,7 @@
 		>
 			<!-- Tabulated data -->
 			<div class="flx --flxColumn --flx-start-stretch">
-				<Table
+				<TableSimple
 					:key="JSON.stringify({ url, defaults, length: content?.length })"
 					:nodes="content"
 					:refresh="refreshData"
@@ -51,6 +51,7 @@
 					v-bind="{
 						theme,
 						mapNodes,
+						pageInfo: currentPage.pageInfo,
 						hydrateNodes: emittedHydrateNodes,
 						...tableProps,
 						modalProps: {
@@ -92,7 +93,7 @@
 							}"
 						></slot>
 					</template>
-				</Table>
+				</TableSimple>
 			</div>
 		</PaginationContent>
 	</BaseErrorBoundary>
@@ -111,7 +112,7 @@
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
-	import Table from "../table/Simple.vue";
+	import TableSimple from "../table/Simple.vue";
 	import PaginationContent from "./Content.vue";
 
 	import { useHelpers, useResolveNodeFn } from "../../composables/utils";
