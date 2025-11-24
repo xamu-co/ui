@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.32](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.31...@open-xamu-co/ui-components-vue-v3.1.0-next.32) (2025-11-24)
+
+
+### Bug Fixes
+
+* improve url matching ([c45c804](https://github.com/xamu-co/ui/commit/c45c804095b8cbac25248f3b78a4044a6c399c69))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.32"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.31](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.30...@open-xamu-co/ui-components-vue-v3.1.0-next.31) (2025-11-17)
 
 
