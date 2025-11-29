@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.33](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.32...@open-xamu-co/ui-components-vue-v3.1.0-next.33) (2025-11-29)
+
+
+### Features
+
+* **vue:** table autoincrement by page ([f96c956](https://github.com/xamu-co/ui/commit/f96c95605e5e082ab7e54d88490ab8c282d1633a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.33"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.32](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.31...@open-xamu-co/ui-components-vue-v3.1.0-next.32) (2025-11-24)
 
 
