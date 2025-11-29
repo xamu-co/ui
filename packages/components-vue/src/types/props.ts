@@ -13,6 +13,7 @@ import type {
 	tOrderBy,
 	tPropertyOrderFn,
 	tOrder,
+	iPageInfo,
 } from "@open-xamu-co/ui-common-types";
 import type { AllowedComponentProps, RendererElement } from "vue";
 import type { vComponent } from "./plugin";
@@ -324,7 +325,14 @@ export interface iTableProps<Ti extends Record<string, any>, Tm extends Record<s
 	 */
 	omitRefresh?: boolean;
 	size?: tSizeModifier;
+	/**
+	 * Filter & order nodes through the router
+	 */
 	withRoute?: boolean;
+	/**
+	 * Page info
+	 */
+	pageInfo?: iPageInfo;
 	/**
 	 * Show real node id or given component
 	 */

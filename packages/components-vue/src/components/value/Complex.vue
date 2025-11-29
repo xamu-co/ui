@@ -42,7 +42,7 @@
 						</component>
 					</template>
 					<template #default="{ model, invertedTheme }">
-						<Table
+						<TableSimple
 							v-if="model"
 							:nodes="remapValues(value)"
 							:theme="invertedTheme"
@@ -186,7 +186,7 @@
 	import ValueSimple from "./Simple.vue";
 	import ValueList from "./List.vue";
 	import Modal from "../modal/Simple.vue";
-	import Table from "../table/Simple.vue";
+	import TableSimple from "../table/Simple.vue";
 
 	import type { iValueComplexProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
