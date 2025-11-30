@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.34](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.33...@open-xamu-co/ui-components-vue-v3.1.0-next.34) (2025-11-30)
+
+
+### Bug Fixes
+
+* hydration issue with loader fetch payload ([43723f0](https://github.com/xamu-co/ui/commit/43723f073dda6a7c5aa0932946c4f539344c5d9e))
+* table item counting ([17097a5](https://github.com/xamu-co/ui/commit/17097a58037e611ddce8da42a36a1ad28b233122))
+* use count key with mapped node & node ([9685af0](https://github.com/xamu-co/ui/commit/9685af0c07eab096924a9022fd0ca2cb957ccf2b))
+* zindex table fix ([936a694](https://github.com/xamu-co/ui/commit/936a6943ba3c51ee8fc0c68e43ed5ce0acb78d7d))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.34"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.33](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.32...@open-xamu-co/ui-components-vue-v3.1.0-next.33) (2025-11-29)
 
 
