@@ -1,5 +1,5 @@
 <template>
-	<BaseErrorBoundary>
+	<BaseErrorBoundary at="PaginationContentTable">
 		<slot
 			v-bind="{
 				refreshData,
@@ -25,7 +25,7 @@
 			></slot>
 		</div>
 		<PaginationContent
-			v-slot="{ content, currentPage }"
+			v-slot="{ content, currentPage, pagination }"
 			v-bind="{
 				page,
 				url,
@@ -43,57 +43,64 @@
 		>
 			<!-- Tabulated data -->
 			<div class="flx --flxColumn --flx-start-stretch">
-				<TableSimple
-					:key="JSON.stringify({ url, defaults, length: content?.length })"
-					:nodes="content"
-					:refresh="refreshData"
-					:class="tableClass"
-					v-bind="{
-						theme,
-						mapNodes,
-						pageInfo: currentPage.pageInfo,
-						hydrateNodes: emittedHydrateNodes,
-						...tableProps,
-						modalProps: {
-							invertTheme: true,
-							class: modalClass ?? tableClass,
-							...tableProps?.modalProps,
-						},
-					}"
+				<BaseErrorBoundary
+					at="PaginationContentTable:TableSimple"
+					:theme="theme"
+					:error-message="renderErrorMessage"
 				>
-					<template
-						v-if="emittedHasContent && $slots.headActions"
-						#headActions="headActionsScope"
+					<TableSimple
+						:key="JSON.stringify({ url, defaults, length: content?.length })"
+						:nodes="content"
+						:refresh="refreshData"
+						:class="tableClass"
+						v-bind="{
+							theme,
+							mapNodes,
+							pageInfo: currentPage.pageInfo,
+							hydrateNodes: emittedHydrateNodes,
+							...tableProps,
+							modalProps: {
+								invertTheme: true,
+								class: modalClass ?? tableClass,
+								...tableProps?.modalProps,
+							},
+							withRoute: pagination,
+						}"
 					>
-						<div
-							key="internal-head-actions"
-							class="flx --flxRow --flx-start-center --gap-10 --gap:md"
+						<template
+							v-if="emittedHasContent && $slots.headActions"
+							#headActions="headActionsScope"
 						>
+							<div
+								key="internal-head-actions"
+								class="flx --flxRow --flx-start-center --gap-10 --gap:md"
+							>
+								<slot
+									name="headActions"
+									v-bind="{
+										...headActionsScope,
+										refreshData,
+										hasContent: emittedHasContent,
+										hydrateData: emittedHydrateNodes,
+										createNodeAndRefresh,
+									}"
+								></slot>
+							</div>
+						</template>
+						<template v-if="$slots.tableChildren" #default="tableChildrenScope">
 							<slot
-								name="headActions"
+								name="tableChildren"
 								v-bind="{
-									...headActionsScope,
+									...tableChildrenScope,
 									refreshData,
 									hasContent: emittedHasContent,
 									hydrateData: emittedHydrateNodes,
 									createNodeAndRefresh,
 								}"
 							></slot>
-						</div>
-					</template>
-					<template v-if="$slots.tableChildren" #default="tableChildrenScope">
-						<slot
-							name="tableChildren"
-							v-bind="{
-								...tableChildrenScope,
-								refreshData,
-								hasContent: emittedHasContent,
-								hydrateData: emittedHydrateNodes,
-								createNodeAndRefresh,
-							}"
-						></slot>
-					</template>
-				</TableSimple>
+						</template>
+					</TableSimple>
+				</BaseErrorBoundary>
 			</div>
 		</PaginationContent>
 	</BaseErrorBoundary>
@@ -135,6 +142,7 @@
 		 */
 		refresh?: () => void;
 		noContentMessage?: string;
+		renderErrorMessage?: string;
 		tableProps?: Omit<iTableProps<Ti, TMi>, "nodes" | "refresh">;
 		theme?: tThemeModifier | tThemeTuple;
 		client?: boolean;

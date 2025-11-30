@@ -36,7 +36,7 @@ export interface iPagination {
 	 */
 	at?: string | number;
 	/**
-	 * Cantidad de elementos (limite)
+	 * Cantidad de elementos por pagina (limite)
 	 */
 	first?: number;
 	orderBy?: tOrderBy[];

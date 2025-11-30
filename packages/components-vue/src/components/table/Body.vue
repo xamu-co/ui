@@ -6,7 +6,7 @@
 			) in mappedNodes.nodes"
 			:key="index"
 		>
-			<!-- Row -->
+			<!-- Row item (Shows the item data) -->
 			<tr
 				class="--txtAlign"
 				:class="[`--txtSize-${size}`, { ['is--selected']: selectedNodes[index][0] }]"
@@ -33,11 +33,7 @@
 							:size="size"
 						/>
 						<span :title="String(node.id ?? index)">
-							{{
-								node.id && preferId
-									? node.id
-									: (index + 1) * (pageInfo?.pageNumber || 1)
-							}}
+							{{ node.id && preferId ? node.id : index + 1 + pageNumber }}
 						</span>
 					</div>
 				</th>
@@ -189,16 +185,16 @@
 					</div>
 				</th>
 			</tr>
-			<!-- Row children (Nested table) -->
+			<!-- Row item children (Nested table) -->
 			<template v-if="$slots.default">
-				<!-- Row children content -->
+				<!-- Row item children content -->
 				<tr class="no--hover --width-100">
 					<td :colspan="propertiesMeta.length + 2">
 						<BaseBox
 							v-show="canShowChildren(visibility, mappedIndex)"
 							:theme="theme || themeValues"
+							class="--gap-none --p-10 --maxWidth-100"
 							transparent
-							button
 							solid
 						>
 							<slot
@@ -217,7 +213,7 @@
 						</BaseBox>
 					</td>
 				</tr>
-				<!-- Row children actions (Acts as a divider of rows when children are hidden) -->
+				<!-- Row item children actions (Acts as a divider of rows when item children are hidden) -->
 				<tr class="no--hover">
 					<th class="--sticky --pX-10 --pY-5 --vAlign">
 						<div class="flx --flxRow --flx-end-center --gap-10 --bdr">
@@ -240,7 +236,6 @@
 								"
 								tooltip-position="right"
 								:disabled="!visibility.childrenCount || visibility.showNodeChildren"
-								class="--p-5"
 								@click="() => toggleChildren(mappedIndex)"
 							>
 								<span v-if="visibility.childrenCount >= 1">
@@ -283,6 +278,9 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
+	import { computed, inject } from "vue";
+
+	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -315,4 +313,16 @@
 
 	const { t } = useHelpers(useI18n);
 	const { themeValues, dangerThemeValues } = useTheme(props);
+	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
+
+	const pageNumber = computed(() => {
+		const page = props.pageInfo?.pageNumber || 1;
+		let first = defaultFirst || 0;
+
+		if (props.withRoute && typeof props.withRoute === "object") {
+			first = props.withRoute.first || first;
+		}
+
+		return (page - 1) * first;
+	});
 </script>

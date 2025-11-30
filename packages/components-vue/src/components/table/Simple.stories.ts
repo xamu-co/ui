@@ -127,4 +127,21 @@ export const Nested: Story = {
 	args: { nodes, childrenCountKey: "variants" },
 };
 
+export const NestedOpaque: Story = {
+	render: (args) => ({
+		components: { TableSimple },
+		setup() {
+			return { args, subNodes };
+		},
+		template: `
+		<div class="--width-100 --bgColor-secondary --p-30">
+			<TableSimple v-bind="args" >
+				<TableSimple :modal-props="args.modalProps" :nodes="subNodes" nested />
+			</TableSimple>
+		</div>
+		`,
+	}),
+	args: { nodes, childrenCountKey: "variants", opaque: true },
+};
+
 export default meta;

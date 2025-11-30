@@ -19,7 +19,12 @@
 	import { useHelpers } from "../../composables/utils";
 	import useTheme from "../../composables/theme";
 
-	interface iLoaderContentProps extends iUseThemeProps {
+	interface iErrorBoundaryProps extends iUseThemeProps {
+		/**
+		 * Where the error boundary is placed
+		 * @logging Used for logging purposes
+		 */
+		at?: string;
 		errorMessage?: string;
 	}
 
@@ -33,7 +38,7 @@
 
 	defineOptions({ name: "BaseErrorBoundary", inheritAttrs: false });
 
-	const props = defineProps<iLoaderContentProps>();
+	const props = defineProps<iErrorBoundaryProps>();
 
 	const { t } = useHelpers(useI18n);
 	const { logger } = useHelpers(useUtils);
@@ -43,7 +48,7 @@
 
 	// lifecycle
 	onErrorCaptured((err) => {
-		logger("ErrorBoundary", err);
+		logger(props.at ? `ErrorBoundary:${props.at}` : "ErrorBoundary", err);
 		errors.value = err;
 
 		return false;

@@ -1,5 +1,5 @@
 <template>
-	<BaseErrorBoundary :theme="theme">
+	<BaseErrorBoundary at="ContentFetch" :theme="theme">
 		<LoaderContent
 			v-bind="{
 				content: patchedIsContent(content),
@@ -163,9 +163,7 @@
 					if (data) newData = data;
 				}
 			} catch (err) {
-				const errorMessage = err instanceof Error ? err.message : "unknown error";
-
-				logger("LoaderContentFetch:useAsyncData", errorMessage, err);
+				logger("LoaderContentFetch:useAsyncData", err);
 
 				throw err; // throw error anyway, asyncData will intercept it
 			}
@@ -189,7 +187,8 @@
 
 	function hydrate(newContent: T | null, newErrors?: unknown) {
 		if (deactivated.value) return;
-		if (!props.preventAutoload && !firstLoad.value) return;
+		// Wait for first load if preventAutoload is set
+		if (props.preventAutoload && !firstLoad.value) return;
 
 		hydrated.value = true;
 		content.value = newContent;
@@ -227,8 +226,10 @@
 	watch(
 		() => props.payload,
 		(newPayload, oldPayload) => {
+			// Wait for first load if preventAutoload is set
+			if (props.preventAutoload && !firstLoad.value) return;
 			// Refresh if payload changes
-			if (firstLoad.value && !isEqual(newPayload, oldPayload)) refresh();
+			if (!isEqual(newPayload, oldPayload)) refresh();
 		},
 		{ immediate: false }
 	);

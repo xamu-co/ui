@@ -14,6 +14,7 @@ import type {
 	tPropertyOrderFn,
 	tOrder,
 	iPageInfo,
+	iPagination,
 } from "@open-xamu-co/ui-common-types";
 import type { AllowedComponentProps, RendererElement } from "vue";
 import type { vComponent } from "./plugin";
@@ -318,7 +319,7 @@ export interface iTableProps<Ti extends Record<string, any>, Tm extends Record<s
 	 * @fallback property name
 	 */
 	childrenName?: string;
-	childrenCountKey?: keyof NoInfer<Ti>;
+	childrenCountKey?: keyof NoInfer<Ti> | keyof NoInfer<Tm>;
 	modalProps?: iModalProps & AllowedComponentProps;
 	/**
 	 * Prevent node functions from triggering refresh event (useful with firebase hydration)
@@ -328,7 +329,7 @@ export interface iTableProps<Ti extends Record<string, any>, Tm extends Record<s
 	/**
 	 * Filter & order nodes through the router
 	 */
-	withRoute?: boolean;
+	withRoute?: boolean | iPagination;
 	/**
 	 * Page info
 	 */
