@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.1.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0-next.3...@open-xamu-co/ui-nuxt-v3.1.0-next.4) (2025-11-30)
+
+
+### Bug Fixes
+
+* use count key with mapped node & node ([9685af0](https://github.com/xamu-co/ui/commit/9685af0c07eab096924a9022fd0ca2cb957ccf2b))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.1.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0-next.2...@open-xamu-co/ui-nuxt-v3.1.0-next.3) (2025-08-31)
 
 
