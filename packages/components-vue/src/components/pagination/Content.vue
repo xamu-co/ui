@@ -149,35 +149,29 @@
 	});
 	const hydrateNodes = ref<(newContent: T[] | null, newErrors?: unknown) => void>();
 
-	const routePagination = computed<iPagination>(() => {
-		if (!router) return {};
-
-		const { orderBy, first, at } = propsPagination.value;
-
-		const route = router.currentRoute.value;
-		const routeFirst = route.query.first;
-		const routeAt = route.query.at;
-		const routeOrderBy = useOrderBy(route.query.orderBy);
-
-		return {
-			orderBy: routeOrderBy.length ? routeOrderBy : orderBy,
-			first: Number(routeFirst ?? first),
-			at: routeAt ?? at,
-		};
-	});
 	const pagination = computed<iPagination>({
 		get() {
-			if (props.withRoute) return routePagination.value;
+			if (props.withRoute && router) {
+				const { orderBy, first, at } = propsPagination.value;
+				const route = router.currentRoute.value;
+				const routeFirst = route.query.first;
+				const routeAt = route.query.at;
+				const routeOrderBy = useOrderBy(route.query.orderBy);
+
+				return {
+					orderBy: routeOrderBy.length ? routeOrderBy : orderBy,
+					first: Number(routeFirst ?? first),
+					at: routeAt ?? at,
+				};
+			}
 
 			return propsPagination.value;
 		},
 		set(newPagination) {
-			if (props.withRoute) {
-				if (!router) return;
-
+			if (props.withRoute && router) {
 				const route = router.currentRoute.value;
 
-				return router.push({
+				router.push({
 					path: route.path,
 					hash: route.hash,
 					query: { ...route.query, ...newPagination },

@@ -187,7 +187,8 @@
 
 	function hydrate(newContent: T | null, newErrors?: unknown) {
 		if (deactivated.value) return;
-		if (!props.preventAutoload && !firstLoad.value) return;
+		// Wait for first load if preventAutoload is set
+		if (props.preventAutoload && !firstLoad.value) return;
 
 		hydrated.value = true;
 		content.value = newContent;
@@ -225,8 +226,10 @@
 	watch(
 		() => props.payload,
 		(newPayload, oldPayload) => {
+			// Wait for first load if preventAutoload is set
+			if (props.preventAutoload && !firstLoad.value) return;
 			// Refresh if payload changes
-			if (firstLoad.value && !isEqual(newPayload, oldPayload)) refresh();
+			if (!isEqual(newPayload, oldPayload)) refresh();
 		},
 		{ immediate: false }
 	);
