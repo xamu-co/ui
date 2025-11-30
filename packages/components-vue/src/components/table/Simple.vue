@@ -4,7 +4,7 @@
 			:id="`${tableId}_actions`"
 			class="tbl --minWidth-100 table-actions"
 			:class="[{ '--nested': nested }, themeClasses]"
-			style="z-index: 1"
+			style="z-index: 2"
 		>
 			<BaseErrorBoundary at="TableHeadActions" :theme="theme">
 				<TableHeadActions
@@ -24,11 +24,15 @@
 			:wrapper="BaseBox"
 			:theme="invertedThemeValues"
 			:size="eSizes.SM"
+			style="z-index: 1"
 			opaque
 			button
 			solid
 		>
-			<div :class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]">
+			<div
+				:class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]"
+				style="z-index: 1"
+			>
 				<table
 					:id="`${tableId}_content`"
 					class="tbl --minWidth-100 table-content"
