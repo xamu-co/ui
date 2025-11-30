@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v3.1.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.1.0-next.7...@open-xamu-co/ui-common-helpers-v3.1.0-next.8) (2025-11-30)
+
+
+### Bug Fixes
+
+* use count key with mapped node & node ([9685af0](https://github.com/xamu-co/ui/commit/9685af0c07eab096924a9022fd0ca2cb957ccf2b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "3.1.0-next.8"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.1.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.1.0-next.6...@open-xamu-co/ui-common-helpers-v3.1.0-next.7) (2025-11-17)
 
 
