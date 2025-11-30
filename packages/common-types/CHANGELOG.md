@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.1.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.1.0-next.9...@open-xamu-co/ui-common-types-v3.1.0-next.10) (2025-11-30)
+
+
+### Bug Fixes
+
+* table item counting ([17097a5](https://github.com/xamu-co/ui/commit/17097a58037e611ddce8da42a36a1ad28b233122))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.1.0-next.10"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.1.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.1.0-next.8...@open-xamu-co/ui-common-types-v3.1.0-next.9) (2025-11-16)
 
 
