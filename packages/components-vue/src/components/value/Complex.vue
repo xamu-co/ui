@@ -1,5 +1,5 @@
 <template>
-	<BaseErrorBoundary :theme="theme">
+	<BaseErrorBoundary at="ValueComplex" :theme="theme">
 		<!-- Array only -->
 		<div
 			v-if="Array.isArray(value)"

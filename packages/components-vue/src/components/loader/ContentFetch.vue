@@ -1,5 +1,5 @@
 <template>
-	<BaseErrorBoundary :theme="theme">
+	<BaseErrorBoundary at="ContentFetch" :theme="theme">
 		<LoaderContent
 			v-bind="{
 				content: patchedIsContent(content),

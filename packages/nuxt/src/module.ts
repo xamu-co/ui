@@ -56,13 +56,14 @@ export default defineNuxtModule<XamuModuleOptions>({
 		const { resolve, resolvePath } = createResolver(import.meta.url);
 		const runtimePath = resolve("./runtime");
 
+		// Setup nuxt options
 		nuxt.options.vite.resolve = { ...nuxt.options.vite.resolve, preserveSymlinks: true };
 
 		// @ts-ignore Inject plugin options
 		nuxt.options.appConfig.xamu = moduleOptions;
 
 		if (!moduleOptions.disableCSSMeta) {
-			// inject css
+			// inject css meta tags
 			nuxt.options.app = { ...nuxt.options.app };
 			nuxt.options.app.head = { ...nuxt.options.app.head };
 			nuxt.options.app.head.link ||= [];

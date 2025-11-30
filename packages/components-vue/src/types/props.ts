@@ -318,7 +318,7 @@ export interface iTableProps<Ti extends Record<string, any>, Tm extends Record<s
 	 * @fallback property name
 	 */
 	childrenName?: string;
-	childrenCountKey?: keyof NoInfer<Ti>;
+	childrenCountKey?: keyof NoInfer<Ti> | keyof NoInfer<Tm>;
 	modalProps?: iModalProps & AllowedComponentProps;
 	/**
 	 * Prevent node functions from triggering refresh event (useful with firebase hydration)

@@ -12,7 +12,7 @@ interface igetModifiersArgs {
 
 interface iUseUtils {
 	/**
-	 * Simple logger
+	 * Plugin custom logger, fallback to console logger
 	 *
 	 * @composable
 	 */

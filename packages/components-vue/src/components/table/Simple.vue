@@ -4,16 +4,19 @@
 			:id="`${tableId}_actions`"
 			class="tbl --minWidth-100 table-actions"
 			:class="[{ '--nested': nested }, themeClasses]"
+			style="z-index: 1"
 		>
-			<TableHeadActions
-				v-bind="childrenProps"
-				:theme="opaque ? invertedThemeValues : theme"
-				:with-default-slot="!!$slots.default"
-			>
-				<template v-if="$slots.headActions" #headActions="headScope">
-					<slot name="headActions" v-bind="headScope"></slot>
-				</template>
-			</TableHeadActions>
+			<BaseErrorBoundary at="TableHeadActions" :theme="theme">
+				<TableHeadActions
+					v-bind="childrenProps"
+					:theme="opaque ? invertedThemeValues : theme"
+					:with-default-slot="!!$slots.default"
+				>
+					<template v-if="$slots.headActions" #headActions="headScope">
+						<slot name="headActions" v-bind="headScope"></slot>
+					</template>
+				</TableHeadActions>
+			</BaseErrorBoundary>
 		</table>
 		<BaseWrapper
 			class="--gap-none --p-10 --maxWidth-100"
@@ -21,8 +24,9 @@
 			:wrapper="BaseBox"
 			:theme="invertedThemeValues"
 			:size="eSizes.SM"
-			solid
 			opaque
+			button
+			solid
 		>
 			<div :class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]">
 				<table
@@ -30,24 +34,31 @@
 					class="tbl --minWidth-100 table-content"
 					:class="[{ '--nested': nested }, themeClasses]"
 				>
-					<TableHeadContent
-						v-bind="childrenProps"
-						:with-default-slot="!!$slots.default"
-					/>
-					<TableBody v-bind="childrenProps">
-						<template v-if="$slots.default" #default="defaultScope">
-							<slot name="default" v-bind="defaultScope"></slot>
-						</template>
-						<template v-if="$slots.modifyActions" #modifyActions="modifyScope">
-							<slot name="modifyActions" v-bind="modifyScope"></slot>
-						</template>
-						<template
-							v-if="$slots.modifyDropdownActions"
-							#modifyDropdownActions="modifyDropdownScope"
-						>
-							<slot name="modifyDropdownActions" v-bind="modifyDropdownScope"></slot>
-						</template>
-					</TableBody>
+					<BaseErrorBoundary at="TableHeadContent" :theme="theme">
+						<TableHeadContent
+							v-bind="childrenProps"
+							:with-default-slot="!!$slots.default"
+						/>
+					</BaseErrorBoundary>
+					<BaseErrorBoundary at="TableBody" :theme="theme">
+						<TableBody v-bind="childrenProps">
+							<template v-if="$slots.default" #default="defaultScope">
+								<slot name="default" v-bind="defaultScope"></slot>
+							</template>
+							<template v-if="$slots.modifyActions" #modifyActions="modifyScope">
+								<slot name="modifyActions" v-bind="modifyScope"></slot>
+							</template>
+							<template
+								v-if="$slots.modifyDropdownActions"
+								#modifyDropdownActions="modifyDropdownScope"
+							>
+								<slot
+									name="modifyDropdownActions"
+									v-bind="modifyDropdownScope"
+								></slot>
+							</template>
+						</TableBody>
+					</BaseErrorBoundary>
 				</table>
 			</div>
 		</BaseWrapper>
@@ -94,6 +105,7 @@
 	import TableHeadActions from "./HeadActions.vue";
 	import BaseBox from "../base/Box.vue";
 	import BaseWrapper from "../base/Wrapper.vue";
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 
 	import useTheme from "../../composables/theme";
 	import { useHelpers, useOrderBy, useResolveNodeFn } from "../../composables/utils";
@@ -145,7 +157,7 @@
 			const visibility: iNodeVisibility = {
 				disableCreateNodeChildren,
 				showNodeChildren,
-				childrenCount: childrenCount(node),
+				childrenCount: childrenCount(node, mappedNode),
 			};
 
 			if (visibility.childrenCount) nodes.withChildren = true;
@@ -295,9 +307,10 @@
 	}
 
 	/** Count childrens */
-	function childrenCount(node: T): number {
+	function childrenCount(node: T, mappedNode: TM): number {
 		if (props.childrenCountKey) {
-			const countValue = node[props.childrenCountKey];
+			const key: any = props.childrenCountKey;
+			const countValue = mappedNode[key] || node[key] || 0;
 
 			if (Array.isArray(countValue)) return countValue.length;
 

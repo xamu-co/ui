@@ -1,5 +1,5 @@
 <template>
-	<BaseErrorBoundary :theme="theme">
+	<BaseErrorBoundary at="FormSimple" :theme="theme">
 		<component
 			:is="noForm ? 'fieldset' : 'form'"
 			v-if="model.length"

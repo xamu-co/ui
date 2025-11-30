@@ -197,8 +197,8 @@
 						<BaseBox
 							v-show="canShowChildren(visibility, mappedIndex)"
 							:theme="theme || themeValues"
+							class="--gap-none --p-10 --maxWidth-100"
 							transparent
-							button
 							solid
 						>
 							<slot
@@ -240,7 +240,6 @@
 								"
 								tooltip-position="right"
 								:disabled="!visibility.childrenCount || visibility.showNodeChildren"
-								class="--p-5"
 								@click="() => toggleChildren(mappedIndex)"
 							>
 								<span v-if="visibility.childrenCount >= 1">
