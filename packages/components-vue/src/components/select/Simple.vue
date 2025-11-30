@@ -2,13 +2,11 @@
 	<BaseSelect
 		:class="[modifiersClasses, stateClasses, themeClasses]"
 		class="iSelect"
-		v-bind="{ ...$attrs, ...omit(props, 'modelValue'), options, required, disabled }"
+		v-bind="{ ...$attrs, ...props }"
 	/>
 </template>
 
 <script setup lang="ts">
-	import omit from "lodash-es/omit";
-
 	import BaseSelect from "../base/Select.vue";
 
 	import type {

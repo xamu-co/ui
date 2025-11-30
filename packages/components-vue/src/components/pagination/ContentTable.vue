@@ -25,7 +25,7 @@
 			></slot>
 		</div>
 		<PaginationContent
-			v-slot="{ content, currentPage }"
+			v-slot="{ content, currentPage, pagination }"
 			v-bind="{
 				page,
 				url,
@@ -64,6 +64,7 @@
 								class: modalClass ?? tableClass,
 								...tableProps?.modalProps,
 							},
+							withRoute: pagination,
 						}"
 					>
 						<template

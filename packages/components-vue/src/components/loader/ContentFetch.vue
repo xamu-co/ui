@@ -163,9 +163,7 @@
 					if (data) newData = data;
 				}
 			} catch (err) {
-				const errorMessage = err instanceof Error ? err.message : "unknown error";
-
-				logger("LoaderContentFetch:useAsyncData", errorMessage, err);
+				logger("LoaderContentFetch:useAsyncData", err);
 
 				throw err; // throw error anyway, asyncData will intercept it
 			}
