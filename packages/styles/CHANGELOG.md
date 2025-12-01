@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v4.1.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.6...@open-xamu-co/ui-styles-v4.1.0-next.7) (2025-12-01)
+
+
+### Bug Fixes
+
+* **styles:** grd span of 1 ([5afc4f9](https://github.com/xamu-co/ui/commit/5afc4f9a0c84611acac1f5d389f10a9a0179ed92))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.7"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v4.1.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.5...@open-xamu-co/ui-styles-v4.1.0-next.6) (2025-11-30)
 
 
