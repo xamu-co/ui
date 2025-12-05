@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.35](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.34...@open-xamu-co/ui-components-vue-v3.1.0-next.35) (2025-12-05)
+
+
+### Bug Fixes
+
+* debounce text inputs events ([a862ad1](https://github.com/xamu-co/ui/commit/a862ad1506dfe4d3df558a3a9e776f654e8c318a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.35"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.34](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.33...@open-xamu-co/ui-components-vue-v3.1.0-next.34) (2025-11-30)
 
 
