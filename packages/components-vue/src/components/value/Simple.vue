@@ -75,7 +75,8 @@
 			<template #toggle="{ toggleModal }">
 				<ActionLink
 					:theme="theme"
-					:tooltip="t('see_value')"
+					:aria-label="t('see_value')"
+					:tooltip="value.substring(0, maxLength * 3)"
 					tooltip-as-text
 					tooltip-position="bottom"
 					:size="size"
