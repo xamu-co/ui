@@ -84,16 +84,16 @@ export default function useTheme(props: iAllUseThemeProps, themeAsUnion?: boolea
 			const tooltipText = props.tooltip && getPropData(props.tooltip);
 			const hasColor = themeValues.value[1] !== eColors.LIGHT;
 
-			return tooltipText
-				? {
-						"aria-label": tooltipText,
-						"data-tooltip": tooltipText,
-						"data-tooltip-position": props.tooltipPosition,
-						"data-tooltip-text": props.tooltipAsText ?? true,
-						"data-tooltip-bg": themeValues.value[0],
-						"data-tooltip-color": hasColor ? themeValues.value[1] : undefined,
-					}
-				: null;
+			if (!tooltipText) return { "aria-label": props.ariaLabel };
+
+			return {
+				"aria-label": props.ariaLabel ?? tooltipText,
+				"data-tooltip": tooltipText,
+				"data-tooltip-position": props.tooltipPosition,
+				"data-tooltip-text": props.tooltipAsText ?? true,
+				"data-tooltip-bg": themeValues.value[0],
+				"data-tooltip-color": hasColor ? themeValues.value[1] : undefined,
+			};
 		});
 
 		return {
