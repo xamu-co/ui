@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.36](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.35...@open-xamu-co/ui-components-vue-v3.1.0-next.36) (2025-12-07)
+
+
+### Bug Fixes
+
+* show partial cell value on hover ([4e8703b](https://github.com/xamu-co/ui/commit/4e8703bfeac04922ea46f18b6358b9c0acd031c6))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.36"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.35](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.34...@open-xamu-co/ui-components-vue-v3.1.0-next.35) (2025-12-05)
 
 
