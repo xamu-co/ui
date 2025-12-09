@@ -38,7 +38,6 @@
 		<!-- Do not hide input (Apple issue) -->
 		<BaseInput
 			v-slot="{ id }"
-			ref="fileInput"
 			class="--hidden"
 			v-bind="{
 				...$attrs,
@@ -225,7 +224,6 @@
 		};
 	});
 
-	const fileInput = ref<HTMLInputElement>();
 	const thumbnails = ref<string[]>([]);
 	const isAdvancedUpload = ref(false);
 	const isLoading = ref(false);

@@ -1,6 +1,5 @@
 <template>
 	<LoaderContent
-		ref="wrapperRef"
 		:loading="loading"
 		content
 		class="xamu-slider"
@@ -149,7 +148,6 @@
 	const { isBrowser } = useHelpers(useUtils);
 
 	const loading = ref(true);
-	const wrapperRef = ref<HTMLElement>();
 	const sliderContainerRef = ref<HTMLElement>();
 	const sliderRef = ref<HTMLElement>();
 	const running = ref(false);
