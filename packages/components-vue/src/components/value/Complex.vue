@@ -1,5 +1,5 @@
 <template>
-	<BaseErrorBoundary :theme="theme">
+	<BaseErrorBoundary at="ValueComplex" :theme="theme">
 		<!-- Array only -->
 		<div
 			v-if="Array.isArray(value)"
@@ -42,13 +42,13 @@
 						</component>
 					</template>
 					<template #default="{ model, invertedTheme }">
-						<Table
+						<TableSimple
 							v-if="model"
 							:nodes="remapValues(value)"
 							:theme="invertedTheme"
 							:modal-props="{ theme, ...modalProps }"
 							:classes="classes"
-							:clone-node="property?.cloneNode"
+							:clone-node="property?.cloneNode || undefined"
 							:update-node="property?.updateNode"
 							:delete-node="property?.deleteNode"
 						/>
@@ -186,7 +186,7 @@
 	import ValueSimple from "./Simple.vue";
 	import ValueList from "./List.vue";
 	import Modal from "../modal/Simple.vue";
-	import Table from "../table/Simple.vue";
+	import TableSimple from "../table/Simple.vue";
 
 	import type { iValueComplexProps } from "../../types/props";
 	import useTheme from "../../composables/theme";

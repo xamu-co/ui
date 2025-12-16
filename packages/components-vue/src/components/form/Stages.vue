@@ -1,5 +1,5 @@
 <template>
-	<BaseErrorBoundary :theme="theme">
+	<BaseErrorBoundary at="FormStages" :theme="theme">
 		<LoaderContent
 			:loading="submitting || loading"
 			:content="!!stages?.length"
@@ -16,6 +16,7 @@
 					method="post"
 					class="flx --flxColumn --flx-start-stretch"
 					:class="stagesClasses ?? '--gap-30'"
+					@click.prevent="submit"
 				>
 					<slot></slot>
 					<template v-if="formInputsKeys?.length">
@@ -23,19 +24,21 @@
 							class="flx --flxColumn --flx-start-stretch"
 							:class="[stagesClasses ?? '--gap-30', $attrs.class]"
 						>
-							<FormSimple
-								v-for="key in formInputsKeys[activeStage]"
-								:key="[key, activeStage].join('-')"
-								:model-value="formInputs[key].inputs"
-								:theme="theme"
-								:invalid="invalid"
-								no-form
-								:title="formInputs[key].title"
-								:readonly="formInputs[key].readonly"
-								:empty-message="formInputs[key].emptyMessage"
-								@update:model-value="updateForm(key, $event)"
-								@update:invalid="invalid = $event"
-							/>
+							<BaseErrorBoundary at="FormStages:FormSimple" :theme="theme">
+								<FormSimple
+									v-for="key in formInputsKeys[activeStage]"
+									:key="[key, activeStage].join('-')"
+									:model-value="formInputs[key].inputs"
+									:theme="theme"
+									:invalid="invalid"
+									no-form
+									:title="formInputs[key].title"
+									:readonly="formInputs[key].readonly"
+									:empty-message="formInputs[key].emptyMessage"
+									@update:model-value="updateForm(key, $event)"
+									@update:invalid="invalid = $event"
+								/>
+							</BaseErrorBoundary>
 						</div>
 						<slot
 							v-if="!hideRequiredDisclaimer || $slots.disclaimers"

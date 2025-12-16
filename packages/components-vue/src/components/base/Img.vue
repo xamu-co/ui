@@ -1,13 +1,17 @@
 <template>
-	<component :is="imageComponent" v-bind="{ ...$attrs, ...props }" />
+	<component
+		:is="imageComponent"
+		v-bind="{ ...$attrs, ...props }"
+		:placeholder="placeholder || imagePlaceholder"
+		@load="emit('load', $event)"
+		@error="emit('error', $event)"
+	/>
 </template>
 
 <script setup lang="ts">
-	import { type PropType, computed, inject } from "vue";
+	import { inject } from "vue";
 
-	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
-
-	import type { vComponent } from "../../types/plugin";
+	import type { iVuePluginOptions } from "../../types/plugin";
 
 	/**
 	 * Img Prototype
@@ -19,29 +23,25 @@
 
 	defineOptions({ name: "BaseImg", inheritAttrs: false });
 
-	const props = defineProps({
-		/**
-		 * image url or path
-		 */
-		src: {
-			type: String,
-			default: null,
-		},
-		alt: {
-			type: String,
-			default: null,
-		},
-		format: {
-			type: String,
-			default: null,
-		},
-		loading: {
-			type: String as PropType<"eager" | "lazy">,
-			default: "lazy",
-		},
-	});
+	const emit = defineEmits(["error", "load"]);
 
-	const xamuOptions = inject<iPluginOptions<vComponent>>("xamu");
+	const props = withDefaults(
+		defineProps<{
+			/**
+			 * image url or path
+			 */
+			src?: string;
+			alt?: string;
+			format?: string;
+			loading?: "eager" | "lazy";
+			/**
+			 * Url to an image to be used as placeholder for images that failed to load
+			 * Overrides the plugin's imagePlaceholder
+			 */
+			placeholder?: string;
+		}>(),
+		{ loading: "lazy" }
+	);
 
-	const imageComponent = computed(() => xamuOptions?.imageComponent || "img");
+	const { imageComponent = "img", imagePlaceholder } = inject<iVuePluginOptions>("xamu") || {};
 </script>

@@ -5,7 +5,7 @@ import type { iVuePluginOptions } from "@open-xamu-co/ui-components-vue/plugin";
 /**
  * Nuxt specific configuration
  */
-export interface XamuModuleOptions extends iVuePluginOptions {
+export interface XamuModuleOptions extends Omit<iVuePluginOptions, "internals"> {
 	/**
 	 * Nuxt image module options
 	 */

@@ -29,7 +29,7 @@ export const localeBase: tLocaleBase = {
 	see_name: 'Ver "{name}"',
 	add: "Añadir",
 	clear: "Limpiar",
-	required_verification: "* Requerido. La informacion proporcionada sera verificada.",
+	required_verification: "* Requerido. La información proporcionada sera verificada.",
 	previous: "Anterior",
 	next: "Siguiente",
 	send: "Enviar",
@@ -42,10 +42,10 @@ export const localeBase: tLocaleBase = {
 		cancel: "Cancelar",
 		continue: "Continuar",
 		error: "¡Error!",
-		error_message: "¡Sucedio algo malo!",
-		connection_error: "¡Error de conexion!",
+		error_message: "¡Algo salió mal!",
+		connection_error: "¡Error de conexión!",
 		connection_error_message:
-			"El servidor no responde. Por favor verifica tu conexion o intentalo de nuevo mas tarde",
+			"El servidor no responde. Por favor verifica tu conexión o inténtalo de nuevo más tarde",
 		connection_error_confirm: "Reintentar",
 		incomplete_data: "Datos incompletos",
 		incomplete_data_message: "Llena los datos adecuadamente",
@@ -64,12 +64,12 @@ export const localeInput: tLocaleInput = {
 	select_restablish_field: "Restablecer campo",
 	select_filter_options: "Escribe o haz doble click para las opciones",
 	file_one_of_amount: "{count} de {amount}",
-	file_delete_files: "Eliminar archivo | Eliminar archivos",
+	file_delete_files: "Quitar archivo | Quitar archivos",
 	file_thumb: "Miniatura",
-	file_choose_file: "Seleccionar un archivo | Seleccionar archivos",
+	file_choose_file: "Elegir archivo | Elegir archivos",
 	file_or_drop_files_here: "O arrástralo aquí | O arrástralos aquí",
 	file_max_file_size_mb: "máximo {size}MB por archivo",
-	file_drop_files_here: "Suelta el archivo aquí | Suelta los archivos aquí",
+	file_drop_files_here: "Soltar archivo aquí | Soltar archivos aquí",
 	file_completed: "Completado",
 	file_loading_files: "Cargando archivo... | Cargando archivos...",
 	swal: {
@@ -82,7 +82,7 @@ export const localeInput: tLocaleInput = {
 		file_too_big_text: "El archivo supera el tamaño permitido",
 		file_unknown_error: "Algo salió mal",
 		file_unknown_error_text:
-			"Ocurrió un error al subir los archivos, intenta nuevamente más tarde",
+			"Ocurrió un error al subir el archivo, inténtalo nuevamente más tarde | Ocurrió un error al subir los archivos, inténtalo nuevamente más tarde",
 	},
 };
 
@@ -108,7 +108,8 @@ export const localeForm: tLocaleForm = {
 	form_required_options: "Las opciones son requeridas",
 	form_requires_n_values:
 		"No se requieren valores | Se requiere un valor | {count} valores son requeridos",
-	form_loading_countries: "Cargando paises...",
+	form_loading_countries: "Cargando países...",
+	form_awaiting_countries: "Esperando datos de países...",
 	form_country: "Buscar país",
 	form_state: "Buscar provincia",
 	form_city: "Buscar ciudad",
@@ -116,19 +117,19 @@ export const localeForm: tLocaleForm = {
 	form_confirm_password: "Confirma la contraseña",
 	form_check_password: "Verificar Contraseña",
 	form_password: "Contraseña",
-	form_email: "Direccion de correo",
-	form_phone_line: "Linea de telefono fijo",
-	form_cellphone: "Telefono celular",
-	form_id_number: "Numero de identificacion",
+	form_email: "Dirección de correo",
+	form_phone_line: "Linea de teléfono fijo",
+	form_cellphone: "Teléfono celular",
+	form_id_number: "Numero de identificación",
 	form_complete_the_field: "Completa el campo",
-	form_location: "Ubicacion",
-	form_invalid_field: "Este campo es invalido, completalo adecuadamente",
-	form_required_field: "Este campo es requerido y no puede estar vacio",
-	form_use_valid_email: "Debes usar una direccion de correo electronico valida",
-	form_use_valid_phone: "Muy corto. Usa un numero de telefono valido",
+	form_location: "Ubicación",
+	form_invalid_field: "Este campo es invalido, complétalo adecuadamente",
+	form_required_field: "Este campo es requerido y no puede estar vació",
+	form_use_valid_email: "Debes usar una dirección de correo electrónico valida",
+	form_use_valid_phone: "Muy corto. Usa un numero de teléfono valido",
 	form_use_valid_cellphone: "Debes usar un numero de celular valido",
 	form_unmatching_passwords: "Las contraseñas no coinciden",
-	form_invalid_data: "Informacion invalida",
+	form_invalid_data: "Información invalida",
 	form_no_values: "Sin valores",
 	form_new_value: "Nuevo valor",
 	// swal: {},
@@ -163,23 +164,31 @@ export const localeTable: tLocaleTable = {
 	swal: {
 		table_delete_node_title: "¿Estas seguro de que quieres eliminar este elemento?",
 		table_delete_node_disclaimer:
-			"Recuerda que no podras recuperar los datos de este elemento y perderas todo tu trabajo.",
-		table_deleted: "Eliminacion exitosa",
+			"Recuerda que no podrás recuperar los datos de este elemento y perderás todo tu trabajo.",
+		table_deleted: "Eliminación exitosa",
+		table_deleted_text: "Se eliminó el elemento, la lista se refrescara automáticamente",
 		table_delete_nodes_title:
 			"¿Estas seguro de que quieres eliminar este elemento? | ¿Estas seguro de que quieres eliminar estos {count} elementos?",
 		table_delete_nodes_disclaimer:
-			"Recuerda que no podras recuperar los datos de estos elementos y perderas todo tu trabajo.",
-		table_possibly_not_deleted:
-			"El elemento pudo no haber sido eliminado | Los elementos pudieron no haber sido eliminados",
-		table_updated: "Actualizacion exitosa",
-		table_possibly_not_updated:
-			"El elemento pudo no haber sido actualizado | Los elementos pudieron no haber sido actualizados",
-		table_created: "Creacion exitosa",
-		table_possibly_not_created:
-			"El elemento pudo no haber sido creado | Los elementos pudieron no haber sido creados",
-		table_cloned: "Clonacion exitosa",
-		table_possibly_not_cloned:
-			"El elemento pudo no haber sido clonado | Los elementos pudieron no haber sido clonados",
+			"Recuerda que no podrás recuperar los datos de estos elementos y perderás todo tu trabajo.",
+		table_possibly_not_deleted: "Eliminación fallida",
+		table_possibly_not_deleted_text:
+			"Puede que el elemento no haya sido eliminado | Puede que los elementos no hayan sido eliminados",
+		table_updated: "Actualización exitosa",
+		table_updated_text: "Se actualizó el elemento, la lista se refrescara automáticamente",
+		table_possibly_not_updated: "Actualización fallida",
+		table_possibly_not_updated_text:
+			"Puede que el elemento no haya sido actualizado | Puede que los elementos no hayan sido actualizados",
+		table_created: "Creación exitosa",
+		table_created_text: "Se creó el elemento, ya puedes encontrarlo en la lista",
+		table_possibly_not_created: "Creación fallida",
+		table_possibly_not_created_text:
+			"Puede que el elemento no haya sido creado | Puede que los elementos no hayan sido creados",
+		table_cloned: "Clonación exitosa",
+		table_cloned_text: "Se clonó el elemento, ya puedes encontrarlo en la lista",
+		table_possibly_not_cloned: "Clonación fallida",
+		table_possibly_not_cloned_text:
+			"Puede que el elemento no haya sido clonado | Puede que los elementos no hayan sido clonados",
 	},
 };
 
@@ -191,6 +200,7 @@ export const localeTable: tLocaleTable = {
 export const localePagination: tLocalePagination = {
 	pagination_items: "Sin elementos | Único elemento | {count} elementos",
 	pagination_pages: "Sin páginas | Única página | {count} páginas",
+	pagination_page: "Página {count} de",
 	// swal: {},
 };
 

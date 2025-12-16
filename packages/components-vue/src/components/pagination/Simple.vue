@@ -1,13 +1,16 @@
 <template>
 	<ul
 		v-if="currentPage && modelValue"
-		class="flx --flxRow-wrap --flx-center --gap-5 --gap-10:sm --gap:md --width-fit"
+		:class="
+			$attrs.class ||
+			'flx --flxRow-wrap --flx-center --gap-5 --gap-10:sm --gap:md --width-fit'
+		"
 	>
 		<li v-if="modelValue.first">
 			<p class="--txtSize-sm">
 				{{ t("pagination_items", currentPage.totalCount) }}
 				⋅
-				{{ t("pagination_pages", Math.ceil(currentPage.totalCount / modelValue.first)) }}
+				{{ pageCountText }}
 			</p>
 		</li>
 		<li v-if="!hidePageLength && currentPage.totalCount > 5">
@@ -24,12 +27,13 @@
 				</li>
 				<template v-if="currentPage.totalCount > currentPage.edges.length">
 					<li>
+						<!-- Reset at if coming from second page -->
 						<ActionButtonToggle
 							:theme="theme"
 							:aria-label="t('previous')"
-							:disabled="!currentPage.pageInfo.hasPreviousPage"
+							:disabled="!pageInfo?.hasPreviousPage"
 							round=":sm-inv"
-							@click="currentPage && setAt(currentPage.pageInfo?.previousCursor)"
+							@click="setAt(pageNumber > 2 ? pageInfo?.previousCursor : undefined)"
 						>
 							<IconFa name="arrow-left" />
 							<IconFa name="arrow-left" regular />
@@ -40,9 +44,9 @@
 						<ActionButtonToggle
 							:theme="theme"
 							:aria-label="t('next')"
-							:disabled="!currentPage.pageInfo.hasNextPage"
+							:disabled="!pageInfo?.hasNextPage"
 							round=":sm-inv"
-							@click="currentPage && setAt(currentPage.pageInfo?.nextCursor)"
+							@click="setAt(pageInfo?.nextCursor)"
 						>
 							<span class="--hidden-full:sm-inv">{{ t("next") }}</span>
 							<IconFa name="arrow-right" />
@@ -93,8 +97,35 @@
 	const emit = defineEmits(["update:model-value"]);
 	const props = defineProps<iPaginationSimpleProps<T, C>>();
 
-	const xamuOptions = inject<iPluginOptions>("xamu");
+	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
 	const { t } = useHelpers(useI18n);
+
+	const pageInfo = computed(() => props.currentPage?.pageInfo);
+	const pageNumber = computed(() => props.currentPage?.pageInfo?.pageNumber || 0);
+
+	/**
+	 * PaginationSimple first model
+	 */
+	const firstModel = computed({
+		get: () => props.modelValue?.first ?? defaultFirst ?? 0,
+		set(first) {
+			emit("update:model-value", { ...props.modelValue, first, at: undefined });
+		},
+	});
+
+	const pageCountText = computed(() => {
+		const page = props.currentPage?.pageInfo.pageNumber || 1;
+		const totalCount = props.currentPage?.totalCount ?? 0;
+		const pagesText = t("pagination_pages", Math.ceil(totalCount / firstModel.value));
+
+		if (page > 1) {
+			const pageText = t("pagination_page", page);
+
+			return `${pageText} ${pagesText}`;
+		}
+
+		return pagesText;
+	});
 
 	/**
 	 * Set at
@@ -105,14 +136,4 @@
 	function setAt(at?: string | number) {
 		emit("update:model-value", { ...props.modelValue, at });
 	}
-
-	/**
-	 * PaginationSimple first model
-	 */
-	const firstModel = computed({
-		get: () => props.modelValue?.first ?? xamuOptions?.first,
-		set(first) {
-			emit("update:model-value", { ...props.modelValue, first });
-		},
-	});
 </script>

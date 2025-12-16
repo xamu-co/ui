@@ -13,6 +13,8 @@ import type {
 	tOrderBy,
 	tPropertyOrderFn,
 	tOrder,
+	iPageInfo,
+	iPagination,
 } from "@open-xamu-co/ui-common-types";
 import type { AllowedComponentProps, RendererElement } from "vue";
 import type { vComponent } from "./plugin";
@@ -73,6 +75,7 @@ export interface iUseThemeProps {
 }
 
 export interface iUseThemeTooltipProps {
+	ariaLabel?: string;
 	/**
 	 * Show given text as tooltip on hover.
 	 *
@@ -167,22 +170,31 @@ export interface iModalProps extends iUseThemeProps {
 	 * Are modal requirement meet?
 	 * This is intended to prevent the usage of certain modals
 	 *
-	 * Ex: user does not have enough permissions
+	 * This should not depend on any internal state
+	 *
+	 * @example User does not have enough permissions
 	 */
 	hide?: boolean;
+	/** Message to show when modal is hidden */
 	hideMessage?: string;
+	/** Hides the footer */
 	hideFooter?: boolean;
-	/**
-	 * disables modal
-	 */
+	/** disables modal */
 	disabled?: boolean;
+	/**
+	 * Target element to append the modal to
+	 *
+	 * Another modal could be the target so it appears nested
+	 *
+	 * @default body
+	 */
+	target?: string | RendererElement;
 	// PRIVATE
 	/**
 	 * Shows/hides the modal
 	 * @private
 	 */
 	modelValue?: boolean;
-	target?: string | RendererElement;
 }
 
 export interface iValueComplexProps extends iUseThemeProps {
@@ -228,7 +240,8 @@ export interface iTablePropertyMeta<Ti extends Record<string, any>>
 	canSort: boolean;
 }
 
-export interface iTableProps<Ti extends Record<string, any>> extends iUseThemeProps {
+export interface iTableProps<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti>
+	extends iUseThemeProps {
 	/**
 	 * Table nodes
 	 * an array of nodes
@@ -236,6 +249,12 @@ export interface iTableProps<Ti extends Record<string, any>> extends iUseThemePr
 	 * @old rows
 	 */
 	nodes: Ti[];
+	/**
+	 * Map nodes as required
+	 * Also useful to omit nodes from the array
+	 */
+	mapNodes?: (nodes: NoInfer<Ti>[]) => Tm[];
+	hydrateNodes?: (newNodes: NoInfer<Ti>[] | null, newErrors?: unknown) => void;
 	/**
 	 * Table column names
 	 * an array of property names
@@ -301,14 +320,21 @@ export interface iTableProps<Ti extends Record<string, any>> extends iUseThemePr
 	 * @fallback property name
 	 */
 	childrenName?: string;
-	childrenCountKey?: keyof NoInfer<Ti>;
+	childrenCountKey?: keyof NoInfer<Ti> | keyof NoInfer<Tm>;
 	modalProps?: iModalProps & AllowedComponentProps;
 	/**
 	 * Prevent node functions from triggering refresh event (useful with firebase hydration)
 	 */
 	omitRefresh?: boolean;
 	size?: tSizeModifier;
-	withRoute?: boolean;
+	/**
+	 * Filter & order nodes through the router
+	 */
+	withRoute?: boolean | iPagination;
+	/**
+	 * Page info
+	 */
+	pageInfo?: iPageInfo;
 	/**
 	 * Show real node id or given component
 	 */
@@ -319,9 +345,38 @@ export interface iTableProps<Ti extends Record<string, any>> extends iUseThemePr
 				index: number;
 				node: NoInfer<Ti>;
 		  }>;
+	/**
+	 * Make the table container opaque
+	 */
+	opaque?: boolean;
 }
 
-export interface iTableChildProps<Ti extends Record<string, any>> extends iTableProps<Ti> {
+export interface iNodeVisibility {
+	disableCreateNodeChildren?: boolean;
+	showNodeChildren?: boolean;
+	childrenCount: number;
+	// show: boolean;
+}
+
+export interface iMappedNode<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti> {
+	node: Tm;
+	index: number;
+	visibility: iNodeVisibility;
+	hydrateNode: (newNode: Ti | null, _newErrors?: unknown) => void;
+	createNodeChildrenAndRefresh: iNodeFn<Ti>;
+}
+
+export interface iMappedNodes<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti> {
+	nodes: iMappedNode<Ti, Tm>[];
+	length: number;
+	withChildren: boolean;
+}
+
+export interface iTableChildProps<
+	Ti extends Record<string, any>,
+	Tm extends Record<string, any> = Ti,
+> extends iTableProps<Ti, Tm> {
+	mappedNodes: iMappedNodes<Ti, Tm>;
 	/**
 	 * Table unique identifier
 	 *
@@ -346,11 +401,9 @@ export interface iTableChildProps<Ti extends Record<string, any>> extends iTable
 	selectedNodesCount: number;
 	openNodesCount: number;
 	/**
-	 * Count childrens
-	 *
-	 * node['propertyWithChildren']
+	 * Can show children
 	 */
-	childrenCount(node: Ti): number;
+	canShowChildren(visibility: iNodeVisibility, mappedIndex: number): boolean;
 	/**
 	 * Set pagination order
 	 *
@@ -371,25 +424,21 @@ export interface iTableChildProps<Ti extends Record<string, any>> extends iTable
 	 *
 	 * @single
 	 */
-	updateNodeAndRefresh(node: Ti): Promise<void>;
+	updateNodeAndRefresh: iNodeFn<Ti>;
 	/**
 	 * Clones given node
 	 * sometimes it could fail but still clone (api issue)
 	 *
 	 * @single
 	 */
-	cloneNodeAndRefresh(node: Ti, toggleModal?: (m?: boolean) => any): Promise<void>;
+	cloneNodeAndRefresh: iNodeFn<Ti, [Ti, ((m?: boolean) => any) | undefined, HTMLElement?]>;
 	/**
 	 * Deletes given node
 	 * sometimes it could fail but still delete (api issue)
 	 *
 	 * @single
 	 */
-	deleteNodeAndRefresh(
-		node: Ti,
-		toggleModal?: (m?: boolean) => any,
-		modalRef?: HTMLElement
-	): Promise<void>;
+	deleteNodeAndRefresh: iNodeFn<Ti, [Ti, ((m?: boolean) => any) | undefined, HTMLElement?]>;
 	/**
 	 * Deletes multiple selected nodes
 	 * sometimes it could fail but still delete (api issue)

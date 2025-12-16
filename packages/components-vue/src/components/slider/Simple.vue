@@ -12,7 +12,7 @@
 		<div class="flx --flxColumn --flx-stretch-center --gap-10 --width-100">
 			<div
 				ref="sliderContainerRef"
-				:class="{ 'avatarAureo --size-lg': gallery }"
+				:class="{ 'avatarAureo --size-lg': gallery, '--invert': invertGallery }"
 				class="--overflow-hidden --width-100 --mY"
 			>
 				<component
@@ -110,6 +110,11 @@
 		 * TODO: allow opening overlay with picture gallery
 		 */
 		gallery?: boolean;
+		/**
+		 * Invert gallery
+		 * Rotates the gallery 180 degrees
+		 */
+		invertGallery?: boolean;
 		enumerate?: boolean;
 	}
 
@@ -139,7 +144,7 @@
 		intervalDuration: 7000,
 	});
 
-	const xamuOptions = inject<iPluginOptions>("xamu");
+	const { disableAutoAnimate } = inject<iPluginOptions>("xamu") || {};
 	const { t } = useHelpers(useI18n);
 	const { isBrowser } = useHelpers(useUtils);
 
@@ -154,7 +159,7 @@
 	const childCount = ref(0);
 
 	const allowAutoAnimate = computed<boolean>(() => {
-		return !xamuOptions?.disableAutoAnimate && props.animate;
+		return !disableAutoAnimate && props.animate;
 	});
 
 	const sliderTag = computed(() => {

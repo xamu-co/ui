@@ -39,10 +39,10 @@
 
 	const props = defineProps<iIconFaProps>();
 
-	const xamuOptions = inject<iPluginOptions>("xamu");
+	const { fontAwesomePro } = inject<iPluginOptions>("xamu") || {};
 
 	const regular = computed(() => {
-		return props.forceRegular || (xamuOptions?.fontAwesomePro && props.regular);
+		return props.forceRegular || (fontAwesomePro && props.regular);
 	});
 
 	/**

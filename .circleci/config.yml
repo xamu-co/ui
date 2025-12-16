@@ -6,7 +6,7 @@ version: 2.1
 defaults: &defaults
     working_directory: ~/repo
     docker:
-        - image: cimg/node:20.18.3
+        - image: cimg/node:20.19.3
 
 release: &release
     <<: *defaults
@@ -14,6 +14,7 @@ release: &release
         - checkout
         - attach_workspace:
               at: ~/repo
+        # Download and cache dependencies
         - restore_cache:
               name: Restore Yarn Package Cache
               key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
@@ -82,6 +83,7 @@ jobs:
             - checkout
             - attach_workspace:
                   at: ~/repo
+            # Download and cache dependencies
             - restore_cache:
                   name: Restore Yarn Package Cache
                   key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
@@ -101,6 +103,7 @@ jobs:
             - checkout
             - attach_workspace:
                   at: ~/repo
+            # Download and cache dependencies
             - restore_cache:
                   name: Restore Yarn Package Cache
                   key: yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}

@@ -3,6 +3,7 @@
  */
 export const componentNames = [
 	// base
+	"BaseBrowserOnly",
 	"BaseImg",
 	"BaseAction",
 	"BaseInput",
@@ -41,6 +42,7 @@ export const componentNames = [
 	// pagination
 	"Pagination",
 	"PaginationContent",
+	"PaginationContentTable",
 	// form
 	"FormInput",
 	"Form",

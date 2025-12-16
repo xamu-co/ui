@@ -11,19 +11,19 @@ const meta = {
 
 type Story = StoryObj<typeof ButtonComponent>;
 
-export const Button: Story = {
+export const Sample: Story = {
 	args: { default: "Action Button" },
 };
 
-export const ButtonIsActiveWithAlert: Story = {
+export const ActiveWithAlert: Story = {
 	args: { default: "Button with alert", active: true, alert: true },
 };
 
-export const ButtonAsY: Story = {
+export const Vertical: Story = {
 	args: { default: "⋮", y: true, theme: eColors.DANGER },
 };
 
-export const ButtonAsYIsActiveWithAlert: Story = {
+export const VerticalActiveWithAlert: Story = {
 	args: { default: "⋮", y: true, theme: eColors.DANGER, active: true, alert: true },
 };
 

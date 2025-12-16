@@ -5,8 +5,9 @@
 @use "sass:map";
 @use "sass:list";
 
-// layer order
-@layer resets, defaults, definitions, modifiers;
+// Layer order
+// Presets shouldn't be used internally as it is intended for projects using the ui system
+@layer resets, defaults, definitions, modifiers, presets;
 
 // Return default primary color complement
 @function primary($color) {

@@ -201,6 +201,13 @@
 						}
 					}
 				}
+
+				th,
+				td {
+					&.#{utils.$prefix-default}--sticky {
+						background-color: var(--inherit-bg, utils.$color-bg);
+					}
+				}
 			}
 
 			@if utils.$allow-responsive {

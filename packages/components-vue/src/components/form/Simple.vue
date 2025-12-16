@@ -1,5 +1,5 @@
 <template>
-	<BaseErrorBoundary :theme="theme">
+	<BaseErrorBoundary at="FormSimple" :theme="theme">
 		<component
 			:is="noForm ? 'fieldset' : 'form'"
 			v-if="model.length"
@@ -22,7 +22,7 @@
 			>
 				<template v-for="(input, inputIndex) in model" :key="inputIndex">
 					<div
-						v-if="input && model[inputIndex]"
+						v-if="input && model[inputIndex] && input.type !== eFormType.HIDDEN"
 						class="flx --flxColumn --flx-start-stretch --gap-5"
 					>
 						<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
@@ -89,7 +89,7 @@
 		/**
 		 * Make model
 		 */
-		make?: (...args: P) => tFormInput[];
+		make?: ((...args: P) => tFormInput[]) | ((...args: P) => Promise<tFormInput[]>);
 		/** Make all inputs read only by disabling them */
 		readonly?: boolean;
 	}
@@ -103,7 +103,10 @@
 	defineOptions({ name: "FormSimple", inheritAttrs: true });
 
 	const props = defineProps<iFormSimple<P>>();
-	const emit = defineEmits(["update:invalid", "update:model-value"]);
+	const emit = defineEmits<{
+		"update:invalid": [iInvalidInput[]];
+		"update:model-value": [tFormInput[]];
+	}>();
 
 	const { t, tet } = useHelpers(useI18n);
 	const { defaultCountry, getCountries, getCountryStates } = useCountries();
@@ -141,7 +144,10 @@
 
 		// update values
 		model.value[index].values = values;
-		emit("update:model-value", props.modelValue?.toSpliced(index, 1, model.value[index]));
+		emit(
+			"update:model-value",
+			(props.modelValue || []).toSpliced(index, 1, model.value[index])
+		);
 
 		if (!props.invalid?.length) return;
 
@@ -218,11 +224,11 @@
 	// lifecycle
 	watch(
 		() => props.payload,
-		(newPayload, oldPayload) => {
+		async (newPayload, oldPayload) => {
 			if (!props.make || (firstMake.value && isEqual(newPayload, oldPayload))) return;
 
 			firstMake.value = true;
-			emit("update:model-value", props.make(...(<P>(newPayload || []))));
+			emit("update:model-value", await props.make(...(<P>(newPayload || []))));
 		},
 		{ immediate: true }
 	);

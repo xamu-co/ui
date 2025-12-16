@@ -59,6 +59,13 @@
 					// @defaults bgColor
 					& {
 						background: module.color($name, 0.1);
+
+						// Only opaque should inherit
+						&.#{module.$prefix-default}--opaque {
+							--inherit-bg: #{module.color($name)};
+
+							background: var(--inherit-bg);
+						}
 					}
 				}
 				&:hover {
@@ -67,20 +74,22 @@
 
 				&.#{module.$prefix-default}--button,
 				&.#{module.$prefix-default}--#{module.$component-button} {
-					@layer defaults {
-						& {
-							// @defaults txtColor
-							color: module.color($name);
+					&:not(.#{module.$prefix-default}--opaque) {
+						@layer defaults {
+							& {
+								// @defaults txtColor
+								color: module.color($name);
+							}
 						}
-					}
 
-					&:hover,
-					&.#{module.$status-is-active},
-					&.#{module.$status-is-route-exact}:not(
-							.#{module.$status-no-route},
-							.#{module.$status-no-route-exact}
-						) {
-						background: module.color($name, 0.2);
+						&:hover,
+						&.#{module.$status-is-active},
+						&.#{module.$status-is-route-exact}:not(
+								.#{module.$status-no-route},
+								.#{module.$status-no-route-exact}
+							) {
+							background: module.color($name, 0.2);
+						}
 					}
 
 					.#{module.$component-box}:not(
@@ -97,7 +106,7 @@
 			// @group Modifiers
 			&.#{module.$prefix-default}--button,
 			&.#{module.$prefix-default}--#{module.$component-button} {
-				padding: 0.8rem;
+				padding: 0.6667rem;
 				p {
 					text-align: center;
 				}
@@ -132,15 +141,6 @@
 				}
 				&:has(img) {
 					padding: 0;
-				}
-
-				@include module.extend-themes using($name, $value, $is-default) {
-					@layer defaults {
-						// @defaults bgColor
-						& {
-							background: module.color($name);
-						}
-					}
 				}
 			}
 

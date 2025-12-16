@@ -6,6 +6,8 @@
 </template>
 
 <script setup lang="ts">
+	import type { Teleport } from "vue";
+
 	import type { vComponent } from "../../types/plugin";
 
 	/**
@@ -24,7 +26,7 @@
 			/** Wheter or not render the wrapper */
 			wrap: boolean;
 			/** Component or tag to render as wrapper */
-			wrapper?: vComponent | string;
+			wrapper?: vComponent | typeof Teleport | string;
 		}>(),
 		{ wrapper: "div" }
 	);

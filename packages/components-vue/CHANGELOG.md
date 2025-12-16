@@ -1,5 +1,615 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.36](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.35...@open-xamu-co/ui-components-vue-v3.1.0-next.36) (2025-12-07)
+
+
+### Bug Fixes
+
+* show partial cell value on hover ([4e8703b](https://github.com/xamu-co/ui/commit/4e8703bfeac04922ea46f18b6358b9c0acd031c6))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.36"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.35](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.34...@open-xamu-co/ui-components-vue-v3.1.0-next.35) (2025-12-05)
+
+
+### Bug Fixes
+
+* debounce text inputs events ([a862ad1](https://github.com/xamu-co/ui/commit/a862ad1506dfe4d3df558a3a9e776f654e8c318a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.35"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.34](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.33...@open-xamu-co/ui-components-vue-v3.1.0-next.34) (2025-11-30)
+
+
+### Bug Fixes
+
+* hydration issue with loader fetch payload ([43723f0](https://github.com/xamu-co/ui/commit/43723f073dda6a7c5aa0932946c4f539344c5d9e))
+* table item counting ([17097a5](https://github.com/xamu-co/ui/commit/17097a58037e611ddce8da42a36a1ad28b233122))
+* use count key with mapped node & node ([9685af0](https://github.com/xamu-co/ui/commit/9685af0c07eab096924a9022fd0ca2cb957ccf2b))
+* zindex table fix ([936a694](https://github.com/xamu-co/ui/commit/936a6943ba3c51ee8fc0c68e43ed5ce0acb78d7d))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.34"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.33](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.32...@open-xamu-co/ui-components-vue-v3.1.0-next.33) (2025-11-29)
+
+
+### Features
+
+* **vue:** table autoincrement by page ([f96c956](https://github.com/xamu-co/ui/commit/f96c95605e5e082ab7e54d88490ab8c282d1633a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.33"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.32](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.31...@open-xamu-co/ui-components-vue-v3.1.0-next.32) (2025-11-24)
+
+
+### Bug Fixes
+
+* improve url matching ([c45c804](https://github.com/xamu-co/ui/commit/c45c804095b8cbac25248f3b78a4044a6c399c69))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.32"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.31](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.30...@open-xamu-co/ui-components-vue-v3.1.0-next.31) (2025-11-17)
+
+
+### Bug Fixes
+
+* capture issue ios ([e491cb8](https://github.com/xamu-co/ui/commit/e491cb8d3143d3bf44695a12e637ef1842653daf))
+* emit change event on base inout ([20cf8b1](https://github.com/xamu-co/ui/commit/20cf8b17ba841a3d56bf6a2fc1a405d652110cd9))
+
+
+### Features
+
+* toggle tooltip ([a728a72](https://github.com/xamu-co/ui/commit/a728a722b971123824e4883c4b4d98db4ec1b83e))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.31"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.30](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.29...@open-xamu-co/ui-components-vue-v3.1.0-next.30) (2025-11-16)
+
+
+### Bug Fixes
+
+* prefer button on mobile file loading ([cebdaf2](https://github.com/xamu-co/ui/commit/cebdaf2bad01043ce3ab3cf8fea9b89b23d5d6b2))
+* require protocol on image url ([ba8513e](https://github.com/xamu-co/ui/commit/ba8513e2bd289425c712bf306a93c42f4e0d3702))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.30"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.29](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.28...@open-xamu-co/ui-components-vue-v3.1.0-next.29) (2025-11-16)
+
+
+### Bug Fixes
+
+* property on body value ([ed4514d](https://github.com/xamu-co/ui/commit/ed4514d201ddd1ab1c45358fb9bcc2fe2b510a75))
+* shorter file input text ([a85d5ee](https://github.com/xamu-co/ui/commit/a85d5ee2e4d8791e72342345ec7769390abd7e6a))
+
+
+### Features
+
+* image load events ([67b857c](https://github.com/xamu-co/ui/commit/67b857c58334a6306522812ceac1a20b81dbdfcb))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.29"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.28](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.27...@open-xamu-co/ui-components-vue-v3.1.0-next.28) (2025-09-04)
+
+
+### Features
+
+* rotate gallery ([0b562b2](https://github.com/xamu-co/ui/commit/0b562b2deee0cab854b23c0c50cf2aeeb22566c3))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.28"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.27](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.26...@open-xamu-co/ui-components-vue-v3.1.0-next.27) (2025-08-29)
+
+
+### Features
+
+* color picker on input ([88ad4c2](https://github.com/xamu-co/ui/commit/88ad4c2503b68b7a71e2a6c0a1cc69060217307a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.27"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.26](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.25...@open-xamu-co/ui-components-vue-v3.1.0-next.26) (2025-08-09)
+
+
+### Bug Fixes
+
+* location input not rendering if missing data ([237b595](https://github.com/xamu-co/ui/commit/237b59562e3f9a71944a1e7604d352050ae81279))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.26"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.25](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.24...@open-xamu-co/ui-components-vue-v3.1.0-next.25) (2025-08-07)
+
+
+### Bug Fixes
+
+* wrap file input text ([e8a3b38](https://github.com/xamu-co/ui/commit/e8a3b38ca978f8dacd7f61de62766e51f07a6d1c))
+
+
+### Features
+
+* onUpdatedValue as promise ([752c9ac](https://github.com/xamu-co/ui/commit/752c9acfe9cdee11930db380bd6c43bd5eb6cdab))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.25"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.24](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.23...@open-xamu-co/ui-components-vue-v3.1.0-next.24) (2025-08-07)
+
+
+### Bug Fixes
+
+* reset at on first change ([5c318d6](https://github.com/xamu-co/ui/commit/5c318d6e0a1044dd1e24ccefa3fb9a7277a72206))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.24"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.23](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.22...@open-xamu-co/ui-components-vue-v3.1.0-next.23) (2025-08-07)
+
+
+### Bug Fixes
+
+* reset pagination on first page ([2bd449b](https://github.com/xamu-co/ui/commit/2bd449bd4a852dc3de4ffc2552d74ce0c2b865bb))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.23"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.22](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.21...@open-xamu-co/ui-components-vue-v3.1.0-next.22) (2025-08-07)
+
+
+### Bug Fixes
+
+* inverted condition on pagination text ([21ab2e8](https://github.com/xamu-co/ui/commit/21ab2e8b7922ae70c3ea27b4cda52bfd0505687c))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.22"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.21](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.20...@open-xamu-co/ui-components-vue-v3.1.0-next.21) (2025-08-07)
+
+
+### Bug Fixes
+
+* wrap box action label ([8a121c7](https://github.com/xamu-co/ui/commit/8a121c70c0141f733cc265bfb44fb591b4a298c5))
+
+
+### Features
+
+* with pageNumber ([976d81c](https://github.com/xamu-co/ui/commit/976d81c11c167d18a2e13326525ff23f7a9c3ea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.21"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.20](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.19...@open-xamu-co/ui-components-vue-v3.1.0-next.20) (2025-08-04)
+
+
+### Bug Fixes
+
+* form make as union ([305a7e4](https://github.com/xamu-co/ui/commit/305a7e48b3e524754db36bbfba53c73b53ffc869))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.20"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.18...@open-xamu-co/ui-components-vue-v3.1.0-next.19) (2025-08-04)
+
+
+### Bug Fixes
+
+* expose table head scope in paginated table ([5b465cf](https://github.com/xamu-co/ui/commit/5b465cf22cbc939aeb70299ce29a25a202422c60))
+* generate thumbnails of file model ([ec07489](https://github.com/xamu-co/ui/commit/ec074898c419ac39d0a505c2cd771afa8a3789b9))
+* pass unmapped node to table functions ([c07cabb](https://github.com/xamu-co/ui/commit/c07cabbde027d06996dbf82d1fb87a0652cf6faa))
+* unmapped node always ([6f38d54](https://github.com/xamu-co/ui/commit/6f38d5420f3d13fad6685b6ca27310dd0c725772))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.19"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.17...@open-xamu-co/ui-components-vue-v3.1.0-next.18) (2025-08-03)
+
+
+### Bug Fixes
+
+* actually hide hidden input type ([fc264e0](https://github.com/xamu-co/ui/commit/fc264e08b72e57eee2db424567e9701e32858527))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.18"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.16...@open-xamu-co/ui-components-vue-v3.1.0-next.17) (2025-07-31)
+
+
+### Bug Fixes
+
+* restore external pagination table head ([ea4d277](https://github.com/xamu-co/ui/commit/ea4d2771e096869148ebb17f79e0805e6d5c8e9c))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.17"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.15...@open-xamu-co/ui-components-vue-v3.1.0-next.16) (2025-07-30)
+
+
+### Bug Fixes
+
+* do not use key at teleport ([a5600f9](https://github.com/xamu-co/ui/commit/a5600f94bceebe3e862dc1a26f56e2cf55f389c9))
+* no transition on loader ([1b00eb3](https://github.com/xamu-co/ui/commit/1b00eb37b39712716a59915b11a62c70d31643ba))
+* optional icon size on box action ([31e5d4f](https://github.com/xamu-co/ui/commit/31e5d4fa0a0062a7206769a62aa944b2a7d9891e))
+
+
+### Features
+
+* support granular hydration ([1feb11f](https://github.com/xamu-co/ui/commit/1feb11fffd8829045c3d092614d7624cf79ba878))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.16"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.14...@open-xamu-co/ui-components-vue-v3.1.0-next.15) (2025-07-22)
+
+
+### Bug Fixes
+
+* invert table head theme ([d1f5860](https://github.com/xamu-co/ui/commit/d1f5860227f0ab969c1df936500dafa4957604d0))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.15"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.13...@open-xamu-co/ui-components-vue-v3.1.0-next.14) (2025-07-22)
+
+
+### Bug Fixes
+
+* accept union theme at box action ([bfd9e8e](https://github.com/xamu-co/ui/commit/bfd9e8e1b4975cb36db2c76059e0f647a9e671cb))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.14"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.12...@open-xamu-co/ui-components-vue-v3.1.0-next.13) (2025-07-21)
+
+
+### Features
+
+* omit properties from being cloned ([09bf62a](https://github.com/xamu-co/ui/commit/09bf62a3a7a0fd56177a08ac429a4a183e29185f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.13"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.11...@open-xamu-co/ui-components-vue-v3.1.0-next.12) (2025-07-20)
+
+
+### Bug Fixes
+
+* prevent hydration duplication on pagination table content ([0319b83](https://github.com/xamu-co/ui/commit/0319b83a778e17280571b1266db4078810457059))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.12"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.10...@open-xamu-co/ui-components-vue-v3.1.0-next.11) (2025-07-19)
+
+
+### Bug Fixes
+
+* remove unnecesary padding on table ([774d88c](https://github.com/xamu-co/ui/commit/774d88ce2c59900b6dc7582a7072a28d6d0f93e2))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.11"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.9...@open-xamu-co/ui-components-vue-v3.1.0-next.10) (2025-07-19)
+
+
+### Features
+
+* opaque table ([4e69e86](https://github.com/xamu-co/ui/commit/4e69e86e892f3566068e7d536282036bcc80b482))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.10"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.8...@open-xamu-co/ui-components-vue-v3.1.0-next.9) (2025-07-18)
+
+
+### Bug Fixes
+
+* use box on table to match theme ([7c8a04b](https://github.com/xamu-co/ui/commit/7c8a04b2b8b01ae356f615f51bb217e0f726541b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.9"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.7...@open-xamu-co/ui-components-vue-v3.1.0-next.8) (2025-07-18)
+
+
+### Bug Fixes
+
+* always show id for tables with children ([340b5f7](https://github.com/xamu-co/ui/commit/340b5f7ae4a4d7a0da31b6196d62af4d30e9da1c))
+* unasuming pagination table defaults ([71f9d00](https://github.com/xamu-co/ui/commit/71f9d00bef64f417b8621ce81a376d9626571f0e))
+* use key on pagination table content ([1f40232](https://github.com/xamu-co/ui/commit/1f40232b1a568421a2924921e21d0589d055e587))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.8"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.6...@open-xamu-co/ui-components-vue-v3.1.0-next.7) (2025-07-14)
+
+
+### Features
+
+* pagination content table ([703652b](https://github.com/xamu-co/ui/commit/703652bc0ba569678392405a214f4cfc9bbfa09a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.7"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.5...@open-xamu-co/ui-components-vue-v3.1.0-next.6) (2025-07-14)
+
+
+### Bug Fixes
+
+* handle nuxt hydration behavior ([7d1cd53](https://github.com/xamu-co/ui/commit/7d1cd53b0a0a0ffa4d4dde9f36e60cf45a871412))
+* handle undefined edges ([8eb7215](https://github.com/xamu-co/ui/commit/8eb7215de8239ba223df4c34f19c57b4fbc799a3))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.6"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.4...@open-xamu-co/ui-components-vue-v3.1.0-next.5) (2025-04-28)
+
+
+### Bug Fixes
+
+* **vue:** redo faulty fallback fix ([cfc06f8](https://github.com/xamu-co/ui/commit/cfc06f81a16f099816292d08bf683a681a91e7cf))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.5"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.3...@open-xamu-co/ui-components-vue-v3.1.0-next.4) (2025-04-28)
+
+
+### Bug Fixes
+
+* **vue:** show content no matter what if fallback us provided ([42ebfd0](https://github.com/xamu-co/ui/commit/42ebfd0159ca10d0e08360478c9110f6263a3dee))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.4"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.2...@open-xamu-co/ui-components-vue-v3.1.0-next.3) (2025-04-19)
+
+
+### Bug Fixes
+
+* no black page on loader fetch ([07e90cc](https://github.com/xamu-co/ui/commit/07e90cc813ace8a366b165d3b61e79ae55031aff))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.3"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.1...@open-xamu-co/ui-components-vue-v3.1.0-next.2) (2025-04-17)
+
+
+### Bug Fixes
+
+* file thumbnail aligment ([8c1eacc](https://github.com/xamu-co/ui/commit/8c1eacc4b6fc77ab9e9b508b26ae832793bcb83b))
+* optimize table visibility ([b09b97d](https://github.com/xamu-co/ui/commit/b09b97de0aae068e9589449c86198917c19064a5))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.2"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.2-next.2...@open-xamu-co/ui-components-vue-v3.1.0-next.1) (2025-04-16)
+
+
+### Features
+
+* conditional image placeholder ([6a93593](https://github.com/xamu-co/ui/commit/6a935939bdac87bbb66ea656dbaead813e6b902f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0-next.1"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.0.2-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.2-next.1...@open-xamu-co/ui-components-vue-v3.0.2-next.2) (2025-04-13)
+
+
+### Bug Fixes
+
+* use global ([fc17577](https://github.com/xamu-co/ui/commit/fc1757767b93b288c7460a5173f90a13c4e0657a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.2-next.2"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v3.0.2-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.1...@open-xamu-co/ui-components-vue-v3.0.2-next.1) (2025-04-12)
+
+
+### Bug Fixes
+
+* prefer ofetch ([b97fe6c](https://github.com/xamu-co/ui/commit/b97fe6c82f4158a519e5b80e0d2730e8217a36cc))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.0.2-next.1"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.0...@open-xamu-co/ui-components-vue-v3.0.1) (2025-03-31)
 
 

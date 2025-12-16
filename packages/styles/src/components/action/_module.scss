@@ -39,8 +39,8 @@
 		// @group Modifiers
 		&.#{module.$prefix-default}--round {
 			@include module.extend-viewports-classes(true, module.$viewports) {
-				i.#{module.$component-icon},
-				.#{module.$component-svg} {
+				> i.#{module.$component-icon},
+				> .#{module.$component-svg} {
 					+ span {
 						display: none;
 					}
@@ -331,7 +331,7 @@
 	@layer defaults {
 		@include module.extend-themes using($name, $value, $is-default) {
 			+ label {
-				--cl: #{$value};
+				--cl: #{module.color($name)};
 				--bg: #{module.color($name, 0.1)};
 				--bc: #{module.color($name, 0.1)};
 

@@ -108,6 +108,7 @@ export const localeForm: tLocaleForm = {
 	form_requires_n_values:
 		"No values are required | A value is required | {count} values are required",
 	form_loading_countries: "Loading countries...",
+	form_awaiting_countries: "Awaiting countries data...",
 	form_country: "Look for country",
 	form_state: "Look for state",
 	form_city: "Look for city",
@@ -160,24 +161,32 @@ export const localeTable: tLocaleTable = {
 	table_hide_all: "Hide all",
 	table_show_all: "Show all",
 	swal: {
-		table_delete_node_title: "Are you sure you want to delete this element?",
+		table_delete_node_title: "Are you sure you want to delete this item?",
 		table_delete_node_disclaimer:
-			"Remember that you wont be able to recover this element data and you will lost all of your work",
+			"Remember that you wont be able to recover this item data and you will lost all of your work",
 		table_deleted: "Successfull deletion",
+		table_deleted_text: "The item was deleted, the list will refresh automatically",
 		table_delete_nodes_title:
-			"Are you sure you want to delete this element? | Are you sure you want to delete these {count} elements?",
+			"Are you sure you want to delete this item? | Are you sure you want to delete these {count} items?",
 		table_delete_nodes_disclaimer:
-			"Remember that you wont be able to recover these elements data and you will lost all of your work",
-		table_possibly_not_deleted:
+			"Remember that you wont be able to recover these items data and you will lost all of your work",
+		table_possibly_not_deleted: "Deletion went wrong",
+		table_possibly_not_deleted_text:
 			"The item may not have been deleted | The items may not have been deleted",
 		table_updated: "Successfull update",
-		table_possibly_not_updated:
+		table_updated_text: "The item was updated, the list will refresh automatically",
+		table_possibly_not_updated: "Update went wrong",
+		table_possibly_not_updated_text:
 			"The item may not have been updated | The items may not have been updated",
-		table_created: "Successfull create",
-		table_possibly_not_created:
+		table_created: "Successfull creation",
+		table_created_text: "The item was created, you can already find it in the list",
+		table_possibly_not_created: "Creation went wrong",
+		table_possibly_not_created_text:
 			"The item may not have been created | The items may not have been created",
-		table_cloned: "Successfull cloning",
-		table_possibly_not_cloned:
+		table_cloned: "Successfull clonation",
+		table_cloned_text: "The item was cloned, you can already find it in the list",
+		table_possibly_not_cloned: "Clonation went wrong",
+		table_possibly_not_cloned_text:
 			"The item may not have been cloned | The items may not have been cloned",
 	},
 };
@@ -190,6 +199,7 @@ export const localeTable: tLocaleTable = {
 export const localePagination: tLocalePagination = {
 	pagination_items: "No items | Single item | {count} items",
 	pagination_pages: "No pages | Single page | {count} pages",
+	pagination_page: "Page {count} of",
 	// swal: {},
 };
 

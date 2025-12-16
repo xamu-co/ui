@@ -16,6 +16,7 @@ export interface iPageEdge<T, C extends string | number = string> {
 export interface iPageInfo<C extends string | number = string> {
 	nextCursor?: C;
 	previousCursor?: C;
+	pageNumber?: number;
 	hasNextPage: boolean;
 	hasPreviousPage: boolean;
 	path?: string;
@@ -35,7 +36,7 @@ export interface iPagination {
 	 */
 	at?: string | number;
 	/**
-	 * Cantidad de elementos (limite)
+	 * Cantidad de elementos por pagina (limite)
 	 */
 	first?: number;
 	orderBy?: tOrderBy[];

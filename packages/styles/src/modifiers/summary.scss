@@ -13,9 +13,7 @@
 ///
 /// @group modifiers
 /// @example njk
-///  <div class="flx --flxColumn">
-///   TODO: modifier example
-///  </div>
+///  {% extends "modifier.njk" %}
 
 /// # Global unions
 /// Condense most common modifiers of rules that require multiple parameters
@@ -36,6 +34,4 @@
 ///
 /// @group unions
 /// @example njk
-///  <div class="flx --flxColumn">
-///   TODO: union example
-///  </div>
+///  {% extends "union.njk" %}

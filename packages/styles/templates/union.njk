@@ -1,0 +1,56 @@
+{# Union Examples #}
+<div class="flx --flxColumn --gap-50 --pY-50">
+  <section>
+    <h2>Union Examples</h2>
+    <div class="flx --flxColumn --gap-30">
+      <!-- Basic Union -->
+      <div>
+        <h3>Basic Union</h3>
+        <div class="flx --flxRow --gap-10">
+          <div class="--p-10 --bgColor-primary --txtColor-light">Default</div>
+          <div class="--p-10 --bgColor-primary --txtColor-light --flxAlign-center-center">--flxAlign-center-center</div>
+          <div class="--p-10 --bgColor-primary --txtColor-light --flxAlign-center">--flxAlign-center (shorthand)</div>
+        </div>
+      </div>
+
+      <!-- Multi-value Union -->
+      <div>
+        <h3>Multi-value Union</h3>
+        <div class="flx --flxRow --gap-10 --flxAlign-center">
+          <div class="--p-10 --bgColor-primary --txtColor-light --flxGrow-1">Item 1</div>
+          <div class="--p-10 --bgColor-success --txtColor-light --flxGrow-0 --flxShrink-0">--flxGrow-0 --flxShrink-0</div>
+          <div class="--p-10 --bgColor-primary --txtColor-light --flxGrow-1">Item 3</div>
+        </div>
+      </div>
+
+      <!-- Responsive Union -->
+      <div>
+        <h3>Responsive Union</h3>
+        <div class="flx --flxColumn:sm --flxRow:md --gap-10">
+          <div class="--p-10 --bgColor-primary --txtColor-light --flxGrow-1">Item 1</div>
+          <div class="--p-10 --bgColor-success --txtColor-light --flxGrow-1:md">--flxGrow-1:md</div>
+          <div class="--p-10 --bgColor-primary --txtColor-light --flxGrow-1">Item 3</div>
+        </div>
+      </div>
+
+      <!-- Complex Union Example -->
+      <div>
+        <h3>Complex Union</h3>
+        <div class="flx --flxRow --flxWrap --gap-10">
+          <div class="--p-10 --bgColor-primary --txtColor-light --flxBasis-100 --flxBasis-50:sm --flxBasis-25:lg">
+            Responsive Width
+          </div>
+          <div class="--p-10 --bgColor-success --txtColor-light --flxBasis-100 --flxBasis-50:sm --flxBasis-25:lg">
+            --flxBasis-100 --flxBasis-50:sm --flxBasis-25:lg
+          </div>
+          <div class="--p-10 --bgColor-primary --txtColor-light --flxBasis-100 --flxBasis-50:sm --flxBasis-25:lg">
+            Item 3
+          </div>
+          <div class="--p-10 --bgColor-success --txtColor-light --flxBasis-100 --flxBasis-50:sm --flxBasis-25:lg">
+            Item 4
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

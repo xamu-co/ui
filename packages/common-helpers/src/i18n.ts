@@ -3,14 +3,7 @@ import get from "lodash-es/get";
 import trim from "lodash-es/trim";
 import has from "lodash-es/has";
 
-/**
- * I18n Composable
- *
- * @composable
- */
-export default function useI18n<L extends Record<string, string | Record<string, string>>>(
-	options: { locale?: L } = {}
-) {
+interface iUseI18n<L extends Record<string, string | Record<string, string>>> {
 	/**
 	 * Interpolates localized text
 	 *
@@ -18,6 +11,36 @@ export default function useI18n<L extends Record<string, string | Record<string,
 	 * @param data Optional number or variables to interpolate into text
 	 * @returns {string}
 	 */
+	t: <K extends string & keyof L, Ko extends L[K], KA extends string & keyof Ko>(
+		key: Ko extends string ? K : `${K}.${KA}`,
+		data?: number | { [key: string]: unknown; count?: number },
+		fallback?: string
+	) => string;
+	/**
+	 * Checks if the interpolation key exist
+	 *
+	 * @param key interpolation key to check
+	 * @returns {boolean} true if the key exists
+	 */
+	te: <K extends string & keyof L, Ko extends L[K], KA extends string & keyof Ko>(
+		key: string
+	) => key is Ko extends string ? K : `${K}.${KA}`;
+	/**
+	 * Returns translation if key exist
+	 * @param key interpolation key to check
+	 * @returns {string}
+	 */
+	tet: (key: string) => string;
+}
+
+/**
+ * I18n Composable
+ *
+ * @composable
+ */
+export default function useI18n<L extends Record<string, string | Record<string, string>>>(
+	options: { locale?: L } = {}
+): iUseI18n<L> {
 	function t<K extends string & keyof L, Ko extends L[K], KA extends string & keyof Ko>(
 		key: Ko extends string ? K : `${K}.${KA}`,
 		data: number | { [key: string]: unknown; count?: number } = {},
@@ -45,30 +68,17 @@ export default function useI18n<L extends Record<string, string | Record<string,
 		return compile(typeof data === "number" ? { count } : data);
 	}
 
-	/**
-	 * Checks if the interpolation key exist
-	 *
-	 * @param key interpolation key to check
-	 * @returns {boolean} true if the key exists
-	 */
 	function te<K extends string & keyof L, Ko extends L[K], KA extends string & keyof Ko>(
 		key: string
 	): key is Ko extends string ? K : `${K}.${KA}` {
 		return has(options.locale || {}, key);
 	}
 
-	/**
-	 * Returns translation if key exist
-	 * @param key interpolation key to check
-	 * @returns {string}
-	 */
-	function tet(key: string): string {
-		return (te(key) && t(key)) || key;
-	}
-
 	return {
 		t,
 		te,
-		tet,
+		tet(key: string): string {
+			return (te(key) && t(key)) || key;
+		},
 	};
 }

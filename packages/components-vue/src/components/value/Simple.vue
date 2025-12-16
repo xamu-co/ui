@@ -45,11 +45,18 @@
 			:href="value"
 			target="_blank"
 		>
-			<BaseImg preset="avatar" :src="value" :alt="value" class="--bgColor-none" />
+			<BaseImg
+				preset="avatar"
+				class="--bgColor-none"
+				:src="value"
+				:alt="value"
+				:placeholder="property?.imagePlaceholder"
+				@error="property?.onImageError"
+			/>
 		</BaseAction>
 		<!-- String, URL -->
 		<ActionLink
-			v-else-if="typeof value === 'string' && isURL(value)"
+			v-else-if="typeof value === 'string' && isURL(value, UrlOptions)"
 			:theme="theme"
 			:href="value"
 			:size="size"
@@ -68,7 +75,8 @@
 			<template #toggle="{ toggleModal }">
 				<ActionLink
 					:theme="theme"
-					:tooltip="t('see_value')"
+					:aria-label="t('see_value')"
+					:tooltip="value.substring(0, maxLength * 3)"
 					tooltip-as-text
 					tooltip-position="bottom"
 					:size="size"
@@ -161,30 +169,28 @@
 
 	const props = defineProps<iValueSimpleProps<P>>();
 
-	const xamuOptions = inject<iPluginOptions>("xamu");
+	const { lang = "en", country = "US", imageHosts = [] } = inject<iPluginOptions>("xamu") || {};
 	const { t } = useHelpers(useI18n);
 
-	const locale = computed(() => {
-		const lang = xamuOptions?.lang || "en";
-		const country = xamuOptions?.country || "US";
+	const UrlOptions: validator.IsURLOptions = {
+		protocols: ["http", "https"],
+		require_protocol: true,
+	};
 
-		return `${lang}-${country}`;
-	});
-
+	const locale = computed(() => `${lang}-${country}`);
 	const maxLength = computed(() => (props.verbose ? 66 : 33));
 
 	/**
 	 * Url is of image type
-	 * TODO: improve image url matching
 	 */
 	function isImgUrl(url: string): boolean {
 		const [firstPart] = url.split("?");
 
 		// host is required
-		if (isURL(firstPart) && xamuOptions?.imageHosts?.length) {
+		if (isURL(firstPart, UrlOptions) && imageHosts.length) {
 			const url = new URL(firstPart);
 
-			if (xamuOptions.imageHosts.includes(url.host)) return true;
+			if (imageHosts.includes(url.host)) return true;
 		}
 
 		return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(firstPart);

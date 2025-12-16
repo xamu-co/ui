@@ -1,34 +1,72 @@
 <template>
-	<div
-		v-if="nodes.length || $slots.headActions"
-		:class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]"
-	>
+	<template v-if="nodes.length || $slots.headActions">
 		<table
-			:id="tableId"
-			class="tbl --minWidth-100"
+			:id="`${tableId}_actions`"
+			class="tbl --minWidth-100 table-actions"
 			:class="[{ '--nested': nested }, themeClasses]"
+			style="z-index: 2"
 		>
-			<TableHead v-bind="childrenProps" :with-default-slot="!!$slots.default">
-				<template v-if="$slots.headActions" #headActions="headScope">
-					<slot name="headActions" v-bind="headScope"></slot>
-				</template>
-			</TableHead>
-			<TableBody v-bind="childrenProps">
-				<template v-if="$slots.default" #default="defaultScope">
-					<slot name="default" v-bind="defaultScope"></slot>
-				</template>
-				<template v-if="$slots.modifyActions" #modifyActions="modifyScope">
-					<slot name="modifyActions" v-bind="modifyScope"></slot>
-				</template>
-				<template
-					v-if="$slots.modifyDropdownActions"
-					#modifyDropdownActions="modifyDropdownScope"
+			<BaseErrorBoundary at="TableHeadActions" :theme="theme">
+				<TableHeadActions
+					v-bind="childrenProps"
+					:theme="opaque ? invertedThemeValues : theme"
+					:with-default-slot="!!$slots.default"
 				>
-					<slot name="modifyDropdownActions" v-bind="modifyDropdownScope"></slot>
-				</template>
-			</TableBody>
+					<template v-if="$slots.headActions" #headActions="headScope">
+						<slot name="headActions" v-bind="headScope"></slot>
+					</template>
+				</TableHeadActions>
+			</BaseErrorBoundary>
 		</table>
-	</div>
+		<BaseWrapper
+			class="--gap-none --p-10 --maxWidth-100"
+			:wrap="!!opaque"
+			:wrapper="BaseBox"
+			:theme="invertedThemeValues"
+			:size="eSizes.SM"
+			style="z-index: 1"
+			opaque
+			button
+			solid
+		>
+			<div
+				:class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]"
+				style="z-index: 1"
+			>
+				<table
+					:id="`${tableId}_content`"
+					class="tbl --minWidth-100 table-content"
+					:class="[{ '--nested': nested }, themeClasses]"
+				>
+					<BaseErrorBoundary at="TableHeadContent" :theme="theme">
+						<TableHeadContent
+							v-bind="childrenProps"
+							:with-default-slot="!!$slots.default"
+						/>
+					</BaseErrorBoundary>
+					<BaseErrorBoundary at="TableBody" :theme="theme">
+						<TableBody v-bind="childrenProps">
+							<template v-if="$slots.default" #default="defaultScope">
+								<slot name="default" v-bind="defaultScope"></slot>
+							</template>
+							<template v-if="$slots.modifyActions" #modifyActions="modifyScope">
+								<slot name="modifyActions" v-bind="modifyScope"></slot>
+							</template>
+							<template
+								v-if="$slots.modifyDropdownActions"
+								#modifyDropdownActions="modifyDropdownScope"
+							>
+								<slot
+									name="modifyDropdownActions"
+									v-bind="modifyDropdownScope"
+								></slot>
+							</template>
+						</TableBody>
+					</BaseErrorBoundary>
+				</table>
+			</div>
+		</BaseWrapper>
+	</template>
 	<BoxMessage v-else :theme="theme || themeValues" class="--width-100">
 		<div class="flx --flxRow --flx-center">
 			<span>{{ t("nothing_to_show") }}</span>
@@ -46,15 +84,15 @@
 	</BoxMessage>
 </template>
 
-<script setup lang="ts" generic="T extends Record<string, any>">
+<script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
 	import { computed, getCurrentInstance, ref, watch } from "vue";
 	import upperFirst from "lodash-es/upperFirst";
 	import snakeCase from "lodash-es/snakeCase";
 	import startCase from "lodash-es/startCase";
 	import { Md5 } from "ts-md5";
 
-	import type { iNodeFnResponse, tOrder } from "@open-xamu-co/ui-common-types";
-	import { eSizes } from "@open-xamu-co/ui-common-enums";
+	import type { iNodeFn, iNodeFnResponse, tOrder } from "@open-xamu-co/ui-common-types";
+	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {
 		toOption,
 		useI18n,
@@ -67,11 +105,21 @@
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
 	import BoxMessage from "../box/Message.vue";
 	import TableBody from "./Body.vue";
-	import TableHead from "./Head.vue";
+	import TableHeadContent from "./HeadContent.vue";
+	import TableHeadActions from "./HeadActions.vue";
+	import BaseBox from "../base/Box.vue";
+	import BaseWrapper from "../base/Wrapper.vue";
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 
 	import useTheme from "../../composables/theme";
-	import { useHelpers, useOrderBy } from "../../composables/utils";
-	import type { iTableChildProps, iTablePropertyMeta, iTableProps } from "../../types/props";
+	import { useHelpers, useOrderBy, useResolveNodeFn } from "../../composables/utils";
+	import type {
+		iTableChildProps,
+		iTablePropertyMeta,
+		iTableProps,
+		iMappedNodes,
+		iNodeVisibility,
+	} from "../../types/props";
 
 	/**
 	 * Factory component for tables
@@ -84,18 +132,61 @@
 
 	defineOptions({ name: "TableSimple", inheritAttrs: false });
 
-	const props = withDefaults(defineProps<iTableProps<T>>(), {
+	const props = withDefaults(defineProps<iTableProps<T, TM>>(), {
 		size: eSizes.SM,
+		theme: eColors.SECONDARY,
+		mapNodes: (nodes: T[]) => nodes as unknown as TM[],
 	});
 	const emit = defineEmits(["update:sort"]);
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
-	const { themeClasses, themeValues } = useTheme(props);
+	const { themeClasses, themeValues, invertedThemeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
+	/**
+	 * Mapped nodes
+	 * Keeps the original node and the mapped node if any (filtered)
+	 */
+	const mappedNodes = computed(() => {
+		const nodes: iMappedNodes<T, TM> = { nodes: [], length: 0, withChildren: false };
+
+		props.nodes.forEach((node, index) => {
+			const [mappedNode] = props.mapNodes([node]);
+
+			if (!mappedNode) return;
+
+			const disableCreateNodeChildren = props.disableCreateNodeChildren?.(node);
+			const showNodeChildren = props.showNodeChildren?.(node);
+
+			const visibility: iNodeVisibility = {
+				disableCreateNodeChildren,
+				showNodeChildren,
+				childrenCount: childrenCount(node, mappedNode),
+			};
+
+			if (visibility.childrenCount) nodes.withChildren = true;
+
+			const hydrateNode = makeHydrateNode(index);
+			const createNodeChildrenAndRefresh = makeCreateNodeChildrenAndRefresh(
+				index,
+				visibility
+			);
+
+			nodes.nodes.push({
+				node: mappedNode,
+				index,
+				visibility,
+				hydrateNode,
+				createNodeChildrenAndRefresh,
+			});
+			nodes.length++;
+		});
+
+		return nodes;
+	});
 
 	/** [selected, show] */
-	const selectedNodes = ref<[boolean, boolean][]>(reFillNodes(props.nodes.length));
+	const selectedNodes = ref<[boolean, boolean][]>([]);
 
 	const selectedNodesCount = computed(() => {
 		return selectedNodes.value.filter(([selected]) => selected).length;
@@ -116,7 +207,6 @@
 
 		if (props.withRoute && router) {
 			const route = router.currentRoute.value;
-
 			const routeOrderBy = useOrderBy(route.query.orderBy);
 
 			if (!routeOrderBy.length) return orderBy;
@@ -133,7 +223,7 @@
 	const isReadOnly = computed<boolean>(() => {
 		return (
 			props.readonly ||
-			!props.nodes.length ||
+			!mappedNodes.value.length ||
 			(!props.updateNode && !props.cloneNode && !props.deleteNode)
 		);
 	});
@@ -142,21 +232,28 @@
 	 * This one assumes all objects within nodes are all the same
 	 */
 	const propertiesMeta = computed<iTablePropertyMeta<T>[]>(() => {
-		return Object.entries(props.nodes[0])
-			.sort(props.propertyOrder || useOrderProperty)
-			.map(([key, value]) => {
-				const options = (props.properties || []).map(toOption);
-				const property = toOption(options.find((p) => p.value === key) || key);
-				const aliasKey = snakeCase(key);
+		const [mappedNode] = props.mapNodes([props.nodes[0]]);
+		const sorted = Object.entries(mappedNode).sort(props.propertyOrder || useOrderProperty);
+		const properties: iTablePropertyMeta<T>[] = [];
 
-				return {
-					...property,
-					value: String(property.value),
-					alias: upperFirst(startCase(property.alias || tet(aliasKey))),
-					canSort: !!props.sort && isPlainValue(value),
-				};
-			})
-			.filter(({ value }) => !["id", props.childrenCountKey].includes(value));
+		for (const [key, value] of sorted) {
+			const options = (props.properties || []).map(toOption);
+			const property = toOption(options.find((p) => p.value === key) || key);
+			const aliasKey = snakeCase(key);
+
+			const meta: iTablePropertyMeta<T> = {
+				...property,
+				value: String(property.value),
+				alias: upperFirst(startCase(property.alias || tet(aliasKey))),
+				canSort: !!props.sort && isPlainValue(value),
+			};
+
+			if (!["id", props.childrenCountKey].includes(meta.value)) {
+				properties.push(meta);
+			}
+		}
+
+		return properties;
 	});
 	/** Prefer a predictable identifier */
 	const tableId = computed(() => {
@@ -166,8 +263,9 @@
 		return Md5.hashStr(`table-${childrenBased}-${metaBased}`);
 	});
 
-	const childrenProps = computed<iTableChildProps<T>>(() => ({
+	const childrenProps = computed<iTableChildProps<T, TM>>(() => ({
 		...props,
+		mappedNodes: mappedNodes.value,
 		tableId: tableId.value,
 		propertiesMeta: propertiesMeta.value,
 		isReadOnly: isReadOnly.value,
@@ -175,7 +273,7 @@
 		selectedNodes: selectedNodes.value,
 		selectedNodesCount: selectedNodesCount.value,
 		openNodesCount: openNodesCount.value,
-		childrenCount,
+		canShowChildren,
 		setOrdering,
 		toggleAll,
 		toggleChildren,
@@ -185,8 +283,10 @@
 		deleteNodesAndRefresh,
 	}));
 
-	function reFillNodes(length: number): [boolean, boolean][] {
-		return Array.from({ length }, () => [false, !!props.childrenVisibility]);
+	function canShowChildren(visibility: iNodeVisibility, mappedIndex: number): boolean {
+		const { showNodeChildren, childrenCount } = visibility;
+
+		return showNodeChildren ?? (selectedNodes.value[mappedIndex][1] && !!childrenCount);
 	}
 
 	/**
@@ -211,9 +311,10 @@
 	}
 
 	/** Count childrens */
-	function childrenCount(node: T): number {
+	function childrenCount(node: T, mappedNode: TM): number {
 		if (props.childrenCountKey) {
-			const countValue = node[props.childrenCountKey];
+			const key: any = props.childrenCountKey;
+			const countValue = mappedNode[key] || node[key] || 0;
 
 			if (Array.isArray(countValue)) return countValue.length;
 
@@ -231,18 +332,19 @@
 		selectedNodes.value[index] = [selected, !children];
 	}
 
-	async function resolveNodeFn(
-		promise:
-			| boolean
-			| undefined
-			| iNodeFnResponse
-			| Promise<boolean | undefined | iNodeFnResponse>
-	): Promise<iNodeFnResponse> {
-		const resolve = await promise;
+	function makeHydrateNode(nodeIndex: number) {
+		return (newNode: T | null, _newErrors?: unknown) => {
+			if (!props.hydrateNodes || !newNode) return;
 
-		if (Array.isArray(resolve)) return resolve;
+			// Replace the node with the updated one
+			const existingNode = props.nodes[nodeIndex];
+			const updatedNodes = props.nodes.toSpliced(nodeIndex, 1, {
+				...existingNode,
+				...newNode,
+			});
 
-		return [resolve];
+			props.hydrateNodes(updatedNodes);
+		};
 	}
 
 	/**
@@ -253,35 +355,55 @@
 	 *
 	 * TODO: Support batch editing
 	 */
-	async function updateNodeAndRefresh(node: T) {
+	const updateNodeAndRefresh: iNodeFn<T> = async (node: T) => {
 		// display loader
 		Swal.fireLoader();
 
 		// run process
-		const [updated, event, closeModal] = await resolveNodeFn(props.updateNode?.(node));
+		const response = await useResolveNodeFn(props.updateNode?.(node));
+		const [updated, event, closeModal] = response;
 
 		// unfinished task
-		if (typeof updated !== "boolean") {
+		if (typeof updated === "undefined" || updated === null) {
 			if (Swal.isLoading()) Swal.close();
 		} else if (updated) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_updated"),
+				text: t("swal.table_updated_text"),
 				willOpen() {
-					closeModal?.();
+					let updatedNodes: T[] | undefined;
 
-					if (!props.omitRefresh) props.refresh?.();
+					// Update single element
+					if (typeof updated === "object" && updated.id) {
+						const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+
+						// Replace the node with the updated one
+						updatedNodes = props.nodes.toSpliced(nodeIndex, 1, {
+							...node,
+							...updated,
+						});
+					}
+
+					// Prefer hydration over refreshing
+					if (props.hydrateNodes && updatedNodes) props.hydrateNodes(updatedNodes);
+					else if (!props.omitRefresh) props.refresh?.();
+
+					closeModal?.();
 				},
 			});
 		} else {
+			// Error, possibly not updated
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_updated"),
-				text: t("swal.table_possibly_not_updated"),
+				title: t("swal.table_possibly_not_updated"),
+				text: t("swal.table_possibly_not_updated_text"),
 				target: event,
 			});
 		}
-	}
+
+		return response;
+	};
 
 	/**
 	 * Clones given node
@@ -289,37 +411,67 @@
 	 *
 	 * @single
 	 */
-	async function cloneNodeAndRefresh(node: T, toggleModal?: (m?: boolean) => any) {
+	const cloneNodeAndRefresh: iNodeFn<T, [T, ((m?: boolean) => any) | undefined]> = async (
+		node: T,
+		toggleModal?: (m?: boolean) => any
+	) => {
 		// close modal
 		toggleModal?.(false);
 		// display loader
 		Swal.fireLoader();
 
+		// Remove properties that should not be cloned
+		const clearNode = { ...node };
+
+		for (const property of propertiesMeta.value) {
+			if (property.cloneNode === false) delete clearNode[property.value];
+		}
+
 		// run process
-		const [cloned, event, closeModal] = await resolveNodeFn(props.cloneNode?.(node));
+		const response = await useResolveNodeFn(props.cloneNode?.(clearNode));
+		const [cloned, event, closeModal] = response;
 
 		// unfinished task
-		if (typeof cloned !== "boolean") {
+		if (typeof cloned === "undefined" || cloned === null) {
 			if (Swal.isLoading()) Swal.close();
 		} else if (cloned) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_cloned"),
+				text: t("swal.table_cloned_text"),
 				willOpen() {
-					closeModal?.();
+					let updatedNodes: T[] | undefined;
 
-					if (!props.omitRefresh) props.refresh?.();
+					// Add single new element
+					if (typeof cloned === "object" && cloned.id) {
+						const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+
+						// Add cloned node after the original node
+						updatedNodes = props.nodes.toSpliced(nodeIndex + 1, 0, {
+							...node,
+							...cloned,
+						});
+					}
+
+					// Prefer hydration over refreshing
+					if (props.hydrateNodes && updatedNodes) props.hydrateNodes(updatedNodes);
+					else if (!props.omitRefresh) props.refresh?.();
+
+					closeModal?.();
 				},
 			});
 		} else {
+			// Error, possibly not cloned
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_cloned"),
-				text: t("swal.table_possibly_not_cloned"),
+				title: t("swal.table_possibly_not_cloned"),
+				text: t("swal.table_possibly_not_cloned_text"),
 				target: event,
 			});
 		}
-	}
+
+		return response;
+	};
 
 	/**
 	 * Deletes given node
@@ -327,11 +479,10 @@
 	 *
 	 * @single
 	 */
-	async function deleteNodeAndRefresh(
-		node: T,
-		toggleModal?: (m?: boolean) => any,
-		modalRef?: HTMLElement
-	) {
+	const deleteNodeAndRefresh: iNodeFn<
+		T,
+		[T, ((m?: boolean) => any) | undefined, HTMLElement?]
+	> = async (node: T, toggleModal?: (m?: boolean) => any, modalRef?: HTMLElement) => {
 		// request confirmation
 		const { value } = await Swal.firePrevent({
 			title: t("table_delete"),
@@ -348,30 +499,44 @@
 		Swal.fireLoader();
 
 		// run process
-		const [deleted, event, closeModal] = await resolveNodeFn(props.deleteNode?.(node));
+		const response = await useResolveNodeFn(props.deleteNode?.(node));
+		const [deleted, event, closeModal] = response;
 
 		// unfinished task
-		if (typeof deleted !== "boolean") {
+		if (typeof deleted === "undefined" || deleted === null) {
 			if (Swal.isLoading()) Swal.close();
 		} else if (deleted) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_deleted"),
+				text: t("swal.table_deleted_text"),
 				willOpen() {
-					closeModal?.();
+					// Prefer refreshing over hydration
+					if (props.refresh) {
+						if (!props.omitRefresh) props.refresh?.();
+					} else if (props.hydrateNodes) {
+						const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+						// Remove the node
+						const updatedNodes: T[] = props.nodes.toSpliced(nodeIndex, 1);
 
-					if (!props.omitRefresh) props.refresh?.();
+						props.hydrateNodes(updatedNodes);
+					}
+
+					closeModal?.();
 				},
 			});
 		} else {
+			// Error, possibly not deleted
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_deleted"),
-				text: t("swal.table_possibly_not_deleted"),
+				title: t("swal.table_possibly_not_deleted"),
+				text: t("swal.table_possibly_not_deleted_text"),
 				target: event,
 			});
 		}
-	}
+
+		return response;
+	};
 
 	/**
 	 * Deletes multiple selected nodes
@@ -394,39 +559,123 @@
 		// display loader
 		Swal.fireLoader();
 
-		// run process
-		const deleted = await Promise.all(
-			nodes.map(async (node) => await resolveNodeFn(props.deleteNode?.(node)))
+		let updatedNodes: T[] = [...props.nodes];
+		// run process in parallel
+		const deleted: iNodeFnResponse<T>[] = await Promise.all(
+			nodes.map(async (node) => {
+				const response = await useResolveNodeFn(props.deleteNode?.(node));
+				const [deletedNode] = response;
+
+				// Remove deleted node
+				if (typeof deletedNode === "object") {
+					const nodeIndex = updatedNodes.findIndex(({ id }) => id === node.id);
+
+					// Remove single node
+					if (nodeIndex > -1) updatedNodes.splice(nodeIndex, 1);
+				}
+
+				return response;
+			})
 		);
 		const [, event, closeModal] = deleted[0];
 
 		// unfinished task
-		if (deleted.every(([d]) => d === undefined)) {
+		if (deleted.every(([d]) => d === undefined || d === null)) {
 			if (Swal.isLoading()) Swal.close();
 		} else if (deleted.every(([d]) => d)) {
 			Swal.fire({
 				icon: "success",
 				title: t("swal.table_deleted"),
+				text: t("swal.table_deleted_text"),
 				willOpen() {
-					closeModal?.();
+					// Prefer refreshing over hydration
+					if (props.refresh) {
+						if (!props.omitRefresh) props.refresh?.();
+					} else if (props.hydrateNodes) props.hydrateNodes(updatedNodes);
 
-					if (!props.omitRefresh) props.refresh?.();
+					closeModal?.();
 				},
 			});
 		} else {
+			// Error, possibly not deleted
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_deleted"),
-				text: t("swal.table_possibly_not_deleted", props.nodes.length),
+				title: t("swal.table_possibly_not_deleted"),
+				text: t("swal.table_possibly_not_deleted_text", props.nodes.length),
 				target: event,
 			});
 		}
 	}
 
+	/**
+	 * Creates children for given node
+	 * sometimes it could fail but still update (api issue)
+	 *
+	 * @single
+	 */
+	function makeCreateNodeChildrenAndRefresh(
+		nodeIndex: number,
+		visibility: iNodeVisibility
+	): iNodeFn<T> {
+		return async (node: T) => {
+			// display loader
+			Swal.fireLoader();
+
+			// run process
+			const response = await useResolveNodeFn(props.createNodeChildren?.(node));
+			const [updatedParent, event, closeModal] = response;
+
+			// unfinished task
+			if (typeof updatedParent === "undefined" || updatedParent === null) {
+				if (Swal.isLoading()) Swal.close();
+			} else if (updatedParent) {
+				Swal.fire({
+					icon: "success",
+					title: t("swal.table_created"),
+					text: t("swal.table_created_text"),
+					willOpen() {
+						const hydrateNode = makeHydrateNode(nodeIndex);
+
+						// If has children, prefer hydration over refreshing
+						if (
+							visibility.childrenCount &&
+							props.hydrateNodes &&
+							typeof updatedParent === "object"
+						) {
+							hydrateNode({ ...node, ...updatedParent });
+						} else if (!props.omitRefresh) props.refresh?.();
+
+						closeModal?.();
+					},
+				});
+			} else {
+				// Error, children possibly not created
+				Swal.fire({
+					icon: "warning",
+					title: t("swal.table_possibly_not_created"),
+					text: t("swal.table_possibly_not_created_text"),
+					target: event,
+				});
+			}
+
+			return response;
+		};
+	}
+
 	// lifecycle
 	watch(
-		() => props.nodes,
-		(newNodes) => (selectedNodes.value = reFillNodes(newNodes.length)),
-		{ immediate: false }
+		[mappedNodes, () => props.withRoute && router?.currentRoute.value.fullPath],
+		([newNodes, newRoute], [oldNodes, oldRoute]) => {
+			const reFillNodes: [boolean, boolean][] = Array.from(
+				{ length: newNodes.length },
+				() => [false, !!props.childrenVisibility]
+			);
+
+			// Omit for hydration
+			if (!oldNodes || oldNodes?.length !== newNodes.length || oldRoute !== newRoute) {
+				selectedNodes.value = reFillNodes;
+			}
+		},
+		{ immediate: true }
 	);
 </script>

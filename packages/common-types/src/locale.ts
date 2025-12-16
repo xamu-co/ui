@@ -152,6 +152,8 @@ export type tLocaleForm = {
 	form_requires_n_values: string;
 	/** @example "Loading countries..." */
 	form_loading_countries: string;
+	/** @example "Awaiting countries data..." */
+	form_awaiting_countries: string;
 	/** @example "Look for country" */
 	form_country: string;
 	/** @example "Look for state" */
@@ -246,30 +248,46 @@ export type tLocaleTable = {
 	/** @example "Show all" */
 	table_show_all: string;
 	swal: {
-		/** @example "Are you sure you want to delete this element?" */
+		/** @example "Are you sure you want to delete this item?" */
 		table_delete_node_title: string;
-		/** @example "Remember that you wont be able to recover this element data and you will lost all of your work" */
+		/** @example "Remember that you wont be able to recover this item data and you will lost all of your work" */
 		table_delete_node_disclaimer: string;
 		/** @example "Successfull deletion" */
 		table_deleted: string;
-		/** @example "Are you sure you want to delete this element? | Are you sure you want to delete these {count} elements?" */
+		/** @example "The item was deleted, the list will refresh automatically" */
+		table_deleted_text: string;
+		/** @example "Are you sure you want to delete this item? | Are you sure you want to delete these {count} items?" */
 		table_delete_nodes_title: string;
-		/** @example "Remember that you wont be able to recover these elements data and you will lost all of your work" */
+		/** @example "Remember that you wont be able to recover these items data and you will lost all of your work" */
 		table_delete_nodes_disclaimer: string;
-		/** @example "The item may not have been deleted | The items may not have been deleted" */
+		/** @example "Deletion went wrong" */
 		table_possibly_not_deleted: string;
+		/** @example "The item may not have been deleted | The items may not have been deleted" */
+		table_possibly_not_deleted_text: string;
 		/** @example "Successfull update" */
 		table_updated: string;
-		/** @example "The item may not have been updated | The items may not have been updated" */
+		/** @example "The item was updated, the list will refresh automatically" */
+		table_updated_text: string;
+		/** @example "Update went wrong" */
 		table_possibly_not_updated: string;
-		/** @example "Successfull update" */
+		/** @example "The item may not have been updated | The items may not have been updated" */
+		table_possibly_not_updated_text: string;
+		/** @example "Successfull creation" */
 		table_created: string;
-		/** @example "The item may not have been created | The items may not have been created" */
+		/** @example "The item was created, you can already find it in the list" */
+		table_created_text: string;
+		/** @example "Creation went wrong" */
 		table_possibly_not_created: string;
-		/** @example "Successfull cloning" */
+		/** @example "The item may not have been created | The items may not have been created" */
+		table_possibly_not_created_text: string;
+		/** @example "Successfull clonation" */
 		table_cloned: string;
-		/** @example "The item may not have been cloned | The items may not have been cloned" */
+		/** @example "The item was cloned, you can already find it in the list" */
+		table_cloned_text: string;
+		/** @example "Clonation went wrong" */
 		table_possibly_not_cloned: string;
+		/** @example "The item may not have been cloned | The items may not have been cloned" */
+		table_possibly_not_cloned_text: string;
 	};
 };
 
@@ -283,6 +301,8 @@ export type tLocalePagination = {
 	pagination_items: string;
 	/** @example "No pages | Single page | {count} pages" */
 	pagination_pages: string;
+	/** @example "Page {count} of" */
+	pagination_page: string;
 	// swal: {};
 };
 

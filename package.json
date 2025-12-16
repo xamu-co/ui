@@ -26,25 +26,28 @@
     "p:nuxt": "yarn workspace @open-xamu-co/ui-nuxt",
     "dev:vue": "yarn p:vue dev",
     "dev:nuxt": "yarn p:nuxt dev",
+    "dev:styles": "yarn p:styles docs",
     "build": "yarn workspaces run build",
+    "build:helpers": "yarn p:enums build && yarn p:helpers build",
     "build:nuxt": "yarn p:vue build && yarn p:nuxt build",
+    "build:js": "yarn build:helpers && yarn build:nuxt",
     "build:css": "yarn p:styles build",
     "release": "yarn workspaces run semantic-release",
     "release:dry": "yarn workspaces run semantic-release --dry-run"
   },
   "packageManager": "yarn@1.22.22",
   "engines": {
-    "node": ">=18",
+    "node": ">=20.19.3",
     "yarn": ">=1.22.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
-    "@open-xamu-co/eslint-config": "^3.0.0",
+    "@open-xamu-co/eslint-config": "^3.0.1",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/exec": "^5.0.0",
     "@semantic-release/git": "^9.0.0",
-    "@types/node": "^18.14.0",
+    "@types/node": "^20.19.3",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
     "eslint": "^8.56.0",
@@ -64,8 +67,8 @@
     "stylelint-config-standard-scss": "^13.1.0",
     "stylelint-prettier": "^5.0.0",
     "typescript": "5.8.2",
-    "vite": "^5.2.12",
-    "vue-tsc": "^2.1.10"
+    "vite": "^7.0.4",
+    "vue-tsc": "2.1.10"
   },
   "husky": {
     "hooks": {

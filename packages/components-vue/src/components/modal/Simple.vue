@@ -1,13 +1,7 @@
 <template>
-	<BaseErrorBoundary :theme="theme">
+	<BaseErrorBoundary at="ModalSimple" :theme="theme">
 		<slot v-if="$slots.toggle" name="toggle" v-bind="{ toggleModal, model }"></slot>
-		<BaseWrapper
-			v-if="!disabled"
-			:key="modalId"
-			:wrapper="Teleport"
-			:wrap="!!target"
-			:to="target"
-		>
+		<BaseWrapper v-if="!disabled" :wrapper="Teleport" :wrap="!!target" :to="target">
 			<dialog
 				:id="modalId"
 				ref="modalRef"
@@ -105,7 +99,7 @@
 											:aria-label="saveButtonOptions.title"
 											:class="saveButtonOptions.btnClass"
 											:disabled="saveButtonOptions.disabled"
-											@click="(e) => emit('save', closeModal, e)"
+											@click="(e: Event) => emit('save', closeModal, e)"
 										>
 											{{ saveButtonOptions.title }}
 										</ActionButton>
@@ -299,7 +293,7 @@
 
 				closeModal();
 			},
-			{ immediate: false }
+			{ immediate: true }
 		);
 
 		if (!router?.currentRoute) return;

@@ -1,6 +1,7 @@
 export * from "./types/props";
 
 // base
+export { default as BaseBrowserOnly } from "./components/base/BrowserOnly.vue";
 export { default as BaseImg } from "./components/base/Img.vue";
 export { default as BaseAction } from "./components/base/Action.vue";
 export { default as BaseInput } from "./components/base/Input.vue";
@@ -47,6 +48,7 @@ export { default as LoaderContentFetch } from "./components/loader/ContentFetch.
 // pagination
 export { default as Pagination } from "./components/pagination/Simple.vue";
 export { default as PaginationContent } from "./components/pagination/Content.vue";
+export { default as PaginationContentTable } from "./components/pagination/ContentTable.vue";
 
 // form
 export { default as FormInput } from "./components/form/Input.vue";

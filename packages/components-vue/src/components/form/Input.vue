@@ -1,6 +1,6 @@
 <template>
-	<BaseErrorBoundary :theme="theme">
-		<div class="flx --flxColumn --flx-start --gap-5">
+	<BaseErrorBoundary at="FormInput" :theme="theme">
+		<div v-if="input.type !== eFT.HIDDEN" class="flx --flxColumn --flx-start --gap-5">
 			<FormInputOptions
 				v-if="!input.defaults && input.type === eFT.CHOICE"
 				v-slot="{ options }"
@@ -27,7 +27,7 @@
 			/>
 			<!-- Future inner loop input -->
 			<FormInputLoop
-				v-else-if="input.type !== eFT.HIDDEN"
+				v-else
 				v-slot="{ i }"
 				:key="input.options.length + models.length"
 				:models="models"
@@ -122,8 +122,10 @@
 				<FormInputNValues
 					v-else-if="input.type === eFT.PHONE || input.type === eFT.CELLPHONE"
 					v-bind="{ loading, errors, refresh }"
+					:key="indicativesArr.length"
 					:content="!!indicativesArr.length"
 					:model="models[i].value"
+					:label="t('form_awaiting_countries')"
 					:values="[2]"
 				>
 					<SelectSimple
@@ -146,53 +148,64 @@
 						@update:model-value="updateArrModel(i, 1, $event)"
 					/>
 				</FormInputNValues>
-				<FormInputCountriesAPI
+				<FormInputNValues
 					v-else-if="input.type === eFT.LOCATION"
-					v-slot="{ statesReq, citiesReq }"
-					v-bind="{ theme, states, countries, loading, errors, refresh }"
+					v-bind="{ loading, errors, refresh }"
+					:key="statesArr?.length"
+					:content="!!countriesArr.length"
 					:model="models[i].value"
+					:label="t('form_awaiting_countries')"
+					:values="[1, 3]"
 				>
-					<SelectFilter
-						v-if="!defaultCountry || models[i].value.length === 1"
-						:model-value="models[i].value[0]"
-						:options="countriesArr"
-						name="country"
-						:value="defaultCountry"
-						icon="earth-americas"
-						:theme="theme"
-						:disabled="readonly"
-						:placeholder="getInputPlaceholder()"
-						class="--width-180:md --flx"
-						@update:model-value="updateArrModel(i, 0, $event)"
-					/>
-					<div
-						v-if="models[i].value.length === 3"
-						class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
+					<!-- Single value means country, 3 values means country, state & city -->
+					<FormInputCountriesAPI
+						v-slot="{ statesReq, citiesReq }"
+						v-bind="{ theme, states, countries, loading, errors, refresh }"
+						:key="`${defaultCountry}-${countriesArr.length}-${statesArr?.length}`"
+						:model="models[i].value"
 					>
 						<SelectFilter
-							:model-value="models[i].value[1]"
-							:options="statesArr || statesReq?.content?.map?.(stateToOption)"
-							name="state"
-							icon="mountain-sun"
+							v-if="!defaultCountry || models[i].value.length === 1"
+							:model-value="models[i].value[0]"
+							:options="countriesArr"
+							name="country"
+							:value="defaultCountry"
+							icon="earth-americas"
 							:theme="theme"
-							:disabled="readonly || !(models[i].value[0] || defaultCountry)"
-							:placeholder="getInputPlaceholder(1)"
+							:disabled="readonly"
+							:placeholder="getInputPlaceholder()"
 							class="--width-180:md --flx"
-							@update:model-value="updateArrModel(i, 1, $event)"
+							@update:model-value="updateArrModel(i, 0, $event)"
 						/>
-						<SelectFilter
-							:model-value="models[i].value[2]"
-							:options="citiesReq?.content?.map?.(cityToOption)"
-							name="city"
-							icon="city"
-							:theme="theme"
-							:disabled="readonly || !models[i].value[1]"
-							:placeholder="getInputPlaceholder(2)"
-							class="--width-180:md --flx"
-							@update:model-value="updateArrModel(i, 2, $event)"
-						/>
-					</div>
-				</FormInputCountriesAPI>
+						<div
+							v-if="models[i].value.length === 3"
+							class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
+						>
+							<SelectFilter
+								:model-value="models[i].value[1]"
+								:options="statesArr || statesReq?.content?.map?.(stateToOption)"
+								name="state"
+								icon="mountain-sun"
+								:theme="theme"
+								:disabled="readonly || !(models[i].value[0] || defaultCountry)"
+								:placeholder="getInputPlaceholder(1)"
+								class="--width-180:md --flx"
+								@update:model-value="updateArrModel(i, 1, $event)"
+							/>
+							<SelectFilter
+								:model-value="models[i].value[2]"
+								:options="citiesReq?.content?.map?.(cityToOption)"
+								name="city"
+								icon="city"
+								:theme="theme"
+								:disabled="readonly || !models[i].value[1]"
+								:placeholder="getInputPlaceholder(2)"
+								class="--width-180:md --flx"
+								@update:model-value="updateArrModel(i, 2, $event)"
+							/>
+						</div>
+					</FormInputCountriesAPI>
+				</FormInputNValues>
 				<FormInputNValues
 					v-else-if="input.type === eFT.SCHEDULE"
 					:model="models[i].value"
@@ -309,7 +322,7 @@
 	import useCountries from "../../composables/countries";
 	import { useHelpers } from "../../composables/utils";
 
-	interface iFormInputProps extends iUseThemeProps {
+	export interface iFormInputProps extends iUseThemeProps {
 		modelValue: any[];
 		input: tFormInput;
 		invalid?: iInvalidInput;

@@ -5,7 +5,20 @@ import Simple from "./Simple.vue";
 const meta = {
 	title: "Pagination/Pagination Simple",
 	component: Simple as Record<keyof typeof Simple, unknown>,
-	args: {},
+	args: {
+		modelValue: {
+			at: 0,
+			first: 10,
+		},
+		currentPage: {
+			edges: [],
+			pageInfo: {
+				hasNextPage: false,
+				hasPreviousPage: false,
+			},
+			totalCount: 0,
+		},
+	},
 } satisfies Meta<typeof Simple>;
 
 type Story = StoryObj<typeof Simple>;

@@ -15,6 +15,7 @@
 			...(useChecked ? { checked: modelValue ?? !!$attrs.checked } : { value: modelValue }),
 		}"
 		@input="handleInput"
+		@change="emit('change', $event)"
 	/>
 	<slot v-bind="{ id: inputId, name, modelValue }"></slot>
 </template>
@@ -45,7 +46,7 @@
 	defineOptions({ name: "BaseInput", inheritAttrs: false });
 
 	const props = defineProps<iBaseInputProps>();
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits(["update:model-value", "change"]);
 
 	/** Prefer a predictable identifier */
 	const inputId = computed(() => {

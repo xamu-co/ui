@@ -1,12 +1,18 @@
 <template>
-	<tbody v-if="nodes.length" :class="classes">
-		<template v-for="(node, nodeIndex) in nodes" :key="nodeIndex">
+	<tbody v-if="mappedNodes.length" :class="classes">
+		<template
+			v-for="(
+				{ node, index, visibility, hydrateNode, createNodeChildrenAndRefresh }, mappedIndex
+			) in mappedNodes.nodes"
+			:key="index"
+		>
+			<!-- Row item (Shows the item data) -->
 			<tr
 				class="--txtAlign"
-				:class="[`--txtSize-${size}`, { ['is--selected']: selectedNodes[nodeIndex][0] }]"
+				:class="[`--txtSize-${size}`, { ['is--selected']: selectedNodes[index][0] }]"
 			>
 				<th
-					v-if="nodes.length > 1"
+					v-if="mappedNodes.length > 1 || $slots.default"
 					class="--sticky"
 					:class="{ ['is--selected']: !!ordering['id'] }"
 					data-column-name="id"
@@ -15,20 +21,19 @@
 					<component
 						:is="preferId"
 						v-if="preferId && preferId !== true"
-						:index="nodeIndex"
-						:node="node"
+						v-bind="{ index, node: nodes[index] }"
 					/>
 					<div v-else class="flx --flxRow --flx-start-center --gap-10">
 						<InputToggle
 							v-if="!isReadOnly"
-							:id="tableId + String(node.id ?? nodeIndex)"
-							v-model="selectedNodes[nodeIndex][0]"
+							:id="tableId + String(node.id ?? index)"
+							v-model="selectedNodes[mappedIndex][0]"
 							:theme="theme || themeValues"
 							:title="t('table_select')"
 							:size="size"
 						/>
-						<span :title="String(node.id ?? nodeIndex)">
-							{{ node.id && preferId ? node.id : nodeIndex + 1 }}
+						<span :title="String(node.id ?? index)">
+							{{ node.id && preferId ? node.id : index + 1 + pageNumber }}
 						</span>
 					</div>
 				</th>
@@ -47,13 +52,14 @@
 							:is="meta.component || ValueComplex"
 							v-bind="{
 								value: node[meta.value],
-								meta: {
+								property: {
 									...meta,
 									...(meta.updateNode && {
-										updateNode: (n: any) => meta.updateNode?.(n, node),
+										updateNode: (n: any) => meta.updateNode?.(n, nodes[index]),
 									}),
 								},
-								node,
+								node: nodes[index],
+								mappedNode: node,
 								readonly: isReadOnly,
 								theme: theme || themeValues,
 								modalProps: { theme: theme || themeValues, ...modalProps },
@@ -61,6 +67,7 @@
 								refresh,
 								omitRefresh,
 								size,
+								hydrateNode,
 							}"
 						/>
 					</td>
@@ -82,12 +89,13 @@
 						<slot
 							name="modifyActions"
 							v-bind="{
-								node,
+								node: nodes[index],
+								mappedNode: node,
 								updateNodeAndRefresh,
 								cloneNodeAndRefresh,
 								deleteNodeAndRefresh,
 								deleteNodesAndRefresh,
-								show: showChildren(nodeIndex, node),
+								show: canShowChildren(visibility, mappedIndex),
 							}"
 						></slot>
 						<ActionButton
@@ -99,7 +107,7 @@
 							:size="size"
 							round
 							:disabled="selectedNodes.some(([n]) => n)"
-							@click="updateNodeAndRefresh(node)"
+							@click="() => updateNodeAndRefresh(nodes[index])"
 						>
 							<IconFa name="pencil" />
 						</ActionButton>
@@ -119,7 +127,7 @@
 									:size="size"
 									:disabled="selectedNodes.some(([n]) => n)"
 									toggle="dropdown"
-									@click="setModel()"
+									@click="() => setModel()"
 								>
 									<IconFa name="ellipsis-vertical" />
 								</ActionLink>
@@ -131,7 +139,9 @@
 											:theme="invertedTheme"
 											:size="size"
 											:aria-label="t('table_duplicate')"
-											@click="cloneNodeAndRefresh(node, setModel)"
+											@click="
+												() => cloneNodeAndRefresh(nodes[index], setModel)
+											"
 										>
 											<IconFa name="clone" />
 											<span>
@@ -145,7 +155,12 @@
 											:size="size"
 											:aria-label="t('table_delete')"
 											@click="
-												deleteNodeAndRefresh(node, setModel, dropdownRef)
+												() =>
+													deleteNodeAndRefresh(
+														nodes[index],
+														setModel,
+														dropdownRef
+													)
 											"
 										>
 											<IconFa name="trash-can" />
@@ -155,12 +170,13 @@
 									<slot
 										name="modifyDropdownActions"
 										v-bind="{
-											node,
+											node: nodes[index],
+											mappedNode: node,
 											updateNodeAndRefresh,
 											cloneNodeAndRefresh,
 											deleteNodeAndRefresh,
 											deleteNodesAndRefresh,
-											show: showChildren(nodeIndex, node),
+											show: canShowChildren(visibility, mappedIndex),
 										}"
 									></slot>
 								</ul>
@@ -169,53 +185,61 @@
 					</div>
 				</th>
 			</tr>
+			<!-- Row item children (Nested table) -->
 			<template v-if="$slots.default">
+				<!-- Row item children content -->
 				<tr class="no--hover --width-100">
 					<td :colspan="propertiesMeta.length + 2">
-						<div
-							v-show="showChildren(nodeIndex, node)"
-							class="box --button --bdr-solid --bgColor-none"
+						<BaseBox
+							v-show="canShowChildren(visibility, mappedIndex)"
+							:theme="theme || themeValues"
+							class="--gap-none --p-10 --maxWidth-100"
+							transparent
+							solid
 						>
 							<slot
 								v-bind="{
-									node,
+									node: nodes[index],
+									mappedNode: node,
 									updateNodeAndRefresh,
 									cloneNodeAndRefresh,
 									deleteNodeAndRefresh,
 									deleteNodesAndRefresh,
-									show: showChildren(nodeIndex, node),
+									createNodeChildrenAndRefresh,
+									show: canShowChildren(visibility, mappedIndex),
+									hydrateParentNode: hydrateNode,
 								}"
 							></slot>
-						</div>
+						</BaseBox>
 					</td>
 				</tr>
+				<!-- Row item children actions (Acts as a divider of rows when item children are hidden) -->
 				<tr class="no--hover">
 					<th class="--sticky --pX-10 --pY-5 --vAlign">
 						<div class="flx --flxRow --flx-end-center --gap-10 --bdr">
 							<ActionLink
 								:theme="theme || themeValues"
 								:size="size"
-								:active="showChildren(nodeIndex, node)"
+								:active="canShowChildren(visibility, mappedIndex)"
 								:tooltip="
 									t(
-										showChildren(nodeIndex, node)
+										canShowChildren(visibility, mappedIndex)
 											? 'table_hide_name'
 											: 'table_see_name',
 										{
 											name:
 												childrenName ||
 												childrenCountKey ||
-												String(node.id ?? nodeIndex).split('/')[0],
+												String(node.id ?? index).split('/')[0],
 										}
 									)
 								"
 								tooltip-position="right"
-								:disabled="!childrenCount(node) || showNodeChildren?.(node)"
-								class="--p-5"
-								@click="toggleChildren(nodeIndex)"
+								:disabled="!visibility.childrenCount || visibility.showNodeChildren"
+								@click="() => toggleChildren(mappedIndex)"
 							>
-								<span v-if="childrenCount(node) >= 1">
-									{{ childrenCount(node) }}
+								<span v-if="visibility.childrenCount >= 1">
+									{{ visibility.childrenCount }}
 								</span>
 								<IconFa name="chevron-down" indicator />
 							</ActionLink>
@@ -223,20 +247,20 @@
 								v-if="createNodeChildren"
 								:theme="theme || themeValues"
 								:size="size"
-								:disabled="!!disableCreateNodeChildren?.(node)"
+								:disabled="visibility.disableCreateNodeChildren"
 								:tooltip="
 									t('table_create_new_name', {
 										name:
 											childrenName ||
 											childrenCountKey ||
-											String(node.id ?? nodeIndex).split('/')[0],
+											String(node.id ?? index).split('/')[0],
 									})
 								"
 								tooltip-position="right"
 								class="--p-5:md-inv"
 								link-button
 								round
-								@click="createNodeChildren(node)"
+								@click="() => createNodeChildrenAndRefresh(nodes[index])"
 							>
 								<IconFa name="plus" />
 							</ActionButtonLink>
@@ -253,7 +277,10 @@
 	</tbody>
 </template>
 
-<script setup lang="ts" generic="T extends Record<string, any>">
+<script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
+	import { computed, inject } from "vue";
+
+	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -263,12 +290,16 @@
 	import InputToggle from "../input/Toggle.vue";
 	import ValueComplex from "../value/Complex.vue";
 	import Dropdown from "../dropdown/Simple.vue";
+	import BaseBox from "../base/Box.vue";
 
 	import type { iTableChildProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
 
-	export interface iTableBodyProps<Ti extends Record<string, any>> extends iTableChildProps<Ti> {}
+	export interface iTableBodyProps<
+		Ti extends Record<string, any>,
+		TMi extends Record<string, any> = Ti,
+	> extends iTableChildProps<Ti, TMi> {}
 
 	/**
 	 * Table body
@@ -278,15 +309,20 @@
 
 	defineOptions({ name: "TableBody", inheritAttrs: false });
 
-	const props = defineProps<iTableBodyProps<T>>();
+	const props = defineProps<iTableBodyProps<T, TM>>();
 
 	const { t } = useHelpers(useI18n);
 	const { themeValues, dangerThemeValues } = useTheme(props);
+	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
 
-	/** Can the node be shown? */
-	function showChildren(nodeIndex: number, node: T) {
-		const shouldShow = props.selectedNodes[nodeIndex][1] && !!props.childrenCount(node);
+	const pageNumber = computed(() => {
+		const page = props.pageInfo?.pageNumber || 1;
+		let first = defaultFirst || 0;
 
-		return props.showNodeChildren?.(node) ?? shouldShow;
-	}
+		if (props.withRoute && typeof props.withRoute === "object") {
+			first = props.withRoute.first || first;
+		}
+
+		return (page - 1) * first;
+	});
 </script>

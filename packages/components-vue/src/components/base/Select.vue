@@ -10,7 +10,6 @@
 			disabled: (!!modelValue && selectOptions.length === 1) || disabled || undefined,
 			tabindex: (disabled && '-1') || undefined,
 		}"
-		:value="modelValue"
 		@input="handleInput"
 	>
 		<option v-once hidden disabled value="">
@@ -20,6 +19,8 @@
 			v-for="({ value, alias, disabled, hidden }, index) in selectOptions"
 			:key="index"
 			v-bind="{ value, disabled, hidden }"
+			v-memo="[options]"
+			:selected="modelValue === value"
 		>
 			{{ alias || value }}
 		</option>

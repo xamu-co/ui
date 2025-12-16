@@ -36,9 +36,9 @@
 						themeValues[!multiple && modelValue?.includes(option.value) ? 0 : 1]
 					}`"
 					:style="
-						isURL(option.pattern)
-							? { backgroundImage: `url('${option.pattern}')` }
-							: { backgroundColor: option.pattern }
+						isColor(option.pattern)
+							? { backgroundColor: option.pattern }
+							: { backgroundImage: `url('${option.pattern}')` }
 					"
 				></figure>
 			</template>
@@ -49,7 +49,9 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import isURL from "validator/lib/isURL";
+	import isHexColor from "validator/lib/isHexColor";
+	import isRgbColor from "validator/lib/isRgbColor";
+	import isHSL from "validator/lib/isHSL";
 
 	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
@@ -120,5 +122,9 @@
 		const value = String(option.alias || option.value);
 
 		return value.length <= 2 || !!option.pattern;
+	}
+
+	function isColor(color: string): boolean {
+		return isHexColor(color) || isRgbColor(color) || isHSL(color);
 	}
 </script>

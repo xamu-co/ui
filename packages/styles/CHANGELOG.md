@@ -1,5 +1,182 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v4.1.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.7...@open-xamu-co/ui-styles-v4.1.0-next.8) (2025-12-07)
+
+
+### Bug Fixes
+
+* show partial cell value on hover ([4e8703b](https://github.com/xamu-co/ui/commit/4e8703bfeac04922ea46f18b6358b9c0acd031c6))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.8"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v4.1.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.6...@open-xamu-co/ui-styles-v4.1.0-next.7) (2025-12-01)
+
+
+### Bug Fixes
+
+* **styles:** grd span of 1 ([5afc4f9](https://github.com/xamu-co/ui/commit/5afc4f9a0c84611acac1f5d389f10a9a0179ed92))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.7"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v4.1.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.5...@open-xamu-co/ui-styles-v4.1.0-next.6) (2025-11-30)
+
+
+### Bug Fixes
+
+* use count key with mapped node & node ([9685af0](https://github.com/xamu-co/ui/commit/9685af0c07eab096924a9022fd0ca2cb957ccf2b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.6"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v4.1.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.4...@open-xamu-co/ui-styles-v4.1.0-next.5) (2025-09-04)
+
+
+### Bug Fixes
+
+* adjust grid sizes ([01816a5](https://github.com/xamu-co/ui/commit/01816a51cc5d1af3e4226ac345e47aa9b9a2c6e0))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.5"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v4.1.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.3...@open-xamu-co/ui-styles-v4.1.0-next.4) (2025-09-01)
+
+
+### Bug Fixes
+
+* **styles:** missing select override ([06f197c](https://github.com/xamu-co/ui/commit/06f197ccb2b7612b38bd92dc5b0e27d2ec65e98a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.4"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v4.1.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.2...@open-xamu-co/ui-styles-v4.1.0-next.3) (2025-08-29)
+
+
+### Bug Fixes
+
+* single level styles for action icon ([40dae95](https://github.com/xamu-co/ui/commit/40dae955057cc50e1727fad6f372818b32ff0925))
+* use custom properties on colors mixin ([12f1fa0](https://github.com/xamu-co/ui/commit/12f1fa0d07a0c5f4d9a165bb1a42dd1544c978ae))
+
+
+### Features
+
+* add presets layer ([581a577](https://github.com/xamu-co/ui/commit/581a5776a1e5b0053f11f3b2668b2c01a3c1b004))
+* color picker on input ([88ad4c2](https://github.com/xamu-co/ui/commit/88ad4c2503b68b7a71e2a6c0a1cc69060217307a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.3"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v4.1.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.1...@open-xamu-co/ui-styles-v4.1.0-next.2) (2025-08-21)
+
+
+### Bug Fixes
+
+* extended flx by default ([ce28c84](https://github.com/xamu-co/ui/commit/ce28c840cdb155458e4dd64e78779c5bb1c54127))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.2"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v4.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.0.1-next.2...@open-xamu-co/ui-styles-v4.1.0-next.1) (2025-07-19)
+
+
+### Features
+
+* opaque table ([4e69e86](https://github.com/xamu-co/ui/commit/4e69e86e892f3566068e7d536282036bcc80b482))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.1.0-next.1"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v4.0.1-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.0.1-next.1...@open-xamu-co/ui-styles-v4.0.1-next.2) (2025-07-18)
+
+
+### Bug Fixes
+
+* rule extension ([95eab3f](https://github.com/xamu-co/ui/commit/95eab3ff5848351380f7bd95e935c97858f8fa30))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.0.1-next.2"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v4.0.1-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.0.0...@open-xamu-co/ui-styles-v4.0.1-next.1) (2025-07-14)
+
+
+### Bug Fixes
+
+* handle nuxt hydration behavior ([7d1cd53](https://github.com/xamu-co/ui/commit/7d1cd53b0a0a0ffa4d4dde9f36e60cf45a871412))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "4.0.1-next.1"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v4.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v3.0.0...@open-xamu-co/ui-styles-v4.0.0) (2025-03-30)
 
 

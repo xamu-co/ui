@@ -54,6 +54,7 @@
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
 	import { computed } from "vue";
 	import omit from "lodash-es/omit";
+	import debounce from "lodash-es/debounce";
 
 	import type { iFormIconProps, tTextInputType } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -134,7 +135,7 @@
 
 			return inputType.value !== "number" ? value : Number(value);
 		},
-		set: (value) => emit("update:model-value", value),
+		set: debounce((value) => emit("update:model-value", value), 300),
 	});
 	const inputClasses = computed(() => {
 		return [modifiersClasses.value, stateClasses.value, themeClasses.value, "iTxt"];
@@ -147,13 +148,19 @@
 	 * increase number
 	 */
 	function increase() {
-		if (typeof model.value === "number" && model.value < maxValue.value) model.value++;
+		// Emit undebounced event
+		if (typeof model.value === "number" && model.value < maxValue.value) {
+			emit("update:model-value", model.value + 1);
+		}
 	}
 
 	/**
 	 * decrease number
 	 */
 	function decrease() {
-		if (typeof model.value === "number" && model.value > minValue.value) model.value--;
+		// Emit undebounced event
+		if (typeof model.value === "number" && model.value > minValue.value) {
+			emit("update:model-value", model.value - 1);
+		}
 	}
 </script>

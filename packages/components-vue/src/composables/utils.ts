@@ -1,11 +1,16 @@
 import { inject } from "vue";
 
-import type { iPluginOptions, tOrder, tOrderBy } from "@open-xamu-co/ui-common-types";
+import type { iNodeFnResponse, tOrder, tOrderBy } from "@open-xamu-co/ui-common-types";
 
-export function useHelpers<T>(helper: (o?: iPluginOptions) => T): ReturnType<typeof helper> {
-	const xamuOptions = inject<iPluginOptions>("xamu");
+import type { iVuePluginOptions } from "../plugin";
 
-	return helper(xamuOptions);
+export function useHelpers<T = any>(
+	helper: (o: iVuePluginOptions & { countriesUrl: string }) => T
+): T {
+	const { countriesUrl = "https://countries.xamu.com.co/api/v1", ...xo } =
+		inject<iVuePluginOptions>("xamu") || {};
+
+	return helper({ ...xo, countriesUrl });
 }
 
 export function useOrderBy(orderByParam: any): tOrderBy[] {
@@ -31,4 +36,18 @@ export function useOrderBy(orderByParam: any): tOrderBy[] {
 	}
 
 	return [];
+}
+
+export async function useResolveNodeFn<T extends Record<string, any>>(
+	promise:
+		| boolean
+		| undefined
+		| iNodeFnResponse<T>
+		| Promise<boolean | undefined | iNodeFnResponse<T>>
+): Promise<iNodeFnResponse<T>> {
+	const resolve = await promise;
+
+	if (Array.isArray(resolve)) return resolve;
+
+	return [resolve];
 }

@@ -1,6 +1,6 @@
 {
 	"name": "@open-xamu-co/ui-styles",
-	"version": "4.0.0",
+	"version": "4.1.0-next.8",
 	"description": "Style system for the xamu project",
 	"scripts": {
 		"i": "yarn --frozen-lockfile",
@@ -86,7 +86,7 @@
 		"sassdoc-theme-herman": "^5.0.1"
 	},
 	"engines": {
-		"node": ">=18",
+		"node": ">=20.19.3",
 		"yarn": ">=1.22.4"
 	},
 	"browserslist": [

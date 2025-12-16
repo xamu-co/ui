@@ -17,14 +17,14 @@
 	<ul class="list --gap-25">
 		{% for position in positions %}
 			<li class="--p-5 --bgColor-dark1">
-				<a href="#" class="toggle--dropdown link --txtStyle --txtTransform">
+				<button class="toggle--dropdown link --txtStyle --txtTransform">
 					<span>.{{ position.name }}</span>
 					<i class="icon fa-chevron-{{ position.icon }} fas"></i>
-				</a>
+				</button>
 				<ul class="dropdown {{ position.name }} flx --flxColumn --flx-start --gap-5">
 					{% for link in['aguacate', 'cereza', 'platano'] %}
 						<li>
-							<a href="#" class="link">{{ link }}</a>
+							<button class="link">{{ link }}</button>
 						</li>
 					{% endfor %}
 				</ul>

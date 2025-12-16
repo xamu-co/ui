@@ -52,6 +52,10 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 */
 	imageComponent?: ComponentType | string;
 	/**
+	 * Url to an image to be used as placeholder for images that failed to load
+	 */
+	imagePlaceholder?: string;
+	/**
 	 * Host that contain images
 	 * Treat the url within them as images
 	 *
@@ -108,7 +112,9 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 */
 	country?: string;
 	/**
-	 * Countries API base endpoint (full URL)
+	 * Countries API base endpoint
+	 *
+	 * Pathname or full URL (With pathname)
 	 *
 	 * If using nuxt, get better performance with the module
 	 * @see https://www.npmjs.com/package/nuxt-countries-api
@@ -140,4 +146,11 @@ export interface iPluginOptions<ComponentType = unknown> {
 	 * @default console.log
 	 */
 	logger?: tLogger;
+	/**
+	 * Function used to encode the pagination cursor
+	 *
+	 * @default node.id
+	 */
+	cursorEncoder?: (<T>(node: T) => string) | (<T>(node: T) => number);
+	internals?: Record<string, any>;
 }
