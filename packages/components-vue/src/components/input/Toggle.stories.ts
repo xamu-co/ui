@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Toggle from "./Toggle.vue";
+import InputToggle from "./Toggle.vue";
 
-const meta = {
+const meta: Meta<typeof InputToggle> = {
 	title: "Input/Input Toggle",
-	component: Toggle,
+	component: InputToggle,
 	args: { label: "Toggle checkbox" },
-} satisfies Meta<typeof Toggle>;
+};
 
 type Story = StoryObj<typeof meta>;
 

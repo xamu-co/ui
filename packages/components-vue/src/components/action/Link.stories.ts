@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Link from "./Link.vue";
+import ActionLink from "./Link.vue";
 
-const meta = {
+const meta: Meta<typeof ActionLink> = {
 	title: "Action/Action Link",
-	component: Link,
+	component: ActionLink,
 	args: { default: "Action Link" },
-} satisfies Meta<typeof Link>;
+};
 
 type Story = StoryObj<typeof meta>;
 

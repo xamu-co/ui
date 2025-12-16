@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
-
-import InputColor from "./Color.vue";
 import { ref } from "vue";
 
-const meta = {
+import InputColor from "./Color.vue";
+
+const meta: Meta<typeof InputColor> = {
 	title: "Input/Input Color",
 	component: InputColor,
 	args: {},
-} satisfies Meta<typeof InputColor>;
+};
 
 type Story = StoryObj<typeof meta>;
 

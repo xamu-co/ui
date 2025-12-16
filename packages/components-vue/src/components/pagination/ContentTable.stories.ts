@@ -7,11 +7,11 @@ import PaginationContentTable from "./ContentTable.vue";
 
 import type { tOrderBy, iPagination, iFormResponse, iPage } from "@open-xamu-co/ui-common-types";
 
-const meta = {
+const meta: GenericMeta<typeof PaginationContentTable> = {
 	title: "Pagination/Pagination ContentTable",
 	component: PaginationContentTable,
 	args: {},
-} satisfies GenericMeta<typeof PaginationContentTable>;
+};
 
 type Story = StoryObj<typeof meta>;
 

@@ -2,13 +2,13 @@ import type { StoryObj } from "@storybook/vue3-vite";
 
 import type { GenericMeta } from "../../types/storybook";
 
-import Simple from "./Simple.vue";
+import ValueSimple from "./Simple.vue";
 
-const meta = {
+const meta: GenericMeta<typeof ValueSimple> = {
 	title: "Value/Value Simple",
-	component: Simple,
+	component: ValueSimple,
 	args: { value: "https://picsum.photos/seed/45465/100/100" },
-} satisfies GenericMeta<typeof Simple>;
+};
 
 type Story = StoryObj<typeof meta>;
 

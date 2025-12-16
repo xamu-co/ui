@@ -3,13 +3,13 @@ import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import DropdownSimple from "./Simple.vue";
 import ActionButton from "../action/Button.vue";
 
-const meta = {
+const meta: Meta<typeof DropdownSimple> = {
 	title: "Dropdown",
 	component: DropdownSimple,
 	args: {
 		invertTheme: true,
 	},
-} satisfies Meta<typeof DropdownSimple>;
+};
 
 type Story = StoryObj<typeof meta>;
 

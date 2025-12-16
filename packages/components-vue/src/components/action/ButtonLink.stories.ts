@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import ButtonLink from "./ButtonLink.vue";
+import ActionButtonLink from "./ButtonLink.vue";
 
-const meta = {
+const meta: Meta<typeof ActionButtonLink> = {
 	title: "Action/Action Button Link",
-	component: ButtonLink,
+	component: ActionButtonLink,
 	args: { default: `Action Button link` },
-} satisfies Meta<typeof ButtonLink>;
+};
 
 type Story = StoryObj<typeof meta>;
 

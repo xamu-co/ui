@@ -95,8 +95,8 @@ jobs:
                   command: yarn lint
             # Install Playwright
             - run:
-                  name: Install Playwright
-                  command: yarn playwright install --with-deps
+                  name: Install Playwright browsers
+                  command: yarn playwright
             - run:
                   name: Test
                   command: yarn test

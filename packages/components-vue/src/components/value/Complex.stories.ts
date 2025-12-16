@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Complex from "./Complex.vue";
+import ValueComplex from "./Complex.vue";
 
-const meta = {
+const meta: Meta<typeof ValueComplex> = {
 	title: "Value/Value Complex",
-	component: Complex,
+	component: ValueComplex,
 	args: {},
-} satisfies Meta<typeof Complex>;
+};
 
 type Story = StoryObj<typeof meta>;
 

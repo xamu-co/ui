@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Message from "./Message.vue";
+import BoxMessage from "./Message.vue";
 
-const meta = {
+const meta: Meta<typeof BoxMessage> = {
 	title: "Box/Box Message",
-	component: Message,
+	component: BoxMessage,
 	args: { text: "Here is a box message" },
-} satisfies Meta<typeof Message>;
+};
 
 type Story = StoryObj<typeof meta>;
 

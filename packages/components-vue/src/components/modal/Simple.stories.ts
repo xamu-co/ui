@@ -13,7 +13,7 @@ import IconFa from "../icon/Fa.vue";
 
 import { stagesData } from "../form/Stages.stories";
 
-const meta = {
+const meta: Meta<typeof ModalSimple> = {
 	title: "Modal",
 	component: ModalSimple,
 	args: {
@@ -23,7 +23,7 @@ const meta = {
 		invertTheme: true,
 		saveButton: { title: "Trigger save event" },
 	},
-} satisfies Meta<typeof ModalSimple>;
+};
 
 type Story = StoryObj<typeof meta>;
 

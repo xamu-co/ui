@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Simple from "./Simple.vue";
+import CollapseSimple from "./Simple.vue";
 
-const meta = {
+const meta: Meta<typeof CollapseSimple> = {
 	title: "Collapse",
-	component: Simple,
+	component: CollapseSimple,
 	args: { title: 'Toggle "Collapse" contents', default: "Collapse contents" },
-} satisfies Meta<typeof Simple>;
+};
 
 type Story = StoryObj<typeof meta>;
 

@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Simple from "./Simple.vue";
+import LoaderSimple from "./Simple.vue";
 
-const meta = {
+const meta: Meta<typeof LoaderSimple> = {
 	title: "Loader/Loader Simple",
-	component: Simple,
+	component: LoaderSimple,
 	args: {},
-} satisfies Meta<typeof Simple>;
+};
 
 type Story = StoryObj<typeof meta>;
 

@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Action from "./Action.vue";
+import BoxAction from "./Action.vue";
 
-const meta = {
+const meta: Meta<typeof BoxAction> = {
 	title: "Box/Box Action",
-	component: Action,
+	component: BoxAction,
 	args: { label: "Box Action", icon: "cubes" },
-} satisfies Meta<typeof Action>;
+};
 
 type Story = StoryObj<typeof meta>;
 

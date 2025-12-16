@@ -5,11 +5,11 @@ import type { iSelectOption } from "@open-xamu-co/ui-common-types";
 
 import SelectChoice from "./Choice.vue";
 
-const meta = {
+const meta: Meta<typeof SelectChoice> = {
 	title: "Select/Select Choice",
 	component: SelectChoice,
 	args: { options: ["Single option"] },
-} satisfies Meta<typeof SelectChoice>;
+};
 
 type Story = StoryObj<typeof meta>;
 

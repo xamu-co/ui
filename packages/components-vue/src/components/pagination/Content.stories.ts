@@ -4,11 +4,11 @@ import type { GenericMeta } from "../../types/storybook";
 
 import Content from "./Content.vue";
 
-const meta = {
+const meta: GenericMeta<typeof Content> = {
 	title: "Pagination/Pagination Content",
 	component: Content,
 	args: {},
-} satisfies GenericMeta<typeof Content>;
+};
 
 type Story = StoryObj<typeof meta>;
 

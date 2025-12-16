@@ -2,13 +2,13 @@ import type { StoryObj } from "@storybook/vue3-vite";
 
 import type { GenericMeta } from "../../types/storybook";
 
-import ContentFetch from "./ContentFetch.vue";
+import LoaderContentFetch from "./ContentFetch.vue";
 
-const meta = {
+const meta: GenericMeta<typeof LoaderContentFetch> = {
 	title: "Loader/Loader Content Fetch",
-	component: ContentFetch,
+	component: LoaderContentFetch,
 	args: {},
-} satisfies GenericMeta<typeof ContentFetch>;
+};
 
 type Story = StoryObj<typeof meta>;
 

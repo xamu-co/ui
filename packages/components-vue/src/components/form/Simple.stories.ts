@@ -10,11 +10,11 @@ import type { GenericMeta } from "../../types/storybook";
 import FormSimple from "./Simple.vue";
 import ActionButton from "../action/Button.vue";
 
-const meta = {
+const meta: GenericMeta<typeof FormSimple> = {
 	title: "Form/Form Simple",
 	component: FormSimple,
 	args: {},
-} satisfies GenericMeta<typeof FormSimple>;
+};
 
 type Story = StoryObj<typeof meta>;
 

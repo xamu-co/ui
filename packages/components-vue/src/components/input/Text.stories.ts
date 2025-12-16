@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import Text from "./Text.vue";
+import InputText from "./Text.vue";
 
-const meta = {
+const meta: Meta<typeof InputText> = {
 	title: "Input/Input Text",
-	component: Text,
+	component: InputText,
 	args: { icon: "cubes", placeholder: "What is your name?" },
-} satisfies Meta<typeof Text>;
+};
 
 type Story = StoryObj<typeof meta>;
 

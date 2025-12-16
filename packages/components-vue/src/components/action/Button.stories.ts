@@ -4,21 +4,21 @@ import { computed, ref } from "vue";
 
 import { eColors } from "@open-xamu-co/ui-common-enums";
 
-import ButtonComponent from "./Button.vue";
+import ActionButton from "./Button.vue";
 
-const meta = {
+const meta: Meta<typeof ActionButton> = {
 	title: "Action/Action Button",
-	component: ButtonComponent,
+	component: ActionButton,
 	args: { default: "Action Button" },
 	tags: ["stable"],
-} satisfies Meta<typeof ButtonComponent>;
+};
 
 type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: {},
 	render: (args) => ({
-		components: { ButtonComponent },
+		components: { ActionButton },
 		setup() {
 			const times = ref(0);
 			const timesText = computed(() => {
@@ -35,7 +35,7 @@ export const Sample: Story = {
 
 			return { args, clicked, timesText };
 		},
-		template: `<ButtonComponent v-bind="args" @click="clicked" >{{ timesText }}</ButtonComponent>`,
+		template: `<ActionButton v-bind="args" @click="clicked" >{{ timesText }}</ActionButton>`,
 	}),
 	play: async ({ canvasElement }) => {
 		const button = within(canvasElement).getByText("Action Button");
