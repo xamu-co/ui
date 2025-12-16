@@ -1,5 +1,81 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v3.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.1...@open-xamu-co/ui-components-vue-v3.1.0) (2025-12-16)
+
+
+### Bug Fixes
+
+* accept union theme at box action ([bfd9e8e](https://github.com/xamu-co/ui/commit/bfd9e8e1b4975cb36db2c76059e0f647a9e671cb))
+* actually hide hidden input type ([fc264e0](https://github.com/xamu-co/ui/commit/fc264e08b72e57eee2db424567e9701e32858527))
+* always show id for tables with children ([340b5f7](https://github.com/xamu-co/ui/commit/340b5f7ae4a4d7a0da31b6196d62af4d30e9da1c))
+* capture issue ios ([e491cb8](https://github.com/xamu-co/ui/commit/e491cb8d3143d3bf44695a12e637ef1842653daf))
+* debounce text inputs events ([a862ad1](https://github.com/xamu-co/ui/commit/a862ad1506dfe4d3df558a3a9e776f654e8c318a))
+* do not use key at teleport ([a5600f9](https://github.com/xamu-co/ui/commit/a5600f94bceebe3e862dc1a26f56e2cf55f389c9))
+* emit change event on base inout ([20cf8b1](https://github.com/xamu-co/ui/commit/20cf8b17ba841a3d56bf6a2fc1a405d652110cd9))
+* expose table head scope in paginated table ([5b465cf](https://github.com/xamu-co/ui/commit/5b465cf22cbc939aeb70299ce29a25a202422c60))
+* file thumbnail aligment ([8c1eacc](https://github.com/xamu-co/ui/commit/8c1eacc4b6fc77ab9e9b508b26ae832793bcb83b))
+* form make as union ([305a7e4](https://github.com/xamu-co/ui/commit/305a7e48b3e524754db36bbfba53c73b53ffc869))
+* generate thumbnails of file model ([ec07489](https://github.com/xamu-co/ui/commit/ec074898c419ac39d0a505c2cd771afa8a3789b9))
+* handle nuxt hydration behavior ([7d1cd53](https://github.com/xamu-co/ui/commit/7d1cd53b0a0a0ffa4d4dde9f36e60cf45a871412))
+* handle undefined edges ([8eb7215](https://github.com/xamu-co/ui/commit/8eb7215de8239ba223df4c34f19c57b4fbc799a3))
+* hydration issue with loader fetch payload ([43723f0](https://github.com/xamu-co/ui/commit/43723f073dda6a7c5aa0932946c4f539344c5d9e))
+* improve url matching ([c45c804](https://github.com/xamu-co/ui/commit/c45c804095b8cbac25248f3b78a4044a6c399c69))
+* invert table head theme ([d1f5860](https://github.com/xamu-co/ui/commit/d1f5860227f0ab969c1df936500dafa4957604d0))
+* inverted condition on pagination text ([21ab2e8](https://github.com/xamu-co/ui/commit/21ab2e8b7922ae70c3ea27b4cda52bfd0505687c))
+* location input not rendering if missing data ([237b595](https://github.com/xamu-co/ui/commit/237b59562e3f9a71944a1e7604d352050ae81279))
+* no black page on loader fetch ([07e90cc](https://github.com/xamu-co/ui/commit/07e90cc813ace8a366b165d3b61e79ae55031aff))
+* no transition on loader ([1b00eb3](https://github.com/xamu-co/ui/commit/1b00eb37b39712716a59915b11a62c70d31643ba))
+* optimize table visibility ([b09b97d](https://github.com/xamu-co/ui/commit/b09b97de0aae068e9589449c86198917c19064a5))
+* optional icon size on box action ([31e5d4f](https://github.com/xamu-co/ui/commit/31e5d4fa0a0062a7206769a62aa944b2a7d9891e))
+* pass unmapped node to table functions ([c07cabb](https://github.com/xamu-co/ui/commit/c07cabbde027d06996dbf82d1fb87a0652cf6faa))
+* prefer button on mobile file loading ([cebdaf2](https://github.com/xamu-co/ui/commit/cebdaf2bad01043ce3ab3cf8fea9b89b23d5d6b2))
+* prefer ofetch ([b97fe6c](https://github.com/xamu-co/ui/commit/b97fe6c82f4158a519e5b80e0d2730e8217a36cc))
+* prevent hydration duplication on pagination table content ([0319b83](https://github.com/xamu-co/ui/commit/0319b83a778e17280571b1266db4078810457059))
+* property on body value ([ed4514d](https://github.com/xamu-co/ui/commit/ed4514d201ddd1ab1c45358fb9bcc2fe2b510a75))
+* remove unnecesary padding on table ([774d88c](https://github.com/xamu-co/ui/commit/774d88ce2c59900b6dc7582a7072a28d6d0f93e2))
+* require protocol on image url ([ba8513e](https://github.com/xamu-co/ui/commit/ba8513e2bd289425c712bf306a93c42f4e0d3702))
+* reset at on first change ([5c318d6](https://github.com/xamu-co/ui/commit/5c318d6e0a1044dd1e24ccefa3fb9a7277a72206))
+* reset pagination on first page ([2bd449b](https://github.com/xamu-co/ui/commit/2bd449bd4a852dc3de4ffc2552d74ce0c2b865bb))
+* restore external pagination table head ([ea4d277](https://github.com/xamu-co/ui/commit/ea4d2771e096869148ebb17f79e0805e6d5c8e9c))
+* shorter file input text ([a85d5ee](https://github.com/xamu-co/ui/commit/a85d5ee2e4d8791e72342345ec7769390abd7e6a))
+* show partial cell value on hover ([4e8703b](https://github.com/xamu-co/ui/commit/4e8703bfeac04922ea46f18b6358b9c0acd031c6))
+* table item counting ([17097a5](https://github.com/xamu-co/ui/commit/17097a58037e611ddce8da42a36a1ad28b233122))
+* unasuming pagination table defaults ([71f9d00](https://github.com/xamu-co/ui/commit/71f9d00bef64f417b8621ce81a376d9626571f0e))
+* unmapped node always ([6f38d54](https://github.com/xamu-co/ui/commit/6f38d5420f3d13fad6685b6ca27310dd0c725772))
+* use box on table to match theme ([7c8a04b](https://github.com/xamu-co/ui/commit/7c8a04b2b8b01ae356f615f51bb217e0f726541b))
+* use count key with mapped node & node ([9685af0](https://github.com/xamu-co/ui/commit/9685af0c07eab096924a9022fd0ca2cb957ccf2b))
+* use global ([fc17577](https://github.com/xamu-co/ui/commit/fc1757767b93b288c7460a5173f90a13c4e0657a))
+* use key on pagination table content ([1f40232](https://github.com/xamu-co/ui/commit/1f40232b1a568421a2924921e21d0589d055e587))
+* wrap box action label ([8a121c7](https://github.com/xamu-co/ui/commit/8a121c70c0141f733cc265bfb44fb591b4a298c5))
+* wrap file input text ([e8a3b38](https://github.com/xamu-co/ui/commit/e8a3b38ca978f8dacd7f61de62766e51f07a6d1c))
+* zindex table fix ([936a694](https://github.com/xamu-co/ui/commit/936a6943ba3c51ee8fc0c68e43ed5ce0acb78d7d))
+* **vue:** redo faulty fallback fix ([cfc06f8](https://github.com/xamu-co/ui/commit/cfc06f81a16f099816292d08bf683a681a91e7cf))
+* **vue:** show content no matter what if fallback us provided ([42ebfd0](https://github.com/xamu-co/ui/commit/42ebfd0159ca10d0e08360478c9110f6263a3dee))
+
+
+### Features
+
+* **vue:** table autoincrement by page ([f96c956](https://github.com/xamu-co/ui/commit/f96c95605e5e082ab7e54d88490ab8c282d1633a))
+* color picker on input ([88ad4c2](https://github.com/xamu-co/ui/commit/88ad4c2503b68b7a71e2a6c0a1cc69060217307a))
+* conditional image placeholder ([6a93593](https://github.com/xamu-co/ui/commit/6a935939bdac87bbb66ea656dbaead813e6b902f))
+* image load events ([67b857c](https://github.com/xamu-co/ui/commit/67b857c58334a6306522812ceac1a20b81dbdfcb))
+* omit properties from being cloned ([09bf62a](https://github.com/xamu-co/ui/commit/09bf62a3a7a0fd56177a08ac429a4a183e29185f))
+* onUpdatedValue as promise ([752c9ac](https://github.com/xamu-co/ui/commit/752c9acfe9cdee11930db380bd6c43bd5eb6cdab))
+* opaque table ([4e69e86](https://github.com/xamu-co/ui/commit/4e69e86e892f3566068e7d536282036bcc80b482))
+* pagination content table ([703652b](https://github.com/xamu-co/ui/commit/703652bc0ba569678392405a214f4cfc9bbfa09a))
+* rotate gallery ([0b562b2](https://github.com/xamu-co/ui/commit/0b562b2deee0cab854b23c0c50cf2aeeb22566c3))
+* support granular hydration ([1feb11f](https://github.com/xamu-co/ui/commit/1feb11fffd8829045c3d092614d7624cf79ba878))
+* toggle tooltip ([a728a72](https://github.com/xamu-co/ui/commit/a728a722b971123824e4883c4b4d98db4ec1b83e))
+* with pageNumber ([976d81c](https://github.com/xamu-co/ui/commit/976d81c11c167d18a2e13326525ff23f7a9c3ea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "3.1.0"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.36](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.35...@open-xamu-co/ui-components-vue-v3.1.0-next.36) (2025-12-07)
 
 
