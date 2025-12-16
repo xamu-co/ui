@@ -55,7 +55,7 @@ export interface iUseStateProps {
 	 * @state
 	 * @example no--overrides
 	 */
-	noOverrides?: boolean;
+	noThemeOverride?: boolean;
 	/**
 	 * Component states
 	 *
@@ -234,14 +234,19 @@ export interface iValueComplexProps extends iUseThemeProps {
 /**
  * Table property with additional meta for internal usage
  */
-export interface iTablePropertyMeta<Ti extends Record<string, any>>
-	extends iProperty<Record<string, any>, Ti, vComponent<iValueComplexProps>> {
+export interface iTablePropertyMeta<Ti extends Record<string, any>> extends iProperty<
+	Record<string, any>,
+	Ti,
+	vComponent<iValueComplexProps>
+> {
 	value: string;
 	canSort: boolean;
 }
 
-export interface iTableProps<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti>
-	extends iUseThemeProps {
+export interface iTableProps<
+	Ti extends Record<string, any>,
+	Tm extends Record<string, any> = Ti,
+> extends iUseThemeProps {
 	/**
 	 * Table nodes
 	 * an array of nodes

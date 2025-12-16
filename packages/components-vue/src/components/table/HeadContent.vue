@@ -1,7 +1,8 @@
 <template>
 	<!-- Table header -->
-	<thead>
-		<tr v-if="mappedNodes.length" class="--txtAlign" :class="`--txtSize-${size}`">
+
+	<thead v-if="mappedNodes.length">
+		<tr class="--txtAlign" :class="`--txtSize-${size}`">
 			<!-- TODO: define filters, filter table contents -->
 			<th
 				v-if="mappedNodes.length > 1 || withDefaultSlot"

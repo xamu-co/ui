@@ -29,7 +29,8 @@
 	import useBrowser from "../../composables/browser";
 
 	interface iActionButtonLinkProps
-		extends iActionProps,
+		extends
+			iActionProps,
 			iUseModifiersProps,
 			iUseStateProps,
 			iUseThemeProps,

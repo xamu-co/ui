@@ -53,8 +53,7 @@
 	import { useOrderBy } from "../../composables/utils";
 
 	export interface iPCProps<Ti, Ci extends string | number = string, Ri = never>
-		extends iPagination,
-			iUseThemeProps {
+		extends iPagination, iUseThemeProps {
 		/**
 		 * Function used to fetch the page
 		 */

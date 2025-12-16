@@ -15,8 +15,7 @@ import type { iSelectOption } from "../values.js";
 
 export declare abstract class tFormInputDefault<
 	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple,
-> implements iFormInputDefault<T>
-{
+> implements iFormInputDefault<T> {
 	// public
 	public type: T;
 	// public readonly
@@ -33,12 +32,12 @@ export declare abstract class tFormInputDefault<
 }
 
 export declare class tFormInput<
-		V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
-		T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
-			| eFormTypeBase
-			| eFormTypeSimple
-			| eFormTypeComplex,
-	>
+	V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
+	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
+		| eFormTypeBase
+		| eFormTypeSimple
+		| eFormTypeComplex,
+>
 	extends tFormInputDefault<T>
 	implements iFormInput<V, T>
 {

@@ -165,10 +165,7 @@
 	import { useHelpers } from "../../composables/utils";
 
 	interface iInputFileProps
-		extends iInputProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iInputProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		filePrefix?: string;
 		min?: number;
 		max?: number;

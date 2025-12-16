@@ -20,6 +20,7 @@
 					modalProps: { theme, ...modalProps },
 				}"
 				:class="classes"
+				class="--txtWrap"
 				verbose
 			/>
 		</li>

@@ -25,17 +25,15 @@
 
 			// @defaults
 			@layer defaults {
-				& {
-					gap: 1rem;
+				gap: 1rem;
 
-					@include module.flex-box(column, nowrap, flex-start, stretch);
+				@include module.flex-box(column, nowrap, flex-start, stretch);
 
-					&:not(
-							.#{module.$prefix-default}--button,
-							.#{module.$prefix-default}--#{module.$component-button}
-						) {
-						padding: 1rem;
-					}
+				&:not(
+					.#{module.$prefix-default}--button,
+					.#{module.$prefix-default}--#{module.$component-button}
+				) {
+					padding: 1rem;
 				}
 			}
 
@@ -57,15 +55,14 @@
 
 				@layer defaults {
 					// @defaults bgColor
-					& {
-						background: module.color($name, 0.1);
 
-						// Only opaque should inherit
-						&.#{module.$prefix-default}--opaque {
-							--inherit-bg: #{module.color($name)};
+					background: module.color($name, 0.1);
 
-							background: var(--inherit-bg);
-						}
+					// Only opaque should inherit
+					&.#{module.$prefix-default}--opaque {
+						--inherit-bg: #{module.color($name)};
+
+						background: var(--inherit-bg);
 					}
 				}
 				&:hover {
@@ -76,10 +73,8 @@
 				&.#{module.$prefix-default}--#{module.$component-button} {
 					&:not(.#{module.$prefix-default}--opaque) {
 						@layer defaults {
-							& {
-								// @defaults txtColor
-								color: module.color($name);
-							}
+							// @defaults txtColor
+							color: module.color($name);
 						}
 
 						&:hover,

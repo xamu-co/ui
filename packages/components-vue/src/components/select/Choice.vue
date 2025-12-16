@@ -70,10 +70,7 @@
 	import type { iFormOption } from "@open-xamu-co/ui-common-types";
 
 	interface iSelectSimpleProps
-		extends iSelectProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iSelectProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		/**
 		 * Vue model value
 		 * @private

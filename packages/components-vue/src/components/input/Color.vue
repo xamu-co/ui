@@ -58,10 +58,7 @@
 	import useTheme from "../../composables/theme";
 
 	interface iInputColorProps
-		extends iInputProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iInputProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		/**
 		 * @private
 		 */

@@ -23,7 +23,8 @@
 	import useTheme from "../../composables/theme";
 
 	interface iActionButtonToggleProps
-		extends iActionProps,
+		extends
+			iActionProps,
 			iUseModifiersProps,
 			iUseStateProps,
 			iUseThemeProps,

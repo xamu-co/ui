@@ -252,7 +252,7 @@
 						<BaseBox
 							v-show="canShowChildren(visibility, mappedIndex)"
 							:theme="theme || themeValues"
-							class="--gap-none --p-10 --maxWidth-100"
+							class="--gap-5 --p-10 --maxWidth-100"
 							transparent
 							solid
 						>
