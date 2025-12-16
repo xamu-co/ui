@@ -6,7 +6,7 @@ const config: StorybookConfig = {
 		"@storybook/addon-vitest",
 		"@storybook/addon-onboarding",
 		"@storybook/addon-docs",
-		"@chromatic-com/storybook",
+		// "@chromatic-com/storybook", // For visual testing
 	],
 	framework: {
 		name: "@storybook/vue3-vite",

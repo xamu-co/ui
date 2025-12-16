@@ -32,6 +32,9 @@
     "build:nuxt": "yarn p:vue build && yarn p:nuxt build",
     "build:js": "yarn build:helpers && yarn build:nuxt",
     "build:css": "yarn p:styles build",
+    "test": "yarn test:vue",
+    "test:vue": "yarn p:vue test",
+    "playwright": "playwright install --with-deps",
     "release": "yarn workspaces run semantic-release",
     "release:dry": "yarn workspaces run semantic-release --dry-run"
   },
@@ -58,6 +61,7 @@
     "eslint-plugin-vue": "^9.15.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
+    "playwright": "^1.57.0",
     "prettier": "^3.0.0",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.1.1",

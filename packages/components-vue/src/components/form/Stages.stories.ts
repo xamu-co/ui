@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import { FormInput, useForm } from "@open-xamu-co/ui-common-helpers";
 import { eFormType } from "@open-xamu-co/ui-common-enums";
@@ -13,7 +13,7 @@ const meta = {
 	excludeStories: /.*Data$/,
 } satisfies Meta<typeof StagesComponent>;
 
-type Story = StoryObj<typeof StagesComponent>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: { stages: [] },

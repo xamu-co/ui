@@ -1,15 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref, watch } from "vue";
 
 import File from "./File.vue";
 
 const meta = {
 	title: "Input/Input File",
-	component: File as Record<keyof typeof File, unknown>,
+	component: File,
 	args: { modelValue: [] },
 } satisfies Meta<typeof File>;
 
-type Story = StoryObj<typeof File>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	render: (args) => ({

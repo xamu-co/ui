@@ -1,4 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { StoryObj } from "@storybook/vue3-vite";
+
+import type { GenericMeta } from "../../types/storybook";
 
 import TableSimple from "./Simple.vue";
 
@@ -16,7 +18,7 @@ const nodes = [
 		price: 2443535,
 		iva: false,
 		reference: "00000001",
-		variants: 1,
+		variants: 2,
 		visible: true,
 		permissions: [
 			{ endpoint: "GET_OWN_USER", description: "User can get who he is" },
@@ -51,6 +53,24 @@ const nodes = [
 		},
 		businesses: [],
 	},
+	{
+		id: 2,
+		slug: "carla-harrison",
+		firstName: "Carla Harrison",
+		lastName: "Harrison Johnson",
+		email: "carla@xamu.com.co",
+		zipCode: "124876",
+		pathPhoto: "https://picsum.photos/seed/12345/100/100",
+		createdAt: "2024-05-12T03:34:22.408Z",
+		updatedAt: "2024-05-12T03:34:22.408Z",
+		price: 24456,
+		iva: false,
+		reference: "00000002",
+		variants: 2,
+		visible: true,
+		permissions: [],
+		businesses: [],
+	},
 ];
 
 const subNodes = [
@@ -66,15 +86,27 @@ const subNodes = [
 			{ name: "yambal", value: "YAMBAL" },
 		],
 	},
+	{
+		amount: 2,
+		reference: "00000001-00000002",
+		createdAt: "2024-09-29T22:20:51.313Z",
+		updatedAt: "2024-09-29T22:20:51.313Z",
+		id: "variants/8O2IV0MCEgcy2aAFcc0b",
+		images: ["/vite.svg"],
+		values: [
+			{ name: "color", value: "ROJO" },
+			{ name: "tamaño", value: "M" },
+		],
+	},
 ];
 
 const meta = {
 	title: "Table",
-	component: TableSimple as Record<keyof typeof TableSimple, unknown>,
+	component: TableSimple,
 	args: { nodes, modalProps: { class: "--txtColor", invertTheme: true } },
-} satisfies Meta<typeof TableSimple>;
+} satisfies GenericMeta<typeof TableSimple>;
 
-type Story = StoryObj<typeof TableSimple>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	render: (args) => ({

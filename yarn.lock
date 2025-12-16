@@ -3905,7 +3905,7 @@
     vue-component-meta "^2.0.0"
     vue-docgen-api "^4.75.1"
 
-"@storybook/vue3@10.1.5", "@storybook/vue3@^10.1.5":
+"@storybook/vue3@10.1.5":
   version "10.1.5"
   resolved "https://registry.yarnpkg.com/@storybook/vue3/-/vue3-10.1.5.tgz#a305badc6312561920ced1c24c9e10f6c5cbdc5c"
   integrity sha512-C0QIE4nLoGWHdfKXl6pHyThWc/OPt8DqnlUF8yMMDHCjPGt1q9RQZcYINtVleZ5WhAck4Q2ZvXys372ridf0wA==

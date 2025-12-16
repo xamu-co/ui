@@ -1,14 +1,14 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import Content from "./Content.vue";
 
 const meta = {
 	title: "Loader/Loader Content",
-	component: Content as Record<keyof typeof Content, unknown>,
+	component: Content,
 	args: {},
 } satisfies Meta<typeof Content>;
 
-type Story = StoryObj<typeof Content>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: {},

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import type { iSelectOption } from "@open-xamu-co/ui-common-types";
 
@@ -13,11 +13,11 @@ const options: iSelectOption[] = [
 ];
 const meta = {
 	title: "Select/Select Simple",
-	component: Simple as Record<keyof typeof Simple, unknown>,
+	component: Simple,
 	args: { options },
 } satisfies Meta<typeof Simple>;
 
-type Story = StoryObj<typeof Simple>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: { options },

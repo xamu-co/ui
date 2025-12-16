@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import List from "./List.vue";
 
@@ -23,11 +23,11 @@ const value = {
 
 const meta = {
 	title: "Value/Value List",
-	component: List as Record<keyof typeof List, unknown>,
+	component: List,
 	args: { value },
 } satisfies Meta<typeof List>;
 
-type Story = StoryObj<typeof List>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: { value },

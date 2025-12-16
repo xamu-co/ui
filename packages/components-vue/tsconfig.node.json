@@ -5,6 +5,8 @@
       "playwright.config.*",
    ],
    "compilerOptions": {
+      "module": "ESNext",
+      "moduleResolution": "Bundler",
       "composite": true,
       "esModuleInterop": true,
       "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",

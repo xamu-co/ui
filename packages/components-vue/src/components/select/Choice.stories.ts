@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
 
 import type { iSelectOption } from "@open-xamu-co/ui-common-types";
@@ -7,11 +7,11 @@ import SelectChoice from "./Choice.vue";
 
 const meta = {
 	title: "Select/Select Choice",
-	component: SelectChoice as Record<keyof typeof SelectChoice, unknown>,
+	component: SelectChoice,
 	args: { options: ["Single option"] },
 } satisfies Meta<typeof SelectChoice>;
 
-type Story = StoryObj<typeof SelectChoice>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: {},
@@ -21,7 +21,7 @@ export const WithOptions: Story = {
 	render: (args) => ({
 		components: { SelectChoice },
 		setup() {
-			const model = ref("");
+			const model = ref([""]);
 			const options: iSelectOption[] = [
 				{ value: "TITLE" },
 				{ value: "LONG_TEXT" },
@@ -32,7 +32,7 @@ export const WithOptions: Story = {
 
 			return { args, model, options };
 		},
-		template: '<Choice v-bind="args" v-model="model" :options="options" />',
+		template: '<SelectChoice v-bind="args" v-model="model" :options="options" />',
 	}),
 };
 

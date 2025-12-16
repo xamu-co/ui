@@ -93,6 +93,13 @@ jobs:
             - run:
                   name: Lint & check
                   command: yarn lint
+            # Install Playwright
+            - run:
+                  name: Install Playwright
+                  command: yarn playwright install --with-deps
+            - run:
+                  name: Test
+                  command: yarn test
 
     prerelease:
         <<: *release
