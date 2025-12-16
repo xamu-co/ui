@@ -1,5 +1,30 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v3.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0...@open-xamu-co/ui-nuxt-v3.1.0) (2025-12-16)
+
+
+### Bug Fixes
+
+* bumb enums ([efe30e4](https://github.com/xamu-co/ui/commit/efe30e4213dae786fb06470b9b53f43e9bbb0785))
+* bump countries for cors improvement ([a19c340](https://github.com/xamu-co/ui/commit/a19c34080f3120e581e033c154b218bc8e020a22))
+* handle nuxt hydration behavior ([7d1cd53](https://github.com/xamu-co/ui/commit/7d1cd53b0a0a0ffa4d4dde9f36e60cf45a871412))
+* prefer ofetch ([b97fe6c](https://github.com/xamu-co/ui/commit/b97fe6c82f4158a519e5b80e0d2730e8217a36cc))
+* prevent hydration duplication on pagination table content ([0319b83](https://github.com/xamu-co/ui/commit/0319b83a778e17280571b1266db4078810457059))
+* use count key with mapped node & node ([9685af0](https://github.com/xamu-co/ui/commit/9685af0c07eab096924a9022fd0ca2cb957ccf2b))
+* use global ([fc17577](https://github.com/xamu-co/ui/commit/fc1757767b93b288c7460a5173f90a13c4e0657a))
+
+
+### Features
+
+* bump nuxt version to 3.18.1 ([9f7f0f6](https://github.com/xamu-co/ui/commit/9f7f0f698838776fc48888d603ae96070beda36e))
+* support granular hydration ([1feb11f](https://github.com/xamu-co/ui/commit/1feb11fffd8829045c3d092614d7624cf79ba878))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.1.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0-next.3...@open-xamu-co/ui-nuxt-v3.1.0-next.4) (2025-11-30)
 
 
