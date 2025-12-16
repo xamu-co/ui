@@ -1,5 +1,38 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v3.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.0.1...@open-xamu-co/ui-common-types-v3.1.0) (2025-12-16)
+
+
+### Bug Fixes
+
+* bumb enums ([efe30e4](https://github.com/xamu-co/ui/commit/efe30e4213dae786fb06470b9b53f43e9bbb0785))
+* handle nuxt hydration behavior ([7d1cd53](https://github.com/xamu-co/ui/commit/7d1cd53b0a0a0ffa4d4dde9f36e60cf45a871412))
+* location input not rendering if missing data ([237b595](https://github.com/xamu-co/ui/commit/237b59562e3f9a71944a1e7604d352050ae81279))
+* prefer ofetch ([b97fe6c](https://github.com/xamu-co/ui/commit/b97fe6c82f4158a519e5b80e0d2730e8217a36cc))
+* table item counting ([17097a5](https://github.com/xamu-co/ui/commit/17097a58037e611ddce8da42a36a1ad28b233122))
+
+
+### Features
+
+* conditional image placeholder ([6a93593](https://github.com/xamu-co/ui/commit/6a935939bdac87bbb66ea656dbaead813e6b902f))
+* image load events ([67b857c](https://github.com/xamu-co/ui/commit/67b857c58334a6306522812ceac1a20b81dbdfcb))
+* omit properties from being cloned ([09bf62a](https://github.com/xamu-co/ui/commit/09bf62a3a7a0fd56177a08ac429a4a183e29185f))
+* onUpdatedValue as promise ([752c9ac](https://github.com/xamu-co/ui/commit/752c9acfe9cdee11930db380bd6c43bd5eb6cdab))
+* support granular hydration ([1feb11f](https://github.com/xamu-co/ui/commit/1feb11fffd8829045c3d092614d7624cf79ba878))
+* with pageNumber ([976d81c](https://github.com/xamu-co/ui/commit/976d81c11c167d18a2e13326525ff23f7a9c3ea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "3.1.0"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.1.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.1.0-next.9...@open-xamu-co/ui-common-types-v3.1.0-next.10) (2025-11-30)
 
 
