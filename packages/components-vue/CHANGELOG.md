@@ -1,5 +1,32 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.36...@open-xamu-co/ui-components-vue-v4.0.0-next.1) (2025-12-17)
+
+
+### Bug Fixes
+
+* direct types on stories meta ([2f3609b](https://github.com/xamu-co/ui/commit/2f3609b7109851cac845fe343c20bdc459ddf5a4))
+* table layout ([f90b338](https://github.com/xamu-co/ui/commit/f90b338207a13a7ece14e19e71a8e593d2911a46))
+
+
+### Features
+
+* invert table children divider for better ux ([eb237c1](https://github.com/xamu-co/ui/commit/eb237c1300c6f5b10e15baa132ce5fc46a9bfa91))
+* setup vue test with 40% coverage ([618545e](https://github.com/xamu-co/ui/commit/618545e30439ec1c8e03e4469e4b21585c6f2a23))
+
+
+### BREAKING CHANGES
+
+* no-overrides to no-theme-override
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.1"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0-next.36](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.35...@open-xamu-co/ui-components-vue-v3.1.0-next.36) (2025-12-07)
 
 
