@@ -54,10 +54,8 @@
 				display: flex;
 
 				@layer defaults {
-					& {
-						// @defaults gap
-						gap: 1rem;
-					}
+					// @defaults gap
+					gap: 1rem;
 				}
 			}
 

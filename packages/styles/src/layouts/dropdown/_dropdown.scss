@@ -142,15 +142,13 @@
 				> .#{module.$layout-dropdown}-item {
 					// @defaults bgColor, color
 					@layer defaults {
-						& {
-							color: module.color($base, 0.7);
-							background-color: module.color($theme);
+						color: module.color($base, 0.7);
+						background-color: module.color($theme);
 
-							th,
-							td {
-								&.#{module.$prefix-default}--sticky {
-									background-color: module.color($theme);
-								}
+						th,
+						td {
+							&.#{module.$prefix-default}--sticky {
+								background-color: module.color($theme);
 							}
 						}
 					}
