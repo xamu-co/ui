@@ -85,8 +85,7 @@ function isChoiceType(type: eFormTypeBase | eFormTypeSimple | eFormTypeComplex):
 
 export abstract class FormInputDefault<
 	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple.TEXT,
-> implements tFormInputDefault<T>
-{
+> implements tFormInputDefault<T> {
 	// public
 	public type: T;
 	// public readonly
@@ -121,12 +120,12 @@ export abstract class FormInputDefault<
 }
 
 export class FormInput<
-		V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
-		T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
-			| eFormTypeBase
-			| eFormTypeSimple
-			| eFormTypeComplex,
-	>
+	V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
+	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
+		| eFormTypeBase
+		| eFormTypeSimple
+		| eFormTypeComplex,
+>
 	extends FormInputDefault<T>
 	implements iFormInput<V, T>
 {

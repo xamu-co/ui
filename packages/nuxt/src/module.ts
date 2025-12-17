@@ -35,6 +35,12 @@ const stylesheets: string[] = [
 	"https://unpkg.com/sweetalert2@^11/dist/sweetalert2.min.css",
 ];
 
+/**
+ * Nuxt module for @open-xamu-co/ui
+ *
+ * TODO: Update to 1.0.0 as soon as async moduleDependencies are supported
+ * @see https://github.com/nuxt/nuxt/pull/33504
+ */
 export default defineNuxtModule<XamuModuleOptions>({
 	meta: {
 		name: "@open-xamu-co/ui-nuxt",
@@ -53,7 +59,7 @@ export default defineNuxtModule<XamuModuleOptions>({
 	},
 	async setup(moduleOptions, nuxt) {
 		const { globalComponents, componentPrefix, image, countriesUrl } = moduleOptions;
-		const { resolve, resolvePath } = createResolver(import.meta.url);
+		const { resolve } = createResolver(import.meta.url);
 		const runtimePath = resolve("./runtime");
 
 		// Setup nuxt options
@@ -104,12 +110,11 @@ export default defineNuxtModule<XamuModuleOptions>({
 		// Filter and register components if enabled
 		if (globalComponents) {
 			const components = Array.isArray(globalComponents) ? globalComponents : componentNames;
-			const filePath = await resolvePath("@open-xamu-co/ui-components-vue"); // node_modules/@open-xamu-co/ui-components-vue/dist/index.mjs
 
 			components.forEach((name) => {
 				addComponent({
 					name: upperFirst(camelCase(componentPrefix)) + name,
-					filePath,
+					filePath: "@open-xamu-co/ui-components-vue",
 					export: name,
 					mode: "all",
 				});

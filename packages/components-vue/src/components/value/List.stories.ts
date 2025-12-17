@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
-import List from "./List.vue";
+import ValueList from "./List.vue";
 
 const value = {
 	id: 1,
@@ -21,13 +21,13 @@ const value = {
 	emailVerifiedAt: "2024-05-11T22:34:22.345Z",
 };
 
-const meta = {
+const meta: Meta<typeof ValueList> = {
 	title: "Value/Value List",
-	component: List as Record<keyof typeof List, unknown>,
+	component: ValueList,
 	args: { value },
-} satisfies Meta<typeof List>;
+};
 
-type Story = StoryObj<typeof List>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: { value },

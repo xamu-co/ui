@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import { FormInput } from "@open-xamu-co/ui-common-helpers";
 
@@ -12,7 +12,7 @@ const nameInput = new FormInput({
 	icon: "user",
 });
 
-const meta: Meta = {
+const meta: Meta<typeof FormInputComponent> = {
 	title: "Form/Form Input",
 	component: FormInputComponent,
 	args: { modelValue: [""], input: nameInput },

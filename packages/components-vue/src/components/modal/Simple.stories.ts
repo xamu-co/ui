@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
-import { computed } from "vue";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import { computed, ref } from "vue";
 
 import type { iForm, iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
 import { useForm } from "@open-xamu-co/ui-common-helpers";
@@ -13,9 +13,9 @@ import IconFa from "../icon/Fa.vue";
 
 import { stagesData } from "../form/Stages.stories";
 
-const meta = {
+const meta: Meta<typeof ModalSimple> = {
 	title: "Modal",
-	component: ModalSimple as Record<keyof typeof ModalSimple, unknown>,
+	component: ModalSimple,
 	args: {
 		title: "Modal sample",
 		subtitle: "Customize your modal",
@@ -23,9 +23,9 @@ const meta = {
 		invertTheme: true,
 		saveButton: { title: "Trigger save event" },
 	},
-} satisfies Meta<typeof ModalSimple>;
+};
 
-type Story = StoryObj<typeof ModalSimple>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	render: (args) => ({
@@ -54,12 +54,13 @@ export const WithFormStages: Story = {
 	render: (args) => ({
 		components: { ModalSimple, BoxAction, ActionButtonToggle, IconFa, FormStages },
 		setup() {
+			const updated = ref(false);
 			const stages = computed<iForm[][]>(() => {
 				return stagesData;
 			});
 
 			function updateUiComponentId({ uiComponent }: Record<string, any[]>) {
-				if (uiComponent) console.log(uiComponent);
+				if (uiComponent) updated.value = true;
 			}
 
 			async function submitFn(inputs: tFormInput[]): Promise<boolean | iInvalidInput[]> {
@@ -74,7 +75,7 @@ export const WithFormStages: Story = {
 				return true;
 			}
 
-			return { args, stages, submitFn, updateUiComponentId };
+			return { args, updated, stages, submitFn, updateUiComponentId };
 		},
 		template: `
 <ModalSimple v-bind="args">

@@ -38,7 +38,6 @@
 		<!-- Do not hide input (Apple issue) -->
 		<BaseInput
 			v-slot="{ id }"
-			ref="fileInput"
 			class="--hidden"
 			v-bind="{
 				...$attrs,
@@ -166,10 +165,7 @@
 	import { useHelpers } from "../../composables/utils";
 
 	interface iInputFileProps
-		extends iInputProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iInputProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		filePrefix?: string;
 		min?: number;
 		max?: number;
@@ -225,7 +221,6 @@
 		};
 	});
 
-	const fileInput = ref<HTMLInputElement>();
 	const thumbnails = ref<string[]>([]);
 	const isAdvancedUpload = ref(false);
 	const isLoading = ref(false);

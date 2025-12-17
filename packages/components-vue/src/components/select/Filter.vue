@@ -69,10 +69,7 @@
 	import { useHelpers } from "../../composables/utils";
 
 	interface iSelectFilterProps
-		extends iSelectProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iSelectProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		icon?: IconName;
 		iconProps?: iFormIconProps;
 		/**

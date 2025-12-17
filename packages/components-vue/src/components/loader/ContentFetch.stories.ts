@@ -1,14 +1,16 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { StoryObj } from "@storybook/vue3-vite";
 
-import ContentFetch from "./ContentFetch.vue";
+import type { GenericMeta } from "../../types/storybook";
 
-const meta = {
+import LoaderContentFetch from "./ContentFetch.vue";
+
+const meta: GenericMeta<typeof LoaderContentFetch> = {
 	title: "Loader/Loader Content Fetch",
-	component: ContentFetch as Record<keyof typeof ContentFetch, unknown>,
+	component: LoaderContentFetch,
 	args: {},
-} satisfies Meta<typeof ContentFetch>;
+};
 
-type Story = StoryObj<typeof ContentFetch>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: {},

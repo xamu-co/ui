@@ -15,6 +15,7 @@ function getStyleSheetPreload(href: string) {
 }
 
 export default defineNuxtConfig({
+	compatibilityDate: "2025-12-16",
 	app: {
 		keepalive: true,
 		head: {

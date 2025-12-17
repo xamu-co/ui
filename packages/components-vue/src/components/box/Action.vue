@@ -50,7 +50,8 @@
 	import useTheme from "../../composables/theme";
 
 	interface iBoxActionProps
-		extends iActionProps,
+		extends
+			iActionProps,
 			iUseModifiersProps,
 			iUseStateProps,
 			iUseThemeProps,

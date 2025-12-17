@@ -19,10 +19,8 @@
 					border-width: $unit * 1px;
 
 					@layer defaults {
-						& {
-							border-style: solid;
-							border-color: transparent;
-						}
+						border-style: solid;
+						border-color: transparent;
 					}
 				}
 			}

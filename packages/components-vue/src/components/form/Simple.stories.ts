@@ -1,16 +1,18 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
-import type { iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
+import type { StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
 
+import type { iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
 import { FormInput, useForm } from "@open-xamu-co/ui-common-helpers";
 import { eFormType } from "@open-xamu-co/ui-common-enums";
+
+import type { GenericMeta } from "../../types/storybook";
 
 import FormSimple from "./Simple.vue";
 import ActionButton from "../action/Button.vue";
 
-const meta: Meta = {
+const meta: GenericMeta<typeof FormSimple> = {
 	title: "Form/Form Simple",
-	component: FormSimple as any,
+	component: FormSimple,
 	args: {},
 };
 

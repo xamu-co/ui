@@ -23,7 +23,8 @@
 	import useTheme from "../../composables/theme";
 
 	interface iActionLinkProps
-		extends iActionProps,
+		extends
+			iActionProps,
 			iUseModifiersProps,
 			iUseStateProps,
 			iUseThemeProps,

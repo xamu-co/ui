@@ -1,10 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { StoryObj } from "@storybook/vue3-vite";
 
-import Simple from "./Simple.vue";
+import type { GenericMeta } from "../../types/storybook";
 
-const meta = {
+import PaginationSimple from "./Simple.vue";
+
+const meta: GenericMeta<typeof PaginationSimple> = {
 	title: "Pagination/Pagination Simple",
-	component: Simple as Record<keyof typeof Simple, unknown>,
+	component: PaginationSimple,
 	args: {
 		modelValue: {
 			at: 0,
@@ -19,9 +21,9 @@ const meta = {
 			totalCount: 0,
 		},
 	},
-} satisfies Meta<typeof Simple>;
+};
 
-type Story = StoryObj<typeof Simple>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: {},

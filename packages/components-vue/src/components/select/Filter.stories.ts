@@ -1,17 +1,17 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
 
 import type { iSelectOption } from "@open-xamu-co/ui-common-types";
 
 import SelectFilter from "./Filter.vue";
 
-const meta = {
+const meta: Meta<typeof SelectFilter> = {
 	title: "Select/Select Filter",
-	component: SelectFilter as Record<keyof typeof SelectFilter, unknown>,
+	component: SelectFilter,
 	args: { options: ["Single option"] },
-} satisfies Meta<typeof SelectFilter>;
+};
 
-type Story = StoryObj<typeof SelectFilter>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: {},

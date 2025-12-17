@@ -55,7 +55,8 @@
 	import { useHelpers } from "../../composables/utils";
 
 	interface iInputToggleProps
-		extends iInputProps,
+		extends
+			iInputProps,
 			iUseModifiersProps,
 			iUseStateProps,
 			iUseThemeProps,

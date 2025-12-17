@@ -24,7 +24,8 @@
 	import useTheme from "../../composables/theme";
 
 	interface iActionButtonProps
-		extends iActionProps,
+		extends
+			iActionProps,
 			iUseModifiersProps,
 			iUseStateProps,
 			iUseThemeProps,

@@ -20,10 +20,7 @@
 	import useTheme from "../../composables/theme";
 
 	interface iSelectSimpleProps
-		extends iSelectProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {}
+		extends iSelectProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {}
 
 	/**
 	 * Select element with filtering

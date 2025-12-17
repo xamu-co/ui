@@ -76,10 +76,7 @@
 	import { useHelpers } from "../../composables/utils";
 
 	interface iInputTextProps
-		extends iInputProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iInputProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		type?: tTextInputType;
 		placeholder?: string;
 		/**

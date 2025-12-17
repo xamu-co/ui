@@ -27,10 +27,7 @@
 	} from "../../types/props";
 
 	interface iBoxMessageProps
-		extends iActionProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iActionProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		/**
 		 * Text or html
 		 */

@@ -1,16 +1,16 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
 
-import ButtonToggle from "./ButtonToggle.vue";
+import ActionButtonToggle from "./ButtonToggle.vue";
 import IconFa from "../icon/Fa.vue";
 
-const meta = {
+const meta: Meta<typeof ActionButtonToggle> = {
 	title: "Action/Action Button Toggle",
-	component: ButtonToggle as Record<keyof typeof ButtonToggle, unknown>,
+	component: ActionButtonToggle,
 	args: { default: "Action Button Toggle" },
-} satisfies Meta<typeof ButtonToggle>;
+};
 
-type Story = StoryObj<typeof ButtonToggle>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: { default: "Action Button Toggle" },
@@ -22,7 +22,7 @@ export const Active: Story = {
 
 export const WithIcon: Story = {
 	render: (args) => ({
-		components: { ButtonToggle, IconFa },
+		components: { ActionButtonToggle, IconFa },
 		setup() {
 			const model = ref(false);
 
@@ -33,10 +33,10 @@ export const WithIcon: Story = {
 			return { args, model, toggle };
 		},
 		template: `
-			<ButtonToggle v-bind="args" :active="model" @click="toggle">
+			<ActionButtonToggle v-bind="args" :active="model" @click="toggle">
 				<IconFa name="eye" force-regular />
 				<IconFa name="eye" />
-			</ButtonToggle>
+			</ActionButtonToggle>
 		`,
 	}),
 	args: { round: true },

@@ -178,8 +178,17 @@
 @mixin extend-dimension-viewport($property, $model) {
 	// vh or vw
 	$vm: "v" + string.slice($model, 1, 1);
-	$unit-old: if($vm == "vh", 1vh, 1vw);
-	$unit: if($vm == "vh", 1dvh, 1dvw);
+	$unit-old: 1vw;
+
+	@if $vm == "vh" {
+		$unit-old: 1vh;
+	}
+
+	$unit: 1dvw;
+
+	@if $vm == "vh" {
+		$unit: 1dvh;
+	}
 
 	// default viewport based constrains
 	&#{module.capitalize($vm)} {

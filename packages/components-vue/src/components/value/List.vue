@@ -20,12 +20,13 @@
 					modalProps: { theme, ...modalProps },
 				}"
 				:class="classes"
+				class="--txtWrap"
 				verbose
 			/>
 		</li>
 	</ul>
 </template>
-<script setup lang="ts" generic="P extends Record<string, any>">
+<script setup lang="ts">
 	import startCase from "lodash-es/startCase";
 	import upperFirst from "lodash-es/upperFirst";
 	import snakeCase from "lodash-es/snakeCase";

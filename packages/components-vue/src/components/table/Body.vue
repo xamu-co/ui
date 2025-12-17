@@ -187,32 +187,6 @@
 			</tr>
 			<!-- Row item children (Nested table) -->
 			<template v-if="$slots.default">
-				<!-- Row item children content -->
-				<tr class="no--hover --width-100">
-					<td :colspan="propertiesMeta.length + 2">
-						<BaseBox
-							v-show="canShowChildren(visibility, mappedIndex)"
-							:theme="theme || themeValues"
-							class="--gap-none --p-10 --maxWidth-100"
-							transparent
-							solid
-						>
-							<slot
-								v-bind="{
-									node: nodes[index],
-									mappedNode: node,
-									updateNodeAndRefresh,
-									cloneNodeAndRefresh,
-									deleteNodeAndRefresh,
-									deleteNodesAndRefresh,
-									createNodeChildrenAndRefresh,
-									show: canShowChildren(visibility, mappedIndex),
-									hydrateParentNode: hydrateNode,
-								}"
-							></slot>
-						</BaseBox>
-					</td>
-				</tr>
 				<!-- Row item children actions (Acts as a divider of rows when item children are hidden) -->
 				<tr class="no--hover">
 					<th class="--sticky --pX-10 --pY-5 --vAlign">
@@ -270,6 +244,32 @@
 						<div class="--width-100 --pRight --boxSizing --overflow-hidden">
 							<hr :class="`--tm-${themeValues[0]}`" />
 						</div>
+					</td>
+				</tr>
+				<!-- Row item children content -->
+				<tr class="no--hover --width-100">
+					<td :colspan="propertiesMeta.length + 2">
+						<BaseBox
+							v-show="canShowChildren(visibility, mappedIndex)"
+							:theme="theme || themeValues"
+							class="--gap-5 --p-10 --maxWidth-100"
+							transparent
+							solid
+						>
+							<slot
+								v-bind="{
+									node: nodes[index],
+									mappedNode: node,
+									updateNodeAndRefresh,
+									cloneNodeAndRefresh,
+									deleteNodeAndRefresh,
+									deleteNodesAndRefresh,
+									createNodeChildrenAndRefresh,
+									show: canShowChildren(visibility, mappedIndex),
+									hydrateParentNode: hydrateNode,
+								}"
+							></slot>
+						</BaseBox>
 					</td>
 				</tr>
 			</template>

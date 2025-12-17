@@ -32,8 +32,12 @@
     "build:nuxt": "yarn p:vue build && yarn p:nuxt build",
     "build:js": "yarn build:helpers && yarn build:nuxt",
     "build:css": "yarn p:styles build",
+    "test": "yarn test:vue",
+    "test:vue": "yarn p:vue test",
+    "playwright": "playwright install chromium --with-deps",
     "release": "yarn workspaces run semantic-release",
-    "release:dry": "yarn workspaces run semantic-release --dry-run"
+    "release:dry": "yarn workspaces run semantic-release --dry-run",
+    "prepare": "node .husky/install.mjs"
   },
   "packageManager": "yarn@1.22.22",
   "engines": {
@@ -56,25 +60,20 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-vue": "^9.15.1",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.11",
-    "prettier": "^3.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.4",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.1.1",
     "semantic-release-monorepo": "^7.0.5",
-    "stylelint": "^16.6.1",
-    "stylelint-config-recommended-vue": "^1.5.0",
-    "stylelint-config-standard-scss": "^13.1.0",
-    "stylelint-prettier": "^5.0.0",
-    "typescript": "5.8.2",
-    "vite": "^7.0.4",
-    "vue-tsc": "2.1.10"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
+    "stylelint": "^16.26.1",
+    "stylelint-config-recommended-vue": "^1.6.1",
+    "stylelint-config-standard-scss": "^16.0.0",
+    "stylelint-prettier": "^5.0.3",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0",
+    "vitest": "^4.0.14",
+    "vue-tsc": "^3.1.8"
   },
   "commitlint": {
     "extends": [
@@ -82,7 +81,7 @@
     ]
   },
   "lint-staged": {
-    "*.{mdx}": [
+    "*.mdx": [
       "prettier --write"
     ],
     "*.{js,ts,vue}": [

@@ -1,23 +1,34 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
+
+import type { GenericMeta } from "../../types/storybook";
 
 import PaginationContentTable from "./ContentTable.vue";
 
 import type { tOrderBy, iPagination, iFormResponse, iPage } from "@open-xamu-co/ui-common-types";
 
-const meta = {
+const meta: GenericMeta<typeof PaginationContentTable> = {
 	title: "Pagination/Pagination ContentTable",
-	component: PaginationContentTable as Record<keyof typeof PaginationContentTable, unknown>,
-	args: {},
-} satisfies Meta<typeof PaginationContentTable>;
-
-type Story = StoryObj<typeof PaginationContentTable>;
-
-export const Sample: Story = {
+	component: PaginationContentTable,
 	args: {},
 };
 
+type Story = StoryObj<typeof meta>;
+
+// TODO: Add data mocks
+
+export const Sample: Story = {
+	args: {
+		url: "",
+		page: (() => {}) as any,
+	},
+};
+
 export const Data: Story = {
+	args: {
+		url: "",
+		page: (() => {}) as any,
+	},
 	render: (args) => ({
 		components: { PaginationContentTable },
 		setup() {
@@ -30,9 +41,7 @@ export const Data: Story = {
 
 			const sort = ref<tOrderBy>();
 
-			const page = async (
-				_params?: iPagination
-			): Promise<iPage<iSector, number> | undefined> => {
+			async function page(_params?: iPagination) {
 				const data: iFormResponse<iPage<iSector, number>> = {
 					response: {
 						edges: [
@@ -69,20 +78,19 @@ export const Data: Story = {
 					validationHadErrors: false,
 				};
 
-				return new Promise((resolve) => {
+				return new Promise<iPage<iSector, number> | undefined>((resolve) => {
 					setTimeout(() => {
 						resolve(data.response);
 					}, 3000);
 				});
-			};
+			}
 
 			return { args, sort, page };
 		},
 		template: `
-			<PaginationContentTable v-bind="args" :page="page" :transform="getPageFromResponse" />
+			<PaginationContentTable v-bind="args" :page="page" />
 		`,
 	}),
-	args: {},
 };
 
 export default meta;

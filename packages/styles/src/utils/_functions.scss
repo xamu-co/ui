@@ -39,7 +39,11 @@
 
 // returns the color from the color map
 @function color($color-name, $rgb: false) {
-	$rgb: if($rgb, $rgb, 1);
+	$rgb: $rgb;
+
+	@if not $rgb {
+		$rgb: 1;
+	}
 
 	@return string.unquote("rgba(var(--rgb-" + $color-name + "), " + $rgb + ")");
 }

@@ -1,23 +1,16 @@
 <template>
 	<template v-if="nodes.length || $slots.headActions">
-		<table
-			:id="`${tableId}_actions`"
-			class="tbl --minWidth-100 table-actions"
-			:class="[{ '--nested': nested }, themeClasses]"
-			style="z-index: 2"
-		>
-			<BaseErrorBoundary at="TableHeadActions" :theme="theme">
-				<TableHeadActions
-					v-bind="childrenProps"
-					:theme="opaque ? invertedThemeValues : theme"
-					:with-default-slot="!!$slots.default"
-				>
-					<template v-if="$slots.headActions" #headActions="headScope">
-						<slot name="headActions" v-bind="headScope"></slot>
-					</template>
-				</TableHeadActions>
-			</BaseErrorBoundary>
-		</table>
+		<BaseErrorBoundary at="TableHeadActions" :theme="theme">
+			<TableHeadActions
+				v-bind="childrenProps"
+				:theme="opaque ? invertedThemeValues : theme"
+				:with-default-slot="!!$slots.default"
+			>
+				<template v-if="$slots.headActions" #headActions="headScope">
+					<slot name="headActions" v-bind="headScope"></slot>
+				</template>
+			</TableHeadActions>
+		</BaseErrorBoundary>
 		<BaseWrapper
 			class="--gap-none --p-10 --maxWidth-100"
 			:wrap="!!opaque"

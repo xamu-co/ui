@@ -15,9 +15,9 @@ export default function useState(props: iUseStateProps) {
 		const { getModifierClasses: GMC } = useUtils(xo);
 
 		const noStateClasses = computed<string[]>(() => {
-			const values: Record<string, boolean>[] = [{ noOverrides: !!props.noOverrides }];
+			const values: Record<string, boolean>[] = [{ override: !!props.noThemeOverride }];
 
-			return props.noOverrides ? GMC(values, { prefix: "no" }) : [];
+			return props.noThemeOverride ? GMC(values, { prefix: "no" }) : [];
 		});
 
 		const stateClasses = computed<string[]>(() => {

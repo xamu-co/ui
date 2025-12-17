@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import type { iSelectOption } from "@open-xamu-co/ui-common-types";
 
-import Simple from "./Simple.vue";
+import SelectSimple from "./Simple.vue";
 
 const options: iSelectOption[] = [
 	{ value: "TITLE" },
@@ -11,13 +11,13 @@ const options: iSelectOption[] = [
 	{ value: "ROW_NUMBER_VALUE" },
 	{ value: "ROW_TEXT_VALUE" },
 ];
-const meta = {
+const meta: Meta<typeof SelectSimple> = {
 	title: "Select/Select Simple",
-	component: Simple as Record<keyof typeof Simple, unknown>,
+	component: SelectSimple,
 	args: { options },
-} satisfies Meta<typeof Simple>;
+};
 
-type Story = StoryObj<typeof Simple>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: { options },
