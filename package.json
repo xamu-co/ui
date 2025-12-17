@@ -37,7 +37,7 @@
     "playwright": "playwright install chromium --with-deps",
     "release": "yarn workspaces run semantic-release",
     "release:dry": "yarn workspaces run semantic-release --dry-run",
-    "prepare": "husky"
+    "prepare": "node .husky/install.mjs"
   },
   "packageManager": "yarn@1.22.21",
   "engines": {

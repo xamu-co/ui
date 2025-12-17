@@ -7,6 +7,8 @@ defaults: &defaults
     working_directory: ~/repo
     docker:
         - image: cimg/node:20.19.3
+    environment:
+        HUSKY: 0
 
 release: &release
     <<: *defaults
