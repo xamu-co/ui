@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0-next.4...@open-xamu-co/ui-nuxt-v4.0.0-next.1) (2025-12-17)
+
+
+### Bug Fixes
+
+* table layout ([f90b338](https://github.com/xamu-co/ui/commit/f90b338207a13a7ece14e19e71a8e593d2911a46))
+
+
+### BREAKING CHANGES
+
+* no-overrides to no-theme-override
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.1.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0-next.3...@open-xamu-co/ui-nuxt-v3.1.0-next.4) (2025-11-30)
 
 
