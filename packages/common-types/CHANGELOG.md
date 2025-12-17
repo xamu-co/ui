@@ -1,5 +1,29 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v4.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.1.0-next.10...@open-xamu-co/ui-common-types-v4.0.0-next.1) (2025-12-17)
+
+
+### Bug Fixes
+
+* table layout ([f90b338](https://github.com/xamu-co/ui/commit/f90b338207a13a7ece14e19e71a8e593d2911a46))
+
+
+### BREAKING CHANGES
+
+* no-overrides to no-theme-override
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "4.0.0-next.1"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v3.1.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.1.0-next.9...@open-xamu-co/ui-common-types-v3.1.0-next.10) (2025-11-30)
 
 
