@@ -1,5 +1,5 @@
 import { fileURLToPath } from "node:url";
-import { mergeConfig, defineConfig, configDefaults } from "vitest/config";
+import { mergeConfig, defineConfig, configDefaults, coverageConfigDefaults } from "vitest/config";
 import viteConfig from "./vite.config";
 import path from "node:path";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
@@ -26,6 +26,7 @@ export default mergeConfig(
 					branches: coverage, // 53.04%
 					statements: coverage, // 58.97%
 				},
+				exclude: [...coverageConfigDefaults.exclude, "e2e/**", ".storybook/**"],
 			},
 			projects: [
 				{
@@ -33,7 +34,6 @@ export default mergeConfig(
 					test: {
 						name: "e2e",
 						environment: "jsdom",
-						exclude: [...configDefaults.exclude, "e2e/**"],
 						root: fileURLToPath(new URL("./", import.meta.url)),
 					},
 				},
@@ -63,6 +63,7 @@ export default mergeConfig(
 					},
 				},
 			],
+			exclude: [...configDefaults.exclude, "e2e/**", ".storybook/**"],
 		},
 	})
 );
