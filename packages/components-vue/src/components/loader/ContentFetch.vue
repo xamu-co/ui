@@ -28,8 +28,6 @@
 	import { ref, watch, type Ref, computed, onActivated, onDeactivated, inject } from "vue";
 	import isEqual from "lodash-es/isEqual";
 
-	import { useUtils } from "@open-xamu-co/ui-common-helpers";
-
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import LoaderContent from "./Content.vue";
 
@@ -37,7 +35,6 @@
 	import type { iUseThemeProps } from "../../types/props";
 	import type { iVuePluginOptions } from "../../types/plugin";
 	import { useAsyncDataFn } from "../../composables/async";
-	import { useHelpers } from "../../composables/utils";
 	import useFetchUtils from "../../composables/fetch";
 
 	export interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
@@ -99,7 +96,6 @@
 	const props = defineProps<iLoaderContentFetchProps<T, P>>();
 	const emit = defineEmits(["refresh", "has-content", "hydrate"]);
 
-	const { logger } = useHelpers(useUtils);
 	const { useFetch } = useFetchUtils();
 	const { internals } = inject<iVuePluginOptions>("xamu") || {};
 	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
@@ -118,54 +114,48 @@
 		async (): Promise<T | null> => {
 			let newData: T | null = null;
 
-			try {
-				if (!props.promise && !props.hydratablePromise && !props.url) return null;
-				if (props.preventAutoload) {
-					// is promise like
-					const pl = props.promise !== undefined || props.hydratablePromise !== undefined;
+			if (!props.promise && !props.hydratablePromise && !props.url) return null;
+			if (props.preventAutoload) {
+				// is promise like
+				const pl = props.promise !== undefined || props.hydratablePromise !== undefined;
 
-					// Prevent on first load or if url is used as key
-					if (!firstLoad.value || (!!props.url && pl)) return null;
+				// Prevent on first load or if url is used as key
+				if (!firstLoad.value || (!!props.url && pl)) return null;
+			}
+			if (props.promise || props.hydratablePromise) {
+				const payload = <P>(props.payload || []);
+
+				if (props.promise) {
+					newData = await props.promise(...payload);
+				} else if (props.hydratablePromise) {
+					/**
+					 * Hydrate content
+					 * Returns the actual content & allows for hydration
+					 */
+					const hydrateContent = computed({
+						get: () => content.value ?? null,
+						set: (newContent) => hydrate(newContent ?? null, errors.value),
+					});
+					/**
+					 * Hydrate errors
+					 * Returns the actual errors & allows for hydration
+					 */
+					const hydrateErrors = computed({
+						get: () => errors.value ?? null,
+						set: (newErrors) => hydrate(content.value ?? null, newErrors),
+					});
+
+					newData = await props.hydratablePromise(
+						hydrateContent,
+						hydrateErrors
+					)(...payload);
 				}
-				if (props.promise || props.hydratablePromise) {
-					const payload = <P>(props.payload || []);
+			} else if (props.url) {
+				const response = await useFetch<any>(props.url);
+				const data = "data" in response ? response.data : response;
 
-					if (props.promise) {
-						newData = await props.promise(...payload);
-					} else if (props.hydratablePromise) {
-						/**
-						 * Hydrate content
-						 * Returns the actual content & allows for hydration
-						 */
-						const hydrateContent = computed({
-							get: () => content.value ?? null,
-							set: (newContent) => hydrate(newContent ?? null, errors.value),
-						});
-						/**
-						 * Hydrate errors
-						 * Returns the actual errors & allows for hydration
-						 */
-						const hydrateErrors = computed({
-							get: () => errors.value ?? null,
-							set: (newErrors) => hydrate(content.value ?? null, newErrors),
-						});
-
-						newData = await props.hydratablePromise(
-							hydrateContent,
-							hydrateErrors
-						)(...payload);
-					}
-				} else if (props.url) {
-					const response = await useFetch<any>(props.url);
-					const data = "data" in response ? response.data : response;
-
-					if (response.error) throw new Error(response.error);
-					if (data) newData = data;
-				}
-			} catch (err) {
-				logger("LoaderContentFetch:useAsyncData", err);
-
-				throw err; // throw error anyway, asyncData will intercept it
+				if (response.error) throw new Error(response.error);
+				if (data) newData = data;
 			}
 
 			firstLoad.value = true;
