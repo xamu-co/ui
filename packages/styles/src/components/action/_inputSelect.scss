@@ -36,28 +36,28 @@ $select-path-end: "'/%3E%3C/svg%3E";
 			@layer defaults {
 				@include module.extend-unions
 					using($theme, $theme-value, $base, $base-value, $is-default) {
-					//chevron-light down
+					// chevron-light down
 					background-image: url("#{$select-path-down}#{system.str-replace(#{$base-value}, '#')}#{$select-path-end}");
 
 					&:hover {
-						//chevron-light down-hover
+						// chevron-light down-hover
 						background-image: url("#{$select-path-down}#{system.str-replace(#{$base-value}, '#')}' opacity='0.7#{$select-path-end}");
 					}
 
 					&:focus {
-						//chevron-light up
+						// chevron-light up
 						background-image: url("#{$select-path-up}#{system.str-replace(#{$base-value}, '#')}#{$select-path-end}");
 					}
 
 					&:focus:hover,
 					&:focus-within:hover {
-						//chevron-light up-hover
+						// chevron-light up-hover
 						background-image: url("#{$select-path-up}#{system.str-replace(#{$base-value}, '#')}' opacity='0.7#{$select-path-end}");
 					}
 
 					&:disabled,
 					&[disabled]:not([disabled="false"]) {
-						//chevron-primary down
+						// chevron-primary down
 						background-image: url("#{$select-path-down}#{system.str-replace(#{$theme-value}, '#')}' opacity='0.3#{$select-path-end}");
 					}
 				}
@@ -66,7 +66,7 @@ $select-path-end: "'/%3E%3C/svg%3E";
 			&.#{module.$status-is-invalid} {
 				&:disabled,
 				&[disabled]:not([disabled="false"]) {
-					//chevron-danger down
+					// chevron-danger down
 					background-image: url("#{$select-path-down}#{system.str-replace(#{module.$color-danger}, '#')}' opacity='0.3#{$select-path-end}");
 				}
 			}

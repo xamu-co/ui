@@ -120,10 +120,8 @@
 				overflow: visible;
 
 				@layer defaults {
-					& {
-						// @defaults gap
-						gap: 2rem;
-					}
+					// @defaults gap
+					gap: 2rem;
 				}
 
 				> * {

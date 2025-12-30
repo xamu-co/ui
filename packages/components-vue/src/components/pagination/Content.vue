@@ -27,7 +27,7 @@
 			}"
 		></slot>
 		<PaginationSimple
-			v-if="!hideControls"
+			v-if="showControls(content.totalCount, pagination.first)"
 			v-model="pagination"
 			v-bind="{ currentPage: content, withRoute, theme }"
 			:class="paginationClass"
@@ -82,8 +82,11 @@
 		withRoute?: boolean;
 		/**
 		 * hide pagination buttons
+		 *
+		 * @example true hide pagination buttons
+		 * @example "single" hide pagination buttons if only one page
 		 */
-		hideControls?: boolean;
+		hideControls?: boolean | "single";
 		preventAutoload?: boolean;
 		/**
 		 * Additional parameters to send every request
@@ -183,6 +186,9 @@
 
 	/**
 	 * Patched promise, with optional hydration
+	 *
+	 * @param content Content ref
+	 * @param errors Errors ref
 	 */
 	const patchedHydratablePromise = (
 		content: Ref<iPage<T, C> | null | undefined>,
@@ -202,7 +208,13 @@
 		return !!c?.edges?.length;
 	}
 
-	/** Override emit to handle node hydration */
+	/**
+	 * Override emit to handle node hydration
+	 *
+	 * @param value Content is available
+	 * @param page Current page
+	 * @param hydratePage Function to hydrate nodes
+	 */
 	function hasContent(
 		value: boolean,
 		page?: iPage<T, C> | null,
@@ -225,5 +237,17 @@
 		const nodes = (page?.edges || []).map(({ node }) => node);
 
 		emit("has-content", value, nodes, hydrateNodesFn);
+	}
+
+	/**
+	 * Check if pagination controls should be shown
+	 *
+	 * @param totalCount Count of items
+	 * @param first Number of items per page
+	 */
+	function showControls(totalCount: number, first = defaultFirst || 10) {
+		if (!props.hideControls) return true;
+
+		return props.hideControls === "single" ? totalCount > first : true;
 	}
 </script>

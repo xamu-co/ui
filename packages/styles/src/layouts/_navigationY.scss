@@ -19,9 +19,7 @@
 			// @group Statuses
 			&:not(.#{utils.$prefix-default}--sub) {
 				@layer defaults {
-					& {
-						gap: 1rem;
-					}
+					gap: 1rem;
 				}
 
 				@include utils.flex-box(column, nowrap, space-between, center);
@@ -52,9 +50,7 @@
 		ol {
 			&.#{utils.$layout-navigation-y}-menu-list {
 				@layer defaults {
-					& {
-						gap: 1rem;
-					}
+					gap: 1rem;
 				}
 
 				@include utils.flex-box(column, nowrap, center, flex-start);

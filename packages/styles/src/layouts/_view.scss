@@ -25,11 +25,9 @@
 			//
 			// @group Modifiers
 			@layer defaults {
-				& {
-					// @defaults minHeight
-					min-height: 60vh;
-					min-height: 60dvh;
-				}
+				// @defaults minHeight
+				min-height: 60vh;
+				min-height: 60dvh;
 			}
 
 			&.#{utils.$prefix-default}--minHeight-100 {

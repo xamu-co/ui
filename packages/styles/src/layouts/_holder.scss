@@ -23,12 +23,10 @@
 			}
 
 			@layer defaults {
-				& {
-					// @defaults width, maxWidth
-					// 1200 = 75rem
-					width: 100%;
-					max-width: math.div(utils.$size-px-default, 16) * 1rem;
-				}
+				// @defaults width, maxWidth
+				// 1200 = 75rem
+				width: 100%;
+				max-width: math.div(utils.$size-px-default, 16) * 1rem;
 			}
 		}
 	}

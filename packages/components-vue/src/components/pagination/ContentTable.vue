@@ -36,13 +36,14 @@
 				defaults,
 			}"
 			pagination-class="flx --flxRow-wrap --flx-end-center --gap-5 --gap-10:sm --gap:md"
-			class="flx --flxColumn --gap-30"
+			class="flx --flxColumn --gap-10"
+			hide-controls="single"
 			with-route
 			@refresh="emittedRefresh = $event"
 			@has-content="hasContent"
 		>
 			<!-- Tabulated data -->
-			<div class="flx --flxColumn --flx-start-stretch">
+			<div class="flx --flxColumn --flx-start-stretch --gap-10">
 				<BaseErrorBoundary
 					at="PaginationContentTable:TableSimple"
 					:theme="theme"
