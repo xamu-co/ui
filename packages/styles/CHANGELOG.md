@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v5.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.1...@open-xamu-co/ui-styles-v5.0.0-next.2) (2025-12-30)
+
+
+### Bug Fixes
+
+* stylelint setup ([04b38e7](https://github.com/xamu-co/ui/commit/04b38e7c809fa4b6b226b8245ae477887274062f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.2"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v5.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.8...@open-xamu-co/ui-styles-v5.0.0-next.1) (2025-12-17)
 
 
