@@ -1,6 +1,6 @@
 {
   "name": "@open-xamu-co/ui-components-vue",
-  "version": "4.0.0-next.1",
+  "version": "4.0.0-next.2",
   "description": "Vue component system for the xamu project",
   "scripts": {
     "build:entries": "rimraf dist && vite build",
@@ -71,8 +71,8 @@
     "vue-color": "^3.3.1"
   },
   "devDependencies": {
-    "@open-xamu-co/ui-common-types": "^4.0.0-next.1",
-    "@open-xamu-co/ui-styles": "^5.0.0-next.1",
+    "@open-xamu-co/ui-common-types": "^4.0.0-next.2",
+    "@open-xamu-co/ui-styles": "^5.0.0-next.2",
     "@playwright/test": "^1.57.0",
     "@storybook/addon-docs": "^10.1.9",
     "@storybook/addon-links": "^10.1.9",

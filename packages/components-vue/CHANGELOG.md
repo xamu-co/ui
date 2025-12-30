@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.1...@open-xamu-co/ui-components-vue-v4.0.0-next.2) (2025-12-30)
+
+
+### Features
+
+* conditionally hide content table pagination ([5b29ef4](https://github.com/xamu-co/ui/commit/5b29ef4828fc4247b6f55609737ccee265668701))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.2"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.36...@open-xamu-co/ui-components-vue-v4.0.0-next.1) (2025-12-17)
 
 
