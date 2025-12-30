@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v4.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v4.0.0-next.1...@open-xamu-co/ui-common-types-v4.0.0-next.2) (2025-12-30)
+
+
+### Features
+
+* conditionally hide content table pagination ([5b29ef4](https://github.com/xamu-co/ui/commit/5b29ef4828fc4247b6f55609737ccee265668701))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "4.0.0-next.2"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v4.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.1.0-next.10...@open-xamu-co/ui-common-types-v4.0.0-next.1) (2025-12-17)
 
 
