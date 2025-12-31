@@ -441,7 +441,7 @@
 
 						// Add cloned node after the original node
 						updatedNodes = props.nodes.toSpliced(nodeIndex + 1, 0, {
-							...node,
+							...clearNode, // Prevent mixing non clonable values
 							...cloned,
 						});
 					}

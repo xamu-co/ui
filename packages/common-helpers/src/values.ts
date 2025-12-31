@@ -10,6 +10,11 @@ export function isPlainValue(value: any) {
 	return ["string", "number", "boolean"].includes(typeof value);
 }
 
+/**
+ * Orders properties
+ *
+ * Move dates to the end, strings forward and leave everyting else in place
+ */
 export const useOrderProperty: tPropertyOrderFn = ([a, aValue], [b, bValue]) => {
 	const isDateOrAuthor = (k: string) => k.endsWith("At") || k.endsWith("By");
 

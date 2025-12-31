@@ -88,4 +88,7 @@ export interface iProperty<
 	onImageError?: (data?: any) => void;
 }
 
+/**
+ * Function to order properties
+ */
 export type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;

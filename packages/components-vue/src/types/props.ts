@@ -239,6 +239,7 @@ export interface iTablePropertyMeta<Ti extends Record<string, any>> extends iPro
 	Ti,
 	vComponent<iValueComplexProps>
 > {
+	/** Property name */
 	value: string;
 	canSort: boolean;
 }
@@ -267,6 +268,9 @@ export interface iTableProps<
 	 * @old columns
 	 */
 	properties?: iProperty<any, NoInfer<Ti>, vComponent<iValueComplexProps>>[];
+	/**
+	 * Custom property order
+	 */
 	propertyOrder?: tPropertyOrderFn;
 	/**
 	 * read only table
