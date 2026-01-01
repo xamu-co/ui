@@ -1,5 +1,31 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v4.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.1.0-next.1...@open-xamu-co/ui-common-enums-v4.0.0-next.1) (2026-01-01)
+
+
+### Bug Fixes
+
+* allow more image types on file input ([73d39bc](https://github.com/xamu-co/ui/commit/73d39bc95c32f801233d442870512f1fc6ac1fe5))
+
+
+### BREAKING CHANGES
+
+* renamed mime types exports
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-enums" version "4.0.0-next.1"[0m
+[34mUpdating "common-types"[0m
+[34mSuccesfully updated "common-types" package[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-enums-v3.1.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.0.1-next.1...@open-xamu-co/ui-common-enums-v3.1.0-next.1) (2025-07-14)
 
 
