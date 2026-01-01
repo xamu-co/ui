@@ -1,3 +1,4 @@
+import type { eMimeType } from "@open-xamu-co/ui-common-enums";
 import type { iMime } from "@open-xamu-co/ui-common-types";
 
 export * from "./images";
@@ -8,27 +9,26 @@ export * from "./images";
 export const fileMatchesMimeTypes = (file: File, mimeTypes: iMime[]) => {
 	// check if mime and bytes are image type
 	const reader = new FileReader();
-	const blob = file.slice(0, 4); // read the first 4 bytes of the file;
+	const blob = file.slice(0, 12); // Read the first 12 bytes of the file
 	const check = (bytes: Uint8Array, mime: iMime) => {
-		for (let i = 0, l = mime.mask.length; i < l; ++i) {
-			if ((bytes[i] & mime.mask[i]) - mime.pattern[i] !== 0) {
-				return false;
-			}
+		// Allowed maximum of 12
+		const length = Math.min(12, mime.mask.length);
+
+		for (let i = 0, l = length; i < l; ++i) {
+			if ((bytes[i] & mime.mask[i]) - mime.pattern[i] !== 0) return false;
 		}
 
 		return true;
 	};
 
-	return new Promise<boolean>((resolve) => {
+	return new Promise<eMimeType | false>((resolve) => {
 		reader.onload = (e) => {
 			if (e.target && !e.target.error) {
 				const bytes = new Uint8Array(e.target.result as ArrayBuffer);
 
-				for (let i = 0, l = mimeTypes.length; i < l; ++i) {
-					if (check(bytes, mimeTypes[i])) {
-						// all checks passed
-						resolve(true);
-					}
+				for (const mime of mimeTypes) {
+					// Return matched mime type
+					if (check(bytes, mime)) return resolve(mime.type);
 				}
 
 				// mime unknown

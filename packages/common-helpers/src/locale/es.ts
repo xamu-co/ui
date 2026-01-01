@@ -76,8 +76,10 @@ export const localeInput: tLocaleInput = {
 		file_limit: "Límite de archivos",
 		file_limit_text:
 			"Este campo solo permite {amount} archivo | Este campo solo permite {amount} archivos",
-		file_wrong_format_image: "Formato incorrecto",
-		file_wrong_format_image_text: "Este campo solo permite archivos de imagen",
+		file_unsupported_format: "Formato no soportado",
+		file_unsupported_format_text: "Este campo no permite ese tipo de archivo",
+		file_wrong_format: "Formato incorrecto",
+		file_wrong_format_text: 'Este campo solo permite archivos de tipo "{types}"',
 		file_too_big: "Archivo demasiado grande",
 		file_too_big_text: "El archivo supera el tamaño permitido",
 		file_unknown_error: "Algo salió mal",

@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
-	import { computed, getCurrentInstance, ref, watch } from "vue";
+	import { computed, getCurrentInstance, onActivated, onDeactivated, ref, watch } from "vue";
 	import upperFirst from "lodash-es/upperFirst";
 	import snakeCase from "lodash-es/snakeCase";
 	import startCase from "lodash-es/startCase";
@@ -136,6 +136,9 @@
 	const Swal = useHelpers(useSwal);
 	const { themeClasses, themeValues, invertedThemeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
+
+	const deactivated = ref(false);
+
 	/**
 	 * Mapped nodes
 	 * Keeps the original node and the mapped node if any (filtered)
@@ -150,7 +153,6 @@
 
 			const disableCreateNodeChildren = props.disableCreateNodeChildren?.(node);
 			const showNodeChildren = props.showNodeChildren?.(node);
-
 			const visibility: iNodeVisibility = {
 				disableCreateNodeChildren,
 				showNodeChildren,
@@ -159,7 +161,9 @@
 
 			if (visibility.childrenCount) nodes.withChildren = true;
 
+			/** Hydrate this node only */
 			const hydrateNode = makeHydrateNode(index);
+			/** Add children and hydrate this node only */
 			const createNodeChildrenAndRefresh = makeCreateNodeChildrenAndRefresh(
 				index,
 				visibility
@@ -327,16 +331,21 @@
 
 	function makeHydrateNode(nodeIndex: number) {
 		return (newNode: T | null, _newErrors?: unknown) => {
-			if (!props.hydrateNodes || !newNode) return;
+			if (!newNode) return;
 
 			// Replace the node with the updated one
 			const existingNode = props.nodes[nodeIndex];
-			const updatedNodes = props.nodes.toSpliced(nodeIndex, 1, {
-				...existingNode,
-				...newNode,
-			});
 
-			props.hydrateNodes(updatedNodes);
+			if (nodeIndex > -1) {
+				const updatedNodes = props.nodes.toSpliced(nodeIndex, 1, {
+					...existingNode,
+					...newNode,
+				});
+
+				// Hydrate node, fallback to refresh
+				if (props.hydrateNodes) props.hydrateNodes(updatedNodes);
+				else if (!props.omitRefresh) props.refresh?.();
+			}
 		};
 	}
 
@@ -349,38 +358,30 @@
 	 * TODO: Support batch editing
 	 */
 	const updateNodeAndRefresh: iNodeFn<T> = async (node: T) => {
-		// display loader
+		// Display loader
 		Swal.fireLoader();
 
-		// run process
-		const response = await useResolveNodeFn(props.updateNode?.(node));
-		const [updated, event, closeModal] = response;
+		// Run process, get updated node
+		const [updatedStream, event, closeModal] = await useResolveNodeFn(props.updateNode?.(node));
+		const [updated, ...stream] = Array.isArray(updatedStream) ? updatedStream : [updatedStream];
 
-		// unfinished task
+		// Unfinished task
 		if (typeof updated === "undefined" || updated === null) {
 			if (Swal.isLoading()) Swal.close();
 		} else if (updated) {
 			Swal.fire({
 				icon: "success",
-				title: t("swal.table_updated"),
-				text: t("swal.table_updated_text"),
+				title: props.swal?.updatedTitle || t("swal.table_updated"),
+				text: props.swal?.updatedText || t("swal.table_updated_text"),
 				willOpen() {
-					let updatedNodes: T[] | undefined;
-
-					// Update single element
+					// Update single element, prefer hydration over refreshing
 					if (typeof updated === "object" && updated.id) {
-						const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+						const nodeIndex = props.nodes.findIndex((n) => n.id === updated.id);
+						const hydrateNode = makeHydrateNode(nodeIndex);
 
-						// Replace the node with the updated one
-						updatedNodes = props.nodes.toSpliced(nodeIndex, 1, {
-							...node,
-							...updated,
-						});
-					}
-
-					// Prefer hydration over refreshing
-					if (props.hydrateNodes && updatedNodes) props.hydrateNodes(updatedNodes);
-					else if (!props.omitRefresh) props.refresh?.();
+						// Hydrate if possible
+						hydrateNode(updated);
+					} else if (!props.omitRefresh) props.refresh?.();
 
 					closeModal?.();
 				},
@@ -389,13 +390,32 @@
 			// Error, possibly not updated
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_possibly_not_updated"),
-				text: t("swal.table_possibly_not_updated_text"),
+				title: props.swal?.notUpdatedTitle || t("swal.table_possibly_not_updated"),
+				text: props.swal?.notUpdatedText || t("swal.table_possibly_not_updated_text"),
 				target: event,
 			});
 		}
 
-		return response;
+		// Hydration stream, do not await
+		Promise.all(
+			stream.map(async (next) => {
+				const updated = await next;
+
+				// Bypass hydration
+				if (!updated || deactivated.value) return;
+
+				// Update single element, hydration only
+				if (typeof updated === "object" && updated.id) {
+					const nodeIndex = props.nodes.findIndex((n) => n.id === updated.id);
+					const hydrateNode = makeHydrateNode(nodeIndex);
+
+					// Hydrate if possible
+					hydrateNode(updated);
+				}
+			})
+		);
+
+		return [updated, event, closeModal];
 	};
 
 	/**
@@ -420,9 +440,11 @@
 			if (property.cloneNode === false) delete clearNode[property.value];
 		}
 
-		// run process
-		const response = await useResolveNodeFn(props.cloneNode?.(clearNode));
-		const [cloned, event, closeModal] = response;
+		// Run process, get cloned node
+		const [clonedStream, event, closeModal] = await useResolveNodeFn(
+			props.cloneNode?.(clearNode)
+		);
+		const [cloned, ...stream] = Array.isArray(clonedStream) ? clonedStream : [clonedStream];
 
 		// unfinished task
 		if (typeof cloned === "undefined" || cloned === null) {
@@ -430,20 +452,22 @@
 		} else if (cloned) {
 			Swal.fire({
 				icon: "success",
-				title: t("swal.table_cloned"),
-				text: t("swal.table_cloned_text"),
+				title: props.swal?.clonedTitle || t("swal.table_cloned"),
+				text: props.swal?.clonedText || t("swal.table_cloned_text"),
 				willOpen() {
 					let updatedNodes: T[] | undefined;
 
 					// Add single new element
 					if (typeof cloned === "object" && cloned.id) {
-						const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+						const nodeIndex = props.nodes.findIndex((n) => n.id === cloned.id);
 
-						// Add cloned node after the original node
-						updatedNodes = props.nodes.toSpliced(nodeIndex + 1, 0, {
-							...node,
-							...cloned,
-						});
+						if (nodeIndex > -1) {
+							// Add cloned node after the original node
+							updatedNodes = props.nodes.toSpliced(nodeIndex + 1, 0, {
+								...clearNode, // Prevent mixing non clonable values
+								...cloned,
+							});
+						}
 					}
 
 					// Prefer hydration over refreshing
@@ -457,13 +481,32 @@
 			// Error, possibly not cloned
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_possibly_not_cloned"),
-				text: t("swal.table_possibly_not_cloned_text"),
+				title: props.swal?.notClonedTitle || t("swal.table_possibly_not_cloned"),
+				text: props.swal?.notClonedText || t("swal.table_possibly_not_cloned_text"),
 				target: event,
 			});
 		}
 
-		return response;
+		// Hydration stream, do not await
+		Promise.all(
+			stream.map(async (next) => {
+				const cloned = await next;
+
+				// Bypass hydration
+				if (!cloned || deactivated.value) return;
+
+				// Update single element, hydration only
+				if (typeof cloned === "object" && cloned.id) {
+					const nodeIndex = props.nodes.findIndex((n) => n.id === cloned.id);
+					const hydrateNode = makeHydrateNode(nodeIndex);
+
+					// Hydrate if possible
+					hydrateNode(cloned);
+				}
+			})
+		);
+
+		return [cloned, event, closeModal];
 	};
 
 	/**
@@ -492,8 +535,8 @@
 		Swal.fireLoader();
 
 		// run process
-		const response = await useResolveNodeFn(props.deleteNode?.(node));
-		const [deleted, event, closeModal] = response;
+		const [deletedStream, event, closeModal] = await useResolveNodeFn(props.deleteNode?.(node));
+		const [deleted, ...stream] = Array.isArray(deletedStream) ? deletedStream : [deletedStream];
 
 		// unfinished task
 		if (typeof deleted === "undefined" || deleted === null) {
@@ -501,19 +544,19 @@
 		} else if (deleted) {
 			Swal.fire({
 				icon: "success",
-				title: t("swal.table_deleted"),
-				text: t("swal.table_deleted_text"),
+				title: props.swal?.deletedTitle || t("swal.table_deleted"),
+				text: props.swal?.deletedText || t("swal.table_deleted_text"),
 				willOpen() {
-					// Prefer refreshing over hydration
-					if (props.refresh) {
-						if (!props.omitRefresh) props.refresh?.();
-					} else if (props.hydrateNodes) {
-						const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
-						// Remove the node
-						const updatedNodes: T[] = props.nodes.toSpliced(nodeIndex, 1);
+					let updatedNodes: T[] | undefined;
 
-						props.hydrateNodes(updatedNodes);
-					}
+					// Delete single node
+					const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+
+					if (nodeIndex > -1) updatedNodes = props.nodes.toSpliced(nodeIndex, 1);
+
+					// Prefer hydration over refreshing, (Avoid delayed deletion issues)
+					if (props.hydrateNodes && updatedNodes) props.hydrateNodes(updatedNodes);
+					else if (!props.omitRefresh) props.refresh?.();
 
 					closeModal?.();
 				},
@@ -522,13 +565,38 @@
 			// Error, possibly not deleted
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_possibly_not_deleted"),
-				text: t("swal.table_possibly_not_deleted_text"),
+				title: props.swal?.notDeletedTitle || t("swal.table_possibly_not_deleted"),
+				text: props.swal?.notDeletedText || t("swal.table_possibly_not_deleted_text"),
 				target: event,
 			});
 		}
 
-		return response;
+		// Hydration stream, do not await
+		Promise.all(
+			stream.map(async (next) => {
+				const deleted = await next;
+
+				// Bypass hydration
+				if (!deleted || deactivated.value) return;
+
+				// Assume removed, prefer refreshing over hydration
+				if (props.refresh && !props.omitRefresh) {
+					props.refresh();
+				} else if (props.hydrateNodes) {
+					// Remove the node
+					const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+
+					if (nodeIndex > -1) {
+						const updatedNodes: T[] = props.nodes.toSpliced(nodeIndex, 1);
+
+						// Hydrate if possible
+						props.hydrateNodes?.(updatedNodes);
+					}
+				}
+			})
+		);
+
+		return [deleted, event, closeModal];
 	};
 
 	/**
@@ -540,7 +608,7 @@
 	async function deleteNodesAndRefresh(
 		nodes = props.nodes.filter((_, nodeIndex) => selectedNodes.value[nodeIndex][0])
 	) {
-		// request confirmation
+		// Request confirmation
 		const { value } = await Swal.firePrevent({
 			title: t("table_delete"),
 			text: t("swal.table_delete_nodes_title", selectedNodesCount.value),
@@ -549,25 +617,31 @@
 
 		if (!value) return;
 
-		// display loader
+		// Display loader
 		Swal.fireLoader();
 
-		let updatedNodes: T[] = [...props.nodes];
-		// run process in parallel
+		const updatedNodes: T[] = [...props.nodes];
+		const streams: Promise<boolean | T>[] = [];
+		// Run processes in parallel, get deletion responses
 		const deleted: iNodeFnResponse<T>[] = await Promise.all(
 			nodes.map(async (node) => {
-				const response = await useResolveNodeFn(props.deleteNode?.(node));
-				const [deletedNode] = response;
+				const [deletedNodeStream, ...response] = await useResolveNodeFn(
+					props.deleteNode?.(node)
+				);
+				const [deletedNode, ...stream] = Array.isArray(deletedNodeStream)
+					? deletedNodeStream
+					: [deletedNodeStream];
+
+				// Add streams
+				streams.push(...stream);
 
 				// Remove deleted node
-				if (typeof deletedNode === "object") {
-					const nodeIndex = updatedNodes.findIndex(({ id }) => id === node.id);
+				const nodeIndex = updatedNodes.findIndex(({ id }) => id === node.id);
 
-					// Remove single node
-					if (nodeIndex > -1) updatedNodes.splice(nodeIndex, 1);
-				}
+				// Remove single node
+				if (nodeIndex > -1) updatedNodes.splice(nodeIndex, 1);
 
-				return response;
+				return [deletedNode, ...response];
 			})
 		);
 		const [, event, closeModal] = deleted[0];
@@ -581,10 +655,9 @@
 				title: t("swal.table_deleted"),
 				text: t("swal.table_deleted_text"),
 				willOpen() {
-					// Prefer refreshing over hydration
-					if (props.refresh) {
-						if (!props.omitRefresh) props.refresh?.();
-					} else if (props.hydrateNodes) props.hydrateNodes(updatedNodes);
+					// Prefer hydration over refreshing, (Avoid soft delete issues)
+					if (props.hydrateNodes) props.hydrateNodes(updatedNodes);
+					else if (!props.omitRefresh) props.refresh?.();
 
 					closeModal?.();
 				},
@@ -598,6 +671,17 @@
 				target: event,
 			});
 		}
+
+		// Hydration stream, do not await
+		Promise.all(streams).then((all) => {
+			const allDeleted = all.every((d) => d);
+
+			// Bypass hydration
+			if (!allDeleted || deactivated.value) return;
+
+			// Already removed, prefer refreshing over hydration
+			if (!props.omitRefresh) props.refresh?.();
+		});
 	}
 
 	/**
@@ -610,32 +694,40 @@
 		nodeIndex: number,
 		visibility: iNodeVisibility
 	): iNodeFn<T> {
+		/** Hydrate parent node */
+		const hydrateNode = makeHydrateNode(nodeIndex);
+
 		return async (node: T) => {
 			// display loader
 			Swal.fireLoader();
 
-			// run process
-			const response = await useResolveNodeFn(props.createNodeChildren?.(node));
-			const [updatedParent, event, closeModal] = response;
+			// run process that creates children, get updated parent
+			const [updatedStream, event, closeModal] = await useResolveNodeFn(
+				props.createNodeChildren?.(node)
+			);
+			const [updated] = Array.isArray(updatedStream) ? updatedStream : [updatedStream];
 
 			// unfinished task
-			if (typeof updatedParent === "undefined" || updatedParent === null) {
+			if (typeof updated === "undefined" || updated === null) {
 				if (Swal.isLoading()) Swal.close();
-			} else if (updatedParent) {
+			} else if (updated) {
 				Swal.fire({
 					icon: "success",
-					title: t("swal.table_created"),
-					text: t("swal.table_created_text"),
+					title: props.swal?.createdChildrenTitle || t("swal.table_created"),
+					text: props.swal?.createdChildrenText || t("swal.table_created_text"),
 					willOpen() {
-						const hydrateNode = makeHydrateNode(nodeIndex);
+						// Update single parent element
+						if (typeof updated === "object" && updated.id) {
+							// Increase parent counter
+							if (props.childrenCountKey) {
+								const key = props.childrenCountKey as keyof T;
 
-						// If has children, prefer hydration over refreshing
-						if (
-							visibility.childrenCount &&
-							props.hydrateNodes &&
-							typeof updatedParent === "object"
-						) {
-							hydrateNode({ ...node, ...updatedParent });
+								// Increase counter
+								if (updated[key] === node[key]) updated[key]++;
+							}
+
+							// Hydrate if possible
+							if (visibility.childrenCount) hydrateNode(updated);
 						} else if (!props.omitRefresh) props.refresh?.();
 
 						closeModal?.();
@@ -645,13 +737,16 @@
 				// Error, children possibly not created
 				Swal.fire({
 					icon: "warning",
-					title: t("swal.table_possibly_not_created"),
-					text: t("swal.table_possibly_not_created_text"),
+					title:
+						props.swal?.notCreatedChildrenTitle || t("swal.table_possibly_not_created"),
+					text:
+						props.swal?.notCreatedChildrenText ||
+						t("swal.table_possibly_not_created_text"),
 					target: event,
 				});
 			}
 
-			return response;
+			return [updated, event, closeModal];
 		};
 	}
 
@@ -665,10 +760,12 @@
 			);
 
 			// Omit for hydration
-			if (!oldNodes || oldNodes?.length !== newNodes.length || oldRoute !== newRoute) {
+			if (!oldNodes || oldNodes.length !== newNodes.length || oldRoute !== newRoute) {
 				selectedNodes.value = reFillNodes;
 			}
 		},
 		{ immediate: true }
 	);
+	onActivated(() => (deactivated.value = false));
+	onDeactivated(() => (deactivated.value = true));
 </script>

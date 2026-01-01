@@ -136,15 +136,18 @@
 	import debounce from "lodash-es/debounce";
 	import omit from "lodash-es/omit";
 
-	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
+	import { eColors, eMimeType, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {
 		fileMatchesMimeTypes,
-		standardImageMimeTypes,
+		imageMimeTypes,
 		renameFile,
 		getBase64FromImageFile,
 		useUtils,
 		useSwal,
 		useI18n,
+		stillImageMimeTypes,
+		extendedStillImageMimeTypes,
+		standardStillImageMimeTypes,
 	} from "@open-xamu-co/ui-common-helpers";
 
 	import BaseImg from "../base/Img.vue";
@@ -163,6 +166,7 @@
 	} from "../../types/props";
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
+	import type { iMime } from "@open-xamu-co/ui-common-types";
 
 	interface iInputFileProps
 		extends iInputProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
@@ -225,8 +229,54 @@
 	const isAdvancedUpload = ref(false);
 	const isLoading = ref(false);
 	const isDragover = ref(false);
+
 	const maxAmount = computed(() => props.max ?? 100);
 	const maxFileSize = computed(() => props.maxSize ?? 1e7);
+	/**
+	 * Accept mime types
+	 *
+	 * All by default
+	 * TODO: Allow for multiple file types
+	 */
+	const acceptMimes = computed(() => {
+		let types: iMime[] = imageMimeTypes;
+		let names: eMimeType[] = [eMimeType.IMAGE];
+
+		// Remove if not defined
+		if (props.accept && !props.accept?.includes("image/*")) {
+			// Do not accept gif images
+			if (!props.accept?.includes(".gif")) {
+				types = stillImageMimeTypes;
+			}
+			// Do not accept apple images
+			if (
+				!props.accept?.includes(".heic") &&
+				!props.accept?.includes(".heif") &&
+				!props.accept?.includes(".heics") &&
+				!props.accept?.includes(".heifs")
+			) {
+				types = extendedStillImageMimeTypes;
+			}
+			// Do not accept extended images
+			if (
+				!props.accept?.includes(".webp") &&
+				!props.accept?.includes(".bmp") &&
+				!props.accept?.includes(".ico")
+			) {
+				types = standardStillImageMimeTypes;
+			}
+			// Do not accept images
+			if (
+				(!props.accept?.includes(".jpg") && !props.accept?.includes(".jpeg")) ||
+				!props.accept?.includes(".png")
+			) {
+				types = [];
+				names = [];
+			}
+		}
+
+		return { types, names };
+	});
 
 	/**
 	 * setFiles
@@ -273,34 +323,48 @@
 					break;
 				}
 
-				// TODO: Allow for multiple file types
-				// validate file "mime type"
-				const isImage = await fileMatchesMimeTypes(filesArr[i], standardImageMimeTypes);
+				if (acceptMimes.value.types.length) {
+					// Validate file "mime type"
+					const matchMime = await fileMatchesMimeTypes(
+						filesArr[i],
+						acceptMimes.value.types
+					);
 
-				// 50MB max file size
-				if (!isImage) {
-					// not image
-					Swal.fire({
-						title: t("swal.file_wrong_format_image"),
-						text: t("swal.file_wrong_format_image_text"),
-						icon: "warning",
-						target: event,
-					});
-				} else {
-					// is image file
-					if (filesArr[i].size < maxFileSize.value) {
-						const fileName = `${props.filePrefix ?? "image"}_${i}`;
-
-						savedFiles.push(renameFile(filesArr[i], fileName));
-					} else {
-						// file too big
+					// 50MB max file size
+					if (!matchMime) {
+						// Not valid mime type
 						Swal.fire({
-							title: t("swal.file_too_big"),
-							text: t("swal.file_too_big_text"),
+							title: t("swal.file_wrong_format"),
+							text: t("swal.file_wrong_format_text", {
+								types: acceptMimes.value.names.join(", "),
+							}),
 							icon: "warning",
 							target: event,
 						});
+					} else {
+						// File is valid mime type
+						if (filesArr[i].size < maxFileSize.value) {
+							const fileName = `${props.filePrefix ?? matchMime}_${i}`;
+
+							savedFiles.push(renameFile(filesArr[i], fileName));
+						} else {
+							// file too big
+							Swal.fire({
+								title: t("swal.file_too_big"),
+								text: t("swal.file_too_big_text"),
+								icon: "warning",
+								target: event,
+							});
+						}
 					}
+				} else {
+					// Unsupported file type
+					Swal.fire({
+						title: t("swal.file_unsupported_format"),
+						text: t("swal.file_unsupported_format_text"),
+						icon: "warning",
+						target: event,
+					});
 				}
 			}
 

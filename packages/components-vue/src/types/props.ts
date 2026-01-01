@@ -10,6 +10,7 @@ import type {
 	tSizeModifier,
 	iProperty,
 	iNodeFn,
+	iNodeStreamFn,
 	tOrderBy,
 	tPropertyOrderFn,
 	tOrder,
@@ -239,6 +240,7 @@ export interface iTablePropertyMeta<Ti extends Record<string, any>> extends iPro
 	Ti,
 	vComponent<iValueComplexProps>
 > {
+	/** Property name */
 	value: string;
 	canSort: boolean;
 }
@@ -267,6 +269,9 @@ export interface iTableProps<
 	 * @old columns
 	 */
 	properties?: iProperty<any, NoInfer<Ti>, vComponent<iValueComplexProps>>[];
+	/**
+	 * Custom property order
+	 */
 	propertyOrder?: tPropertyOrderFn;
 	/**
 	 * read only table
@@ -280,21 +285,43 @@ export interface iTableProps<
 	/**
 	 * Function used to update a node
 	 */
-	updateNode?: iNodeFn<NoInfer<Ti>>;
+	updateNode?: iNodeFn<NoInfer<Ti>> | iNodeStreamFn<NoInfer<Ti>>;
 	/**
 	 * Function used to delete a node
 	 */
-	deleteNode?: iNodeFn<NoInfer<Ti>>;
+	deleteNode?: iNodeFn<NoInfer<Ti>> | iNodeStreamFn<NoInfer<Ti>>;
 	/**
 	 * Function used to duplicate a node
 	 */
-	cloneNode?: iNodeFn<NoInfer<Ti>>;
+	cloneNode?: iNodeFn<NoInfer<Ti>> | iNodeStreamFn<NoInfer<Ti>>;
 	/**
 	 * Function used to create a node children
 	 *
 	 * Useful to display the add button for the default slot contents
 	 */
-	createNodeChildren?: iNodeFn<NoInfer<Ti>>;
+	createNodeChildren?: iNodeFn<NoInfer<Ti>> | iNodeStreamFn<NoInfer<Ti>>;
+	swal?: {
+		// Update node swal texts
+		updatedTitle?: string;
+		updatedText?: string;
+		notUpdatedTitle?: string;
+		notUpdatedText?: string;
+		// Clone node swal texts
+		clonedTitle?: string;
+		clonedText?: string;
+		notClonedTitle?: string;
+		notClonedText?: string;
+		// Delete node swal texts
+		deletedTitle?: string;
+		deletedText?: string;
+		notDeletedTitle?: string;
+		notDeletedText?: string;
+		// Create node children swal texts
+		createdChildrenTitle?: string;
+		createdChildrenText?: string;
+		notCreatedChildrenTitle?: string;
+		notCreatedChildrenText?: string;
+	};
 	/**
 	 * Conditionally disable creating children for this particular property
 	 */

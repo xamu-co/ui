@@ -109,10 +109,14 @@ export type tLocaleInput = {
 		file_limit: string;
 		/** @example "This field only allows {amount} file | This field only allows {amount} files" */
 		file_limit_text: string;
+		/** @example "Unsupported format" */
+		file_unsupported_format: string;
+		/** @example "This field only does not allow that file type" */
+		file_unsupported_format_text: string;
 		/** @example "Wrong format" */
-		file_wrong_format_image: string;
-		/** @example "This field only allows image files" */
-		file_wrong_format_image_text: string;
+		file_wrong_format: string;
+		/** @example "This field only allows "{types}" files" */
+		file_wrong_format_text: string;
 		/** @example "File too big" */
 		file_too_big: string;
 		/** @example "The file exceeds the allowed size" */
