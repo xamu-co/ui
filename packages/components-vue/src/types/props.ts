@@ -9,13 +9,13 @@ import type {
 	tThemeTuple,
 	tSizeModifier,
 	iProperty,
+	iNodeFn,
 	iNodeStreamFn,
 	tOrderBy,
 	tPropertyOrderFn,
 	tOrder,
 	iPageInfo,
 	iPagination,
-	iNodeFn,
 } from "@open-xamu-co/ui-common-types";
 import type { AllowedComponentProps, RendererElement } from "vue";
 import type { vComponent } from "./plugin";
@@ -285,21 +285,21 @@ export interface iTableProps<
 	/**
 	 * Function used to update a node
 	 */
-	updateNode?: iNodeStreamFn<NoInfer<Ti>>;
+	updateNode?: iNodeFn<NoInfer<Ti>> | iNodeStreamFn<NoInfer<Ti>>;
 	/**
 	 * Function used to delete a node
 	 */
-	deleteNode?: iNodeStreamFn<NoInfer<Ti>>;
+	deleteNode?: iNodeFn<NoInfer<Ti>> | iNodeStreamFn<NoInfer<Ti>>;
 	/**
 	 * Function used to duplicate a node
 	 */
-	cloneNode?: iNodeStreamFn<NoInfer<Ti>>;
+	cloneNode?: iNodeFn<NoInfer<Ti>> | iNodeStreamFn<NoInfer<Ti>>;
 	/**
 	 * Function used to create a node children
 	 *
 	 * Useful to display the add button for the default slot contents
 	 */
-	createNodeChildren?: iNodeStreamFn<NoInfer<Ti>>;
+	createNodeChildren?: iNodeFn<NoInfer<Ti>> | iNodeStreamFn<NoInfer<Ti>>;
 	swal?: {
 		// Update node swal texts
 		updatedTitle?: string;
@@ -395,7 +395,7 @@ export interface iMappedNode<Ti extends Record<string, any>, Tm extends Record<s
 	index: number;
 	visibility: iNodeVisibility;
 	hydrateNode: (newNode: Ti | null, _newErrors?: unknown) => void;
-	createNodeChildrenAndRefresh: iNodeStreamFn<Ti>;
+	createNodeChildrenAndRefresh: iNodeFn<Ti>;
 }
 
 export interface iMappedNodes<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti> {

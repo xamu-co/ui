@@ -249,6 +249,8 @@
 					}
 
 					// If has content, prefer hydration over refreshing
+					// For some reason table doesn't always hydrate correctly (key issue?)
+					// TODO: Address inconsistent content table hydration
 					if (emittedHasContent.value && emittedHydrateNodes.value && updatedNodes) {
 						emittedHydrateNodes.value(updatedNodes);
 					} else if (!props.omitRefresh) refreshData();
