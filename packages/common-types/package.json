@@ -1,6 +1,6 @@
 {
   "name": "@open-xamu-co/ui-common-types",
-  "version": "4.0.0-next.2",
+  "version": "4.0.0-next.3",
   "description": "Xamu shared types",
   "author": "@xamu-co",
   "main": "src/index.ts",
@@ -31,7 +31,7 @@
     "build:legacy": "rimraf dist && tsc --outDir dist --declaration --emitDeclarationOnly"
   },
   "dependencies": {
-    "@open-xamu-co/ui-common-enums": "^3.1.0-next.1",
+    "@open-xamu-co/ui-common-enums": "^4.0.0-next.1",
     "@fortawesome/fontawesome-common-types": "^6.4.0",
     "sweetalert2": "^11.11.1"
   },
