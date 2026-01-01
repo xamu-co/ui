@@ -9,12 +9,13 @@ import type {
 	tThemeTuple,
 	tSizeModifier,
 	iProperty,
-	iNodeFn,
+	iNodeStreamFn,
 	tOrderBy,
 	tPropertyOrderFn,
 	tOrder,
 	iPageInfo,
 	iPagination,
+	iNodeFn,
 } from "@open-xamu-co/ui-common-types";
 import type { AllowedComponentProps, RendererElement } from "vue";
 import type { vComponent } from "./plugin";
@@ -284,21 +285,43 @@ export interface iTableProps<
 	/**
 	 * Function used to update a node
 	 */
-	updateNode?: iNodeFn<NoInfer<Ti>>;
+	updateNode?: iNodeStreamFn<NoInfer<Ti>>;
 	/**
 	 * Function used to delete a node
 	 */
-	deleteNode?: iNodeFn<NoInfer<Ti>>;
+	deleteNode?: iNodeStreamFn<NoInfer<Ti>>;
 	/**
 	 * Function used to duplicate a node
 	 */
-	cloneNode?: iNodeFn<NoInfer<Ti>>;
+	cloneNode?: iNodeStreamFn<NoInfer<Ti>>;
 	/**
 	 * Function used to create a node children
 	 *
 	 * Useful to display the add button for the default slot contents
 	 */
-	createNodeChildren?: iNodeFn<NoInfer<Ti>>;
+	createNodeChildren?: iNodeStreamFn<NoInfer<Ti>>;
+	swal?: {
+		// Update node swal texts
+		updatedTitle?: string;
+		updatedText?: string;
+		notUpdatedTitle?: string;
+		notUpdatedText?: string;
+		// Clone node swal texts
+		clonedTitle?: string;
+		clonedText?: string;
+		notClonedTitle?: string;
+		notClonedText?: string;
+		// Delete node swal texts
+		deletedTitle?: string;
+		deletedText?: string;
+		notDeletedTitle?: string;
+		notDeletedText?: string;
+		// Create node children swal texts
+		createdChildrenTitle?: string;
+		createdChildrenText?: string;
+		notCreatedChildrenTitle?: string;
+		notCreatedChildrenText?: string;
+	};
 	/**
 	 * Conditionally disable creating children for this particular property
 	 */
@@ -372,7 +395,7 @@ export interface iMappedNode<Ti extends Record<string, any>, Tm extends Record<s
 	index: number;
 	visibility: iNodeVisibility;
 	hydrateNode: (newNode: Ti | null, _newErrors?: unknown) => void;
-	createNodeChildrenAndRefresh: iNodeFn<Ti>;
+	createNodeChildrenAndRefresh: iNodeStreamFn<Ti>;
 }
 
 export interface iMappedNodes<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti> {

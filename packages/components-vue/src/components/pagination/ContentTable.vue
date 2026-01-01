@@ -50,7 +50,6 @@
 					:error-message="renderErrorMessage"
 				>
 					<TableSimple
-						:key="JSON.stringify({ url, defaults, length: content?.length })"
 						:nodes="content"
 						:refresh="refreshData"
 						:class="tableClass"
@@ -108,11 +107,12 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
-	import { ref } from "vue";
+	import { ref, onActivated, onDeactivated } from "vue";
 
 	import type {
 		iGetPage,
 		iNodeFn,
+		iNodeStreamFn,
 		tThemeModifier,
 		tThemeTuple,
 	} from "@open-xamu-co/ui-common-types";
@@ -159,10 +159,15 @@
 		 * @example --txtColor
 		 */
 		modalClass?: string | string[] | Record<string, boolean>;
-		/**
-		 * Function used to create a node
-		 */
-		createNode?: iNodeFn<NoInfer<Ti>, []>;
+		/** Function used to create a node */
+		createNode?: iNodeStreamFn<NoInfer<Ti>, []>;
+		swal?: {
+			// Create node swal texts
+			createdTitle?: string;
+			createdText?: string;
+			notCreatedTitle?: string;
+			notCreatedText?: string;
+		};
 		/**
 		 * Prevent node functions from triggering refresh event (useful with firebase hydration)
 		 */
@@ -185,6 +190,7 @@
 	const { t } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
 
+	const deactivated = ref<boolean>(false);
 	const emittedRefresh = ref<() => void>();
 	const emittedHasContent = ref<boolean>();
 	const emittedContent = ref<T[] | null>();
@@ -219,33 +225,32 @@
 	 *
 	 * @single
 	 */
-	async function createNodeAndRefresh() {
-		// display loader
+	const createNodeAndRefresh: iNodeFn<T> = async function () {
+		// Display loader
 		Swal.fireLoader();
 
-		// run process
-		const response = await useResolveNodeFn(props.createNode?.());
-		const [created, event, closeModal] = response;
+		// Run process, get created node
+		const [createdStream, event, closeModal] = await useResolveNodeFn(props.createNode?.());
+		const [created, ...stream] = Array.isArray(createdStream) ? createdStream : [createdStream];
+		let updatedNodes: T[] | undefined;
 
-		// unfinished task
+		// Unfinished task
 		if (typeof created === "undefined" || created === null) {
 			if (Swal.isLoading()) Swal.close();
 		} else if (created) {
 			Swal.fire({
 				icon: "success",
-				title: t("swal.table_created"),
-				text: t("swal.table_created_text"),
+				title: props.swal?.createdTitle || t("swal.table_created"),
+				text: props.swal?.createdText || t("swal.table_created_text"),
 				willOpen() {
-					let createdNodes: T[] | undefined;
-
 					// Prepend single new element
 					if (typeof created === "object" && created.id) {
-						createdNodes = [created, ...(emittedContent.value || [])];
+						updatedNodes = [created, ...(emittedContent.value || [])];
 					}
 
 					// If has content, prefer hydration over refreshing
-					if (emittedHasContent.value && emittedHydrateNodes.value && createdNodes) {
-						emittedHydrateNodes.value(createdNodes);
+					if (emittedHasContent.value && emittedHydrateNodes.value && updatedNodes) {
+						emittedHydrateNodes.value(updatedNodes);
 					} else if (!props.omitRefresh) refreshData();
 
 					closeModal?.();
@@ -255,12 +260,40 @@
 			// Error, possibly not created
 			Swal.fire({
 				icon: "warning",
-				title: t("swal.table_possibly_not_created"),
-				text: t("swal.table_possibly_not_created_text"),
+				title: props.swal?.notCreatedTitle || t("swal.table_possibly_not_created"),
+				text: props.swal?.notCreatedText || t("swal.table_possibly_not_created_text"),
 				target: event,
 			});
 		}
 
-		return response;
-	}
+		// Hydration stream, do not await
+		Promise.all(
+			stream.map(async (next) => {
+				const created = await next;
+
+				// Bypass hydration
+				if (!created || deactivated.value) return;
+
+				// Update single element
+				if (typeof created === "object" && created.id && updatedNodes) {
+					// Replace the node with the updated one
+					const nodeIndex = updatedNodes.findIndex((n) => n.id === created.id);
+
+					updatedNodes = updatedNodes.toSpliced(nodeIndex, 1, {
+						...updatedNodes[nodeIndex],
+						...created,
+					});
+
+					// Hydrate if possible
+					emittedHydrateNodes.value?.(updatedNodes);
+				}
+			})
+		);
+
+		return [created, event, closeModal];
+	};
+
+	// lifecycle
+	onActivated(() => (deactivated.value = false));
+	onDeactivated(() => (deactivated.value = true));
 </script>
