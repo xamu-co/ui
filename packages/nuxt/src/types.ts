@@ -22,6 +22,8 @@ export interface XamuModuleOptions extends Omit<iVuePluginOptions, "internals"> 
 	disableCountriesModule?: boolean;
 }
 
+export type Stylesheet = string | { href: string; tagPriority?: number };
+
 declare module "nuxt/schema" {
 	interface AppConfigInput {
 		xamu?: XamuModuleOptions;
