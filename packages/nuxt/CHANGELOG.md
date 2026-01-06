@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.1...@open-xamu-co/ui-nuxt-v4.0.0-next.2) (2026-01-06)
+
+
+### Features
+
+* expose stylesheet preload function on module ([56dbf1f](https://github.com/xamu-co/ui/commit/56dbf1fe6b2fa12b6776add6dcda86524ea84fd1))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0-next.4...@open-xamu-co/ui-nuxt-v4.0.0-next.1) (2025-12-17)
 
 
