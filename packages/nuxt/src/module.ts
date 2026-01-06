@@ -14,23 +14,26 @@ import camelCase from "lodash-es/camelCase";
 import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";
 
-import type { XamuModuleOptions } from "./types";
+import type { Stylesheet, XamuModuleOptions } from "./types";
+
+export * from "./types";
 
 /**
  * Preload stylesheet and once loaded call them
  * @param {string} href - Resource url
  * @returns {object} Link object
  */
-function getStyleSheetPreload(href: string) {
+export function getStyleSheetPreload(href: Stylesheet) {
 	return {
 		rel: "preload",
 		as: "style" as const,
 		onload: "this.onload=null;this.rel='stylesheet'",
-		href,
+		href: typeof href === "string" ? href : href.href,
+		tagPriority: typeof href === "object" ? href.tagPriority : undefined,
 	};
 }
 
-const stylesheets: string[] = [
+const stylesheets: Stylesheet[] = [
 	"https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css",
 	"https://unpkg.com/sweetalert2@^11/dist/sweetalert2.min.css",
 ];

@@ -91,7 +91,7 @@ const subNodes = [
 		reference: "00000001-00000002",
 		createdAt: "2024-09-29T22:20:51.313Z",
 		updatedAt: "2024-09-29T22:20:51.313Z",
-		id: "variants/8O2IV0MCEgcy2aAFcc0b",
+		id: "variants/8O2IV0MCEgcy2aAGcc0b",
 		images: ["/vite.svg"],
 		values: [
 			{ name: "color", value: "ROJO" },
