@@ -25,12 +25,12 @@ export interface XamuModuleOptions extends Omit<iVuePluginOptions, "internals"> 
 export type Stylesheet = string | { href: string; tagPriority?: number };
 
 declare module "nuxt/schema" {
-	interface AppConfigInput {
-		xamu?: XamuModuleOptions;
+	interface PublicRuntimeConfig {
+		xamu: XamuModuleOptions;
 	}
 }
 declare module "@nuxt/schema" {
-	interface AppConfigInput {
-		xamu?: XamuModuleOptions;
+	interface PublicRuntimeConfig {
+		xamu: XamuModuleOptions;
 	}
 }
