@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.3...@open-xamu-co/ui-nuxt-v4.0.0-next.4) (2026-01-07)
+
+
+### Bug Fixes
+
+* use runtime config to inject xamu ([c57a1af](https://github.com/xamu-co/ui/commit/c57a1af31d54b2a839314f22d04d650ae972c14d))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.2...@open-xamu-co/ui-nuxt-v4.0.0-next.3) (2026-01-07)
 
 
