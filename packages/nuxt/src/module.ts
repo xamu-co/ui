@@ -66,10 +66,22 @@ export default defineNuxtModule<XamuModuleOptions>({
 		const runtimePath = resolve("./runtime");
 
 		// Setup nuxt options
-		nuxt.options.vite.resolve = { ...nuxt.options.vite.resolve, preserveSymlinks: true };
-
-		// @ts-ignore Inject plugin options
-		nuxt.options.appConfig.xamu = moduleOptions;
+		nuxt.options.vite.resolve = {
+			...nuxt.options.vite.resolve,
+			preserveSymlinks: true,
+			dedupe: [
+				...(nuxt.options.vite.resolve?.dedupe || []),
+				"@open-xamu-co/ui-components-vue",
+			],
+		};
+		nuxt.options.runtimeConfig.public.xamu = moduleOptions;
+		nuxt.options.router.options = {
+			...nuxt.options.router.options,
+			linkActiveClass: "is--route",
+			linkExactActiveClass: "is--routeExact",
+			scrollBehaviorType: "smooth",
+		};
+		nuxt.options.app.keepalive = true;
 
 		if (!moduleOptions.disableCSSMeta) {
 			// inject css meta tags
