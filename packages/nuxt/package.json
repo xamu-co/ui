@@ -23,7 +23,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types.d.mts",
+      "types": "./dist/module.d.mts",
       "import": "./dist/module.mjs",
       "default": "./dist/module.mjs"
     }
