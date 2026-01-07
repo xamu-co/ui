@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.2...@open-xamu-co/ui-nuxt-v4.0.0-next.3) (2026-01-07)
+
+
+### Bug Fixes
+
+* dedupe components ([03e9aae](https://github.com/xamu-co/ui/commit/03e9aae469c280cd5f0391b05c870652a1be4572))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.1...@open-xamu-co/ui-nuxt-v4.0.0-next.2) (2026-01-06)
 
 
