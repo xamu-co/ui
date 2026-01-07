@@ -74,7 +74,7 @@ export default defineNuxtModule<XamuModuleOptions>({
 				"@open-xamu-co/ui-components-vue",
 			],
 		};
-		nuxt.options.runtimeConfig.public.xamu = moduleOptions;
+		nuxt.options.runtimeConfig.public.xamu = moduleOptions as any;
 		nuxt.options.router.options = {
 			...nuxt.options.router.options,
 			linkActiveClass: "is--route",
