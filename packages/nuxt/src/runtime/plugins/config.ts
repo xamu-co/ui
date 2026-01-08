@@ -1,10 +1,12 @@
 /* eslint-disable import/no-unresolved */
 
 import type { iVuePluginOptions } from "@open-xamu-co/ui-components-vue/plugin";
-import type { tLogger } from "@open-xamu-co/ui-common-types";
 
 import { defineNuxtPlugin, useRuntimeConfig, useAsyncData } from "#imports";
 import { NuxtLink, NuxtImg, ClientOnly } from "#components";
+
+// Virtual file
+import { withLogger, useXamuUILogger } from "#build/ui-nuxt.mjs";
 
 export default defineNuxtPlugin(({ vueApp }) => {
 	const options = useRuntimeConfig().public.xamu as iVuePluginOptions;
@@ -23,9 +25,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
 	};
 
 	// Logger with nuxt context
-	if (options.logger) {
-		xamu.logger = (...args: Parameters<tLogger>) => options.logger?.(...args);
-	}
+	if (withLogger) xamu.logger = useXamuUILogger;
 
 	vueApp.provide("xamu", xamu);
 
