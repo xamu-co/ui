@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.4...@open-xamu-co/ui-nuxt-v4.0.0-next.5) (2026-01-08)
+
+
+### Bug Fixes
+
+* avoid logger serialization ([8056197](https://github.com/xamu-co/ui/commit/8056197fcb076d7b2a3aad95443b5e71edbbd23c))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.3...@open-xamu-co/ui-nuxt-v4.0.0-next.4) (2026-01-07)
 
 
