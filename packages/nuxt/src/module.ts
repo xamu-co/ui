@@ -1,20 +1,20 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
 	defineNuxtModule,
 	addPlugin,
 	addComponent,
 	createResolver,
-	installModule,
 	addImports,
 	addImportsDir,
 } from "@nuxt/kit";
 import upperFirst from "lodash-es/upperFirst";
 import camelCase from "lodash-es/camelCase";
+import omit from "lodash-es/omit";
 
 import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";
 
 import type { Stylesheet, XamuModuleOptions } from "./types";
+import type { ModuleDependencyMeta } from "nuxt/schema";
 
 export * from "./types";
 
@@ -40,9 +40,6 @@ const stylesheets: Stylesheet[] = [
 
 /**
  * Nuxt module for @open-xamu-co/ui
- *
- * TODO: Update to 1.0.0 as soon as async moduleDependencies are supported
- * @see https://github.com/nuxt/nuxt/pull/33504
  */
 export default defineNuxtModule<XamuModuleOptions>({
 	meta: {
@@ -61,7 +58,7 @@ export default defineNuxtModule<XamuModuleOptions>({
 		countriesUrl: "/_countries",
 	},
 	async setup(moduleOptions, nuxt) {
-		const { globalComponents, componentPrefix, image, countriesUrl } = moduleOptions;
+		const { globalComponents, componentPrefix } = moduleOptions;
 		const { resolve } = createResolver(import.meta.url);
 		const runtimePath = resolve("./runtime");
 
@@ -74,7 +71,12 @@ export default defineNuxtModule<XamuModuleOptions>({
 				"@open-xamu-co/ui-components-vue",
 			],
 		};
-		nuxt.options.runtimeConfig.public.xamu = moduleOptions as any;
+		nuxt.options.runtimeConfig.public.xamu = omit(moduleOptions, [
+			"image",
+			"imageHost",
+			"disableCountriesModule",
+			"disableCSSMeta",
+		]);
 		nuxt.options.router.options = {
 			...nuxt.options.router.options,
 			linkActiveClass: "is--route",
@@ -97,30 +99,6 @@ export default defineNuxtModule<XamuModuleOptions>({
 
 		// Register components config plugin
 		addPlugin(resolve(runtimePath, "plugins", "config"));
-
-		await installModule("@nuxt/image", {
-			provider: "ipx",
-			presets: { avatar: { modifiers: { width: 60, height: 60 } } },
-			format: ["webp", "jpg"],
-			// override defaults
-			...image,
-		});
-
-		if (
-			countriesUrl &&
-			!countriesUrl?.includes("countries.xamu.com.co") &&
-			!moduleOptions.disableCountriesModule
-		) {
-			let pathname = countriesUrl;
-
-			try {
-				pathname = new URL(countriesUrl).pathname;
-			} catch (err) {
-				// Do nothing, will crash if pathname only
-			}
-
-			await installModule("nuxt-countries-api", { base: pathname });
-		}
 
 		// Filter and register components if enabled
 		if (globalComponents) {
@@ -145,5 +123,45 @@ export default defineNuxtModule<XamuModuleOptions>({
 
 		// Other composables, config required
 		addImportsDir(resolve(runtimePath, "composables"));
+	},
+	moduleDependencies(nuxt) {
+		const {
+			countriesUrl = "/_countries",
+			disableCountriesModule,
+			image,
+		} = nuxt.options.xamu || {};
+
+		const dependencies: Record<string, ModuleDependencyMeta<Record<string, unknown>>> = {
+			"@nuxt/image": {
+				version: ">=1.0.0",
+				defaults: {
+					provider: "ipx",
+					presets: { avatar: { modifiers: { width: 60, height: 60 } } },
+					format: ["webp", "jpg"],
+					...image,
+				},
+			},
+		};
+
+		if (
+			countriesUrl &&
+			!countriesUrl?.includes("countries.xamu.com.co") &&
+			!disableCountriesModule
+		) {
+			let pathname = countriesUrl;
+
+			try {
+				pathname = new URL(countriesUrl).pathname;
+			} catch (err) {
+				// Do nothing, will crash if pathname only
+			}
+
+			dependencies["nuxt-countries-api"] = {
+				version: ">=1.0.0",
+				defaults: { base: pathname },
+			};
+		}
+
+		return dependencies;
 	},
 });
