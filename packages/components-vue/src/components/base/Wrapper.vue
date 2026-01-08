@@ -23,7 +23,7 @@
 	defineOptions({ name: "BaseWrapper", inheritAttrs: false });
 	withDefaults(
 		defineProps<{
-			/** Wheter or not render the wrapper */
+			/** Whether or not render the wrapper */
 			wrap: boolean;
 			/** Component or tag to render as wrapper */
 			wrapper?: vComponent | typeof Teleport | string;

@@ -207,7 +207,7 @@
 	const formInputs = ref<Record<string, iForm>>({});
 	const loading = ref(true);
 	/**
-	 * Wheter external changes are comming to stages
+	 * Whether external changes are comming to stages
 	 */
 	const lastListened = ref<string>();
 	/**
