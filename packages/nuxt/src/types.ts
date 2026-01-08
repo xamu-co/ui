@@ -20,6 +20,12 @@ export interface XamuModuleOptions extends Omit<iVuePluginOptions, "internals"> 
 	 * Disable NUXT countries module
 	 */
 	disableCountriesModule?: boolean;
+	/**
+	 * Logger function
+	 *
+	 * A virtual file is created to bypass nuxt serialization, so the context may not be as expected
+	 */
+	logger?: iVuePluginOptions["logger"];
 }
 
 export type Stylesheet = string | { href: string; tagPriority?: number };

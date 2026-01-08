@@ -5,6 +5,7 @@ import {
 	createResolver,
 	addImports,
 	addImportsDir,
+	addTemplate,
 } from "@nuxt/kit";
 import upperFirst from "lodash-es/upperFirst";
 import camelCase from "lodash-es/camelCase";
@@ -56,8 +57,24 @@ export default defineNuxtModule<XamuModuleOptions>({
 		lang: "en",
 		first: 10,
 		countriesUrl: "/_countries",
+		swal: {
+			overrides: {
+				customClass: {
+					confirmButton: ["bttn"],
+					cancelButton: ["bttnToggle"],
+					denyButton: ["link"],
+				},
+			},
+			preventOverrides: {
+				customClass: {
+					confirmButton: ["bttn", "--tm-danger-light"],
+					cancelButton: ["bttnToggle"],
+					denyButton: ["link"],
+				},
+			},
+		},
 	},
-	async setup(moduleOptions, nuxt) {
+	async setup({ logger, ...moduleOptions }, nuxt) {
 		const { globalComponents, componentPrefix } = moduleOptions;
 		const { resolve } = createResolver(import.meta.url);
 		const runtimePath = resolve("./runtime");
@@ -96,6 +113,18 @@ export default defineNuxtModule<XamuModuleOptions>({
 				...stylesheets.map(getStyleSheetPreload)
 			);
 		}
+
+		// Logger
+		addTemplate({
+			filename: "ui-nuxt.mjs",
+			getContents: () => `
+				/** Logger is present */
+				export const withLogger = ${!!logger};
+				export function useXamuUILogger(...args) {
+					return (${logger?.toString() || "() => {}"})(...args)
+				}
+			`,
+		});
 
 		// Register components config plugin
 		addPlugin(resolve(runtimePath, "plugins", "config"));
