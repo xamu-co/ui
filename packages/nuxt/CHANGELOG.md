@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.5...@open-xamu-co/ui-nuxt-v4.0.0-next.6) (2026-01-08)
+
+
+### Bug Fixes
+
+* remove unscoped schema ([31ab5d4](https://github.com/xamu-co/ui/commit/31ab5d48bf9355cf8ba9d7ae38c2e092b4bda5c8))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.4...@open-xamu-co/ui-nuxt-v4.0.0-next.5) (2026-01-08)
 
 
