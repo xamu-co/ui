@@ -8,6 +8,8 @@ import type { iVuePluginOptions } from "@open-xamu-co/ui-components-vue/plugin";
 export interface XamuModuleOptions extends Omit<iVuePluginOptions, "internals"> {
 	/**
 	 * Nuxt image module options
+	 *
+	 * @deprecated Use @nuxt/image module options instead
 	 */
 	image?: Partial<NuxtImageOptions>;
 	/**

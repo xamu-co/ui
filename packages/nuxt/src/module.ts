@@ -154,11 +154,7 @@ export default defineNuxtModule<XamuModuleOptions>({
 		addImportsDir(resolve(runtimePath, "composables"));
 	},
 	moduleDependencies(nuxt) {
-		const {
-			countriesUrl = "/_countries",
-			disableCountriesModule,
-			image,
-		} = nuxt.options.xamu || {};
+		const { countriesUrl = "/_countries", disableCountriesModule } = nuxt.options.xamu || {};
 
 		const dependencies: Record<string, ModuleDependencyMeta<Record<string, unknown>>> = {
 			"@nuxt/image": {
@@ -167,7 +163,6 @@ export default defineNuxtModule<XamuModuleOptions>({
 					provider: "ipx",
 					presets: { avatar: { modifiers: { width: 60, height: 60 } } },
 					format: ["webp", "jpg"],
-					...image,
 				},
 			},
 		};
