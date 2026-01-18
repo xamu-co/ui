@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.5...@open-xamu-co/ui-components-vue-v4.0.0-next.6) (2026-01-18)
+
+
+### Bug Fixes
+
+* bump core dependencies ([3d88b97](https://github.com/xamu-co/ui/commit/3d88b97491601c8cfbeb558d5ef5e24ba4e55f08))
+
+
+### Features
+
+* code editor support ([b08239d](https://github.com/xamu-co/ui/commit/b08239ddef1dd5bc928db630211cddd11ae1ea47))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.6"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.4...@open-xamu-co/ui-components-vue-v4.0.0-next.5) (2026-01-08)
 
 

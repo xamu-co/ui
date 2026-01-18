@@ -1,6 +1,6 @@
 {
   "name": "@open-xamu-co/ui-components-vue",
-  "version": "4.0.0-next.5",
+  "version": "4.0.0-next.6",
   "description": "Vue component system for the xamu project",
   "scripts": {
     "build:entries": "rimraf dist && vite build",
@@ -64,8 +64,8 @@
     "@codemirror/lang-markdown": "^6.5.0",
     "@fortawesome/fontawesome-common-types": "^6.4.0",
     "@fsegurai/codemirror-theme-material-light": "^6.2.3",
-    "@open-xamu-co/ui-common-enums": "^4.0.0-next.1",
-    "@open-xamu-co/ui-common-helpers": "^4.0.0-next.3",
+    "@open-xamu-co/ui-common-enums": "^4.0.0-next.2",
+    "@open-xamu-co/ui-common-helpers": "^4.0.0-next.4",
     "codemirror": "^6.0.2",
     "lodash-es": "^4.17.21",
     "markdown-it": "^14.1.0",
@@ -83,8 +83,8 @@
     "vue-color": "^3.3.1"
   },
   "devDependencies": {
-    "@open-xamu-co/ui-common-types": "^4.0.0-next.3",
-    "@open-xamu-co/ui-styles": "^5.0.0-next.3",
+    "@open-xamu-co/ui-common-types": "^4.0.0-next.4",
+    "@open-xamu-co/ui-styles": "^5.0.0-next.4",
     "@playwright/test": "^1.57.0",
     "@storybook/addon-docs": "^10.1.9",
     "@storybook/addon-links": "^10.1.9",
