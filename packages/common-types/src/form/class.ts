@@ -31,7 +31,7 @@ export declare abstract class tFormInputDefault<
 	public setRerender(rerender: (fi?: Partial<iFormInputDefault<T>>) => void): this;
 }
 
-export declare class tFormInput<
+export declare abstract class tFormInput<
 	V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
 	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
 		| eFormTypeBase
@@ -47,6 +47,7 @@ export declare class tFormInput<
 	public readonly multiple: boolean;
 	public readonly min: number;
 	public readonly max: number;
+	public readonly meta?: Record<string, any>;
 	// public
 	public options: iSelectOption[];
 	public values: V[];

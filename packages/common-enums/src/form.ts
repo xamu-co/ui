@@ -4,34 +4,36 @@ export enum eFormTypeBase {
 }
 
 export enum eFormTypeSimple {
-	// select, options are required
+	// Select, options are required
 	SELECT = "SELECT",
 	SELECT_FILTER = "SELECT_FILTER",
 	CHOICE = "CHOICE",
-	// file
+	// File
 	FILE = "FILE",
-	// boolean
+	// Boolean
 	BOOLEAN = "BOOLEAN",
-	// text
+	// Text
 	TEXT = "TEXT",
 	EMAIL = "EMAIL",
 	NUMBER = "NUMBER",
 	PASSWORD = "PASSWORD",
-	// longtext
+	// Longtext
 	LONGTEXT = "LONGTEXT",
-	// color
+	// Code
+	CODE = "CODE",
+	// Color
 	COLOR = "COLOR",
 }
 
 export enum eFormTypeComplex {
-	// new password
+	// New password
 	NEW_PASSWORD = "NEW_PASSWORD",
-	// phone
+	// Cellphone
 	CELLPHONE = "CELLPHONE",
 	PHONE = "PHONE",
-	// id
+	// Id
 	ID = "ID",
-	// schedule
+	// Schedule
 	SCHEDULE = "SCHEDULE",
 	/**
 	 * Single value means country, 3 values mean country, state, city

@@ -152,6 +152,10 @@ export interface iFormInput<
 	 * if multiple is set to true this optional value would be the mandatory maximun amount of values
 	 */
 	max?: number;
+	/**
+	 * Additional input metadata
+	 */
+	meta?: Record<string, any>;
 }
 
 /**

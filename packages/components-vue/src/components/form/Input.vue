@@ -48,13 +48,13 @@
 								input.options.length,
 								input.defaults?.[i]?.placeholder,
 								input.defaults?.[i]?.type,
-								i + index,
+								i + Number(index),
 							].join('-')
 						"
 						:input="
 							input
 								.clone({
-									...input.defaults[index], // sub input
+									...input.defaults[Number(index)], // sub input
 									multiple: false,
 									defaults: undefined,
 									values: [models[i].value[index]],
@@ -66,7 +66,7 @@
 						:invalid="invalid"
 						:model-value="[model]"
 						:disabled="readonly"
-						@update:model-value="updateArrModel(i, index, $event[0])"
+						@update:model-value="updateArrModel(i, Number(index), $event[0])"
 					/>
 				</div>
 				<FormInputNValues
@@ -262,6 +262,11 @@
 					:theme="theme"
 					:disabled="readonly"
 				/>
+				<BoxEditor
+					v-else-if="input.type === eFT.CODE"
+					v-model="models[i].value"
+					v-bind="{ input, theme, readonly }"
+				/>
 				<!-- Future outer loop input -->
 				<InputText
 					v-else
@@ -309,6 +314,7 @@
 	import SelectSimple from "../select/Simple.vue";
 	import SelectFilter from "../select/Filter.vue";
 	import SelectChoice from "../select/Choice.vue";
+	import BoxEditor from "../box/Editor.vue";
 
 	// input helper components
 	import FormInputOptions from "./InputOptions.vue";

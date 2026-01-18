@@ -1,4 +1,6 @@
 import type { Component as VueComponent, DefineComponent, FunctionalComponent } from "vue";
+import type { Extension } from "@codemirror/state";
+
 import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 
 import type { useAsyncDataFn } from "../composables/async";
@@ -12,8 +14,15 @@ export interface iVuePluginOptions extends iPluginOptions<vComponent> {
 	/**
 	 * Override internal behavior
 	 * Useful to setup nuxt modules
+	 *
+	 * @private
 	 */
 	internals?: iPluginOptions<vComponent>["internals"] & {
+		/**
+		 * Default CodeMirror editor theme
+		 * @default @fsegurai/codemirror-theme-material-light
+		 */
+		editorTheme?: Extension;
 		/**
 		 * Client only component
 		 */

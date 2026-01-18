@@ -57,6 +57,10 @@
 		@if module.$component-input-color {
 			@include forward.input-color;
 		}
+
+		@if module.$component-input-code {
+			@include forward.input-code;
+		}
 	}
 
 	@if module.$component-link {
