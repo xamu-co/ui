@@ -8,7 +8,7 @@
 		>
 			<slot name="toggle" v-bind="{ model, setModel }"></slot>
 		</div>
-		<Modal
+		<ModalSimple
 			v-model="localModel"
 			v-bind="{ ...modalProps, theme, invertTheme, disabled: !isModal }"
 		>
@@ -51,7 +51,7 @@
 					}"
 				></slot>
 			</template>
-		</Modal>
+		</ModalSimple>
 	</BaseWrapper>
 </template>
 
@@ -61,7 +61,7 @@
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseWrapper from "../base/Wrapper.vue";
-	import Modal from "../modal/Simple.vue";
+	import ModalSimple from "../modal/Simple.vue";
 
 	import type { vComponent } from "../../types/plugin";
 	import type { iModalProps, iUseModifiersProps, iUseThemeProps } from "../../types/props";

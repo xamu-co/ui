@@ -25,7 +25,7 @@
 					<b :class="`--txtColor-${themeValues[0]}`">{{ value.length }}</b>
 					⋅
 				</div>
-				<Modal
+				<ModalSimple
 					v-if="value.every((v) => typeof v === 'object') || value.length > 3"
 					class="--txtSize"
 					:title="property?.alias"
@@ -53,7 +53,7 @@
 							:delete-node="property?.deleteNode"
 						/>
 					</template>
-				</Modal>
+				</ModalSimple>
 				<div v-else class="flx --flxRow --flx-start-center --gap-5">
 					<template v-for="(childValue, childIndex) in value" :key="childIndex">
 						<ValueSimple
@@ -109,7 +109,7 @@
 				</template>
 			</div>
 			<!-- Any other object -->
-			<Modal
+			<ModalSimple
 				v-else
 				class="--txtSize"
 				:title="property?.alias"
@@ -158,7 +158,7 @@
 						verbose
 					/>
 				</template>
-			</Modal>
+			</ModalSimple>
 		</template>
 		<!-- Plain value -->
 		<ValueSimple
@@ -185,7 +185,7 @@
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
 	import ValueSimple from "./Simple.vue";
 	import ValueList from "./List.vue";
-	import Modal from "../modal/Simple.vue";
+	import ModalSimple from "../modal/Simple.vue";
 	import TableSimple from "../table/Simple.vue";
 
 	import type { iValueComplexProps } from "../../types/props";

@@ -25,6 +25,7 @@ export { default as InputFile } from "./components/input/File.vue";
 export { default as InputText } from "./components/input/Text.vue";
 export { default as InputToggle } from "./components/input/Toggle.vue";
 export { default as InputColor } from "./components/input/Color.vue";
+export { default as InputCode } from "./components/input/Code.vue";
 
 // select
 export { default as Select } from "./components/select/Simple.vue";
@@ -39,6 +40,7 @@ export { default as ValueComplex } from "./components/value/Complex.vue";
 // box
 export { default as BoxAction } from "./components/box/Action.vue";
 export { default as BoxMessage } from "./components/box/Message.vue";
+export { default as BoxEditor } from "./components/box/Editor.vue";
 
 // loader
 export { default as Loader } from "./components/loader/Simple.vue";

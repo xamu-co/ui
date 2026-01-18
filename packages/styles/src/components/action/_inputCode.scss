@@ -1,0 +1,107 @@
+@use "module";
+@use "sass:meta";
+
+// Envuelve cada vista
+// this element is expected to be an <div>
+//
+// Codemirror editor fixes
+// Layers are not supported
+//
+// @group Components
+@mixin input-code {
+	.#{module.$component-input-code} {
+		.cm-editor {
+			background-color: transparent;
+			cursor: text;
+
+			.cm-content {
+				padding: 0;
+
+				// max-width: 100%;
+			}
+			.cm-activeLine {
+				background-color: transparent;
+			}
+			&.cm-focused {
+				box-shadow: none;
+			}
+			span,
+			.cm-line {
+				&::selection {
+					color: module.color(light);
+				}
+			}
+		}
+
+		// Normal editor
+		&:not(.--code) .cm-editor {
+			font-size: 1.1rem;
+			&.cm-focused {
+				.cm-activeLine {
+					background-color: transparent;
+				}
+			}
+			.cm-scroller {
+				font-family: module.family(default);
+			}
+			.cm-line {
+				padding: 0.3rem 0;
+			}
+		}
+
+		// Code editor
+		&.--code .cm-editor {
+			&.cm-focused {
+				.cm-activeLine {
+					border-radius: 0.3rem;
+				}
+			}
+			.cm-scroller {
+				font-family: module.family(code);
+			}
+			.cm-line {
+				padding: 0.3rem 0.3rem 0.3rem 0.4rem;
+			}
+		}
+
+		// theme
+		//
+		// @group Modifiers
+		@include module.extend-themes using($name, $value, $is-default) {
+			.cm-editor {
+				color: module.color($name);
+
+				.cm-placeholder {
+					color: module.color($name, 0.5);
+				}
+				span,
+				.cm-line {
+					&::selection {
+						background-color: module.color($name);
+					}
+				}
+			}
+
+			// Code editor
+			&.--code .cm-editor {
+				&.cm-focused {
+					.cm-activeLine {
+						background-color: module.color($name, 0.1);
+					}
+				}
+			}
+		}
+
+		// Theme override
+		//
+		// @group Modifiers
+		&.#{module.$prefix-default}--tm-light:not(.#{module.$status-no-override}) {
+			span,
+			.cm-line {
+				&::selection {
+					color: module.color(secondary);
+				}
+			}
+		}
+	}
+}

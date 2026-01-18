@@ -94,6 +94,24 @@
 						box-shadow: 3px 3px 9px module.color($name, 0.3);
 					}
 				}
+
+				&.#{module.$prefix-default}--input {
+					border-color: module.color($name, 0.1);
+
+					@layer defaults {
+						// @defaults txtColor
+						color: module.color($name);
+					}
+
+					&:hover {
+						border-color: module.color($name, 0.3);
+					}
+
+					&:focus,
+					&:focus-within {
+						border-color: module.color($name);
+					}
+				}
 			}
 
 			// button behavior

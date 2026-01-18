@@ -133,6 +133,12 @@ export const localeForm: tLocaleForm = {
 	form_invalid_data: "Invalid data",
 	form_no_values: "No values",
 	form_new_value: "New value",
+	form_editor_preview: "Rendered text",
+	form_editor_see_preview: "See rendered text",
+	form_editor_bold: "Bold",
+	form_editor_italic: "Italic",
+	form_editor_link: "Link",
+	form_editor_link_add_url: "Add URL",
 	// swal: {},
 };
 

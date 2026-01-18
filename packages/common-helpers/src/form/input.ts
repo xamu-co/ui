@@ -143,6 +143,7 @@ export class FormInput<
 	public readonly multiple: boolean;
 	public readonly min: number;
 	public readonly max: number;
+	public readonly meta: Record<string, any>;
 
 	/**
 	 * Form input constructor
@@ -164,6 +165,7 @@ export class FormInput<
 		this._options = formInput.options?.map(toOption) ?? [];
 		this._defaults = formInput.defaults;
 		this.min = formInput.min ?? 1;
+		this.meta = formInput.meta || {};
 
 		// max cannot be lower than min or more than options if they exist
 		const maxValue = this._options.length || formInput.max || 9e9;

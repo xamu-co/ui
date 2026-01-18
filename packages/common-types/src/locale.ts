@@ -202,6 +202,18 @@ export type tLocaleForm = {
 	form_no_values: string;
 	/** @example "New value" */
 	form_new_value: string;
+	/** @example "Rendered text" */
+	form_editor_preview: string;
+	/** @example "See rendered text" */
+	form_editor_see_preview: string;
+	/** @example "Bold" */
+	form_editor_bold: string;
+	/** @example "Italic" */
+	form_editor_italic: string;
+	/** @example "Link" */
+	form_editor_link: string;
+	/** @example "Add URL" */
+	form_editor_link_add_url: string;
 	// swal: {};
 };
 

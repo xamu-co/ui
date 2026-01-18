@@ -66,7 +66,7 @@
 			<span>{{ t("table_open_url") }}</span>
 		</ActionLink>
 		<!-- String, Long text -->
-		<Modal
+		<ModalSimple
 			v-else-if="typeof value === 'string' && value.length > maxLength"
 			class="--txtSize"
 			:title="property?.alias"
@@ -96,7 +96,7 @@
 					:class="classes"
 				/>
 			</template>
-		</Modal>
+		</ModalSimple>
 		<!-- Plain data, short string, number or no data -->
 		<span v-else :title="property?.alias">
 			{{
@@ -129,7 +129,7 @@
 	import InputToggle from "../input/Toggle.vue";
 	import InputColor from "../input/Color.vue";
 	import ActionLink from "../action/Link.vue";
-	import Modal from "../modal/Simple.vue";
+	import ModalSimple from "../modal/Simple.vue";
 	import BoxMessage from "../box/Message.vue";
 
 	import type { iModalProps, iUseThemeProps } from "../../types/props";
