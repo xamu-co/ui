@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.3...@open-xamu-co/ui-common-helpers-v4.0.0-next.4) (2026-01-18)
+
+
+### Features
+
+* code editor support ([b08239d](https://github.com/xamu-co/ui/commit/b08239ddef1dd5bc928db630211cddd11ae1ea47))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.4"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v4.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.2...@open-xamu-co/ui-common-helpers-v4.0.0-next.3) (2026-01-08)
 
 
