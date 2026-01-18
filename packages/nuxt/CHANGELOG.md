@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.6...@open-xamu-co/ui-nuxt-v4.0.0-next.7) (2026-01-18)
+
+
+### Bug Fixes
+
+* **module:** set deprecation flag for image config ([7539079](https://github.com/xamu-co/ui/commit/75390791f28bd68e5f19ff5e217c6fcf8e216ef6))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.5...@open-xamu-co/ui-nuxt-v4.0.0-next.6) (2026-01-08)
 
 
