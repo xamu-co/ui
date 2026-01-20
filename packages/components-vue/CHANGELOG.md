@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.6...@open-xamu-co/ui-components-vue-v4.0.0-next.7) (2026-01-20)
+
+
+### Bug Fixes
+
+* **vue:** allow tableProps.mapNodes to override mapNode ([3ba5d00](https://github.com/xamu-co/ui/commit/3ba5d00f6f45a5bafc2e6f5e5247d8688eab5ada))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.7"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.5...@open-xamu-co/ui-components-vue-v4.0.0-next.6) (2026-01-18)
 
 
