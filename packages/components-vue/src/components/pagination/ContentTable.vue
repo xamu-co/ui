@@ -215,8 +215,17 @@
 		emittedRefresh.value?.();
 	}
 
+	/**
+	 * Map nodes to table nodes
+	 * Allow tableProps.mapNodes to override mapNode
+	 *
+	 * @param nodes Array of nodes to map
+	 * @returns Array of mapped nodes
+	 */
 	function mapNodes(nodes: T[] = []): TM[] {
-		return nodes.map(props.mapNode);
+		const tableMapNodes = props.tableProps?.mapNodes;
+
+		return tableMapNodes ? tableMapNodes(nodes) : nodes.map(props.mapNode);
 	}
 
 	/**
