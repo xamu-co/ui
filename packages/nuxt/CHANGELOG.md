@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.7...@open-xamu-co/ui-nuxt-v4.0.0-next.8) (2026-01-21)
+
+
+### Features
+
+* expose useMarkdown composable ([b66ede9](https://github.com/xamu-co/ui/commit/b66ede9b28c3bfb7c811e4528fd7cfa42e7e3221))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.6...@open-xamu-co/ui-nuxt-v4.0.0-next.7) (2026-01-18)
 
 
