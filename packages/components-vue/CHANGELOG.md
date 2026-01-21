@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.7...@open-xamu-co/ui-components-vue-v4.0.0-next.8) (2026-01-21)
+
+
+### Bug Fixes
+
+* **vue:** properly handle filtered table nodes ([d07540b](https://github.com/xamu-co/ui/commit/d07540b9220731dc345e13080fc322f724869981))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.8"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.6...@open-xamu-co/ui-components-vue-v4.0.0-next.7) (2026-01-20)
 
 
