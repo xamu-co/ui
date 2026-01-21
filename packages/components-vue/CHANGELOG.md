@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.9...@open-xamu-co/ui-components-vue-v4.0.0-next.10) (2026-01-21)
+
+
+### Bug Fixes
+
+* **vue:** replace broken component import ([59da4be](https://github.com/xamu-co/ui/commit/59da4be748c3833ece2c9248a998f0130e9df1fa))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.10"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.8...@open-xamu-co/ui-components-vue-v4.0.0-next.9) (2026-01-21)
 
 
