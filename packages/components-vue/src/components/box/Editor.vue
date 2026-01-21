@@ -31,8 +31,8 @@
 							round
 							@click="useEditorBoldSelection"
 						>
-							<XamuIconFa name="bold" />
-							<XamuIconFa name="bold" />
+							<IconFa name="bold" />
+							<IconFa name="bold" />
 						</ActionButtonToggle>
 					</li>
 					<li>
@@ -43,8 +43,8 @@
 							round
 							@click="useEditorItalicSelection"
 						>
-							<XamuIconFa name="italic" />
-							<XamuIconFa name="italic" />
+							<IconFa name="italic" />
+							<IconFa name="italic" />
 						</ActionButtonToggle>
 					</li>
 					<li>
@@ -55,8 +55,8 @@
 							round
 							@click="useEditorLinkSelection"
 						>
-							<XamuIconFa name="link" />
-							<XamuIconFa name="link" />
+							<IconFa name="link" />
+							<IconFa name="link" />
 						</ActionButtonToggle>
 					</li>
 				</ul>
@@ -73,8 +73,8 @@
 							round
 							@click="() => (previewCode = !previewCode)"
 						>
-							<XamuIconFa name="eye" />
-							<XamuIconFa name="eye" />
+							<IconFa name="eye" />
+							<IconFa name="eye" />
 						</ActionButtonToggle>
 					</li>
 					<slot name="submit"></slot>
@@ -94,6 +94,7 @@
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseBox from "../base/Box.vue";
+	import IconFa from "../icon/Fa.vue";
 	import InputCode from "../input/Code.vue";
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
 
