@@ -1,11 +1,11 @@
 <template>
 	<!-- Table header -->
 
-	<thead v-if="mappedNodes.length">
+	<thead v-if="mappedNodes.nodes.length">
 		<tr class="--txtAlign" :class="`--txtSize-${size}`">
 			<!-- TODO: define filters, filter table contents -->
 			<th
-				v-if="mappedNodes.length > 1 || withDefaultSlot"
+				v-if="mappedNodes.nodes.length > 1 || withDefaultSlot"
 				class="--sticky"
 				:class="{ ['is--selected']: sort && !!ordering['id'] }"
 				data-column-name="id"
@@ -17,7 +17,7 @@
 						:id="tableId + 'select-all'"
 						:theme="theme || themeValues"
 						:title="t('table_select_all')"
-						:checked="selectedNodes.every(([n]) => n)"
+						:checked="selectedNodesCount === mappedNodes.nodes.length"
 						:size="size"
 						@update:model-value="toggleAll"
 					/>

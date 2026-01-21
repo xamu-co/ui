@@ -222,7 +222,7 @@
 	 * @param nodes Array of nodes to map
 	 * @returns Array of mapped nodes
 	 */
-	function mapNodes(nodes: T[] = []): TM[] {
+	function mapNodes(nodes: T[] = []): (TM | undefined)[] {
 		const tableMapNodes = props.tableProps?.mapNodes;
 
 		return tableMapNodes ? tableMapNodes(nodes) : nodes.map(props.mapNode);

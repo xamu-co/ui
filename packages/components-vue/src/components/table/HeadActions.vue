@@ -4,7 +4,7 @@
 		v-if="(!isReadOnly && nodes.length > 1) || withDefaultSlot || $slots.headActions"
 		:id="`${tableId}_actions`"
 		class="tbl --minWidth-100 table-actions"
-		:class="[{ '--nested': nested }, themeClasses]"
+		:class="[{ '--nested': nested }, themeClasses, $attrs.class]"
 		style="z-index: 2"
 	>
 		<thead>
@@ -73,7 +73,7 @@
 											tooltip-as-text
 											tooltip-position="bottom"
 											:theme="dangerThemeValues"
-											:disabled="!selectedNodes.some(([n]) => n)"
+											:disabled="!selectedNodesCount"
 											round=":sm-inv"
 											@click="() => deleteNodesAndRefresh()"
 										>

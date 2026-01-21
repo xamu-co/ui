@@ -9,7 +9,7 @@
 			<!-- Row item (Shows the item data) -->
 			<tr
 				class="--txtAlign"
-				:class="[`--txtSize-${size}`, { ['is--selected']: selectedNodes[index][0] }]"
+				:class="[`--txtSize-${size}`, { ['is--selected']: selectedNodes[mappedIndex] }]"
 			>
 				<th
 					v-if="mappedNodes.length > 1 || $slots.default"
@@ -27,7 +27,7 @@
 						<InputToggle
 							v-if="!isReadOnly"
 							:id="tableId + String(node.id ?? index)"
-							v-model="selectedNodes[mappedIndex][0]"
+							v-model="selectedNodes[mappedIndex]"
 							:theme="theme || themeValues"
 							:title="t('table_select')"
 							:size="size"
@@ -106,7 +106,7 @@
 							:theme="theme || themeValues"
 							:size="size"
 							round
-							:disabled="selectedNodes.some(([n]) => n)"
+							:disabled="!!selectedNodesCount"
 							@click="() => updateNodeAndRefresh(nodes[index])"
 						>
 							<IconFa name="pencil" />
@@ -125,7 +125,7 @@
 									:title="t('table_options')"
 									:theme="theme || themeValues"
 									:size="size"
-									:disabled="selectedNodes.some(([n]) => n)"
+									:disabled="!!selectedNodesCount"
 									toggle="dropdown"
 									@click="() => setModel()"
 								>
