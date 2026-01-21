@@ -1,65 +1,68 @@
 <template>
-	<template v-if="nodes.length || $slots.headActions">
-		<BaseErrorBoundary at="TableHeadActions" :theme="theme">
-			<TableHeadActions
-				v-bind="childrenProps"
-				:theme="opaque ? invertedThemeValues : theme"
-				:with-default-slot="!!$slots.default"
-			>
-				<template v-if="$slots.headActions" #headActions="headScope">
-					<slot name="headActions" v-bind="headScope"></slot>
-				</template>
-			</TableHeadActions>
-		</BaseErrorBoundary>
-		<BaseWrapper
-			class="--gap-none --p-10 --maxWidth-100"
-			:wrap="!!opaque"
-			:wrapper="BaseBox"
-			:theme="invertedThemeValues"
-			:size="eSizes.SM"
-			style="z-index: 1"
-			opaque
-			button
-			solid
+	<BaseErrorBoundary
+		v-if="propertiesMeta.length || $slots.headActions"
+		at="TableHeadActions"
+		:theme="theme"
+	>
+		<!-- Bulk actions -->
+		<TableHeadActions
+			v-bind="childrenProps"
+			:theme="opaque ? invertedThemeValues : theme"
+			:with-default-slot="!!$slots.default"
 		>
-			<div
-				:class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]"
-				style="z-index: 1"
+			<template v-if="$slots.headActions" #headActions="headScope">
+				<slot name="headActions" v-bind="headScope"></slot>
+			</template>
+		</TableHeadActions>
+	</BaseErrorBoundary>
+	<BaseWrapper
+		v-if="propertiesMeta.length"
+		class="--gap-none --p-10 --maxWidth-100"
+		:wrap="!!opaque"
+		:wrapper="BaseBox"
+		:theme="invertedThemeValues"
+		:size="eSizes.SM"
+		style="z-index: 1"
+		opaque
+		button
+		solid
+	>
+		<div
+			:class="[{ 'scroll --horizontal --always': !nested }, $attrs.class]"
+			style="z-index: 1"
+		>
+			<table
+				:id="`${tableId}_content`"
+				class="tbl --minWidth-100 table-content"
+				:class="[{ '--nested': nested }, themeClasses]"
 			>
-				<table
-					:id="`${tableId}_content`"
-					class="tbl --minWidth-100 table-content"
-					:class="[{ '--nested': nested }, themeClasses]"
-				>
-					<BaseErrorBoundary at="TableHeadContent" :theme="theme">
-						<TableHeadContent
-							v-bind="childrenProps"
-							:with-default-slot="!!$slots.default"
-						/>
-					</BaseErrorBoundary>
-					<BaseErrorBoundary at="TableBody" :theme="theme">
-						<TableBody v-bind="childrenProps">
-							<template v-if="$slots.default" #default="defaultScope">
-								<slot name="default" v-bind="defaultScope"></slot>
-							</template>
-							<template v-if="$slots.modifyActions" #modifyActions="modifyScope">
-								<slot name="modifyActions" v-bind="modifyScope"></slot>
-							</template>
-							<template
-								v-if="$slots.modifyDropdownActions"
-								#modifyDropdownActions="modifyDropdownScope"
-							>
-								<slot
-									name="modifyDropdownActions"
-									v-bind="modifyDropdownScope"
-								></slot>
-							</template>
-						</TableBody>
-					</BaseErrorBoundary>
-				</table>
-			</div>
-		</BaseWrapper>
-	</template>
+				<BaseErrorBoundary at="TableHeadContent" :theme="theme">
+					<!-- Head content, column names -->
+					<TableHeadContent
+						v-bind="childrenProps"
+						:with-default-slot="!!$slots.default"
+					/>
+				</BaseErrorBoundary>
+				<BaseErrorBoundary at="TableBody" :theme="theme">
+					<!-- Body, rows -->
+					<TableBody v-bind="childrenProps">
+						<template v-if="$slots.default" #default="defaultScope">
+							<slot name="default" v-bind="defaultScope"></slot>
+						</template>
+						<template v-if="$slots.modifyActions" #modifyActions="modifyScope">
+							<slot name="modifyActions" v-bind="modifyScope"></slot>
+						</template>
+						<template
+							v-if="$slots.modifyDropdownActions"
+							#modifyDropdownActions="modifyDropdownScope"
+						>
+							<slot name="modifyDropdownActions" v-bind="modifyDropdownScope"></slot>
+						</template>
+					</TableBody>
+				</BaseErrorBoundary>
+			</table>
+		</div>
+	</BaseWrapper>
 	<BoxMessage v-else :theme="theme || themeValues" class="--width-100">
 		<div class="flx --flxRow --flx-center">
 			<span>{{ t("nothing_to_show") }}</span>
@@ -128,6 +131,7 @@
 	const props = withDefaults(defineProps<iTableProps<T, TM>>(), {
 		size: eSizes.SM,
 		theme: eColors.SECONDARY,
+		// Leave nodes as they are
 		mapNodes: (nodes: T[]) => nodes as unknown as TM[],
 	});
 	const emit = defineEmits(["update:sort"]);
@@ -143,13 +147,14 @@
 	 * Mapped nodes
 	 * Keeps the original node and the mapped node if any (filtered)
 	 */
-	const mappedNodes = computed(() => {
-		const nodes: iMappedNodes<T, TM> = { nodes: [], length: 0, withChildren: false };
+	const mappedNodes = computed<iMappedNodes<T, TM>>(() => {
+		const newNodes: iMappedNodes<T, TM> = { nodes: [], length: 0, withChildren: false };
 
 		props.nodes.forEach((node, index) => {
 			const [mappedNode] = props.mapNodes([node]);
 
-			if (!mappedNode) return;
+			// Filter out invalid nodes
+			if (!mappedNode || !Object.keys(mappedNode).length) return;
 
 			const disableCreateNodeChildren = props.disableCreateNodeChildren?.(node);
 			const showNodeChildren = props.showNodeChildren?.(node);
@@ -159,7 +164,7 @@
 				childrenCount: childrenCount(node, mappedNode),
 			};
 
-			if (visibility.childrenCount) nodes.withChildren = true;
+			if (visibility.childrenCount) newNodes.withChildren = true;
 
 			/** Hydrate this node only */
 			const hydrateNode = makeHydrateNode(index);
@@ -169,27 +174,27 @@
 				visibility
 			);
 
-			nodes.nodes.push({
+			newNodes.nodes.push({
 				node: mappedNode,
 				index,
 				visibility,
 				hydrateNode,
 				createNodeChildrenAndRefresh,
 			});
-			nodes.length++;
+			newNodes.length++;
 		});
 
-		return nodes;
+		return newNodes;
 	});
 
-	/** [selected, show] */
-	const selectedNodes = ref<[boolean, boolean][]>([]);
+	const selectedNodes = ref<boolean[]>([]);
+	const openNodes = ref<boolean[]>([]);
 
 	const selectedNodesCount = computed(() => {
-		return selectedNodes.value.filter(([selected]) => selected).length;
+		return selectedNodes.value.filter((selected) => selected).length;
 	});
 	const openNodesCount = computed(() => {
-		return selectedNodes.value.filter(([, open]) => open).length;
+		return openNodes.value.filter((open) => open).length;
 	});
 
 	/**
@@ -220,34 +225,39 @@
 	const isReadOnly = computed<boolean>(() => {
 		return (
 			props.readonly ||
-			!mappedNodes.value.length ||
+			!mappedNodes.value.nodes.length ||
 			(!props.updateNode && !props.cloneNode && !props.deleteNode)
 		);
 	});
 
 	/**
+	 * Properties meta
+	 *
+	 * Get meta from mapped nodes
 	 * This one assumes all objects within nodes are all the same
 	 */
 	const propertiesMeta = computed<iTablePropertyMeta<T>[]>(() => {
-		const [mappedNode] = props.mapNodes([props.nodes[0]]);
+		if (!mappedNodes.value.nodes.length) return [];
+
+		const mappedNode: TM = mappedNodes.value.nodes[0].node;
 		const sorted = Object.entries(mappedNode).sort(props.propertyOrder || useOrderProperty);
 		const properties: iTablePropertyMeta<T>[] = [];
 
 		for (const [key, value] of sorted) {
+			// Get meta defaults
 			const options = (props.properties || []).map(toOption);
 			const property = toOption(options.find((p) => p.value === key) || key);
 			const aliasKey = snakeCase(key);
 
 			const meta: iTablePropertyMeta<T> = {
-				...property,
+				...property, // Set defaults
 				value: String(property.value),
 				alias: upperFirst(startCase(property.alias || tet(aliasKey))),
 				canSort: !!props.sort && isPlainValue(value),
 			};
 
-			if (!["id", props.childrenCountKey].includes(meta.value)) {
-				properties.push(meta);
-			}
+			// Conditionally add meta
+			if (!["id", props.childrenCountKey].includes(meta.value)) properties.push(meta);
 		}
 
 		return properties;
@@ -255,6 +265,9 @@
 	/** Prefer a predictable identifier */
 	const tableId = computed(() => {
 		const childrenBased = props.childrenName || String(props.childrenCountKey);
+
+		if (!propertiesMeta.value.length) return Md5.hashStr(`table-${childrenBased}`);
+
 		const metaBased = propertiesMeta.value[0].alias || propertiesMeta.value[0].value;
 
 		return Md5.hashStr(`table-${childrenBased}-${metaBased}`);
@@ -269,6 +282,7 @@
 		ordering: ordering.value,
 		selectedNodes: selectedNodes.value,
 		selectedNodesCount: selectedNodesCount.value,
+		openNodes: openNodes.value,
 		openNodesCount: openNodesCount.value,
 		canShowChildren,
 		setOrdering,
@@ -283,7 +297,7 @@
 	function canShowChildren(visibility: iNodeVisibility, mappedIndex: number): boolean {
 		const { showNodeChildren, childrenCount } = visibility;
 
-		return showNodeChildren ?? (selectedNodes.value[mappedIndex][1] && !!childrenCount);
+		return showNodeChildren ?? (selectedNodes.value[mappedIndex] && !!childrenCount);
 	}
 
 	/**
@@ -321,12 +335,21 @@
 		return 0;
 	}
 	function toggleAll(value = true, index = 0) {
-		selectedNodes.value.forEach((_, i) => (selectedNodes.value[i][index] = value));
+		if (index === 0) {
+			// Select all nodes
+			selectedNodes.value = Array.from(
+				{ length: mappedNodes.value.nodes.length },
+				() => value
+			);
+		} else {
+			// Open all nodes
+			openNodes.value = Array.from({ length: mappedNodes.value.nodes.length }, () => value);
+		}
 	}
 	function toggleChildren(index: number) {
-		const [selected, children] = selectedNodes.value[index];
+		const selected = selectedNodes.value[index];
 
-		selectedNodes.value[index] = [selected, !children];
+		selectedNodes.value[index] = !selected;
 	}
 
 	function makeHydrateNode(nodeIndex: number) {
@@ -606,7 +629,7 @@
 	 * @batch
 	 */
 	async function deleteNodesAndRefresh(
-		nodes = props.nodes.filter((_, nodeIndex) => selectedNodes.value[nodeIndex][0])
+		nodes = props.nodes.filter((_, nodeIndex) => selectedNodes.value[nodeIndex])
 	) {
 		// Request confirmation
 		const { value } = await Swal.firePrevent({
@@ -754,14 +777,17 @@
 	watch(
 		[mappedNodes, () => props.withRoute && router?.currentRoute.value.fullPath],
 		([newNodes, newRoute], [oldNodes, oldRoute]) => {
-			const reFillNodes: [boolean, boolean][] = Array.from(
-				{ length: newNodes.length },
-				() => [false, !!props.childrenVisibility]
-			);
-
 			// Omit for hydration
-			if (!oldNodes || oldNodes.length !== newNodes.length || oldRoute !== newRoute) {
-				selectedNodes.value = reFillNodes;
+			if (
+				!oldNodes?.nodes?.length ||
+				oldNodes.nodes.length !== newNodes.nodes.length ||
+				oldRoute !== newRoute
+			) {
+				selectedNodes.value = Array.from({ length: newNodes.nodes.length }, () => false);
+				openNodes.value = Array.from(
+					{ length: newNodes.nodes.length },
+					() => !!props.childrenVisibility
+				);
 			}
 		},
 		{ immediate: true }

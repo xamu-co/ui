@@ -3,6 +3,8 @@ import type { StoryObj } from "@storybook/vue3-vite";
 import type { GenericMeta } from "../../types/storybook";
 
 import TableSimple from "./Simple.vue";
+import ActionButtonLink from "../action/ButtonLink.vue";
+import { expect } from "storybook/test";
 
 const nodes = [
 	{
@@ -174,6 +176,52 @@ export const NestedOpaque: Story = {
 		`,
 	}),
 	args: { nodes, childrenCountKey: "variants", opaque: true },
+};
+
+/**
+ * Emulate filtered nodes
+ */
+export const FilteredNodes: Story = {
+	args: {
+		nodes: [{ name: "carlos" }, { name: "ana" }, { name: "juan" }],
+		mapNodes: (nodes) => {
+			const newNodes: any[] = [];
+
+			for (const node of nodes) {
+				if (node.name !== "carlos") newNodes.push(node);
+			}
+
+			return newNodes;
+		},
+	},
+	render: (args) => ({
+		components: { TableSimple, ActionButtonLink },
+		setup() {
+			return { args };
+		},
+		template: `
+			<TableSimple v-bind="args">
+				<template #headActions>
+					<ActionButtonLink>hola</ActionButtonLink>
+				</template>
+			</TableSimple>
+		`,
+	}),
+	play: async ({ canvasElement }) => {
+		const tbody = canvasElement.querySelector(".scroll tbody");
+
+		// Check if the tbody is rendered
+		expect(tbody).toBeInTheDocument();
+
+		// Check if the tbody has 2 rows
+		expect(tbody?.children.length).toBe(2);
+
+		const cell = tbody?.querySelector("td[data-column-name='name']");
+
+		// Check if the cell is rendered
+		expect(cell).toBeInTheDocument();
+		expect(cell).toHaveTextContent("ana");
+	},
 };
 
 export default meta;
