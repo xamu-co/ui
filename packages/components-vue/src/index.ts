@@ -66,3 +66,4 @@ export { default as Collapse } from "./components/collapse/Simple.vue";
 
 // composables
 export { default as useTheme } from "./composables/theme";
+export { default as useMarkdown } from "./composables/markdown";
