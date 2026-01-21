@@ -150,6 +150,13 @@ export default defineNuxtModule<XamuModuleOptions>({
 			from: "@open-xamu-co/ui-components-vue",
 		});
 
+		// Markdown composable
+		addImports({
+			name: "useMarkdown",
+			as: "useMarkdown",
+			from: "@open-xamu-co/ui-components-vue",
+		});
+
 		// Other composables, config required
 		addImportsDir(resolve(runtimePath, "composables"));
 	},

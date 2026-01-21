@@ -89,15 +89,6 @@
 	import type { EditorView } from "codemirror";
 	import { computed, ref } from "vue";
 	import omit from "lodash-es/omit";
-	import MarkdownIt from "markdown-it";
-	import MarkdownItAbbr from "markdown-it-abbr";
-	import MarkdownItAnchor from "markdown-it-anchor";
-	import MarkdownItFootnote from "markdown-it-footnote";
-	import MarkdownItHighlightjs from "markdown-it-highlightjs"; // CommonJS
-	import MarkdownItSub from "markdown-it-sub";
-	import MarkdownItSup from "markdown-it-sup";
-	import MarkdownItTasklists from "markdown-it-task-lists"; // CommonJS
-	import MarkdownItTOC from "markdown-it-toc-done-right";
 
 	import type { tFormInput } from "@open-xamu-co/ui-common-types";
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
@@ -108,6 +99,7 @@
 
 	import type { iInputProps, iUseThemeProps } from "../../types/props";
 	import { useHelpers } from "../../composables/utils";
+	import useMarkdown from "../../composables/markdown";
 
 	interface iBoxEditorProps extends iInputProps, iUseThemeProps {
 		readonly?: boolean;
@@ -126,16 +118,6 @@
 
 	const Swal = useHelpers(useSwal);
 	const { t } = useHelpers(useI18n);
-
-	const markdown = new MarkdownIt()
-		.use(MarkdownItAbbr)
-		.use(MarkdownItAnchor)
-		.use(MarkdownItFootnote)
-		.use(MarkdownItHighlightjs)
-		.use(MarkdownItSub)
-		.use(MarkdownItSup)
-		.use(MarkdownItTasklists)
-		.use(MarkdownItTOC);
 
 	const emittedEditor = ref<EditorView>();
 	const previewCode = ref(false);
@@ -234,23 +216,5 @@
 			changes: [{ from: range.from, to: range.to, insert: `[${text}](${value.url})` }],
 			selection: { anchor: range.to + value.url.length + 2 },
 		});
-	}
-
-	/**
-	 * Renders markdown to HTML
-	 * Opens external links in new tab
-	 *
-	 * @param body - Markdown body
-	 * @returns HTML
-	 */
-	function useMarkdown(body: string): string {
-		let html = markdown.render(body);
-
-		// External links
-		html = html.replaceAll('href="//', 'target="_blank" href="//');
-		html = html.replaceAll('href="http://', 'target="_blank" href="http://');
-		html = html.replaceAll('href="https://', 'target="_blank" href="https://');
-
-		return html;
 	}
 </script>
