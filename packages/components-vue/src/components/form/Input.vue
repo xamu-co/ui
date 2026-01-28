@@ -266,6 +266,7 @@
 					v-else-if="input.type === eFT.CODE"
 					v-model="models[i].value"
 					v-bind="{ input, theme, readonly }"
+					class="--flx"
 				/>
 				<!-- Future outer loop input -->
 				<InputText
