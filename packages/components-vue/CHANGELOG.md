@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.10...@open-xamu-co/ui-components-vue-v4.0.0-next.11) (2026-04-03)
+
+
+### Bug Fixes
+
+* **vue:** conditional editor linewrapping & invert box action inner theme ([654f6e1](https://github.com/xamu-co/ui/commit/654f6e1921f731145a91092ee7a49fadc8b4c455))
+* **vue:** editor with on form ([d9a2879](https://github.com/xamu-co/ui/commit/d9a287904df981afa7dfb89c16e25899443cfc94))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.11"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.9...@open-xamu-co/ui-components-vue-v4.0.0-next.10) (2026-01-21)
 
 
