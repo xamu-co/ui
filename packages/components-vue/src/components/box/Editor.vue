@@ -13,6 +13,7 @@
 					...omit(props, ['input', 'modelValue']),
 					extensions: extensions || input?.meta?.extensions,
 					code: !!(code || input?.meta?.code),
+					lineWrapping: lineWrapping || input?.meta?.lineWrapping,
 					editorTheme,
 				}"
 				:theme="theme"
@@ -108,6 +109,8 @@
 		modelValue?: string;
 		/** Enable code editor extensions */
 		code?: string | boolean;
+		/** Enable line wrapping */
+		lineWrapping?: boolean;
 		/** CodeMirror extensions */
 		extensions?: Extension[];
 		/** Editor theme */
