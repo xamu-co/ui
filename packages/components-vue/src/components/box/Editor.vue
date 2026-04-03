@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-	<BaseBox :disabled="readonly" :theme="theme" input @click="useEditorFocus">
+	<BaseBox v-bind="$attrs" :disabled="readonly" :theme="theme" input @click="useEditorFocus">
 		<!-- Code editor, markdown by default -->
 		<div class="flx --flxColumn --flx-start-stretch --gap-5">
 			<p class="--txtSize-xs --txtColor-secondary5">
@@ -13,6 +13,7 @@
 					...omit(props, ['input', 'modelValue']),
 					extensions: extensions || input?.meta?.extensions,
 					code: !!(code || input?.meta?.code),
+					lineWrapping: lineWrapping || input?.meta?.lineWrapping,
 					editorTheme,
 				}"
 				:theme="theme"
@@ -108,11 +109,15 @@
 		modelValue?: string;
 		/** Enable code editor extensions */
 		code?: string | boolean;
+		/** Enable line wrapping */
+		lineWrapping?: boolean;
 		/** CodeMirror extensions */
 		extensions?: Extension[];
 		/** Editor theme */
 		editorTheme?: Extension;
 	}
+
+	defineOptions({ name: "BoxEditor", inheritAttrs: false });
 
 	const emit = defineEmits(["update:model-value"]);
 	const props = defineProps<iBoxEditorProps>();

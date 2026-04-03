@@ -62,6 +62,10 @@
 		 */
 		editorTheme?: Extension;
 		/**
+		 * Enable line wrapping
+		 */
+		lineWrapping?: boolean;
+		/**
 		 * @private
 		 */
 		modelValue?: string;
@@ -145,6 +149,11 @@
 			newExtensions.push(usePlaceholder(props.placeholder));
 		}
 
+		// Line wrapping
+		if (props.lineWrapping) {
+			newExtensions.push(EditorView.lineWrapping);
+		}
+
 		// Code only extensions
 		if (props.code) {
 			newExtensions.push(
@@ -161,8 +170,6 @@
 				// Style the gutter for current line specially
 				highlightActiveLineGutter()
 			);
-		} else {
-			newExtensions.push(EditorView.lineWrapping);
 		}
 
 		return newExtensions;
