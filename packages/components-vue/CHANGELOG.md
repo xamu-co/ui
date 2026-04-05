@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.11...@open-xamu-co/ui-components-vue-v4.0.0-next.12) (2026-04-05)
+
+
+### Bug Fixes
+
+* **vue:** missing theme bindings in editor ([829ef9a](https://github.com/xamu-co/ui/commit/829ef9abec2213cc06952bf1636a13962fb296a2))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.12"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.10...@open-xamu-co/ui-components-vue-v4.0.0-next.11) (2026-04-03)
 
 
