@@ -3,7 +3,7 @@
 	<BaseBox v-bind="$attrs" :disabled="readonly" :theme="theme" input @click="useEditorFocus">
 		<!-- Code editor, markdown by default -->
 		<div class="flx --flxColumn --flx-start-stretch --gap-5">
-			<p class="--txtSize-xs --txtColor-secondary5">
+			<p class="--txtSize-xs" :class="`--txtColor-${themeValues[0]}5`">
 				{{ code || input?.meta?.code || "Markdown" }}
 			</p>
 			<InputCode
@@ -26,6 +26,7 @@
 				<ul class="flx --flxRow --flx-start-center --gap-5">
 					<li>
 						<ActionButtonToggle
+							:theme="theme"
 							:disabled="previewCode || !modelValue"
 							:tooltip="t('form_editor_bold')"
 							tooltip-position="bottom"
@@ -38,6 +39,7 @@
 					</li>
 					<li>
 						<ActionButtonToggle
+							:theme="theme"
 							:disabled="previewCode || !modelValue"
 							:tooltip="t('form_editor_italic')"
 							tooltip-position="bottom"
@@ -50,6 +52,7 @@
 					</li>
 					<li>
 						<ActionButtonToggle
+							:theme="theme"
 							:disabled="previewCode || !modelValue"
 							:tooltip="t('form_editor_link')"
 							tooltip-position="bottom"
@@ -67,6 +70,7 @@
 					<li>
 						<ActionButtonToggle
 							v-if="!(code || input?.meta?.code)"
+							:theme="theme"
 							:disabled="!modelValue"
 							:active="previewCode"
 							:tooltip="t('form_editor_preview')"
@@ -102,6 +106,7 @@
 	import type { iInputProps, iUseThemeProps } from "../../types/props";
 	import { useHelpers } from "../../composables/utils";
 	import useMarkdown from "../../composables/markdown";
+	import useTheme from "../../composables/theme";
 
 	interface iBoxEditorProps extends iInputProps, iUseThemeProps {
 		readonly?: boolean;
@@ -124,6 +129,7 @@
 
 	const Swal = useHelpers(useSwal);
 	const { t } = useHelpers(useI18n);
+	const { themeValues } = useTheme(props);
 
 	const emittedEditor = ref<EditorView>();
 	const previewCode = ref(false);
