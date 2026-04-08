@@ -79,6 +79,12 @@
 		 * Whether to fetch data on client side only
 		 */
 		client?: boolean;
+		/**
+		 * Whether to cache data
+		 *
+		 * @default true
+		 */
+		cache?: boolean;
 	}
 
 	/**
@@ -93,7 +99,9 @@
 
 	defineOptions({ name: "LoaderContentFetch", inheritAttrs: false });
 
-	const props = defineProps<iLoaderContentFetchProps<T, P>>();
+	const props = withDefaults(defineProps<iLoaderContentFetchProps<T, P>>(), {
+		cache: true,
+	});
 	const emit = defineEmits(["refresh", "has-content", "hydrate"]);
 
 	const { useFetch } = useFetchUtils();
@@ -166,6 +174,7 @@
 			default: () => props.fallback,
 			watch: [() => props.url, () => props.preventAutoload],
 			server: !props.client,
+			getCachedData: props.cache ? undefined : () => null,
 		}
 	);
 
