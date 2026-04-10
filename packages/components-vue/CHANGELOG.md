@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.12...@open-xamu-co/ui-components-vue-v4.0.0-next.13) (2026-04-10)
+
+
+### Bug Fixes
+
+* accept nodeFn on table pagination ([f334b10](https://github.com/xamu-co/ui/commit/f334b10c9ad8d5a1fd29a4ca05a9f72dfa5e8697))
+* use wrapper prop instead of el in loader content ([0d5fa02](https://github.com/xamu-co/ui/commit/0d5fa02e9d2da6258e3c93c805cd3d42aa8eccec))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.13"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.11...@open-xamu-co/ui-components-vue-v4.0.0-next.12) (2026-04-05)
 
 
