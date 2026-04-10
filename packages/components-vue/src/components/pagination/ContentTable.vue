@@ -33,6 +33,7 @@
 				preventAutoload,
 				theme,
 				client,
+				cache,
 				defaults,
 			}"
 			pagination-class="flx --flxRow-wrap --flx-end-center --gap-5 --gap-10:sm --gap:md"
@@ -146,7 +147,16 @@
 		renderErrorMessage?: string;
 		tableProps?: Omit<iTableProps<Ti, TMi>, "nodes" | "refresh">;
 		theme?: tThemeModifier | tThemeTuple;
+		/**
+		 * Whether to fetch data on client side only
+		 */
 		client?: boolean;
+		/**
+		 * Whether to cache data
+		 *
+		 * @default true
+		 */
+		cache?: boolean;
 		/**
 		 * Additional class for the table
 		 *
@@ -160,7 +170,7 @@
 		 */
 		modalClass?: string | string[] | Record<string, boolean>;
 		/** Function used to create a node */
-		createNode?: iNodeStreamFn<NoInfer<Ti>, []>;
+		createNode?: iNodeStreamFn<NoInfer<Ti>, []> | iNodeFn<NoInfer<Ti>, []>;
 		swal?: {
 			// Create node swal texts
 			createdTitle?: string;

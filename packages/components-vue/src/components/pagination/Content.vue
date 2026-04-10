@@ -13,6 +13,7 @@
 			url,
 			ignoreErrors,
 			client,
+			cache,
 		}"
 		@refresh="$emit('refresh', $event)"
 		@has-content="hasContent"
@@ -117,6 +118,12 @@
 		 * Whether to fetch data on client side only
 		 */
 		client?: boolean;
+		/**
+		 * Whether to cache data
+		 *
+		 * @default true
+		 */
+		cache?: boolean;
 		/**
 		 * Additional class for the pagination
 		 *
