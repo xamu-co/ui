@@ -1,7 +1,9 @@
 import type { eMimeType } from "@open-xamu-co/ui-common-enums";
 import type { iMime } from "@open-xamu-co/ui-common-types";
 
-export * from "./images";
+export * from "./mime/audios";
+export * from "./mime/images";
+export * from "./mime/videos";
 
 /**
  * Check if file matches given mimetype array
@@ -9,10 +11,10 @@ export * from "./images";
 export const fileMatchesMimeTypes = (file: File, mimeTypes: iMime[]) => {
 	// check if mime and bytes are image type
 	const reader = new FileReader();
-	const blob = file.slice(0, 12); // Read the first 12 bytes of the file
+	const blob = file.slice(0, 16); // Read the first 16 bytes of the file
 	const check = (bytes: Uint8Array, mime: iMime) => {
-		// Allowed maximum of 12
-		const length = Math.min(12, mime.mask.length);
+		// Allowed maximum of 16
+		const length = Math.min(16, mime.mask.length);
 
 		for (let i = 0, l = length; i < l; ++i) {
 			if ((bytes[i] & mime.mask[i]) - mime.pattern[i] !== 0) return false;

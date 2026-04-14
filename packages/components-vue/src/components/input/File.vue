@@ -7,23 +7,51 @@
 		<div v-if="thumbnails.length" class="flx --flxRow --flx-start-center --gap-10">
 			<ul class="flx --flxRow-wrap --flx-start-center --gap-10">
 				<li
-					v-for="(thumb, thumb_index) in thumbnails"
+					v-for="({ type, source }, thumb_index) in thumbnails"
 					:key="thumb_index"
 					class="flx --flxRow --flx-start-center --gap-5"
 				>
-					<BaseAction
-						class="avatar --index --bdr flx --flx-center"
+					<ActionLink
+						class="avatar --index --bdr flx --flxRow --flx-center"
 						:tooltip="t('file_delete_files', 1)"
 						tooltip-position="bottom"
 						@click.prevent="(e: Event) => removeFile(thumb_index, e)"
 					>
-						<div class="back">
-							<BaseImg :src="thumb" :alt="t('file_thumb')" />
+						<div
+							class="back flx --flxRow --flx-center"
+							@mouseenter="playMedia"
+							@mouseleave="pauseMedia"
+						>
+							<img
+								v-if="type == eMimeType.IMAGE"
+								:src="source"
+								:alt="t('file_thumb')"
+								@load="() => revokeObjectURL(source)"
+							/>
+							<video
+								v-else-if="type == eMimeType.VIDEO"
+								:src="source"
+								:alt="t('file_thumb')"
+								loop
+								@load="() => revokeObjectURL(source)"
+							></video>
+							<audio
+								v-else-if="type == eMimeType.AUDIO"
+								:src="source"
+								:alt="t('file_thumb')"
+								loop
+								@load="() => revokeObjectURL(source)"
+							></audio>
+							<IconFa v-else :name="'file'" :size="50" />
 						</div>
-						<ActionLink :theme="eColors.LIGHT" class="--shadow">
+						<ActionLink
+							:theme="eColors.LIGHT"
+							class="--shadow"
+							style="pointer-events: none"
+						>
 							<IconFa name="xmark" :size="20" />
 						</ActionLink>
-					</BaseAction>
+					</ActionLink>
 				</li>
 			</ul>
 			<span class="--txtWrap-nowrap">
@@ -43,7 +71,7 @@
 				...$attrs,
 				...omit(props, ['modelValue', 'size']),
 				type: 'file',
-				accept: (accept ?? ['image/*']).join(','),
+				accept: accept.join(','),
 				capture,
 				multiple: maxAmount > 1,
 				disabled,
@@ -139,19 +167,48 @@
 	import { eColors, eMimeType, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {
 		fileMatchesMimeTypes,
-		imageMimeTypes,
 		renameFile,
-		getBase64FromImageFile,
 		useUtils,
 		useSwal,
 		useI18n,
-		stillImageMimeTypes,
-		extendedStillImageMimeTypes,
-		standardStillImageMimeTypes,
+		// Images
+		gifMimeTypeA,
+		gifMimeTypeB,
+		heicMimeType,
+		heifMimeType,
+		heicSequenceMimeType,
+		heifSequenceMimeType,
+		webpMimeType,
+		bmpMimeType,
+		iconMimeTypeA,
+		iconMimeTypeB,
+		jpegMimeType,
+		pngMimeType,
+		// Videos
+		mp4MimeType,
+		webmMimeType,
+		oggMimeType,
+		mkvMimeType,
+		movMimeType,
+		aviMimeType,
+		flvMimeType,
+		wmvMimeType,
+		mpegMimeType,
+		threegpMimeType,
+		// Audios
+		mp3Id3MimeType,
+		mp3SyncMimeType,
+		wavMimeType,
+		flacMimeType,
+		aacMimeType,
+		m4aMimeType,
+		oggAudioMimeType,
+		webmAudioMimeType,
+		wmaMimeType,
+		aiffMimeType,
+		midiMimeType,
 	} from "@open-xamu-co/ui-common-helpers";
 
-	import BaseImg from "../base/Img.vue";
-	import BaseAction from "../base/Action.vue";
 	import BaseInput from "../base/Input.vue";
 	import BaseBox from "../base/Box.vue";
 	import IconFa from "../icon/Fa.vue";
@@ -197,6 +254,12 @@
 		};
 	}
 
+	interface iThumbnail {
+		type: eMimeType;
+		/** The playable asset */
+		source: string;
+	}
+
 	/**
 	 * File Input element
 	 * TODO: Support more than images, add dinamyc file types (mapping mimes)
@@ -208,7 +271,9 @@
 
 	defineOptions({ name: "InputFile", inheritAttrs: false });
 
-	const props = defineProps<iInputFileProps>();
+	const props = withDefaults(defineProps<iInputFileProps>(), {
+		accept: () => ["image/*"],
+	});
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
@@ -225,7 +290,7 @@
 		};
 	});
 
-	const thumbnails = ref<string[]>([]);
+	const thumbnails = ref<iThumbnail[]>([]);
 	const isAdvancedUpload = ref(false);
 	const isLoading = ref(false);
 	const isDragover = ref(false);
@@ -239,44 +304,162 @@
 	 * TODO: Allow for multiple file types
 	 */
 	const acceptMimes = computed(() => {
-		let types: iMime[] = imageMimeTypes;
-		let names: eMimeType[] = [eMimeType.IMAGE];
+		const types: iMime[] = [];
+		const names: eMimeType[] = [];
 
-		// Remove if not defined
-		if (props.accept && !props.accept?.includes("image/*")) {
-			// Do not accept gif images
-			if (!props.accept?.includes(".gif")) {
-				types = stillImageMimeTypes;
-			}
-			// Do not accept apple images
-			if (
-				!props.accept?.includes(".heic") &&
-				!props.accept?.includes(".heif") &&
-				!props.accept?.includes(".heics") &&
-				!props.accept?.includes(".heifs")
-			) {
-				types = extendedStillImageMimeTypes;
-			}
-			// Do not accept extended images
-			if (
-				!props.accept?.includes(".webp") &&
-				!props.accept?.includes(".bmp") &&
-				!props.accept?.includes(".ico")
-			) {
-				types = standardStillImageMimeTypes;
-			}
-			// Do not accept images
-			if (
-				(!props.accept?.includes(".jpg") && !props.accept?.includes(".jpeg")) ||
-				!props.accept?.includes(".png")
-			) {
-				types = [];
-				names = [];
-			}
+		function matchAccept(type: eMimeType, extension: string) {
+			return (
+				props.accept.includes("*") ||
+				props.accept.includes(`${type}/*`) ||
+				props.accept.includes(`.${extension}`)
+			);
 		}
+
+		let withImages = false;
+		let withVideos = false;
+		let withAudios = false;
+
+		// Image formats
+		if (matchAccept(eMimeType.IMAGE, "gif")) {
+			// Animated gifs
+			types.push(gifMimeTypeA, gifMimeTypeB);
+
+			withImages = true;
+		}
+		if (
+			matchAccept(eMimeType.IMAGE, "heic") ||
+			matchAccept(eMimeType.IMAGE, "heif") ||
+			matchAccept(eMimeType.IMAGE, "heics") ||
+			matchAccept(eMimeType.IMAGE, "heifs")
+		) {
+			// Apple image formats
+			types.push(heicMimeType, heifMimeType, heicSequenceMimeType, heifSequenceMimeType);
+
+			withImages = true;
+		}
+		if (
+			matchAccept(eMimeType.IMAGE, "webp") ||
+			matchAccept(eMimeType.IMAGE, "bmp") ||
+			matchAccept(eMimeType.IMAGE, "ico")
+		) {
+			// Non standard formats
+			types.push(webpMimeType, bmpMimeType, iconMimeTypeA, iconMimeTypeB);
+
+			withImages = true;
+		}
+		if (
+			matchAccept(eMimeType.IMAGE, "jpg") ||
+			matchAccept(eMimeType.IMAGE, "jpeg") ||
+			matchAccept(eMimeType.IMAGE, "png")
+		) {
+			// Standard formats
+			types.push(jpegMimeType, pngMimeType);
+
+			withImages = true;
+		}
+
+		// Video formats
+		if (
+			matchAccept(eMimeType.VIDEO, "mp4") ||
+			matchAccept(eMimeType.VIDEO, "webm") ||
+			matchAccept(eMimeType.VIDEO, "ogv") ||
+			matchAccept(eMimeType.VIDEO, "ogg")
+		) {
+			// Standard web video formats
+			types.push(mp4MimeType, webmMimeType, oggMimeType);
+
+			withVideos = true;
+		}
+		if (matchAccept(eMimeType.VIDEO, "mkv") || matchAccept(eMimeType.VIDEO, "mov")) {
+			// Modern container formats
+			types.push(mkvMimeType, movMimeType);
+
+			withVideos = true;
+		}
+		if (
+			matchAccept(eMimeType.VIDEO, "avi") ||
+			matchAccept(eMimeType.VIDEO, "flv") ||
+			matchAccept(eMimeType.VIDEO, "wmv") ||
+			matchAccept(eMimeType.VIDEO, "mpeg") ||
+			matchAccept(eMimeType.VIDEO, "mpg")
+		) {
+			// Legacy formats
+			types.push(aviMimeType, flvMimeType, wmvMimeType, mpegMimeType);
+
+			withVideos = true;
+		}
+		if (matchAccept(eMimeType.VIDEO, "3gp")) {
+			// Mobile formats
+			types.push(threegpMimeType);
+
+			withVideos = true;
+		}
+
+		// Audio formats
+		if (
+			matchAccept(eMimeType.AUDIO, "mp3") ||
+			matchAccept(eMimeType.AUDIO, "wav") ||
+			matchAccept(eMimeType.AUDIO, "aac")
+		) {
+			// Standard audio formats
+			types.push(mp3Id3MimeType, mp3SyncMimeType, wavMimeType, aacMimeType);
+
+			withAudios = true;
+		}
+		if (
+			matchAccept(eMimeType.AUDIO, "flac") ||
+			matchAccept(eMimeType.AUDIO, "aiff") ||
+			matchAccept(eMimeType.AUDIO, "aif")
+		) {
+			// Lossless audio formats
+			types.push(flacMimeType, aiffMimeType);
+
+			withAudios = true;
+		}
+		if (
+			matchAccept(eMimeType.AUDIO, "m4a") ||
+			matchAccept(eMimeType.AUDIO, "oga") ||
+			matchAccept(eMimeType.AUDIO, "ogg") ||
+			matchAccept(eMimeType.AUDIO, "weba")
+		) {
+			// Modern compressed audio formats
+			types.push(m4aMimeType, oggAudioMimeType, webmAudioMimeType);
+
+			withAudios = true;
+		}
+		if (
+			matchAccept(eMimeType.AUDIO, "wma") ||
+			matchAccept(eMimeType.AUDIO, "mid") ||
+			matchAccept(eMimeType.AUDIO, "midi")
+		) {
+			// Legacy / specialized formats
+			types.push(wmaMimeType, midiMimeType);
+
+			withAudios = true;
+		}
+
+		if (withImages) names.push(eMimeType.IMAGE);
+		if (withVideos) names.push(eMimeType.VIDEO);
+		if (withAudios) names.push(eMimeType.AUDIO);
 
 		return { types, names };
 	});
+
+	function playMedia(e: Event) {
+		const media = (e.target as HTMLElement).querySelector("video, audio");
+
+		(media as HTMLMediaElement).play();
+	}
+
+	function pauseMedia(e: Event) {
+		const media = (e.target as HTMLElement).querySelector("video, audio");
+
+		(media as HTMLMediaElement).pause();
+	}
+
+	function revokeObjectURL(src: string) {
+		URL.revokeObjectURL(src);
+	}
 
 	/**
 	 * setFiles
@@ -456,7 +639,14 @@
 		async (newFiles) => {
 			// TODO: optimize thumbnails generation for larger filesets
 			thumbnails.value = await Promise.all(
-				newFiles.map((file) => getBase64FromImageFile(file))
+				newFiles.map(async (file) => {
+					const [type] = file.type.split("/");
+
+					return {
+						type: type as eMimeType,
+						source: URL.createObjectURL(file),
+					};
+				})
 			);
 		},
 		{ immediate: true }
