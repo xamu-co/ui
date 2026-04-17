@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v4.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v4.0.0-next.4...@open-xamu-co/ui-common-types-v4.0.0-next.5) (2026-04-17)
+
+
+### Features
+
+* preferId for properties tables ([c442c66](https://github.com/xamu-co/ui/commit/c442c66e5f4be5788109ecac0f1610367f4da88d))
+* support video & audio files ([7ffb235](https://github.com/xamu-co/ui/commit/7ffb23596c7cc286c39ecea34796d1d17ea963ff))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "4.0.0-next.5"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v4.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v4.0.0-next.3...@open-xamu-co/ui-common-types-v4.0.0-next.4) (2026-01-18)
 
 
