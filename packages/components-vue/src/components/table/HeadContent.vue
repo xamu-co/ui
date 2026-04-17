@@ -19,7 +19,7 @@
 						:title="t('table_select_all')"
 						:checked="selectedNodesCount === mappedNodes.nodes.length"
 						:size="size"
-						@update:model-value="toggleAll"
+						@update:model-value="selectAll"
 					/>
 					<span v-if="!sort">#</span>
 					<ActionLink
