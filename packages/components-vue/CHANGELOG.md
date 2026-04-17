@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.13...@open-xamu-co/ui-components-vue-v4.0.0-next.14) (2026-04-17)
+
+
+### Features
+
+* preferId for properties tables ([c442c66](https://github.com/xamu-co/ui/commit/c442c66e5f4be5788109ecac0f1610367f4da88d))
+* support video & audio files ([7ffb235](https://github.com/xamu-co/ui/commit/7ffb23596c7cc286c39ecea34796d1d17ea963ff))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.14"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.12...@open-xamu-co/ui-components-vue-v4.0.0-next.13) (2026-04-10)
 
 
