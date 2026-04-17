@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.14...@open-xamu-co/ui-components-vue-v4.0.0-next.15) (2026-04-17)
+
+
+### Bug Fixes
+
+* **vue:** mixed node selection & children visibility ([c83c1cb](https://github.com/xamu-co/ui/commit/c83c1cb236e766daf7c3c9242f6d95789e7609ec))
+
+
+### BREAKING CHANGES
+
+* **vue:** splitted table toggling functions
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.15"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.13...@open-xamu-co/ui-components-vue-v4.0.0-next.14) (2026-04-17)
 
 
