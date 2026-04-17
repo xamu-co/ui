@@ -31,4 +31,27 @@ export const Sample: Story = {
 	}),
 };
 
+export const AcceptVideo: Story = {
+	render: (args) => ({
+		components: { InputFile },
+		setup() {
+			const model = ref(args.modelValue);
+
+			// Optional: Keeps v-model in sync with storybook args
+			watch(
+				() => args.modelValue,
+				(val) => {
+					model.value = val;
+				}
+			);
+
+			return { args, model };
+		},
+		template: '<InputFile v-bind="args" v-model="model" />',
+	}),
+	args: {
+		accept: ["video/*"],
+	},
+};
+
 export default meta;

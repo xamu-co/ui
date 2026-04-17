@@ -51,6 +51,7 @@
 							:clone-node="property?.cloneNode || undefined"
 							:update-node="property?.updateNode"
 							:delete-node="property?.deleteNode"
+							:prefer-id="property?.preferId"
 						/>
 					</template>
 				</ModalSimple>

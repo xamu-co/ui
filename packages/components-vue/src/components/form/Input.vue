@@ -22,6 +22,7 @@
 				:file-prefix="snakeCase(input.placeholder)"
 				:model-value="modelValue"
 				:invalid="isInvalidByValidation"
+				:accept="input.meta?.accept"
 				v-bind="inputProps"
 				@update:model-value="$emit('update:model-value', $event)"
 			/>
