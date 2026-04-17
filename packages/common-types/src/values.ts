@@ -71,6 +71,11 @@ export interface iProperty<
 	ComponentType = unknown,
 > extends iSelectOption {
 	/**
+	 * Prefer to use the node's id instead of the value
+	 * Useful for object like properties
+	 */
+	preferId?: boolean;
+	/**
 	 * Function to create a node within the relation
 	 * The parent is given since the node doesn't exist yet
 	 *
