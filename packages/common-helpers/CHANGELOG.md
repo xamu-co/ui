@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.4...@open-xamu-co/ui-common-helpers-v4.0.0-next.5) (2026-04-17)
+
+
+### Features
+
+* support video & audio files ([7ffb235](https://github.com/xamu-co/ui/commit/7ffb23596c7cc286c39ecea34796d1d17ea963ff))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.5"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v4.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.3...@open-xamu-co/ui-common-helpers-v4.0.0-next.4) (2026-01-18)
 
 
