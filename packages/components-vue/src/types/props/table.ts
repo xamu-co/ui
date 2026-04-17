@@ -234,7 +234,11 @@ export interface iTableChildProps<
 	/**
 	 * Toggle nodes selection
 	 */
-	toggleAll(value?: boolean, index?: number): void;
+	selectAll(value?: boolean): void;
+	/**
+	 * Toggle nodes children visibility
+	 */
+	openAll(value?: boolean): void;
 	/**
 	 * Toggle nodes children visibility
 	 */

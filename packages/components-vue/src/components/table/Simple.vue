@@ -187,12 +187,16 @@
 		return newNodes;
 	});
 
+	/** Array of booleans (mappedNodes.length) to track selected nodes */
 	const selectedNodes = ref<boolean[]>([]);
+	/** Array of booleans (mappedNodes.length) to track open nodes */
 	const openNodes = ref<boolean[]>([]);
 
+	/** Count of selected nodes (selected = true) */
 	const selectedNodesCount = computed(() => {
 		return selectedNodes.value.filter((selected) => selected).length;
 	});
+	/** Count of open nodes (open = true) */
 	const openNodesCount = computed(() => {
 		return openNodes.value.filter((open) => open).length;
 	});
@@ -286,7 +290,8 @@
 		openNodesCount: openNodesCount.value,
 		canShowChildren,
 		setOrdering,
-		toggleAll,
+		openAll,
+		selectAll,
 		toggleChildren,
 		updateNodeAndRefresh,
 		cloneNodeAndRefresh,
@@ -294,10 +299,13 @@
 		deleteNodesAndRefresh,
 	}));
 
+	/**
+	 * Whether the conditions to show children are met
+	 */
 	function canShowChildren(visibility: iNodeVisibility, mappedIndex: number): boolean {
 		const { showNodeChildren, childrenCount } = visibility;
 
-		return showNodeChildren ?? (selectedNodes.value[mappedIndex] && !!childrenCount);
+		return showNodeChildren ?? (openNodes.value[mappedIndex] && !!childrenCount);
 	}
 
 	/**
@@ -334,22 +342,18 @@
 
 		return 0;
 	}
-	function toggleAll(value = true, index = 0) {
-		if (index === 0) {
-			// Select all nodes
-			selectedNodes.value = Array.from(
-				{ length: mappedNodes.value.nodes.length },
-				() => value
-			);
-		} else {
-			// Open all nodes
-			openNodes.value = Array.from({ length: mappedNodes.value.nodes.length }, () => value);
-		}
+	function openAll(value = true) {
+		// Open/close all nodes
+		openNodes.value = Array.from({ length: mappedNodes.value.nodes.length }, () => value);
+	}
+	function selectAll(value = true) {
+		// Select/deselect all nodes
+		selectedNodes.value = Array.from({ length: mappedNodes.value.nodes.length }, () => value);
 	}
 	function toggleChildren(index: number) {
-		const selected = selectedNodes.value[index];
+		const visible = openNodes.value[index];
 
-		selectedNodes.value[index] = !selected;
+		openNodes.value[index] = !visible;
 	}
 
 	function makeHydrateNode(nodeIndex: number) {

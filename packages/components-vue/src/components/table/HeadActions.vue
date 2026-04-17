@@ -25,20 +25,16 @@
 												mappedNodes.withChildren
 											"
 											:theme="theme"
-											:active="openNodesCount === selectedNodes.length"
+											:active="openNodesCount === openNodes.length"
 											no-theme-override
 											round=":sm-inv"
 											@click="
-												() =>
-													toggleAll(
-														!(openNodesCount === selectedNodes.length),
-														1
-													)
+												() => openAll(openNodesCount !== openNodes.length)
 											"
 										>
 											<span class="--hidden-full:sm-inv">
 												{{
-													openNodesCount === selectedNodes.length
+													openNodesCount === openNodes.length
 														? t("table_hide_all")
 														: t("table_show_all")
 												}}
