@@ -192,7 +192,7 @@
 					<th class="--sticky --pX-10 --pY-5 --vAlign">
 						<div class="flx --flxRow --flx-end-center --gap-10 --bdr">
 							<ActionLink
-								:theme="theme || themeValues"
+								:theme="nodesDividerThemeValues"
 								:size="size"
 								:active="canShowChildren(visibility, mappedIndex)"
 								:tooltip="
@@ -219,7 +219,7 @@
 							</ActionLink>
 							<ActionButtonLink
 								v-if="createNodeChildren"
-								:theme="theme || themeValues"
+								:theme="nodesDividerThemeValues"
 								:size="size"
 								:disabled="visibility.disableCreateNodeChildren"
 								:tooltip="
@@ -242,7 +242,7 @@
 					</th>
 					<td :colspan="propertiesMeta.length + 1" class="--pY-5 --index-1 --pRight">
 						<div class="--width-100 --pRight --boxSizing --overflow-hidden">
-							<hr :class="`--tm-${themeValues[0]}`" />
+							<hr :class="`--tm-${nodesDividerThemeValues[0]}`" />
 						</div>
 					</td>
 				</tr>
@@ -251,7 +251,7 @@
 					<td :colspan="propertiesMeta.length + 2">
 						<BaseBox
 							v-show="canShowChildren(visibility, mappedIndex)"
-							:theme="theme || themeValues"
+							:theme="nodesDividerThemeValues"
 							class="--gap-5 --p-10 --maxWidth-100"
 							transparent
 							solid
@@ -280,7 +280,7 @@
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
 	import { computed, inject } from "vue";
 
-	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
+	import type { iPluginOptions, tThemeTuple } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -293,7 +293,7 @@
 	import BaseBox from "../base/Box.vue";
 
 	import type { iTableChildProps } from "../../types/props";
-	import useTheme from "../../composables/theme";
+	import useTheme, { getThemeValues } from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
 
 	export interface iTableBodyProps<
@@ -314,6 +314,10 @@
 	const { t } = useHelpers(useI18n);
 	const { themeValues, dangerThemeValues } = useTheme(props);
 	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
+
+	const nodesDividerThemeValues = computed<tThemeTuple>(() => {
+		return getThemeValues(props.nodesDividerTheme || themeValues.value);
+	});
 
 	const pageNumber = computed(() => {
 		const page = props.pageInfo?.pageNumber || 1;
