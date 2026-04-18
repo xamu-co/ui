@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.15...@open-xamu-co/ui-components-vue-v4.0.0-next.16) (2026-04-18)
+
+
+### Features
+
+* **vue:** nodesDividerTheme ([db4ea76](https://github.com/xamu-co/ui/commit/db4ea760ee64ee9f28998966fa100a856091aa9c))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.16"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.14...@open-xamu-co/ui-components-vue-v4.0.0-next.15) (2026-04-17)
 
 
