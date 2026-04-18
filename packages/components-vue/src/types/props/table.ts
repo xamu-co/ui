@@ -11,6 +11,9 @@ import type {
 	iPagination,
 	iPageInfo,
 	tOrder,
+	tProp,
+	tThemeModifier,
+	tThemeTuple,
 } from "@open-xamu-co/ui-common-types";
 
 import type { vComponent } from "../plugin";
@@ -35,6 +38,11 @@ export interface iTableProps<
 	Ti extends Record<string, any>,
 	Tm extends Record<string, any> = Ti,
 > extends iUseThemeProps {
+	/**
+	 * Theme for the node divider
+	 * @default theme
+	 */
+	nodesDividerTheme?: tThemeTuple | tProp<tThemeModifier>;
 	/**
 	 * Table nodes
 	 * an array of nodes
@@ -190,6 +198,12 @@ export interface iMappedNodes<Ti extends Record<string, any>, Tm extends Record<
 	withChildren: boolean;
 }
 
+/**
+ * Internal table component props
+ * Not intended to be used directly
+ *
+ * @internal
+ */
 export interface iTableChildProps<
 	Ti extends Record<string, any>,
 	Tm extends Record<string, any> = Ti,

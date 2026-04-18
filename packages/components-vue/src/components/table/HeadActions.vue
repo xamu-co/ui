@@ -27,12 +27,13 @@
 											:theme="theme"
 											:active="openNodesCount === openNodes.length"
 											no-theme-override
-											round=":sm-inv"
+											breakpoint="laptop"
+											round=":lg-inv"
 											@click="
 												() => openAll(openNodesCount !== openNodes.length)
 											"
 										>
-											<span class="--hidden-full:sm-inv">
+											<span class="--hidden-full:lg-inv">
 												{{
 													openNodesCount === openNodes.length
 														? t("table_hide_all")
@@ -70,10 +71,10 @@
 											tooltip-position="bottom"
 											:theme="dangerThemeValues"
 											:disabled="!selectedNodesCount"
-											round=":sm-inv"
+											round=":lg-inv"
 											@click="() => deleteNodesAndRefresh()"
 										>
-											<span class="--hidden-full:sm-inv">
+											<span class="--hidden-full:lg-inv">
 												{{
 													selectedNodesCount === selectedNodes.length
 														? t("delete_all")
