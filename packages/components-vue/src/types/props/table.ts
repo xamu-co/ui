@@ -177,11 +177,14 @@ export interface iTableProps<
 	opaque?: boolean;
 }
 
+/**
+ * Cached node visibility
+ */
 export interface iNodeVisibility {
 	disableCreateNodeChildren?: boolean;
 	showNodeChildren?: boolean;
+	/** Amount of children (childrenCountKey) */
 	childrenCount: number;
-	// show: boolean;
 }
 
 export interface iMappedNode<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti> {
@@ -195,6 +198,7 @@ export interface iMappedNode<Ti extends Record<string, any>, Tm extends Record<s
 export interface iMappedNodes<Ti extends Record<string, any>, Tm extends Record<string, any> = Ti> {
 	nodes: iMappedNode<Ti, Tm>[];
 	length: number;
+	/** One of the nodes has children */
 	withChildren: boolean;
 }
 
