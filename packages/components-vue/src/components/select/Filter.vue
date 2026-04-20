@@ -17,7 +17,7 @@
 			v-bind="{
 				...properties,
 				type: 'text',
-				placeholder: t('select_filter_options'),
+				placeholder: placeholder || t('select_filter_options'),
 				disabled: (!!modelValue && !isInvalid) || disabled,
 				invalid: isInvalid,
 				icon,
