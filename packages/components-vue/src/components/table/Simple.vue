@@ -354,7 +354,7 @@
 	}
 
 	function makeHydrateNode(nodeIndex: number) {
-		return (newNode: T | null, _newErrors?: unknown) => {
+		return (newNode: T | null, newErrors?: unknown) => {
 			if (!newNode) return;
 
 			// Replace the node with the updated one
@@ -367,7 +367,7 @@
 				});
 
 				// Hydrate node, fallback to refresh
-				if (props.hydrateNodes) props.hydrateNodes(updatedNodes);
+				if (props.hydrateNodes) props.hydrateNodes(updatedNodes, newErrors);
 				else if (!props.omitRefresh) props.refresh?.();
 			}
 		};

@@ -123,43 +123,40 @@
 			let newData: T | null = null;
 
 			if (!props.promise && !props.hydratablePromise && !props.url) return null;
+
 			if (props.preventAutoload) {
-				// is promise like
+				// Is promise like
 				const pl = props.promise !== undefined || props.hydratablePromise !== undefined;
 
 				// Prevent on first load or if url is used as key
 				if (!firstLoad.value || (!!props.url && pl)) return null;
 			}
-			if (props.promise || props.hydratablePromise) {
-				const payload = <P>(props.payload || []);
 
-				if (props.promise) {
-					newData = await props.promise(...payload);
-				} else if (props.hydratablePromise) {
-					/**
-					 * Hydrate content
-					 * Returns the actual content & allows for hydration
-					 */
-					const hydrateContent = computed({
-						get: () => content.value ?? null,
-						set: (newContent) => hydrate(newContent ?? null, errors.value),
-					});
-					/**
-					 * Hydrate errors
-					 * Returns the actual errors & allows for hydration
-					 */
-					const hydrateErrors = computed({
-						get: () => errors.value ?? null,
-						set: (newErrors) => hydrate(content.value ?? null, newErrors),
-					});
+			const payload = <P>(props.payload || []);
 
-					newData = await props.hydratablePromise(
-						hydrateContent,
-						hydrateErrors
-					)(...payload);
-				}
+			if (props.promise) {
+				newData = await props.promise(...payload);
+			} else if (props.hydratablePromise) {
+				/**
+				 * Hydrate content
+				 * Returns the actual content & allows for hydration
+				 */
+				const hydrateContent = computed({
+					get: () => content.value ?? null,
+					set: (newContent) => hydrate(newContent ?? null, errors.value),
+				});
+				/**
+				 * Hydrate errors
+				 * Returns the actual errors & allows for hydration
+				 */
+				const hydrateErrors = computed({
+					get: () => errors.value ?? null,
+					set: (newErrors) => hydrate(content.value ?? null, newErrors),
+				});
+
+				newData = await props.hydratablePromise(hydrateContent, hydrateErrors)(...payload);
 			} else if (props.url) {
-				const response = await useFetch<any>(props.url);
+				const response = await useFetch<any>(props.url, ...payload);
 				const data = "data" in response ? response.data : response;
 
 				if (response.error) throw new Error(response.error);
