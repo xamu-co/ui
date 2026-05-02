@@ -116,7 +116,7 @@
 							class="flx --flxRow --flx-center"
 							:position="['left', 'center']"
 							:size="size"
-							v-bind="{ theme: theme || themeValues, ...modalProps }"
+							v-bind="{ theme: theme || themeValues, ...dropdownProps }"
 						>
 							<template #toggle="{ setModel }">
 								<ActionLink
@@ -295,6 +295,7 @@
 	import type { iTableChildProps } from "../../types/props";
 	import useTheme, { getThemeValues } from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
+	import { omit } from "lodash-es";
 
 	export interface iTableBodyProps<
 		Ti extends Record<string, any>,
@@ -328,5 +329,9 @@
 		}
 
 		return (page - 1) * first;
+	});
+
+	const dropdownProps = computed(() => {
+		return omit(props.modalProps || {}, "class");
 	});
 </script>
