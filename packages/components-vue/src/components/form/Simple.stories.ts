@@ -26,7 +26,7 @@ export const WithInputs: Story = {
 	render: (args) => ({
 		components: { FormSimple },
 		setup() {
-			const inputs: tFormInput[] = [
+			const inputs = ref<tFormInput[]>([
 				new FormInput({
 					values: [""],
 					name: "firstName",
@@ -80,7 +80,7 @@ export const WithInputs: Story = {
 					title: "Business logo",
 					max: 3,
 				}),
-			];
+			]);
 			const invalid = ref<iInvalidInput[]>([]);
 
 			return { args, inputs, invalid };

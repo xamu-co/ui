@@ -1,25 +1,34 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-	<BaseBox v-bind="$attrs" :disabled="readonly" :theme="theme" input @click="useEditorFocus">
+	<BaseBox
+		v-bind="$attrs"
+		class="--gap-none"
+		:disabled="readonly"
+		:theme="theme"
+		input
+		@click="useEditorFocus"
+	>
 		<!-- Code editor, markdown by default -->
-		<div class="flx --flxColumn --flx-start-stretch --gap-5">
+		<div class="flx --flxColumn --flx-start-stretch --gap-5 --maxWidth-full">
 			<p class="--txtSize-xs" :class="`--txtColor-${themeValues[0]}5`">
 				{{ code || input?.meta?.code || "Markdown" }}
 			</p>
-			<InputCode
-				v-if="!previewCode && !readonly"
-				v-model="model"
-				v-bind="{
-					...omit(props, ['input', 'modelValue']),
-					extensions: extensions || input?.meta?.extensions,
-					code: !!(code || input?.meta?.code),
-					lineWrapping: lineWrapping || input?.meta?.lineWrapping,
-					editorTheme,
-				}"
-				:theme="theme"
-				@editor="(e) => (emittedEditor = e)"
-			/>
-			<div v-else class="txt" v-html="useMarkdown(model)"></div>
+			<div class="scroll --horizontal --always --maxWidth-full">
+				<InputCode
+					v-if="!previewCode && !readonly"
+					v-model="model"
+					v-bind="{
+						...omit(props, ['input', 'modelValue']),
+						extensions: extensions || input?.meta?.extensions,
+						code: !!(code || input?.meta?.code),
+						lineWrapping: lineWrapping || input?.meta?.lineWrapping,
+						editorTheme,
+					}"
+					:theme="theme"
+					@editor="(e) => (emittedEditor = e)"
+				/>
+				<div v-else class="txt" v-html="useMarkdown(model)"></div>
+			</div>
 		</div>
 		<ul v-if="!readonly" class="flx --flxRow --flx-between-center">
 			<li>

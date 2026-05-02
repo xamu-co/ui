@@ -2,16 +2,18 @@ import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { computed, ref } from "vue";
 
 import type { iForm, iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
-import { useForm } from "@open-xamu-co/ui-common-helpers";
+import { FormInput, useForm } from "@open-xamu-co/ui-common-helpers";
 
 import ModalSimple from "./Simple.vue";
 import ActionButton from "../action/Button.vue";
 import BoxAction from "../box/Action.vue";
+import FormSimple from "../form/Simple.vue";
 import FormStages from "../form/Stages.vue";
 import ActionButtonToggle from "../action/ButtonToggle.vue";
 import IconFa from "../icon/Fa.vue";
 
 import { stagesData } from "../form/Stages.stories";
+import { eFormType } from "@open-xamu-co/ui-common-enums";
 
 const meta: Meta<typeof ModalSimple> = {
 	title: "Modal",
@@ -44,6 +46,35 @@ export const Sample: Story = {
 	</template>
 	<template #default>
 		Hi, i'm the modal content
+	</template>
+</ModalSimple>
+		`,
+	}),
+};
+
+export const WithFormInput: Story = {
+	render: (args) => ({
+		components: { ModalSimple, ActionButton, FormSimple },
+		setup() {
+			const inputs = ref<tFormInput[]>([
+				new FormInput({
+					values: [""],
+					name: "body",
+					required: true,
+					title: "Form body",
+					type: eFormType.CODE,
+				}),
+			]);
+
+			return { args, inputs };
+		},
+		template: `
+<ModalSimple v-bind="args" class="--maxWidth-440:md">
+	<template #toggle="{ toggleModal }">
+		<ActionButton @click="toggleModal">Open Modal</ActionButton>
+	</template>
+	<template #default>
+		<FormSimple v-model="inputs" />
 	</template>
 </ModalSimple>
 		`,
