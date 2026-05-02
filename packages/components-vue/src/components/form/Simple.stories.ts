@@ -45,15 +45,21 @@ export const WithInputs: Story = {
 				}),
 				new FormInput({
 					required: true,
-					options: [{ value: 1, alias: "Payment on Delivery" }],
+					options: [
+						{ value: 1, alias: "Payment on Delivery" },
+						{ value: 2, alias: "Credit Card" },
+						{ value: 3, alias: "Debit Card" },
+						{ value: 4, alias: "Gift Card" },
+						{ value: 5, alias: "Paypal" },
+					],
 					type: eFormType.SELECT_FILTER,
 					placeholder: "Search payment methods",
 					icon: "credit-card",
 					autocomplete: "off",
 					name: "paymentMethodIds",
 					multiple: true,
-					min: 0,
-					title: "Choose one or several payment methods",
+					min: 1,
+					title: "Choose one payment method",
 				}),
 				new FormInput({
 					options: [

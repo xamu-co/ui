@@ -6,7 +6,7 @@
 <script setup lang="ts">
 	import { ref } from "vue";
 
-	import type { tFormInput } from "@open-xamu-co/ui-common-types";
+	import type { iFormOption, tFormInput } from "@open-xamu-co/ui-common-types";
 	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import { useHelpers } from "../../composables/utils";
@@ -19,14 +19,35 @@
 
 	defineOptions({ name: "FormInputOptions", inheritAttrs: true });
 
-	const props = defineProps<{ input: tFormInput }>();
+	const props = defineProps<{
+		input: tFormInput;
+		/**
+		 * Currently selected value
+		 */
+		selectedValue?: number | string;
+		/**
+		 * Currently selected values
+		 * When `input.multiple === true`
+		 */
+		selectedValues?: (number | string)[];
+	}>();
 
 	const { t } = useHelpers(useI18n);
 
-	const options = ref(props.input.options?.map(toOption) || []);
+	const options = ref((props.input.options || []).reduce(reduceOptions, []));
+
+	function reduceOptions(acc: iFormOption[], optionLike: string | number | iFormOption) {
+		const option = toOption(optionLike);
+
+		if (option.value === props.selectedValue || !props.selectedValues?.includes(option.value)) {
+			acc.push(option);
+		}
+
+		return acc;
+	}
 
 	// lifecycle
 	props.input.setRerender((updatedInput) => {
-		options.value = updatedInput?.options?.map(toOption) || [];
+		options.value = (updatedInput?.options || []).reduce(reduceOptions, []);
 	});
 </script>

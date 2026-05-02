@@ -243,11 +243,14 @@
 					v-else-if="input.type === eFT.SELECT || input.type === eFT.SELECT_FILTER"
 					v-slot="{ options }"
 					:input="input"
+					:selected-value="models[i].value"
+					:selected-values="reducedModels"
 				>
 					<component
 						:is="input.type === eFT.SELECT ? SelectSimple : SelectFilter"
 						v-model="models[i].value"
 						v-bind="inputProps"
+						:name="`${inputProps.name}-${i}`"
 						:invalid="isInvalidByValidation"
 						:theme="theme"
 						:disabled="readonly"
@@ -408,6 +411,13 @@
 				},
 			})
 		);
+	});
+	const reducedModels = computed(() => {
+		return models.value.reduce((acc: any[], { value }: any) => {
+			if (value !== "") acc.push(value);
+
+			return acc;
+		}, []);
 	});
 
 	function updateArrModel(modelIndex: number, valuePosition: number, newValue: any) {

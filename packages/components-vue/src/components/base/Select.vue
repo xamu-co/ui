@@ -19,7 +19,7 @@
 			v-for="({ value, alias, disabled, hidden }, index) in selectOptions"
 			:key="index"
 			v-bind="{ value, disabled, hidden }"
-			v-memo="[options]"
+			v-memo="[value, modelValue === value, selectOptions.length]"
 			:selected="modelValue === value"
 		>
 			{{ alias || value }}
