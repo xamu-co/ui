@@ -1,6 +1,8 @@
 <template>
 	<slot v-if="!!options.length" v-bind="{ options }" :key="options.length"></slot>
-	<p v-else class="--txtColor-danger">{{ t("form_required_options") }}</p>
+	<p v-else class="--txtColor-danger">
+		{{ input.meta?.swal.missing_options || t("form_required_options") }}
+	</p>
 </template>
 
 <script setup lang="ts">
