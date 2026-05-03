@@ -1,5 +1,32 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.16...@open-xamu-co/ui-components-vue-v4.0.0-next.17) (2026-05-03)
+
+
+### Bug Fixes
+
+* **vue:** avoid passing classes to table dropdown ([4c9c71d](https://github.com/xamu-co/ui/commit/4c9c71da0bf08dbbecc4bf7ba0f1b2159e31b7ca))
+* **vue:** include hydration errors ([b61e884](https://github.com/xamu-co/ui/commit/b61e884669b32b8935bd8afb213c88f682ae01d5))
+* **vue:** prefer missing options text from meta ([31eb61b](https://github.com/xamu-co/ui/commit/31eb61b9c41221d76b2eadcd2b9b0af754e1e3de))
+* **vue:** prefer prop for select filter placeholder ([594a2c4](https://github.com/xamu-co/ui/commit/594a2c4a9ee198de512c2b7d5805d4e01460a11d))
+* **vue:** prevent duplicate options on select ([f8a8c4f](https://github.com/xamu-co/ui/commit/f8a8c4f28d9b71f64d69674811c765e21a0bc093))
+* handle missing media on file input ([3bf4d1d](https://github.com/xamu-co/ui/commit/3bf4d1d739d70e87254511c942f8064810e93716))
+* show scrollbar on box editor ([0c6b991](https://github.com/xamu-co/ui/commit/0c6b99121bd942ed26c53a867644ce521cdc8399))
+* **vue:** unconditionally hydrate on node deletion ([1f4269f](https://github.com/xamu-co/ui/commit/1f4269f020645d951db85244d7f68bdfb358296f))
+
+
+### Features
+
+* **vue:** new modal slot to preserve save button ([5c52b40](https://github.com/xamu-co/ui/commit/5c52b406a85bbb12c7460c912774e8b8a1b5c55a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.17"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.15...@open-xamu-co/ui-components-vue-v4.0.0-next.16) (2026-04-18)
 
 
