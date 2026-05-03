@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.17...@open-xamu-co/ui-components-vue-v4.0.0-next.18) (2026-05-03)
+
+
+### Features
+
+* **vue:** inherit value table properties from table ([4cc8108](https://github.com/xamu-co/ui/commit/4cc8108c0269f1940dbc0bfa95ecc5c15699905e))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.18"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.16...@open-xamu-co/ui-components-vue-v4.0.0-next.17) (2026-05-03)
 
 
