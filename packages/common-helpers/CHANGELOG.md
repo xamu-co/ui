@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.5...@open-xamu-co/ui-common-helpers-v4.0.0-next.6) (2026-05-03)
+
+
+### Features
+
+* **helpers:** expose private forminput attributes ([61bf89d](https://github.com/xamu-co/ui/commit/61bf89d592266559a1a6befda0cdee7dbd323967))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.6"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v4.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.4...@open-xamu-co/ui-common-helpers-v4.0.0-next.5) (2026-04-17)
 
 
