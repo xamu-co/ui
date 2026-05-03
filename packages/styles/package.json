@@ -77,7 +77,7 @@
 		"cssnano-preset-advanced": "^7.0.10",
 		"postcss": "^8.5.6",
 		"postcss-cli": "^11.0.1",
-		"postcss-merge-at-rules": "vis97c/postcss-merge-at-rules",
+		"postcss-merge-at-rules": "^2.0.0",
 		"postcss-precision": "vis97c/postcss-precision",
 		"postcss-preset-env": "^10.5.0",
 		"postcss-sort-media-queries": "^5.2.0",
