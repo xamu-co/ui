@@ -58,6 +58,7 @@
 										updateNode: (n: any) => meta.updateNode?.(n, nodes[index]),
 									}),
 								},
+								properties,
 								node: nodes[index],
 								mappedNode: node,
 								readonly: isReadOnly,

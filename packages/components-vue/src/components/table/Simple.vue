@@ -247,12 +247,12 @@
 		for (const [key, value] of sorted) {
 			// Get meta defaults
 			const options = (props.properties || []).map(toOption);
-			const property = toOption(options.find((p) => p.value === key) || key);
+			const property = options.find((p) => p.value === key) || toOption(key);
 			const aliasKey = snakeCase(key);
 
 			const meta: iTablePropertyMeta<T> = {
-				...property, // Set defaults
-				value: String(property.value),
+				...property, // Get defaults
+				value: key,
 				alias: upperFirst(startCase(property.alias || tet(aliasKey))),
 				canSort: !!props.sort && isPlainValue(value),
 			};
