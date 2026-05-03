@@ -103,6 +103,15 @@
 										>
 											{{ saveButtonOptions.title }}
 										</ActionButton>
+										<slot
+											name="footer-actions-extras"
+											v-bind="{
+												toggleModal,
+												model,
+												modalRef,
+												invertedTheme: invertedThemeValues,
+											}"
+										></slot>
 									</slot>
 								</div>
 								<ActionButtonToggle

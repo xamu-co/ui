@@ -76,6 +76,8 @@
 	 * Powered by CodeMirror
 	 */
 
+	defineOptions({ name: "InputCode", inheritAttrs: true });
+
 	const emit = defineEmits(["update:model-value", "editor"]);
 	const props = withDefaults(defineProps<iInputCodeProps>(), {
 		extensions: () => [markdown()],

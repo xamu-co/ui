@@ -1,6 +1,5 @@
 <template>
 	<!-- Table header -->
-
 	<thead v-if="mappedNodes.nodes.length">
 		<tr class="--txtAlign" :class="`--txtSize-${size}`">
 			<!-- TODO: define filters, filter table contents -->

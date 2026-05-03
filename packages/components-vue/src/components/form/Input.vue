@@ -18,7 +18,7 @@
 				v-else-if="!input.defaults && input.type === eFT.FILE"
 				:theme="theme"
 				:disabled="readonly"
-				class="--flx --width-100"
+				class="--maxWidth-full --flx"
 				:file-prefix="snakeCase(input.placeholder)"
 				:model-value="modelValue"
 				:invalid="isInvalidByValidation"
@@ -218,7 +218,7 @@
 				<BaseBox
 					v-else-if="input.type === eFT.BOOLEAN"
 					el="label"
-					class="--flx --width-100 --txtAlign"
+					class="--maxWidth-full --flx --txtAlign"
 					:theme="theme"
 					:active="models[i].value"
 					button
@@ -243,17 +243,20 @@
 					v-else-if="input.type === eFT.SELECT || input.type === eFT.SELECT_FILTER"
 					v-slot="{ options }"
 					:input="input"
+					:selected-value="models[i].value"
+					:selected-values="reducedModels"
 				>
 					<component
 						:is="input.type === eFT.SELECT ? SelectSimple : SelectFilter"
 						v-model="models[i].value"
 						v-bind="inputProps"
+						:name="`${inputProps.name}-${i}`"
 						:invalid="isInvalidByValidation"
 						:theme="theme"
 						:disabled="readonly"
 						:placeholder="input.placeholder"
 						:options="options"
-						class="--flx"
+						class="--maxWidth-full --flx"
 					/>
 				</FormInputOptions>
 				<InputColor
@@ -267,7 +270,7 @@
 					v-else-if="input.type === eFT.CODE"
 					v-model="models[i].value"
 					v-bind="{ input, theme, readonly }"
-					class="--flx"
+					class="--maxWidth-full --flx"
 				/>
 				<!-- Future outer loop input -->
 				<InputText
@@ -283,7 +286,7 @@
 					:theme="theme"
 					:disabled="readonly"
 					:placeholder="getInputPlaceholder()"
-					class="--flx"
+					class="--maxWidth-full --flx"
 				/>
 			</FormInputLoop>
 			<template v-if="isInvalidByProps">
@@ -408,6 +411,13 @@
 				},
 			})
 		);
+	});
+	const reducedModels = computed(() => {
+		return models.value.reduce((acc: any[], { value }: any) => {
+			if (value !== "") acc.push(value);
+
+			return acc;
+		}, []);
 	});
 
 	function updateArrModel(modelIndex: number, valuePosition: number, newValue: any) {

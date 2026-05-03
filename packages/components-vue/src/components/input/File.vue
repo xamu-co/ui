@@ -448,13 +448,13 @@
 	function playMedia(e: Event) {
 		const media = (e.target as HTMLElement).querySelector("video, audio");
 
-		(media as HTMLMediaElement).play();
+		(media as HTMLMediaElement)?.play?.();
 	}
 
 	function pauseMedia(e: Event) {
 		const media = (e.target as HTMLElement).querySelector("video, audio");
 
-		(media as HTMLMediaElement).pause();
+		(media as HTMLMediaElement)?.pause?.();
 	}
 
 	function revokeObjectURL(src: string) {

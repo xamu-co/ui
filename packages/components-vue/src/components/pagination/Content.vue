@@ -227,7 +227,7 @@
 		page?: iPage<T, C> | null,
 		hydratePage?: (newContent: iPage<T, C> | null, newErrors?: unknown) => void
 	) {
-		function hydrateNodesFn(newContent: T[] | null, newErrors?: unknown) {
+		hydrateNodes.value = function (newContent: T[] | null, newErrors?: unknown) {
 			if (!page || !hydratePage) return;
 
 			const edges: iPageEdge<T, C>[] = (newContent || []).map((node) => {
@@ -237,13 +237,11 @@
 			});
 
 			hydratePage({ ...page, edges }, newErrors);
-		}
-
-		hydrateNodes.value = hydrateNodesFn;
+		};
 
 		const nodes = (page?.edges || []).map(({ node }) => node);
 
-		emit("has-content", value, nodes, hydrateNodesFn);
+		emit("has-content", value, nodes, hydrateNodes.value);
 	}
 
 	/**

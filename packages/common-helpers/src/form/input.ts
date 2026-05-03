@@ -88,8 +88,8 @@ export abstract class FormInputDefault<
 > implements tFormInputDefault<T> {
 	// public
 	public type: T;
+	public required: boolean;
 	// public readonly
-	public readonly required: boolean;
 	public readonly placeholder: string;
 	public readonly icon?: tFormIcon;
 	public readonly autocomplete?: tFormAutocomplete;
@@ -137,13 +137,14 @@ export class FormInput<
 		iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>,
 		...iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>[],
 	];
+	// public
+	public multiple: boolean;
+	public min: number;
+	public max: number;
+	public meta: Record<string, any>;
 	// public readonly
 	public readonly name: string;
 	public readonly title?: string;
-	public readonly multiple: boolean;
-	public readonly min: number;
-	public readonly max: number;
-	public readonly meta: Record<string, any>;
 
 	/**
 	 * Form input constructor

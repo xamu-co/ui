@@ -169,10 +169,7 @@
 			/** Hydrate this node only */
 			const hydrateNode = makeHydrateNode(index);
 			/** Add children and hydrate this node only */
-			const createNodeChildrenAndRefresh = makeCreateNodeChildrenAndRefresh(
-				index,
-				visibility
-			);
+			const createNodeChildrenAndRefresh = makeCreateNodeChildrenAndRefresh(index);
 
 			newNodes.nodes.push({
 				node: mappedNode,
@@ -357,7 +354,7 @@
 	}
 
 	function makeHydrateNode(nodeIndex: number) {
-		return (newNode: T | null, _newErrors?: unknown) => {
+		return (newNode: T | null, newErrors?: unknown) => {
 			if (!newNode) return;
 
 			// Replace the node with the updated one
@@ -370,7 +367,7 @@
 				});
 
 				// Hydrate node, fallback to refresh
-				if (props.hydrateNodes) props.hydrateNodes(updatedNodes);
+				if (props.hydrateNodes) props.hydrateNodes(updatedNodes, newErrors);
 				else if (!props.omitRefresh) props.refresh?.();
 			}
 		};
@@ -717,10 +714,7 @@
 	 *
 	 * @single
 	 */
-	function makeCreateNodeChildrenAndRefresh(
-		nodeIndex: number,
-		visibility: iNodeVisibility
-	): iNodeFn<T> {
+	function makeCreateNodeChildrenAndRefresh(nodeIndex: number): iNodeFn<T> {
 		/** Hydrate parent node */
 		const hydrateNode = makeHydrateNode(nodeIndex);
 
@@ -754,7 +748,7 @@
 							}
 
 							// Hydrate if possible
-							if (visibility.childrenCount) hydrateNode(updated);
+							hydrateNode(updated);
 						} else if (!props.omitRefresh) props.refresh?.();
 
 						closeModal?.();
