@@ -21,10 +21,10 @@ export default mergeConfig(
 			coverage: {
 				provider: "v8",
 				thresholds: {
-					lines: coverage, // 61.97%
-					functions: coverage, // 49.66%
-					branches: coverage, // 53.04%
-					statements: coverage, // 58.97%
+					lines: coverage, // 58.84%
+					functions: coverage, // 50.82%
+					branches: coverage, // 47.15%
+					statements: coverage, // 55.74%
 				},
 				exclude: [...coverageConfigDefaults.exclude, "e2e/**", ".storybook/**"],
 			},

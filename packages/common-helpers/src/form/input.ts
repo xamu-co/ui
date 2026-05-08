@@ -4,8 +4,8 @@ import isEqual from "lodash-es/isEqual";
 import type {
 	iFormInput,
 	iFormInputDefault,
+	iFormOption,
 	iFormValue,
-	iSelectOption,
 	tFormAutocomplete,
 	tFormIcon,
 	tFormInputDefault,
@@ -130,7 +130,7 @@ export class FormInput<
 	implements iFormInput<V, T>
 {
 	// private
-	private _options: iSelectOption[];
+	private _options: iFormOption[];
 	private _values: V[];
 	private _defaults?: [
 		iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>,
@@ -163,7 +163,8 @@ export class FormInput<
 		this.name = formInput.name;
 		this.multiple = formInput.multiple ?? false;
 		this.title = formInput.title;
-		this._options = formInput.options?.map(toOption) ?? [];
+		// Initialize options array, skip if function
+		this._options = Array.isArray(formInput.options) ? formInput.options.map(toOption) : [];
 		this._defaults = formInput.defaults;
 		this.min = formInput.min ?? 1;
 		this.meta = formInput.meta || {};
@@ -190,10 +191,10 @@ export class FormInput<
 		}
 	}
 
-	get options(): iSelectOption[] {
+	get options(): iFormOption[] {
 		return this._options;
 	}
-	set options(updatedOptions: iSelectOption[] | undefined) {
+	set options(updatedOptions: iFormOption[] | undefined) {
 		this._options = updatedOptions || [];
 
 		if (isChoiceType(this.type)) {

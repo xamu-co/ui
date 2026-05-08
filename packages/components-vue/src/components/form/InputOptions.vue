@@ -1,5 +1,9 @@
 <template>
-	<slot v-if="!!options.length" v-bind="{ options }" :key="options.length"></slot>
+	<slot
+		v-if="!!options.length || typeof props.input.options === 'function'"
+		v-bind="{ options }"
+		:key="options.length"
+	></slot>
 	<p v-else class="--txtColor-danger">
 		{{ input.meta?.swal?.missing_options || t("form_required_options") }}
 	</p>
@@ -30,6 +34,7 @@
 		/**
 		 * Currently selected values
 		 * When `input.multiple === true`
+		 * @example [selectedValue, ...otherValues]
 		 */
 		selectedValues?: (number | string)[];
 	}>();
@@ -41,6 +46,7 @@
 	function reduceOptions(acc: iFormOption[], optionLike: string | number | iFormOption) {
 		const option = toOption(optionLike);
 
+		// Filter out previously selected options, to avoid duplicates
 		if (option.value === props.selectedValue || !props.selectedValues?.includes(option.value)) {
 			acc.push(option);
 		}
@@ -50,6 +56,8 @@
 
 	// lifecycle
 	props.input.setRerender((updatedInput) => {
+		if (!Array.isArray(updatedInput?.options)) return [];
+
 		options.value = (updatedInput?.options || []).reduce(reduceOptions, []);
 	});
 </script>

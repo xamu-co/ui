@@ -99,7 +99,16 @@
 		return props.name || props.id || Md5.hashStr(`select-filter-${seed}`);
 	});
 	const selectOptions = computed<iFormOption[]>(() => {
-		return (props.options || []).map(toOption).filter(({ hidden }) => !hidden);
+		// Only use array type, skip if function
+		if (!Array.isArray(props.options)) return [];
+
+		return props.options.reduce<iFormOption[]>((acc, current) => {
+			const option = toOption(current);
+
+			if (!option.hidden) acc.push(option);
+
+			return acc;
+		}, []);
 	});
 	/**
 	 * Prefers alias instead of value

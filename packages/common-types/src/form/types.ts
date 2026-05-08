@@ -113,15 +113,26 @@ export interface iFormInputDefault<
 	autocomplete?: tFormAutocomplete;
 }
 
+export type iFormInputOptions =
+	| (string | number | iFormOption)[]
+	| ((v?: string | number) => Promise<iFormOption[]>);
+
 /**
  * Complex input, sub input support
+ * Used as input for the classes
  */
 export interface iFormInput<
 	V extends iFormValue | iFormValue[],
 	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex,
 > extends iFormInputDefault<T> {
 	name: string;
-	options?: (string | number | iFormOption)[];
+	/**
+	 * Options for select, checkbox, radio inputs
+	 * The usage of a function requires a compatible component (SelectFilter)
+	 *
+	 * @values array of options or function that returns options
+	 */
+	options?: iFormInputOptions;
 	/**
 	 * An array of values to simplify validation
 	 *
@@ -189,6 +200,13 @@ export interface iFetchResponse<R = any> {
 	[x: string]: any;
 }
 
+/**
+ * Takes the parsed inputs values and perform a request (content creation, update, etc).
+ *
+ * @param values Values of the input
+ * @param fetcher Request function
+ * @returns Response with data and errors if any
+ */
 export type tResponseFn<T, V extends Record<string, any> = Record<string, any>> = (
 	values: V
 ) => Promise<iFetchResponse<T>>;
