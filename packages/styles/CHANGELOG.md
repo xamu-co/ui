@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v5.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.4...@open-xamu-co/ui-styles-v5.0.0-next.5) (2026-05-08)
+
+
+### Bug Fixes
+
+* **styles:** flex direction as global modifier ([cff2c42](https://github.com/xamu-co/ui/commit/cff2c429b88579518522984d0d0aeea2bee80994))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.5"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v5.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.3...@open-xamu-co/ui-styles-v5.0.0-next.4) (2026-01-18)
 
 
