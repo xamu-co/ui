@@ -1,16 +1,24 @@
 <template>
 	<nav class="list">
-		<BaseInput v-if="title" v-slot="{ id }" type="checkbox" v-bind="{ title, checked, theme }">
+		<BaseInput
+			v-if="title || $slots.header"
+			v-slot="{ id }"
+			type="checkbox"
+			v-bind="{ title, checked, theme }"
+		>
 			<label :for="id" class="toggle--list" :class="`--txtColor-${themeValues[0]}`">
-				<span>{{ title }}</span>
-				<IconFa name="angle-down" :size="20" />
+				<slot name="header">
+					<span>{{ title }}</span>
+					<IconFa name="angle-down" :size="20" />
+				</slot>
 			</label>
 		</BaseInput>
-		<component :is="el || 'ul'" class="list-group">
+		<component :is="el || 'ul'" class="list-group" :class="$attrs.class">
 			<slot></slot>
 		</component>
 	</nav>
 </template>
+
 <script setup lang="ts">
 	import BaseInput from "../base/Input.vue";
 	import IconFa from "../icon/Fa.vue";
