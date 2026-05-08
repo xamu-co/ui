@@ -11948,9 +11948,10 @@ postcss-media-query-parser@^0.2.3:
   resolved "https://registry.yarnpkg.com/postcss-media-query-parser/-/postcss-media-query-parser-0.2.3.tgz#27b39c6f4d94f81b1a73b8f76351c609e5cef244"
   integrity sha512-3sOlxmbKcSHMjlUXQZKQ06jOswE7oVkXPxmZdoB1r5l0q6gTFTQSHxNxOrCccElbW7dxNytifNEo8qidX2Vsig==
 
-postcss-merge-at-rules@vis97c/postcss-merge-at-rules:
-  version "0.0.1"
-  resolved "https://codeload.github.com/vis97c/postcss-merge-at-rules/tar.gz/4bb58e5de31c0f3537f3f86126f14b957c517f61"
+postcss-merge-at-rules@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-merge-at-rules/-/postcss-merge-at-rules-2.0.0.tgz#4b36a224276ba3d35b0e61737da666c612d128d7"
+  integrity sha512-+uYA/pnQIuFuFlJ2hHle5jBiEDLj5jmz/Xt6A+KpJKf+ng4zrtAlWOSpGxUYa2sN3sMmthNJ/1UWis02N/SxCw==
   dependencies:
     sort-css-media-queries "2.2.0"
 
