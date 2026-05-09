@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v4.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v4.0.0-next.5...@open-xamu-co/ui-common-types-v4.0.0-next.6) (2026-05-09)
+
+
+### Features
+
+* **vue:** pass down abort signal on fetch components ([c6063c2](https://github.com/xamu-co/ui/commit/c6063c2818a40a14033b20ddc827b1fc673a4e9b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "4.0.0-next.6"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v4.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v4.0.0-next.4...@open-xamu-co/ui-common-types-v4.0.0-next.5) (2026-04-17)
 
 
