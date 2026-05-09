@@ -15,7 +15,7 @@ type AsyncDataOptions<T> = {
 	getCachedData?: () => T | null;
 };
 
-type tAsyncDataHandler<T> = (nuxtApp?: any) => Promise<T>;
+type tAsyncDataHandler<T> = (nuxtApp?: any, options?: { signal?: AbortSignal }) => Promise<T>;
 
 /**
  * Replicate nuxt sync data
