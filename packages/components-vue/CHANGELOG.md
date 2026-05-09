@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.18...@open-xamu-co/ui-components-vue-v4.0.0-next.19) (2026-05-09)
+
+
+### Bug Fixes
+
+* **vue:** optional assertion on input swal label ([9c486a4](https://github.com/xamu-co/ui/commit/9c486a4ee5dcda84013898c43988b8567b630e78))
+
+
+### Features
+
+* **vue:** header slot for collapse ([96467f6](https://github.com/xamu-co/ui/commit/96467f66626f05ba8e5b5e984813ea7fb99ed6a5))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.19"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.17...@open-xamu-co/ui-components-vue-v4.0.0-next.18) (2026-05-03)
 
 
