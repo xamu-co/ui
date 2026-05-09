@@ -1,6 +1,6 @@
 <template>
 	<BaseErrorBoundary at="FormInput" :theme="theme">
-		<div v-if="input.type !== eFT.HIDDEN" class="flx --flxColumn --flx-start --gap-5">
+		<div v-if="input.type !== eFT.HIDDEN" class="flx --flxColumn --flx-start --flx --gap-5">
 			<FormInputOptions
 				v-if="!input.defaults && input.type === eFT.CHOICE"
 				v-slot="{ options }"

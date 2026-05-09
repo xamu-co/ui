@@ -11,11 +11,10 @@ export interface iSelectOption {
  *
  * Action result, event and callback
  */
-export type iNodeFnResponse<T extends Record<string, any> = never> = [
-	(boolean | T)?,
-	Event?,
-	(() => void)?,
-];
+export type iNodeFnResponse<
+	T extends Record<string, any> = never,
+	E extends Record<string, any> = Record<string, any>,
+> = [(boolean | T)?, (Event & Partial<CustomEvent<E>>)?, (() => void)?];
 
 /**
  * Stream like response from node functions
@@ -23,9 +22,12 @@ export type iNodeFnResponse<T extends Record<string, any> = never> = [
  * Action result, event and callback
  * Can accept an stream like array for multiple updates (hydration)
  */
-export type iNodeFnResponseStream<T extends Record<string, any> = never> = [
+export type iNodeFnResponseStream<
+	T extends Record<string, any> = never,
+	E extends Record<string, any> = Record<string, any>,
+> = [
 	(boolean | T | [boolean | T, ...Promise<boolean | T>[]])?,
-	Event?,
+	(Event & Partial<CustomEvent<E>>)?,
 	(() => void)?,
 ];
 

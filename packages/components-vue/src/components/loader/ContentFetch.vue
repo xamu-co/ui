@@ -53,7 +53,7 @@
 		 * Make sure to use preventAutoload to avoid invalid fetching.
 		 */
 		url?: false | string;
-		promise?: false | ((...args: Pi) => Promise<Ti>);
+		promise?: false | ((...args: [...Pi, AbortSignal | undefined]) => Promise<Ti>);
 		/**
 		 * Hydrate values after promise if resolved
 		 * Useful with firebase
@@ -64,7 +64,10 @@
 		 */
 		hydratablePromise?:
 			| false
-			| ((content: Ref<Ti | null>, errors: Ref<unknown>) => (...args: Pi) => Promise<Ti>);
+			| ((
+					content: Ref<Ti | null>,
+					errors: Ref<unknown>
+			  ) => (...args: [...Pi, AbortSignal | undefined]) => Promise<Ti>);
 		payload?: Pi;
 		/**
 		 * Component or tag to render on loader
@@ -119,7 +122,7 @@
 		refresh,
 	} = useAsyncData(
 		props.url || "",
-		async (): Promise<T | null> => {
+		async (_, { signal } = {}): Promise<T | null> => {
 			let newData: T | null = null;
 
 			if (!props.promise && !props.hydratablePromise && !props.url) return null;
@@ -135,7 +138,7 @@
 			const payload = <P>(props.payload || []);
 
 			if (props.promise) {
-				newData = await props.promise(...payload);
+				newData = await props.promise(...payload, signal);
 			} else if (props.hydratablePromise) {
 				/**
 				 * Hydrate content
@@ -154,7 +157,10 @@
 					set: (newErrors) => hydrate(content.value ?? null, newErrors),
 				});
 
-				newData = await props.hydratablePromise(hydrateContent, hydrateErrors)(...payload);
+				newData = await props.hydratablePromise(hydrateContent, hydrateErrors)(
+					...payload,
+					signal
+				);
 			} else if (props.url) {
 				const response = await useFetch<any>(props.url, ...payload);
 				const data = "data" in response ? response.data : response;

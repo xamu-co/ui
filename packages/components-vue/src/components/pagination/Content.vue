@@ -60,7 +60,7 @@
 		 */
 		page?: Ri extends iGetPage<Ti, Ci>
 			? iGetPage<Ti, Ci>
-			: (params?: iPagination) => Promise<Ri | undefined>;
+			: (params?: iPagination, signal?: AbortSignal) => Promise<Ri | undefined>;
 		/**
 		 * Function used to fetch the page and hydrate the content
 		 */
@@ -69,7 +69,7 @@
 			errors: Ref<unknown>
 		) => Ri extends iGetPage<Ti, Ci>
 			? iGetPage<Ti, Ci>
-			: (params?: iPagination) => Promise<Ri | undefined>;
+			: (params?: iPagination, signal?: AbortSignal) => Promise<Ri | undefined>;
 		/**
 		 * Path used as key for the cache
 		 */
@@ -203,9 +203,9 @@
 	): iGetPage<T, C> => {
 		const page = props.hydratablePage?.(content, errors) || props.page;
 
-		return async (v) => {
+		return async (v, signal) => {
 			const transform: (r: any) => iPage<T, C> | undefined = props.transform || ((v) => v);
-			const result = await page?.(v);
+			const result = await page?.(v, signal);
 
 			return transform(result);
 		};

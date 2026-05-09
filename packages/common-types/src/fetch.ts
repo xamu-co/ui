@@ -65,5 +65,6 @@ export interface iPagination {
 }
 
 export type iGetPage<T, C extends string | number = string> = (
-	params?: iPagination
+	params?: iPagination,
+	signal?: AbortSignal
 ) => Promise<iPage<T, C> | undefined>;
