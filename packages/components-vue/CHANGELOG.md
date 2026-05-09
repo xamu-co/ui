@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.20](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.19...@open-xamu-co/ui-components-vue-v4.0.0-next.20) (2026-05-09)
+
+
+### Features
+
+* **vue:** pass down abort signal on fetch components ([c6063c2](https://github.com/xamu-co/ui/commit/c6063c2818a40a14033b20ddc827b1fc673a4e9b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.20"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.18...@open-xamu-co/ui-components-vue-v4.0.0-next.19) (2026-05-09)
 
 
