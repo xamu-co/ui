@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.21](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.20...@open-xamu-co/ui-components-vue-v4.0.0-next.21) (2026-05-10)
+
+
+### Bug Fixes
+
+* **vue:** modify input values within collapse ([6f73559](https://github.com/xamu-co/ui/commit/6f735593703dd8613f8fc10e75761886f31dcbaa))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.21"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.20](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.19...@open-xamu-co/ui-components-vue-v4.0.0-next.20) (2026-05-09)
 
 
