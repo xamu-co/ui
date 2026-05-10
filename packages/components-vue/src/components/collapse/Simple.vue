@@ -2,11 +2,11 @@
 	<nav class="list">
 		<BaseInput
 			v-if="title || $slots.header"
-			v-slot="{ id }"
-			type="checkbox"
-			v-bind="{ title, checked, theme }"
+			v-slot="{ id: baseId }"
+			:type="type || 'checkbox'"
+			v-bind="{ id, name, title, checked, theme }"
 		>
-			<label :for="id" class="toggle--list" :class="`--txtColor-${themeValues[0]}`">
+			<label :for="id || baseId" class="toggle--list" :class="`--txtColor-${themeValues[0]}`">
 				<slot name="header">
 					<span>{{ title }}</span>
 					<IconFa name="angle-down" :size="20" />
@@ -28,6 +28,12 @@
 	import useTheme from "../../composables/theme";
 
 	interface Collapse extends iUseThemeProps {
+		/** Input id */
+		id?: string;
+		/** Input name */
+		name?: string;
+		/** Input type */
+		type?: "checkbox" | "radio";
 		title?: string;
 		checked?: boolean;
 		el?: vComponent | string;
