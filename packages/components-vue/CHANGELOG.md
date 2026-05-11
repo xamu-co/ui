@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.22](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.21...@open-xamu-co/ui-components-vue-v4.0.0-next.22) (2026-05-11)
+
+
+### Bug Fixes
+
+* **vue:** allow setting max file size from input meta ([876d45e](https://github.com/xamu-co/ui/commit/876d45ed27005fa3188b2806c93f8d04c9692e42))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.22"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.21](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.20...@open-xamu-co/ui-components-vue-v4.0.0-next.21) (2026-05-10)
 
 
