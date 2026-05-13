@@ -113,9 +113,12 @@ export interface iFormInputDefault<
 	autocomplete?: tFormAutocomplete;
 }
 
-export type iFormInputOptions =
-	| (string | number | iFormOption)[]
-	| ((v?: string | number) => Promise<iFormOption[]>);
+export type tOptionsLoaderFn =
+	| ((v?: string | number, signal?: AbortSignal) => iFormOption[])
+	| ((v?: string | number, signal?: AbortSignal) => Promise<iFormOption[]>);
+
+/** If a function is given, it should be responsible of determining if v is a value or an alias (search) */
+export type iFormInputOptions = (string | number | iFormOption)[] | tOptionsLoaderFn;
 
 /**
  * Complex input, sub input support

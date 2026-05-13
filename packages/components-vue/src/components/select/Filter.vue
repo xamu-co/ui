@@ -47,12 +47,16 @@
 
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
-	import { computed } from "vue";
+	import { computed, inject, ref } from "vue";
 	import deburr from "lodash-es/deburr";
 	import omit from "lodash-es/omit";
 	import { Md5 } from "ts-md5";
 
-	import type { iFormIconProps, iFormOption } from "@open-xamu-co/ui-common-types";
+	import type {
+		iFormIconProps,
+		iFormOption,
+		tOptionsLoaderFn,
+	} from "@open-xamu-co/ui-common-types";
 	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import SelectSimple from "./Simple.vue";
@@ -66,7 +70,10 @@
 		iUseThemeProps,
 		iSelectProps,
 	} from "../../types/props";
+	import type { iVuePluginOptions } from "../../types/plugin";
+	import { useAsyncDataFn } from "../../composables/async";
 	import { useHelpers } from "../../composables/utils";
+	import debounce from "lodash-es/debounce";
 
 	interface iSelectFilterProps
 		extends iSelectProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
@@ -91,6 +98,25 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
+	const { internals } = inject<iVuePluginOptions>("xamu") || {};
+	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
+
+	/** Local model for the filter */
+	const queryModel = ref<string | number>("");
+
+	/**
+	 * Loader for the options.
+	 * Always a function, even when a static list is provided.
+	 */
+	const optionsLoader = computed<tOptionsLoaderFn>(() => {
+		const raw = props.options;
+
+		if (typeof raw === "function") return raw;
+
+		const list = (raw || []).map(toOption);
+
+		return () => list;
+	});
 
 	/** Prefer a predictable identifier */
 	const selectFilterName = computed(() => {
@@ -98,29 +124,46 @@
 
 		return props.name || props.id || Md5.hashStr(`select-filter-${seed}`);
 	});
+
 	const selectOptions = computed<iFormOption[]>(() => {
-		// Only use array type, skip if function
-		if (!Array.isArray(props.options)) return [];
+		let options = remoteOptions.value ?? [];
+		const value = props.modelValue;
 
-		return props.options.reduce<iFormOption[]>((acc, current) => {
-			const option = toOption(current);
+		// Filter out hidden options
+		options = options.filter(({ hidden }) => !hidden);
 
-			if (!option.hidden) acc.push(option);
+		if (value && !options.find(({ value: val }) => val === value)) {
+			return [...options, { value }];
+		}
 
-			return acc;
-		}, []);
+		return options;
 	});
-	/**
-	 * Prefers alias instead of value
-	 */
+
+	const { data: remoteOptions } = useAsyncData<iFormOption[]>(
+		selectFilterName.value,
+		async (_, { signal } = {}) => {
+			/** Fallbacks queryModel to selected value */
+			const query = queryModel.value || props.modelValue;
+			const result = await Promise.resolve(optionsLoader.value(query, signal));
+
+			return result || [];
+		},
+		{
+			default: () => [],
+			watch: [queryModel],
+		}
+	);
+
 	const aliasModel = computed({
-		get: () => {
+		get() {
 			const option = selectOptions.value.find(({ value }) => value === props.modelValue);
 
-			// alias first
-			return option?.alias ?? option?.value ?? "";
+			return String(option?.alias ?? option?.value ?? "");
 		},
 		set(valueOrAlias: string | number) {
+			// Keep queryModel updated with what is being typed
+			debounceQueryModelSet(valueOrAlias);
+
 			// This assumes that aliases are distinct enough
 			const deburrer = (v: string | number) => deburr(String(v)).toLowerCase();
 			const newModel = deburrer(valueOrAlias);
@@ -131,8 +174,10 @@
 				return match === newModel;
 			});
 
-			// emit if valid
-			if (option) emit("update:model-value", option.value);
+			if (option) {
+				emit("update:model-value", option.value);
+				queryModel.value = "";
+			}
 		},
 	});
 	const isInvalid = computed<boolean>(() => {
@@ -142,7 +187,7 @@
 	});
 	const properties = computed(() => {
 		return {
-			...omit(props, ["modelValue"]),
+			...omit(props, ["modelValue", "options"]),
 			hidden: props.hidden,
 			size: props.size,
 			active: props.active,
@@ -151,10 +196,12 @@
 		};
 	});
 
-	/**
-	 * Clears up input model
-	 */
 	function resetModel() {
+		queryModel.value = "";
 		emit("update:model-value", "");
 	}
+
+	const debounceQueryModelSet = debounce((value: string | number) => {
+		queryModel.value = value;
+	}, 300);
 </script>

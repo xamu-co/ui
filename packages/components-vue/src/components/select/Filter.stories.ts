@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
 
-import type { iSelectOption } from "@open-xamu-co/ui-common-types";
+import type { iFormOption, iSelectOption } from "@open-xamu-co/ui-common-types";
 
 import SelectFilter from "./Filter.vue";
 
@@ -33,6 +33,43 @@ export const WithOptions: Story = {
 			return { args, model, options };
 		},
 		template: '<SelectFilter v-bind="args" v-model="model" :options="options" />',
+	}),
+};
+
+const allOptions: iFormOption[] = [
+	{ value: "alpha", alias: "Alpha" },
+	{ value: "beta", alias: "Beta" },
+	{ value: "betaLike", alias: "Beta Like" },
+	{ value: "gamma", alias: "Gamma" },
+];
+
+export const AsyncOptions: Story = {
+	render: (args) => ({
+		components: { SelectFilter },
+		setup() {
+			const model = ref<string | number>("betaLike");
+
+			async function loadOptions(query?: string | number): Promise<iFormOption[]> {
+				await new Promise((r) => setTimeout(r, 200));
+
+				const q = String(query ?? "")
+					.trim()
+					.toLowerCase();
+
+				if (!q) return allOptions;
+
+				return allOptions.filter(
+					(o) =>
+						String(o.value).toLowerCase().includes(q) ||
+						String(o.alias ?? o.value)
+							.toLowerCase()
+							.includes(q)
+				);
+			}
+
+			return { args, model, loadOptions };
+		},
+		template: '<SelectFilter v-bind="args" v-model="model" :options="loadOptions" />',
 	}),
 };
 

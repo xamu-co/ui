@@ -1,8 +1,8 @@
 <template>
 	<slot
-		v-if="!!options.length || typeof props.input.options === 'function'"
+		v-if="!!optionsArrayLength || typeof props.input.options === 'function'"
 		v-bind="{ options }"
-		:key="options.length"
+		:key="typeof options === 'function' ? `async-${input.name}` : optionsArrayLength"
 	></slot>
 	<p v-else class="--txtColor-danger">
 		{{ input.meta?.swal?.missing_options || t("form_required_options") }}
@@ -10,10 +10,10 @@
 </template>
 
 <script setup lang="ts">
-	import { ref } from "vue";
+	import { computed, ref } from "vue";
 
-	import type { iFormOption, tFormInput } from "@open-xamu-co/ui-common-types";
-	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
+	import type { iFormInputOptions, iFormOption, tFormInput } from "@open-xamu-co/ui-common-types";
+	import { getFormInputOptionsLength, toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import { useHelpers } from "../../composables/utils";
 
@@ -41,7 +41,13 @@
 
 	const { t } = useHelpers(useI18n);
 
-	const options = ref((props.input.options || []).reduce(reduceOptions, []));
+	const options = ref<iFormInputOptions>(
+		typeof props.input.options === "function"
+			? props.input.options
+			: (props.input.options ?? []).reduce(reduceOptions, [] as iFormOption[])
+	);
+
+	const optionsArrayLength = computed(() => getFormInputOptionsLength(props.input.options));
 
 	function reduceOptions(acc: iFormOption[], optionLike: string | number | iFormOption) {
 		const option = toOption(optionLike);
@@ -56,8 +62,17 @@
 
 	// lifecycle
 	props.input.setRerender((updatedInput) => {
-		if (!Array.isArray(updatedInput?.options)) return [];
+		const opts = updatedInput?.options;
 
-		options.value = (updatedInput?.options || []).reduce(reduceOptions, []);
+		if (typeof opts === "function") {
+			options.value = opts;
+
+			return [];
+		}
+		if (Array.isArray(opts)) {
+			options.value = opts.reduce(reduceOptions, [] as iFormOption[]);
+		}
+
+		return [];
 	});
 </script>
