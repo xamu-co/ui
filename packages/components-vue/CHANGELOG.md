@@ -1,5 +1,27 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.23](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.22...@open-xamu-co/ui-components-vue-v4.0.0-next.23) (2026-05-14)
+
+
+### Bug Fixes
+
+* **collapse:** target indicator modifier ([9860062](https://github.com/xamu-co/ui/commit/986006200559aa48d2345931cb3d3d075f14d3c1))
+* **vue:** fixes & refactoring for async options handling ([f4d51bf](https://github.com/xamu-co/ui/commit/f4d51bf69ff8e9e8f62c0e645fd3596fb96bc642))
+
+
+### Features
+
+* **forms:** accept async function for input options ([e8ebf68](https://github.com/xamu-co/ui/commit/e8ebf688f4fd71bd049883eb2961b36be579b1c2))
+* **vue:** select filter with async options ([c36568c](https://github.com/xamu-co/ui/commit/c36568cfe7e68d0902b3cc8035c50d3dc99d22c5))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.23"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.22](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.21...@open-xamu-co/ui-components-vue-v4.0.0-next.22) (2026-05-11)
 
 
