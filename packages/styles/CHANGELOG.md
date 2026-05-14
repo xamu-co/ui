@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v5.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.5...@open-xamu-co/ui-styles-v5.0.0-next.6) (2026-05-14)
+
+
+### Bug Fixes
+
+* **collapse:** target indicator modifier ([9860062](https://github.com/xamu-co/ui/commit/986006200559aa48d2345931cb3d3d075f14d3c1))
+* **vue:** fixes & refactoring for async options handling ([f4d51bf](https://github.com/xamu-co/ui/commit/f4d51bf69ff8e9e8f62c0e645fd3596fb96bc642))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.6"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v5.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.4...@open-xamu-co/ui-styles-v5.0.0-next.5) (2026-05-08)
 
 
