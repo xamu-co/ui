@@ -43,33 +43,34 @@ const allOptions: iFormOption[] = [
 	{ value: "gamma", alias: "Gamma" },
 ];
 
+/** Emulate async options loader */
+export async function mockOptionsLoader(query?: string | number): Promise<iFormOption[]> {
+	await new Promise((r) => setTimeout(r, 200));
+
+	const q = String(query ?? "")
+		.trim()
+		.toLowerCase();
+
+	if (!q) return allOptions;
+
+	return allOptions.filter(
+		(o) =>
+			String(o.value).toLowerCase().includes(q) ||
+			String(o.alias ?? o.value)
+				.toLowerCase()
+				.includes(q)
+	);
+}
+
 export const AsyncOptions: Story = {
 	render: (args) => ({
 		components: { SelectFilter },
 		setup() {
 			const model = ref<string | number>("betaLike");
 
-			async function loadOptions(query?: string | number): Promise<iFormOption[]> {
-				await new Promise((r) => setTimeout(r, 200));
-
-				const q = String(query ?? "")
-					.trim()
-					.toLowerCase();
-
-				if (!q) return allOptions;
-
-				return allOptions.filter(
-					(o) =>
-						String(o.value).toLowerCase().includes(q) ||
-						String(o.alias ?? o.value)
-							.toLowerCase()
-							.includes(q)
-				);
-			}
-
-			return { args, model, loadOptions };
+			return { args, model, mockOptionsLoader };
 		},
-		template: '<SelectFilter v-bind="args" v-model="model" :options="loadOptions" />',
+		template: '<SelectFilter v-bind="args" v-model="model" :options="mockOptionsLoader" />',
 	}),
 };
 

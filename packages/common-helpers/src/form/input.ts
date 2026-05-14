@@ -9,6 +9,7 @@ import type {
 	tFormAutocomplete,
 	tFormIcon,
 	tFormInputDefault,
+	tOptionsLoaderFn,
 } from "@open-xamu-co/ui-common-types";
 import {
 	eFormType,
@@ -145,6 +146,7 @@ export class FormInput<
 	// public readonly
 	public readonly name: string;
 	public readonly title?: string;
+	public readonly optionsFilter?: tOptionsLoaderFn;
 
 	/**
 	 * Form input constructor
@@ -163,30 +165,34 @@ export class FormInput<
 		this.name = formInput.name;
 		this.multiple = formInput.multiple ?? false;
 		this.title = formInput.title;
+
 		// Initialize options array, skip if function
-		this._options = Array.isArray(formInput.options) ? formInput.options.map(toOption) : [];
+		if (Array.isArray(formInput.options)) {
+			this._options = formInput.options.map(toOption);
+			this.optionsFilter = undefined;
+		} else {
+			this._options = [];
+			this.optionsFilter = formInput.options;
+		}
+
 		this._defaults = formInput.defaults;
 		this.min = formInput.min ?? 1;
 		this.meta = formInput.meta || {};
 
-		// max cannot be lower than min or more than options if they exist
+		// Max cannot be lower than min or more than options if they exist
 		const maxValue = this._options.length || formInput.max || 9e9;
 
 		this.max = maxValue < this.min ? this.min : maxValue;
 		this._values = formInput.values ||= [];
 
 		if (isChoiceType(this.type)) {
-			// autoset single value if required
-			if (this.required && !this._values.length) {
-				const values = this.options.map(({ value }) => value);
-
-				this._values = values.slice(0, Math.max(1, this.min)) as V[];
-			}
+			// Autoset values if required
+			if (this.required && !this._values.length) this.autosetValues();
 		} else if (this.type !== eFormType.FILE) {
-			const length = Math.max(1, this.min); // negative values fallback
+			const length = Math.max(1, this.min); // Negative values fallback
 			const values = Array(length).fill(getDefault(formInput.type, formInput.defaults));
 
-			// use defaults
+			// Use defaults
 			if (this._values.length < length) this._values = values;
 		}
 	}
@@ -198,12 +204,8 @@ export class FormInput<
 		this._options = updatedOptions || [];
 
 		if (isChoiceType(this.type)) {
-			// autoset single value if required
-			if (this.required && !this._values.length) {
-				const values = <V[]>this.options.map(({ value }) => value);
-
-				this._values = values.slice(0, Math.max(1, this.min));
-			}
+			// Autoset values if required
+			if (this.required && !this._values.length) this.autosetValues();
 		}
 
 		this.rerender();
@@ -218,12 +220,8 @@ export class FormInput<
 			this._values = [];
 
 			if (isChoiceType(this.type)) {
-				// autoset single value if required
-				if (this.required && !this._values.length) {
-					const values = <V[]>this.options.map(({ value }) => value);
-
-					this._values = values.slice(0, Math.max(1, this.min));
-				}
+				// Autoset values if required
+				if (this.required && !this._values.length) this.autosetValues();
 			} else if (this.type !== eFormType.FILE) {
 				const length = Math.max(1, this.min); // negative values fallback
 				const values = Array(length).fill(getDefault(this.type, this.defaults));
@@ -245,6 +243,19 @@ export class FormInput<
 	set defaults(updatedDefaults) {
 		this._defaults = updatedDefaults;
 		this.rerender();
+	}
+
+	/** Autoset values */
+	private autosetValues() {
+		const autosetValuesArr = [];
+
+		for (let i = 0; i < Math.max(1, this.min); i++) {
+			const option = this._options[i];
+
+			autosetValuesArr.push((option?.value || "") as V);
+		}
+
+		this._values = autosetValuesArr as V[];
 	}
 
 	/**

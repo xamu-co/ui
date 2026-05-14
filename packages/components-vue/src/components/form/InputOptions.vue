@@ -1,8 +1,8 @@
 <template>
 	<slot
-		v-if="!!optionsArrayLength || typeof props.input.options === 'function'"
-		v-bind="{ options }"
-		:key="typeof options === 'function' ? `async-${input.name}` : optionsArrayLength"
+		v-if="!!optionsArrayLength || input.optionsFilter"
+		v-bind="{ options: input.optionsFilter ? optionsWithReducer : baseOptions }"
+		:key="input.optionsFilter ? `async-${input.name}` : optionsArrayLength"
 	></slot>
 	<p v-else class="--txtColor-danger">
 		{{ input.meta?.swal?.missing_options || t("form_required_options") }}
@@ -12,7 +12,7 @@
 <script setup lang="ts">
 	import { computed, ref } from "vue";
 
-	import type { iFormInputOptions, iFormOption, tFormInput } from "@open-xamu-co/ui-common-types";
+	import type { iFormOption, tFormInput, tOptionsLoaderFn } from "@open-xamu-co/ui-common-types";
 	import { getFormInputOptionsLength, toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import { useHelpers } from "../../composables/utils";
@@ -41,9 +41,9 @@
 
 	const { t } = useHelpers(useI18n);
 
-	const options = ref<iFormInputOptions>(
-		typeof props.input.options === "function"
-			? props.input.options
+	const baseOptions = ref<iFormOption[]>(
+		props.input.optionsFilter
+			? []
 			: (props.input.options ?? []).reduce(reduceOptions, [] as iFormOption[])
 	);
 
@@ -60,17 +60,19 @@
 		return acc;
 	}
 
+	/** Make sure there are no duplicates */
+	const optionsWithReducer: tOptionsLoaderFn = async (v) => {
+		const filteredOptions = await props.input.optionsFilter?.(v);
+
+		return (filteredOptions || baseOptions.value).reduce(reduceOptions, [] as iFormOption[]);
+	};
+
 	// lifecycle
 	props.input.setRerender((updatedInput) => {
 		const opts = updatedInput?.options;
 
-		if (typeof opts === "function") {
-			options.value = opts;
-
-			return [];
-		}
 		if (Array.isArray(opts)) {
-			options.value = opts.reduce(reduceOptions, [] as iFormOption[]);
+			baseOptions.value = opts.reduce(reduceOptions, [] as iFormOption[]);
 		}
 
 		return [];

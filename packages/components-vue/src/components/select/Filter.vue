@@ -1,7 +1,12 @@
 <template>
-	<div class="flx --flxRow --flx-start-center --gap-5" v-bind="$attrs">
+	<LoaderContent
+		class="flx --flxRow --flx-start-center --gap-5"
+		v-bind="$attrs"
+		:loading="pendingRemoteOptions"
+		content
+	>
 		<ActionLink
-			v-if="modelValue && selectOptions.length > 1"
+			v-if="modelValue && (selectOptions.length > 1 || !Array.isArray(props.options))"
 			:theme="theme"
 			:disabled="disabled"
 			:aria-label="t('select_restablish_field')"
@@ -25,24 +30,25 @@
 			}"
 			class="--flx"
 		/>
-	</div>
-	<datalist :id="selectFilterName">
-		<!-- Select is also used as fallback for older browsers -->
-		<SelectSimple
-			v-model="aliasModel"
-			v-bind="{
-				...$attrs,
-				...properties,
-				options: selectOptions.map(({ value, alias }) => ({
-					alias,
-					value: alias ?? value,
-				})),
-				placeholder: placeholder ?? t('select_placeholder'),
-				disabled,
-				invalid,
-			}"
-		/>
-	</datalist>
+		<datalist :id="selectFilterName">
+			<!-- Select is also used as fallback for older browsers -->
+			<SelectSimple
+				v-model="aliasModel"
+				v-bind="{
+					...$attrs,
+					...properties,
+					options: selectOptions.map(({ value, alias }) => ({
+						alias,
+						value: alias ?? value,
+					})),
+					placeholder: placeholder ?? t('select_placeholder'),
+					disabled,
+					invalid,
+				}"
+				class="--flx"
+			/>
+		</datalist>
+	</LoaderContent>
 </template>
 
 <script setup lang="ts">
@@ -63,6 +69,7 @@
 	import InputText from "../input/Text.vue";
 	import ActionLink from "../action/Link.vue";
 	import IconFa from "../icon/Fa.vue";
+	import LoaderContent from "../loader/Content.vue";
 
 	import type {
 		iUseModifiersProps,
@@ -109,11 +116,11 @@
 	 * Always a function, even when a static list is provided.
 	 */
 	const optionsLoader = computed<tOptionsLoaderFn>(() => {
-		const raw = props.options;
+		const rawOptions = props.options;
 
-		if (typeof raw === "function") return raw;
+		if (rawOptions && !Array.isArray(rawOptions)) return rawOptions;
 
-		const list = (raw || []).map(toOption);
+		const list = (rawOptions || []).map(toOption);
 
 		return () => list;
 	});
@@ -133,26 +140,12 @@
 		options = options.filter(({ hidden }) => !hidden);
 
 		if (value && !options.find(({ value: val }) => val === value)) {
-			return [...options, { value }];
+			// queryModel as alias fallback (After a search)
+			return [...options, { value, alias: queryModel.value.toString() }];
 		}
 
 		return options;
 	});
-
-	const { data: remoteOptions } = useAsyncData<iFormOption[]>(
-		selectFilterName.value,
-		async (_, { signal } = {}) => {
-			/** Fallbacks queryModel to selected value */
-			const query = queryModel.value || props.modelValue;
-			const result = await Promise.resolve(optionsLoader.value(query, signal));
-
-			return result || [];
-		},
-		{
-			default: () => [],
-			watch: [queryModel],
-		}
-	);
 
 	const aliasModel = computed({
 		get() {
@@ -174,10 +167,7 @@
 				return match === newModel;
 			});
 
-			if (option) {
-				emit("update:model-value", option.value);
-				queryModel.value = "";
-			}
+			if (option) emit("update:model-value", option.value);
 		},
 	});
 	const isInvalid = computed<boolean>(() => {
@@ -195,6 +185,21 @@
 			theme: props.theme,
 		};
 	});
+
+	const { data: remoteOptions, pending: pendingRemoteOptions } = useAsyncData<iFormOption[]>(
+		selectFilterName.value,
+		async (_, { signal } = {}) => {
+			/** Fallbacks queryModel to selected value */
+			const query = queryModel.value || props.modelValue;
+			const result = await Promise.resolve(optionsLoader.value(query, signal));
+
+			return result || [];
+		},
+		{
+			default: () => [],
+			watch: [queryModel],
+		}
+	);
 
 	function resetModel() {
 		queryModel.value = "";

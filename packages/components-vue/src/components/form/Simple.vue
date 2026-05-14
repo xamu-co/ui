@@ -169,12 +169,11 @@
 			const { type, options, required } = input;
 
 			// omit non required if options are not present
-			if (
-				eFormTypeSimple.SELECT === type ||
-				eFormTypeSimple.SELECT_FILTER === type ||
-				eFormTypeSimple.CHOICE === type
-			) {
+			if (eFormTypeSimple.SELECT === type || eFormTypeSimple.CHOICE === type) {
 				if (!options?.length && !required) return null;
+			}
+			if (eFormTypeSimple.SELECT_FILTER === type) {
+				if (!options?.length && !input.optionsFilter && !required) return null;
 			}
 
 			return input;

@@ -11,6 +11,7 @@ import type {
 	iFormValue,
 	tFormAutocomplete,
 	tFormIcon,
+	tOptionsLoaderFn,
 } from "./types";
 
 export declare abstract class tFormInputDefault<
@@ -44,6 +45,7 @@ export declare abstract class tFormInput<
 	// public readonly
 	public readonly name: string;
 	public readonly title?: string;
+	public readonly optionsFilter?: tOptionsLoaderFn;
 	// public
 	public multiple: boolean;
 	public min: number;

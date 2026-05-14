@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import { ref } from "vue";
 
 import { FormInput } from "@open-xamu-co/ui-common-helpers";
+import { eFormType } from "@open-xamu-co/ui-common-enums";
 
 import FormInputComponent from "./Input.vue";
-import { eFormType } from "@open-xamu-co/ui-common-enums";
-import { ref } from "vue";
+import { mockOptionsLoader } from "../select/Filter.stories";
 
 const nameInput = new FormInput({
 	name: "name",
@@ -49,6 +50,25 @@ export const Code: Story = {
 	}),
 	args: {
 		input: new FormInput({ name: "code", type: eFormType.CODE }),
+	},
+};
+
+export const AsyncOptions: Story = {
+	render: (args) => ({
+		components: { FormInputComponent },
+		setup() {
+			const model = ref<string[]>([""]);
+
+			return { args, model };
+		},
+		template: '<FormInputComponent v-bind="args" v-model="model" />',
+	}),
+	args: {
+		input: new FormInput({
+			name: "asyncOptions",
+			type: eFormType.SELECT_FILTER,
+			options: mockOptionsLoader,
+		}),
 	},
 };
 

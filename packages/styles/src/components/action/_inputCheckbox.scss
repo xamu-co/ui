@@ -7,7 +7,7 @@
 	$radius-action: module.strip-unit(module.$size-radius-action);
 
 	@layer definitions {
-		input[type^="c"].#{module.$component-input-checkbox} {
+		input[type="checkbox"].#{module.$component-input-checkbox} {
 			@include module.action-toggle-styles;
 
 			// Toggle size
