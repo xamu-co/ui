@@ -1,5 +1,4 @@
 import type {
-	iFormOption,
 	tFormAutocomplete,
 	tIndicative,
 	tProp,
@@ -8,6 +7,7 @@ import type {
 	tThemeModifier,
 	tThemeTuple,
 	tSizeModifier,
+	iFormInputOptions,
 } from "@open-xamu-co/ui-common-types";
 
 export interface iUseModifiersProps {
@@ -115,7 +115,7 @@ export interface iInputProps extends iInputLikeProps {
 }
 
 export interface iSelectProps extends iInputLikeProps {
-	options?: Array<string | number | iFormOption>;
+	options?: iFormInputOptions;
 	/**
 	 * Multiple fields
 	 */

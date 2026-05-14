@@ -17,11 +17,13 @@
 		}
 
 		nav.#{utils.$layout-list} {
-			> input[type^="c"] {
+			> input[type="radio"],
+			> input[type="checkbox"] {
 				display: none;
 			}
 			&.#{utils.$status-is-active},
-			> input[type^="c"]:checked ~ {
+			> input[type="radio"]:checked ~,
+			> input[type="checkbox"]:checked ~ {
 				.#{utils.$status-toggle-list} {
 					font-weight: utils.weight(bold);
 					margin-bottom: 1rem;

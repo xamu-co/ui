@@ -7,7 +7,7 @@
 	$radius-action-round: module.strip-unit(module.$size-radius-action-round);
 
 	@layer definitions {
-		input[type^="r"].#{module.$component-input-radio} {
+		input[type="radio"].#{module.$component-input-radio} {
 			@include module.action-toggle-styles;
 
 			// Toggle size

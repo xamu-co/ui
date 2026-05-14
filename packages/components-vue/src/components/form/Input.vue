@@ -32,7 +32,7 @@
 			<FormInputLoop
 				v-else
 				v-slot="{ i }"
-				:key="input.options.length + models.length"
+				:key="getFormInputOptionsLength(input.options) + models.length"
 				:models="models"
 				:input="input"
 				:theme="theme"
@@ -48,7 +48,7 @@
 						v-for="(model, index) in models[i].value"
 						:key="
 							[
-								input.options.length,
+								getFormInputOptionsLength(input.options),
 								input.defaults?.[i]?.placeholder,
 								input.defaults?.[i]?.type,
 								i + Number(index),
@@ -310,7 +310,7 @@
 
 	import type { iInvalidInput, iSelectOption, tFormInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType as eFT } from "@open-xamu-co/ui-common-enums";
-	import { useI18n, useForm } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n, useForm, getFormInputOptionsLength } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseBox from "../base/Box.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";

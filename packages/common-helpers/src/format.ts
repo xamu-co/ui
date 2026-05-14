@@ -1,4 +1,11 @@
-import type { iFormOption, iSelectOption } from "@open-xamu-co/ui-common-types";
+import type { iFormInputOptions, iFormOption, iSelectOption } from "@open-xamu-co/ui-common-types";
+
+/**
+ * Safe length for Vue keys / counts when `options` may be a static array or an async loader.
+ */
+export function getFormInputOptionsLength(options?: iFormInputOptions): number {
+	return Array.isArray(options) ? options.length : 0;
+}
 
 /**
  * create iSelectOption or iFormOption from compatible values

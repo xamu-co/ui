@@ -29,7 +29,7 @@
 							{{ getSuggestedTitle(input) }}
 						</p>
 						<FormInput
-							:key="`input-${input.name}-${input.options.length}`"
+							:key="`input-${input.name}-${getFormInputOptionsLength(input.options)}`"
 							v-bind="{
 								...content,
 								...countriesAndStatesReq,
@@ -63,7 +63,7 @@
 	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
 	import type { tFormInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
-	import { useI18n } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n, getFormInputOptionsLength } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseWrapper from "../base/Wrapper.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
@@ -169,12 +169,11 @@
 			const { type, options, required } = input;
 
 			// omit non required if options are not present
-			if (
-				eFormTypeSimple.SELECT === type ||
-				eFormTypeSimple.SELECT_FILTER === type ||
-				eFormTypeSimple.CHOICE === type
-			) {
+			if (eFormTypeSimple.SELECT === type || eFormTypeSimple.CHOICE === type) {
 				if (!options?.length && !required) return null;
+			}
+			if (eFormTypeSimple.SELECT_FILTER === type) {
+				if (!options?.length && !input.optionsFilter && !required) return null;
 			}
 
 			return input;

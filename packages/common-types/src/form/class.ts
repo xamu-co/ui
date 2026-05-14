@@ -7,11 +7,12 @@ import type {
 import type {
 	iFormInput,
 	iFormInputDefault,
+	iFormOption,
 	iFormValue,
 	tFormAutocomplete,
 	tFormIcon,
+	tOptionsLoaderFn,
 } from "./types";
-import type { iSelectOption } from "../values.js";
 
 export declare abstract class tFormInputDefault<
 	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple,
@@ -44,12 +45,13 @@ export declare abstract class tFormInput<
 	// public readonly
 	public readonly name: string;
 	public readonly title?: string;
-	public readonly multiple: boolean;
-	public readonly min: number;
-	public readonly max: number;
-	public readonly meta?: Record<string, any>;
+	public readonly optionsFilter?: tOptionsLoaderFn;
 	// public
-	public options: iSelectOption[];
+	public multiple: boolean;
+	public min: number;
+	public max: number;
+	public meta?: Record<string, any>;
+	public options: iFormOption[];
 	public values: V[];
 	public defaults?: [
 		iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>,

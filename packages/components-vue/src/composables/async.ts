@@ -22,16 +22,16 @@ type tAsyncDataHandler<T> = (nuxtApp?: any, options?: { signal?: AbortSignal }) 
  *
  * @see https://nuxt.com/docs/api/composables/use-async-data#type
  */
-export function useAsyncDataFn<T, E>(
+export function useAsyncDataFn<T, E = any>(
 	handler: tAsyncDataHandler<T>,
 	options?: AsyncDataOptions<T>
 ): iAsyncData<T, E>;
-export function useAsyncDataFn<T, E>(
+export function useAsyncDataFn<T, E = any>(
 	key: string,
 	handler: tAsyncDataHandler<T>,
 	options?: AsyncDataOptions<T>
 ): iAsyncData<T, E>;
-export function useAsyncDataFn<T, E>(
+export function useAsyncDataFn<T, E = any>(
 	handlerOrKey: string | tAsyncDataHandler<T>,
 	optionsOrHandler?: tAsyncDataHandler<T> | AsyncDataOptions<T>,
 	options?: AsyncDataOptions<T>
