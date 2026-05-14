@@ -12,7 +12,9 @@
 			@include utils.flex-box(row, nowrap, space-between, center);
 			i.#{utils.$component-icon},
 			.#{utils.$component-svg} {
-				width: 1.8rem;
+				&.#{utils.$prefix-default}--indicator {
+					width: 1.8rem;
+				}
 			}
 		}
 
@@ -29,7 +31,9 @@
 					margin-bottom: 1rem;
 					i.#{utils.$component-icon},
 					.#{utils.$component-svg} {
-						transform: rotate(180deg);
+						&.#{utils.$prefix-default}--indicator {
+							transform: rotate(180deg);
+						}
 					}
 				}
 				.#{utils.$status-toggle-list} + {

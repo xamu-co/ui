@@ -1,12 +1,12 @@
 <template>
-	<nav class="list">
+	<nav class="list" :class="`--txtColor-${themeValues[0]}`">
 		<BaseInput
 			v-if="title || $slots.header"
 			v-slot="{ id: baseId }"
 			:type="type || 'checkbox'"
 			v-bind="{ id, name, title, checked, theme }"
 		>
-			<label :for="id || baseId" class="toggle--list" :class="`--txtColor-${themeValues[0]}`">
+			<label :for="id || baseId" class="toggle--list" :class="headerClasses">
 				<slot name="header">
 					<span>{{ title }}</span>
 					<IconFa name="angle-down" :size="20" />
@@ -37,6 +37,7 @@
 		title?: string;
 		checked?: boolean;
 		el?: vComponent | string;
+		headerClasses?: string;
 	}
 
 	/**
