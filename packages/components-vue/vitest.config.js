@@ -1,3 +1,19 @@
+var __spreadArray =
+	(this && this.__spreadArray) ||
+	function (to, from, pack) {
+		if (pack || arguments.length === 2) {
+			for (var i = 0, l = from.length, ar; i < l; i++) {
+				if (ar || !(i in from)) {
+					if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+
+					ar[i] = from[i];
+				}
+			}
+		}
+
+		return to.concat(ar || Array.prototype.slice.call(from));
+	};
+
 import { fileURLToPath } from "node:url";
 import { mergeConfig, defineConfig, configDefaults, coverageConfigDefaults } from "vitest/config";
 import viteConfig from "./vite.config";
@@ -9,8 +25,8 @@ import { playwright } from "@vitest/browser-playwright";
  * Coverage threshold for tests
  * TODO: Increase test coverage to 80%
  */
-const coverage = 40;
-const dirname =
+var coverage = 40;
+var dirname =
 	typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
@@ -26,7 +42,11 @@ export default mergeConfig(
 					branches: coverage, // 47.15%
 					statements: coverage, // 55.74%
 				},
-				exclude: [...coverageConfigDefaults.exclude, "e2e/**", ".storybook/**"],
+				exclude: __spreadArray(
+					__spreadArray([], coverageConfigDefaults.exclude, true),
+					["e2e/**", ".storybook/**"],
+					false
+				),
 			},
 			projects: [
 				{
@@ -63,7 +83,11 @@ export default mergeConfig(
 					},
 				},
 			],
-			exclude: [...configDefaults.exclude, "e2e/**", ".storybook/**"],
+			exclude: __spreadArray(
+				__spreadArray([], configDefaults.exclude, true),
+				["e2e/**", ".storybook/**"],
+				false
+			),
 		},
 	})
 );

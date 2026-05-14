@@ -12,22 +12,28 @@
 			@include utils.flex-box(row, nowrap, space-between, center);
 			i.#{utils.$component-icon},
 			.#{utils.$component-svg} {
-				width: 1.8rem;
+				&.#{utils.$prefix-default}--indicator {
+					width: 1.8rem;
+				}
 			}
 		}
 
 		nav.#{utils.$layout-list} {
-			> input[type^="c"] {
+			> input[type="radio"],
+			> input[type="checkbox"] {
 				display: none;
 			}
 			&.#{utils.$status-is-active},
-			> input[type^="c"]:checked ~ {
+			> input[type="radio"]:checked ~,
+			> input[type="checkbox"]:checked ~ {
 				.#{utils.$status-toggle-list} {
 					font-weight: utils.weight(bold);
 					margin-bottom: 1rem;
 					i.#{utils.$component-icon},
 					.#{utils.$component-svg} {
-						transform: rotate(180deg);
+						&.#{utils.$prefix-default}--indicator {
+							transform: rotate(180deg);
+						}
 					}
 				}
 				.#{utils.$status-toggle-list} + {

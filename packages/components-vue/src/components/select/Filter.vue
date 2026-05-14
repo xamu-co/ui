@@ -1,7 +1,12 @@
 <template>
-	<div class="flx --flxRow --flx-start-center --gap-5" v-bind="$attrs">
+	<LoaderContent
+		class="flx --flxRow --flx-start-center --gap-5"
+		v-bind="$attrs"
+		:loading="pendingRemoteOptions"
+		content
+	>
 		<ActionLink
-			v-if="modelValue && selectOptions.length > 1"
+			v-if="modelValue && (selectOptions.length > 1 || !Array.isArray(props.options))"
 			:theme="theme"
 			:disabled="disabled"
 			:aria-label="t('select_restablish_field')"
@@ -25,40 +30,46 @@
 			}"
 			class="--flx"
 		/>
-	</div>
-	<datalist :id="selectFilterName">
-		<!-- Select is also used as fallback for older browsers -->
-		<SelectSimple
-			v-model="aliasModel"
-			v-bind="{
-				...$attrs,
-				...properties,
-				options: selectOptions.map(({ value, alias }) => ({
-					alias,
-					value: alias ?? value,
-				})),
-				placeholder: placeholder ?? t('select_placeholder'),
-				disabled,
-				invalid,
-			}"
-		/>
-	</datalist>
+		<datalist :id="selectFilterName">
+			<!-- Select is also used as fallback for older browsers -->
+			<SelectSimple
+				v-model="aliasModel"
+				v-bind="{
+					...$attrs,
+					...properties,
+					options: selectOptions.map(({ value, alias }) => ({
+						alias,
+						value: alias ?? value,
+					})),
+					placeholder: placeholder ?? t('select_placeholder'),
+					disabled,
+					invalid,
+				}"
+				class="--flx"
+			/>
+		</datalist>
+	</LoaderContent>
 </template>
 
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
-	import { computed } from "vue";
+	import { computed, inject, ref } from "vue";
 	import deburr from "lodash-es/deburr";
 	import omit from "lodash-es/omit";
 	import { Md5 } from "ts-md5";
 
-	import type { iFormIconProps, iFormOption } from "@open-xamu-co/ui-common-types";
+	import type {
+		iFormIconProps,
+		iFormOption,
+		tOptionsLoaderFn,
+	} from "@open-xamu-co/ui-common-types";
 	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import SelectSimple from "./Simple.vue";
 	import InputText from "../input/Text.vue";
 	import ActionLink from "../action/Link.vue";
 	import IconFa from "../icon/Fa.vue";
+	import LoaderContent from "../loader/Content.vue";
 
 	import type {
 		iUseModifiersProps,
@@ -66,7 +77,10 @@
 		iUseThemeProps,
 		iSelectProps,
 	} from "../../types/props";
+	import type { iVuePluginOptions } from "../../types/plugin";
+	import { useAsyncDataFn } from "../../composables/async";
 	import { useHelpers } from "../../composables/utils";
+	import debounce from "lodash-es/debounce";
 
 	interface iSelectFilterProps
 		extends iSelectProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
@@ -91,6 +105,25 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
+	const { internals } = inject<iVuePluginOptions>("xamu") || {};
+	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
+
+	/** Local model for the filter */
+	const queryModel = ref<string | number>("");
+
+	/**
+	 * Loader for the options.
+	 * Always a function, even when a static list is provided.
+	 */
+	const optionsLoader = computed<tOptionsLoaderFn>(() => {
+		const rawOptions = props.options;
+
+		if (rawOptions && !Array.isArray(rawOptions)) return rawOptions;
+
+		const list = (rawOptions || []).map(toOption);
+
+		return () => list;
+	});
 
 	/** Prefer a predictable identifier */
 	const selectFilterName = computed(() => {
@@ -98,20 +131,32 @@
 
 		return props.name || props.id || Md5.hashStr(`select-filter-${seed}`);
 	});
+
 	const selectOptions = computed<iFormOption[]>(() => {
-		return (props.options || []).map(toOption).filter(({ hidden }) => !hidden);
+		let options = remoteOptions.value ?? [];
+		const value = props.modelValue;
+
+		// Filter out hidden options
+		options = options.filter(({ hidden }) => !hidden);
+
+		if (value && !options.find(({ value: val }) => val === value)) {
+			// queryModel as alias fallback (After a search)
+			return [...options, { value, alias: queryModel.value.toString() }];
+		}
+
+		return options;
 	});
-	/**
-	 * Prefers alias instead of value
-	 */
+
 	const aliasModel = computed({
-		get: () => {
+		get() {
 			const option = selectOptions.value.find(({ value }) => value === props.modelValue);
 
-			// alias first
-			return option?.alias ?? option?.value ?? "";
+			return String(option?.alias ?? option?.value ?? "");
 		},
 		set(valueOrAlias: string | number) {
+			// Keep queryModel updated with what is being typed
+			debounceQueryModelSet(valueOrAlias);
+
 			// This assumes that aliases are distinct enough
 			const deburrer = (v: string | number) => deburr(String(v)).toLowerCase();
 			const newModel = deburrer(valueOrAlias);
@@ -122,7 +167,6 @@
 				return match === newModel;
 			});
 
-			// emit if valid
 			if (option) emit("update:model-value", option.value);
 		},
 	});
@@ -133,7 +177,7 @@
 	});
 	const properties = computed(() => {
 		return {
-			...omit(props, ["modelValue"]),
+			...omit(props, ["modelValue", "options"]),
 			hidden: props.hidden,
 			size: props.size,
 			active: props.active,
@@ -142,10 +186,27 @@
 		};
 	});
 
-	/**
-	 * Clears up input model
-	 */
+	const { data: remoteOptions, pending: pendingRemoteOptions } = useAsyncData<iFormOption[]>(
+		selectFilterName.value,
+		async (_, { signal } = {}) => {
+			/** Fallbacks queryModel to selected value */
+			const query = queryModel.value || props.modelValue;
+			const result = await Promise.resolve(optionsLoader.value(query, signal));
+
+			return result || [];
+		},
+		{
+			default: () => [],
+			watch: [queryModel],
+		}
+	);
+
 	function resetModel() {
+		queryModel.value = "";
 		emit("update:model-value", "");
 	}
+
+	const debounceQueryModelSet = debounce((value: string | number) => {
+		queryModel.value = value;
+	}, 300);
 </script>

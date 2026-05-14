@@ -64,7 +64,8 @@
 	const { t } = useHelpers(useI18n);
 
 	const selectOptions = computed<iFormOption[]>(() => {
-		return (props.options ?? []).map(toOption);
+		// Only use array type, skip if function
+		return Array.isArray(props.options) ? props.options.map(toOption) : [];
 	});
 	/** Prefer a predictable identifier */
 	const selectId = computed(() => {
