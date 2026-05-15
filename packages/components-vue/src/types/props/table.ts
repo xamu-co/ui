@@ -288,5 +288,5 @@ export interface iTableChildProps<
 	 *
 	 * @batch
 	 */
-	deleteNodesAndRefresh(nodes?: Ti[]): Promise<void>;
+	deleteNodesAndRefresh(): Promise<void>;
 }

@@ -629,9 +629,7 @@
 	 *
 	 * @batch
 	 */
-	async function deleteNodesAndRefresh(
-		nodes = props.nodes.filter((_, nodeIndex) => selectedNodes.value[nodeIndex])
-	) {
+	async function deleteNodesAndRefresh() {
 		// Request confirmation
 		const { value } = await Swal.firePrevent({
 			title: t("table_delete"),
@@ -644,11 +642,19 @@
 		// Display loader
 		Swal.fireLoader();
 
+		const queue = props.nodes.reduce<{ node: T; selectedIndex: number }[]>(
+			(acc, node, selectedIndex) => {
+				if (selectedNodes.value[selectedIndex]) acc.push({ node, selectedIndex });
+
+				return acc;
+			},
+			[]
+		);
 		const updatedNodes: T[] = [...props.nodes];
 		const streams: Promise<boolean | T>[] = [];
 		// Run processes in parallel, get deletion responses
 		const deleted: iNodeFnResponse<T>[] = await Promise.all(
-			nodes.map(async (node) => {
+			queue.map(async ({ node, selectedIndex }) => {
 				const [deletedNodeStream, ...response] = await useResolveNodeFn(
 					props.deleteNode?.(node)
 				);
@@ -660,10 +666,13 @@
 				streams.push(...stream);
 
 				// Remove deleted node
-				const nodeIndex = updatedNodes.findIndex(({ id }) => id === node.id);
+				const deletedIndex = updatedNodes.findIndex(({ id }) => id === node.id);
 
-				// Remove single node
-				if (nodeIndex > -1) updatedNodes.splice(nodeIndex, 1);
+				// Remove single node & clear selection
+				if (deletedIndex > -1) {
+					updatedNodes.splice(deletedIndex, 1);
+					selectedNodes.value[selectedIndex] = false;
+				}
 
 				return [deletedNode, ...response];
 			})
