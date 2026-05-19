@@ -114,6 +114,7 @@
 		iGetPage,
 		iNodeFn,
 		iNodeStreamFn,
+		tProp,
 		tThemeModifier,
 		tThemeTuple,
 	} from "@open-xamu-co/ui-common-types";
@@ -146,7 +147,7 @@
 		noContentMessage?: string;
 		renderErrorMessage?: string;
 		tableProps?: Omit<iTableProps<Ti, TMi>, "nodes" | "refresh">;
-		theme?: tThemeModifier | tThemeTuple;
+		theme?: tThemeTuple | tProp<tThemeModifier>;
 		/**
 		 * Whether to fetch data on client side only
 		 */
