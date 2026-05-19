@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.24](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.23...@open-xamu-co/ui-components-vue-v4.0.0-next.24) (2026-05-19)
+
+
+### Bug Fixes
+
+* **vue:** correct theme type for pagination table ([b477292](https://github.com/xamu-co/ui/commit/b47729259b1a065015357a1f8140873587443a21))
+* **vue:** deselect deleted items ([199f50e](https://github.com/xamu-co/ui/commit/199f50e679140b79d3ea8b7ad205679390d3508b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.24"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.23](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.22...@open-xamu-co/ui-components-vue-v4.0.0-next.23) (2026-05-14)
 
 
