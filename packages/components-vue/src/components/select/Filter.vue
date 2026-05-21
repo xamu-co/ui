@@ -3,6 +3,7 @@
 		class="flx --flxRow --flx-start-center --gap-5"
 		v-bind="$attrs"
 		:loading="pendingRemoteOptions"
+		:theme="theme"
 		content
 	>
 		<ActionLink
