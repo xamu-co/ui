@@ -133,6 +133,7 @@
 		theme: eColors.SECONDARY,
 		// Leave nodes as they are
 		mapNodes: (nodes: T[]) => nodes as unknown as TM[],
+		properties: () => [],
 	});
 	const emit = defineEmits(["update:sort"]);
 
@@ -241,15 +242,25 @@
 		if (!mappedNodes.value.nodes.length) return [];
 
 		const mappedNode: TM = mappedNodes.value.nodes[0].node;
-		const sorted = Object.entries(mappedNode).sort(props.propertyOrder || useOrderProperty);
+		const expectedProperties = props.properties.reduce<Record<string, true>>(
+			(acc, { value }) => {
+				acc[value] = true;
+
+				return acc;
+			},
+			{}
+		);
+		// Merge properties & sort
+		const sorted = Object.entries({ ...expectedProperties, ...mappedNode }).sort(
+			props.propertyOrder || useOrderProperty
+		);
 		const properties: iTablePropertyMeta<T>[] = [];
 
 		for (const [key, value] of sorted) {
 			// Get meta defaults
-			const options = (props.properties || []).map(toOption);
-			const property = options.find((p) => p.value === key) || toOption(key);
 			const aliasKey = snakeCase(key);
-
+			const propertyIndex = props.properties.findIndex((property) => property.value === key);
+			const property = propertyIndex > -1 ? props.properties[propertyIndex] : toOption(key);
 			const meta: iTablePropertyMeta<T> = {
 				...property, // Get defaults
 				value: key,

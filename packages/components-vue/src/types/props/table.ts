@@ -31,7 +31,7 @@ export interface iTablePropertyMeta<Ti extends Record<string, any>> extends iPro
 > {
 	/** Property name */
 	value: string;
-	canSort: boolean;
+	canSort?: boolean;
 }
 
 export interface iTableProps<
@@ -62,7 +62,7 @@ export interface iTableProps<
 	 *
 	 * @old columns
 	 */
-	properties?: iProperty<any, NoInfer<Ti>, vComponent<iValueComplexProps>>[];
+	properties?: Omit<iTablePropertyMeta<NoInfer<Ti>>, "canSort">[];
 	/**
 	 * Custom property order
 	 */

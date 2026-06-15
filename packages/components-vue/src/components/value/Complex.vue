@@ -178,7 +178,6 @@
 	import startCase from "lodash-es/startCase";
 	import snakeCase from "lodash-es/snakeCase";
 
-	import type { iProperty } from "@open-xamu-co/ui-common-types";
 	import { useI18n, useSwal, useSortObject } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
@@ -191,8 +190,7 @@
 	import ModalSimple from "../modal/Simple.vue";
 	import TableSimple from "../table/Simple.vue";
 
-	import type { vComponent } from "../../plugin";
-	import type { iValueComplexProps } from "../../types/props";
+	import type { iTablePropertyMeta, iValueComplexProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
 
@@ -210,7 +208,7 @@
 			 * Inherited table properties (Cell properties)
 			 * @internal
 			 */
-			properties?: iProperty<any, any, vComponent<iValueComplexProps>>[];
+			properties?: Omit<iTablePropertyMeta<any>, "canSort">[];
 		}
 	>();
 
