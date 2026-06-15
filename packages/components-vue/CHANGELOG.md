@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.25](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.24...@open-xamu-co/ui-components-vue-v4.0.0-next.25) (2026-06-15)
+
+
+### Bug Fixes
+
+* pass table functions to cell component ([64f37f1](https://github.com/xamu-co/ui/commit/64f37f1898d9db144628d350ea7d73f177696eb7))
+* **vue:** add missing theme to filter select loader ([f358add](https://github.com/xamu-co/ui/commit/f358add4bea5c05bd4878640e46c92b703f1ec47))
+
+
+### Features
+
+* **vue:** prefer table properties ([f7ac337](https://github.com/xamu-co/ui/commit/f7ac337af3d80230a01b3a2afeecd4c027471183))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.25"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.24](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.23...@open-xamu-co/ui-components-vue-v4.0.0-next.24) (2026-05-19)
 
 
