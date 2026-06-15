@@ -69,6 +69,12 @@
 								omitRefresh,
 								size,
 								hydrateNode,
+								nodeIndex: index,
+								updateNodeAndRefresh,
+								cloneNodeAndRefresh,
+								deleteNodeAndRefresh,
+								deleteNodesAndRefresh,
+								show: canShowChildren(visibility, mappedIndex),
 							}"
 						/>
 					</td>
@@ -90,6 +96,7 @@
 						<slot
 							name="modifyActions"
 							v-bind="{
+								nodeIndex: index,
 								node: nodes[index],
 								mappedNode: node,
 								updateNodeAndRefresh,
@@ -171,6 +178,7 @@
 									<slot
 										name="modifyDropdownActions"
 										v-bind="{
+											nodeIndex: index,
 											node: nodes[index],
 											mappedNode: node,
 											updateNodeAndRefresh,
@@ -259,6 +267,7 @@
 						>
 							<slot
 								v-bind="{
+									nodeIndex: index,
 									node: nodes[index],
 									mappedNode: node,
 									updateNodeAndRefresh,
