@@ -96,6 +96,7 @@
 						<slot
 							name="modifyActions"
 							v-bind="{
+								refresh,
 								nodeIndex: index,
 								node: nodes[index],
 								mappedNode: node,
@@ -178,6 +179,7 @@
 									<slot
 										name="modifyDropdownActions"
 										v-bind="{
+											refresh,
 											nodeIndex: index,
 											node: nodes[index],
 											mappedNode: node,
@@ -267,6 +269,7 @@
 						>
 							<slot
 								v-bind="{
+									refresh,
 									nodeIndex: index,
 									node: nodes[index],
 									mappedNode: node,

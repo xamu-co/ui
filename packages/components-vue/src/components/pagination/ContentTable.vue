@@ -100,6 +100,18 @@
 								}"
 							></slot>
 						</template>
+						<template v-if="$slots.tableModifyActions" #modifyActions="modifyScope">
+							<slot name="tableModifyActions" v-bind="modifyScope"></slot>
+						</template>
+						<template
+							v-if="$slots.tableModifyDropdownActions"
+							#modifyDropdownActions="modifyDropdownScope"
+						>
+							<slot
+								name="tableModifyDropdownActions"
+								v-bind="modifyDropdownScope"
+							></slot>
+						</template>
 					</TableSimple>
 				</BaseErrorBoundary>
 			</div>
