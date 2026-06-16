@@ -242,18 +242,7 @@
 		if (!mappedNodes.value.nodes.length) return [];
 
 		const mappedNode: TM = mappedNodes.value.nodes[0].node;
-		const expectedProperties = props.properties.reduce<Record<string, true>>(
-			(acc, { value }) => {
-				acc[value] = true;
-
-				return acc;
-			},
-			{}
-		);
-		// Merge properties & sort
-		const sorted = Object.entries({ ...expectedProperties, ...mappedNode }).sort(
-			props.propertyOrder || useOrderProperty
-		);
+		const sorted = Object.entries(mappedNode).sort(props.propertyOrder || useOrderProperty);
 		const properties: iTablePropertyMeta<T>[] = [];
 
 		for (const [key, value] of sorted) {
