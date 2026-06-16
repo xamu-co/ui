@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.27](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.26...@open-xamu-co/ui-components-vue-v4.0.0-next.27) (2026-06-16)
+
+
+### Bug Fixes
+
+* **vue:** add missing theme to input n values ([d4d8911](https://github.com/xamu-co/ui/commit/d4d891189836af2f0aae78a039eeda65436b1b9b))
+
+
+### Features
+
+* **vue:** support date, datetime & time inputs ([a115eca](https://github.com/xamu-co/ui/commit/a115ecae09dfd895cf73d99eaeaea5b792832cd4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.27"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.26](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.25...@open-xamu-co/ui-components-vue-v4.0.0-next.26) (2026-06-16)
 
 
