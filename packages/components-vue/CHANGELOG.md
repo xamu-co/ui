@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.26](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.25...@open-xamu-co/ui-components-vue-v4.0.0-next.26) (2026-06-16)
+
+
+### Bug Fixes
+
+* **vue:** expose table action slots on pagination table ([e8bb34a](https://github.com/xamu-co/ui/commit/e8bb34a195fb012a75154d5d021e3564fb4bbaaa))
+* **vue:** rollback table properties behavior ([458c207](https://github.com/xamu-co/ui/commit/458c207f7a4ef973641c84992b3a8b16a53afbb1))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.26"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.25](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.24...@open-xamu-co/ui-components-vue-v4.0.0-next.25) (2026-06-15)
 
 
