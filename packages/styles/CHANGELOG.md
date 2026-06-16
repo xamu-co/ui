@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v5.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.6...@open-xamu-co/ui-styles-v5.0.0-next.7) (2026-06-16)
+
+
+### Features
+
+* **vue:** support date, datetime & time inputs ([a115eca](https://github.com/xamu-co/ui/commit/a115ecae09dfd895cf73d99eaeaea5b792832cd4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.7"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v5.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.5...@open-xamu-co/ui-styles-v5.0.0-next.6) (2026-05-14)
 
 
