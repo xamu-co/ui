@@ -274,6 +274,21 @@
 					v-bind="{ input, theme, readonly }"
 					class="--maxWidth-full --flx"
 				/>
+				<InputTime
+					v-else-if="
+						input.type === eFT.DATE ||
+						input.type === eFT.DATETIME ||
+						input.type === eFT.TIME
+					"
+					v-model="models[i].value"
+					v-bind="inputProps"
+					:type="getInputTextType()"
+					:invalid="isInvalidByValidation"
+					:theme="theme"
+					:disabled="readonly"
+					:placeholder="getInputPlaceholder()"
+					class="--maxWidth-full --flx"
+				/>
 				<!-- Future outer loop input -->
 				<InputText
 					v-else
@@ -318,6 +333,7 @@
 	import InputText from "../input/Text.vue";
 	import InputToggle from "../input/Toggle.vue";
 	import InputFile from "../input/File.vue";
+	import InputTime from "../input/Time.vue";
 	import SelectSimple from "../select/Simple.vue";
 	import SelectFilter from "../select/Filter.vue";
 	import SelectChoice from "../select/Choice.vue";

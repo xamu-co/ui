@@ -34,7 +34,17 @@ export interface iFormResults<T = Record<string, unknown>> {
 	invalidInputs: iInvalidInput[];
 }
 
-export type tTextInputType = "text" | "email" | "password" | "search" | "url" | "number" | "tel";
+export type tTextInputType =
+	| "text"
+	| "email"
+	| "password"
+	| "search"
+	| "url"
+	| "number"
+	| "tel"
+	| "date"
+	| "datetime-local"
+	| "time";
 
 export type tFormAutocomplete =
 	| "off"

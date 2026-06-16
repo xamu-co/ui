@@ -25,6 +25,7 @@ export const componentNames = [
 	"InputToggle",
 	"InputColor",
 	"InputCode",
+	"InputTime",
 	// select
 	"Select",
 	"SelectFilter",

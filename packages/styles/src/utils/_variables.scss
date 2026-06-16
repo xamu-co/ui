@@ -132,6 +132,8 @@ $component-input-select: $allow-input + "Select" !default;
 $component-input-text: $allow-input + "Txt" !default;
 $component-input-color: $allow-input + "Color" !default;
 $component-input-code: $allow-input + "Code" !default;
+$component-input-date: $allow-input + "Date" !default; // iDate
+$component-input-time: $allow-input + "Time" !default; // iTime
 
 // AVATAR CLASSES
 $component-avatar: $allow-avatar !default; // avatar base class

@@ -72,4 +72,53 @@ export const AsyncOptions: Story = {
 	},
 };
 
+export const DateInput: Story = {
+	render: (args) => ({
+		components: { FormInputComponent },
+		setup() {
+			const model = ref<string[]>([""]);
+
+			return { args, model };
+		},
+		template: '<FormInputComponent v-bind="args" v-model="model" />',
+	}),
+	args: {
+		input: new FormInput({ name: "date", type: eFormType.DATE, title: "Date Input" }),
+	},
+};
+
+export const DatetimeInput: Story = {
+	render: (args) => ({
+		components: { FormInputComponent },
+		setup() {
+			const model = ref<string[]>([""]);
+
+			return { args, model };
+		},
+		template: '<FormInputComponent v-bind="args" v-model="model" />',
+	}),
+	args: {
+		input: new FormInput({
+			name: "datetime",
+			type: eFormType.DATETIME,
+			title: "Datetime Input",
+		}),
+	},
+};
+
+export const TimeInput: Story = {
+	render: (args) => ({
+		components: { FormInputComponent },
+		setup() {
+			const model = ref<string[]>([""]);
+
+			return { args, model };
+		},
+		template: '<FormInputComponent v-bind="args" v-model="model" />',
+	}),
+	args: {
+		input: new FormInput({ name: "time", type: eFormType.TIME, title: "Time Input" }),
+	},
+};
+
 export default meta;

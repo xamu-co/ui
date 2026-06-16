@@ -23,6 +23,10 @@ export enum eFormTypeSimple {
 	CODE = "CODE",
 	// Color
 	COLOR = "COLOR",
+	// Date & Time
+	DATE = "DATE",
+	DATETIME = "DATETIME",
+	TIME = "TIME",
 }
 
 export enum eFormTypeComplex {
