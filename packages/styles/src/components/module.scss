@@ -61,6 +61,14 @@
 		@if module.$component-input-code {
 			@include forward.input-code;
 		}
+
+		@if module.$component-input-date {
+			@include forward.input-date;
+		}
+
+		@if module.$component-input-time {
+			@include forward.input-time;
+		}
 	}
 
 	@if module.$component-link {

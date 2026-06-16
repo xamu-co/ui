@@ -33,10 +33,7 @@
 				v-else
 				v-slot="{ i }"
 				:key="getFormInputOptionsLength(input.options) + models.length"
-				:models="models"
-				:input="input"
-				:theme="theme"
-				:readonly="readonly"
+				v-bind="{ models, input, theme, readonly }"
 			>
 				<!-- Flexible input type -->
 				<div
@@ -74,6 +71,7 @@
 				</div>
 				<FormInputNValues
 					v-else-if="input.type === eFT.NEW_PASSWORD"
+					v-bind="{ theme }"
 					:model="models[i].value"
 					:values="[2]"
 				>
@@ -102,6 +100,7 @@
 				</FormInputNValues>
 				<FormInputNValues
 					v-else-if="input.type === eFT.ID"
+					v-bind="{ theme }"
 					:model="models[i].value"
 					:values="[2]"
 				>
@@ -118,13 +117,12 @@
 						:theme="theme"
 						:disabled="readonly"
 						:placeholder="getInputPlaceholder()"
-						type="number"
 						class="--width-180:md --flx"
 					/>
 				</FormInputNValues>
 				<FormInputNValues
 					v-else-if="input.type === eFT.PHONE || input.type === eFT.CELLPHONE"
-					v-bind="{ loading, errors, refresh }"
+					v-bind="{ loading, errors, refresh, theme }"
 					:key="indicativesArr.length"
 					:content="!!indicativesArr.length"
 					:model="models[i].value"
@@ -153,7 +151,7 @@
 				</FormInputNValues>
 				<FormInputNValues
 					v-else-if="input.type === eFT.LOCATION"
-					v-bind="{ loading, errors, refresh }"
+					v-bind="{ loading, errors, refresh, theme }"
 					:key="statesArr?.length"
 					:content="!!countriesArr.length"
 					:model="models[i].value"
@@ -211,6 +209,7 @@
 				</FormInputNValues>
 				<FormInputNValues
 					v-else-if="input.type === eFT.SCHEDULE"
+					v-bind="{ theme }"
 					:model="models[i].value"
 					:values="[]"
 				>
@@ -274,6 +273,21 @@
 					v-bind="{ input, theme, readonly }"
 					class="--maxWidth-full --flx"
 				/>
+				<InputTime
+					v-else-if="
+						input.type === eFT.DATE ||
+						input.type === eFT.DATETIME ||
+						input.type === eFT.TIME
+					"
+					v-model="models[i].value"
+					v-bind="inputProps"
+					:type="getInputTextType()"
+					:invalid="isInvalidByValidation"
+					:theme="theme"
+					:disabled="readonly"
+					:placeholder="getInputPlaceholder()"
+					class="--maxWidth-full --flx"
+				/>
 				<!-- Future outer loop input -->
 				<InputText
 					v-else
@@ -318,6 +332,7 @@
 	import InputText from "../input/Text.vue";
 	import InputToggle from "../input/Toggle.vue";
 	import InputFile from "../input/File.vue";
+	import InputTime from "../input/Time.vue";
 	import SelectSimple from "../select/Simple.vue";
 	import SelectFilter from "../select/Filter.vue";
 	import SelectChoice from "../select/Choice.vue";

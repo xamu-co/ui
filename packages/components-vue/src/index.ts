@@ -26,6 +26,7 @@ export { default as InputText } from "./components/input/Text.vue";
 export { default as InputToggle } from "./components/input/Toggle.vue";
 export { default as InputColor } from "./components/input/Color.vue";
 export { default as InputCode } from "./components/input/Code.vue";
+export { default as InputTime } from "./components/input/Time.vue";
 
 // select
 export { default as Select } from "./components/select/Simple.vue";

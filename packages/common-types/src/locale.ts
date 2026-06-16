@@ -180,6 +180,12 @@ export type tLocaleForm = {
 	form_cellphone: string;
 	/** @example "ID number" */
 	form_id_number: string;
+	/** @example "Date" */
+	form_date: string;
+	/** @example "Date & time" */
+	form_datetime: string;
+	/** @example "Time" */
+	form_time: string;
 	/** @example "Complete the field" */
 	form_complete_the_field: string;
 	/** @example "Location" */

@@ -2,7 +2,7 @@
 	<LoaderContent
 		v-if="Array.isArray(model) && modelHasLength"
 		class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
-		v-bind="{ loading, content, errors, refresh, label }"
+		v-bind="{ loading, content, errors, refresh, label, theme }"
 	>
 		<slot></slot>
 	</LoaderContent>
@@ -18,9 +18,10 @@
 
 	import LoaderContent from "../loader/Content.vue";
 
+	import type { iUseThemeProps } from "../../types/props";
 	import { useHelpers } from "../../composables/utils";
 
-	export interface iFormInputNValues<Ti> {
+	export interface iFormInputNValues<Ti> extends iUseThemeProps {
 		model: Ti[];
 		/** Expected model lengths */
 		values: number[];
