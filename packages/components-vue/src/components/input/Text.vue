@@ -13,7 +13,12 @@
 						pattern: '[0-9]*',
 						oninput: 'this.value = this.value.replace(/[^0-9]/g,\'\')',
 					}),
-					...(!isNumber && { min: undefined, max: undefined }),
+					...(!isNumber && {
+						min: undefined,
+						max: undefined,
+						minLength: props.required ? props.min : undefined,
+						maxLength: props.max,
+					}),
 					...(!(!!icon && !textarea) && { class: inputClasses }),
 				}"
 			/>
