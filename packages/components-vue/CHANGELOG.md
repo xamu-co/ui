@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.28](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.27...@open-xamu-co/ui-components-vue-v4.0.0-next.28) (2026-06-25)
+
+
+### Bug Fixes
+
+* **vue:** support minLength & maxLength on inputs ([82a0159](https://github.com/xamu-co/ui/commit/82a015900528b545d5665694d4e32e49b0f14b39))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.28"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.27](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.26...@open-xamu-co/ui-components-vue-v4.0.0-next.27) (2026-06-16)
 
 
