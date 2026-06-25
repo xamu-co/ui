@@ -11,17 +11,17 @@
 					white-space: nowrap;
 				}
 			}
-			&-wrap-balance {
+			&-balance {
 				@include module.extend-viewports-classes {
 					text-wrap: balance;
 				}
 			}
-			&-wrap-pretty {
+			&-pretty {
 				@include module.extend-viewports-classes {
 					text-wrap: pretty;
 				}
 			}
-			&-wrap-stable {
+			&-stable {
 				@include module.extend-viewports-classes {
 					text-wrap: stable;
 				}
@@ -30,9 +30,9 @@
 			// default
 			&,
 			&-wrap,
-			&-wrap-balance,
-			&-wrap-pretty,
-			&-wrap-stable {
+			&-balance,
+			&-pretty,
+			&-stable {
 				@include module.extend-viewports-classes {
 					white-space: normal;
 				}
