@@ -11,10 +11,28 @@
 					white-space: nowrap;
 				}
 			}
+			&-wrap-balance {
+				@include module.extend-viewports-classes {
+					text-wrap: balance;
+				}
+			}
+			&-wrap-pretty {
+				@include module.extend-viewports-classes {
+					text-wrap: pretty;
+				}
+			}
+			&-wrap-stable {
+				@include module.extend-viewports-classes {
+					text-wrap: stable;
+				}
+			}
 
 			// default
 			&,
-			&-wrap {
+			&-wrap,
+			&-wrap-balance,
+			&-wrap-pretty,
+			&-wrap-stable {
 				@include module.extend-viewports-classes {
 					white-space: normal;
 				}
