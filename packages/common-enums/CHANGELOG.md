@@ -1,5 +1,31 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v4.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v4.0.0-next.3...@open-xamu-co/ui-common-enums-v4.0.0-next.4) (2026-07-01)
+
+
+### Features
+
+* **nuxt:** extend nuxt support ([702a9b3](https://github.com/xamu-co/ui/commit/702a9b37716a11a3742e4fe0a423e32ad9ef7c48))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** node22 required
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-enums" version "4.0.0-next.4"[0m
+[34mUpdating "common-types"[0m
+[34mSuccesfully updated "common-types" package[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-enums-v4.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v4.0.0-next.2...@open-xamu-co/ui-common-enums-v4.0.0-next.3) (2026-06-16)
 
 
