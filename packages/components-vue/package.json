@@ -96,8 +96,8 @@
     "@types/markdown-it": "^14",
     "@types/validator": "^13.11.1",
     "@vitejs/plugin-vue": "^6.0.2",
-    "@vitest/browser-playwright": "^4.0.16",
-    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/browser-playwright": "^4.1.9",
+    "@vitest/coverage-v8": "^4.1.9",
     "jsdom": "^27.2.0",
     "msw": "^2.12.4",
     "playwright": "^1.57.0",
@@ -113,7 +113,7 @@
     }
   },
   "engines": {
-    "node": ">=20.19.3",
-    "yarn": ">=1.22.4"
+    "node": ">=22.22.2",
+    "yarn": ">=1.22.22"
   }
 }

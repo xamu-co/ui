@@ -205,8 +205,7 @@
 	 * TODO: require & use order getter fn instead
 	 */
 	const ordering = computed(() => {
-		let [sortKey = "id", sortValue = "desc"] = Array.isArray(props.sort) ? props.sort : [];
-
+		const [sortKey = "id", sortValue = "desc"] = Array.isArray(props.sort) ? props.sort : [];
 		let orderBy: Record<string, tOrder> = { [sortKey]: sortValue };
 
 		if (props.withRoute && router) {
