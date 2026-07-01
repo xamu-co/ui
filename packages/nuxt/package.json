@@ -32,8 +32,8 @@
     "dist"
   ],
   "engines": {
-    "node": ">=20.19.3",
-    "yarn": ">=1.22.4"
+    "node": ">=22.22.2",
+    "yarn": ">=1.22.22"
   },
   "scripts": {
     "build": "yarn build:prepack && nuxt-module-build build",
@@ -50,7 +50,7 @@
     "@open-xamu-co/ui-common-helpers": "link:../common-helpers",
     "@open-xamu-co/ui-components-vue": "link:../components-vue",
     "lodash-es": "^4.17.21",
-    "nuxt-countries-api": "^2.0.0",
+    "nuxt-countries-api": "^3.0.0",
     "sweetalert2": "^11.11.1"
   },
   "devDependencies": {
@@ -61,7 +61,6 @@
     "@open-xamu-co/ui-common-types": "link:../common-types",
     "@open-xamu-co/ui-styles": "link:../styles",
     "@types/lodash-es": "^4.14.192",
-    "nuxi": "^3.31.2",
     "nuxt": "^3.20.2"
   }
 }

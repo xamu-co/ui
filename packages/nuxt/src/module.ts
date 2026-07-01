@@ -46,7 +46,7 @@ export default defineNuxtModule<XamuModuleOptions>({
 	meta: {
 		name: "@open-xamu-co/ui-nuxt",
 		configKey: "xamu",
-		compatibility: { nuxt: "^3.0.0" },
+		compatibility: { nuxt: ">=3.0.0" },
 	},
 	defaults: {
 		// Set plugin defaults
