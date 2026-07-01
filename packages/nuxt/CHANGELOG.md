@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.8...@open-xamu-co/ui-nuxt-v4.0.0-next.9) (2026-07-01)
+
+
+### Features
+
+* **nuxt:** extend nuxt support ([702a9b3](https://github.com/xamu-co/ui/commit/702a9b37716a11a3742e4fe0a423e32ad9ef7c48))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** node22 required
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.7...@open-xamu-co/ui-nuxt-v4.0.0-next.8) (2026-01-21)
 
 
