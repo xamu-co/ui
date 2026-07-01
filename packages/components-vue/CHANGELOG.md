@@ -1,5 +1,30 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.29](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.28...@open-xamu-co/ui-components-vue-v4.0.0-next.29) (2026-07-01)
+
+
+### Bug Fixes
+
+* **vue:** time wrapper ([999e183](https://github.com/xamu-co/ui/commit/999e183315a1194e9fa016aeafe89852645d1178))
+
+
+### Features
+
+* **nuxt:** extend nuxt support ([702a9b3](https://github.com/xamu-co/ui/commit/702a9b37716a11a3742e4fe0a423e32ad9ef7c48))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** node22 required
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.29"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.28](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.27...@open-xamu-co/ui-components-vue-v4.0.0-next.28) (2026-06-25)
 
 
