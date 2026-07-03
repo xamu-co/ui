@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.9...@open-xamu-co/ui-nuxt-v4.0.0-next.10) (2026-07-03)
+
+
+### Bug Fixes
+
+* **nuxt:** get asyncData from context ([8c5616a](https://github.com/xamu-co/ui/commit/8c5616a85a41b69d44efb5319c152358fcda74b7))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** loaderContentFetch requires suspense
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.8...@open-xamu-co/ui-nuxt-v4.0.0-next.9) (2026-07-01)
 
 
