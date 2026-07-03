@@ -1,5 +1,27 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v5.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.9...@open-xamu-co/ui-styles-v5.0.0-next.10) (2026-07-03)
+
+
+### Bug Fixes
+
+* **nuxt:** get asyncData from context ([8c5616a](https://github.com/xamu-co/ui/commit/8c5616a85a41b69d44efb5319c152358fcda74b7))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** loaderContentFetch requires suspense
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.10"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v5.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.8...@open-xamu-co/ui-styles-v5.0.0-next.9) (2026-06-25)
 
 
