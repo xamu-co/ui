@@ -1,3 +1,4 @@
+import type { ModuleDependencyMeta } from "nuxt/schema";
 import {
 	defineNuxtModule,
 	addPlugin,
@@ -15,7 +16,6 @@ import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";
 
 import type { Stylesheet, XamuModuleOptions } from "./types";
-import type { ModuleDependencyMeta } from "nuxt/schema";
 
 export * from "./types";
 
@@ -88,6 +88,19 @@ export default defineNuxtModule<XamuModuleOptions>({
 				"@open-xamu-co/ui-components-vue",
 			],
 		};
+		nuxt.options.vite.optimizeDeps ||= {};
+		nuxt.options.vite.optimizeDeps.include = [
+			...(nuxt.options.vite.optimizeDeps.include || []),
+			"@open-xamu-co/ui-common-enums",
+			"@open-xamu-co/ui-common-helpers",
+			"@open-xamu-co/ui-components-vue",
+			"lodash-es/capitalize",
+			"lodash-es/debounce",
+			"lodash-es/isEqual",
+			"lodash-es/omit",
+			"lodash-es/startCase",
+			"vue-router-better-scroller",
+		];
 		nuxt.options.runtimeConfig.public.xamu = omit(moduleOptions, [
 			"image",
 			"imageHost",

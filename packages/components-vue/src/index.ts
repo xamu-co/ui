@@ -68,3 +68,6 @@ export { default as Collapse } from "./components/collapse/Simple.vue";
 // composables
 export { default as useTheme } from "./composables/theme";
 export { default as useMarkdown } from "./composables/markdown";
+export { default as useCountries } from "./composables/countries";
+export { default as useBrowser } from "./composables/browser";
+export { default as useAsyncDataFn } from "./composables/async";

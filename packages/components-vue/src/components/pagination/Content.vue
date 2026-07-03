@@ -1,39 +1,44 @@
 <template>
-	<LoaderContentFetch
-		v-slot="{ content, refresh }"
-		:hydratable-promise="patchedHydratablePromise"
-		:payload="[{ ...pagination, ...defaults }]"
-		:class="$attrs.class"
-		v-bind="{
-			preventAutoload,
-			theme,
-			noContentMessage,
-			label,
-			isContent,
-			url,
-			ignoreErrors,
-			client,
-			cache,
-		}"
-		@refresh="$emit('refresh', $event)"
-		@has-content="hasContent"
-	>
-		<slot
-			v-bind="{
-				hydrateNodes,
-				content: processContent(content.edges.map(({ node }) => node)),
-				pagination,
-				currentPage: content,
-				refresh,
-			}"
-		></slot>
-		<PaginationSimple
-			v-if="showControls(content.totalCount, pagination.first)"
-			v-model="pagination"
-			v-bind="{ currentPage: content, withRoute, theme }"
-			:class="paginationClass"
-		/>
-	</LoaderContentFetch>
+	<BaseErrorBoundary at="PaginationContent">
+		<suspense>
+			<template #fallback><LoaderSimple :theme="theme" /></template>
+			<LoaderContentFetch
+				v-slot="{ content, refresh }"
+				:hydratable-promise="patchedHydratablePromise"
+				:payload="[{ ...pagination, ...defaults }]"
+				:class="$attrs.class"
+				v-bind="{
+					preventAutoload,
+					theme,
+					noContentMessage,
+					label,
+					isContent,
+					url,
+					ignoreErrors,
+					client,
+					cache,
+				}"
+				@refresh="$emit('refresh', $event)"
+				@has-content="hasContent"
+			>
+				<slot
+					v-bind="{
+						hydrateNodes,
+						content: processContent(content.edges.map(({ node }) => node)),
+						pagination,
+						currentPage: content,
+						refresh,
+					}"
+				></slot>
+				<PaginationSimple
+					v-if="showControls(content.totalCount, pagination.first)"
+					v-model="pagination"
+					v-bind="{ currentPage: content, withRoute, theme }"
+					:class="paginationClass"
+				/>
+			</LoaderContentFetch>
+		</suspense>
+	</BaseErrorBoundary>
 </template>
 
 <script setup lang="ts" generic="T, C extends string | number = string, R = never">
@@ -47,90 +52,13 @@
 		iPluginOptions,
 	} from "@open-xamu-co/ui-common-types";
 
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
 	import PaginationSimple from "./Simple.vue";
 
-	import type { iUseThemeProps } from "../../types/props";
+	import type { iPaginationContentProps } from "../../types/props";
 	import { useOrderBy } from "../../composables/utils";
-
-	export interface iPCProps<Ti, Ci extends string | number = string, Ri = never>
-		extends iPagination, iUseThemeProps {
-		/**
-		 * Function used to fetch the page
-		 */
-		page?: Ri extends iGetPage<Ti, Ci>
-			? iGetPage<Ti, Ci>
-			: (params?: iPagination, signal?: AbortSignal) => Promise<Ri | undefined>;
-		/**
-		 * Function used to fetch the page and hydrate the content
-		 */
-		hydratablePage?: (
-			content: Ref<iPage<Ti, Ci> | null | undefined>,
-			errors: Ref<unknown>
-		) => Ri extends iGetPage<Ti, Ci>
-			? iGetPage<Ti, Ci>
-			: (params?: iPagination, signal?: AbortSignal) => Promise<Ri | undefined>;
-		/**
-		 * Path used as key for the cache
-		 */
-		url?: string;
-		/**
-		 * paginate using route
-		 *
-		 * @example "?orderBy=id:asc" single order property
-		 * @example "?orderBy=id:asc&orderBy=createdAt" multiple order properties
-		 */
-		withRoute?: boolean;
-		/**
-		 * hide pagination buttons
-		 *
-		 * @example true hide pagination buttons
-		 * @example "single" hide pagination buttons if only one page
-		 */
-		hideControls?: boolean | "single";
-		preventAutoload?: boolean;
-		/**
-		 * Additional parameters to send every request
-		 */
-		defaults?: Record<string, any>;
-		noContentMessage?: string;
-		/**
-		 * Loader label
-		 */
-		label?: string;
-		/**
-		 * When additional operations are required on fetched data
-		 *
-		 * Raw promise payload
-		 */
-		transform?: (r: Ri) => iPage<Ti, Ci> | undefined;
-		/**
-		 * When additional operations are required on content
-		 *
-		 * Nodes arr only
-		 */
-		processContent?: (n: NoInfer<Ti>[]) => NoInfer<Ti>[];
-		/**
-		 * Ignore errors and display existing content.
-		 */
-		ignoreErrors?: boolean;
-		/**
-		 * Whether to fetch data on client side only
-		 */
-		client?: boolean;
-		/**
-		 * Whether to cache data
-		 *
-		 * @default true
-		 */
-		cache?: boolean;
-		/**
-		 * Additional class for the pagination
-		 *
-		 * @example --txtColor
-		 */
-		paginationClass?: string | string[] | Record<string, boolean>;
-	}
 
 	/**
 	 * Menu de paginacion
@@ -143,7 +71,7 @@
 
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
 
-	const props = withDefaults(defineProps<iPCProps<T, C, R>>(), {
+	const props = withDefaults(defineProps<iPaginationContentProps<T, C, R>>(), {
 		processContent: (c: T[]) => c,
 	});
 	const emit = defineEmits(["refresh", "has-content"]);

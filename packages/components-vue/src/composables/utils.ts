@@ -40,10 +40,7 @@ export function useOrderBy(orderByParam: any): tOrderBy[] {
 
 export async function useResolveNodeFn<T extends Record<string, any>>(
 	promise:
-		| boolean
-		| undefined
-		| iNodeFnResponse<T>
-		| Promise<boolean | undefined | iNodeFnResponse<T>>
+		boolean | undefined | iNodeFnResponse<T> | Promise<boolean | undefined | iNodeFnResponse<T>>
 ): Promise<iNodeFnResponse<T>> {
 	const resolve = await promise;
 

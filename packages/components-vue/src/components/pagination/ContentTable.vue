@@ -122,80 +122,15 @@
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
 	import { ref, onActivated, onDeactivated } from "vue";
 
-	import type {
-		iGetPage,
-		iNodeFn,
-		iNodeStreamFn,
-		tProp,
-		tThemeModifier,
-		tThemeTuple,
-	} from "@open-xamu-co/ui-common-types";
-	import type { iTableProps } from "@open-xamu-co/ui-components-vue";
+	import type { iNodeFn } from "@open-xamu-co/ui-common-types";
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import TableSimple from "../table/Simple.vue";
 	import PaginationContent from "./Content.vue";
 
+	import type { iPaginationContentTableProps } from "../../types/props";
 	import { useHelpers, useResolveNodeFn } from "../../composables/utils";
-
-	export interface iPaginationContentTableProps<
-		Ti extends Record<string, any>,
-		TMi extends Record<string, any>,
-	> {
-		/**
-		 * Required to dedupe caching
-		 */
-		url: string;
-		page: iGetPage<Ti>;
-		defaults?: Record<string, any>;
-		/** Map node data as required */
-		mapNode?: (node: Ti) => TMi;
-		preventAutoload?: boolean;
-		/**
-		 * Additional refresh function
-		 */
-		refresh?: () => void;
-		noContentMessage?: string;
-		renderErrorMessage?: string;
-		tableProps?: Omit<iTableProps<Ti, TMi>, "nodes" | "refresh">;
-		theme?: tThemeTuple | tProp<tThemeModifier>;
-		/**
-		 * Whether to fetch data on client side only
-		 */
-		client?: boolean;
-		/**
-		 * Whether to cache data
-		 *
-		 * @default true
-		 */
-		cache?: boolean;
-		/**
-		 * Additional class for the table
-		 *
-		 * @example --txtColor
-		 */
-		tableClass?: string | string[] | Record<string, boolean>;
-		/**
-		 * Additional class for the modal
-		 *
-		 * @example --txtColor
-		 */
-		modalClass?: string | string[] | Record<string, boolean>;
-		/** Function used to create a node */
-		createNode?: iNodeStreamFn<NoInfer<Ti>, []> | iNodeFn<NoInfer<Ti>, []>;
-		swal?: {
-			// Create node swal texts
-			createdTitle?: string;
-			createdText?: string;
-			notCreatedTitle?: string;
-			notCreatedText?: string;
-		};
-		/**
-		 * Prevent node functions from triggering refresh event (useful with firebase hydration)
-		 */
-		omitRefresh?: boolean;
-	}
 
 	/**
 	 * Pagination Table

@@ -1,8 +1,7 @@
 /* eslint-disable import/no-unresolved */
-
 import type { iVuePluginOptions } from "@open-xamu-co/ui-components-vue/plugin";
 
-import { defineNuxtPlugin, useRuntimeConfig, useAsyncData } from "#imports";
+import { defineNuxtPlugin, useRuntimeConfig } from "#imports";
 import { NuxtLink, NuxtImg, ClientOnly } from "#components";
 
 // Virtual file
@@ -16,7 +15,6 @@ export default defineNuxtPlugin(({ vueApp }) => {
 		// override defaults
 		...options,
 		internals: {
-			useAsyncData,
 			ofetch: $fetch,
 			clientOnly: ClientOnly,
 			debug: process.env.NODE_ENV !== "production",
