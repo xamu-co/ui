@@ -35,9 +35,7 @@ export declare abstract class tFormInputDefault<
 export declare abstract class tFormInput<
 	V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
 	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
-		| eFormTypeBase
-		| eFormTypeSimple
-		| eFormTypeComplex,
+		eFormTypeBase | eFormTypeSimple | eFormTypeComplex,
 >
 	extends tFormInputDefault<T>
 	implements iFormInput<V, T>

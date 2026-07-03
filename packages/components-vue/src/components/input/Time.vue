@@ -1,6 +1,6 @@
 <template>
 	<div :class="$attrs.class" class="flx --flxRow --flx-center --gap-5">
-		<div :disabled="disabled" :class="inputClasses">
+		<BaseWrapper :wrap="!!icon" :disabled="disabled" :class="inputClasses">
 			<BaseInput
 				v-model="model"
 				v-bind="{
@@ -9,10 +9,11 @@
 					type: inputType,
 					placeholder,
 					disabled,
+					...(!icon && { class: inputClasses }),
 				}"
 			/>
 			<IconFa v-bind="iconProps" :name="resolvedIcon" />
-		</div>
+		</BaseWrapper>
 	</div>
 </template>
 
@@ -24,6 +25,7 @@
 
 	import type { iFormIconProps, tTextInputType } from "@open-xamu-co/ui-common-types";
 
+	import BaseWrapper from "../base/Wrapper.vue";
 	import BaseInput from "../base/Input.vue";
 	import IconFa from "../icon/Fa.vue";
 

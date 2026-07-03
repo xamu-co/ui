@@ -25,70 +25,15 @@
 </template>
 
 <script setup lang="ts" generic="T, P extends any[] = any[]">
-	import { ref, watch, type Ref, computed, onActivated, onDeactivated, inject } from "vue";
+	import { ref, watch, computed, onActivated, onDeactivated } from "vue";
 	import isEqual from "lodash-es/isEqual";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import LoaderContent from "./Content.vue";
 
-	import type { vComponent } from "../../types/plugin";
-	import type { iUseThemeProps } from "../../types/props";
-	import type { iVuePluginOptions } from "../../types/plugin";
-	import { useAsyncDataFn } from "../../composables/async";
+	import type { iLoaderContentFetchProps } from "../../types/props";
+	import useAsyncDataFn from "../../composables/async";
 	import useFetchUtils from "../../composables/fetch";
-
-	export interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
-		noContentMessage?: string;
-		/** Loader label */
-		label?: string;
-		/** Hide loader */
-		noLoader?: boolean;
-		fallback?: NoInfer<Ti>;
-		/** Remove loader wrapper element */
-		unwrap?: boolean;
-		/**
-		 * URL to fetch from
-		 *
-		 * Used as key if promise or hydratablePromise are provided.
-		 * Make sure to use preventAutoload to avoid invalid fetching.
-		 */
-		url?: false | string;
-		promise?: false | ((...args: [...Pi, AbortSignal | undefined]) => Promise<Ti>);
-		/**
-		 * Hydrate values after promise if resolved
-		 * Useful with firebase
-		 *
-		 * @see https://firebase.google.com/docs/database/
-		 *
-		 * Hydration is conditioned to the context (disabled, loading...)
-		 */
-		hydratablePromise?:
-			| false
-			| ((
-					content: Ref<Ti | null>,
-					errors: Ref<unknown>
-			  ) => (...args: [...Pi, AbortSignal | undefined]) => Promise<Ti>);
-		payload?: Pi;
-		/**
-		 * Component or tag to render on loader
-		 */
-		loaderEl?: vComponent | string;
-		preventAutoload?: boolean;
-		/** Additional content validation before rendering fetched data */
-		isContent?: (c?: NoInfer<Ti>) => boolean;
-		/** Ignore errors and display existing content */
-		ignoreErrors?: boolean;
-		/**
-		 * Whether to fetch data on client side only
-		 */
-		client?: boolean;
-		/**
-		 * Whether to cache data
-		 *
-		 * @default true
-		 */
-		cache?: boolean;
-	}
 
 	/**
 	 * Content loader with data fetching
@@ -96,8 +41,13 @@
 	 * Resolves a promise and display or hide content while it is loading
 	 *
 	 * @component
-	 * @example
-	 * <LoaderContentFetch></LoaderContentFetch>
+	 * @example Because of await, suspense is required
+	 * <suspense>
+	 * 	<LoaderContentFetch :promise="fetchData" />
+	 * 	<template #fallback>
+	 * 		<Loader />
+	 * 	</template>
+	 * </suspense>
 	 */
 
 	defineOptions({ name: "LoaderContentFetch", inheritAttrs: false });
@@ -108,31 +58,42 @@
 	const emit = defineEmits(["refresh", "has-content", "hydrate"]);
 
 	const { useFetch } = useFetchUtils();
-	const { internals } = inject<iVuePluginOptions>("xamu") || {};
-	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
+
+	let useAsyncDataLocal: typeof useAsyncDataFn;
+
+	try {
+		// @ts-expect-error useAsyncData is only available in nuxt context
+		useAsyncDataLocal = useAsyncData;
+	} catch (err) {
+		useAsyncDataLocal = useAsyncDataFn;
+	}
 
 	const firstLoad = ref(false);
 	/** Whether component was deactivated by keep-alive */
 	const deactivated = ref(false);
 
+	/**
+	 * Use Nuxt useAsyncData to fetch data
+	 * We wrap the results to avoid non cacheable null responses
+	 */
 	const {
-		data: content,
+		data,
 		pending: loading,
 		error: errors,
 		refresh,
-	} = useAsyncData(
+	} = await useAsyncDataLocal(
 		props.url || "",
-		async (_, { signal } = {}): Promise<T | null> => {
+		async (_, { signal } = {}): Promise<{ data: T | null }> => {
 			let newData: T | null = null;
 
-			if (!props.promise && !props.hydratablePromise && !props.url) return null;
+			if (!props.promise && !props.hydratablePromise && !props.url) return { data: null };
 
 			if (props.preventAutoload) {
 				// Is promise like
 				const pl = props.promise !== undefined || props.hydratablePromise !== undefined;
 
 				// Prevent on first load or if url is used as key
-				if (!firstLoad.value || (!!props.url && pl)) return null;
+				if (!firstLoad.value || (!!props.url && pl)) return { data: null };
 			}
 
 			const payload = <P>(props.payload || []);
@@ -171,15 +132,23 @@
 
 			firstLoad.value = true;
 
-			return newData ?? props.fallback ?? null;
+			return { data: newData ?? props.fallback ?? null };
 		},
 		{
-			default: () => props.fallback,
+			default: () => ({ data: props.fallback ?? null }),
 			watch: [() => props.url, () => props.preventAutoload],
 			server: !props.client,
 			getCachedData: props.cache ? undefined : () => null,
 		}
 	);
+
+	/** Unwrap the results */
+	const content = computed<T | null>({
+		get: () => data.value?.data ?? null,
+		set: (val: T | null) => {
+			data.value = { data: val };
+		},
+	});
 
 	/**
 	 * Whether content was hydrated

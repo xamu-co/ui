@@ -79,7 +79,7 @@
 		iSelectProps,
 	} from "../../types/props";
 	import type { iVuePluginOptions } from "../../types/plugin";
-	import { useAsyncDataFn } from "../../composables/async";
+	import useAsyncDataFn from "../../composables/async";
 	import { useHelpers } from "../../composables/utils";
 	import debounce from "lodash-es/debounce";
 

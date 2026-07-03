@@ -123,9 +123,7 @@ export abstract class FormInputDefault<
 export class FormInput<
 	V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
 	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
-		| eFormTypeBase
-		| eFormTypeSimple
-		| eFormTypeComplex,
+		eFormTypeBase | eFormTypeSimple | eFormTypeComplex,
 >
 	extends FormInputDefault<T>
 	implements iFormInput<V, T>
