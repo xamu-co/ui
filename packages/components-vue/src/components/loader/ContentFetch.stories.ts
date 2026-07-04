@@ -14,6 +14,21 @@ type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: {},
+	render: (args) => ({
+		components: { LoaderContentFetch },
+		setup() {
+			const promise = () => Promise.resolve("Hello");
+
+			return { args, promise };
+		},
+		template: `
+			<suspense>
+				<LoaderContentFetch v-slot="{ content }" v-bind="args" :promise="promise">
+					{{ content }}
+				</LoaderContentFetch>
+			</suspense>
+		`,
+	}),
 };
 
 export default meta;
