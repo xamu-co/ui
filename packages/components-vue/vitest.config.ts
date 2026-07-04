@@ -21,6 +21,7 @@ export default mergeConfig(
 			coverage: {
 				provider: "v8",
 				thresholds: {
+					// Percentages from latest tests (04/07/2026)
 					lines: coverage, // 58.84%
 					functions: coverage, // 50.82%
 					branches: coverage, // 47.15%

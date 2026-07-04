@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
 
-import type { iFormOption, iSelectOption } from "@open-xamu-co/ui-common-types";
+import type { iSelectOption } from "@open-xamu-co/ui-common-types";
 
 import SelectFilter from "./Filter.vue";
+import { mockOptionsLoader } from "./mocks.js";
 
 const meta: Meta<typeof SelectFilter> = {
 	title: "Select/Select Filter",
@@ -35,32 +36,6 @@ export const WithOptions: Story = {
 		template: '<SelectFilter v-bind="args" v-model="model" :options="options" />',
 	}),
 };
-
-const allOptions: iFormOption[] = [
-	{ value: "alpha", alias: "Alpha" },
-	{ value: "beta", alias: "Beta" },
-	{ value: "betaLike", alias: "Beta Like" },
-	{ value: "gamma", alias: "Gamma" },
-];
-
-/** Emulate async options loader */
-export async function mockOptionsLoader(query?: string | number): Promise<iFormOption[]> {
-	await new Promise((r) => setTimeout(r, 200));
-
-	const q = String(query ?? "")
-		.trim()
-		.toLowerCase();
-
-	if (!q) return allOptions;
-
-	return allOptions.filter(
-		(o) =>
-			String(o.value).toLowerCase().includes(q) ||
-			String(o.alias ?? o.value)
-				.toLowerCase()
-				.includes(q)
-	);
-}
 
 export const AsyncOptions: Story = {
 	render: (args) => ({

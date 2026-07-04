@@ -290,3 +290,8 @@ export interface iTableChildProps<
 	 */
 	deleteNodesAndRefresh(): Promise<void>;
 }
+
+export interface iTableBodyProps<
+	Ti extends Record<string, any>,
+	TMi extends Record<string, any> = Ti,
+> extends iTableChildProps<Ti, TMi> {}

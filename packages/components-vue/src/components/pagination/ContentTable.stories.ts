@@ -5,7 +5,13 @@ import type { GenericMeta } from "../../types/storybook";
 
 import PaginationContentTable from "./ContentTable.vue";
 
-import type { tOrderBy, iPagination, iFormResponse, iPage } from "@open-xamu-co/ui-common-types";
+import type {
+	tOrderBy,
+	iPagination,
+	iFormResponse,
+	iPage,
+	iGetPage,
+} from "@open-xamu-co/ui-common-types";
 
 const meta: GenericMeta<typeof PaginationContentTable> = {
 	title: "Pagination/Pagination ContentTable",
@@ -15,19 +21,27 @@ const meta: GenericMeta<typeof PaginationContentTable> = {
 
 type Story = StoryObj<typeof meta>;
 
-// TODO: Add data mocks
+const mockedPage: iGetPage<any> = () => {
+	return Promise.resolve({
+		edges: [],
+		pageInfo: {
+			hasNextPage: false,
+			hasPreviousPage: false,
+		},
+		totalCount: 0,
+	});
+};
 
 export const Sample: Story = {
 	args: {
-		url: "",
-		page: (() => {}) as any,
+		url: "any:path",
+		page: mockedPage,
 	},
 };
 
 export const Data: Story = {
 	args: {
-		url: "",
-		page: (() => {}) as any,
+		url: "any:path",
 	},
 	render: (args) => ({
 		components: { PaginationContentTable },

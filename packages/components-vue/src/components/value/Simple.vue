@@ -122,7 +122,6 @@
 	import BaseAction from "../base/Action.vue";
 	import BaseImg from "../base/Img.vue";
 	import InputToggle from "../input/Toggle.vue";
-	import InputColor from "../input/Color.vue";
 	import ActionLink from "../action/Link.vue";
 	import BoxMessage from "../box/Message.vue";
 	import LoaderSimple from "../loader/Simple.vue";
@@ -132,6 +131,10 @@
 
 	const ModalSimple = defineAsyncComponent({
 		loader: () => import("../modal/Simple.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const InputColor = defineAsyncComponent({
+		loader: () => import("../input/Color.vue"),
 		loadingComponent: LoaderSimple,
 	});
 
