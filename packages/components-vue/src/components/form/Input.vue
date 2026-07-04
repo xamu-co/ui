@@ -317,7 +317,7 @@
 	</BaseErrorBoundary>
 </template>
 <script setup lang="ts">
-	import { computed, reactive } from "vue";
+	import { computed, reactive, defineAsyncComponent } from "vue";
 	import isEqual from "lodash-es/isEqual";
 	import snakeCase from "lodash-es/snakeCase";
 	import omit from "lodash-es/omit";
@@ -328,27 +328,50 @@
 
 	import BaseBox from "../base/Box.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
-	import InputColor from "../input/Color.vue";
 	import InputText from "../input/Text.vue";
 	import InputToggle from "../input/Toggle.vue";
-	import InputFile from "../input/File.vue";
-	import InputTime from "../input/Time.vue";
 	import SelectSimple from "../select/Simple.vue";
-	import SelectFilter from "../select/Filter.vue";
-	import SelectChoice from "../select/Choice.vue";
-	import BoxEditor from "../box/Editor.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 
 	// input helper components
 	import FormInputOptions from "./InputOptions.vue";
 	import FormInputNValues from "./InputNValues.vue";
 	import FormInputLoop from "./InputLoop.vue";
-	import FormInputCountriesAPI from "./InputCountriesAPI.vue";
 
 	import type { iCity, iCountry, iState } from "../../types/countries";
 	import type { iUseThemeProps } from "../../types/props";
 	import useInput from "../../composables/input";
 	import useCountries from "../../composables/countries";
 	import { useHelpers } from "../../composables/utils";
+
+	const InputColor = defineAsyncComponent({
+		loader: () => import("../input/Color.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const InputFile = defineAsyncComponent({
+		loader: () => import("../input/File.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const InputTime = defineAsyncComponent({
+		loader: () => import("../input/Time.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const SelectFilter = defineAsyncComponent({
+		loader: () => import("../select/Filter.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const SelectChoice = defineAsyncComponent({
+		loader: () => import("../select/Choice.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const BoxEditor = defineAsyncComponent({
+		loader: () => import("../box/Editor.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const FormInputCountriesAPI = defineAsyncComponent({
+		loader: () => import("./InputCountriesAPI.vue"),
+		loadingComponent: LoaderSimple,
+	});
 
 	export interface iFormInputProps extends iUseThemeProps {
 		modelValue: any[];

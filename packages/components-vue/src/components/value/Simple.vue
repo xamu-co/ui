@@ -109,55 +109,34 @@
 </template>
 
 <script setup lang="ts" generic="P extends Record<string, any>">
-	import { computed, inject, type AllowedComponentProps } from "vue";
+	import { computed, inject, defineAsyncComponent } from "vue";
 	import isURL from "validator/lib/isURL";
 	import isEmail from "validator/lib/isEmail";
 	import isHexColor from "validator/lib/isHexColor";
 	import validatorIsDate from "validator/lib/isDate";
 
-	import type {
-		tProps,
-		tSizeModifier,
-		iPluginOptions,
-		iProperty,
-	} from "@open-xamu-co/ui-common-types";
+	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
 	import { timeAgo, useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
 	import BaseAction from "../base/Action.vue";
 	import BaseImg from "../base/Img.vue";
 	import InputToggle from "../input/Toggle.vue";
-	import InputColor from "../input/Color.vue";
 	import ActionLink from "../action/Link.vue";
-	import ModalSimple from "../modal/Simple.vue";
 	import BoxMessage from "../box/Message.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 
-	import type { iModalProps, iUseThemeProps } from "../../types/props";
+	import type { iValueSimpleProps } from "../../types/props";
 	import { useHelpers } from "../../composables/utils";
 
-	/**
-	 * Simple value
-	 *
-	 * TODO: trigger gallery/slideshow, component/modal (Complex value)
-	 *
-	 * @component
-	 */
-
-	export interface iValueSimpleProps<Pi extends Record<string, any>> extends iUseThemeProps {
-		/**
-		 * Cell value
-		 */
-		value: Pi[keyof Pi];
-		/**
-		 * Cell column property
-		 */
-		property?: iProperty<Pi>;
-		readonly?: boolean;
-		classes?: tProps<string>;
-		modalProps?: iModalProps & AllowedComponentProps;
-		verbose?: boolean;
-		size?: tSizeModifier;
-	}
+	const ModalSimple = defineAsyncComponent({
+		loader: () => import("../modal/Simple.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const InputColor = defineAsyncComponent({
+		loader: () => import("../input/Color.vue"),
+		loadingComponent: LoaderSimple,
+	});
 
 	/**
 	 * Simple value

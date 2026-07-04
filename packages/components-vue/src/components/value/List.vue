@@ -32,16 +32,21 @@
 	import startCase from "lodash-es/startCase";
 	import upperFirst from "lodash-es/upperFirst";
 	import snakeCase from "lodash-es/snakeCase";
-	import { type AllowedComponentProps, computed } from "vue";
+	import { type AllowedComponentProps, computed, defineAsyncComponent } from "vue";
 
 	import type { iProperty, tProps } from "@open-xamu-co/ui-common-types";
 	import { useSortObject, useI18n, toOption } from "@open-xamu-co/ui-common-helpers";
 
-	import ValueComplex from "./Complex.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 
 	import type { iModalProps, iUseThemeProps, iValueComplexProps } from "../../types/props";
 	import type { vComponent } from "../../plugin";
 	import { useHelpers } from "../../composables/utils";
+
+	const ValueComplex = defineAsyncComponent({
+		loader: () => import("./Complex.vue"),
+		loadingComponent: LoaderSimple,
+	});
 
 	export interface iValueListProps extends iUseThemeProps {
 		/**

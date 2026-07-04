@@ -291,7 +291,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
-	import { computed, inject } from "vue";
+	import { computed, inject, defineAsyncComponent } from "vue";
 
 	import type { iPluginOptions, tThemeTuple } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -301,19 +301,19 @@
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonLink from "../action/ButtonLink.vue";
 	import InputToggle from "../input/Toggle.vue";
-	import ValueComplex from "../value/Complex.vue";
 	import Dropdown from "../dropdown/Simple.vue";
 	import BaseBox from "../base/Box.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 
-	import type { iTableChildProps } from "../../types/props";
+	import type { iTableBodyProps } from "../../types/props";
 	import useTheme, { getThemeValues } from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
 	import { omit } from "lodash-es";
 
-	export interface iTableBodyProps<
-		Ti extends Record<string, any>,
-		TMi extends Record<string, any> = Ti,
-	> extends iTableChildProps<Ti, TMi> {}
+	const ValueComplex = defineAsyncComponent({
+		loader: () => import("../value/Complex.vue"),
+		loadingComponent: LoaderSimple,
+	});
 
 	/**
 	 * Table body

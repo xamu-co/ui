@@ -1,6 +1,6 @@
 <template>
 	<component :is="wrapper" v-if="wrap" v-slot="elSlots" v-bind="{ ...$attrs, ...$slots }">
-		<slot v-bind="{ ...elSlots }"></slot>
+		<slot v-bind="elSlots || {}"></slot>
 	</component>
 	<slot v-else></slot>
 </template>

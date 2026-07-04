@@ -5,7 +5,7 @@ import { FormInput } from "@open-xamu-co/ui-common-helpers";
 import { eFormType } from "@open-xamu-co/ui-common-enums";
 
 import FormInputComponent from "./Input.vue";
-import { mockOptionsLoader } from "../select/Filter.stories";
+import { mockOptionsLoader } from "../select/mocks";
 
 const nameInput = new FormInput({
 	name: "name",

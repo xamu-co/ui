@@ -8,42 +8,45 @@
 			<legend v-if="title">
 				<h4>{{ title }}:</h4>
 			</legend>
-			<BaseWrapper
-				v-slot="{ content, ...countriesAndStatesReq } = {}"
-				:wrapper="LoaderContentFetch"
-				:wrap="withLocationInput || withPhoneInput"
-				:theme="theme"
-				:label="t('form_loading_countries')"
-				:promise="getCountriesAndStates"
-				:url="`/countries${defaultCountry ? '?states' : ''}`"
-				:fallback="{ countries: [], states: [] }"
-				ignore-errors
-				unwrap
-			>
-				<template v-for="(input, inputIndex) in model" :key="inputIndex">
-					<div
-						v-if="input && model[inputIndex] && input.type !== eFormType.HIDDEN"
-						class="flx --flxColumn --flx-start-stretch --gap-5"
-					>
-						<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
-							{{ getSuggestedTitle(input) }}
-						</p>
-						<FormInput
-							:key="`input-${input.name}-${getFormInputOptionsLength(input.options)}`"
-							v-bind="{
-								...content,
-								...countriesAndStatesReq,
-								readonly,
-								theme,
-								input,
-							}"
-							:invalid="getInvalid(input.name)"
-							:model-value="model[inputIndex].values"
-							@update:model-value="updateValues(inputIndex, $event)"
-						/>
-					</div>
-				</template>
-			</BaseWrapper>
+			<suspense>
+				<template #fallback><LoaderSimple :theme="theme" /></template>
+				<BaseWrapper
+					v-slot="{ content, ...countriesAndStatesReq } = {}"
+					:wrapper="LoaderContentFetch"
+					:wrap="withLocationInput || withPhoneInput"
+					:theme="theme"
+					:label="t('form_loading_countries')"
+					:promise="getCountriesAndStates"
+					:url="`/countries${defaultCountry ? '?states' : ''}`"
+					:fallback="{ countries: [], states: [] }"
+					ignore-errors
+					unwrap
+				>
+					<template v-for="(input, inputIndex) in model" :key="inputIndex">
+						<div
+							v-if="input && model[inputIndex] && input.type !== eFormType.HIDDEN"
+							class="flx --flxColumn --flx-start-stretch --gap-5"
+						>
+							<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
+								{{ getSuggestedTitle(input) }}
+							</p>
+							<FormInput
+								:key="`input-${input.name}-${getFormInputOptionsLength(input.options)}`"
+								v-bind="{
+									...content,
+									...countriesAndStatesReq,
+									readonly,
+									theme,
+									input,
+								}"
+								:invalid="getInvalid(input.name)"
+								:model-value="model[inputIndex].values"
+								@update:model-value="updateValues(inputIndex, $event)"
+							/>
+						</div>
+					</template>
+				</BaseWrapper>
+			</suspense>
 		</component>
 		<slot v-else>
 			<!-- No inputs given -->
@@ -57,7 +60,7 @@
 </template>
 
 <script setup lang="ts" generic="P extends any[] = any[]">
-	import { computed, ref, watch } from "vue";
+	import { computed, defineAsyncComponent, ref, watch } from "vue";
 	import isEqual from "lodash-es/isEqual";
 
 	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
@@ -68,31 +71,18 @@
 	import BaseWrapper from "../base/Wrapper.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import BaseBox from "../base/Box.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 	import FormInput from "./Input.vue";
-	import LoaderContentFetch from "../loader/ContentFetch.vue";
 
-	import type { iUseThemeProps } from "../../types/props";
 	import type { iState } from "../../types/countries";
+	import type { iFormSimple } from "../../types/props";
 	import useCountries from "../../composables/countries";
 	import { useHelpers } from "../../composables/utils";
 
-	export interface iFormSimple<P extends any[]> extends iUseThemeProps {
-		title?: string;
-		emptyMessage?: string;
-		modelValue?: tFormInput[];
-		noForm?: boolean;
-		invalid?: iInvalidInput[];
-		/**
-		 * If the make function requires a payload
-		 */
-		payload?: P;
-		/**
-		 * Make model
-		 */
-		make?: ((...args: P) => tFormInput[]) | ((...args: P) => Promise<tFormInput[]>);
-		/** Make all inputs read only by disabling them */
-		readonly?: boolean;
-	}
+	const LoaderContentFetch = defineAsyncComponent({
+		loader: () => import("../loader/ContentFetch.vue"),
+		loadingComponent: LoaderSimple,
+	});
 
 	/**
 	 * Factory component for forms
