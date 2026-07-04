@@ -1,5 +1,27 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.31](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.30...@open-xamu-co/ui-components-vue-v4.0.0-next.31) (2026-07-04)
+
+
+### Bug Fixes
+
+* **vue:** add suspense for forms with loadercontentfetch ([a5520bf](https://github.com/xamu-co/ui/commit/a5520bf14fb4e0b527e4360faaca3a76cc794c67))
+* **vue:** preserve wrapper reactivity ([4e5443a](https://github.com/xamu-co/ui/commit/4e5443a893dd5e0194903dd8e8836462ebf013e8))
+
+
+### Features
+
+* **vue:** async requirements for form & table components ([e2611bd](https://github.com/xamu-co/ui/commit/e2611bd08644e4d99a7360e13960d61deb0c9253))
+* **vue:** async value components ([bdc8634](https://github.com/xamu-co/ui/commit/bdc863490f1c73241e67277a7df36db629cbea37))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.31"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.30](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.29...@open-xamu-co/ui-components-vue-v4.0.0-next.30) (2026-07-03)
 
 
