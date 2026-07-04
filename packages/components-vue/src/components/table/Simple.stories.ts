@@ -4,7 +4,7 @@ import type { GenericMeta } from "../../types/storybook";
 
 import TableSimple from "./Simple.vue";
 import ActionButtonLink from "../action/ButtonLink.vue";
-import { expect } from "storybook/test";
+import { expect, waitFor } from "storybook/test";
 
 const nodes = [
 	{
@@ -220,7 +220,9 @@ export const FilteredNodes: Story = {
 
 		// Check if the cell is rendered
 		expect(cell).toBeInTheDocument();
-		expect(cell).toHaveTextContent("ana");
+		await waitFor(() => {
+			expect(cell).toHaveTextContent("ana");
+		});
 	},
 };
 

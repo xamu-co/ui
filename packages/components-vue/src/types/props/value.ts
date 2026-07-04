@@ -38,3 +38,19 @@ export interface iValueComplexProps extends iUseThemeProps {
 	verbose?: boolean;
 	size?: tSizeModifier;
 }
+
+export interface iValueSimpleProps<Pi extends Record<string, any>> extends iUseThemeProps {
+	/**
+	 * Cell value
+	 */
+	value: Pi[keyof Pi];
+	/**
+	 * Cell column property
+	 */
+	property?: iProperty<Pi>;
+	readonly?: boolean;
+	classes?: tProps<string>;
+	modalProps?: iModalProps & AllowedComponentProps;
+	verbose?: boolean;
+	size?: tSizeModifier;
+}

@@ -185,14 +185,30 @@
 	import ActionLink from "../action/Link.vue";
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
-	import ValueSimple from "./Simple.vue";
-	import ValueList from "./List.vue";
-	import ModalSimple from "../modal/Simple.vue";
-	import TableSimple from "../table/Simple.vue";
+	import LoaderSimple from "../loader/Simple.vue";
+
+	import { defineAsyncComponent } from "vue";
 
 	import type { iTablePropertyMeta, iValueComplexProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
+
+	const ValueSimple = defineAsyncComponent({
+		loader: () => import("./Simple.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const ValueList = defineAsyncComponent({
+		loader: () => import("./List.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const ModalSimple = defineAsyncComponent({
+		loader: () => import("../modal/Simple.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const TableSimple = defineAsyncComponent({
+		loader: () => import("../table/Simple.vue"),
+		loadingComponent: LoaderSimple,
+	});
 
 	/**
 	 * Complex value
