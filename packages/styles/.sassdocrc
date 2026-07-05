@@ -27,8 +27,7 @@ herman:
   customCSS: './dist/index.min.css'
   nunjucks:
     templatePath: './templates'
-trackingCode: '<style type="text/css">
-  @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap);
+trackingCode: '<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet"><style type="text/css">
   :root{
     font-family: "Poppins", sans-serif;
   }

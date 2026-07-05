@@ -2,76 +2,120 @@
 @use "sass:math";
 
 /// # Grid layout
-/// Grid layout system
+/// Grid layout system.
 /// ```css
 ///  .grd
 /// ```
-/// This layout makes use of the global flx union
+/// This layout can also make use of the global flx union/shortcuts.
 ///
 /// ## Requirements:
-/// Define the amount of columns & rows making use of the modifiers or unions
+/// Define the amount of columns and rows using the modifiers or unions.
 ///
 /// ## Modifiers:
+///
 /// ### Columns count
-/// Defines not only the column count but also the behavior.
-/// Rows are calculated autamatically when using auto-fit or auto-fill
+/// Defines column count and template behavior.
+/// Rows are calculated automatically when using auto-fit or auto-fill.
 /// ```css
-///  /** auto-fit with min column size of 18rem (270px aprox) & no max size (flexible) */
+///  /* auto-fit with min column size of 18rem (270px approx) & no max size (flexible) */
 ///  .grd.--grdColumns
 ///
-///  /** auto-fit with min column size of 6rem (90px aprox) & fitting content max size */
-///  .grd.--grdColumns-autoMin
+///  /* auto-fit with min column size of 6rem (90px approx) & fitting content max size */
+///  .grd.--grdColumns-autoFitMin
 ///
-///  /** auto-fit without min column size & no max size (flexible) */
-///  .grd.--grdColumns-auto
+///  /* auto-fit without min column size & no max size (flexible) */
+///  .grd.--grdColumns-autoFit
 ///
-///  /** auto-fill without min column size & no max size (flexible) */
-///  .grd.--grdColumns-autoFill
+///  /* auto-fill with min column size of 6rem & fitting content max size */
+///  .grd.--grdColumns-autoFillMin
 ///
-///  /** single column */
+///  /* single column layout */
 ///  .grd.--grdColumns-single
 ///
-///  /** fixed amount of columns (2-12) */
+///  /* auto-fit with min column size of 18rem (270px approx) & max size of 1fr */
+///  .grd.--grdColumns-autoFitColumn
+///
+///  /* auto-fill with min column size of 18rem (270px approx) & max size of 1fr */
+///  .grd.--grdColumns-autoFillColumn
+///
+///  /* auto-fit columns with responsive count (2-12) */
 ///  .grd.--grdColumns-auto2
+///
+///  /* fixed number of columns (2-12) */
+///  .grd.--grdColumns-2
+/// ```
+///
+/// ### Rows count
+/// Defines row count and template behavior.
+/// ```css
+///  /* auto-fit rows with min height of 9rem (135px approx) & max size of 1fr */
+///  .grd.--grdRows
+///
+///  /* single row layout */
+///  .grd.--grdRows-single
+///
+///  /* auto-fit rows without min height & max size of 1fr */
+///  .grd.--grdRows-autoFit
+///
+///  /* auto-fit rows with min height of 3rem (45px approx) & fitting content max size */
+///  .grd.--grdRows-autoFitMin
+///
+///  /* auto-fill rows with min height of 3rem & fitting content max size */
+///  .grd.--grdRows-autoFillMin
+///
+///  /* auto-fit rows with min height of 9rem (135px approx) & max size of 1fr */
+///  .grd.--grdRows-autoFitColumn
+///
+///  /* auto-fill rows with min height of 9rem (135px approx) & max size of 1fr */
+///  .grd.--grdRows-autoFillColumn
+///
+///  /* auto-fit rows with responsive count (2-12) */
+///  .grd.--grdRows-auto2
+///
+///  /* fixed number of rows (2-12) */
+///  .grd.--grdRows-2
+///
+///  /* auto rows height set to minmax(min-content, 100%) */
+///  .grd.--autoRows
 /// ```
 ///
 /// ## Unions:
+///
 /// ### Left aligned voids
-/// Allows the usage of common void usecases with the content at the left.\
+/// Allows the usage of common void use cases with the content at the left.\
 /// First value represents the void proportional size.
 /// A single row is defined.
 /// ```css
-///  /** 1 to 1 proportion */
+///  /* 1 to 1 proportion */
 ///  .grd.--grdVoidLeft
 ///  .grd.--grdVoidLeft-1
 ///  .grd.--grdVoidLeft-1-1
 ///
-///  /** 1 to 4 proportion */
+///  /* 1 to 4 proportion */
 ///  .grd.--grdVoidLeft-1-4
 ///
-///  /** 2 to 3 proportion */
+///  /* 2 to 3 proportion */
 ///  .grd.--grdVoidLeft-2-3
 ///
-///  /** 3 to 2 proportion */
+///  /* 3 to 2 proportion */
 ///  .grd.--grdVoidLeft-3-2
 /// ```
+///
 /// ### Right aligned voids
-/// Allows the usage of common void usecases with the content at the right.\
+/// Allows the usage of common void use cases with the content at the right.\
 /// Second value represents the void proportional size.
 /// A single row is defined.
+/// Note: `--grdVoidRight-2-3` applies `grid-area` to the first child but has no column definition.
 /// ```css
-///  /** 1 to 1 proportion */
+///  /* 1 to 1 proportion */
 ///  .grd.--grdVoidRight
 ///  .grd.--grdVoidRight-1
 ///  .grd.--grdVoidRight-1-1
 ///
-///  /** 4 to 1 proportion */
-///  .grd.--grdVoidRight-4-4
+///  /* 4 to 1 proportion */
+///  .grd.--grdVoidRight-4-1
 ///
-///  /** 2 to 3 proportion */
-///  .grd.--grdVoidRight-2-3
-///
-///  /** 3 to 2 proportion */
+///  /* 3 to 2 proportion */
 ///  .grd.--grdVoidRight-3-2
 /// ```
 ///
@@ -80,23 +124,34 @@
 ///  {% extends "grid.njk" %}
 
 /// # Grid item
-/// Optional class with the common styles for the grid layout item
+/// Optional class with the common styles for the grid layout item.
 /// ```css
 ///  .grd-item
 /// ```
 ///
 /// ## Requirements:
-/// None, not even being inside of a grid component
+/// None, not even being inside of a grid component.
 ///
 /// ## Modifiers:
+///
 /// ### Item column span
-/// How many columns the item can occupy
+/// How many columns the item can occupy. Restricted to wide viewports.
 /// ```css
-///  /** 2 columns by default */
+///  /* 2 columns by default */
 ///  .grd-item.--grdColumnSpan
 ///
-///  /** Column range from (2-12)  */
+///  /* Column range from (1-12) */
 ///  .grd-item.--grdColumnSpan-2
+/// ```
+///
+/// ### Item row span
+/// How many rows the item can occupy. Restricted to wide viewports.
+/// ```css
+///  /* 2 rows by default */
+///  .grd-item.--grdRowSpan
+///
+///  /* Row range from (1-12) */
+///  .grd-item.--grdRowSpan-3
 /// ```
 ///
 /// ## Unions:

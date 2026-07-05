@@ -1,7 +1,7 @@
 @use "module";
 
 /// # Dropdown layout
-/// Multipurpose dropdown
+/// Multipurpose dropdown.
 /// ```css
 ///  .dropdown
 /// ```
@@ -16,7 +16,7 @@
 /// Or with action components:
 /// ```html
 ///  <div class="flx --flxColumn --flx-center --pY-100">
-///   <x-link toggle="dropdown">trigger</x-link>
+///   <button class="toggle--dropdown">Trigger dropdown</button>
 ///   <ul class="dropdown flx --flxColumn --flx-start --gap-5">
 ///    <li>
 ///     <a href="#" class="link">aguacate</a>
@@ -30,14 +30,14 @@
 ///   </ul>
 ///  </div>
 /// ```
-/// If an icon is provided this will rotate accordignly.
-/// It is recomended that this points to the oposite direction where the dropdown is located.
+/// If an icon.--indicator is provided this will rotate accordingly.
+/// It is recommended that this points to the opposite direction where the dropdown is located.
 /// ```html
 ///  <div class="flx --flxColumn --flx-center --pY-100">
-///   <a href="#" class="toggle--dropdown link">
-///    <span>trigger</span>
-///    <i class="icon fa-chevron-up fas"></i>
-///   </a>
+///   <button class="toggle--dropdown">
+///    <span>Trigger dropdown</span>
+///    <i class="icon --indicator fa-chevron-up fas"></i>
+///   </button>
 ///   <ul class="dropdown flx --flxColumn --flx-start --gap-5">
 ///    <li>
 ///     <a href="#" class="link">aguacate</a>
@@ -52,15 +52,55 @@
 ///  </div>
 /// ```
 ///
-/// ## Modifiers:
-/// None
+/// ### Dropdown Item Child Behavior
+/// Visual styles (box-shadow, padding, border-radius, background, and text colors) are conditional:
+/// - If direct child items with class `.dropdown-item` are present, styles apply to those child items.
+/// - Otherwise, styles apply directly to the `.dropdown` container.
 ///
-/// ## Unions:
+/// ## Modifiers & Unions:
+///
 /// ### Position
-/// This component can be aligned at almost any position, the default being bottom-left.
-/// The second value is optional and fallbacks to center.
+/// This component can be aligned at almost any position, the default being `bottom-left`.
+/// The second alignment parameter is optional:
+/// - For `top` and `bottom` positions, the secondary value falls back to `left` (e.g. `--position-top` = `--position-top-left`).
+/// - For `left` and `right` positions, the secondary value falls back to `top` (e.g. `--position-right` = `--position-right-top`).
 /// ```css
+///  /* Position options */
+///  .dropdown.--position-top
+///  .dropdown.--position-top-left
+///  .dropdown.--position-top-center
+///  .dropdown.--position-top-right
+///
+///  .dropdown.--position-bottom
 ///  .dropdown.--position-bottom-left
+///  .dropdown.--position-bottom-center
+///  .dropdown.--position-bottom-right
+///
+///  .dropdown.--position-left
+///  .dropdown.--position-left-top
+///  .dropdown.--position-left-center
+///  .dropdown.--position-left-bottom
+///
+///  .dropdown.--position-right
+///  .dropdown.--position-right-top
+///  .dropdown.--position-right-center
+///  .dropdown.--position-right-bottom
+/// ```
+///
+/// ### Size
+/// Controls the padding and border-radius of the dropdown or its items.
+/// ```css
+///  /* size options: xs | sm | md | lg | xl | xx | mx */
+///  .dropdown.--size-sm
+///  .dropdown.--size-lg
+/// ```
+///
+/// ### Theme
+/// Apply background-color and text-color configurations using theme-base unions.
+/// ```css
+///  /* theme options (e.g., primary-light, secondary-dark, light-dark, dark-light) */
+///  .dropdown.--tm-primary-light
+///  .dropdown.--tm-secondary-dark
 /// ```
 ///
 /// @group layout-dropdown

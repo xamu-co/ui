@@ -3,12 +3,21 @@
 
 /// # Animations
 /// Animations are also taken into account.\
-/// They are his own kind of component so all animations comes with a shared set of classes to alter them.
+/// They are their own kind of component, so all animations come with a shared set of classes to alter them.
 ///
 /// **.a-animationName{}**
 /// ```css
 ///  .a-fadeIn{}
 /// ```
+///
+/// ## Available Animations:
+/// - `.a-growingIn`: Animates vertical expansion by transitioning `max-height` from 0 to 1000px.
+/// - `.a-fadeIn`: Basic fade-in animation by transitioning `opacity` from 0 to 1.
+/// - `.a-topFade`: Fades in while translating from top to bottom (`translateY(-5vh)` / `-5dvh` to 0).
+/// - `.a-bottomFade`: Fades in while translating from bottom to top (`translateY(5vh)` / `5dvh` to 0).
+/// - `.a-leftFade`: Fades in while translating from left to right (`translateX(-5vh)` / `-5dvh` to 0).
+/// - `.a-rightFade`: Fades in while translating from right to left (`translateX(5vh)` / `5dvh` to 0).
+/// - `.a-pulse`: A scale pulse animation scaling down to 0.1 and back to 1.
 ///
 /// ## Animated status:
 /// Animations by default should be disabled unless the activation status is provided.\
@@ -18,11 +27,11 @@
 /// ```css
 ///  .a-fadeIn.is--animated{}
 /// ```
-/// This status is very powerfull & comes with his own set of modifiers
+/// This status is very powerful & comes with its own set of modifiers.
 ///
 /// ## Animated delay:
 /// How much time needs to happen before the animation starts.\
-/// Measured in tenths of a second
+/// Measured in tenths of a second.
 /// It goes from 0.1s as **"1"** to 2s as **"20"**
 ///
 /// **.is--animated.--delay-value{}**
@@ -33,10 +42,10 @@
 /// ```
 ///
 /// ## Animated iterations:
-/// Amount of times an animation needs to repeat itself
-/// Allowed values are **"infinite"** or a range from 1 to 20
+/// Amount of times an animation needs to repeat itself.\
+/// Allowed values are **"infinite"** or a range from 1 to 20.
 ///
-/// **.is--animated.--iterations--value{}**
+/// **.is--animated.--iterations-value{}**
 /// ```css
 ///  .is--animated.--iterations-2 {
 ///      animation-iteration-count: 2;
