@@ -1,8 +1,13 @@
 @use "../utils/module" as utils;
 
-// z index
-//
-// @group Modifiers
+/// # Z-Index modifiers
+/// Control elements overlapping/stack order.
+///
+/// ## Classes:
+/// - `.--index`: Sets `z-index: 999`.
+/// - `.--index-[1-10]`: Sets `z-index` to specific number (range 1-10).
+///
+/// @group modifiers
 @mixin z-index {
 	@layer modifiers {
 		.#{utils.$prefix-default}--index {

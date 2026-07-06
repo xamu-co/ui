@@ -1,6 +1,17 @@
 @use "module";
 
 // Text color
+/// # Text Color modifiers
+/// Control elements' text color and opacity shades.
+///
+/// ## Classes:
+/// - `.--txtColor`: Sets default text color.
+/// - `.--txtColor-[color]`: Sets text color (e.g. `--txtColor-primary`).
+/// - `.--txtColor-[color][1-9]`: Sets text color with opacity shade (range 10%-90%, e.g., `--txtColor-primary8`).
+/// - `.--txtColor-none`: Sets text color to transparent.
+/// - `.--txtColor-inherit`: Inherits text color from parent.
+///
+/// @group modifiers-text
 @mixin text-color {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtColor {

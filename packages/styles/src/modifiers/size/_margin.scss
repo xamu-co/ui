@@ -1,6 +1,21 @@
 @use "module";
 
 // margin
+/// # Margin modifiers
+/// Control element outer margins and alignment.
+///
+/// ## Classes:
+/// - `.--m`: Sets margin to 1rem.
+/// - `.--mX`: Sets horizontal margins to 1rem.
+/// - `.--mY`: Sets vertical margins to 1rem.
+/// - `.--mTop`, `.--mRight`, `.--mBottom`, `.--mLeft`: Direction margins (1rem).
+/// - `.--m-[5-50]`, `.--mX-[5-50]`, `.--mY-[5-50]`, `.--m[Direction]-[5-50]`: Sized margins in steps of 5 (e.g. `--m-30` is 2rem).
+/// - `.--m-0`, `.--m-none`, etc.: Resets margin to 0.
+/// - `.--m-center`, `.--mX-center`: Centers element horizontally (`margin-left: auto; margin-right: auto`).
+/// - `.--mY-center`: Centers element vertically (`margin-top: auto; margin-bottom: auto`).
+/// - `.--mX-left`, `.--mX-right`, `.--mY-top`, `.--mY-bottom`: Auto-margins for layout alignments.
+///
+/// @group modifiers-size
 @mixin margin-size {
 	@layer modifiers {
 		.#{module.$prefix-default}--m {

@@ -1,8 +1,14 @@
 @use "module";
 
-// flex growth and shrink
-//
-// @group Modifiers
+/// # Flexbox Growth & Shrink modifiers
+/// Control flexbox layout growing, shrinking, and content fitting behaviors.
+///
+/// ## Classes:
+/// - `.--flx`, `.--flx-auto`: Sets `flex: 1 1 auto` (shares space but respects content basis).
+/// - `.--flx-fill`: Sets `flex: 1 1 100%` (expands to fill all space).
+/// - `.--flx-fit`: Sets `flex: 1 0 auto` (grows to fit content, doesn't shrink).
+///
+/// @group modifiers-flexbox
 @mixin flex-growth {
 	@layer modifiers {
 		.#{module.$prefix-default}--flx {

@@ -1,10 +1,22 @@
 @use "module";
 
-// flexbox direction
-// Used as well by grid layout
-// TODO: Replace -reverse with -wrap-reverse
-//
-// @group modifiers
+/// # Flexbox Direction modifiers
+/// Control flexbox layout directions and wrap configurations.
+/// Used as well by grid layout.
+///
+/// ## Classes:
+/// - `.--flxRow`: Sets row direction with no wrapping.
+/// - `.--flxRow-wrap`: Sets row direction with wrapping.
+/// - `.--flxRow-reverse`: Sets row direction with wrap-reverse (Note: this configures `flex-wrap: wrap-reverse`, not `flex-direction: row-reverse`).
+/// - `.--flxRow-nowrap`: Sets row direction with no wrapping.
+/// - `.--flxRowReverse`: Sets row-reverse direction with no wrapping.
+/// - `.--flxRowReverse-wrap`: Sets row-reverse direction with wrapping.
+/// - `.--flxRowReverse-reverse`: Sets row-reverse direction with wrap-reverse.
+/// - `.--flxRowReverse-nowrap`: Sets row-reverse direction with no wrapping.
+///
+/// Similar classes exist for column layouts: `.--flxColumn` and `.--flxColumnReverse` (and their `-wrap`, `-reverse`, `-nowrap` variants).
+///
+/// @group modifiers-flexbox
 @mixin flex-direction {
 	@layer modifiers {
 		.#{module.$prefix-default}--flxRow {

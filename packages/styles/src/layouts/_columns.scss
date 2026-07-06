@@ -33,7 +33,6 @@
 /// @group layout-column
 /// @example njk
 ///  {% extends "columns.njk" %}
-
 @mixin columns {
 	@layer definitions {
 		.#{utils.$layout-columns} {

@@ -1,6 +1,13 @@
 @use "module";
 
-// Default striped
+/// # Striped background modifiers
+/// Apply alternating background colors to table rows or list child items.
+///
+/// ## Classes:
+/// - `.--striped`: Applies alternating background colors using secondary color at 10% opacity.
+/// - `.--striped-[color]`: Applies alternating background colors using specified color at 10% opacity (e.g., `--striped-primary`).
+///
+/// @group modifiers-color
 @mixin striped-color {
 	@layer modifiers {
 		.#{module.$prefix-default}--striped {

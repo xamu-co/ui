@@ -122,45 +122,6 @@
 /// @group layout-grid
 /// @example njk
 ///  {% extends "grid.njk" %}
-
-/// # Grid item
-/// Optional class with the common styles for the grid layout item.
-/// ```css
-///  .grd-item
-/// ```
-///
-/// ## Requirements:
-/// None, not even being inside of a grid component.
-///
-/// ## Modifiers:
-///
-/// ### Item column span
-/// How many columns the item can occupy. Restricted to wide viewports.
-/// ```css
-///  /* 2 columns by default */
-///  .grd-item.--grdColumnSpan
-///
-///  /* Column range from (1-12) */
-///  .grd-item.--grdColumnSpan-2
-/// ```
-///
-/// ### Item row span
-/// How many rows the item can occupy. Restricted to wide viewports.
-/// ```css
-///  /* 2 rows by default */
-///  .grd-item.--grdRowSpan
-///
-///  /* Row range from (1-12) */
-///  .grd-item.--grdRowSpan-3
-/// ```
-///
-/// ## Unions:
-/// None
-///
-/// @group layout-grid
-/// @example njk
-///  {% extends "grid-item.njk" %}
-
 @mixin grid {
 	$column-third: math.div(utils.$size-min-column, 3);
 	$row-third: math.div(utils.$size-min-row, 3);
@@ -452,3 +413,41 @@
 		}
 	}
 }
+
+/// # Grid item
+/// Optional class with the common styles for the grid layout item.
+/// ```css
+///  .grd-item
+/// ```
+///
+/// ## Requirements:
+/// None, not even being inside of a grid component.
+///
+/// ## Modifiers:
+///
+/// ### Item column span
+/// How many columns the item can occupy. Restricted to wide viewports.
+/// ```css
+///  /* 2 columns by default */
+///  .grd-item.--grdColumnSpan
+///
+///  /* Column range from (1-12) */
+///  .grd-item.--grdColumnSpan-2
+/// ```
+///
+/// ### Item row span
+/// How many rows the item can occupy. Restricted to wide viewports.
+/// ```css
+///  /* 2 rows by default */
+///  .grd-item.--grdRowSpan
+///
+///  /* Row range from (1-12) */
+///  .grd-item.--grdRowSpan-3
+/// ```
+///
+/// ## Unions:
+/// None
+///
+/// @group layout-grid
+/// @example njk
+///  {% extends "grid-item.njk" %}

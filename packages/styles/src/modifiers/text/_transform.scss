@@ -3,6 +3,19 @@
 // text tranform
 //
 // @group Modifiers
+/// # Text Transform & Decoration modifiers
+/// Control text casing transformations and underlines/decoration lines.
+///
+/// ## Classes:
+/// - `.--txtTransform`, `.--txtTransform-none`: Sets `text-transform: none`.
+/// - `.--txtTransform-lower`, `.--txtTransform-lowercase`: Sets text to lowercase (including `::first-letter`).
+/// - `.--txtTransform-upper`, `.--txtTransform-uppercase`: Sets text to uppercase (including `::first-letter`).
+/// - `.--txtTransform-capitalize`: Sets text to capitalized (including `::first-letter`).
+/// - `.--txtDecoration-none`: Clears text decoration.
+/// - `.--txtDecoration-under`, `.--txtDecoration-underline`: Sets underline decoration.
+/// - `.--txtDecoration-through`, `.--txtDecoration-lineThrough`: Sets line-through decoration.
+///
+/// @group modifiers-text
 @mixin text-transform {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtTransform {

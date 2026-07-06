@@ -1,8 +1,21 @@
 @use "module";
 
-// flexbox justify content
-//
-// @group Modifiers
+/// # Flexbox Justify modifiers
+/// Control alignment of flexbox items along the main axis.
+/// Used as well by grid layout (applies to `justify-items`).
+///
+/// ## Classes:
+/// - `.--flxJustify`, `.--flxJustify-center`: Sets `justify-content: center`.
+/// - `.--flxJustify-start`: Sets `justify-content: flex-start`.
+/// - `.--flxJustify-end`: Sets `justify-content: flex-end`.
+/// - `.--flxJustify-around`: Sets `justify-content: space-around`.
+/// - `.--flxJustify-evenly`: Sets `justify-content: space-evenly`.
+/// - `.--flxJustify-between`: Sets `justify-content: space-between`.
+/// - `.--flxJustify-stretch`: Sets `justify-content: stretch`.
+///
+/// Similar classes exist for self alignment override (`.--flxJustifySelf-[modifier]`).
+///
+/// @group modifiers-flexbox
 @mixin flex-justify {
 	@layer modifiers {
 		.#{module.$prefix-default}--flxJustify {

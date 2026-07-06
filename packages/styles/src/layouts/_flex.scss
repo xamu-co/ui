@@ -120,8 +120,6 @@
 /// @group layout-flex
 /// @example njk
 ///  {% extends "flex.njk" %}
-
-// flexbox container
 @mixin flex {
 	@layer definitions {
 		.#{utils.$layout-flexbox} {

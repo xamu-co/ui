@@ -1,6 +1,14 @@
 @use "../utils/module" as utils;
 
-// box sizing
+/// # Box sizing modifiers
+/// Control CSS `box-sizing` behavior.
+///
+/// ## Classes:
+/// - `.--boxSizing-box`: Sets `box-sizing: border-box`.
+/// - `.--boxSizing`: Sets `box-sizing: content-box` (reverses default border-box).
+/// - `.--boxSizing-content`: Sets `box-sizing: content-box`.
+///
+/// @group modifiers
 @mixin box-sizing {
 	@layer modifiers {
 		.#{utils.$prefix-default}--boxSizing {

@@ -1,8 +1,18 @@
 @use "module";
 
-// flexbox align items
-//
-// @group modifiers
+/// # Flexbox Align modifiers
+/// Control alignment of flexbox items along the cross axis.
+///
+/// ## Classes:
+/// - `.--flxAlign`, `.--flxAlign-center`: Aligns items to center.
+/// - `.--flxAlign-start`: Aligns items to start.
+/// - `.--flxAlign-end`: Aligns items to end.
+/// - `.--flxAlign-stretch`: Stretches items to fit.
+/// - `.--flxAlign-baseline`: Aligns items along their text baselines.
+///
+/// Similar classes exist for self alignment (`.--flxAlignSelf-[modifier]`).
+///
+/// @group modifiers-flexbox
 @mixin flex-align {
 	@layer modifiers {
 		.#{module.$prefix-default}--flxAlign {

@@ -1,6 +1,18 @@
 @use "module";
 
 // padding
+/// # Padding modifiers
+/// Control element inner padding.
+///
+/// ## Classes:
+/// - `.--p`: Sets padding to 1rem.
+/// - `.--pX`: Sets horizontal padding to 1rem.
+/// - `.--pY`: Sets vertical padding to 1rem.
+/// - `.--pTop`, `.--pRight`, `.--pBottom`, `.--pLeft`: Direction paddings (1rem).
+/// - `.--p-[5-50]`, `.--pX-[5-50]`, `.--pY-[5-50]`, `.--p[Direction]-[5-50]`: Sized paddings in steps of 5 (e.g. `--p-30` is 2rem).
+/// - `.--p-0`, `.--p-none`, etc.: Resets padding to 0.
+///
+/// @group modifiers-size
 @mixin padding-size {
 	@layer modifiers {
 		.#{module.$prefix-default}--p {

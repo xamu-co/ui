@@ -3,6 +3,14 @@
 // text size
 //
 // @group Modifiers
+/// # Text Size modifiers
+/// Control elements' font size.
+///
+/// ## Classes:
+/// - `.--txtSize`, `.--txtSize-normal`: Sets font size to normal size (1rem).
+/// - `.--txtSize-[size]` (size option: `xs`, `sm`, `md`, `lg`, `xl`, `xx`, `mx`): Sets font size to specific predefined font sizes.
+///
+/// @group modifiers-text
 @mixin text-size {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtSize {

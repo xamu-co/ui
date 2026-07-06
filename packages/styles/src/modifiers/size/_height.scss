@@ -1,6 +1,22 @@
 @use "sass:math";
 @use "module";
 
+/// # Height modifiers
+/// Control element height constraints.
+///
+/// ## Classes:
+/// - `.--height`, `.--height-auto`: Sets `height: auto`.
+/// - `.--height-fit`, `.--height-max`, `.--height-min`: Sets height based on content.
+/// - `.--height-quarter` / `.--height-25`: Sets `height: 25%`.
+/// - `.--height-third` / `.--height-33`: Sets `height: 33%`.
+/// - `.--height-half` / `.--height-50`: Sets `height: 50%`.
+/// - `.--height-100` / `.--height-full`: Sets `height: 100%`.
+/// - `.--height-[size]` (size option in px: `90`, `180`, `220`, `440`, `480`, `1080`): Sets fixed height.
+/// - `.--heightVh`, `.--heightVh-[30-100]`: Viewport height overrides (e.g. `--heightVh-50` sets 50vh/50dvh).
+///
+/// Similar classes exist for `min-height` (`.--minHeight-[modifier]`) and `max-height` (`.--maxHeight-[modifier]`).
+///
+/// @group modifiers-size
 @mixin height-size {
 	@layer modifiers {
 		.#{module.$prefix-default}--height {

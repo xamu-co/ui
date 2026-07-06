@@ -3,6 +3,18 @@
 // text align
 //
 // @group Modifiers
+/// # Text Align modifiers
+/// Control text alignment and flexbox item flow for non-table elements.
+///
+/// ## Classes:
+/// - `.--txtAlign`, `.--txtAlign-left`: Aligns text to left, and child flex items to start.
+/// - `.--txtAlign-center`: Aligns text to center, and child flex items to center.
+/// - `.--txtAlign-right`: Aligns text to right, and child flex items to end.
+/// - `.--txtAlign-justify`: Aligns text to justify, and child flex items to stretch.
+///
+/// Note: On non-table containers, these classes also convert layout flow to `display: inline-flex` with column wrapping.
+///
+/// @group modifiers-text
 @mixin text-align {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtAlign {

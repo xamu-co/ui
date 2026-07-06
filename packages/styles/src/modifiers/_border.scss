@@ -5,7 +5,18 @@
 	@return "-#{$name}, ";
 }
 
-// border
+// TODO: consider refactoring this confusing border modifier (color, width, style)
+
+/// # Border modifiers
+/// Control element border width and style.
+///
+/// ## Classes:
+/// - `.--bdr`: Initializes default border (solid style, transparent color).
+/// - `.--bdr-[size]`: Sets specific border width (e.g., `.--bdr-xs` to `.--bdr-mx`).
+/// - `.--bdr-dashed`: Sets border style to dashed.
+/// -`.-- bdr-solid`: Sets border style to solid.
+///
+/// @group modifiers
 @mixin border {
 	@layer modifiers {
 		.#{utils.$prefix-default}--bdr {

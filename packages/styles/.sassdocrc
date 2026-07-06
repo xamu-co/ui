@@ -6,21 +6,23 @@ groups:
     layout-grid: Grid
     layout-column: Column
     layout-dropdown: Dropdown
-  Components:
-    components: About components
   Modifiers:
     modifiers: About modifiers
-    modifier-flex: flex justify-align
-  Unions:
-    unions: About unions
-    union-flex: flex justify-align
-  Pseudo components:
+    modifiers-unions: About union modifiers
+    modifiers-color: Color modifiers
+    modifiers-flexbox: Flexbox modifiers
+    modifiers-text: Text modifiers
+    modifiers-size: Size modifiers
+  Components:
+    components: About components
+  Pseudos:
     pseudos: About pseudos
   Animations:
     animations: About animations
 herman:
   extraDocs:
-    - './SETUP.md'
+    - name: "Project setup"
+      path: "./SETUP.md"
   displayColors:
     - hex
     - rgba
@@ -136,19 +138,25 @@ trackingCode: '<link rel="preconnect" href="https://fonts.googleapis.com" crosso
   }
   [data-region=banner] {
     box-shadow: none;
-    border-bottom-color: #f39c12;
+    border-bottom-color: #0f47af;
   }
   [data-region=banner]:before {
-    border-top-color: #f39c12;
+    border-top-color: #0f47af;
   }
   [data-region=nav] {
-    background: #f39c12;
+    color: #0f47af;
+    background-color: #e7ecf7;
+    overflow-y: auto;
+  }
+  [data-region=nav] input[type="text"] {
+    color: #0f47af;
+    box-shadow: 1px 1px 3px rgba(15, 71, 175, 0.3);
   }
   .nav-home + ul > .nav-item:first-child {
     margin-top: 1rem;
   }
   .nav-title {
-    color: #61320f;
+    color: inherit;
     padding-top: 10px;
     margin: 1.5rem 0 1rem;
   }
@@ -157,7 +165,7 @@ trackingCode: '<link rel="preconnect" href="https://fonts.googleapis.com" crosso
   }
   .nav-title,
   .nav-item {
-    border-color: rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(15, 71, 175, 0.1) !important;
   }
   .nav-item,
   .nav-subsection > ul > .nav-subsection > ul > .nav-item {
@@ -169,6 +177,22 @@ trackingCode: '<link rel="preconnect" href="https://fonts.googleapis.com" crosso
   .nav-subsection > ul > .nav-subsection > ul > .nav-item:not(:first-child){
     font-style: italic;
     font-weight: 300;
+  }
+  [data-nav]:link,
+  [data-nav]:visited {
+    background: linear-gradient(90deg, #0f47af, #0f47af) no-repeat;
+    background-position: 0 100%;
+    background-size: 0 2px; 
+  }
+  [data-nav]:active,
+  [data-nav]:focus,
+  [data-nav]:hover,
+  [data-nav][data-nav="is-active"]:active,
+  [data-nav][data-nav="is-active"]:focus,
+  [data-nav][data-nav="is-active"]:hover,
+  [data-nav][data-nav="is-active"]:link,
+  [data-nav][data-nav="is-active"]:visited{
+    background-size: 100% 2px;
   }
   [data-nav]:link:before,
   [data-nav]:visited:before {

@@ -1,8 +1,14 @@
 @use "../utils/module" as utils;
 
-// Float &  clear
-//
-// @group Modifiers
+/// # Float & clear modifiers
+/// Control layout float and clearing behavior.
+///
+/// ## Classes:
+/// - `.--clear`: Sets `clear: both`.
+/// - `.--float`, `.--float-left`: Sets `float: left`.
+/// - `.--float-right`: sets float alignment (Note: currently implemented as `float: left`).
+///
+/// @group modifiers
 @mixin clearfix {
 	@layer modifiers {
 		// clear
