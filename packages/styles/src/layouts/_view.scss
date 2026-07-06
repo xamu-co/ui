@@ -1,9 +1,35 @@
 @use "../utils/module" as utils;
 
-// Envuelve cada vista
-//
-// @name Columns
-// @group Layouts
+/// # View layout
+/// Wraps high-level views and panels with column/row layout rules.
+/// ```css
+///  .view
+/// ```
+///
+/// ## Requirements:
+/// Use `.view-item` to define individual vertical/horizontal sections inside the view:
+/// ```html
+///  <div class="view">
+///   <div class="view-item">
+///    <div class="holder">
+///     <!-- section contents -->
+///    </div>
+///   </div>
+///  </div>
+/// ```
+///
+/// ## Modifiers:
+///
+/// ### Full view height
+/// Sets section minimum height to cover the viewport minus navigation bar height.
+/// ```css
+///  .view-item.--minHeight-100
+/// ```
+///
+/// ## Unions:
+/// None.
+///
+/// @group layout-view
 @mixin view {
 	@layer definitions {
 		.#{utils.$layout-view} {

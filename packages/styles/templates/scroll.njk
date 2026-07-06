@@ -1,0 +1,32 @@
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link href="https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css" rel="stylesheet">
+{# Scroll Examples #}
+<div class="flx --flxColumn --gap-50 --pY-50">
+  <section>
+    <h2>Scroll Layouts</h2>
+    <div class="flx --flxColumn --gap-30">
+      <div>
+        <h3>Vertical Scroll Container (<code>.--vertical</code>)</h3>
+        <div class="scroll --vertical" style="height: 150px; max-width: 300px; border: 1px solid #ccc; padding: 10px;">
+          <p>This is scrollable vertical content. Scroll down to see more.</p>
+          <p>Line 2: Lorem ipsum dolor sit amet.</p>
+          <p>Line 3: Consectetur adipiscing elit.</p>
+          <p>Line 4: Sed do eiusmod tempor incididunt.</p>
+          <p>Line 5: Ut labore et dolore magna aliqua.</p>
+          <p>Line 6: End of scrollable area.</p>
+        </div>
+      </div>
+      <div>
+        <h3>Forced Horizontal Scroll (<code>.--horizontal.--always</code>)</h3>
+        <div class="scroll --horizontal --always" style="border: 1px solid #ccc; padding: 10px;">
+          <div class="flx --flxRow --gap-20">
+            <div class="--p-20 --bgColor-primary1 --flx-fit" style="width: 250px;">Card Item 1</div>
+            <div class="--p-20 --bgColor-primary1 --flx-fit" style="width: 250px;">Card Item 2</div>
+            <div class="--p-20 --bgColor-primary1 --flx-fit" style="width: 250px;">Card Item 3</div>
+            <div class="--p-20 --bgColor-primary1 --flx-fit" style="width: 250px;">Card Item 4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

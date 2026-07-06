@@ -1,10 +1,42 @@
 @use "../utils/module" as utils;
 
-// Main navigation
-// this element is expected to be an <nav> wrapper
-//
-// @name Columns
-// @group Layouts
+/// # Navigation Bar (Horizontal) layout
+/// Horizontal navigation bar wrapper.
+/// ```css
+///  nav.navigationX
+/// ```
+///
+/// ## Structure:
+/// Expected HTML structure:
+/// ```html
+///  <nav class="navigationX">
+///   <div class="navigationX-wrapper">
+///    <div class="holder">
+///     <!-- navigation items go here -->
+///     <ul class="navigationX-list">
+///      <li class="navigationX-list-item">...</li>
+///     </ul>
+///    </div>
+///   </div>
+///  </nav>
+/// ```
+///
+/// ## Modifiers:
+///
+/// ### Sub navigation bar
+/// Configures navigation bar to be secondary (positioned absolute below main bar, shorter height).
+/// ```css
+///  .navigationX.--sub
+/// ```
+///
+/// ### Theme
+/// Colorizes the navigation bar background using standard themes.
+/// ```css
+///  /* theme options (e.g. primary, secondary, light, dark) */
+///  .navigationX.--tm-primary
+/// ```
+///
+/// @group layout-navigation
 @mixin navigation-x {
 	@layer definitions {
 		.#{utils.$layout-navigation-x} {

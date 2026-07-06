@@ -1,0 +1,39 @@
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link href="https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css" rel="stylesheet">
+{# List Examples #}
+<div class="flx --flxColumn --gap-50 --pY-50">
+  <section>
+    <h2>List Layout (Collapsible menus)</h2>
+    <div class="flx --flxColumn --gap-30">
+      
+      <!-- Collapsible Vertical List Menu -->
+      <div>
+        <h3>Collapsible Vertical Menu</h3>
+        <nav class="list" style="max-width: 250px; background: #eee; padding: 1rem;">
+          <input type="checkbox" id="listToggle1">
+          <label for="listToggle1" class="toggle--list --p-5" style="cursor: pointer; display: flex; justify-content: space-between;">
+            <span>General Settings</span>
+            <i class="icon --indicator fas fa-chevron-down"></i>
+          </label>
+          <ul class="list-group --flow-column --pLeft-10">
+            <li><a href="#" class="link">Profile</a></li>
+            <li><a href="#" class="link">Notifications</a></li>
+            <li><a href="#" class="link">Security</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Horizontal Flow List -->
+      <div>
+        <h3>Horizontal Flow List (<code>--flow-row</code>)</h3>
+        <ul class="list-group --flow-row">
+          <li><span class="--txtWeight-bold">Navigation:</span></li>
+          <li><a href="#" class="link">Home</a></li>
+          <li><a href="#" class="link">About</a></li>
+          <li><a href="#" class="link">Services</a></li>
+          <li><a href="#" class="link">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>

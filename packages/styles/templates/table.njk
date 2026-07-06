@@ -1,0 +1,73 @@
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link href="https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css" rel="stylesheet">
+{# Table Examples #}
+<div class="flx --flxColumn --gap-50 --pY-50">
+  <section>
+    <h2>Table Layouts</h2>
+    <div class="flx --flxColumn --gap-30">
+      <div>
+        <h3>Table with sticky left/right columns and <code>--tm-primary</code> theme</h3>
+        <div class="scroll --horizontal --always --mX" style="max-width: 600px;">
+          <table class="tbl --minWidth-100 --tm-primary">
+            <thead>
+              <tr>
+                <th class="--sticky">ID (Sticky)</th>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Status</td>
+                <th class="--sticky">Action (Sticky)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="--sticky">#001</th>
+                <td>John Doe</td>
+                <td>john@example.com</td>
+                <td>Active</td>
+                <th class="--sticky"><button>Edit</button></th>
+              </tr>
+              <tr class="--is-selected">
+                <th class="--sticky">#002</th>
+                <td>Jane Smith</td>
+                <td>jane@example.com</td>
+                <td>Active (Selected)</td>
+                <th class="--sticky"><button>Edit</button></th>
+              </tr>
+              <tr>
+                <th class="--sticky">#003</th>
+                <td>Bob Johnson</td>
+                <td>bob@example.com</td>
+                <td>Inactive</td>
+                <th class="--sticky"><button>Edit</button></th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3>Mobile Collapsible Table (<code>.--collapseOnMobile</code>)</h3>
+        <table class="tbl --minWidth-100 --collapseOnMobile"">
+          <thead>
+            <tr>
+              <td>Task</td>
+              <td>Priority</td>
+              <td>Due Date</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-column="Task:">Write docs</td>
+              <td data-column="Priority:">High</td>
+              <td data-column="Due Date:">Today</td>
+            </tr>
+            <tr>
+              <td data-column="Task:">Review PR</td>
+              <td data-column="Priority:">Medium</td>
+              <td data-column="Due Date:">Tomorrow</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,64 @@
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link href="https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css" rel="stylesheet">
+{# Navigation Examples #}
+<div class="flx --flxColumn --gap-50 --pY-50">
+  <section>
+    <h2>Navigation Layouts</h2>
+    <div class="flx --flxColumn --gap-30">
+      
+      <!-- Horizontal Navigation Bar -->
+      <div>
+        <h3>Horizontal Navigation (<code>.navigationX</code>)</h3>
+        <nav class="navigationX --tm-primary" style="position: relative;">
+          <div class="navigationX-wrapper">
+            <div class="holder">
+              <span class="--txtWeight-bold --txtColor-light">BRAND</span>
+              <ul class="navigationX-list">
+                <li class="navigationX-list-item"><a href="#" class="link --txtColor-light">Dashboard</a></li>
+                <li class="navigationX-list-item"><a href="#" class="link --txtColor-light">Projects</a></li>
+                <li class="navigationX-list-item"><a href="#" class="link --txtColor-light">Team</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Secondary Sub Navigation Bar -->
+      <div>
+        <h3>Sub-Navigation (<code>.navigationX.--sub</code>)</h3>
+        <div style="position: relative; height: 60px; background: #eee;">
+          <nav class="navigationX --sub --tm-secondary">
+            <div class="navigationX-wrapper">
+              <div class="holder">
+                <ul class="navigationX-list">
+                  <li class="navigationX-list-item"><a href="#" class="link --txtColor-light">Overview</a></li>
+                  <li class="navigationX-list-item"><a href="#" class="link --txtColor-light">Analytics</a></li>
+                  <li class="navigationX-list-item"><a href="#" class="link --txtColor-light">Settings</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Side panel vertical navigation -->
+      <div>
+        <h3>Vertical Side Navigation (<code>.navigationY</code>)</h3>
+        <div class="flx --flxRow" style="height: 250px; border: 1px solid #ccc;">
+          <nav class="navigationY" style="width: 200px;">
+            <div class="navigationY-menu">
+              <span class="--txtWeight-bold --p-10">Sidebar Menu</span>
+              <ul class="navigationY-menu-list">
+                <li><a href="#" class="link"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" class="link"><i class="fas fa-user"></i> Users</a></li>
+                <li><a href="#" class="link"><i class="fas fa-cog"></i> Config</a></li>
+              </ul>
+              <div class="--p-10 --txtSize-sm">Footer Content</div>
+            </div>
+          </nav>
+          <div class="--flx-fill --p-20">Main panel content...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

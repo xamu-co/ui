@@ -1,6 +1,30 @@
 @use "../utils/module" as utils;
 
-// float container
+/// # Float layout
+/// Layout container that floats all its immediate children.
+/// ```css
+///  .float
+/// ```
+///
+/// ## Requirements:
+/// None.
+///
+/// ## Modifiers:
+/// ### Float direction
+/// Control the floating direction of children items (left is default).
+/// ```css
+///  /* Floats children to the right */
+///  .float.--floatDir-right
+///
+///  /* Floats children to the left */
+///  .float.--floatDir-left
+///  .float.--floatDir
+/// ```
+///
+/// ## Unions:
+/// None.
+///
+/// @group layout-float
 @mixin float {
 	@layer definitions {
 		.#{utils.$layout-float} {

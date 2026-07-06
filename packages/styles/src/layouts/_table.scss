@@ -2,8 +2,42 @@
 @use "sass:meta";
 @use "sass:math";
 
-// Table
-// tbl instead of table to not crash with other libraries such as bootstrap
+/// # Table layout
+/// Standardized layout for tabular data grids.
+/// Uses pseudo-elements (`::before`) on rows/cells to apply backgrounds cleanly.
+/// ```css
+///  table.tbl
+/// ```
+///
+/// ## Requirements:
+/// Use class `tbl` on the `<table>` element to avoid conflicts with other CSS libraries.
+///
+/// ### Sticky columns
+/// Columns can be configured to be fixed/sticky relative to the scroll container:
+/// - Sticky left: class `.--sticky` on the first cell in the row.
+/// - Sticky right: class `.--sticky` on the last cell in the row.
+/// ```css
+///  th.--sticky, td.--sticky
+/// ```
+///
+/// ## Modifiers:
+///
+/// ### Collapse on Mobile
+/// Collapses the table into vertical blocks on mobile/tablet viewports, displaying the column headers using `data-column` attribute.
+/// ```css
+///  table.tbl.--collapseOnMobile
+/// ```
+///
+/// ### Theme
+/// Apply row background and text colors based on themes.
+/// ```css
+///  /* theme options (e.g., primary, secondary, danger, success, light, dark) */
+///  table.tbl.--tm-primary
+/// ```
+///
+/// @group layout-table
+/// @example njk
+///  {% extends "table.njk" %}
 @mixin table {
 	@layer definitions {
 		table.#{utils.$layout-table} {
@@ -212,7 +246,7 @@
 
 			@if utils.$allow-responsive {
 				@media (width <= utils.$querie-tablet) {
-					// TODO: fix this
+					// TODO: fix collapseOnMobile styles
 					&.#{utils.$prefix-default}--collapseOnMobile {
 						&,
 						thead,

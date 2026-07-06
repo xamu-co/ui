@@ -6,6 +6,15 @@ groups:
     layout-grid: Grid
     layout-column: Column
     layout-dropdown: Dropdown
+    layout-float: Float
+    layout-holder: Holder
+    layout-modal: Modal
+    layout-list: List
+    layout-navigation: Navigation
+    layout-scroll: Scroll
+    layout-table: Table
+    layout-text: Text Block
+    layout-view: View
   Modifiers:
     modifiers: About modifiers
     modifiers-unions: About union modifiers

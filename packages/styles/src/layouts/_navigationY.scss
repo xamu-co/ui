@@ -1,5 +1,34 @@
 @use "../utils/module" as utils;
 
+/// # Side Navigation (Vertical) layout
+/// Side panel layout wrapper for vertical navigation menus.
+/// ```css
+///  nav.navigationY
+/// ```
+///
+/// ## Structure:
+/// Expected HTML structure:
+/// ```html
+///  <nav class="navigationY">
+///   <div class="navigationY-menu">
+///    <ul class="navigationY-menu-list">
+///     <li>...</li>
+///    </ul>
+///   </div>
+///  </nav>
+/// ```
+///
+/// ## Modifiers:
+///
+/// ### Sub navigation menu
+/// Configures navigation menu to be secondary/sub menu (positioned differently on desktop viewports).
+/// ```css
+///  .navigationY-menu.--sub
+/// ```
+///
+/// @group layout-navigation
+/// @example njk
+///  {% extends "navigation.njk" %}
 @mixin navigation-y {
 	@layer definitions {
 		nav.#{utils.$layout-navigation-y} {

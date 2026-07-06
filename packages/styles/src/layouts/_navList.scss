@@ -1,9 +1,47 @@
 @use "../utils/module" as utils;
 
-// list element
-//
-// @name Columns
-// @group Layouts
+/// # List layout
+/// Collapsible list layout system. Uses preceding hidden radio/checkbox elements to toggle visibility without javascript.
+/// ```css
+///  nav.list
+/// ```
+///
+/// ## Requirements:
+///
+/// ### Toggler
+/// Requires an element with the toggler class:
+/// ```css
+///  .toggle--list
+/// ```
+/// To trigger collapse on click natively, prepend a checkbox or radio input inside the `<nav class="list">`, and place the `.list-group` next to the toggler:
+/// ```html
+///  <nav class="list">
+///   <input type="checkbox" id="menu1">
+///   <label for="menu1" class="toggle--list">
+///     <span>Toggle Menu</span>
+///     <i class="icon --indicator fas fa-chevron-down"></i>
+///   </label>
+///   <ul class="list-group">
+///     <li>Item 1</li>
+///   </ul>
+///  </nav>
+/// ```
+///
+/// ## Modifiers:
+///
+/// ### Flow direction
+/// Controls layout flow direction of `.list-group` items.
+/// ```css
+///  /* row direction flow (horizontal items) */
+///  .list-group.--flow-row
+///
+///  /* column direction flow (vertical items - default) */
+///  .list-group.--flow-column
+/// ```
+///
+/// @group layout-list
+/// @example njk
+///  {% extends "list.njk" %}
 @mixin list {
 	@layer definitions {
 		.#{utils.$status-toggle-list} {

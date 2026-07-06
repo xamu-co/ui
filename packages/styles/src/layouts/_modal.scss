@@ -1,8 +1,41 @@
 @use "../utils/module" as utils;
 
-// Modal element
-//
-// @group Layouts
+/// # Modal layout
+/// Layout container for overlay dialogs/modals.
+/// Sets padding, shadow, border-radius, and integrates with themes and sizes.
+/// ```css
+///  .modal
+/// ```
+///
+/// ## Requirements:
+///
+/// ### Modal Content
+/// To apply horizontal padding cleanly on content blocks inside the modal, use:
+/// ```css
+///  .modal-content
+/// ```
+/// When `.modal-content` is present inside `.modal`, the parent modal's horizontal padding is removed, delegating it to the content element instead.
+///
+/// ## Modifiers:
+///
+/// ### Sizes
+/// Changes padding and border-radius using standard sizes.
+/// ```css
+///  /* sizes: xs | sm | md | lg | xl | xx | mx */
+///  .modal.--size-sm
+///  .modal.--size-lg
+/// ```
+///
+/// ### Themes (Unions)
+/// Colorizes background and text colors using theme-base unions.
+/// ```css
+///  /* theme unions (e.g. primary-light, secondary-dark, light-dark) */
+///  .modal.--tm-primary-light
+/// ```
+///
+/// @group layout-modal
+/// @example njk
+///  {% extends "modal.njk" %}
 @mixin modal {
 	@layer definitions {
 		.#{utils.$layout-modal} {
