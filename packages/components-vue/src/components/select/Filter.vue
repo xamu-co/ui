@@ -54,9 +54,10 @@
 
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
-	import { computed, inject, ref } from "vue";
+	import { computed, ref } from "vue";
 	import deburr from "lodash-es/deburr";
 	import omit from "lodash-es/omit";
+	import debounce from "lodash-es/debounce";
 	import { Md5 } from "ts-md5";
 
 	import type {
@@ -78,10 +79,8 @@
 		iUseThemeProps,
 		iSelectProps,
 	} from "../../types/props";
-	import type { iVuePluginOptions } from "../../types/plugin";
 	import useAsyncDataFn from "../../composables/async";
 	import { useHelpers } from "../../composables/utils";
-	import debounce from "lodash-es/debounce";
 
 	interface iSelectFilterProps
 		extends iSelectProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
@@ -106,8 +105,15 @@
 	const emit = defineEmits(["update:model-value"]);
 
 	const { t } = useHelpers(useI18n);
-	const { internals } = inject<iVuePluginOptions>("xamu") || {};
-	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
+
+	let useAsyncDataLocal: typeof useAsyncDataFn;
+
+	try {
+		// @ts-expect-error useAsyncData is only available in nuxt context
+		useAsyncDataLocal = useAsyncData;
+	} catch (err) {
+		useAsyncDataLocal = useAsyncDataFn;
+	}
 
 	/** Local model for the filter */
 	const queryModel = ref<string | number>("");
@@ -187,7 +193,7 @@
 		};
 	});
 
-	const { data: remoteOptions, pending: pendingRemoteOptions } = useAsyncData<iFormOption[]>(
+	const { data: remoteOptions, pending: pendingRemoteOptions } = useAsyncDataLocal<iFormOption[]>(
 		selectFilterName.value,
 		async (_, { signal } = {}) => {
 			/** Fallbacks queryModel to selected value */
