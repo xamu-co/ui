@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.32](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.31...@open-xamu-co/ui-components-vue-v4.0.0-next.32) (2026-07-08)
+
+
+### Bug Fixes
+
+* **vue:** use the proper async data within select filter ([40bbae3](https://github.com/xamu-co/ui/commit/40bbae318661e94f1fd589dd1a01b8d3283ed02f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.32"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.31](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.30...@open-xamu-co/ui-components-vue-v4.0.0-next.31) (2026-07-04)
 
 
