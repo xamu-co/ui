@@ -206,6 +206,7 @@
 		{
 			default: () => [],
 			watch: [queryModel],
+			server: false,
 		}
 	);
 

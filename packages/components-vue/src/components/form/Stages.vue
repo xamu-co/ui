@@ -52,7 +52,9 @@
 				</form>
 			</div>
 			<slot name="actions">
-				<div class="flx --flxRow-wrap --flx-start-center --width-100 modal-content">
+				<div
+					class="flx --flxRow-wrap --flx-start-center --gap-5 --gap-10:sm --gap:md --width-100 modal-content"
+				>
 					<slot
 						v-if="stages?.length"
 						name="primary-actions"
@@ -63,7 +65,9 @@
 							submit,
 						}"
 					>
-						<div class="flx --flxRow --flx-start-center --flx --gap-5 --gap:md">
+						<div
+							class="flx --flxRow --flx-start-center --flx --gap-5 --gap-10:sm --gap:md"
+						>
 							<ActionButtonToggle
 								v-if="formInputsKeys.length > 1 && activeStage"
 								key="button-back"
@@ -86,9 +90,13 @@
 								"
 								key="button-submit"
 								:theme="theme"
+								round=":sm-inv"
 								@click.prevent="submit"
 							>
-								{{ submitLabel || t("send") }}
+								<IconFa :name="submitIcon" hidden="-full:sm" />
+								<span class="--hidden-full:sm-inv">
+									{{ submitLabel || t("send") }}
+								</span>
 							</ActionButton>
 							<ActionButtonToggle
 								v-if="
@@ -131,6 +139,7 @@
 </template>
 
 <script setup lang="ts">
+	import type { IconName } from "@fortawesome/fontawesome-common-types";
 	import { onBeforeUnmount, ref, watch } from "vue";
 	import debounce from "lodash-es/debounce";
 	import isEqual from "lodash-es/isEqual";
@@ -150,10 +159,10 @@
 	import { useHelpers } from "../../composables/utils";
 
 	export interface iFormStages extends iUseThemeProps {
-		/**
-		 * Label for the submit button
-		 */
+		/** Label for the submit button */
 		submitLabel?: string;
+		/** Icon for the submit button on mobile */
+		submitIcon?: IconName;
 		stages: iForm[][];
 		hideRequiredDisclaimer?: boolean;
 		stagesClasses?: tProps<string>;
@@ -188,7 +197,7 @@
 
 	defineOptions({ name: "FormStages", inheritAttrs: true });
 
-	const props = defineProps<iFormStages>();
+	const props = withDefaults(defineProps<iFormStages>(), { submitIcon: "pencil" });
 	const emit = defineEmits(["input-values", "submited", "set-active-stage"]);
 
 	const { t } = useHelpers(useI18n);

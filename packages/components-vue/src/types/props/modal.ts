@@ -1,4 +1,5 @@
 import type { RendererElement } from "vue";
+import type { IconName } from "@fortawesome/fontawesome-common-types";
 
 import type { iUseThemeProps } from "./base";
 
@@ -32,7 +33,11 @@ export interface iModalProps extends iUseThemeProps {
 	/**
 	 * Save button config
 	 */
-	saveButton?: iModalButtonConfig & { disabled?: boolean };
+	saveButton?: iModalButtonConfig & {
+		disabled?: boolean;
+		/** Icon for the save button on mobile */
+		icon?: IconName;
+	};
 	/**
 	 * Cancel button config
 	 */

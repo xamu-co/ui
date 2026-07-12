@@ -80,9 +80,11 @@
 						>
 							<div
 								v-if="!hideFooter"
-								class="flx --flxRow --flx-between-center --width-100 modal-content"
+								class="flx --flxRow-wrap --flx-between-center --gap-5 --gap-10:sm --gap:md --width-100 modal-content"
 							>
-								<div class="flx --flxRow --flx-start-center">
+								<div
+									class="flx --flxRow-wrap --flx-start-center --gap-5 --gap-10:sm --gap:md"
+								>
 									<slot
 										name="footer-actions"
 										v-bind="{
@@ -98,9 +100,16 @@
 											:theme="invertedThemeValues"
 											:class="saveButtonOptions.btnClass"
 											:disabled="saveButtonOptions.disabled"
+											round=":sm-inv"
 											@click="(e: Event) => emit('save', closeModal, e)"
 										>
-											{{ saveButtonOptions.title }}
+											<IconFa
+												:name="saveButtonOptions.icon"
+												hidden="-full:sm"
+											/>
+											<span class="--hidden-full:sm-inv">
+												{{ saveButtonOptions.title }}
+											</span>
 										</ActionButton>
 										<slot
 											name="footer-actions-extras"
@@ -225,17 +234,17 @@
 	const modalId = computed(() => {
 		return Md5.hashStr(`modal_${props.subtitle}-${props.title}`);
 	});
-	const saveButtonOptions = computed<iModalButtonConfig & { disabled?: boolean }>(() => ({
-		title: t("ok"),
-		visible: !!props.saveButton?.title,
-		btnClass: "",
-		...(!!props.saveButton && props.saveButton),
+	const saveButtonOptions = computed<Exclude<iModalProps["saveButton"], undefined>>(() => ({
+		title: props.saveButton?.title ?? t("ok"),
+		visible: props.saveButton?.visible ?? !!props.saveButton?.title,
+		btnClass: props.saveButton?.btnClass ?? "",
+		icon: props.saveButton?.icon ?? "pencil",
+		disabled: props.saveButton?.disabled ?? false,
 	}));
 	const cancelButtonOptions = computed<iModalButtonConfig>(() => ({
-		title: t("close"),
-		visible: true,
-		btnClass: "",
-		...(!!props.cancelButton && props.cancelButton),
+		title: props.cancelButton?.title ?? t("close"),
+		visible: props.cancelButton?.visible ?? true,
+		btnClass: props.cancelButton?.btnClass ?? "",
 	}));
 
 	function closeModal(success?: boolean) {
