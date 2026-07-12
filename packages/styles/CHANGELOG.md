@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v5.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.10...@open-xamu-co/ui-styles-v5.0.0-next.11) (2026-07-12)
+
+
+### Bug Fixes
+
+* **vue:** form stages with proven functionality ([5cf3fb7](https://github.com/xamu-co/ui/commit/5cf3fb715327e2a60709df4924f267e3eecabea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.11"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v5.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.9...@open-xamu-co/ui-styles-v5.0.0-next.10) (2026-07-03)
 
 
