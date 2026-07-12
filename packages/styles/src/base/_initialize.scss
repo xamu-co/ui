@@ -19,6 +19,7 @@
 			background: transparent;
 			overflow: visible;
 			position: fixed;
+			scale: 0.7;
 
 			> .#{utils.$layout-modal} {
 				max-width: calc(100vw - 2.4rem);
@@ -32,8 +33,33 @@
 				backdrop-filter: blur(1rem) saturate(2);
 			}
 
-			&[open]:has(dialog[open]) {
-				transform: scale(0.9);
+			&[open] {
+				&:has(dialog[open]) {
+					scale: 0.9;
+				}
+
+				&,
+				&::backdrop {
+					opacity: 1;
+					scale: 1;
+
+					@starting-style {
+						opacity: 0;
+					}
+				}
+
+				@starting-style {
+					scale: 0.7;
+				}
+			}
+
+			&,
+			&::backdrop {
+				opacity: 0;
+				transition:
+					all 0.3s ease,
+					display 0.3s allow-discrete,
+					overlay 0.3s allow-discrete;
 			}
 		}
 	}

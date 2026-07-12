@@ -131,10 +131,9 @@
 		if (!model.value[index]) return;
 
 		// update values
-		model.value[index].values = values;
 		emit(
 			"update:model-value",
-			(props.modelValue || []).toSpliced(index, 1, model.value[index])
+			(props.modelValue || []).toSpliced(index, 1, model.value[index].clone({ values }))
 		);
 
 		if (!props.invalid?.length) return;

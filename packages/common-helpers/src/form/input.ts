@@ -228,9 +228,11 @@ export class FormInput<
 				if (this._values.length < length) this._values = values;
 			}
 		} else {
+			this._values = updatedValues;
+
 			// run hook on values change
 			Promise.resolve(this._onUpdatedValues?.(updatedValues)).then((values) => {
-				this._values = values ?? updatedValues;
+				if (values) this._values = values;
 			});
 		}
 	}
@@ -245,6 +247,9 @@ export class FormInput<
 
 	/** Autoset values */
 	private autosetValues() {
+		// Autoset if there are no options filter
+		if (this.optionsFilter) return;
+
 		const autosetValuesArr = [];
 
 		for (let i = 0; i < Math.max(1, this.min); i++) {
@@ -299,7 +304,7 @@ export class FormInput<
 	): FormInput<V, T> {
 		const oldFormInput: iFormInput<V, T> = {
 			...this,
-			options: this.options,
+			options: this.optionsFilter || this.options,
 			values: this.values,
 			defaults: this.defaults,
 		};

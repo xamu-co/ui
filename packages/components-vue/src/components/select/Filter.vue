@@ -45,6 +45,7 @@
 					placeholder: placeholder ?? t('select_placeholder'),
 					disabled,
 					invalid,
+					optionsFilter: options && !Array.isArray(options),
 				}"
 				class="--flx"
 			/>
