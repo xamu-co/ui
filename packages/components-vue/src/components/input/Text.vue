@@ -29,7 +29,6 @@
 				:disabled="disabled || Number(model) <= minValue"
 				:size="size"
 				:theme="textInputTheme"
-				:aria-label="t('decrease')"
 				:tooltip="t('decrease')"
 				tooltip-position="left"
 				tooltip-as-text

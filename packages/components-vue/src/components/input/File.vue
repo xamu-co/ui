@@ -111,7 +111,6 @@
 							<!-- Show button on mobile -->
 							<ActionButton
 								:theme="fileInputTheme.themeValues"
-								:aria-label="t('file_choose_file', maxAmount)"
 								tag="label"
 								:for="id"
 								class="--hidden-full:md"
@@ -136,11 +135,7 @@
 					transparent
 				>
 					<p>{{ t("file_completed") }}</p>
-					<ActionButton
-						:theme="fileInputTheme.themeValues"
-						:aria-label="t('file_delete_files', maxAmount)"
-						@click.prevent="setFiles()"
-					>
+					<ActionButton :theme="fileInputTheme.themeValues" @click.prevent="setFiles()">
 						{{ t("file_delete_files", maxAmount) }}
 					</ActionButton>
 				</BaseBox>

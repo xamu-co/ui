@@ -29,7 +29,7 @@
 			>
 				<li v-if="controls === 'full'">
 					<ActionButton
-						:aria-label="t('previous')"
+						:tooltip="t('previous')"
 						:theme="theme"
 						round
 						@click.prevent="debouncedTab(true)"
@@ -56,7 +56,7 @@
 				</li>
 				<li v-if="controls === 'full'">
 					<ActionButton
-						:aria-label="t('next')"
+						:tooltip="t('next')"
 						:theme="theme"
 						round
 						@click.prevent="debouncedTab(false)"

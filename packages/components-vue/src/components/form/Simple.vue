@@ -5,9 +5,7 @@
 			v-if="model.length"
 			class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
 		>
-			<legend v-if="title">
-				<h4>{{ title }}:</h4>
-			</legend>
+			<h4 v-if="title">{{ title }}:</h4>
 			<suspense>
 				<template #fallback><LoaderSimple :theme="theme" /></template>
 				<BaseWrapper

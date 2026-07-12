@@ -51,10 +51,8 @@
 
 		p {
 			a {
-				@layer defaults {
-					&:hover {
-						opacity: 0.7;
-					}
+				&:hover {
+					opacity: 0.7;
 				}
 			}
 		}
@@ -94,7 +92,7 @@
 		h4,
 		h5,
 		h6,
-		th span,
+		th > span,
 		button,
 		strong {
 			// @defaults txtWeight

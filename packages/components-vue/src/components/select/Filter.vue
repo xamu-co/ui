@@ -10,7 +10,7 @@
 			v-if="modelValue && (selectOptions.length > 1 || !Array.isArray(props.options))"
 			:theme="theme"
 			:disabled="disabled"
-			:aria-label="t('select_restablish_field')"
+			:tooltip="t('select_restablish_field')"
 			:title="t('select_restablish_field')"
 			@click.prevent="resetModel"
 		>
@@ -193,6 +193,7 @@
 		};
 	});
 
+	// Do not await, to avoid using suspense
 	const { data: remoteOptions, pending: pendingRemoteOptions } = useAsyncDataLocal<iFormOption[]>(
 		selectFilterName.value,
 		async (_, { signal } = {}) => {

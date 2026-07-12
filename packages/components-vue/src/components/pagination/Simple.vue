@@ -30,7 +30,6 @@
 						<!-- Reset at if coming from second page -->
 						<ActionButtonToggle
 							:theme="theme"
-							:aria-label="t('previous')"
 							:disabled="!pageInfo?.hasPreviousPage"
 							round=":sm-inv"
 							@click="setAt(pageNumber > 2 ? pageInfo?.previousCursor : undefined)"
@@ -43,7 +42,6 @@
 					<li>
 						<ActionButtonToggle
 							:theme="theme"
-							:aria-label="t('next')"
 							:disabled="!pageInfo?.hasNextPage"
 							round=":sm-inv"
 							@click="setAt(pageInfo?.nextCursor)"

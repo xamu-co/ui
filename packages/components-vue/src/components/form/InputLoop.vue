@@ -8,7 +8,7 @@
 			<slot v-bind="{ i }"></slot>
 			<ActionLink
 				v-if="input.multiple && input.min < input.values.length"
-				:aria-label="t('clear')"
+				:tooltip="t('clear')"
 				:theme="theme"
 				:disabled="readonly"
 				@click="input.removeValue(i)"
