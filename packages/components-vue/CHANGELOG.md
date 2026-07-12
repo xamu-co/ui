@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.34](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.33...@open-xamu-co/ui-components-vue-v4.0.0-next.34) (2026-07-12)
+
+
+### Features
+
+* **vue:** better responsive with icon fallback ([2243424](https://github.com/xamu-co/ui/commit/224342451fee71be9549d2537a79afb2e4338816))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.34"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.33](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.32...@open-xamu-co/ui-components-vue-v4.0.0-next.33) (2026-07-12)
 
 
