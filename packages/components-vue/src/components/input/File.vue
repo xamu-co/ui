@@ -12,7 +12,7 @@
 					class="flx --flxRow --flx-start-center --gap-5"
 				>
 					<ActionLink
-						class="avatar --index --bdr flx --flxRow --flx-center"
+						class="avatar --size-sm --index --bdr flx --flxRow --flx-center"
 						:tooltip="t('file_delete_files', 1)"
 						tooltip-position="bottom"
 						@click.prevent="(e: Event) => removeFile(thumb_index, e)"
@@ -135,8 +135,15 @@
 					transparent
 				>
 					<p>{{ t("file_completed") }}</p>
-					<ActionButton :theme="fileInputTheme.themeValues" @click.prevent="setFiles()">
-						{{ t("file_delete_files", maxAmount) }}
+					<ActionButton
+						:theme="fileInputTheme.themeValues"
+						round=":sm-inv"
+						@click.prevent="setFiles()"
+					>
+						<IconFa name="xmark" hidden="-full:sm" />
+						<span class="--hidden-full:sm-inv">
+							{{ t("file_delete_files", maxAmount) }}
+						</span>
 					</ActionButton>
 				</BaseBox>
 			</template>
