@@ -130,7 +130,7 @@
 							<template #toggle="{ setModel }">
 								<ActionLink
 									class="--pX-10"
-									:aria-label="t('table_options')"
+									:tooltip="t('table_options')"
 									:title="t('table_options')"
 									:theme="theme || themeValues"
 									:size="size"
@@ -147,22 +147,18 @@
 										<ActionLink
 											:theme="invertedTheme"
 											:size="size"
-											:aria-label="t('table_duplicate')"
 											@click="
 												() => cloneNodeAndRefresh(nodes[index], setModel)
 											"
 										>
 											<IconFa name="clone" />
-											<span>
-												{{ t("table_duplicate") }}
-											</span>
+											<span>{{ t("table_duplicate") }}</span>
 										</ActionLink>
 									</li>
 									<li v-if="!!deleteNode">
 										<ActionLink
 											:theme="dangerThemeValues"
 											:size="size"
-											:aria-label="t('table_delete')"
 											@click="
 												() =>
 													deleteNodeAndRefresh(

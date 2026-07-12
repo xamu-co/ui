@@ -16,7 +16,7 @@
 					method="post"
 					class="flx --flxColumn --flx-start-stretch"
 					:class="stagesClasses ?? '--gap-30'"
-					@click.prevent="submit"
+					@submit.prevent="submit"
 				>
 					<slot></slot>
 					<template v-if="formInputsKeys?.length">
@@ -60,7 +60,6 @@
 							activeStage,
 							stagesLength: stages && stages.length,
 							setActiveStage,
-							canSubmit,
 							submit,
 						}"
 					>
@@ -69,7 +68,6 @@
 								v-if="formInputsKeys.length > 1 && activeStage"
 								key="button-back"
 								:theme="theme"
-								:aria-label="t('previous')"
 								round=":sm-inv"
 								@click.prevent="setActiveStage(activeStage - 1)"
 							>
@@ -83,12 +81,11 @@
 								v-if="
 									submitFn &&
 									(activeStage === formInputsKeys.length - 1 ||
-										!formInputsKeys.length)
+										!formInputsKeys.length ||
+										optional)
 								"
 								key="button-submit"
 								:theme="theme"
-								:aria-label="t('send')"
-								:disabled="!canSubmit"
 								@click.prevent="submit"
 							>
 								{{ submitLabel || t("send") }}
@@ -100,7 +97,6 @@
 								"
 								key="button-next"
 								:theme="theme"
-								:aria-label="t('next')"
 								round=":sm-inv"
 								@click.prevent="setActiveStage(activeStage + 1)"
 							>
@@ -116,22 +112,16 @@
 							activeStage,
 							stagesLength: stages && stages.length,
 							setActiveStage,
-							canSubmit,
 							submit,
 						}"
 					>
 						<div
 							class="flx --flxRow-wrap --flx-end-center --gap-5 --gap-10:sm --gap:md"
 						>
-							<slot name="secondary-actions"></slot>
-							<ActionLink
-								:aria-label="t('clear')"
-								:theme="theme"
-								:disabled="!canSubmit"
-								@click="resetStages"
-							>
+							<ActionLink :tooltip="t('clear')" :theme="theme" @click="resetStages">
 								<IconFa name="broom" :size="20" />
 							</ActionLink>
+							<slot name="secondary-actions"></slot>
 						</div>
 					</slot>
 				</div>
@@ -170,8 +160,11 @@
 		/**
 		 * submit fn
 		 */
-		submitFn?: (values: tFormInput[], event?: Event) => Promise<boolean | iInvalidInput[]>;
-		/** Perform additional actions if submit succeds */
+		submitFn?: (
+			values: tFormInput[],
+			event: Event
+		) => Promise<boolean | iInvalidInput[] | undefined>;
+		/** Perform additional actions if submit succeeds */
 		successFn?: () => void;
 		/**
 		 * Omit requiring filling up the form
@@ -200,7 +193,6 @@
 
 	const { t } = useHelpers(useI18n);
 
-	const canSubmit = ref(props.optional);
 	const activeStage = ref(0);
 	const invalid = ref<iInvalidInput[]>([]);
 	const formInputsKeys = ref<string[][]>([]);
@@ -304,7 +296,6 @@
 		if (wasListened) emit("input-values", {}, true);
 
 		setStages(props.stages);
-		canSubmit.value = !!props.optional;
 		activeStage.value = 0;
 	}
 
@@ -312,7 +303,6 @@
 		formInputs.value[key].inputs = newInputs;
 
 		// allow submiting after changes are detected
-		if (!props.optional) canSubmit.value = true;
 		if (!newInputs.length || !formInputs.value[key].listen) return;
 
 		lastListened.value = key;

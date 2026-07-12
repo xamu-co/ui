@@ -39,7 +39,7 @@
 							</div>
 							<ActionLink
 								:theme="invertedThemeValues"
-								:aria-label="cancelButtonOptions.title"
+								:tooltip="cancelButtonOptions.title"
 								@click.stop="() => closeModal()"
 							>
 								<IconFa name="xmark" :size="20" />
@@ -96,7 +96,6 @@
 										<ActionButton
 											v-if="saveButtonOptions.visible"
 											:theme="invertedThemeValues"
-											:aria-label="saveButtonOptions.title"
 											:class="saveButtonOptions.btnClass"
 											:disabled="saveButtonOptions.disabled"
 											@click="(e: Event) => emit('save', closeModal, e)"
@@ -117,7 +116,6 @@
 								<ActionButtonToggle
 									v-if="cancelButtonOptions.visible"
 									:theme="invertedThemeValues"
-									:aria-label="cancelButtonOptions.title"
 									:class="cancelButtonOptions.btnClass"
 									data-dismiss="modal"
 									round=":sm-inv"
@@ -148,7 +146,7 @@
 							</p>
 							<ActionButton
 								:theme="invertedThemeValues"
-								:aria-label="t('close')"
+								:tooltip="t('close')"
 								@click="() => closeModal()"
 							>
 								{{ t("close") }}

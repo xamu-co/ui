@@ -75,6 +75,7 @@
 	/**
 	 * Use Nuxt useAsyncData to fetch data
 	 * We wrap the results to avoid non cacheable null responses
+	 * Await to trigger SSR in nuxt contexts
 	 */
 	const {
 		data,

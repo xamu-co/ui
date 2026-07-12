@@ -3,7 +3,6 @@
 		:el="BaseAction"
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
 		:invert-theme="false"
-		:aria-label="label"
 		button
 	>
 		<BaseBox v-if="icon || src" :theme="invertedThemeValues" square opaque with-color>

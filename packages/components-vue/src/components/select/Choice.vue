@@ -5,7 +5,6 @@
 			v-for="option in choiceOptions"
 			:key="`choice-${option.value}-${option.alias}-${options?.length}`"
 			:theme="theme"
-			:aria-label="option.alias || option.value"
 			:active="modelValue?.includes(option.value)"
 			:title="modelValue?.includes(option.value) ? t('select_selected') : ''"
 			:disabled="
