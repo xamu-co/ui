@@ -46,6 +46,11 @@
 		 * @private
 		 */
 		modelValue?: string | number;
+		/**
+		 * Options filter is being used
+		 * @private
+		 */
+		optionsFilter?: boolean;
 	}
 
 	/**
@@ -84,7 +89,10 @@
 	watch(
 		selectOptions,
 		(options) => {
-			// set single option as value if required
+			// Bypass auto select if optionsFilter is used
+			if (props.optionsFilter) return;
+
+			// Set single option as value if required
 			if (props.required && options.length === 1 && props.modelValue !== options[0].value) {
 				emit("update:model-value", options[0].value);
 			}
