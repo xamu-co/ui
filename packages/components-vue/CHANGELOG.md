@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.35](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.34...@open-xamu-co/ui-components-vue-v4.0.0-next.35) (2026-07-12)
+
+
+### Bug Fixes
+
+* **vue:** prevent auto select when using options filter ([e49d84c](https://github.com/xamu-co/ui/commit/e49d84c42940bb2b7c00032c4ccf84824d65eea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.35"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.34](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.33...@open-xamu-co/ui-components-vue-v4.0.0-next.34) (2026-07-12)
 
 
