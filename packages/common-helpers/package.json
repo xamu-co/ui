@@ -77,7 +77,8 @@
   "scripts": {
     "build:entries": "rimraf dist && vite build",
     "build:types": "vue-tsc --declaration --emitDeclarationOnly",
-    "build": "yarn build:entries && yarn build:types"
+    "build": "yarn build:entries && yarn build:types",
+    "test": "vitest run"
   },
   "dependencies": {
     "@open-xamu-co/ui-common-enums": "link:../common-enums",

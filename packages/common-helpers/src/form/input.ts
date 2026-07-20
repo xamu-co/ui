@@ -307,8 +307,9 @@ export class FormInput<
 		const oldFormInput: iFormInput<V, T> = {
 			...this,
 			options: this.optionsFilter || this.options,
-			values: this.values,
-			defaults: this.defaults,
+			values: [...this.values],
+			meta: { ...this.meta },
+			defaults: this.defaults ? [...this.defaults] : undefined,
 		};
 
 		return new FormInput(

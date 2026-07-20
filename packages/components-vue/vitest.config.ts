@@ -1,13 +1,14 @@
 import { fileURLToPath } from "node:url";
-import { mergeConfig, defineConfig, configDefaults, coverageConfigDefaults } from "vitest/config";
-import viteConfig from "./vite.config";
 import path from "node:path";
+import { mergeConfig, defineConfig, configDefaults, coverageConfigDefaults } from "vitest/config";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
 
+import viteConfig from "./vite.config";
+
 /**
  * Coverage threshold for tests
- * TODO: Increase test coverage to 80%
+ * TODO: Increase vue tests coverage to 80%
  */
 const coverage = 56;
 const dirname =
