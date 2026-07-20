@@ -29,6 +29,7 @@
 				icon,
 				iconProps,
 			}"
+			role="combobox"
 			class="--flx"
 		/>
 		<datalist :id="selectFilterName">

@@ -57,6 +57,8 @@ function getDefault<V extends iFormValue | iFormValue[]>(
 	]
 ): V {
 	switch (type) {
+		case eFormType.BOOLEAN:
+			return false as V;
 		case eFormType.LOCATION:
 			// 3 values
 			return Array(3).fill("") as V;

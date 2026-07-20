@@ -1,4 +1,5 @@
 import type { StoryObj } from "@storybook/vue3-vite";
+import { within, userEvent, expect, waitFor } from "storybook/test";
 import { ref } from "vue";
 
 import type { iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
@@ -94,6 +95,31 @@ export const WithInputs: Story = {
 		template: `<FormSimple v-bind="args" v-model="inputs" v-model:invalid="invalid" />`,
 	}),
 	args: {},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		// Find First Name input (wait for Suspense to resolve)
+		const firstNameInput = await waitFor(() =>
+			canvas.getByPlaceholderText("What is your first name?...")
+		);
+
+		expect(firstNameInput).toBeInTheDocument();
+		expect(firstNameInput).toHaveValue("");
+		// Type First Name
+		await userEvent.type(firstNameInput, "Jane");
+		expect(firstNameInput).toHaveValue("Jane");
+
+		// Find nullable checkbox
+		const toggleLabel = canvas.getByText("Is this field optional in the offer?");
+
+		expect(toggleLabel).toBeInTheDocument();
+
+		const checkbox = canvas.getByRole("checkbox", { hidden: true });
+
+		expect(checkbox).not.toBeChecked();
+		// Click nullable checkbox
+		await userEvent.click(checkbox);
+		expect(checkbox).toBeChecked();
+	},
 };
 
 export const WithLocationField: Story = {

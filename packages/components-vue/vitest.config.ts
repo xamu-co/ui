@@ -9,7 +9,7 @@ import { playwright } from "@vitest/browser-playwright";
  * Coverage threshold for tests
  * TODO: Increase test coverage to 80%
  */
-const coverage = 52;
+const coverage = 56;
 const dirname =
 	typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
@@ -22,10 +22,10 @@ export default mergeConfig(
 				provider: "v8",
 				thresholds: {
 					// Percentages from latest tests (04/07/2026)
-					lines: coverage, // 64.34%
-					functions: coverage, // 57.69%
-					branches: coverage, // 53.61%
-					statements: coverage, // 61.14%
+					lines: coverage, // 69.34%
+					functions: coverage, // 62.42%
+					branches: coverage, // 57.81%
+					statements: coverage, // 65.84%
 				},
 				exclude: [...coverageConfigDefaults.exclude, "e2e/**", ".storybook/**"],
 			},

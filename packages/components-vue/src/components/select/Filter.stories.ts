@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import { within, userEvent, expect, waitFor } from "storybook/test";
 import { ref } from "vue";
 
 import type { iSelectOption } from "@open-xamu-co/ui-common-types";
@@ -35,6 +36,30 @@ export const WithOptions: Story = {
 		},
 		template: '<SelectFilter v-bind="args" v-model="model" :options="options" />',
 	}),
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvas.getByRole("combobox");
+
+		expect(input).toBeInTheDocument();
+		expect(input).toHaveValue("");
+
+		// Type "TITLE" to select the option
+		await userEvent.type(input, "TITLE");
+		expect(input).toHaveValue("TITLE");
+
+		// The reset link (xmark) should be visible when value is selected
+		await waitFor(() => {
+			const clearButton = canvas.getByTitle(/Restablecer campo|Restablish field/i);
+
+			expect(clearButton).toBeInTheDocument();
+		});
+
+		const clearButton = canvas.getByTitle(/Restablecer campo|Restablish field/i);
+
+		// Click reset and verify it's cleared
+		await userEvent.click(clearButton);
+		expect(input).toHaveValue("");
+	},
 };
 
 export const AsyncOptions: Story = {

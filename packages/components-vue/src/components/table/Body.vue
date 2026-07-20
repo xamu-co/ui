@@ -288,6 +288,7 @@
 
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
 	import { computed, inject, defineAsyncComponent } from "vue";
+	import omit from "lodash-es/omit";
 
 	import type { iPluginOptions, tThemeTuple } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -304,7 +305,6 @@
 	import type { iTableBodyProps } from "../../types/props";
 	import useTheme, { getThemeValues } from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
-	import { omit } from "lodash-es";
 
 	const ValueComplex = defineAsyncComponent({
 		loader: () => import("../value/Complex.vue"),

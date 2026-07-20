@@ -6,6 +6,18 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
 	plugins: [vue()],
 	resolve: { dedupe: ["vue"] },
+	server: {
+		watch: {
+			ignored: [
+				"**/node_modules/**",
+				"**/dist/**",
+				"**/.git/**",
+				"**/.cache/**",
+				"**/.nuxt/**",
+				"**/storybook-static/**",
+			],
+		},
+	},
 	build: {
 		lib: {
 			entry: {
