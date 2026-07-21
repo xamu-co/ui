@@ -65,6 +65,7 @@ export const localeInput: tLocaleInput = {
 	select_filter_options: "Escribe o haz doble click para las opciones",
 	file_one_of_amount: "{count} de {amount}",
 	file_delete_files: "Quitar archivo | Quitar archivos",
+	file_delete_heavy_file: "Quitar archivo (> {maxSize}MB)",
 	file_thumb: "Miniatura",
 	file_choose_file: "Elegir archivo | Elegir archivos",
 	file_or_drop_files_here: "O arrástralo aquí | O arrástralos aquí",

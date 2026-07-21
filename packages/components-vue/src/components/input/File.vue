@@ -12,45 +12,49 @@
 					class="flx --flxRow --flx-start-center --gap-5"
 				>
 					<ActionLink
-						class="avatar --size-sm --index --bdr flx --flxRow --flx-center"
-						:tooltip="t('file_delete_files', 1)"
+						:tooltip="
+							source
+								? t('file_delete_files', 1)
+								: t('file_delete_heavy_file', {
+										maxSize: Math.round(thumbnailMaxSize / 1024 / 1024),
+									})
+						"
 						tooltip-position="bottom"
 						@click.prevent="(e: Event) => removeFile(thumb_index, e)"
 					>
-						<div
-							class="back flx --flxRow --flx-center"
-							@mouseenter="playMedia"
-							@mouseleave="pauseMedia"
-						>
-							<img
-								v-if="type == eMimeType.IMAGE"
-								:src="source"
-								:alt="t('file_thumb')"
-								@load="() => revokeObjectURL(source)"
-							/>
-							<video
-								v-else-if="type == eMimeType.VIDEO"
-								:src="source"
-								:alt="t('file_thumb')"
-								loop
-								@load="() => revokeObjectURL(source)"
-							></video>
-							<audio
-								v-else-if="type == eMimeType.AUDIO"
-								:src="source"
-								:alt="t('file_thumb')"
-								loop
-								@load="() => revokeObjectURL(source)"
-							></audio>
-							<IconFa v-else :name="'file'" :size="50" />
-						</div>
-						<ActionLink
-							:theme="eColors.LIGHT"
-							class="--shadow"
-							style="pointer-events: none"
-						>
-							<IconFa name="xmark" :size="20" />
-						</ActionLink>
+						<figure class="avatar --size-sm --index --bdr flx --flxRow --flx-center">
+							<div
+								class="back flx --flxRow --flx-center"
+								@mouseenter="playMedia"
+								@mouseleave="pauseMedia"
+							>
+								<img
+									v-if="type == eMimeType.IMAGE && source"
+									:src="source"
+									:alt="t('file_thumb')"
+								/>
+								<video
+									v-else-if="type == eMimeType.VIDEO && source"
+									:src="source"
+									:alt="t('file_thumb')"
+									loop
+								></video>
+								<audio
+									v-else-if="type == eMimeType.AUDIO && source"
+									:src="source"
+									:alt="t('file_thumb')"
+									loop
+								></audio>
+								<IconFa v-else :name="'file'" :size="30" />
+							</div>
+							<ActionLink
+								:theme="eColors.LIGHT"
+								class="--shadow"
+								style="pointer-events: none"
+							>
+								<IconFa name="xmark" />
+							</ActionLink>
+						</figure>
 					</ActionLink>
 				</li>
 			</ul>
@@ -162,7 +166,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, computed, watch } from "vue";
+	import { ref, computed, watch, toRaw, onBeforeUnmount } from "vue";
 	import debounce from "lodash-es/debounce";
 	import omit from "lodash-es/omit";
 
@@ -246,6 +250,11 @@
 		 * Capture files directly from camera
 		 */
 		capture?: "environment" | "user";
+		/**
+		 * Max file size in bytes above which no thumbnail is generated.
+		 * Defaults to 100 MB.
+		 */
+		thumbnailMaxSize?: number;
 		// PRIVATE
 		modelValue: File[];
 	}
@@ -275,6 +284,7 @@
 
 	const props = withDefaults(defineProps<iInputFileProps>(), {
 		accept: () => ["image/*"],
+		thumbnailMaxSize: 100 * 1024 * 1024,
 	});
 	const emit = defineEmits(["update:model-value"]);
 
@@ -459,9 +469,8 @@
 		(media as HTMLMediaElement)?.pause?.();
 	}
 
-	function revokeObjectURL(src: string) {
-		URL.revokeObjectURL(src);
-	}
+	/** Tracks active Object URLs keyed by the raw File reference */
+	const objectUrlCache = new Map<File, string>();
 
 	/**
 	 * setFiles
@@ -638,19 +647,46 @@
 
 	watch(
 		() => props.modelValue,
-		async (newFiles) => {
-			// TODO: optimize thumbnails generation for larger filesets
-			thumbnails.value = await Promise.all(
-				newFiles.map(async (file) => {
-					const [type] = file.type.split("/");
+		(newFiles) => {
+			const rawNewFiles = newFiles.map(toRaw);
 
-					return {
-						type: type as eMimeType,
-						source: URL.createObjectURL(file),
-					};
-				})
-			);
+			// Revoke Object URLs for files that are no longer in the list
+			for (const [cachedFile, url] of objectUrlCache) {
+				if (!rawNewFiles.includes(cachedFile)) {
+					URL.revokeObjectURL(url);
+					objectUrlCache.delete(cachedFile);
+				}
+			}
+
+			// Build thumbnails, reusing cached URLs for existing files
+			thumbnails.value = rawNewFiles.map((file) => {
+				const [type] = file.type.split("/");
+
+				// Skip thumbnail for files exceeding the size threshold
+				if (file.size > props.thumbnailMaxSize) {
+					return { type: type as eMimeType, source: "" };
+				}
+
+				// Reuse existing URL or create a new one
+				if (!objectUrlCache.has(file)) {
+					objectUrlCache.set(file, URL.createObjectURL(file));
+				}
+
+				return {
+					type: type as eMimeType,
+					source: objectUrlCache.get(file)!,
+				};
+			});
 		},
 		{ immediate: true }
 	);
+
+	onBeforeUnmount(() => {
+		// Revoke all remaining Object URLs to free browser memory
+		for (const url of objectUrlCache.values()) {
+			URL.revokeObjectURL(url);
+		}
+
+		objectUrlCache.clear();
+	});
 </script>
