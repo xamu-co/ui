@@ -65,6 +65,7 @@ export const localeInput: tLocaleInput = {
 	select_filter_options: "Type or Double click for options",
 	file_one_of_amount: "{count} of {amount}",
 	file_delete_files: "Delete file | Delete files",
+	file_delete_heavy_file: "Delete file (> {maxSize}MB)",
 	file_thumb: "Thumbnail",
 	file_choose_file: "Choose a file | Choose files",
 	file_or_drop_files_here: "Or drop it here | Or drop them here",

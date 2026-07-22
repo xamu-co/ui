@@ -3,6 +3,7 @@
 		:class="[modifiersClasses, stateClasses, themeClasses]"
 		class="iSelect"
 		v-bind="{ ...$attrs, ...props }"
+		role="combobox"
 	/>
 </template>
 

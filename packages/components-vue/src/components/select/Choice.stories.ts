@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import { within, userEvent, expect, waitFor } from "storybook/test";
 import { ref } from "vue";
 
 import type { iSelectOption } from "@open-xamu-co/ui-common-types";
@@ -34,11 +35,38 @@ export const WithOptions: Story = {
 		},
 		template: '<SelectChoice v-bind="args" v-model="model" :options="options" />',
 	}),
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		// Get the button for "LONG_TEXT"
+		const optionButton = canvas.getByRole("button", { name: "LONG_TEXT" });
+
+		expect(optionButton).toBeInTheDocument();
+		expect(optionButton).not.toBeDisabled();
+
+		// Click the option
+		await userEvent.click(optionButton);
+		// In single mode, the selected option is disabled
+		await waitFor(() => expect(optionButton).toBeDisabled());
+	},
 };
 
 export const WithMultipleOptions: Story = {
 	...WithOptions,
 	args: { multiple: true },
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		// Get the button for "LONG_TEXT"
+		const optionButton = canvas.getByRole("button", { name: "LONG_TEXT" });
+
+		expect(optionButton).toBeInTheDocument();
+		expect(optionButton).not.toBeDisabled();
+
+		// Click the option
+		await userEvent.click(optionButton);
+
+		// In multiple mode, the option remains enabled
+		await waitFor(() => expect(optionButton).not.toBeDisabled());
+	},
 };
 
 export default meta;

@@ -90,6 +90,8 @@ export type tLocaleInput = {
 	file_one_of_amount: string;
 	/** @example "Delete file | Delete files" */
 	file_delete_files: string;
+	/** @example "Delete file (> {maxSize}MB)" */
+	file_delete_heavy_file: string;
 	/** @example "Thumbnail" */
 	file_thumb: string;
 	/** @example "Choose a file | Choose files" */

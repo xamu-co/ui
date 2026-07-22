@@ -5,16 +5,17 @@
 			v-slot="{ id: baseId }"
 			:type="type || 'checkbox'"
 			v-bind="{ id, name, title, checked, theme }"
+			@change="isOpenHandler"
 		>
 			<label :for="id || baseId" class="toggle--list" :class="headerClasses">
-				<slot name="header">
+				<slot name="header" v-bind="{ isOpen }">
 					<span>{{ title }}</span>
 					<IconFa name="angle-down" :size="20" />
 				</slot>
 			</label>
 		</BaseInput>
 		<component :is="el || 'ul'" class="list-group" :class="$attrs.class">
-			<slot></slot>
+			<slot v-bind="{ isOpen }"></slot>
 		</component>
 	</nav>
 </template>
@@ -26,6 +27,7 @@
 	import type { vComponent } from "../../types/plugin";
 	import type { iUseThemeProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
+	import { ref } from "vue";
 
 	interface Collapse extends iUseThemeProps {
 		/** Input id */
@@ -53,4 +55,10 @@
 	const props = defineProps<Collapse>();
 
 	const { themeValues } = useTheme(props);
+
+	const isOpen = ref(props.checked || false);
+
+	function isOpenHandler(checked: boolean) {
+		isOpen.value = checked;
+	}
 </script>

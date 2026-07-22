@@ -12,7 +12,11 @@
 			required,
 			disabled: disabled || null,
 			tabindex: (disabled && '-1') || tabindex || null,
-			...(useChecked ? { checked: modelValue ?? !!$attrs.checked } : { value: modelValue }),
+			...(useChecked
+				? { checked: modelValue ?? !!$attrs.checked }
+				: props.type !== 'file'
+					? { value: modelValue }
+					: {}),
 		}"
 		@input="handleInput"
 		@change="emit('change', $event)"

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
+import { within, userEvent, expect, waitFor } from "storybook/test";
 
 import { FormInput, useForm } from "@open-xamu-co/ui-common-helpers";
 import { eFormType } from "@open-xamu-co/ui-common-enums";
@@ -125,6 +126,43 @@ async function submitFn(inputs: tFormInput[]): Promise<boolean | iInvalidInput[]
 
 export const WithStages: Story = {
 	args: { stages: stagesData, submitFn },
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		// Stage 1 fields (wait for Suspense to resolve)
+		const fieldNameInput = await waitFor(() => canvas.getByPlaceholderText("E.g. Samsung..."));
+
+		expect(fieldNameInput).toBeInTheDocument();
+
+		// Find Next button (Next / Siguiente)
+		const nextButton = canvas.getByText(/Next|Siguiente/i);
+
+		expect(nextButton).toBeInTheDocument();
+
+		// Click Next
+		await userEvent.click(nextButton);
+
+		// Assert Stage 2 field is shown
+		await waitFor(() => {
+			const stage2Title = canvas.getByText(/UI Component of the Field|Componente de la UI/i);
+
+			expect(stage2Title).toBeInTheDocument();
+		});
+
+		// Find Previous button (Previous / Anterior)
+		const prevButton = canvas.getByText(/Previous|Anterior/i);
+
+		expect(prevButton).toBeInTheDocument();
+
+		// Click Previous
+		await userEvent.click(prevButton);
+
+		// Assert back on Stage 1
+		await waitFor(() => {
+			const fieldNameInputRebound = canvas.getByPlaceholderText("E.g. Samsung...");
+
+			expect(fieldNameInputRebound).toBeInTheDocument();
+		});
+	},
 };
 
 export const WithInvalidStage: Story = {
