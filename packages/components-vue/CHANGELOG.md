@@ -1,5 +1,25 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.36](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.35...@open-xamu-co/ui-components-vue-v4.0.0-next.36) (2026-07-22)
+
+
+### Bug Fixes
+
+* **vue:** optimized thumbnail generation for larger files ([07aa96d](https://github.com/xamu-co/ui/commit/07aa96db05607e5c13f85497dd410570fa4689ac))
+
+
+### Features
+
+* **vue:** collapse is-open scoped slots ([371332c](https://github.com/xamu-co/ui/commit/371332c18d571a06d186e7d3ed2d7cedae05080f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.36"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.35](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.34...@open-xamu-co/ui-components-vue-v4.0.0-next.35) (2026-07-12)
 
 
