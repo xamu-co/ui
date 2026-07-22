@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.11...@open-xamu-co/ui-common-helpers-v4.0.0-next.12) (2026-07-22)
+
+
+### Bug Fixes
+
+* **vue:** optimized thumbnail generation for larger files ([07aa96d](https://github.com/xamu-co/ui/commit/07aa96db05607e5c13f85497dd410570fa4689ac))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.12"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v4.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.10...@open-xamu-co/ui-common-helpers-v4.0.0-next.11) (2026-07-12)
 
 
