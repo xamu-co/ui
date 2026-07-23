@@ -299,7 +299,7 @@ export class FormInput<
 	 * Clone this object
 	 */
 	public clone(
-		overrides?: Omit<iFormInput<V, T>, "name"> & { name?: string },
+		{ values, ...overrides }: Omit<iFormInput<V, T>, "name"> & { name?: string } = {},
 		onUpdatedValues?: (
 			updatedValues: V[]
 		) => V[] | undefined | void | Promise<V[] | undefined | void>
@@ -312,14 +312,19 @@ export class FormInput<
 			defaults: this.defaults ? [...this.defaults] : undefined,
 		};
 
-		return new FormInput(
+		const clonedInput = new FormInput(
 			{ ...oldFormInput, ...overrides },
 			onUpdatedValues ?? this._onUpdatedValues,
 			this.rerender
 		);
+
+		// overwrite values if provided, trigger onUpdatedValues hook
+		if (values) clonedInput.values = values;
+
+		return clonedInput;
 	}
 
-	public isEqual(other: FormInput): boolean {
+	public isEqual(other: FormInput<any, any>): boolean {
 		return isEqual(FormInput.getObject(this), FormInput.getObject(other));
 	}
 

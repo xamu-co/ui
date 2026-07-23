@@ -648,7 +648,13 @@
 	watch(
 		() => props.modelValue,
 		(newFiles) => {
-			const rawNewFiles = newFiles.map(toRaw);
+			const rawNewFiles = newFiles.reduce<File[]>((acc, file) => {
+				file = toRaw(file);
+
+				if (file instanceof File) acc.push(file);
+
+				return acc;
+			}, []);
 
 			// Revoke Object URLs for files that are no longer in the list
 			for (const [cachedFile, url] of objectUrlCache) {
