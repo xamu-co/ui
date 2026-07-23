@@ -143,7 +143,7 @@
 	const props = withDefaults(defineProps<iPaginationContentTableProps<T, TM>>(), {
 		mapNode: (node: T) => node as unknown as TM,
 	});
-	const emit = defineEmits(["create-node-and-refresh"]);
+	const emit = defineEmits<{ (e: "create-node-and-refresh", fn: iNodeFn<T, []>): void }>();
 
 	const { t } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
@@ -192,7 +192,7 @@
 	 *
 	 * @single
 	 */
-	const createNodeAndRefresh: iNodeFn<T> = async function () {
+	const createNodeAndRefresh: iNodeFn<T, []> = async function () {
 		// Display loader
 		Swal.fireLoader();
 

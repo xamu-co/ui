@@ -104,7 +104,7 @@
 	defineOptions({ name: "SelectFilter", inheritAttrs: false });
 
 	const props = defineProps<iSelectFilterProps>();
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits<{ (e: "update:model-value", value: string | number): void }>();
 
 	const { t } = useHelpers(useI18n);
 

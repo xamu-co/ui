@@ -50,7 +50,10 @@
 	defineOptions({ name: "BaseInput", inheritAttrs: false });
 
 	const props = defineProps<iBaseInputProps>();
-	const emit = defineEmits(["update:model-value", "change"]);
+	const emit = defineEmits<{
+		(e: "update:model-value", value: unknown): void;
+		(e: "change", value: Event): void;
+	}>();
 
 	/** Prefer a predictable identifier */
 	const inputId = computed(() => {

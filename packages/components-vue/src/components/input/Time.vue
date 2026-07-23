@@ -62,7 +62,7 @@
 	defineOptions({ name: "InputTime", inheritAttrs: false });
 
 	const props = defineProps<iInputTimeProps>();
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits<{ (e: "update:model-value", value: string | number): void }>();
 
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
