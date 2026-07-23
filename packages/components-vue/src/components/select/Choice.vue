@@ -90,7 +90,7 @@
 	defineOptions({ name: "SelectChoice", inheritAttrs: false });
 
 	const props = defineProps<iSelectSimpleProps>();
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits<{ (e: "update:model-value", value: (string | number)[]): void }>();
 
 	const { t } = useHelpers(useI18n);
 	const { themeValues } = useTheme(props, true);

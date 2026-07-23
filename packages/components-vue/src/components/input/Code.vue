@@ -78,7 +78,10 @@
 
 	defineOptions({ name: "InputCode", inheritAttrs: true });
 
-	const emit = defineEmits(["update:model-value", "editor"]);
+	const emit = defineEmits<{
+		(e: "update:model-value", value: string): void;
+		(e: "editor", value: EditorView): void;
+	}>();
 	const props = withDefaults(defineProps<iInputCodeProps>(), {
 		extensions: () => [markdown()],
 		editorTheme: () => {

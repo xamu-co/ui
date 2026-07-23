@@ -110,4 +110,178 @@ describe("FormInput", () => {
 		expect(originalHook).not.toHaveBeenCalled();
 		expect(overrideHook).toHaveBeenCalled();
 	});
+
+	it("should call onUpdatedValues hook when cloning with updated values", () => {
+		const updateHook = vi.fn((vals) => vals);
+		const usernameInputWithHook = usernameInput.clone({}, updateHook);
+
+		// Clone with overrides containing new values
+		const cloned = usernameInputWithHook.clone({ values: ["Jane Doe"] });
+
+		expect(updateHook).toHaveBeenCalledWith(["Jane Doe"]);
+		expect(cloned.values).toEqual(["Jane Doe"]);
+	});
+
+	it("should not call onUpdatedValues hook when cloning without value changes", () => {
+		const updateHook = vi.fn((vals) => vals);
+		const usernameInputWithHook = usernameInput.clone({}, updateHook);
+
+		// Clone with overrides that do NOT change values
+		usernameInputWithHook.clone({ title: "New Title" });
+
+		expect(updateHook).not.toHaveBeenCalled();
+	});
+
+	it("should handle async onUpdatedValues hook when updating values", async () => {
+		const asyncHook = vi.fn(async (vals: string[]) => vals.map((v) => v.toUpperCase()));
+		const input = new FormInput<string>({ name: "code", type: eFormType.TEXT }, asyncHook);
+
+		input.values = ["hello"];
+		await new Promise((resolve) => setTimeout(resolve, 0));
+
+		expect(asyncHook).toHaveBeenCalledWith(["hello"]);
+		expect(input.values).toEqual(["HELLO"]);
+	});
+
+	it("should manage values with addValue and removeValue within min and max bounds", () => {
+		const tagInput = new FormInput<string>({
+			name: "tags",
+			type: eFormType.TEXT,
+			min: 1,
+			max: 3,
+			values: ["Tag1"],
+		});
+
+		// Add values up to max
+		tagInput.addValue("Tag2");
+		expect(tagInput.values).toEqual(["Tag1", "Tag2"]);
+
+		tagInput.addValue("Tag3");
+		expect(tagInput.values).toEqual(["Tag1", "Tag2", "Tag3"]);
+
+		// Cannot add past max
+		tagInput.addValue("Tag4");
+		expect(tagInput.values).toEqual(["Tag1", "Tag2", "Tag3"]);
+
+		// Remove value down to min
+		tagInput.removeValue(2);
+		expect(tagInput.values).toEqual(["Tag1", "Tag2"]);
+
+		tagInput.removeValue(1);
+		expect(tagInput.values).toEqual(["Tag1"]);
+
+		// Cannot remove below min
+		tagInput.removeValue(0);
+		expect(tagInput.values).toEqual(["Tag1"]);
+	});
+
+	it("should autoset values for required choice or select inputs when values are empty", () => {
+		const choiceInput = new FormInput({
+			name: "choice",
+			type: eFormType.CHOICE,
+			required: true,
+			options: [
+				{ value: "opt1", alias: "Option 1" },
+				{ value: "opt2", alias: "Option 2" },
+			],
+		});
+
+		expect(choiceInput.values).toEqual(["opt1"]);
+	});
+
+	it("should trigger rerender when updating options", () => {
+		const rerenderMock = vi.fn();
+		const selectInput = new FormInput(
+			{
+				name: "select",
+				type: eFormType.SELECT,
+				required: true,
+			},
+			undefined,
+			rerenderMock
+		);
+
+		selectInput.options = [
+			{ value: "valA", alias: "A" },
+			{ value: "valB", alias: "B" },
+		];
+
+		expect(selectInput.options.length).toBe(2);
+		expect(rerenderMock).toHaveBeenCalled();
+	});
+
+	it("should generate default values for complex types and clamp min/max bounds", () => {
+		const locationInput = new FormInput({
+			name: "location",
+			type: eFormType.LOCATION,
+		});
+
+		expect(locationInput.values).toEqual([["", "", ""]]);
+
+		const phoneInput = new FormInput({
+			name: "phone",
+			type: eFormType.CELLPHONE,
+		});
+
+		expect(phoneInput.values).toEqual([["", ""]]);
+
+		const boolInput = new FormInput({
+			name: "active",
+			type: eFormType.BOOLEAN,
+		});
+
+		expect(boolInput.values).toEqual([false]);
+
+		// Clamping max when max < min
+		const clampedInput = new FormInput({
+			name: "clamped",
+			type: eFormType.TEXT,
+			min: 5,
+			max: 2,
+		});
+
+		expect(clampedInput.max).toBe(5);
+	});
+
+	it("should compare FormInput instances with isEqual and export plain object representation", () => {
+		const inputA = new FormInput({
+			name: "test",
+			type: eFormType.TEXT,
+			title: "Title",
+			required: true,
+		});
+		const inputB = new FormInput({
+			name: "test",
+			type: eFormType.TEXT,
+			title: "Title",
+			required: true,
+		});
+		const inputC = new FormInput({
+			name: "test",
+			type: eFormType.TEXT,
+			title: "Different Title",
+			required: true,
+		});
+
+		expect(inputA.isEqual(inputB)).toBe(true);
+		expect(inputA.isEqual(inputC)).toBe(false);
+
+		const plainObj = FormInput.getObject(inputA);
+
+		expect(plainObj).toEqual({
+			required: true,
+			type: eFormType.TEXT,
+			options: [],
+			placeholder: "",
+			icon: undefined,
+			autocomplete: undefined,
+			min: 1,
+			max: 9e9,
+			name: "test",
+			values: [""],
+			defaults: undefined,
+			title: "Title",
+			multiple: false,
+		});
+	});
 });

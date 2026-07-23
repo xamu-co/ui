@@ -4,7 +4,7 @@ import { ref } from "vue";
 
 import type { iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
 import { FormInput, useForm } from "@open-xamu-co/ui-common-helpers";
-import { eFormType } from "@open-xamu-co/ui-common-enums";
+import { eFormType, eFormTypeBase, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
 
 import type { GenericMeta } from "../../types/storybook";
 
@@ -187,6 +187,129 @@ export const WithPhoneField: Story = {
 				type: eFormType.CELLPHONE,
 			}),
 		],
+	},
+};
+
+enum eWithSwitchingType {
+	LESSON = "LESSON",
+	EVALUATION = "EVALUATION",
+}
+
+const VIDEO_TITLE = "Video de la lección";
+const TIMEOUT_TITLE = "Tiempo límite en segundos (0 = sin límite)";
+
+export const WithSwitchingInputs: Story = {
+	render: (args) => ({
+		components: { FormSimple },
+		setup() {
+			/**
+			 * Video input
+			 * Only visible if the content type is lesson
+			 */
+			const videoInput = new FormInput<File, eFormTypeBase | eFormTypeSimple>({
+				values: [],
+				name: "video",
+				min: 1,
+				max: 1,
+				title: VIDEO_TITLE,
+				type: eFormType.HIDDEN,
+				icon: "video",
+				meta: {
+					accept: ["video/*"],
+					/** 1GB in bytes */
+					maxFileSize: 1_000_000_000,
+				},
+			});
+			/**
+			 * Timeout input
+			 * Only visible if the content type is evaluation
+			 */
+			const timeoutInput = new FormInput<number, eFormTypeBase | eFormTypeSimple>({
+				values: [60],
+				name: "timeout",
+				title: TIMEOUT_TITLE,
+				placeholder: "Ej: 60",
+				type: eFormType.HIDDEN,
+				min: 0,
+			});
+			const inputs = ref<tFormInput[]>([
+				new FormInput(
+					{
+						values: [eWithSwitchingType.LESSON],
+						name: "type",
+						required: true,
+						title: "Tipo de contenido",
+						options: [
+							{
+								value: eWithSwitchingType.LESSON,
+								alias: "Lección",
+							},
+							{
+								value: eWithSwitchingType.EVALUATION,
+								alias: "Evaluación",
+							},
+						],
+						type: eFormType.CHOICE,
+					},
+					async ([type]) => {
+						if (Array.isArray(type)) return;
+
+						// Update inputs type based on the content type
+						switch (type) {
+							case eWithSwitchingType.LESSON:
+								// Require video for lesson
+								videoInput.type = eFormType.FILE;
+								videoInput.required = true;
+								// Hide timeout and questions
+								timeoutInput.type = eFormType.HIDDEN;
+								break;
+							case eWithSwitchingType.EVALUATION:
+								// Hide video
+								videoInput.type = eFormType.HIDDEN;
+								videoInput.required = false;
+								// Require timeout and questions
+								timeoutInput.type = eFormType.NUMBER;
+								break;
+						}
+					}
+				),
+				videoInput,
+				timeoutInput,
+			]);
+
+			return { args, inputs };
+		},
+		template: '<FormSimple v-bind="args" v-model="inputs" />',
+	}),
+	args: {},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		// Wait for Suspense to resolve
+		const evaluationButton = await waitFor(() => canvas.getByText("Evaluación"));
+
+		// Initially only the type input should be visible
+		expect(canvas.queryByText(/Video de la lección/)).not.toBeInTheDocument();
+		expect(canvas.queryByText(TIMEOUT_TITLE)).not.toBeInTheDocument();
+
+		// Click evaluation button
+		await userEvent.click(evaluationButton);
+
+		// Check evaluation inputs visibility
+		await waitFor(() => {
+			expect(canvas.queryByText(/Video de la lección/)).not.toBeInTheDocument();
+			expect(canvas.getByText(TIMEOUT_TITLE)).toBeInTheDocument();
+		});
+
+		// Re-query lesson button and click it
+		const lessonButton = canvas.getByText("Lección");
+
+		await userEvent.click(lessonButton);
+
+		// Check lesson inputs visibility
+		await waitFor(() => {
+			expect(canvas.getByText(/Video de la lección/)).toBeInTheDocument();
+			expect(canvas.queryByText(TIMEOUT_TITLE)).not.toBeInTheDocument();
+		});
 	},
 };
 

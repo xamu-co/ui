@@ -135,7 +135,7 @@
 		mapNodes: (nodes: T[]) => nodes as unknown as TM[],
 		properties: () => [],
 	});
-	const emit = defineEmits(["update:sort"]);
+	const emit = defineEmits<{ (e: "update:sort", value: [string, tOrder]): void }>();
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);

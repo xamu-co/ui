@@ -112,7 +112,7 @@
 	defineOptions({ name: "InputText", inheritAttrs: false });
 
 	const props = defineProps<iInputTextProps>();
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits<{ (e: "update:model-value", value: string | number): void }>();
 
 	const { t } = useHelpers(useI18n);
 	const { modifiersClasses } = useModifiers(props);

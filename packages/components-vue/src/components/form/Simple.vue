@@ -92,8 +92,8 @@
 
 	const props = defineProps<iFormSimple<P>>();
 	const emit = defineEmits<{
-		"update:invalid": [iInvalidInput[]];
-		"update:model-value": [tFormInput[]];
+		(e: "update:invalid", value: iInvalidInput[]): void;
+		(e: "update:model-value", value: tFormInput[]): void;
 	}>();
 
 	const { t, tet } = useHelpers(useI18n);

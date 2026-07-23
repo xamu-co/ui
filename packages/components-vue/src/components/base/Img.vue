@@ -23,7 +23,10 @@
 
 	defineOptions({ name: "BaseImg", inheritAttrs: false });
 
-	const emit = defineEmits(["error", "load"]);
+	const emit = defineEmits<{
+		(e: "error", value: Event): void;
+		(e: "load", value: Event): void;
+	}>();
 
 	const props = withDefaults(
 		defineProps<{

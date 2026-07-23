@@ -58,7 +58,9 @@
 
 	const isOpen = ref(props.checked || false);
 
-	function isOpenHandler(checked: boolean) {
-		isOpen.value = checked;
+	function isOpenHandler(event: Event) {
+		const target = event.target as HTMLInputElement;
+
+		isOpen.value = target.checked;
 	}
 </script>

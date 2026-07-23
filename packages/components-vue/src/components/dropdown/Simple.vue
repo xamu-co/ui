@@ -107,7 +107,10 @@
 		theme: eColors.SECONDARY,
 		classes: "flx --flxColumn --flx-start-stretch",
 	});
-	const emit = defineEmits(["close", "update:model-value"]);
+	const emit = defineEmits<{
+		(e: "update:model-value", value: boolean): void;
+		(e: "close"): void;
+	}>();
 
 	const { getModifierClasses: GMC } = useHelpers(useUtils);
 	const { themeClasses, invertedThemeValues } = useTheme(props, true);

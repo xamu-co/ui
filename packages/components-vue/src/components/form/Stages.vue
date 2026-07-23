@@ -198,7 +198,11 @@
 	defineOptions({ name: "FormStages", inheritAttrs: true });
 
 	const props = withDefaults(defineProps<iFormStages>(), { submitIcon: "pencil" });
-	const emit = defineEmits(["input-values", "submited", "set-active-stage"]);
+	const emit = defineEmits<{
+		(e: "input-values", value: Record<string, unknown[]>, listened?: boolean): void;
+		(e: "submited", value?: boolean): void;
+		(e: "set-active-stage", fn: (value: number) => void): void;
+	}>();
 
 	const { t } = useHelpers(useI18n);
 

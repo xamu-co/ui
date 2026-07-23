@@ -55,7 +55,16 @@
 	const props = withDefaults(defineProps<iLoaderContentFetchProps<T, P>>(), {
 		cache: true,
 	});
-	const emit = defineEmits(["refresh", "has-content", "hydrate"]);
+	const emit = defineEmits<{
+		(e: "refresh", fn: () => void): void;
+		(
+			e: "has-content",
+			isContent: boolean,
+			newContent: T | null,
+			hydrate: (newContent: T | null, newErrors?: unknown) => void
+		): void;
+		(e: "hydrate", fn: (newContent: T | null, newErrors?: unknown) => void): void;
+	}>();
 
 	const { useFetch } = useFetchUtils();
 

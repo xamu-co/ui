@@ -286,7 +286,7 @@
 		accept: () => ["image/*"],
 		thumbnailMaxSize: 100 * 1024 * 1024,
 	});
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits<{ (e: "update:model-value", value: File[]): void }>();
 
 	const { t } = useHelpers(useI18n);
 	const { isBrowser, logger } = useHelpers(useUtils);
@@ -648,7 +648,13 @@
 	watch(
 		() => props.modelValue,
 		(newFiles) => {
-			const rawNewFiles = newFiles.map(toRaw);
+			const rawNewFiles = newFiles.reduce<File[]>((acc, file) => {
+				file = toRaw(file);
+
+				if (file instanceof File) acc.push(file);
+
+				return acc;
+			}, []);
 
 			// Revoke Object URLs for files that are no longer in the list
 			for (const [cachedFile, url] of objectUrlCache) {

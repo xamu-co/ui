@@ -74,7 +74,15 @@
 	const props = withDefaults(defineProps<iPaginationContentProps<T, C, R>>(), {
 		processContent: (c: T[]) => c,
 	});
-	const emit = defineEmits(["refresh", "has-content"]);
+	const emit = defineEmits<{
+		(e: "refresh", fn: () => void): void;
+		(
+			e: "has-content",
+			isContent: boolean,
+			newContent: T[],
+			hydrate: (newContent: T[] | null, newErrors?: unknown) => void
+		): void;
+	}>();
 
 	const { first: defaultFirst, cursorEncoder } = inject<iPluginOptions>("xamu") || {};
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
