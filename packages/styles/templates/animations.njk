@@ -1,3 +1,5 @@
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link href="https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css" rel="stylesheet">
 {# Animation Examples #}
 <div class="flx --flxColumn --gap-50 --pY-50">
   <!-- Basic Animations -->
@@ -6,7 +8,7 @@
     <div class="flx --flxRow --flxWrap --gap-20">
       <!-- Fade In -->
       <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
-        <button class="--p-10 --bgColor-primary --txtColor-light" onclick="this.parentElement.querySelector('.a-fadeIn').classList.toggle('is--animated')">
+        <button class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1" onclick="this.parentElement.querySelector('.a-fadeIn').classList.toggle('is--animated')">
           Toggle Fade In
         </button>
         <div class="a-fadeIn --p-20 --bgColor-primary --txtColor-light">
@@ -16,7 +18,7 @@
 
       <!-- Slide In -->
       <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
-        <button class="--p-10 --bgColor-primary --txtColor-light" onclick="this.parentElement.querySelector('.a-slideInLeft').classList.toggle('is--animated')">
+        <button class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1" onclick="this.parentElement.querySelector('.a-slideInLeft').classList.toggle('is--animated')">
           Toggle Slide In
         </button>
         <div class="a-slideInLeft --p-20 --bgColor-primary --txtColor-light">
@@ -26,7 +28,7 @@
 
       <!-- Bounce -->
       <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
-        <button class="--p-10 --bgColor-primary --txtColor-light" onclick="this.parentElement.querySelector('.a-bounce').classList.toggle('is--animated')">
+        <button class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1" onclick="this.parentElement.querySelector('.a-bounce').classList.toggle('is--animated')">
           Toggle Bounce
         </button>
         <div class="a-bounce --p-20 --bgColor-primary --txtColor-light">
@@ -43,7 +45,7 @@
       <div class="flx --flxRow --flxWrap --gap-20">
         {% for i in range(1, 4) %}
         <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
-          <button class="--p-10 --bgColor-primary --txtColor-light" onclick="const items = this.parentElement.parentElement.querySelectorAll('.delayed-item'); items.forEach(el => el.classList.toggle('is--animated'))">
+          <button class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1" onclick="const items = this.parentElement.parentElement.querySelectorAll('.delayed-item'); items.forEach(el => el.classList.toggle('is--animated'))">
             Toggle All
           </button>
           <div class="a-fadeIn --delay-{{ i }} delayed-item --p-20 --bgColor-primary --txtColor-light">
@@ -60,7 +62,7 @@
     <h2>Animation Iterations</h2>
     <div class="flx --flxRow --flxWrap --gap-20">
       <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
-        <button class="--p-10 --bgColor-primary --txtColor-light" onclick="this.parentElement.querySelector('.iterating').classList.toggle('is--animated')">
+        <button class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1" onclick="this.parentElement.querySelector('.iterating').classList.toggle('is--animated')">
           Toggle Iteration
         </button>
         <div class="a-bounce --iterations-3 iterating --p-20 --bgColor-primary --txtColor-light">
@@ -69,7 +71,7 @@
       </div>
 
       <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="min-width: 200px;">
-        <button class="--p-10 --bgColor-primary --txtColor-light" onclick="this.parentElement.querySelector('.infinite').classList.toggle('is--animated')">
+        <button class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1" onclick="this.parentElement.querySelector('.infinite').classList.toggle('is--animated')">
           Toggle Infinite
         </button>
         <div class="a-pulse --iterations-infinite infinite --p-20 --bgColor-primary --txtColor-light">
@@ -83,7 +85,7 @@
   <section>
     <h2>Chained Animations</h2>
     <div class="flx --flxColumn --gap-10 --p-20 --bgColor-dark1" style="max-width: 400px;">
-      <button class="--p-10 --bgColor-primary --txtColor-light" onclick="const items = this.parentElement.querySelectorAll('.chained'); items.forEach((el, i) => { setTimeout(() => el.classList.toggle('is--animated'), i * 300) })">
+      <button class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1" onclick="const items = this.parentElement.querySelectorAll('.chained'); items.forEach((el, i) => { setTimeout(() => el.classList.toggle('is--animated'), i * 300) })">
         Start Chained Animation
       </button>
       {% for i in range(1, 5) %}

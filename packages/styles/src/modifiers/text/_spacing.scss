@@ -4,6 +4,14 @@
 // text spacing
 //
 // @group Modifiers
+/// # Text Letter Spacing modifiers
+/// Control text letter spacing.
+///
+/// ## Classes:
+/// - `.--txtSpacing`, `.--txtSpacing-normal`: Sets letter-spacing to normal.
+/// - `.--txtSpacing-[value]` (values are multiples of 5: `0`, `5`, `10`, `15`, `20`, `25`, `30`): Sets letter spacing in em based on `math.div($i, 3) * 1em`.
+///
+/// @group modifiers-text
 @mixin text-spacing {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtSpacing {

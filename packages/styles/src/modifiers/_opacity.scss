@@ -1,9 +1,15 @@
 @use "../utils/module" as utils;
 @use "sass:math";
 
-// Opacity
-//
-// @group Modifiers
+/// # Opacity modifiers
+/// Control element opacity.
+///
+/// ## Classes:
+/// - `.--opacity-0`, `.--opacity-none`: Sets `opacity: 0`.
+/// - `.--opacity`, `.--opacity-10`: Sets `opacity: 1`.
+/// - `.--opacity-01` to `.--opacity-09`: Sets decimal opacity (from 0.1 to 0.9).
+///
+/// @group modifiers
 @mixin opacity {
 	@layer modifiers {
 		.#{utils.$prefix-default}--opacity {

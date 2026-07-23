@@ -1,8 +1,16 @@
 @use "../utils/module" as utils;
 
-// positon
-//
-// @group Modifiers
+/// # Position modifiers
+/// Control CSS positioning of elements.
+///
+/// ## Classes:
+/// - `.--position`, `.--position-static`: Sets `position: static`.
+/// - `.--position-relative`: Sets `position: relative`.
+/// - `.--position-absolute`: Sets `position: absolute`.
+/// - `.--position-fixed`: Sets `position: fixed`.
+/// - `.--position-sticky`: Sets `position: sticky` and aligns top/left to 0.
+///
+/// @group modifiers
 @mixin position {
 	@layer modifiers {
 		.#{utils.$prefix-default}--position {

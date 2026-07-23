@@ -1,0 +1,29 @@
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link href="https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css" rel="stylesheet">
+{# Modal Examples #}
+<div class="flx --flxColumn --gap-50 --pY-50">
+  <section>
+    <h2>Modal Layouts</h2>
+    <div class="flx --flxColumn --gap-30">
+      <!-- Standard Modal -->
+      <div>
+        <h3>Standard Modal</h3>
+        <div class="modal --tm-primary-light --size-md" style="max-width: 400px;">
+          <div class="--txtWeight-bold --pBottom-10">Modal Title</div>
+          <div>This is a simple modal body content with background color and shadow.</div>
+        </div>
+      </div>
+
+      <!-- Modal with Content Container -->
+      <div>
+        <h3>Modal with <code>.modal-content</code> (Delegated padding)</h3>
+        <div class="modal --tm-dark-light --size-lg" style="max-width: 400px;">
+          <div class="modal-content">
+            <div class="--txtWeight-bold --pBottom-10">Large Modal</div>
+            <div>Horizontal padding is applied to this inner wrapper instead of the parent modal.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

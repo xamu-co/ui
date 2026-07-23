@@ -3,6 +3,17 @@
 // text wrap
 //
 // @group Modifiers
+/// # Text Wrap modifiers
+/// Control text wrapping, word break, and balancing behaviors.
+///
+/// ## Classes:
+/// - `.--txtWrap`, `.--txtWrap-wrap`: Sets standard wrapping (`white-space: normal`).
+/// - `.--txtWrap-nowrap`: Disables wrapping (`white-space: nowrap`).
+/// - `.--txtWrap-balance`: Applies `text-wrap: balance`.
+/// - `.--txtWrap-pretty`: Applies `text-wrap: pretty`.
+/// - `.--txtWrap-stable`: Applies `text-wrap: stable`.
+///
+/// @group modifiers-text
 @mixin text-wrap {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtWrap {

@@ -1,9 +1,15 @@
 @use "module";
 
-// Border color
-// color based modifiers
-//
-// @group Modifiers
+/// # Border Color modifiers
+/// Control the border color and opacity shades of elements.
+///
+/// ## Classes:
+/// - `.--bdrColor`: Sets default border color (secondary at 10% opacity).
+/// - `.--bdrColor-[color]`: Sets specific border color (e.g., `--bdrColor-primary`).
+/// - `.--bdrColor-[color][1-9]`: Sets border color with opacity shade (from 10% to 90%, e.g., `--bdrColor-primary3`).
+/// - `.--bdrColor-none`: Sets border color to transparent.
+///
+/// @group modifiers-color
 @mixin border-color {
 	@layer modifiers {
 		.#{module.$prefix-default}--bdrColor {

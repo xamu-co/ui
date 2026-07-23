@@ -1,6 +1,14 @@
 @use "../utils/module" as utils;
 
-// vertical align
+/// # Vertical Align modifiers
+/// Control inline/table vertical alignment.
+///
+/// ## Classes:
+/// - `.--vAlign-middle`: Sets `vertical-align: middle`.
+/// - `.--vAlign-bottom`: Sets `vertical-align: bottom`.
+/// - `.--vAlign`, `.--vAlign-top`, `.--vAlign-sub`, `.--vAlign-baseline`, `.--vAlign-text-top`, `.--vAlign-text-bottom`: Sets alignment (Note: all these set `vertical-align: baseline`).
+///
+/// @group modifiers
 @mixin vertical-align {
 	@layer modifiers {
 		.#{utils.$prefix-default}--vAlign {

@@ -1,3 +1,5 @@
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link href="https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css" rel="stylesheet">
 {# Modifier Examples #}
 <div class="flx --flxColumn --gap-50 --pY-50">
   <section>
@@ -7,26 +9,23 @@
       <div>
         <h3>Basic Modifier</h3>
         <div class="flx --flxRow --gap-10">
-          <div class="--p-10 --bgColor-primary --txtColor-light">Default</div>
-          <div class="--p-10 --bgColor-primary --txtColor-light --opacity-50">With --opacity-50</div>
+          <div class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1">Default</div>
+          <div class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1 --opacity-05">With --opacity-05</div>
         </div>
       </div>
-
-      <!-- Conditional Modifiers -->
       <div>
-        <h3>Conditional Modifiers</h3>
+        <h3>Color Modifier Shades</h3>
         <div class="flx --flxRow --gap-10">
-          <div class="--p-10 --bgColor-dark1 --shadow">Default Shadow</div>
-          <div class="--p-10 --bgColor-dark1 --theme-light --shadow">Shadow with --theme-light</div>
+          <div class="--p-10 --bgColor-dark1 --txtColor-light">--bgColor-dark1 (10% Opacity)</div>
+          <div class="--p-10 --bgColor-dark5 --txtColor-light">--bgColor-dark5 (50% Opacity)</div>
+          <div class="--p-10 --bgColor-dark9 --txtColor-light">--bgColor-dark9 (90% Opacity)</div>
         </div>
       </div>
-
-      <!-- Responsive Modifiers -->
       <div>
-        <h3>Responsive Modifiers</h3>
+        <h3>Responsive Visibility Modifiers</h3>
         <div class="flx --flxColumn --gap-10">
-          <div class="--p-10 --bgColor-primary --txtColor-light --display-none:md">Hidden on medium screens and up</div>
-          <div class="--p-10 --bgColor-success --txtColor-light --display-none --display-block:md">Visible only on medium screens and up</div>
+          <div class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1 --hidden-full:md">Hidden on medium screens and up (--hidden-full:md)</div>
+          <div class="--p-10 --bgColor-success1 --txtColor-success --bdr --bdrColor-success1 --hidden-full:md-inv">Visible only on medium screens and up (--hidden-full and --display-block:md)</div>
         </div>
       </div>
     </div>

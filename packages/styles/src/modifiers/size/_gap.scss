@@ -10,6 +10,17 @@
 // this class applies to any container, not just flex containers, so it can't be polyfilled
 //
 // @group GlobalModifiers
+/// # Grid/Flex Gap modifiers
+/// Control spacing gap inside flex, grid, and columns layout containers.
+///
+/// ## Classes:
+/// - `.--gap`: Sets general gap to 1rem.
+/// - `.--gapX`: Sets column-gap to 1rem.
+/// - `.--gapY`: Sets row-gap to 1rem.
+/// - `.--gap-[5-50]`, `.--gapX-[5-50]`, `.--gapY-[5-50]`: Sets gap sizes in steps of 5 (values from `math.div($i, 3) * 1rem`, e.g., `--gap-30` is 2rem).
+/// - `.--gap-0`, `.--gap-none`, etc.: Resets gap spacing to 0.
+///
+/// @group modifiers-size
 @mixin gap-size {
 	@layer modifiers {
 		.#{module.$prefix-default}--gap {

@@ -1,52 +1,125 @@
 @use "../utils/module" as utils;
 
 /// # Flexbox layout
-/// Flexbox layout system
+/// Flexbox layout system.
 /// ```css
 ///  .flx
 ///
 ///  /** or inline */
 ///  .flx.--display-inline
 /// ```
-/// This layout makes use of the global flx union
 ///
 /// ## Requirements:
-/// None
+/// None.
 ///
 /// ## Modifiers:
+///
 /// ### Row flex flow
 /// Row direction and wrapping behavior.
 /// ```css
+///  /* Row layout (nowrap) */
 ///  .flx.--flxRow
 ///
-///  /** it can be reversed */
+///  /* Row reversed direction (nowrap) */
 ///  .flx.--flxRowReverse
 ///
-///  /** or allow content wrapping */
+///  /* Row with content wrapping */
 ///  .flx.--flxRow-wrap
 ///  .flx.--flxRowReverse-wrap
+///
+///  /* Row wrapping in reverse order */
+///  .flx.--flxRow-reverse
+///  .flx.--flxRowReverse-reverse
+///
+///  /* Row without wrapping (nowrap) */
+///  .flx.--flxRow-nowrap
+///  .flx.--flxRowReverse-nowrap
 /// ```
+///
 /// ### Column flex flow
 /// Column direction and wrapping behavior.
 /// ```css
+///  /* Column layout (nowrap) */
 ///  .flx.--flxColumn
 ///
-///  /** it can be reversed */
+///  /* Column reversed direction (nowrap) */
 ///  .flx.--flxColumnReverse
 ///
-///  /** or allow content wrapping */
+///  /* Column with content wrapping */
 ///  .flx.--flxColumn-wrap
 ///  .flx.--flxColumnReverse-wrap
+///
+///  /* Column wrapping in reverse order */
+///  .flx.--flxColumn-reverse
+///  .flx.--flxColumnReverse-reverse
+///
+///  /* Column without wrapping (nowrap) */
+///  .flx.--flxColumn-nowrap
+///  .flx.--flxColumnReverse-nowrap
 /// ```
 ///
-/// ## Unions:
-/// None
+/// ### Align items & Align self
+/// Align children along the cross axis or individual child override.
+/// ```css
+///  /* Align items: start | center | end | stretch | baseline */
+///  .flx.--flxAlign-start
+///  .flx.--flxAlign-center
+///  .flx.--flxAlign-end
+///  .flx.--flxAlign-stretch
+///  .flx.--flxAlign-baseline
+///
+///  /* Align self (individual overrides) */
+///  .flx-child.--flxAlignSelf-end
+/// ```
+///
+/// ### Justify content & Justify self
+/// Distribute space along the main axis.
+/// ```css
+///  /* Justify: start | center | end | around | evenly | between | stretch */
+///  .flx.--flxJustify-between
+///  .flx.--flxJustify-center
+///
+///  /* Justify self (individual overrides) */
+///  .flx-child.--flxJustifySelf-stretch
+/// ```
+///
+/// ### Flex growth and shrink
+/// Control growth/shrink factors of child items.
+/// ```css
+///  /* occupy remaining space (flex: 1 1 auto) */
+///  .flx-child.--flx
+///  .flx-child.--flx-auto
+///
+///  /* grow fully and fill width (flex: 1 1 100%) */
+///  .flx-child.--flx-fill
+///
+///  /* grow based on content size without shrinking (flex: 1 0 auto) */
+///  .flx-child.--flx-fit
+/// ```
+///
+/// ## Unions (Global Shorthands):
+///
+/// ### Flex shorthand modifiers
+/// Class shorthand modifier: `.--flx-[justify]-[align]`, which configures both `justify-content` and `align-items`.
+/// If the second parameter `[align]` is omitted, it defaults to `center`.
+/// ```css
+///  /* justify: space-between, align: center */
+///  .flx.--flx-between
+///
+///  /* justify: space-between, align: stretch */
+///  .flx.--flx-between-stretch
+///
+///  /* justify: center, align: center */
+///  .flx.--flx-center
+///
+///  /* justify: flex-start, align: flex-end */
+///  .flx.--flx-start-end
+/// ```
+/// Similar self-alignment shortcuts exist for child items: `.--flxSelf-[justify]-[align]`.
 ///
 /// @group layout-flex
 /// @example njk
 ///  {% extends "flex.njk" %}
-
-// flexbox container
 @mixin flex {
 	@layer definitions {
 		.#{utils.$layout-flexbox} {

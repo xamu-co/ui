@@ -1,6 +1,22 @@
 @use "sass:math";
 @use "module";
 
+/// # Width modifiers
+/// Control element width constraints.
+///
+/// ## Classes:
+/// - `.--width`, `.--width-auto`: Sets `width: auto`.
+/// - `.--width-fit`, `.--width-max`, `.--width-min`: Sets width based on content.
+/// - `.--width-quarter` / `.--width-25`: Sets `width: 25%`.
+/// - `.--width-third` / `.--width-33`: Sets `width: 33%`.
+/// - `.--width-half` / `.--width-50`: Sets `width: 50%`.
+/// - `.--width-100` / `.--width-full`: Sets `width: 100%`.
+/// - `.--width-[size]` (size option in px: `90`, `180`, `220`, `440`, `480`, `1080`): Sets fixed width (e.g. `--width-480` is 32rem).
+/// - `.--widthVw`, `.--widthVw-[30-100]`: Viewport width overrides (e.g. `--widthVw-50` sets 50vw/50dvw).
+///
+/// Similar classes exist for `min-width` (`.--minWidth-[modifier]`) and `max-width` (`.--maxWidth-[modifier]`).
+///
+/// @group modifiers-size
 @mixin width-size {
 	@layer modifiers {
 		.#{module.$prefix-default}--width {

@@ -1,3 +1,5 @@
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link href="https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css" rel="stylesheet">
 {# Flexbox Examples #}
 <div class="flx --flxColumn --gap-50 --pY-50">
   <!-- Basic Flex Directions -->
@@ -9,7 +11,7 @@
         <h3>Row Direction (Default)</h3>
         <div class="flx --flxRow --gap-10 --p-10 --bgColor-dark1">
           {% for i in range(1, 4) %}
-            <div class="--p-10 --bgColor-primary --txtColor-light">Item {{ i }}</div>
+            <div class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1">Item {{ i }}</div>
           {% endfor %}
         </div>
       </div>
@@ -19,7 +21,7 @@
         <h3>Row Reverse</h3>
         <div class="flx --flxRowReverse --gap-10 --p-10 --bgColor-dark1">
           {% for i in range(1, 4) %}
-            <div class="--p-10 --bgColor-primary --txtColor-light">Item {{ i }}</div>
+            <div class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1">Item {{ i }}</div>
           {% endfor %}
         </div>
       </div>
@@ -29,7 +31,7 @@
         <h3>Column Direction</h3>
         <div class="flx --flxColumn --gap-10 --p-10 --bgColor-dark1" style="height: 200px;">
           {% for i in range(1, 4) %}
-            <div class="--p-10 --bgColor-primary --txtColor-light">Item {{ i }}</div>
+            <div class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1">Item {{ i }}</div>
           {% endfor %}
         </div>
       </div>
@@ -39,7 +41,7 @@
         <h3>Column Reverse</h3>
         <div class="flx --flxColumnReverse --gap-10 --p-10 --bgColor-dark1" style="height: 200px;">
           {% for i in range(1, 4) %}
-            <div class="--p-10 --bgColor-primary --txtColor-light">Item {{ i }}</div>
+            <div class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1">Item {{ i }}</div>
           {% endfor %}
         </div>
       </div>
@@ -55,7 +57,7 @@
         <h3>Row with Wrap</h3>
         <div class="flx --flxRow-wrap --gap-10 --p-10 --bgColor-dark1">
           {% for i in range(1, 9) %}
-            <div class="--p-10 --bgColor-primary --txtColor-light" style="min-width: 150px;">Item {{ i }}</div>
+            <div class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1" style="min-width: 150px;">Item {{ i }}</div>
           {% endfor %}
         </div>
       </div>
@@ -65,7 +67,7 @@
         <h3>Column with Wrap</h3>
         <div class="flx --flxColumn-wrap --gap-10 --p-10 --bgColor-dark1" style="height: 300px;">
           {% for i in range(1, 9) %}
-            <div class="--p-10 --bgColor-primary --txtColor-light" style="height: 80px;">Item {{ i }}</div>
+            <div class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1" style="height: 80px;">Item {{ i }}</div>
           {% endfor %}
         </div>
       </div>
@@ -80,7 +82,7 @@
         <h3>Responsive Direction</h3>
         <div class="flx --flxColumn:sm --flxRow:md --gap-10 --p-10 --bgColor-dark1">
           {% for i in range(1, 5) %}
-            <div class="--p-10 --bgColor-primary --txtColor-light">Item {{ i }}</div>
+            <div class="--p-10 --bgColor-secondary1 --txtColor-secondary --bdr --bdrColor-secondary1">Item {{ i }}</div>
           {% endfor %}
         </div>
         <p class="--mT-10">Changes from column on mobile to row on medium screens and up</p>

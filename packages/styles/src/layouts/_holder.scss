@@ -1,10 +1,25 @@
 @use "sass:math";
 @use "../utils/module" as utils;
 
-// limita el ancho de los elementos en el contenidos
-//
-// @name Columns
-// @group Layouts
+/// # Holder layout
+/// Centers and limits the maximum width of content.
+/// Adds responsive horizontal padding transitions.
+/// ```css
+///  .holder
+/// ```
+///
+/// ## Requirements:
+/// None.
+///
+/// ## Modifiers:
+/// None.
+///
+/// ## Unions:
+/// None.
+///
+/// @group layout-holder
+/// @example njk
+///  {% extends "holder.njk" %}
 @mixin holder {
 	@layer definitions {
 		.#{utils.$layout-holder} {

@@ -1,8 +1,18 @@
 @use "../utils/module" as utils;
 
-// Display
-//
-// @group Modifiers
+/// # Display modifiers
+/// Control CSS `display`, `overflow`, and element visibility.
+///
+/// ## Classes:
+/// - `.--display`, `.--display-block`: Sets `display: block`.
+/// - `.--display-inline`: Sets `display: inline` (or `inline-flex`/`inline-grid` if combined with `.flx`/`.grd`).
+/// - `.--display-inline-block`: Sets `display: inline-block`.
+/// - `.--overflow`, `.--overflow-visible`: Sets `overflow: visible`.
+/// - `.--overflow-hidden`: Sets `overflow: hidden`.
+/// - `.--hidden`: Visually hides element but keeps it accessible to screen readers.
+/// - `.--hidden-full`: Hides element completely (`display: none !important`).
+///
+/// @group modifiers
 @mixin display {
 	@layer modifiers {
 		.#{utils.$prefix-default}--display {

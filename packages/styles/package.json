@@ -11,8 +11,8 @@
 		"build:prod": "yarn build && yarn docs:compile",
 		"watch": "yarn sass --watch",
 		"docs:compile": "sassdoc src/{**/{_*,summary},**/**/{_*,summary}}.scss --dest docs",
-		"docs:serve": "yarn serve docs",
-		"docs": "yarn docs:compile && start http://localhost:5000 && yarn serve docs"
+		"docs:serve": "npx -y serve docs",
+		"docs": "yarn docs:compile && yarn docs:serve"
 	},
 	"repository": {
 		"type": "git",
@@ -66,9 +66,6 @@
 			"require": "./src/postcss.js",
 			"default": "./src/postcss.js"
 		}
-	},
-	"dependencies": {
-		"serve": "^11.3.2"
 	},
 	"devDependencies": {
 		"copy-files-from-to": "^3.2.0",

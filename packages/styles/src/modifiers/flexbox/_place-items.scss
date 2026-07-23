@@ -1,8 +1,29 @@
 @use "module";
 
-// flexbox shortcuts: Set justify-content & align-items
-//
-// @group Modifiers
+/// # Flexbox Shorthand Placement unions
+/// Shorthand class modifier: `.--flx-[justify]-[align]` (or simply `.--flx-[justify]`),
+/// which sets both `justify-content` (or `justify-items` for grid) and `align-items`.
+/// If the second parameter `[align]` is omitted, it defaults to `center`.
+///
+/// ## Classes:
+/// - `.--flx-between`: `justify-content: space-between`, `align-items: center`.
+/// - `.--flx-between-[align]`: e.g., `--flx-between-stretch`.
+/// - `.--flx-around`: `justify-content: space-around`, `align-items: center`.
+/// - `.--flx-around-[align]`: e.g., `--flx-around-stretch`.
+/// - `.--flx-stretch`: `justify-content: stretch`, `align-items: center`.
+/// - `.--flx-stretch-[align]`: e.g., `--flx-stretch-stretch`.
+/// - `.--flx-evenly`: `justify-content: space-evenly`, `align-items: center`.
+/// - `.--flx-evenly-[align]`: e.g., `--flx-evenly-stretch`.
+/// - `.--flx-center`: `justify-content: center`, `align-items: center`.
+/// - `.--flx-center-[align]`: e.g., `--flx-center-end`.
+/// - `.--flx-start`: `justify-content: flex-start`, `align-items: flex-start`.
+/// - `.--flx-start-[align]`: e.g., `--flx-start-center`.
+/// - `.--flx-end`: `justify-content: flex-end`, `align-items: flex-end`.
+/// - `.--flx-end-[align]`: e.g., `--flx-end-center`.
+///
+/// Similar self-alignment shortcuts exist for child items: `.--flxSelf-[justify]-[align]`.
+///
+/// @group modifiers-flexbox
 @mixin flex-place-items {
 	@layer modifiers {
 		.#{module.$prefix-default}--flx {

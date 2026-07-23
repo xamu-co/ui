@@ -3,6 +3,15 @@
 // text style
 //
 // @group Modifiers
+/// # Text Style modifiers
+/// Control font style (italic, normal, oblique).
+///
+/// ## Classes:
+/// - `.--txtStyle`, `.--txtStyle-italic`: Sets `font-style: italic`.
+/// - `.--txtStyle-normal`: Sets `font-style: normal`.
+/// - `.--txtStyle-oblique`: Sets `font-style: oblique`.
+///
+/// @group modifiers-text
 @mixin text-style {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtStyle {

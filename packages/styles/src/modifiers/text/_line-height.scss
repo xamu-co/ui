@@ -3,6 +3,14 @@
 // text line height
 //
 // @group Modifiers
+/// # Text Line Height modifiers
+/// Control text line heights.
+///
+/// ## Classes:
+/// - `.--txtLineHeight`: Sets default line height (e.g. 1.2em).
+/// - `.--txtLineHeight-[size]` (size option: `xs`, `sm`, `md`, `lg`, `xl`, `xx`, `mx`): Sets line height to specific font line-height size.
+///
+/// @group modifiers-text
 @mixin text-line-height {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtLineHeight {

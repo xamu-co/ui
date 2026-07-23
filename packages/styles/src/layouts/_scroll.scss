@@ -1,8 +1,36 @@
 @use "../utils/module" as utils;
 
-// Scroll area component
-//
-// @group Components
+/// # Scroll layout
+/// Layout container for scrollable content areas.
+/// Customizable scrollbars on coarse pointer devices.
+/// ```css
+///  .scroll
+/// ```
+///
+/// ## Requirements:
+/// None.
+///
+/// ## Modifiers:
+///
+/// ### Vertical scroll
+/// Enables vertical scroll and limits maximum height.
+/// ```css
+///  .scroll.--vertical
+/// ```
+///
+/// ### Horizontal scroll
+/// Enables horizontal scroll.
+/// ```css
+///  .scroll.--horizontal
+///
+///  /* Force horizontal scroll on all devices/viewports */
+///  .scroll.--horizontal.--always
+/// ```
+/// Note: On touch devices, unless `.--always` is specified, horizontal tables will collapse into inline-flex rows.
+///
+/// @group layout-scroll
+/// @example njk
+///  {% extends "scroll.njk" %}
 @mixin scroll {
 	@layer definitions {
 		.#{utils.$layout-scroll} {

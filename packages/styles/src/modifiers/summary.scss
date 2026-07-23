@@ -1,14 +1,19 @@
 /// # Global modifiers
-/// These modify the behavior of any element
+/// These modify the behavior of any element.
 ///
 /// **.--globalModifierName-value{}**
 /// ```css
-///  .--maxWidth-none{}
+///  /* Sets element opacity to 0.5 */
+///  .--opacity-05{}
+///
+///  /* Sets background-color to primary */
+///  .--bgColor-primary{}
 /// ```
-/// Just like the component modifiers but these work in any element
-/// Some modifier could be conditionated to the presence of another one
+/// Just like the component modifiers but these work on any element.
+/// Some modifiers can be conditioned on the presence of another one:
 /// ```css
-///  .--theme-light.--shadow{}
+///  /* Combines tema-light with absolute position or other attributes */
+///  .--tm-light.--position-absolute{}
 /// ```
 ///
 /// @group modifiers
@@ -16,22 +21,23 @@
 ///  {% extends "modifier.njk" %}
 
 /// # Global unions
-/// Condense most common modifiers of rules that require multiple parameters
+/// Condense most common modifiers of rules that require multiple parameters.
 ///
 /// **.--globalUnionName-firstValue-SecondValue{}**
 /// ```css
-///  .--flxAlign-center-stretch{}
+///  /* Sets justify-content: space-between and align-items: stretch */
+///  .--flx-between-stretch{}
 /// ```
-/// As any other union but work in any element
-/// If both values are equal the could be merged
+/// Just like any other union but works on any element.
+/// If both values are equal, they are merged into a shorthand single value class:
 /// ```css
-///  /** Long version */
-///  .--flxAlign-center-center{}
+///  /** Long version (justify: center, align: center) */
+///  .--flx-center-center{}
 ///
-///  /** Short version */
-///  .--flxAlign-center{}
+///  /** Short version (justify: center, align: center) */
+///  .--flx-center{}
 /// ```
 ///
-/// @group unions
+/// @group modifiers-unions
 /// @example njk
 ///  {% extends "union.njk" %}

@@ -3,6 +3,14 @@
 // font weight
 //
 // @group Modifiers
+/// # Text Weight modifiers
+/// Control font weight (thickness).
+///
+/// ## Classes:
+/// - `.--txtWeight`: Sets font weight to regular (400).
+/// - `.--txtWeight-[weight]` (where weight is `thin`, `lighter`, `light`, `regular`, `medium`, `semibold`, `bold`, `bolder`, `black`): Sets specific font weight.
+///
+/// @group modifiers-text
 @mixin text-weight {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtWeight {

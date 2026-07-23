@@ -1,6 +1,16 @@
 @use "module";
 
 // Text color
+/// # Text Shadow modifiers
+/// Control elements' text shadow offsets and opacity shades.
+///
+/// ## Classes:
+/// - `.--txtShadow`: Sets default dark shadow with 0.3 opacity.
+/// - `.--txtShadow-[color]`: Sets specific shadow color (e.g. `--txtShadow-primary`).
+/// - `.--txtShadow-[color][1-9]`: Sets text shadow color with opacity shade (range 10%-90%, e.g., `--txtShadow-primary3`).
+/// - `.--txtShadow-none`: Clears text shadows.
+///
+/// @group modifiers-text
 @mixin text-shadow {
 	@layer modifiers {
 		.#{module.$prefix-default}--txtShadow {

@@ -1,8 +1,27 @@
 @use "../utils/module" as utils;
 
-// Text block layout
-//
-// @group layout
+/// # Text Block layout
+/// Formats text blocks with predefined gap spacing, line height, and content width constraints.
+/// ```css
+///  .txt
+/// ```
+///
+/// ## Requirements:
+/// None.
+///
+/// ## Modifiers:
+///
+/// ### Box padding
+/// Adds box padding around the text block container.
+/// ```css
+///  .txt.--box
+///  .txt.--miniBox
+/// ```
+///
+/// ## Unions:
+/// None.
+///
+/// @group layout-text
 @mixin text {
 	@layer defaults {
 		.#{utils.$layout-text} {

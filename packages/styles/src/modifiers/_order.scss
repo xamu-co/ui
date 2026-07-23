@@ -1,8 +1,13 @@
 @use "../utils/module" as utils;
 
-// order
-//
-// @group Modifiers
+/// # Flexbox/Grid Order modifiers
+/// Control the layout rendering order of elements.
+///
+/// ## Classes:
+/// - `.--order`: Sets `order: 1`.
+/// - `.--order-[1-10]`: Sets rendering order to specific number (range 1-10).
+///
+/// @group modifiers
 @mixin order {
 	@layer modifiers {
 		.#{utils.$prefix-default}--order {
