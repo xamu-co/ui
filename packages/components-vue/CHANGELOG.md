@@ -1,5 +1,30 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.37](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.36...@open-xamu-co/ui-components-vue-v4.0.0-next.37) (2026-07-23)
+
+
+### Bug Fixes
+
+* **helpers:** on update values hook not firing ([f820906](https://github.com/xamu-co/ui/commit/f8209067234ae8ecd50b572de4f0a97455d05a77))
+
+
+### Features
+
+* **vue:** typed component events ([1e81c2c](https://github.com/xamu-co/ui/commit/1e81c2c9705367013049fb3057f291c9c15eaae2))
+
+
+### BREAKING CHANGES
+
+* **vue:** Strict types may be undessired
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.37"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.36](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.35...@open-xamu-co/ui-components-vue-v4.0.0-next.36) (2026-07-22)
 
 
