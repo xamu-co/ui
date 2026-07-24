@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.38](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.37...@open-xamu-co/ui-components-vue-v4.0.0-next.38) (2026-07-24)
+
+
+### Bug Fixes
+
+* **vue:** make typed events more flexible ([48e0957](https://github.com/xamu-co/ui/commit/48e0957cf0378521d28c2333abb3239dfaecfa50))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.38"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.37](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.36...@open-xamu-co/ui-components-vue-v4.0.0-next.37) (2026-07-23)
 
 
