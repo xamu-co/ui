@@ -395,7 +395,7 @@
 	defineOptions({ name: "FormInput", inheritAttrs: false });
 
 	const props = defineProps<iFormInputProps>();
-	const emit = defineEmits<{ (e: "update:model-value", value: any[]): void }>();
+	const emit = defineEmits<{ (e: "update:model-value", value: any[]): any }>();
 
 	const { t, tet } = useHelpers(useI18n);
 	const { isValidFormInputValue, notEmptyValue } = useHelpers(useForm).utils;

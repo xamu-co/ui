@@ -108,8 +108,8 @@
 		classes: "flx --flxColumn --flx-start-stretch",
 	});
 	const emit = defineEmits<{
-		(e: "update:model-value", value: boolean): void;
-		(e: "close"): void;
+		(e: "update:model-value", value: boolean): any;
+		(e: "close"): any;
 	}>();
 
 	const { getModifierClasses: GMC } = useHelpers(useUtils);

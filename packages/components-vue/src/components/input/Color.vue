@@ -76,7 +76,7 @@
 	defineOptions({ name: "InputColor", inheritAttrs: false });
 
 	const props = defineProps<iInputColorProps>();
-	const emit = defineEmits<{ (e: "update:model-value", value?: string | number): void }>();
+	const emit = defineEmits<{ (e: "update:model-value", value?: string | number): any }>();
 
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);
