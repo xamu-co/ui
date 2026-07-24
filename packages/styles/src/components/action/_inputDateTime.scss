@@ -15,6 +15,7 @@ $clock-path-end: "'/%3E%3C/svg%3E";
 			@include module.action-styles;
 			@include module.action-size-styles;
 			@include module.action-border-styles;
+			@include module.action-outline-styles;
 			@include module.action-disabled-styles;
 
 			// The default icon is prefered
@@ -33,18 +34,20 @@ $clock-path-end: "'/%3E%3C/svg%3E";
 
 			@layer defaults {
 				@include module.extend-themes using($name, $value, $is-default) {
-					--bg: #{module.color($name, 0.1)};
-					--bc: #{module.color($name, 0.05)};
-					--cl: #{module.color($name)};
-					--cl-a: #{module.color($name, 0.5)};
+					--bg: #{module.color($name, 0.1)}; // Background color
+					--bc: #{module.color($name, 0.05)}; // Border color
+					--cl: #{module.color($name)}; // Text color
+					--cl-a: #{module.color($name, 0.5)}; // Active text color
+					--ou: #{module.color($name, 0.3)}; // Outline color
 				}
 			}
 
 			&.#{module.$status-is-invalid} {
-				--bg: #{module.color(danger, 0.1)};
-				--bc: #{module.color(danger, 0.05)};
-				--cl: #{module.color(danger)};
-				--cl-a: #{module.color(danger, 0.3)};
+				--bg: #{module.color(danger, 0.1)}; // Background color
+				--bc: #{module.color(danger, 0.05)}; // Border color
+				--cl: #{module.color(danger)}; // Text color
+				--cl-a: #{module.color(danger, 0.3)}; // Active text color
+				--ou: #{module.color(danger, 0.3)}; // Outline color
 			}
 
 			&:hover:not(:focus, :focus-within) {
@@ -74,6 +77,7 @@ $clock-path-end: "'/%3E%3C/svg%3E";
 			@include module.action-styles;
 			@include module.action-size-styles;
 			@include module.action-border-styles;
+			@include module.action-outline-styles;
 			@include module.action-disabled-styles;
 
 			i.#{module.$component-icon},
@@ -97,10 +101,11 @@ $clock-path-end: "'/%3E%3C/svg%3E";
 
 			@layer defaults {
 				@include module.extend-themes using($name, $value, $is-default) {
-					--bg: #{module.color($name, 0.1)};
-					--bc: #{module.color($name, 0.05)};
-					--cl: #{module.color($name)};
-					--cl-a: #{module.color($name, 0.5)};
+					--bg: #{module.color($name, 0.1)}; // Background color
+					--bc: #{module.color($name, 0.05)}; // Border color
+					--cl: #{module.color($name)}; // Text color
+					--cl-a: #{module.color($name, 0.5)}; // Active text color
+					--ou: #{module.color($name, 0.3)}; // Outline color
 
 					&:not(:has(i.#{module.$component-icon}, .#{module.$component-svg})) {
 						background-image: url("#{$clock-path-start}#{system.str-replace(#{$value}, '#')}#{$clock-path-end}");
@@ -109,10 +114,11 @@ $clock-path-end: "'/%3E%3C/svg%3E";
 			}
 
 			&.#{module.$status-is-invalid} {
-				--bg: #{module.color(danger, 0.1)};
-				--bc: #{module.color(danger, 0.05)};
-				--cl: #{module.color(danger)};
-				--cl-a: #{module.color(danger, 0.3)};
+				--bg: #{module.color(danger, 0.1)}; // Background color
+				--bc: #{module.color(danger, 0.05)}; // Border color
+				--cl: #{module.color(danger)}; // Text color
+				--cl-a: #{module.color(danger, 0.3)}; // Active text color
+				--ou: #{module.color(danger, 0.3)}; // Outline color
 
 				@layer defaults {
 					&:not(:has(i.#{module.$component-icon}, .#{module.$component-svg})) {

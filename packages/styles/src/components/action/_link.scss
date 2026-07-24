@@ -6,14 +6,18 @@
 //
 // @group Components
 @mixin link {
+	$radius-action: module.strip-unit(module.$size-radius-action);
+
 	@layer definitions {
 		.#{module.$component-link} {
-			// display: inline-block;
 			--bg: transparent;
+
+			outline-offset: 0.3rem;
 
 			@include module.action-styles;
 			@include module.action-aligment-styles;
 			@include module.action-alert-styles;
+			@include module.action-outline-styles;
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles;
 
@@ -53,12 +57,13 @@
 			//
 			// @group Modifiers
 			@include module.extend-themes using($name, $value, $is-default) {
-				--cl: #{module.color($name)};
-				--cl-a: #{module.color($name, 0.7)};
-				--cl-h: #{module.color($name, 0.5)};
+				--cl: #{module.color($name)}; // Text color
+				--cl-a: #{module.color($name, 0.7)}; // Active text color
+				--cl-h: #{module.color($name, 0.5)}; // Hover text color
+				--ou: #{module.color($name, 0.3)}; // Outline color
 
 				&.#{module.$status-is-alert}:after {
-					--cl-h: #{module.color(light, 0.5)};
+					--cl-h: #{module.color(light, 0.5)}; // Hover text color
 				}
 			}
 

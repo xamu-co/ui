@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed, watch } from "vue";
+	import { computed, watch, useId } from "vue";
 	import deburr from "lodash-es/deburr";
 	import omit from "lodash-es/omit";
 	import { Md5 } from "ts-md5";
@@ -67,6 +67,7 @@
 	const emit = defineEmits<{ (e: "update:model-value", value: string | number): any }>();
 
 	const { t } = useHelpers(useI18n);
+	const fallbackId = useId();
 
 	const selectOptions = computed<iFormOption[]>(() => {
 		// Only use array type, skip if function
@@ -74,9 +75,11 @@
 	});
 	/** Prefer a predictable identifier */
 	const selectId = computed(() => {
+		if (props.id) return props.id;
+
 		const seed = deburr(props.name || props.placeholder || props.title);
 
-		return props.id || Md5.hashStr(`select-${seed}`);
+		return seed ? Md5.hashStr(`select-${seed}`) : fallbackId;
 	});
 
 	function handleInput(e: Event) {

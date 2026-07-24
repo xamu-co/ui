@@ -209,6 +209,7 @@ export const localeTable: tLocaleTable = {
  * @locale en
  */
 export const localePagination: tLocalePagination = {
+	pagination: "Pagination",
 	pagination_items: "No items | Single item | {count} items",
 	pagination_pages: "No pages | Single page | {count} pages",
 	pagination_page: "Page {count} of",

@@ -5,8 +5,10 @@
 			<!-- TODO: define filters, filter table contents -->
 			<th
 				v-if="mappedNodes.nodes.length > 1 || withDefaultSlot"
+				scope="col"
 				class="--sticky"
 				:class="{ ['is--selected']: sort && !!ordering['id'] }"
+				:aria-sort="getAriaSort(Array.isArray(sort) ? sort.includes('id') : sort, 'id')"
 				data-column-name="id"
 				data-column="id"
 			>
@@ -40,13 +42,15 @@
 				</div>
 			</th>
 			<template v-for="(meta, metaIndex) in propertiesMeta" :key="metaIndex">
-				<td
+				<th
 					v-if="!meta.hidden"
+					scope="col"
 					class="--maxWidth-440"
 					:class="[
 						`--txtSize-${size}`,
 						{ ['is--selected']: meta.canSort && !!ordering[meta.value] },
 					]"
+					:aria-sort="getAriaSort(meta.canSort, meta.value)"
 					:data-column-name="meta.value"
 					:data-column="meta.alias"
 					:width="nested && metaIndex === propertiesMeta.length - 1 ? '99%' : 'auto'"
@@ -70,10 +74,11 @@
 							<IconFa v-else name="arrow-up" />
 						</template>
 					</ActionLink>
-				</td>
+				</th>
 			</template>
 			<th
 				v-if="!isReadOnly && (!!updateNode || !!deleteNode || !!cloneNode)"
+				scope="col"
 				class="--sticky --txtAlign-center"
 				data-column-name="modify"
 				data-column="modify"
@@ -116,4 +121,17 @@
 
 	const { t } = useHelpers(useI18n);
 	const { themeValues } = useTheme(props);
+
+	function getAriaSort(
+		canSort?: boolean,
+		property = "id"
+	): "ascending" | "descending" | "none" | undefined {
+		if (!canSort) return undefined;
+
+		const order = props.ordering?.[property];
+
+		if (!order) return "none";
+
+		return order === "asc" ? "ascending" : "descending";
+	}
 </script>

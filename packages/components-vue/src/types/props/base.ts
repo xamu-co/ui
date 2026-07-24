@@ -66,6 +66,10 @@ export interface iUseThemeProps {
 }
 
 export interface iUseThemeTooltipProps {
+	/**
+	 * Allow to define aria-label
+	 * @default tooltip value
+	 */
 	ariaLabel?: string;
 	/**
 	 * Show given text as tooltip on hover.

@@ -321,6 +321,8 @@ export type tLocaleTable = {
  * @localeType
  */
 export type tLocalePagination = {
+	/** @example "Pagination" */
+	pagination: string;
 	/** @example "No items | Single item | {count} items" */
 	pagination_items: string;
 	/** @example "No pages | Single page | {count} pages" */

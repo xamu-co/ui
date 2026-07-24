@@ -43,7 +43,7 @@
 			 */
 			placeholder?: string;
 		}>(),
-		{ loading: "lazy" }
+		{ loading: "lazy", alt: "" }
 	);
 
 	const { imageComponent = "img", imagePlaceholder } = inject<iVuePluginOptions>("xamu") || {};

@@ -5,6 +5,8 @@
 			<dialog
 				:id="modalId"
 				ref="modalRef"
+				:aria-labelledby="title ? modalId + '-title' : undefined"
+				:aria-label="!title ? cancelButtonOptions.title : undefined"
 				@close="() => closeModal()"
 				@mousedown="clickOutside"
 			>
@@ -34,7 +36,7 @@
 							class="flx --flxRow --flx-between-center --width-100 modal-content"
 						>
 							<div class="txt --gap-none">
-								<h5>{{ title }}</h5>
+								<h5 :id="modalId + '-title'">{{ title }}</h5>
 								<p v-if="subtitle" class="--txtSize-xs">{{ subtitle }}</p>
 							</div>
 							<ActionLink

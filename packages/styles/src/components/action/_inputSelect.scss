@@ -23,6 +23,7 @@ $select-path-end: "'/%3E%3C/svg%3E";
 			@include module.action-theme-union-styles;
 			@include module.action-size-styles;
 			@include module.action-border-styles;
+			@include module.action-outline-styles;
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles(false);
 
