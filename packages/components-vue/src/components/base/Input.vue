@@ -51,8 +51,8 @@
 
 	const props = defineProps<iBaseInputProps>();
 	const emit = defineEmits<{
-		(e: "update:model-value", value: unknown): void;
-		(e: "change", value: Event): void;
+		(e: "update:model-value", value: unknown): any;
+		(e: "change", value: Event): any;
 	}>();
 
 	/** Prefer a predictable identifier */

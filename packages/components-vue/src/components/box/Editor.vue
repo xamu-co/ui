@@ -133,7 +133,7 @@
 
 	defineOptions({ name: "BoxEditor", inheritAttrs: false });
 
-	const emit = defineEmits<{ (e: "update:model-value", value: string): void }>();
+	const emit = defineEmits<{ (e: "update:model-value", value: string): any }>();
 	const props = defineProps<iBoxEditorProps>();
 
 	const Swal = useHelpers(useSwal);

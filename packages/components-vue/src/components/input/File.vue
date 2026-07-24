@@ -286,7 +286,7 @@
 		accept: () => ["image/*"],
 		thumbnailMaxSize: 100 * 1024 * 1024,
 	});
-	const emit = defineEmits<{ (e: "update:model-value", value: File[]): void }>();
+	const emit = defineEmits<{ (e: "update:model-value", value: File[]): any }>();
 
 	const { t } = useHelpers(useI18n);
 	const { isBrowser, logger } = useHelpers(useUtils);

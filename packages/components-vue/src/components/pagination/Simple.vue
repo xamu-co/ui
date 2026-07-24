@@ -92,7 +92,7 @@
 
 	defineOptions({ name: "PaginationSimple", inheritAttrs: false });
 
-	const emit = defineEmits<{ (e: "update:model-value", value: iPagination): void }>();
+	const emit = defineEmits<{ (e: "update:model-value", value: iPagination): any }>();
 	const props = defineProps<iPaginationSimpleProps<T, C>>();
 
 	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};

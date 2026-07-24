@@ -56,7 +56,7 @@
 		cache: true,
 	});
 	const emit = defineEmits<{
-		(e: "refresh", fn: () => void): void;
+		(e: "refresh", fn: () => any): void;
 		(
 			e: "has-content",
 			isContent: boolean,

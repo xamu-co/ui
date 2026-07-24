@@ -218,11 +218,10 @@
 	const props = withDefaults(defineProps<iModalProps>(), {
 		theme: eColors.SECONDARY,
 	});
-	// const emit = defineEmits(["save", "close", "update:model-value"]);
 	const emit = defineEmits<{
-		(e: "update:model-value", value: boolean): void;
-		(e: "save", success: (r?: boolean) => void, event: Event): void;
-		(e: "close"): void;
+		(e: "update:model-value", value: boolean): any;
+		(e: "save", success: (r?: boolean) => void, event: Event): any;
+		(e: "close"): any;
 	}>();
 
 	const { t } = useHelpers(useI18n);
