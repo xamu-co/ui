@@ -1,5 +1,23 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v5.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.13...@open-xamu-co/ui-styles-v5.0.0-next.14) (2026-07-25)
+
+
+### Bug Fixes
+
+* remove unmmantained postcss-precision ([c7229ee](https://github.com/xamu-co/ui/commit/c7229eeb4894c80055ee658425fb98269c72d675))
+* **vue:** improved WCAG 2.1 AA accessibility ([ad952ef](https://github.com/xamu-co/ui/commit/ad952ef66783bc8a203d0de42efcc993aa5ded2b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.14"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v5.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.12...@open-xamu-co/ui-styles-v5.0.0-next.13) (2026-07-22)
 
 
