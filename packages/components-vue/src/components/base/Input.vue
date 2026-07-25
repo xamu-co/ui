@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed } from "vue";
+	import { computed, useId } from "vue";
 	import deburr from "lodash-es/deburr";
 	import { Md5 } from "ts-md5";
 
@@ -55,11 +55,15 @@
 		(e: "change", value: Event): any;
 	}>();
 
+	const fallbackId = useId();
+
 	/** Prefer a predictable identifier */
 	const inputId = computed(() => {
+		if (props.id) return props.id;
+
 		const seed = deburr(props.name || props.placeholder || props.title);
 
-		return props.id || Md5.hashStr(`input-${seed}`);
+		return seed ? Md5.hashStr(`input-${seed}`) : fallbackId;
 	});
 	const useChecked = computed(() => {
 		return props.type === "checkbox" || props.type === "radio";

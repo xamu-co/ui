@@ -1,5 +1,5 @@
 <template>
-	<nav class="list" :class="`--txtColor-${themeValues[0]}`">
+	<div class="list" :class="`--txtColor-${themeValues[0]}`">
 		<BaseInput
 			v-if="title || $slots.header"
 			v-slot="{ id: baseId }"
@@ -7,7 +7,13 @@
 			v-bind="{ id, name, title, checked, theme }"
 			@change="isOpenHandler"
 		>
-			<label :for="id || baseId" class="toggle--list" :class="headerClasses">
+			<label
+				:for="id || baseId"
+				class="toggle--list"
+				:class="headerClasses"
+				:aria-expanded="isOpen"
+				role="button"
+			>
 				<slot name="header" v-bind="{ isOpen }">
 					<span>{{ title }}</span>
 					<IconFa name="angle-down" :size="20" />
@@ -17,7 +23,7 @@
 		<component :is="el || 'ul'" class="list-group" :class="$attrs.class">
 			<slot v-bind="{ isOpen }"></slot>
 		</component>
-	</nav>
+	</div>
 </template>
 
 <script setup lang="ts">

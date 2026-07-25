@@ -1,6 +1,7 @@
 <template>
 	<BaseAction
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
+		:aria-pressed="props.active ?? undefined"
 		:class="[modifiersClasses, stateClasses, themeClasses, shadowClasses]"
 		class="bttnToggle"
 	>

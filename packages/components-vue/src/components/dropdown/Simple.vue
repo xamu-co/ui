@@ -5,6 +5,8 @@
 			ref="toggleRef"
 			class="only--active toggle--dropdown"
 			:class="{ 'is--active': localModel }"
+			:aria-expanded="localModel"
+			aria-haspopup="true"
 		>
 			<slot name="toggle" v-bind="{ model, setModel }"></slot>
 		</div>
@@ -146,8 +148,13 @@
 		closeDropdown();
 	}
 
+	function handleKeydown(e: KeyboardEvent) {
+		if (e.key === "Escape") closeDropdown();
+	}
+
 	function openDropdown() {
 		document.addEventListener("click", clickOutside, true);
+		document.addEventListener("keydown", handleKeydown, true);
 		model.value = true;
 	}
 
@@ -155,6 +162,7 @@
 		emit("close");
 		emit("update:model-value", (model.value = false));
 		document.removeEventListener("click", clickOutside, true);
+		document.removeEventListener("keydown", handleKeydown, true);
 	}
 	function clickOutside(e: MouseEvent) {
 		const target = e.target as HTMLElement;

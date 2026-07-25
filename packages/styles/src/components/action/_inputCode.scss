@@ -10,6 +10,8 @@
 // @group Components
 @mixin input-code {
 	.#{module.$component-input-code} {
+		@include module.action-outline-styles;
+
 		.cm-editor {
 			background-color: transparent;
 			cursor: text;
@@ -68,6 +70,8 @@
 		//
 		// @group Modifiers
 		@include module.extend-themes using($name, $value, $is-default) {
+			--ou: #{module.color($name, 0.3)}; // Outline color
+
 			.cm-editor {
 				color: module.color($name);
 

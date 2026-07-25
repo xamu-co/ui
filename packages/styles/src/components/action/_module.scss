@@ -106,46 +106,48 @@
 	// @group Unions
 	@layer defaults {
 		@include module.extend-unions using($theme, $theme-value, $base, $base-value, $is-default) {
-			--cl: #{module.color($base)};
-			--bg: #{module.color($theme)};
+			--cl: #{module.color($base)}; // Text color
+			--bg: #{module.color($theme)}; // Background color
+			--ou: #{module.color($theme, 0.3)}; // Outline color
 
 			&:hover,
 			&:focus {
 				&:not(.#{module.$status-is-active}) {
 					&:not(.#{module.$status-is-route}),
 					&.#{module.$status-is-route}.#{module.$status-no-route} {
-						--cl: #{module.color($base, 0.7)};
-						--bc: #{module.color($base, 0.3)};
+						--cl: #{module.color($base, 0.7)}; // Text color
+						--bc: #{module.color($base, 0.3)}; // Border color
 					}
 				}
 				&.#{module.$status-is-active},
 				&.#{module.$status-is-route}:not(.#{module.$status-no-route}) {
-					--cl: #{module.color($theme, 0.7)};
+					--cl: #{module.color($theme, 0.7)}; // Text color
 				}
 			}
 
 			&:disabled,
 			&[disabled]:not([disabled="false"]) {
-				--cl: #{module.color($theme, 0.3)};
+				--cl: #{module.color($theme, 0.3)}; // Text color
 			}
 		}
 	}
 
 	// invalid
 	&.#{module.$status-is-invalid} {
-		--bg: #{module.color(danger)};
+		--bg: #{module.color(danger)}; // Background color
+		--ou: #{module.color(danger, 0.3)}; // Outline color
 
 		&:hover,
 		&:focus {
 			&.#{module.$status-is-active},
 			&.#{module.$status-is-route}:not(.#{module.$status-no-route}) {
-				--cl: #{module.color(danger, 0.7)};
+				--cl: #{module.color(danger, 0.7)}; // Text color
 			}
 		}
 
 		&:disabled,
 		&[disabled]:not([disabled="false"]) {
-			--cl: #{module.color(danger, 0.3)};
+			--cl: #{module.color(danger, 0.3)}; // Text color
 		}
 	}
 
@@ -156,21 +158,21 @@
 			.#{module.$status-no-route},
 			.#{module.$status-no-route-exact}
 		) {
-		--cl: var(--bg);
-		--bc: var(--cl);
+		--cl: var(--bg); // Text color
+		--bc: var(--cl); // Border color
 	}
 
 	&.#{module.$status-is-active},
 	&.#{module.$status-is-route}:not(.#{module.$status-no-route}) {
 		&:hover,
 		&:focus {
-			--bc: var(--cl);
+			--bc: var(--cl); // Border color
 		}
 	}
 
 	&:disabled,
 	&[disabled]:not([disabled="false"]) {
-		--bc: var(--cl);
+		--bc: var(--cl); // Border color
 	}
 
 	&.#{module.$status-is-active},
@@ -218,6 +220,20 @@
 	}
 }
 
+// button outline color
+//
+// @group SharedStyles
+@mixin action-outline-styles {
+	outline: 1px solid transparent;
+	outline-offset: 0.1rem;
+
+	&:focus,
+	&:focus-visible,
+	&:focus-within {
+		outline-color: var(--ou, transparent);
+	}
+}
+
 // capitalize
 //
 // @group SharedStyles
@@ -258,6 +274,8 @@
 
 	+ label {
 		color: var(--cl, transparent);
+
+		@include action-outline-styles;
 
 		&::after {
 			content: "";
@@ -327,36 +345,38 @@
 	@layer defaults {
 		@include module.extend-themes using($name, $value, $is-default) {
 			+ label {
-				--cl: #{module.color($name)};
-				--bg: #{module.color($name, 0.1)};
-				--bc: #{module.color($name, 0.1)};
+				--cl: #{module.color($name)}; // Text color
+				--bg: #{module.color($name, 0.1)}; // Background color
+				--bc: #{module.color($name, 0.1)}; // Border color
+				--ou: #{module.color($name, 0.3)}; // Outline color
 
 				&:hover {
-					--cl: #{module.color($name, 0.7)};
-					--bc: #{module.color($name, 0.3)};
+					--cl: #{module.color($name, 0.7)}; // Text color
+					--bc: #{module.color($name, 0.3)}; // Border color
 				}
 			}
 
 			&:checked + label {
-				--bg: #{module.color($name, 0.5)};
+				--bg: #{module.color($name, 0.5)}; // Background color
 			}
 		}
 	}
 
 	&.#{module.$status-is-invalid} {
 		+ label {
-			--cl: #{module.color(danger)};
-			--bg: #{module.color(danger, 0.1)};
-			--bc: #{module.color(danger, 0.1)};
+			--cl: #{module.color(danger)}; // Text color
+			--bg: #{module.color(danger, 0.1)}; // Background color
+			--bc: #{module.color(danger, 0.1)}; // Border color
+			--ou: #{module.color(danger, 0.3)}; // Outline color
 
 			&:hover {
-				--cl: #{module.color(danger, 0.7)};
-				--bc: #{module.color(danger, 0.3)};
+				--cl: #{module.color(danger, 0.7)}; // Text color
+				--bc: #{module.color(danger, 0.3)}; // Border color
 			}
 		}
 
 		&:checked + label {
-			--bg: #{module.color(danger, 0.5)};
+			--bg: #{module.color(danger, 0.5)}; // Background color
 		}
 	}
 }

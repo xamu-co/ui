@@ -14,6 +14,7 @@
 
 			@include module.action-styles;
 			@include module.action-border-styles;
+			@include module.action-outline-styles;
 			@include module.action-disabled-styles;
 			@include module.flex-box(column, nowrap, center, center);
 
@@ -58,10 +59,11 @@
 				//
 				// @group Modifiers
 				@include module.extend-themes using($name, $value, $is-default) {
-					--bg: #{module.color($name, 0.1)};
-					--bc: #{module.color($name, 0.05)};
-					--cl: #{module.color($name)};
-					--cl-a: #{module.color($name, 0.5)};
+					--bg: #{module.color($name, 0.1)}; // Border color
+					--bc: #{module.color($name, 0.05)}; // Background color
+					--cl: #{module.color($name)}; // Text color
+					--cl-a: #{module.color($name, 0.5)}; // Active text color
+					--ou: #{module.color($name, 0.3)}; // Outline color
 				}
 
 				// theme overrides
@@ -69,9 +71,9 @@
 				// @group Modifiers
 				@if module.$allow-theme-overrides {
 					&.#{module.$prefix-default}--tm-light:not(.#{module.$status-no-override}) {
-						--bg: #{module.color(light, 0.3)};
-						--bc: #{module.color(light, 0.7)};
-						--cl-a: #{module.color(light, 0.7)};
+						--bg: #{module.color(light, 0.3)}; // Border color
+						--bc: #{module.color(light, 0.7)}; // Background color
+						--cl-a: #{module.color(light, 0.7)}; // Active text color
 
 						text-shadow: 1px 1px 1px module.color(dark, 0.3);
 					}
@@ -80,10 +82,11 @@
 
 			// invalid
 			&.#{module.$status-is-invalid} {
-				--bg: #{module.color(danger, 0.1)};
-				--bc: #{module.color(danger, 0.05)};
-				--cl: #{module.color(danger)};
-				--cl-a: #{module.color(danger, 0.3)};
+				--bg: #{module.color(danger, 0.1)}; // Border color
+				--bc: #{module.color(danger, 0.05)}; // Background color
+				--cl: #{module.color(danger)}; // Text color
+				--cl-a: #{module.color(danger, 0.3)}; // Active text color
+				--ou: #{module.color(danger, 0.3)}; // Outline color
 			}
 
 			&:hover:not(:focus, :focus-within) {

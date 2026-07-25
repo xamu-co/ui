@@ -18,6 +18,7 @@
 
 			@include module.action-alert-styles;
 			@include module.action-disabled-styles;
+			@include module.action-outline-styles;
 
 			&.#{module.$status-is-alert}:after {
 				background-color: var(--bg, transparent);
@@ -48,6 +49,8 @@
 			//
 			// @group Modifiers
 			@include module.extend-themes using($name, $value, $is-default) {
+				--ou: #{module.color($name, 0.3)};
+
 				&.#{module.$prefix-default}--bdr-solid,
 				&.#{module.$prefix-default}--bdr-dashed {
 					border-color: module.color($name, 0.1);
