@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.39](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.38...@open-xamu-co/ui-components-vue-v4.0.0-next.39) (2026-07-25)
+
+
+### Bug Fixes
+
+* **vue:** improved WCAG 2.1 AA accessibility ([ad952ef](https://github.com/xamu-co/ui/commit/ad952ef66783bc8a203d0de42efcc993aa5ded2b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.39"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.38](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.37...@open-xamu-co/ui-components-vue-v4.0.0-next.38) (2026-07-24)
 
 
