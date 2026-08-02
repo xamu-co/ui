@@ -82,10 +82,10 @@
 						>
 							<div
 								v-if="!hideFooter"
-								class="flx --flxRow-wrap --flx-between-center --gap-5 --gap-10:sm --gap:md --width-100 modal-content"
+								class="flx --flxRow-wrap --flx-between-center --gap-10 --gap:sm --width-100 modal-content"
 							>
 								<div
-									class="flx --flxRow-wrap --flx-start-center --gap-5 --gap-10:sm --gap:md"
+									class="flx --flxRow-wrap --flx-start-center --gap-5 --gap-10:sm"
 								>
 									<slot
 										name="footer-actions"
