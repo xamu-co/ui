@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.40](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.39...@open-xamu-co/ui-components-vue-v4.0.0-next.40) (2026-08-04)
+
+
+### Bug Fixes
+
+* **styles:** list & navigation should not require nav element ([da84076](https://github.com/xamu-co/ui/commit/da840768db2d5548686d6026b4e8b6a8b91469cf))
+* **vue:** display modify column for tables with modify slots ([da201a6](https://github.com/xamu-co/ui/commit/da201a6f219be2f23b5a921c1abcb3a09d8d3b63))
+
+
+### Features
+
+* **vue:** allow overriding table deletion labels ([6a624c1](https://github.com/xamu-co/ui/commit/6a624c121760d411e7384c912d34d862a8597139))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.40"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.39](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.38...@open-xamu-co/ui-components-vue-v4.0.0-next.39) (2026-07-25)
 
 
