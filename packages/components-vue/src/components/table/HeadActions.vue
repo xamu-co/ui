@@ -66,7 +66,7 @@
 										class="flx --flxRow --flx-end-center --gap-10 --gap:md --flx"
 									>
 										<ActionButton
-											:tooltip="t('table_delete')"
+											:tooltip="tableDeleteText || t('table_delete')"
 											tooltip-as-text
 											tooltip-position="bottom"
 											:theme="dangerThemeValues"
@@ -75,11 +75,7 @@
 											@click="() => deleteNodesAndRefresh()"
 										>
 											<span class="--hidden-full:lg-inv">
-												{{
-													selectedNodesCount === selectedNodes.length
-														? t("delete_all")
-														: t("delete", selectedNodesCount)
-												}}
+												{{ batchDeleteText }}
 											</span>
 											<IconFa name="trash-can" />
 										</ActionButton>
@@ -95,6 +91,8 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
+	import { computed } from "vue";
+
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -124,4 +122,16 @@
 
 	const { t } = useHelpers(useI18n);
 	const { themeClasses, dangerThemeValues } = useTheme(props);
+
+	const batchDeleteText = computed(() => {
+		if (props.selectedNodesCount === props.selectedNodes.length) {
+			return props.deleteAllText || t("delete_all");
+		}
+
+		if (!props.deleteText) return t("delete", props.selectedNodesCount);
+
+		const tAlt = useI18n({ locale: { delete: props.deleteText } });
+
+		return tAlt.t("delete", props.selectedNodesCount);
+	});
 </script>
