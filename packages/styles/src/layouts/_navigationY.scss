@@ -2,7 +2,7 @@
 
 @mixin navigation-y {
 	@layer definitions {
-		nav.#{utils.$layout-navigation-y} {
+		.#{utils.$layout-navigation-y} {
 			background-color: utils.color(light, 0.9);
 			width: auto;
 

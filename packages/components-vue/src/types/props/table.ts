@@ -38,6 +38,7 @@ export interface iTableProps<
 	Ti extends Record<string, any>,
 	Tm extends Record<string, any> = Ti,
 > extends iUseThemeProps {
+	id?: string;
 	/**
 	 * Theme for the node divider
 	 * @default theme
@@ -95,25 +96,85 @@ export interface iTableProps<
 	 */
 	createNodeChildren?: iNodeFn<NoInfer<Ti>> | iNodeStreamFn<NoInfer<Ti>>;
 	swal?: {
-		// Update node swal texts
+		/**
+		 * Swal title for update node action
+		 * @locale "swal.table_updated"
+		 */
 		updatedTitle?: string;
+		/**
+		 * Swal text for update node action
+		 * @locale "swal.table_updated_text"
+		 */
 		updatedText?: string;
+		/**
+		 * Swal title for not update node action
+		 * @locale "swal.table_not_updated"
+		 */
 		notUpdatedTitle?: string;
+		/**
+		 * Swal text for not update node action
+		 * @locale "swal.table_not_updated_text"
+		 */
 		notUpdatedText?: string;
-		// Clone node swal texts
+		/**
+		 * Swal title for clone node action
+		 * @locale "swal.table_cloned"
+		 */
 		clonedTitle?: string;
+		/**
+		 * Swal text for clone node action
+		 * @locale "swal.table_cloned_text"
+		 */
 		clonedText?: string;
+		/**
+		 * Swal title for not clone node action
+		 * @locale "swal.table_not_cloned"
+		 */
 		notClonedTitle?: string;
+		/**
+		 * Swal text for not clone node action
+		 * @locale "swal.table_not_cloned_text"
+		 */
 		notClonedText?: string;
-		// Delete node swal texts
+		/**
+		 * Swal title for delete node action
+		 * @locale "swal.table_deleted"
+		 */
 		deletedTitle?: string;
+		/**
+		 * Swal text for delete node action
+		 * @locale "swal.table_deleted_text"
+		 */
 		deletedText?: string;
+		/**
+		 * Swal title for not delete node action
+		 * @locale "swal.table_not_deleted"
+		 */
 		notDeletedTitle?: string;
+		/**
+		 * Swal text for not delete node action
+		 * @locale "swal.table_not_deleted_text"
+		 */
 		notDeletedText?: string;
-		// Create node children swal texts
+		/**
+		 * Swal title for create node children action
+		 * @locale "swal.table_created_children"
+		 */
 		createdChildrenTitle?: string;
+		/**
+		 * Swal text for create node children action
+		 * @locale "swal.table_created_children_text"
+		 */
 		createdChildrenText?: string;
+		/**
+		 * Swal title for not create node children action
+		 * @locale "swal.table_not_created_children"
+		 */
 		notCreatedChildrenTitle?: string;
+		/**
+		 * Swal text for not create node children action
+		 * @locale "swal.table_not_created_children_text"
+		 */
 		notCreatedChildrenText?: string;
 	};
 	/**
@@ -175,6 +236,21 @@ export interface iTableProps<
 	 * Make the table container opaque
 	 */
 	opaque?: boolean;
+	/**
+	 * Label for the "delete node" button inside the dropdown
+	 * @locale "table_delete"
+	 */
+	tableDeleteText?: string;
+	/**
+	 * Label for the "delete node" batch action button (the one used for selected nodes)
+	 * @locale "delete"
+	 */
+	deleteText?: string;
+	/**
+	 * Label for the "delete nodes" batch action button (the one used when all nodes are selected)
+	 * @locale "delete_all"
+	 */
+	deleteAllText?: string;
 }
 
 /**

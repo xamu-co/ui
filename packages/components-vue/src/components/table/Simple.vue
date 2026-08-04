@@ -41,6 +41,9 @@
 					<TableHeadContent
 						v-bind="childrenProps"
 						:with-default-slot="!!$slots.default"
+						:with-modify-slots="
+							!!$slots.modifyActions || !!$slots.modifyDropdownActions
+						"
 					/>
 				</BaseErrorBoundary>
 				<BaseErrorBoundary at="TableBody" :theme="theme">
@@ -81,7 +84,16 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
-	import { computed, getCurrentInstance, onActivated, onDeactivated, ref, watch } from "vue";
+	import {
+		computed,
+		getCurrentInstance,
+		onActivated,
+		onDeactivated,
+		ref,
+		useId,
+		useSlots,
+		watch,
+	} from "vue";
 	import upperFirst from "lodash-es/upperFirst";
 	import snakeCase from "lodash-es/snakeCase";
 	import startCase from "lodash-es/startCase";
@@ -136,11 +148,14 @@
 		properties: () => [],
 	});
 	const emit = defineEmits<{ (e: "update:sort", value: [string, tOrder]): void }>();
+	const slots = useSlots();
 
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
 	const { themeClasses, themeValues, invertedThemeValues } = useTheme(props);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
+
+	const fallbackId = useId();
 
 	const deactivated = ref(false);
 
@@ -227,7 +242,11 @@
 		return (
 			props.readonly ||
 			!mappedNodes.value.nodes.length ||
-			(!props.updateNode && !props.cloneNode && !props.deleteNode)
+			(!props.updateNode &&
+				!props.cloneNode &&
+				!props.deleteNode &&
+				!slots.modifyActions &&
+				!slots.modifyDropdownActions)
 		);
 	});
 
@@ -264,13 +283,17 @@
 	});
 	/** Prefer a predictable identifier */
 	const tableId = computed(() => {
+		if (props.id) return props.id;
+
 		const childrenBased = props.childrenName || String(props.childrenCountKey);
 
-		if (!propertiesMeta.value.length) return Md5.hashStr(`table-${childrenBased}`);
+		if (!propertiesMeta.value.length) {
+			return childrenBased ? Md5.hashStr(`table-${childrenBased}`) : fallbackId;
+		}
 
 		const metaBased = propertiesMeta.value[0].alias || propertiesMeta.value[0].value;
 
-		return Md5.hashStr(`table-${childrenBased}-${metaBased}`);
+		return metaBased ? Md5.hashStr(`table-${childrenBased}-${metaBased}`) : fallbackId;
 	});
 
 	const childrenProps = computed<iTableChildProps<T, TM>>(() => ({

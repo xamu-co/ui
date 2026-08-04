@@ -169,7 +169,7 @@
 											"
 										>
 											<IconFa name="trash-can" />
-											<span>{{ t("table_delete") }}</span>
+											<span>{{ tableDeleteText || t("table_delete") }}</span>
 										</ActionLink>
 									</li>
 									<slot

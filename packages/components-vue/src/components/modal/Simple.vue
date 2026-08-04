@@ -82,10 +82,10 @@
 						>
 							<div
 								v-if="!hideFooter"
-								class="flx --flxRow-wrap --flx-between-center --gap-5 --gap-10:sm --gap:md --width-100 modal-content"
+								class="flx --flxRow-wrap --flx-between-center --gap-10 --gap:sm --width-100 modal-content"
 							>
 								<div
-									class="flx --flxRow-wrap --flx-start-center --gap-5 --gap-10:sm --gap:md"
+									class="flx --flxRow-wrap --flx-start-center --gap-5 --gap-10:sm"
 								>
 									<slot
 										name="footer-actions"
@@ -188,8 +188,10 @@
 		watch,
 		Teleport,
 		getCurrentInstance,
+		useId,
 	} from "vue";
 	import { Md5 } from "ts-md5";
+	import deburr from "lodash-es/deburr";
 
 	import { useI18n, useSwal } from "@open-xamu-co/ui-common-helpers";
 	import { eColors } from "@open-xamu-co/ui-common-enums";
@@ -231,6 +233,8 @@
 	const { themeClasses, invertedThemeValues } = useTheme(props, true);
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
 
+	const fallbackId = useId();
+
 	const resolver = ref<(r?: boolean) => void>();
 	const localModel = ref<boolean>(props.modelValue);
 	const modalRef = ref<HTMLDialogElement>();
@@ -238,7 +242,11 @@
 	const loadingTooLong = ref(false);
 	/** Prefer a predictable identifier */
 	const modalId = computed(() => {
-		return Md5.hashStr(`modal_${props.subtitle}-${props.title}`);
+		if (props.id) return props.id;
+
+		if (!props.subtitle && !props.title) return fallbackId;
+
+		return Md5.hashStr(`modal-${deburr(props.subtitle)}-${deburr(props.title)}`);
 	});
 	const saveButtonOptions = computed<Exclude<iModalProps["saveButton"], undefined>>(() => ({
 		title: props.saveButton?.title ?? t("ok"),

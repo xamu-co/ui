@@ -77,7 +77,9 @@
 				</th>
 			</template>
 			<th
-				v-if="!isReadOnly && (!!updateNode || !!deleteNode || !!cloneNode)"
+				v-if="
+					!isReadOnly && (!!updateNode || !!deleteNode || !!cloneNode || withModifySlots)
+				"
 				scope="col"
 				class="--sticky --txtAlign-center"
 				data-column-name="modify"
@@ -107,6 +109,7 @@
 		TMi extends Record<string, any> = Ti,
 	> extends iTableChildProps<Ti, TMi> {
 		withDefaultSlot: boolean;
+		withModifySlots: boolean;
 	}
 
 	/**

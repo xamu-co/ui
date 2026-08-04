@@ -52,9 +52,7 @@
 				</form>
 			</div>
 			<slot name="actions">
-				<div
-					class="flx --flxRow-wrap --flx-start-center --gap-5 --gap-10:sm --gap:md --width-100 modal-content"
-				>
+				<div class="flx --flxRow-wrap --flx-start-center --width-100 modal-content">
 					<slot
 						v-if="stages?.length"
 						name="primary-actions"
@@ -65,31 +63,16 @@
 							submit,
 						}"
 					>
-						<div
-							class="flx --flxRow --flx-start-center --flx --gap-5 --gap-10:sm --gap:md"
-						>
-							<ActionButtonToggle
-								v-if="formInputsKeys.length > 1 && activeStage"
-								key="button-back"
-								:theme="theme"
-								round=":sm-inv"
-								@click.prevent="setActiveStage(activeStage - 1)"
-							>
-								<IconFa name="arrow-left" />
-								<IconFa name="arrow-left" regular />
-								<span class="--hidden-full:sm-inv">
-									{{ t("previous") }}
-								</span>
-							</ActionButtonToggle>
+						<div class="flx --flxRow --flx-start-center --flx --gap-5 --gap-10:sm">
 							<ActionButton
-								v-if="
-									submitFn &&
-									(activeStage === formInputsKeys.length - 1 ||
-										!formInputsKeys.length ||
-										optional)
-								"
+								v-if="submitFn && formInputsKeys.length"
 								key="button-submit"
 								:theme="theme"
+								:disabled="
+									formInputsKeys.length > 1 &&
+									activeStage !== formInputsKeys.length - 1 &&
+									!optional
+								"
 								round=":sm-inv"
 								@click.prevent="submit"
 							>
@@ -98,20 +81,32 @@
 									{{ submitLabel || t("send") }}
 								</span>
 							</ActionButton>
-							<ActionButtonToggle
-								v-if="
-									formInputsKeys.length > 1 &&
-									activeStage < formInputsKeys.length - 1
-								"
-								key="button-next"
-								:theme="theme"
-								round=":sm-inv"
-								@click.prevent="setActiveStage(activeStage + 1)"
-							>
-								<span class="--hidden-full:sm-inv">{{ t("next") }}</span>
-								<IconFa name="arrow-right" />
-								<IconFa name="arrow-right" regular />
-							</ActionButtonToggle>
+							<template v-if="formInputsKeys.length > 1">
+								<ActionButtonToggle
+									key="button-back"
+									:theme="theme"
+									:disabled="!activeStage"
+									round=":sm-inv"
+									@click.prevent="setActiveStage(activeStage - 1)"
+								>
+									<IconFa name="arrow-left" />
+									<IconFa name="arrow-left" regular />
+									<span class="--hidden-full:sm-inv">
+										{{ t("previous") }}
+									</span>
+								</ActionButtonToggle>
+								<ActionButtonToggle
+									key="button-next"
+									:theme="theme"
+									:disabled="activeStage === formInputsKeys.length - 1"
+									round=":sm-inv"
+									@click.prevent="setActiveStage(activeStage + 1)"
+								>
+									<span class="--hidden-full:sm-inv">{{ t("next") }}</span>
+									<IconFa name="arrow-right" />
+									<IconFa name="arrow-right" regular />
+								</ActionButtonToggle>
+							</template>
 						</div>
 					</slot>
 					<slot
@@ -123,10 +118,13 @@
 							submit,
 						}"
 					>
-						<div
-							class="flx --flxRow-wrap --flx-end-center --gap-5 --gap-10:sm --gap:md"
-						>
-							<ActionLink :tooltip="t('clear')" :theme="theme" @click="resetStages">
+						<div class="flx --flxRow-wrap --flx-end-center --gap-5 --gap-10:sm">
+							<ActionLink
+								:tooltip="t('clear')"
+								tooltip-position="left"
+								:theme="theme"
+								@click="resetStages"
+							>
 								<IconFa name="broom" :size="20" />
 							</ActionLink>
 							<slot name="secondary-actions"></slot>

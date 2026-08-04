@@ -10,6 +10,7 @@ export interface iModalButtonConfig {
 }
 
 export interface iModalProps extends iUseThemeProps {
+	id?: string;
 	/**
 	 * Modal is loading
 	 * Some of the modal contents could be still loading
