@@ -38,6 +38,7 @@ export interface iTableProps<
 	Ti extends Record<string, any>,
 	Tm extends Record<string, any> = Ti,
 > extends iUseThemeProps {
+	id?: string;
 	/**
 	 * Theme for the node divider
 	 * @default theme
