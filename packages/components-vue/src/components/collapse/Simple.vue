@@ -3,7 +3,7 @@
 		<BaseInput
 			v-if="title || $slots.header"
 			v-slot="{ id: baseId }"
-			:type="type || 'checkbox'"
+			:type="type"
 			v-bind="{ id, name, title, checked, theme }"
 			@change="isOpenHandler"
 		>
@@ -58,7 +58,7 @@
 
 	defineOptions({ name: "CollapseSimple", inheritAttrs: false });
 
-	const props = defineProps<Collapse>();
+	const props = withDefaults(defineProps<Collapse>(), { type: "checkbox" });
 
 	const { themeValues } = useTheme(props);
 
