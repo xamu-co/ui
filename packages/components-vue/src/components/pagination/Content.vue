@@ -171,8 +171,10 @@
 
 				return { node, cursor };
 			});
+			const diff = edges.length - (page.edges?.length || 0);
+			const totalCount = Math.max(0, (page.totalCount || 0) + diff);
 
-			hydratePage({ ...page, edges }, newErrors);
+			hydratePage({ ...page, edges, totalCount }, newErrors);
 		};
 
 		const nodes = (page?.edges || []).map(({ node }) => node);

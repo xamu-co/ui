@@ -389,9 +389,10 @@
 				});
 
 				// Hydrate node, fallback to refresh
-				if (props.hydrateNodes) props.hydrateNodes(updatedNodes, newErrors);
-				else if (!props.omitRefresh) props.refresh?.();
+				if (props.hydrateNodes) return props.hydrateNodes(updatedNodes, newErrors);
 			}
+
+			if (!props.omitRefresh) props.refresh?.();
 		};
 	}
 
@@ -421,8 +422,11 @@
 				text: props.swal?.updatedText || t("swal.table_updated_text"),
 				willOpen() {
 					// Update single element, prefer hydration over refreshing
-					if (typeof updated === "object" && updated.id) {
-						const nodeIndex = props.nodes.findIndex((n) => n.id === updated.id);
+					if (typeof updated === "object") {
+						const targetId = updated.id || (node as any)?.id;
+						const nodeIndex = targetId
+							? props.nodes.findIndex(({ id }) => id === targetId)
+							: -1;
 						const hydrateNode = makeHydrateNode(nodeIndex);
 
 						// Hydrate if possible
@@ -451,8 +455,11 @@
 				if (!updated || deactivated.value) return;
 
 				// Update single element, hydration only
-				if (typeof updated === "object" && updated.id) {
-					const nodeIndex = props.nodes.findIndex((n) => n.id === updated.id);
+				if (typeof updated === "object") {
+					const targetId = updated.id || (node as any)?.id;
+					const nodeIndex = targetId
+						? props.nodes.findIndex(({ id }) => id === targetId)
+						: -1;
 					const hydrateNode = makeHydrateNode(nodeIndex);
 
 					// Hydrate if possible
@@ -596,7 +603,9 @@
 					let updatedNodes: T[] | undefined;
 
 					// Delete single node
-					const nodeIndex = props.nodes.findIndex((n) => n.id === node.id);
+					const nodeIndex = node.id
+						? props.nodes.findIndex(({ id }) => id === node.id)
+						: -1;
 
 					if (nodeIndex > -1) updatedNodes = props.nodes.toSpliced(nodeIndex, 1);
 
