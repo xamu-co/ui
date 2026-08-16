@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.41](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.40...@open-xamu-co/ui-components-vue-v4.0.0-next.41) (2026-08-16)
+
+
+### Bug Fixes
+
+* **vue:** prefer ids as keys on table ([d0269e0](https://github.com/xamu-co/ui/commit/d0269e0a0cc32db2a157eaf174687cda82f9a0b0))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.41"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.40](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.39...@open-xamu-co/ui-components-vue-v4.0.0-next.40) (2026-08-04)
 
 
