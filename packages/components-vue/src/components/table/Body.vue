@@ -4,7 +4,7 @@
 			v-for="(
 				{ node, index, visibility, hydrateNode, createNodeChildrenAndRefresh }, mappedIndex
 			) in mappedNodes.nodes"
-			:key="index"
+			:key="node.id ?? index"
 		>
 			<!-- Row item (Shows the item data) -->
 			<tr
