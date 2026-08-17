@@ -1,6 +1,6 @@
 <template>
 	<div :class="$attrs.class" class="flx --flxRow --flx-center --gap-5">
-		<BaseWrapper :wrap="!!icon && !textarea" :disabled="disabled" :class="inputClasses">
+		<BaseWrapper :wrap="!!icon && !textarea" :disabled="disabled" :class="textInputClasses">
 			<BaseInput
 				v-model="model"
 				v-bind="{
@@ -19,7 +19,7 @@
 						minLength: props.required ? props.min : undefined,
 						maxLength: props.max,
 					}),
-					...(!(!!icon && !textarea) && { class: inputClasses }),
+					...(!(!!icon && !textarea) && { class: textInputClasses }),
 				}"
 			/>
 			<IconFa v-if="!!icon && !textarea" v-bind="iconProps" :name="icon ?? 'user-group'" />
@@ -98,6 +98,7 @@
 		 * @private
 		 */
 		modelValue?: number | string;
+		inputClasses?: string;
 	}
 
 	/**
@@ -140,8 +141,14 @@
 		},
 		set: debounce((value) => emit("update:model-value", value), 300),
 	});
-	const inputClasses = computed(() => {
-		return [modifiersClasses.value, stateClasses.value, themeClasses.value, "iTxt"];
+	const textInputClasses = computed(() => {
+		return [
+			modifiersClasses.value,
+			stateClasses.value,
+			themeClasses.value,
+			"iTxt",
+			props.inputClasses,
+		];
 	});
 	const textInputTheme = computed(() => {
 		return props.invalid ? dangerThemeValues.value : themeValues.value;

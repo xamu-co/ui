@@ -1,6 +1,6 @@
 <template>
 	<BaseErrorBoundary at="ModalSimple" :theme="theme">
-		<slot v-if="$slots.toggle" name="toggle" v-bind="{ toggleModal, model }"></slot>
+		<slot v-if="$slots.toggle" name="toggle" v-bind="{ toggleModal, model, modalRef }"></slot>
 		<BaseWrapper v-if="!disabled" :wrapper="Teleport" :wrap="!!target" :to="target">
 			<dialog
 				:id="modalId"
