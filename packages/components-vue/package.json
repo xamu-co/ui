@@ -91,6 +91,7 @@
     "@types/validator": "^13.11.1",
     "@vitejs/plugin-vue": "^6.0.2",
     "@vitest/browser-playwright": "^4.1.9",
+    "@vue/test-utils": "^2.4.11",
     "jsdom": "^27.2.0",
     "msw": "^2.12.4",
     "playwright": "^1.57.0",
