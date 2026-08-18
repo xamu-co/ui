@@ -1,5 +1,27 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.42](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.41...@open-xamu-co/ui-components-vue-v4.0.0-next.42) (2026-08-18)
+
+
+### Bug Fixes
+
+* **vue:** granular input slots ([719bb39](https://github.com/xamu-co/ui/commit/719bb399856ab63d2397b9099da1fed3829aa902))
+
+
+### Features
+
+* **vue:** input loop slot ([e37aadc](https://github.com/xamu-co/ui/commit/e37aadc3e74ed3409275fbac1fa442863bb7d08d))
+* **vue:** input text classes ([99dab51](https://github.com/xamu-co/ui/commit/99dab51471572d7c553d7653a5551a01b59d9416))
+* **vue:** refactor select filter using dropdown ([21556c8](https://github.com/xamu-co/ui/commit/21556c80fe097e34b6d419e284b12192a27fdf1b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.42"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.41](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.40...@open-xamu-co/ui-components-vue-v4.0.0-next.41) (2026-08-16)
 
 
