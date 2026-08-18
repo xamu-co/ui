@@ -25,8 +25,11 @@ export default function useBrowser() {
 		const { isBrowser } = useUtils(xo);
 
 		// Viewports
+		/** Lg, laptop range*/
 		const laptopMqRange = ref<boolean>(false);
+		/** Md, tablet range */
 		const tabletMqRange = ref<boolean>(false);
+		/** Sm, mobile range */
 		const mobileMqRange = ref<boolean>(false);
 		// Viewport listeners
 		const laptopMQHandler = MQHandler(laptopMqRange);

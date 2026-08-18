@@ -21,6 +21,10 @@
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles;
 
+			&:has(button, a) {
+				outline: none;
+			}
+
 			&.#{module.$status-is-alert}:after {
 				--bc: var(--cl-h, var(--cl-a));
 

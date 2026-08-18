@@ -1,65 +1,147 @@
 <template>
-	<LoaderContent
-		class="flx --flxRow --flx-start-center --gap-5"
-		v-bind="$attrs"
-		:loading="pendingRemoteOptions"
+	<DropdownSimple
+		:position="['bottom', 'center']"
+		:class="$attrs.class"
+		classes="select-filter flx --flxColumn --flx-start-stretch --gap-10:md --width-100"
 		:theme="theme"
-		content
+		:disabled="disabled"
+		:responsive-range="compact ? laptopMqRange : tabletMqRange"
+		invert-theme
 	>
-		<ActionLink
-			v-if="modelValue && (selectOptions.length > 1 || !Array.isArray(props.options))"
-			:theme="theme"
-			:disabled="disabled"
-			:tooltip="t('select_restablish_field')"
-			:title="t('select_restablish_field')"
-			@click.prevent="resetModel"
-		>
-			<IconFa name="xmark" :size="20" />
-		</ActionLink>
-		<InputText
-			v-model="aliasModel"
-			:list="selectFilterName"
-			autocomplete="off"
-			v-bind="{
-				...properties,
-				type: 'text',
-				placeholder: placeholder || t('select_filter_options'),
-				disabled: (!!modelValue && !isInvalid) || disabled,
-				invalid: isInvalid,
-				icon,
-				iconProps,
-			}"
-			role="combobox"
-			class="--flx"
-		/>
-		<datalist :id="selectFilterName">
-			<!-- Select is also used as fallback for older browsers -->
-			<SelectSimple
-				v-model="aliasModel"
-				v-bind="{
-					...$attrs,
-					...properties,
-					options: selectOptions.map(({ value, alias }) => ({
-						alias,
-						value: alias ?? value,
-					})),
-					placeholder: placeholder ?? t('select_placeholder'),
-					disabled,
-					invalid,
-					optionsFilter: options && !Array.isArray(options),
-				}"
-				class="--flx"
-			/>
-		</datalist>
-	</LoaderContent>
+		<template #toggle="{ setModel, isModal }">
+			<ActionButton
+				v-if="isModal"
+				class="--flxJustify-start"
+				:class="{ '--width-100': !compact }"
+				:theme="theme"
+				:disabled="disabled"
+				@click="() => setModel(true)"
+			>
+				<IconFa v-if="icon" :name="icon" v-bind="iconProps" />
+				<span class="--txtAlign-left --flx" :class="{ '--hidden:lg-inv': compact }">
+					{{
+						selectedOption?.alias ||
+						selectedOption?.value ||
+						placeholder ||
+						t("select_filter_options")
+					}}
+				</span>
+				<IconFa name="chevron-down" indicator />
+			</ActionButton>
+			<form
+				v-else
+				class="flx --flxRow --flx-center --gap-10"
+				@submit.prevent="() => setModel(true)"
+			>
+				<div class="back flx --flxRow --flx-end-center --pX-10">
+					<ActionLink
+						v-if="search || modelValue"
+						:tooltip="t('select_restablish_field')"
+						:title="t('select_restablish_field')"
+						tooltip-position="left"
+						tooltip-as-text
+						:theme="theme"
+						:disabled="disabled"
+						class="--index-1"
+						@click.prevent="() => setFilter(undefined, setModel)"
+					>
+						<IconFa name="xmark" :size="20" />
+					</ActionLink>
+				</div>
+				<InputText
+					v-model="search"
+					autocomplete="off"
+					v-bind="{
+						...properties,
+						type: 'text',
+						placeholder: placeholder || t('select_filter_options'),
+						disabled: (!!modelValue && !isInvalid) || disabled,
+						invalid: isInvalid,
+						icon,
+						iconProps,
+					}"
+					role="combobox"
+					class="--flx"
+					@focus="() => setModel(true)"
+				/>
+			</form>
+		</template>
+		<template #default="{ invertedTheme, setModel, isModal }">
+			<nav
+				class="dropdown-item list flx --flxColumn --gap-20 --minWidth-220 --maxWidth-100"
+				:class="[`--txtColor-${themeValues[0]}`]"
+			>
+				<ul class="list-group --gap-5">
+					<li v-if="title">
+						<p class="--txtSize-xs">{{ title }}</p>
+					</li>
+					<!-- Mobile fallback input inside modal -->
+					<li v-if="isModal" class="flx --flxRow --flx-center --gap-10">
+						<div class="back flx --flxRow --flx-end-center --pX-10">
+							<ActionLink
+								v-if="search || modelValue"
+								:tooltip="t('select_restablish_field')"
+								:title="t('select_restablish_field')"
+								tooltip-position="left"
+								tooltip-as-text
+								:theme="theme"
+								class="--index-1"
+								@click.prevent="() => setFilter(undefined, setModel)"
+							>
+								<IconFa name="xmark" :size="20" />
+							</ActionLink>
+						</div>
+						<InputText
+							v-model="search"
+							v-bind="{ icon, placeholder, theme }"
+							class="--width-100"
+							input-classes="--pRight-30"
+							:theme="theme"
+						/>
+					</li>
+					<li>
+						<LoaderContent
+							class="flx --flxColumn --flx-start-stretch --gap-5"
+							:content="!!selectOptions?.length"
+							:loading="pendingSelectOptions"
+							:theme="theme"
+							:label="t('select_filter_searching')"
+							:no-content-message="
+								t(
+									'select_filter_no_content',
+									String(search || modelValue || '').length - 1
+								)
+							"
+							el="ul"
+						>
+							<li v-for="option in selectOptions" :key="option.value">
+								<ActionLink
+									:title="String(option.value)"
+									:aria-label="
+										t('select_filter_select_value', {
+											value: option.alias || option.value,
+										})
+									"
+									:theme="invertedTheme"
+									@click.prevent="() => setFilter(option, setModel)"
+								>
+									<IconFa v-if="icon" :name="icon" />
+									<span>{{ option.alias ?? option.value }}</span>
+								</ActionLink>
+							</li>
+						</LoaderContent>
+					</li>
+				</ul>
+			</nav>
+		</template>
+	</DropdownSimple>
 </template>
 
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
-	import { computed, ref } from "vue";
+	import { computed, ref, useId, watch } from "vue";
 	import deburr from "lodash-es/deburr";
 	import omit from "lodash-es/omit";
-	import debounce from "lodash-es/debounce";
 	import { Md5 } from "ts-md5";
 
 	import type {
@@ -69,8 +151,9 @@
 	} from "@open-xamu-co/ui-common-types";
 	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
-	import SelectSimple from "./Simple.vue";
+	import DropdownSimple from "../dropdown/Simple.vue";
 	import InputText from "../input/Text.vue";
+	import ActionButton from "../action/Button.vue";
 	import ActionLink from "../action/Link.vue";
 	import IconFa from "../icon/Fa.vue";
 	import LoaderContent from "../loader/Content.vue";
@@ -82,12 +165,16 @@
 		iSelectProps,
 	} from "../../types/props";
 	import useAsyncDataFn from "../../composables/async";
+	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
+	import useBrowser from "../../composables/browser";
 
 	interface iSelectFilterProps
 		extends iSelectProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		icon?: IconName;
 		iconProps?: iFormIconProps;
+		/** Use compact design on mobile */
+		compact?: boolean;
 		/**
 		 * Vue model value
 		 * @private
@@ -96,7 +183,7 @@
 	}
 
 	/**
-	 * Select element with filtering
+	 * Select element with filtering and dropdown overlay
 	 *
 	 * @component
 	 */
@@ -107,6 +194,8 @@
 	const emit = defineEmits<{ (e: "update:model-value", value: string | number): any }>();
 
 	const { t } = useHelpers(useI18n);
+	const { themeValues } = useTheme(props);
+	const { tabletMqRange, laptopMqRange } = useBrowser();
 
 	let useAsyncDataLocal: typeof useAsyncDataFn;
 
@@ -117,8 +206,10 @@
 		useAsyncDataLocal = useAsyncDataFn;
 	}
 
+	const fallbackName = useId();
+
 	/** Local model for the filter */
-	const queryModel = ref<string | number>("");
+	const search = ref<string>();
 
 	/**
 	 * Loader for the options.
@@ -131,59 +222,31 @@
 
 		const list = (rawOptions || []).map(toOption);
 
-		return () => list;
+		// Fuzzy like search
+		return (query) => {
+			if (!query) return list;
+
+			const lowerQuery = deburr(String(query)).toLowerCase();
+
+			return list.filter(({ alias, value }) => {
+				if (String(props.modelValue) === String(value)) return true;
+
+				const aliasStr = deburr(String(alias || value)).toLowerCase();
+
+				return aliasStr.includes(lowerQuery);
+			});
+		};
 	});
 
 	/** Prefer a predictable identifier */
 	const selectFilterName = computed(() => {
-		const seed = deburr(props.placeholder || props.title);
+		if (props.name) return props.name;
 
-		return props.name || props.id || Md5.hashStr(`select-filter-${seed}`);
+		const seed = deburr(props.id || props.placeholder || props.title);
+
+		return seed ? Md5.hashStr(`select-filter-${seed}`) : fallbackName;
 	});
 
-	const selectOptions = computed<iFormOption[]>(() => {
-		let options = remoteOptions.value ?? [];
-		const value = props.modelValue;
-
-		// Filter out hidden options
-		options = options.filter(({ hidden }) => !hidden);
-
-		if (value && !options.find(({ value: val }) => val === value)) {
-			// queryModel as alias fallback (After a search)
-			return [...options, { value, alias: queryModel.value.toString() }];
-		}
-
-		return options;
-	});
-
-	const aliasModel = computed({
-		get() {
-			const option = selectOptions.value.find(({ value }) => value === props.modelValue);
-
-			return String(option?.alias ?? option?.value ?? "");
-		},
-		set(valueOrAlias: string | number) {
-			// Keep queryModel updated with what is being typed
-			debounceQueryModelSet(valueOrAlias);
-
-			// This assumes that aliases are distinct enough
-			const deburrer = (v: string | number) => deburr(String(v)).toLowerCase();
-			const newModel = deburrer(valueOrAlias);
-			// look for alias first
-			const option = selectOptions.value.find(({ alias, value }) => {
-				const match = deburrer(alias ?? value);
-
-				return match === newModel;
-			});
-
-			if (option) emit("update:model-value", option.value);
-		},
-	});
-	const isInvalid = computed<boolean>(() => {
-		const option = selectOptions.value.find(({ value }) => value === props.modelValue);
-
-		return (props.modelValue && !option) || props.invalid;
-	});
 	const properties = computed(() => {
 		return {
 			...omit(props, ["modelValue", "options"]),
@@ -196,28 +259,51 @@
 	});
 
 	// Do not await, to avoid using suspense
-	const { data: remoteOptions, pending: pendingRemoteOptions } = useAsyncDataLocal<iFormOption[]>(
+	const { data: selectOptions, pending: pendingSelectOptions } = useAsyncDataLocal<iFormOption[]>(
 		selectFilterName.value,
 		async (_, { signal } = {}) => {
-			/** Fallbacks queryModel to selected value */
-			const query = queryModel.value || props.modelValue;
+			/** Fallbacks search to selected value */
+			const query = search.value || props.modelValue;
 			const result = await Promise.resolve(optionsLoader.value(query, signal));
 
 			return result || [];
 		},
-		{
-			default: () => [],
-			watch: [queryModel],
-			server: false,
-		}
+		{ default: () => [], watch: [search] }
 	);
 
-	function resetModel() {
-		queryModel.value = "";
-		emit("update:model-value", "");
+	const selectedOption = computed(() => {
+		return selectOptions.value?.find(({ value }) => String(value) === String(props.modelValue));
+	});
+
+	const isInvalid = computed<boolean>(() => {
+		const option = selectedOption.value;
+
+		return (props.modelValue && !option) || props.invalid;
+	});
+
+	function setFilter(option?: iFormOption, toggleModal?: (v?: boolean) => void) {
+		emit("update:model-value", option?.value?.toString() || "");
+		search.value = option?.alias || "";
+
+		if (option) toggleModal?.(false);
 	}
 
-	const debounceQueryModelSet = debounce((value: string | number) => {
-		queryModel.value = value;
-	}, 300);
+	// lifecycle
+	watch(
+		search,
+		(newValue) => {
+			if (newValue === "") emit("update:model-value", "");
+		},
+		{ immediate: false }
+	);
+	// Set search on first load from modelValue
+	watch(
+		selectedOption,
+		(option) => {
+			if (option && search.value === undefined) {
+				search.value = String(option.alias || option.value || "");
+			}
+		},
+		{ immediate: true }
+	);
 </script>

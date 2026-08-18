@@ -20,7 +20,11 @@ describe("FormInput", () => {
 		expect(usernameInput.title).toBe("Username");
 		expect(usernameInput.placeholder).toBe("Enter username");
 		expect(usernameInput.values).toEqual(["John Doe"]);
-		expect(usernameInput.meta).toEqual({ status: "pending", count: 1 });
+		expect(usernameInput.meta).toEqual({
+			status: "pending",
+			count: 1,
+			actionSlotName: "inputActionsUsername",
+		});
 	});
 
 	it("should clone FormInput with correct properties", () => {
@@ -31,7 +35,11 @@ describe("FormInput", () => {
 		expect(cloned.title).toBe("Username");
 		expect(cloned.placeholder).toBe("Enter username");
 		expect(cloned.values).toEqual(["John Doe"]);
-		expect(cloned.meta).toEqual({ status: "pending", count: 1 });
+		expect(cloned.meta).toEqual({
+			status: "pending",
+			count: 1,
+			actionSlotName: "inputActionsUsername",
+		});
 	});
 
 	it("should isolate values array between original and cloned FormInput", () => {
@@ -55,8 +63,17 @@ describe("FormInput", () => {
 		cloned.meta.new_prop = "test";
 
 		// Assert original meta is NOT affected
-		expect(usernameInput.meta).toEqual({ status: "pending", count: 1 });
-		expect(cloned.meta).toEqual({ status: "success", count: 2, new_prop: "test" });
+		expect(usernameInput.meta).toEqual({
+			status: "pending",
+			count: 1,
+			actionSlotName: "inputActionsUsername",
+		});
+		expect(cloned.meta).toEqual({
+			status: "success",
+			count: 2,
+			actionSlotName: "inputActionsUsername",
+			new_prop: "test",
+		});
 	});
 
 	it("should clone and isolate defaults array if present", () => {
@@ -282,6 +299,7 @@ describe("FormInput", () => {
 			defaults: undefined,
 			title: "Title",
 			multiple: false,
+			unique: true,
 		});
 	});
 });

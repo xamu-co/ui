@@ -1,19 +1,24 @@
 <template>
+	<!-- Wrapper allows for the relative positioning of the dropdown -->
 	<BaseWrapper :wrap="!!$slots.toggle" :wrapper="el" :class="$attrs.class">
-		<div
-			v-if="$slots.toggle"
-			ref="toggleRef"
-			class="only--active toggle--dropdown"
-			:class="{ 'is--active': localModel }"
-			:aria-expanded="localModel"
-			aria-haspopup="true"
-		>
-			<slot name="toggle" v-bind="{ model, setModel }"></slot>
-		</div>
 		<ModalSimple
 			v-model="localModel"
 			v-bind="{ ...modalProps, theme, invertTheme, disabled: !isModal }"
 		>
+			<template v-if="$slots.toggle" #toggle="{ modalRef }">
+				<div
+					ref="toggleRef"
+					class="only--active toggle--dropdown"
+					:class="{ 'is--active': localModel }"
+					:aria-expanded="localModel"
+					aria-haspopup="true"
+				>
+					<slot
+						name="toggle"
+						v-bind="{ model, setModel, isModal, modalRef, toggleRef, dropdownRef }"
+					></slot>
+				</div>
+			</template>
 			<template #default="{ modalRef }">
 				<div ref="dropdownRef" :class="dropdownClasses">
 					<slot
@@ -22,6 +27,7 @@
 							isModal,
 							setModel,
 							modalRef,
+							toggleRef,
 							dropdownRef,
 							invertedTheme: invertedThemeValues,
 						}"
@@ -61,6 +67,7 @@
 	import { computed, ref, watch, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
 
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
+	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	import BaseWrapper from "../base/Wrapper.vue";
 	import ModalSimple from "../modal/Simple.vue";
@@ -71,7 +78,6 @@
 	import useModifiers from "../../composables/modifiers";
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
-	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	type tAlignFirstX = "right" | "left";
 	type tAlignFirstY = "top" | "bottom";
@@ -95,6 +101,11 @@
 		modalProps?: iModalProps;
 		/** Dropdown el classes */
 		classes?: string;
+		/**
+		 * Breakpoint range. When to switch to a modal
+		 * @default tabletMqRange (md)
+		 */
+		responsiveRange?: boolean;
 	}
 
 	/**
@@ -185,7 +196,7 @@
 	// lifecycle
 	onMounted(() => {
 		watch(
-			tabletMqRange,
+			() => props.responsiveRange ?? tabletMqRange.value,
 			(value) => {
 				isModal.value = value && props.modelValue !== null;
 

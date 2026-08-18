@@ -31,279 +31,283 @@
 			<!-- Future inner loop input -->
 			<FormInputLoop
 				v-else
-				v-slot="{ i }"
 				:key="getFormInputOptionsLength(input.options) + models.length"
 				v-bind="{ models, input, theme, readonly }"
 			>
-				<!-- Flexible input type -->
-				<div
-					v-if="input.defaults && input.defaults.length >= 2"
-					class="flx --flxRow-wrap --flx-start-stretch --flx --gap-5"
-				>
-					<!-- Recursion -->
-					<Input
-						v-for="(model, index) in models[i].value"
-						:key="
-							[
-								getFormInputOptionsLength(input.options),
-								input.defaults?.[i]?.placeholder,
-								input.defaults?.[i]?.type,
-								i + Number(index),
-							].join('-')
-						"
-						:input="
-							input
-								.clone({
-									...input.defaults[Number(index)], // sub input
-									multiple: false,
-									defaults: undefined,
-									values: [models[i].value[index]],
-								})
-								.setRerender($forceUpdate)
-						"
-						:theme="theme"
-						class="--width-180:md --flx"
-						:invalid="invalid"
-						:model-value="[model]"
-						:disabled="readonly"
-						@update:model-value="updateArrModel(i, Number(index), $event[0])"
-					/>
-				</div>
-				<FormInputNValues
-					v-else-if="input.type === eFT.NEW_PASSWORD"
-					v-bind="{ theme }"
-					:model="models[i].value"
-					:values="[2]"
-				>
-					<InputText
-						:model-value="models[i].value[0]"
-						v-bind="inputProps"
-						:invalid="isInvalidByValidation"
-						:theme="theme"
-						:disabled="readonly"
-						:placeholder="getInputPlaceholder()"
-						type="password"
-						class="--width-180:md --flx"
-						@update:model-value="updateArrModel(i, 0, $event)"
-					/>
-					<InputText
-						:model-value="models[i].value[1]"
-						v-bind="inputProps"
-						:invalid="isInvalidByValidation"
-						:theme="theme"
-						:disabled="readonly"
-						:placeholder="getInputPlaceholder(1)"
-						type="password"
-						class="--width-180:md --flx"
-						@update:model-value="updateArrModel(i, 1, $event)"
-					/>
-				</FormInputNValues>
-				<FormInputNValues
-					v-else-if="input.type === eFT.ID"
-					v-bind="{ theme }"
-					:model="models[i].value"
-					:values="[2]"
-				>
-					<SelectSimple
-						v-model="models[i].value[0]"
-						v-bind="{ options: input.options, theme }"
-						:disabled="readonly"
-						class="--width-180:md --flx"
-					/>
-					<InputText
-						v-model="models[i].value[1]"
-						v-bind="inputProps"
-						:invalid="isInvalidByValidation"
-						:theme="theme"
-						:disabled="readonly"
-						:placeholder="getInputPlaceholder()"
-						class="--width-180:md --flx"
-					/>
-				</FormInputNValues>
-				<FormInputNValues
-					v-else-if="input.type === eFT.PHONE || input.type === eFT.CELLPHONE"
-					v-bind="{ loading, errors, refresh, theme }"
-					:key="indicativesArr.length"
-					:content="!!indicativesArr.length"
-					:model="models[i].value"
-					:label="t('form_awaiting_countries')"
-					:values="[2]"
-				>
-					<SelectSimple
-						:model-value="models[i].value[0]"
-						:theme="theme"
-						:disabled="readonly"
-						:options="indicativesArr"
-						class="--width-180:md --flx"
-						@update:model-value="updateArrModel(i, 0, $event)"
-					/>
-					<InputText
-						:model-value="models[i].value[1]"
-						v-bind="inputProps"
-						:invalid="isInvalidByValidation"
-						:theme="theme"
-						:disabled="readonly"
-						:placeholder="getInputPlaceholder()"
-						type="tel"
-						class="--width-180:md --flx"
-						@update:model-value="updateArrModel(i, 1, $event)"
-					/>
-				</FormInputNValues>
-				<FormInputNValues
-					v-else-if="input.type === eFT.LOCATION"
-					v-bind="{ loading, errors, refresh, theme }"
-					:key="statesArr?.length"
-					:content="!!countriesArr.length"
-					:model="models[i].value"
-					:label="t('form_awaiting_countries')"
-					:values="[1, 3]"
-				>
-					<!-- Single value means country, 3 values means country, state & city -->
-					<FormInputCountriesAPI
-						v-slot="{ statesReq, citiesReq }"
-						v-bind="{ theme, states, countries, loading, errors, refresh }"
-						:key="`${defaultCountry}-${countriesArr.length}-${statesArr?.length}`"
-						:model="models[i].value"
+				<template #default="{ i }">
+					<!-- Flexible input type -->
+					<div
+						v-if="input.defaults && input.defaults.length >= 2"
+						class="flx --flxRow-wrap --flx-start-stretch --flx --gap-5"
 					>
-						<SelectFilter
-							v-if="!defaultCountry || models[i].value.length === 1"
+						<!-- Recursion -->
+						<Input
+							v-for="(model, index) in models[i].value"
+							:key="
+								[
+									getFormInputOptionsLength(input.options),
+									input.defaults?.[i]?.placeholder,
+									input.defaults?.[i]?.type,
+									i + Number(index),
+								].join('-')
+							"
+							:input="
+								input
+									.clone({
+										...input.defaults[Number(index)], // sub input
+										multiple: false,
+										defaults: undefined,
+										values: [models[i].value[index]],
+									})
+									.setRerender($forceUpdate)
+							"
+							:theme="theme"
+							class="--width-180:md --flx"
+							:invalid="invalid"
+							:model-value="[model]"
+							:disabled="readonly"
+							@update:model-value="updateArrModel(i, Number(index), $event[0])"
+						/>
+					</div>
+					<FormInputNValues
+						v-else-if="input.type === eFT.NEW_PASSWORD"
+						v-bind="{ theme }"
+						:model="models[i].value"
+						:values="[2]"
+					>
+						<InputText
 							:model-value="models[i].value[0]"
-							:options="countriesArr"
-							name="country"
-							:value="defaultCountry"
-							icon="earth-americas"
+							v-bind="inputProps"
+							:invalid="isInvalidByValidation"
+							:theme="theme"
+							:disabled="readonly"
+							:placeholder="getInputPlaceholder()"
+							type="password"
+							class="--width-180:md --flx"
+							@update:model-value="updateArrModel(i, 0, $event)"
+						/>
+						<InputText
+							:model-value="models[i].value[1]"
+							v-bind="inputProps"
+							:invalid="isInvalidByValidation"
+							:theme="theme"
+							:disabled="readonly"
+							:placeholder="getInputPlaceholder(1)"
+							type="password"
+							class="--width-180:md --flx"
+							@update:model-value="updateArrModel(i, 1, $event)"
+						/>
+					</FormInputNValues>
+					<FormInputNValues
+						v-else-if="input.type === eFT.ID"
+						v-bind="{ theme }"
+						:model="models[i].value"
+						:values="[2]"
+					>
+						<SelectSimple
+							v-model="models[i].value[0]"
+							v-bind="{ options: input.options, theme }"
+							:disabled="readonly"
+							class="--width-180:md --flx"
+						/>
+						<InputText
+							v-model="models[i].value[1]"
+							v-bind="inputProps"
+							:invalid="isInvalidByValidation"
 							:theme="theme"
 							:disabled="readonly"
 							:placeholder="getInputPlaceholder()"
 							class="--width-180:md --flx"
+						/>
+					</FormInputNValues>
+					<FormInputNValues
+						v-else-if="input.type === eFT.PHONE || input.type === eFT.CELLPHONE"
+						v-bind="{ loading, errors, refresh, theme }"
+						:key="indicativesArr.length"
+						:content="!!indicativesArr.length"
+						:model="models[i].value"
+						:label="t('form_awaiting_countries')"
+						:values="[2]"
+					>
+						<SelectSimple
+							:model-value="models[i].value[0]"
+							:theme="theme"
+							:disabled="readonly"
+							:options="indicativesArr"
+							class="--width-180:md --flx"
 							@update:model-value="updateArrModel(i, 0, $event)"
 						/>
-						<div
-							v-if="models[i].value.length === 3"
-							class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
+						<InputText
+							:model-value="models[i].value[1]"
+							v-bind="inputProps"
+							:invalid="isInvalidByValidation"
+							:theme="theme"
+							:disabled="readonly"
+							:placeholder="getInputPlaceholder()"
+							type="tel"
+							class="--width-180:md --flx"
+							@update:model-value="updateArrModel(i, 1, $event)"
+						/>
+					</FormInputNValues>
+					<FormInputNValues
+						v-else-if="input.type === eFT.LOCATION"
+						v-bind="{ loading, errors, refresh, theme }"
+						:key="statesArr?.length"
+						:content="!!countriesArr.length"
+						:model="models[i].value"
+						:label="t('form_awaiting_countries')"
+						:values="[1, 3]"
+					>
+						<!-- Single value means country, 3 values means country, state & city -->
+						<FormInputCountriesAPI
+							v-slot="{ statesReq, citiesReq }"
+							v-bind="{ theme, states, countries, loading, errors, refresh }"
+							:key="`${defaultCountry}-${countriesArr.length}-${statesArr?.length}`"
+							:model="models[i].value"
 						>
 							<SelectFilter
-								:model-value="models[i].value[1]"
-								:options="statesArr || statesReq?.content?.map?.(stateToOption)"
-								name="state"
-								icon="mountain-sun"
+								v-if="!defaultCountry || models[i].value.length === 1"
+								:model-value="models[i].value[0]"
+								:options="countriesArr"
+								name="country"
+								:value="defaultCountry"
+								icon="earth-americas"
 								:theme="theme"
-								:disabled="readonly || !(models[i].value[0] || defaultCountry)"
-								:placeholder="getInputPlaceholder(1)"
+								:disabled="readonly"
+								:placeholder="getInputPlaceholder()"
 								class="--width-180:md --flx"
-								@update:model-value="updateArrModel(i, 1, $event)"
+								@update:model-value="updateArrModel(i, 0, $event)"
 							/>
-							<SelectFilter
-								:model-value="models[i].value[2]"
-								:options="citiesReq?.content?.map?.(cityToOption)"
-								name="city"
-								icon="city"
-								:theme="theme"
-								:disabled="readonly || !models[i].value[1]"
-								:placeholder="getInputPlaceholder(2)"
-								class="--width-180:md --flx"
-								@update:model-value="updateArrModel(i, 2, $event)"
-							/>
-						</div>
-					</FormInputCountriesAPI>
-				</FormInputNValues>
-				<FormInputNValues
-					v-else-if="input.type === eFT.SCHEDULE"
-					v-bind="{ theme }"
-					:model="models[i].value"
-					:values="[]"
-				>
-					<!-- TODO: build schedule input component -->
-					<p>Schedule Component Here</p>
-				</FormInputNValues>
-				<BaseBox
-					v-else-if="input.type === eFT.BOOLEAN"
-					el="label"
-					class="--maxWidth-full --flx --txtAlign"
-					:theme="theme"
-					:active="models[i].value"
-					button
-				>
-					<!-- TODO: use switch type (unsupported style) -->
-					<InputToggle
+							<div
+								v-if="models[i].value.length === 3"
+								class="flx --flxRow-wrap --flx-start-stretch --gap-5 --flx"
+							>
+								<SelectFilter
+									:model-value="models[i].value[1]"
+									:options="statesArr || statesReq?.content?.map?.(stateToOption)"
+									name="state"
+									icon="mountain-sun"
+									:theme="theme"
+									:disabled="readonly || !(models[i].value[0] || defaultCountry)"
+									:placeholder="getInputPlaceholder(1)"
+									class="--width-180:md --flx"
+									@update:model-value="updateArrModel(i, 1, $event)"
+								/>
+								<SelectFilter
+									:model-value="models[i].value[2]"
+									:options="citiesReq?.content?.map?.(cityToOption)"
+									name="city"
+									icon="city"
+									:theme="theme"
+									:disabled="readonly || !models[i].value[1]"
+									:placeholder="getInputPlaceholder(2)"
+									class="--width-180:md --flx"
+									@update:model-value="updateArrModel(i, 2, $event)"
+								/>
+							</div>
+						</FormInputCountriesAPI>
+					</FormInputNValues>
+					<FormInputNValues
+						v-else-if="input.type === eFT.SCHEDULE"
+						v-bind="{ theme }"
+						:model="models[i].value"
+						:values="[]"
+					>
+						<!-- TODO: build schedule input component -->
+						<p>Schedule Component Here</p>
+					</FormInputNValues>
+					<BaseBox
+						v-else-if="input.type === eFT.BOOLEAN"
+						el="label"
+						class="--maxWidth-full --flx --txtAlign"
+						:theme="theme"
+						:active="models[i].value"
+						button
+					>
+						<!-- TODO: use switch type (unsupported style) -->
+						<InputToggle
+							v-model="models[i].value"
+							v-bind="inputProps"
+							:placeholder="getInputPlaceholder()"
+							type="checkbox"
+							:theme="theme"
+							:disabled="readonly"
+							full-width
+							show-placeholder
+						>
+							<p v-if="input.placeholder" class="--txtSize-sm --txtWeight --txtWrap">
+								{{ tet(input.placeholder) }}
+							</p>
+						</InputToggle>
+					</BaseBox>
+					<FormInputOptions
+						v-else-if="input.type === eFT.SELECT || input.type === eFT.SELECT_FILTER"
+						v-slot="{ options }"
+						:input="input"
+						:selected-value="models[i].value"
+						:selected-values="reducedModels"
+					>
+						<component
+							:is="input.type === eFT.SELECT ? SelectSimple : SelectFilter"
+							v-model="models[i].value"
+							v-bind="inputProps"
+							:name="`${inputProps.name}-${i}`"
+							:invalid="isInvalidByValidation"
+							:theme="theme"
+							:disabled="readonly"
+							:placeholder="input.placeholder"
+							:options="options"
+							class="--maxWidth-full --flx"
+						/>
+					</FormInputOptions>
+					<InputColor
+						v-else-if="input.type === eFT.COLOR"
 						v-model="models[i].value"
 						v-bind="inputProps"
-						:placeholder="getInputPlaceholder()"
-						type="checkbox"
 						:theme="theme"
 						:disabled="readonly"
-						full-width
-						show-placeholder
-					>
-						<p v-if="input.placeholder" class="--txtSize-sm --txtWeight --txtWrap">
-							{{ tet(input.placeholder) }}
-						</p>
-					</InputToggle>
-				</BaseBox>
-				<FormInputOptions
-					v-else-if="input.type === eFT.SELECT || input.type === eFT.SELECT_FILTER"
-					v-slot="{ options }"
-					:input="input"
-					:selected-value="models[i].value"
-					:selected-values="reducedModels"
-				>
-					<component
-						:is="input.type === eFT.SELECT ? SelectSimple : SelectFilter"
+					/>
+					<BoxEditor
+						v-else-if="input.type === eFT.CODE"
+						v-model="models[i].value"
+						v-bind="{ input, theme, readonly }"
+						class="--maxWidth-full --flx"
+					/>
+					<InputTime
+						v-else-if="
+							input.type === eFT.DATE ||
+							input.type === eFT.DATETIME ||
+							input.type === eFT.TIME
+						"
 						v-model="models[i].value"
 						v-bind="inputProps"
-						:name="`${inputProps.name}-${i}`"
+						:type="getInputTextType()"
 						:invalid="isInvalidByValidation"
 						:theme="theme"
 						:disabled="readonly"
-						:placeholder="input.placeholder"
-						:options="options"
+						:placeholder="getInputPlaceholder()"
 						class="--maxWidth-full --flx"
 					/>
-				</FormInputOptions>
-				<InputColor
-					v-else-if="input.type === eFT.COLOR"
-					v-model="models[i].value"
-					v-bind="inputProps"
-					:theme="theme"
-					:disabled="readonly"
-				/>
-				<BoxEditor
-					v-else-if="input.type === eFT.CODE"
-					v-model="models[i].value"
-					v-bind="{ input, theme, readonly }"
-					class="--maxWidth-full --flx"
-				/>
-				<InputTime
-					v-else-if="
-						input.type === eFT.DATE ||
-						input.type === eFT.DATETIME ||
-						input.type === eFT.TIME
-					"
-					v-model="models[i].value"
-					v-bind="inputProps"
-					:type="getInputTextType()"
-					:invalid="isInvalidByValidation"
-					:theme="theme"
-					:disabled="readonly"
-					:placeholder="getInputPlaceholder()"
-					class="--maxWidth-full --flx"
-				/>
-				<!-- Future outer loop input -->
-				<InputText
-					v-else
-					v-model="models[i].value"
-					v-bind="{
-						...inputProps,
-						...(input.type === eFT.LONGTEXT
-							? { textarea: true }
-							: { type: getInputTextType() }),
-					}"
-					:invalid="isInvalidByValidation"
-					:theme="theme"
-					:disabled="readonly"
-					:placeholder="getInputPlaceholder()"
-					class="--maxWidth-full --flx"
-				/>
+					<!-- Future outer loop input -->
+					<InputText
+						v-else
+						v-model="models[i].value"
+						v-bind="{
+							...inputProps,
+							...(input.type === eFT.LONGTEXT
+								? { textarea: true }
+								: { type: getInputTextType() }),
+						}"
+						:invalid="isInvalidByValidation"
+						:theme="theme"
+						:disabled="readonly"
+						:placeholder="getInputPlaceholder()"
+						class="--maxWidth-full --flx"
+					/>
+				</template>
+				<template v-if="$slots.inputActions" #inputActions>
+					<slot name="inputActions" v-bind="{ input, models, theme, readonly }"></slot>
+				</template>
 			</FormInputLoop>
 			<template v-if="isInvalidByProps">
 				<p v-if="input.required && !notEmpty" class="--txtColor-danger --txtSize-sm">

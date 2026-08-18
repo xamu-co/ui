@@ -7,6 +7,12 @@
 // @group Components
 @mixin input-text {
 	@layer definitions {
+		textarea.#{module.$component-input-text} {
+			min-height: 6rem;
+			padding-top: 0.4rem;
+			padding-bottom: 0.4rem;
+			field-sizing: content;
+		}
 		.#{module.$component-input-text} {
 			width: 100%;
 			display: block;
@@ -17,13 +23,6 @@
 			@include module.action-outline-styles;
 			@include module.action-disabled-styles;
 			@include module.flex-box(column, nowrap, center, center);
-
-			@at-root textarea#{&} {
-				min-height: 6rem;
-				padding-top: 0.4rem;
-				padding-bottom: 0.4rem;
-				field-sizing: content;
-			}
 
 			&:not(textarea) {
 				@include module.action-size-styles;
@@ -43,6 +42,7 @@
 					height: 100%;
 					padding-left: 1.6rem;
 					font-weight: inherit;
+					outline: none;
 
 					&[placeholder],
 					&:placeholder-shown {

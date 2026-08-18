@@ -11,6 +11,7 @@ const meta: Meta<typeof SelectFilter> = {
 	title: "Select/Select Filter",
 	component: SelectFilter,
 	args: { options: ["Single option"] },
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;
@@ -62,6 +63,30 @@ export const WithOptions: Story = {
 	},
 };
 
+export const WithAliases: Story = {
+	render: (args) => ({
+		components: { SelectFilter },
+		setup() {
+			const model = ref("");
+			const options: iSelectOption[] = [
+				{ value: "VAL_1", alias: "First Option" },
+				{ value: "VAL_2", alias: "Second Option" },
+			];
+
+			return { args, model, options };
+		},
+		template: '<SelectFilter v-bind="args" v-model="model" :options="options" />',
+	}),
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvas.getByRole("combobox");
+
+		expect(input).toBeInTheDocument();
+		await userEvent.type(input, "First Option");
+		expect(input).toHaveValue("First Option");
+	},
+};
+
 export const AsyncOptions: Story = {
 	render: (args) => ({
 		components: { SelectFilter },
@@ -72,6 +97,39 @@ export const AsyncOptions: Story = {
 		},
 		template: '<SelectFilter v-bind="args" v-model="model" :options="mockOptionsLoader" />',
 	}),
+};
+
+export const DisabledState: Story = {
+	args: {
+		disabled: true,
+		placeholder: "Disabled filter",
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvas.getByRole("combobox");
+
+		expect(input).toBeDisabled();
+	},
+};
+
+export const InvalidState: Story = {
+	args: {
+		invalid: true,
+		placeholder: "Invalid filter",
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvas.getByRole("combobox");
+
+		expect(input).toHaveClass("is--invalid");
+	},
+};
+
+export const WithIcon: Story = {
+	args: {
+		icon: "filter",
+		placeholder: "Filter with icon",
+	},
 };
 
 export default meta;

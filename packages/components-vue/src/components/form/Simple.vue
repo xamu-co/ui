@@ -40,7 +40,23 @@
 								:invalid="getInvalid(input.name)"
 								:model-value="model[inputIndex].values"
 								@update:model-value="updateValues(inputIndex, $event)"
-							/>
+							>
+								<template
+									v-if="$slots.inputActions || $slots[input.meta!.actionSlotName]"
+									#inputActions="inputActionsSlots"
+								>
+									<slot
+										v-if="$slots.inputActions"
+										name="inputActions"
+										v-bind="inputActionsSlots"
+									></slot>
+									<slot
+										v-else-if="$slots[input.meta!.actionSlotName]"
+										:name="input.meta!.actionSlotName"
+										v-bind="inputActionsSlots"
+									></slot>
+								</template>
+							</FormInput>
 						</div>
 					</template>
 				</BaseWrapper>
@@ -58,10 +74,15 @@
 </template>
 
 <script setup lang="ts" generic="P extends any[] = any[]">
-	import { computed, defineAsyncComponent, ref, watch } from "vue";
+	import { computed, defineAsyncComponent, ref, watch, type WritableComputedRef } from "vue";
 	import isEqual from "lodash-es/isEqual";
 
-	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
+	import type {
+		iInvalidInput,
+		tProp,
+		tThemeModifier,
+		tThemeTuple,
+	} from "@open-xamu-co/ui-common-types";
 	import type { tFormInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
 	import { useI18n, getFormInputOptionsLength } from "@open-xamu-co/ui-common-helpers";
@@ -89,6 +110,21 @@
 	 */
 
 	defineOptions({ name: "FormSimple", inheritAttrs: true });
+	defineSlots<{
+		default: () => any;
+		inputActions: (scope: {
+			input: tFormInput;
+			models: WritableComputedRef<any, any>[];
+			theme?: tThemeTuple | tProp<tThemeModifier>;
+			readonly: boolean;
+		}) => any;
+		[x: `inputActions${string}`]: (scope: {
+			input: tFormInput;
+			models: WritableComputedRef<any, any>[];
+			theme?: tThemeTuple | tProp<tThemeModifier>;
+			readonly: boolean;
+		}) => any;
+	}>();
 
 	const props = defineProps<iFormSimple<P>>();
 	const emit = defineEmits<{

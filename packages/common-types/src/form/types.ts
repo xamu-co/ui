@@ -169,6 +169,10 @@ export interface iFormInput<
 	 */
 	multiple?: boolean;
 	/**
+	 * If multiple options are accepted, whether to accept or not duplicate values.
+	 */
+	unique?: boolean;
+	/**
 	 * if muliple is set to true this optional value would be the required minimun amount of values
 	 */
 	min?: number;
