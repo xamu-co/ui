@@ -38,8 +38,22 @@
 									@update:model-value="updateForm(key, $event)"
 									@update:invalid="invalid = $event"
 								>
-									<template #inputActions="inputActionsSlots">
+									<template
+										v-if="$slots.inputActions"
+										#inputActions="inputActionsSlots"
+									>
 										<slot name="inputActions" v-bind="inputActionsSlots"></slot>
+									</template>
+									<template
+										v-for="input in formInputs[key].inputs.filter(
+											({ meta }) => $slots[meta!.actionSlotName]
+										)"
+										#[input.meta!.actionSlotName]="inputActionsSlots"
+									>
+										<slot
+											:name="input.meta!.actionSlotName"
+											v-bind="inputActionsSlots"
+										></slot>
 									</template>
 								</FormSimple>
 							</BaseErrorBoundary>
@@ -142,11 +156,19 @@
 
 <script setup lang="ts">
 	import type { IconName } from "@fortawesome/fontawesome-common-types";
-	import { onBeforeUnmount, ref, watch } from "vue";
+	import { onBeforeUnmount, ref, watch, type WritableComputedRef } from "vue";
 	import debounce from "lodash-es/debounce";
 	import isEqual from "lodash-es/isEqual";
 
-	import type { iForm, iInvalidInput, tFormInput, tProps } from "@open-xamu-co/ui-common-types";
+	import type {
+		iForm,
+		iInvalidInput,
+		tFormInput,
+		tProp,
+		tProps,
+		tThemeModifier,
+		tThemeTuple,
+	} from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
@@ -198,6 +220,36 @@
 	 */
 
 	defineOptions({ name: "FormStages", inheritAttrs: true });
+	defineSlots<{
+		default: () => any;
+		disclaimers: () => any;
+		actions: () => any;
+		["primary-actions"]: (scope: {
+			activeStage: number;
+			stagesLength: number;
+			setActiveStage: (stage: number) => void;
+			submit: (event: Event) => void;
+		}) => any;
+		["secondary-actions"]: () => any;
+		["secondary-actions-content"]: (scope: {
+			activeStage: number;
+			stagesLength: number;
+			setActiveStage: (stage: number) => void;
+			submit: (event: Event) => void;
+		}) => any;
+		inputActions: (scope: {
+			input: tFormInput;
+			models: WritableComputedRef<any, any>[];
+			theme?: tThemeTuple | tProp<tThemeModifier>;
+			readonly: boolean;
+		}) => any;
+		[x: `inputActions${string}`]: (scope: {
+			input: tFormInput;
+			models: WritableComputedRef<any, any>[];
+			theme?: tThemeTuple | tProp<tThemeModifier>;
+			readonly: boolean;
+		}) => any;
+	}>();
 
 	const props = withDefaults(defineProps<iFormStages>(), { submitIcon: "pencil" });
 	const emit = defineEmits<{

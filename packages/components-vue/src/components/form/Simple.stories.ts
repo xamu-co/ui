@@ -25,7 +25,7 @@ export const Sample: Story = {
 
 export const WithInputs: Story = {
 	render: (args) => ({
-		components: { FormSimple },
+		components: { FormSimple: FormSimple as any },
 		setup() {
 			const inputs = ref<tFormInput[]>([
 				new FormInput({
@@ -124,7 +124,7 @@ export const WithInputs: Story = {
 
 export const WithLocationField: Story = {
 	render: (args) => ({
-		components: { FormSimple, ActionButton },
+		components: { FormSimple: FormSimple as any, ActionButton },
 		setup() {
 			const { getResponse } = useForm();
 			const inputs = ref<tFormInput[]>([
@@ -200,7 +200,7 @@ const TIMEOUT_TITLE = "Tiempo límite en segundos (0 = sin límite)";
 
 export const WithSwitchingInputs: Story = {
 	render: (args) => ({
-		components: { FormSimple },
+		components: { FormSimple: FormSimple as any },
 		setup() {
 			/**
 			 * Video input
@@ -315,7 +315,7 @@ export const WithSwitchingInputs: Story = {
 
 export const Make: Story = {
 	render: (args) => ({
-		components: { FormSimple },
+		components: { FormSimple: FormSimple as any },
 		setup() {
 			const inputs = ref<tFormInput[]>([]);
 			const invalid = ref<iInvalidInput[]>([]);

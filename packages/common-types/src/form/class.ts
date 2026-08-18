@@ -46,6 +46,7 @@ export declare abstract class tFormInput<
 	public readonly optionsFilter?: tOptionsLoaderFn;
 	// public
 	public multiple: boolean;
+	public unique: boolean;
 	public min: number;
 	public max: number;
 	public meta?: Record<string, any>;

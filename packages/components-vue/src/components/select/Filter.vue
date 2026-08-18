@@ -229,6 +229,8 @@
 			const lowerQuery = deburr(String(query)).toLowerCase();
 
 			return list.filter(({ alias, value }) => {
+				if (String(props.modelValue) === String(value)) return true;
+
 				const aliasStr = deburr(String(alias || value)).toLowerCase();
 
 				return aliasStr.includes(lowerQuery);
@@ -270,7 +272,7 @@
 	);
 
 	const selectedOption = computed(() => {
-		return selectOptions.value?.find(({ value }) => value === props.modelValue);
+		return selectOptions.value?.find(({ value }) => String(value) === String(props.modelValue));
 	});
 
 	const isInvalid = computed<boolean>(() => {
@@ -282,7 +284,8 @@
 	function setFilter(option?: iFormOption, toggleModal?: (v?: boolean) => void) {
 		emit("update:model-value", option?.value?.toString() || "");
 		search.value = option?.alias || "";
-		toggleModal?.(false);
+
+		if (option) toggleModal?.(false);
 	}
 
 	// lifecycle

@@ -54,7 +54,7 @@ export const Sample: Story = {
 
 export const WithFormInput: Story = {
 	render: (args) => ({
-		components: { ModalSimple, ActionButton, FormSimple },
+		components: { ModalSimple, ActionButton, FormSimple: FormSimple as any },
 		setup() {
 			const inputs = ref<tFormInput[]>([
 				new FormInput({

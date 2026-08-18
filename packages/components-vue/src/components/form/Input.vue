@@ -305,7 +305,7 @@
 						class="--maxWidth-full --flx"
 					/>
 				</template>
-				<template #inputActions>
+				<template v-if="$slots.inputActions" #inputActions>
 					<slot name="inputActions" v-bind="{ input, models, theme, readonly }"></slot>
 				</template>
 			</FormInputLoop>

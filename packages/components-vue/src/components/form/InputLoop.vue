@@ -52,16 +52,15 @@
 		</BaseBox>
 		<template v-else>
 			<ActionButton
-				v-if="input.multiple"
 				:theme="theme"
-				:disabled="readonly || input.max <= models.length"
+				:disabled="readonly || !input.multiple || input.max <= models.length"
 				:size="eSizes.XS"
 				class="--txtSize-sm"
 				@click="input.addValue()"
 			>
 				<span>{{ t("form_new_value") }}</span>
 			</ActionButton>
-			<slot name="inputActions"></slot>
+			<slot v-if="$slots.inputActions" name="inputActions"></slot>
 		</template>
 	</div>
 </template>

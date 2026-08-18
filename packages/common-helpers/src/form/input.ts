@@ -1,5 +1,7 @@
 import type { IconName } from "@fortawesome/fontawesome-common-types";
 import isEqual from "lodash-es/isEqual";
+import camelCase from "lodash-es/camelCase";
+import capitalize from "lodash-es/capitalize";
 
 import type {
 	iFormInput,
@@ -140,9 +142,10 @@ export class FormInput<
 	];
 	// public
 	public multiple: boolean;
+	public unique: boolean;
 	public min: number;
 	public max: number;
-	public meta: Record<string, any>;
+	public meta: { [x: string]: any; actionSlotName: string };
 	// public readonly
 	public readonly name: string;
 	public readonly title?: string;
@@ -164,6 +167,7 @@ export class FormInput<
 
 		this.name = formInput.name;
 		this.multiple = formInput.multiple ?? false;
+		this.unique = formInput.unique ?? true;
 		this.title = formInput.title;
 
 		// Initialize options array, skip if function
@@ -177,7 +181,10 @@ export class FormInput<
 
 		this._defaults = formInput.defaults;
 		this.min = formInput.min ?? 1;
-		this.meta = formInput.meta || {};
+		this.meta = {
+			...formInput.meta,
+			actionSlotName: `inputActions${capitalize(camelCase(formInput.name))}`,
+		};
 
 		// Max cannot be lower than min or more than options if they exist
 		const maxValue = this._options.length || formInput.max || 9e9;
@@ -230,11 +237,17 @@ export class FormInput<
 				if (this._values.length < length) this._values = values;
 			}
 		} else {
-			this._values = updatedValues;
+			/** Get unique values if enabled */
+			const uniqueValues = this.unique ? [...new Set(updatedValues)] : updatedValues;
 
-			// run hook on values change
-			Promise.resolve(this._onUpdatedValues?.(updatedValues)).then((values) => {
-				if (values) this._values = values;
+			this._values = uniqueValues;
+
+			// Run hook on values change, do not await
+			Promise.resolve(this._onUpdatedValues?.(uniqueValues)).then((values) => {
+				if (!values) return;
+
+				// Set unique values if enabled
+				this._values = this.unique ? [...new Set(values)] : values;
 			});
 		}
 	}
@@ -349,6 +362,7 @@ export class FormInput<
 			defaults: input.defaults,
 			title: input.title,
 			multiple: input.multiple,
+			unique: input.unique,
 		};
 	}
 }
