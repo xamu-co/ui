@@ -101,6 +101,11 @@
 		modalProps?: iModalProps;
 		/** Dropdown el classes */
 		classes?: string;
+		/**
+		 * Breakpoint range. When to switch to a modal
+		 * @default tabletMqRange (md)
+		 */
+		responsiveRange?: boolean;
 	}
 
 	/**
@@ -191,7 +196,7 @@
 	// lifecycle
 	onMounted(() => {
 		watch(
-			tabletMqRange,
+			() => props.responsiveRange ?? tabletMqRange.value,
 			(value) => {
 				isModal.value = value && props.modelValue !== null;
 

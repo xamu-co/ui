@@ -84,8 +84,14 @@ export type tLocaleInput = {
 	select_placeholder: string;
 	/** @example "Restablish field" */
 	select_restablish_field: string;
-	/** @example "Type or Double click for options" */
+	/** @example "Type for options" */
 	select_filter_options: string;
+	/** @example "Searching..." */
+	select_filter_searching: string;
+	/** @example "Type something first | No coincidences" */
+	select_filter_no_content: string;
+	/** @example "Select {value}" */
+	select_filter_select_value: string;
 	/** @example "{count} of {amount}" */
 	file_one_of_amount: string;
 	/** @example "Delete file | Delete files" */

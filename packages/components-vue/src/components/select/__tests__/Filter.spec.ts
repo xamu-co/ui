@@ -1,9 +1,28 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeAll } from "vitest";
 import { mount } from "@vue/test-utils";
 import { nextTick } from "vue";
 import type { iFormOption } from "@open-xamu-co/ui-common-types";
 
 import SelectFilter from "../Filter.vue";
+
+/** Polyfill matchMedia for jsdom environment used by DropdownSimple / useBrowser */
+beforeAll(() => {
+	if (typeof window !== "undefined" && !window.matchMedia) {
+		Object.defineProperty(window, "matchMedia", {
+			writable: true,
+			value: vi.fn().mockImplementation((query: string) => ({
+				matches: false,
+				media: query,
+				onchange: null,
+				addListener: vi.fn(),
+				removeListener: vi.fn(),
+				addEventListener: vi.fn(),
+				removeEventListener: vi.fn(),
+				dispatchEvent: vi.fn(),
+			})),
+		});
+	}
+});
 
 /** Helper to wait for async useAsyncDataFn handlers & debounce timers */
 async function flushAsync(ms = 350) {
@@ -29,16 +48,16 @@ describe("SelectFilter", () => {
 		expect(input.attributes("autocomplete")).toBe("off");
 	});
 
-	it("renders datalist with options mapped to value or alias", async () => {
+	it("renders dropdown menu with options mapped to value or alias", async () => {
 		const wrapper = mount(SelectFilter, { props: { options, placeholder: "Filter items" } });
 
 		await flushAsync();
 
-		const datalist = wrapper.find("datalist");
+		const dropdownMenu = wrapper.find("nav.dropdown-item");
 
-		expect(datalist.exists()).toBe(true);
+		expect(dropdownMenu.exists()).toBe(true);
 
-		const optionsElements = datalist.findAll("option");
+		const optionsElements = dropdownMenu.findAll("li");
 
 		expect(optionsElements.length).toBeGreaterThan(0);
 	});
@@ -75,29 +94,16 @@ describe("SelectFilter", () => {
 		expect(wrapper.emitted("update:model-value")?.[0]).toEqual([""]);
 	});
 
-	it("emits update:model-value when typing matching option alias or value", async () => {
+	it("emits update:model-value when an option in the dropdown overlay is clicked", async () => {
 		const wrapper = mount(SelectFilter, { props: { options, modelValue: "" } });
 
 		await flushAsync();
 
-		const input = wrapper.find("input[role='combobox']");
+		const actionLinks = wrapper.findAllComponents({ name: "ActionLink" });
+		const optionLink = actionLinks.find((link) => link.text().includes("Title Option"));
 
-		await input.setValue("Long Text Option");
-		await flushAsync();
-
-		expect(wrapper.emitted("update:model-value")?.[0]).toEqual(["LONG_TEXT"]);
-	});
-
-	it("handles case-insensitive and deburred option matching", async () => {
-		const wrapper = mount(SelectFilter, { props: { options, modelValue: "" } });
-
-		await flushAsync();
-
-		const input = wrapper.find("input[role='combobox']");
-
-		await input.setValue("title option");
-		await flushAsync();
-
+		expect(optionLink?.exists()).toBe(true);
+		await optionLink?.trigger("click");
 		expect(wrapper.emitted("update:model-value")?.[0]).toEqual(["TITLE"]);
 	});
 
@@ -138,21 +144,7 @@ describe("SelectFilter", () => {
 		]);
 
 		mount(SelectFilter, { props: { options: loaderFn, modelValue: "async1" } });
-
 		await flushAsync();
-
 		expect(loaderFn).toHaveBeenCalled();
-	});
-
-	it("generates deterministic datalist name from name, id, or placeholder seed", async () => {
-		const wrapperWithName = mount(SelectFilter, {
-			props: { options: ["Opt"], name: "custom-filter-name" },
-		});
-
-		await flushAsync();
-
-		const input = wrapperWithName.find("input[role='combobox']");
-
-		expect(input.attributes("list")).toBe("custom-filter-name");
 	});
 });

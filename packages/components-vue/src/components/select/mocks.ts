@@ -7,21 +7,30 @@ const allOptions: iFormOption[] = [
 	{ value: "gamma", alias: "Gamma" },
 ];
 
+/** Check if query characters exist sequentially in target (fuzzy match) */
+function isFuzzyMatch(target: string, query: string): boolean {
+	let qIdx = 0;
+
+	for (let tIdx = 0; tIdx < target.length && qIdx < query.length; tIdx++) {
+		if (target[tIdx] === query[qIdx]) qIdx++;
+	}
+
+	return qIdx === query.length;
+}
+
 /** Emulate async options loader */
 export async function mockOptionsLoader(query?: string | number): Promise<iFormOption[]> {
-	await new Promise((r) => setTimeout(r, 200));
-
 	const q = String(query ?? "")
 		.trim()
 		.toLowerCase();
 
-	if (!q) return allOptions;
+	if (!q) return Promise.resolve([]);
 
-	return allOptions.filter(
-		(o) =>
-			String(o.value).toLowerCase().includes(q) ||
-			String(o.alias ?? o.value)
-				.toLowerCase()
-				.includes(q)
+	return Promise.resolve(
+		allOptions.filter(
+			(o) =>
+				isFuzzyMatch(String(o.value).toLowerCase(), q) ||
+				isFuzzyMatch(String(o.alias ?? o.value).toLowerCase(), q)
+		)
 	);
 }
