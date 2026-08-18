@@ -1,5 +1,27 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.14...@open-xamu-co/ui-common-helpers-v4.0.0-next.15) (2026-08-18)
+
+
+### Bug Fixes
+
+* **vue:** granular input slots ([719bb39](https://github.com/xamu-co/ui/commit/719bb399856ab63d2397b9099da1fed3829aa902))
+
+
+### Features
+
+* **vue:** refactor select filter using dropdown ([21556c8](https://github.com/xamu-co/ui/commit/21556c80fe097e34b6d419e284b12192a27fdf1b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.15"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v4.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.13...@open-xamu-co/ui-common-helpers-v4.0.0-next.14) (2026-07-25)
 
 
