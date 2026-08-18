@@ -37,7 +37,11 @@
 									:empty-message="formInputs[key].emptyMessage"
 									@update:model-value="updateForm(key, $event)"
 									@update:invalid="invalid = $event"
-								/>
+								>
+									<template #inputActions="inputActionsSlots">
+										<slot name="inputActions" v-bind="inputActionsSlots"></slot>
+									</template>
+								</FormSimple>
 							</BaseErrorBoundary>
 						</div>
 						<slot

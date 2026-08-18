@@ -23,7 +23,10 @@
 			{{ getInputError() }}
 		</p>
 	</div>
-	<template v-if="input.multiple && input.max > models.length">
+	<div
+		v-if="(input.multiple && input.max > models.length) || $slots.inputActions"
+		class="flx --flxRow-wrap --flx-start-center --gap-5 --width-100"
+	>
 		<BaseBox
 			v-if="!models.length"
 			class="--width-100"
@@ -33,24 +36,34 @@
 			dashed
 			transparent
 		>
-			<div class="flx --flx-center">
-				<span>{{ t("form_no_values") }}</span>
-				<ActionButton :theme="theme" :disabled="readonly" @click="input.addValue()">
+			<div class="flx --flxRow-wrap --flx-center --gap-5 --gap-10:md">
+				<span class="--txtSize-sm">{{ t("form_no_values") }}</span>
+				<ActionButton
+					:theme="theme"
+					:disabled="readonly"
+					:size="eSizes.XS"
+					class="--txtSize-sm"
+					@click="input.addValue()"
+				>
 					{{ t("add") }}
 				</ActionButton>
+				<slot name="inputActions"></slot>
 			</div>
 		</BaseBox>
-		<ActionButton
-			v-else
-			:theme="theme"
-			:disabled="readonly"
-			:size="eSizes.XS"
-			class="--txtSize-sm"
-			@click="input.addValue()"
-		>
-			<span>{{ t("form_new_value") }}</span>
-		</ActionButton>
-	</template>
+		<template v-else>
+			<ActionButton
+				v-if="input.multiple"
+				:theme="theme"
+				:disabled="readonly || input.max <= models.length"
+				:size="eSizes.XS"
+				class="--txtSize-sm"
+				@click="input.addValue()"
+			>
+				<span>{{ t("form_new_value") }}</span>
+			</ActionButton>
+			<slot name="inputActions"></slot>
+		</template>
+	</div>
 </template>
 
 <script setup lang="ts" generic="T extends iFormValue">

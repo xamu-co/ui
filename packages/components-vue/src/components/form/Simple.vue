@@ -40,7 +40,11 @@
 								:invalid="getInvalid(input.name)"
 								:model-value="model[inputIndex].values"
 								@update:model-value="updateValues(inputIndex, $event)"
-							/>
+							>
+								<template #inputActions="inputActionsSlots">
+									<slot name="inputActions" v-bind="inputActionsSlots"></slot>
+								</template>
+							</FormInput>
 						</div>
 					</template>
 				</BaseWrapper>
