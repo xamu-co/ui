@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v5.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.15...@open-xamu-co/ui-styles-v5.0.0-next.16) (2026-08-18)
+
+
+### Features
+
+* **vue:** input text classes ([99dab51](https://github.com/xamu-co/ui/commit/99dab51471572d7c553d7653a5551a01b59d9416))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.16"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v5.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.14...@open-xamu-co/ui-styles-v5.0.0-next.15) (2026-08-04)
 
 
