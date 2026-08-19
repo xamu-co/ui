@@ -1,7 +1,7 @@
 import type { IconName } from "@fortawesome/fontawesome-common-types";
 import isEqual from "lodash-es/isEqual";
 import camelCase from "lodash-es/camelCase";
-import capitalize from "lodash-es/capitalize";
+import upperFirst from "lodash-es/upperFirst";
 
 import type {
 	iFormInput,
@@ -183,7 +183,7 @@ export class FormInput<
 		this.min = formInput.min ?? 1;
 		this.meta = {
 			...formInput.meta,
-			actionSlotName: `inputActions${capitalize(camelCase(formInput.name))}`,
+			actionSlotName: `inputActions${upperFirst(camelCase(formInput.name))}`,
 		};
 
 		// Max cannot be lower than min or more than options if they exist
