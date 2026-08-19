@@ -5,57 +5,57 @@ import { eFormType } from "@open-xamu-co/ui-common-enums";
 import { FormInput } from "../input";
 
 describe("FormInput", () => {
-	const usernameInput = new FormInput<string>({
-		name: "username",
+	const userNameInput = new FormInput<string>({
+		name: "userName",
 		type: eFormType.TEXT,
-		title: "Username",
-		placeholder: "Enter username",
+		title: "User name",
+		placeholder: "Enter user name",
 		values: ["John Doe"],
 		meta: { status: "pending", count: 1 },
 	});
 
 	it("should instantiate a FormInput correctly", () => {
-		expect(usernameInput.name).toBe("username");
-		expect(usernameInput.type).toBe(eFormType.TEXT);
-		expect(usernameInput.title).toBe("Username");
-		expect(usernameInput.placeholder).toBe("Enter username");
-		expect(usernameInput.values).toEqual(["John Doe"]);
-		expect(usernameInput.meta).toEqual({
+		expect(userNameInput.name).toBe("userName");
+		expect(userNameInput.type).toBe(eFormType.TEXT);
+		expect(userNameInput.title).toBe("User name");
+		expect(userNameInput.placeholder).toBe("Enter user name");
+		expect(userNameInput.values).toEqual(["John Doe"]);
+		expect(userNameInput.meta).toEqual({
 			status: "pending",
 			count: 1,
-			actionSlotName: "inputActionsUsername",
+			actionSlotName: "inputActionsUserName",
 		});
 	});
 
 	it("should clone FormInput with correct properties", () => {
-		const cloned = usernameInput.clone();
+		const cloned = userNameInput.clone();
 
-		expect(cloned.name).toBe("username");
+		expect(cloned.name).toBe("userName");
 		expect(cloned.type).toBe(eFormType.TEXT);
-		expect(cloned.title).toBe("Username");
-		expect(cloned.placeholder).toBe("Enter username");
+		expect(cloned.title).toBe("User name");
+		expect(cloned.placeholder).toBe("Enter user name");
 		expect(cloned.values).toEqual(["John Doe"]);
 		expect(cloned.meta).toEqual({
 			status: "pending",
 			count: 1,
-			actionSlotName: "inputActionsUsername",
+			actionSlotName: "inputActionsUserName",
 		});
 	});
 
 	it("should isolate values array between original and cloned FormInput", () => {
-		const cloned = usernameInput.clone();
+		const cloned = userNameInput.clone();
 
 		// Mutate cloned values
 		cloned.values[0] = "Jane Doe";
 		cloned.values.push("Hank Aaron");
 
 		// Assert original values are NOT affected
-		expect(usernameInput.values).toEqual(["John Doe"]);
+		expect(userNameInput.values).toEqual(["John Doe"]);
 		expect(cloned.values).toEqual(["Jane Doe", "Hank Aaron"]);
 	});
 
 	it("should isolate meta object between original and cloned FormInput", () => {
-		const cloned = usernameInput.clone();
+		const cloned = userNameInput.clone();
 
 		// Mutate cloned meta properties
 		cloned.meta.status = "success";
@@ -63,15 +63,15 @@ describe("FormInput", () => {
 		cloned.meta.new_prop = "test";
 
 		// Assert original meta is NOT affected
-		expect(usernameInput.meta).toEqual({
+		expect(userNameInput.meta).toEqual({
 			status: "pending",
 			count: 1,
-			actionSlotName: "inputActionsUsername",
+			actionSlotName: "inputActionsUserName",
 		});
 		expect(cloned.meta).toEqual({
 			status: "success",
 			count: 2,
-			actionSlotName: "inputActionsUsername",
+			actionSlotName: "inputActionsUserName",
 			new_prop: "test",
 		});
 	});
@@ -94,22 +94,22 @@ describe("FormInput", () => {
 	});
 
 	it("should apply overrides when cloning", () => {
-		const cloned = usernameInput.clone({
+		const cloned = userNameInput.clone({
 			placeholder: "New placeholder",
 			required: true,
 			values: ["Jane Doe"],
 		});
 
-		expect(cloned.name).toBe("username");
+		expect(cloned.name).toBe("userName");
 		expect(cloned.placeholder).toBe("New placeholder");
 		expect(cloned.required).toBe(true);
 		expect(cloned.values).toEqual(["Jane Doe"]);
-		expect(usernameInput.values).toEqual(["John Doe"]);
+		expect(userNameInput.values).toEqual(["John Doe"]);
 	});
 
 	it("should retain onUpdatedValues hook when cloning", () => {
 		const updateHook = vi.fn((vals) => vals);
-		const cloned = usernameInput.clone({}, updateHook);
+		const cloned = userNameInput.clone({}, updateHook);
 
 		cloned.values = ["Jane Doe"];
 
@@ -119,8 +119,8 @@ describe("FormInput", () => {
 	it("should allow overriding onUpdatedValues hook when cloning", () => {
 		const originalHook = vi.fn((vals) => vals);
 		const overrideHook = vi.fn((vals) => vals);
-		const usernameInputWithHook = usernameInput.clone({}, originalHook);
-		const cloned = usernameInputWithHook.clone(undefined, overrideHook);
+		const userNameInputWithHook = userNameInput.clone({}, originalHook);
+		const cloned = userNameInputWithHook.clone(undefined, overrideHook);
 
 		cloned.values = ["Jane Doe"];
 
@@ -130,10 +130,10 @@ describe("FormInput", () => {
 
 	it("should call onUpdatedValues hook when cloning with updated values", () => {
 		const updateHook = vi.fn((vals) => vals);
-		const usernameInputWithHook = usernameInput.clone({}, updateHook);
+		const userNameInputWithHook = userNameInput.clone({}, updateHook);
 
 		// Clone with overrides containing new values
-		const cloned = usernameInputWithHook.clone({ values: ["Jane Doe"] });
+		const cloned = userNameInputWithHook.clone({ values: ["Jane Doe"] });
 
 		expect(updateHook).toHaveBeenCalledWith(["Jane Doe"]);
 		expect(cloned.values).toEqual(["Jane Doe"]);
@@ -141,10 +141,10 @@ describe("FormInput", () => {
 
 	it("should not call onUpdatedValues hook when cloning without value changes", () => {
 		const updateHook = vi.fn((vals) => vals);
-		const usernameInputWithHook = usernameInput.clone({}, updateHook);
+		const userNameInputWithHook = userNameInput.clone({}, updateHook);
 
 		// Clone with overrides that do NOT change values
-		usernameInputWithHook.clone({ title: "New Title" });
+		userNameInputWithHook.clone({ title: "New Title" });
 
 		expect(updateHook).not.toHaveBeenCalled();
 	});
