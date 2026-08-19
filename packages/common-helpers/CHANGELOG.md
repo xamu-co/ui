@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.15...@open-xamu-co/ui-common-helpers-v4.0.0-next.16) (2026-08-19)
+
+
+### Bug Fixes
+
+* **vue:** use upper first for proper pascal case ([920f7d1](https://github.com/xamu-co/ui/commit/920f7d12d2cadad0b87196445ee708f740093558))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.16"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v4.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.14...@open-xamu-co/ui-common-helpers-v4.0.0-next.15) (2026-08-18)
 
 
