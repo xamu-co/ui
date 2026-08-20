@@ -465,9 +465,7 @@
 	});
 
 	function updateArrModel(modelIndex: number, valuePosition: number, newValue: any) {
-		const model: any[] = models.value[modelIndex].value;
-
-		models.value[modelIndex].value = model.toSpliced(valuePosition, 1, newValue);
+		models.value[modelIndex].value.splice(valuePosition, 1, newValue);
 	}
 
 	function stateToOption(state: iState): iSelectOption {

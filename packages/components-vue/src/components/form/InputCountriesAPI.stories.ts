@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { within, expect, waitFor } from "storybook/test";
 
 import InputCountriesAPI from "./InputCountriesAPI.vue";
+import ValueList from "../value/List.vue";
 
 const meta: Meta<typeof InputCountriesAPI> = {
 	title: "Form/Input Countries API",
@@ -15,20 +16,20 @@ type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	render: (args) => ({
-		components: { InputCountriesAPI },
+		components: { ValueList, InputCountriesAPI },
 		setup() {
 			return { args };
 		},
 		template: `
 			<InputCountriesAPI v-bind="args" v-slot="{ statesReq, citiesReq }">
-				<div data-testid="resolved-content">
-					States count: {{ statesReq?.content?.length ?? 'undefined' }}
-					Cities count: {{ citiesReq?.content?.length ?? 'undefined' }}
-					States loading: {{ statesReq?.loading }}
-					Cities loading: {{ citiesReq?.loading }}
-					States error: {{ statesReq?.errors ? String(statesReq.errors) : 'none' }}
-					Cities error: {{ citiesReq?.errors ? String(citiesReq.errors) : 'none' }}
-				</div>
+				<ValueList :value="{
+					statesCount: statesReq?.content?.length,
+					citiesCount: citiesReq?.content?.length,
+					statesLoading: statesReq?.loading,
+					citiesLoading: citiesReq?.loading,
+					statesError: statesReq?.errors || 'none',
+					citiesError: citiesReq?.errors || 'none',
+				}" />
 			</InputCountriesAPI>
 		`,
 	}),
@@ -36,10 +37,11 @@ export const Sample: Story = {
 		const canvas = within(canvasElement);
 
 		await waitFor(() => {
-			const content = canvas.getByTestId("resolved-content");
+			const statesCount = canvas.getByTitle("States Count");
+			const citiesCount = canvas.getByTitle("Cities Count");
 
-			expect(content).toHaveTextContent("States count: 1");
-			expect(content).toHaveTextContent("Cities count: 1");
+			expect(statesCount).toHaveTextContent("1");
+			expect(citiesCount).toHaveTextContent("1");
 		});
 	},
 };

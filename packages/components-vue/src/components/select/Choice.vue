@@ -48,9 +48,6 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import isHexColor from "validator/lib/isHexColor";
-	import isRgbColor from "validator/lib/isRgbColor";
-	import isHSL from "validator/lib/isHSL";
 
 	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
@@ -64,7 +61,7 @@
 		iUseThemeProps,
 		iSelectProps,
 	} from "../../types/props";
-	import { useHelpers } from "../../composables/utils";
+	import { isColor, useHelpers } from "../../composables/utils";
 	import useTheme from "../../composables/theme";
 	import type { iFormOption } from "@open-xamu-co/ui-common-types";
 
@@ -127,9 +124,5 @@
 		const value = String(option.alias || option.value);
 
 		return value.length <= 2 || !!option.pattern;
-	}
-
-	function isColor(color: string): boolean {
-		return isHexColor(color) || isRgbColor(color) || isHSL(color);
 	}
 </script>

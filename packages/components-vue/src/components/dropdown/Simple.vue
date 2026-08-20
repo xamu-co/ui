@@ -134,7 +134,7 @@
 	const toggleRef = ref<HTMLElement>();
 	const dropdownRef = ref<HTMLElement>();
 	const isModal = ref(false);
-	const model = ref<boolean>(props.modelValue);
+	const model = ref<boolean>(!!props.modelValue);
 	const dropdownClasses = computed<string[]>(() => {
 		const classes = [props.classes];
 
@@ -154,27 +154,27 @@
 	});
 
 	function setModel(value = !model.value) {
-		if (value) return openDropdown();
+		// Avoid unnecessary updates
+		if (!!value === !!model.value) return;
 
-		closeDropdown();
-	}
+		if (value) {
+			document.addEventListener("click", clickOutside, true);
+			document.addEventListener("keydown", handleKeydown, true);
+			model.value = true;
 
-	function handleKeydown(e: KeyboardEvent) {
-		if (e.key === "Escape") closeDropdown();
-	}
+			return;
+		}
 
-	function openDropdown() {
-		document.addEventListener("click", clickOutside, true);
-		document.addEventListener("keydown", handleKeydown, true);
-		model.value = true;
-	}
-
-	function closeDropdown() {
 		emit("close");
 		emit("update:model-value", (model.value = false));
 		document.removeEventListener("click", clickOutside, true);
 		document.removeEventListener("keydown", handleKeydown, true);
 	}
+
+	function handleKeydown(e: KeyboardEvent) {
+		if (e.key === "Escape") setModel(false);
+	}
+
 	function clickOutside(e: MouseEvent) {
 		const target = e.target as HTMLElement;
 		const toggle = toggleRef.value;
@@ -182,7 +182,7 @@
 
 		if (dropdown === target || dropdown?.contains(target) || toggle?.contains(target)) return;
 
-		closeDropdown();
+		setModel(false);
 	}
 
 	/**
@@ -200,7 +200,7 @@
 			(value) => {
 				isModal.value = value && props.modelValue !== null;
 
-				if (localModel.value) closeDropdown();
+				if (localModel.value) setModel(false);
 			},
 			{ immediate: true }
 		);
@@ -208,7 +208,7 @@
 		if (!router?.currentRoute) return;
 
 		// close on route change
-		watch(router.currentRoute, closeDropdown, { immediate: false });
+		watch(router.currentRoute, () => setModel(false), { immediate: false });
 	});
-	onBeforeUnmount(closeDropdown);
+	onBeforeUnmount(() => setModel(false));
 </script>

@@ -125,8 +125,20 @@
 									:theme="invertedTheme"
 									@click.prevent="() => setFilter(option, setModel)"
 								>
-									<IconFa v-if="icon" :name="icon" />
-									<span>{{ option.alias ?? option.value }}</span>
+									<IconFa v-if="option.icon" :name="option.icon" />
+									<figure
+										v-else-if="option.pattern"
+										class="avatar --size-xs --bdr"
+										:class="`--bdrColor-${themeValues[1]}`"
+										:style="
+											isColor(option.pattern)
+												? { backgroundColor: option.pattern }
+												: { backgroundImage: `url('${option.pattern}')` }
+										"
+									></figure>
+									<span class="--txtWrap">
+										{{ option.alias ?? option.value }}
+									</span>
 								</ActionLink>
 							</li>
 						</LoaderContent>
@@ -166,7 +178,7 @@
 	} from "../../types/props";
 	import useAsyncDataFn from "../../composables/async";
 	import useTheme from "../../composables/theme";
-	import { useHelpers } from "../../composables/utils";
+	import { isColor, useHelpers } from "../../composables/utils";
 	import useBrowser from "../../composables/browser";
 
 	interface iSelectFilterProps
@@ -268,7 +280,7 @@
 
 			return result || [];
 		},
-		{ default: () => [], watch: [search] }
+		{ default: () => [], watch: [search, () => props.options] }
 	);
 
 	const selectedOption = computed(() => {
@@ -281,18 +293,18 @@
 		return (props.modelValue && !option) || props.invalid;
 	});
 
-	function setFilter(option?: iFormOption, toggleModal?: (v?: boolean) => void) {
+	function setFilter(option?: iFormOption, setModel?: (v?: boolean) => void) {
 		emit("update:model-value", option?.value?.toString() || "");
 		search.value = option?.alias || "";
 
-		if (option) toggleModal?.(false);
+		if (option) setModel?.(false);
 	}
 
 	// lifecycle
 	watch(
 		search,
 		(newValue) => {
-			if (newValue === "") emit("update:model-value", "");
+			if (!selectedOption.value && newValue === "") emit("update:model-value", "");
 		},
 		{ immediate: false }
 	);
