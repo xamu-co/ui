@@ -56,7 +56,6 @@ export default defineNuxtModule<XamuModuleOptions>({
 		locale,
 		lang: "en",
 		first: 10,
-		countriesUrl: "/_countries",
 		swal: {
 			overrides: {
 				customClass: {
@@ -104,7 +103,6 @@ export default defineNuxtModule<XamuModuleOptions>({
 		nuxt.options.runtimeConfig.public.xamu = omit(moduleOptions, [
 			"image",
 			"imageHost",
-			"disableCountriesModule",
 			"disableCSSMeta",
 		]);
 		nuxt.options.router.options = {
@@ -173,9 +171,7 @@ export default defineNuxtModule<XamuModuleOptions>({
 		// Other composables, config required
 		addImportsDir(resolve(runtimePath, "composables"));
 	},
-	moduleDependencies(nuxt) {
-		const { countriesUrl = "/_countries", disableCountriesModule } = nuxt.options.xamu || {};
-
+	moduleDependencies() {
 		const dependencies: Record<string, ModuleDependencyMeta<Record<string, unknown>>> = {
 			"@nuxt/image": {
 				version: ">=1.0.0",
@@ -186,25 +182,6 @@ export default defineNuxtModule<XamuModuleOptions>({
 				},
 			},
 		};
-
-		if (
-			countriesUrl &&
-			!countriesUrl?.includes("countries.xamu.com.co") &&
-			!disableCountriesModule
-		) {
-			let pathname = countriesUrl;
-
-			try {
-				pathname = new URL(countriesUrl).pathname;
-			} catch (err) {
-				// Do nothing, will crash if pathname only
-			}
-
-			dependencies["nuxt-countries-api"] = {
-				version: ">=1.0.0",
-				defaults: { base: pathname },
-			};
-		}
 
 		return dependencies;
 	},

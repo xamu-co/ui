@@ -19,10 +19,6 @@ export interface XamuModuleOptions extends Omit<iVuePluginOptions, "internals"> 
 	 */
 	disableCSSMeta?: boolean;
 	/**
-	 * Disable NUXT countries module
-	 */
-	disableCountriesModule?: boolean;
-	/**
 	 * Logger function
 	 *
 	 * A virtual file is created to bypass nuxt serialization, so the context may not be as expected
