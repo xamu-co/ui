@@ -50,7 +50,6 @@
     "@open-xamu-co/ui-common-helpers": "link:../common-helpers",
     "@open-xamu-co/ui-components-vue": "link:../components-vue",
     "lodash-es": "^4.17.21",
-    "nuxt-countries-api": "^3.0.0",
     "sweetalert2": "^11.11.1"
   },
   "devDependencies": {
