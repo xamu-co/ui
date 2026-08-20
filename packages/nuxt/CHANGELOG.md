@@ -1,5 +1,18 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.10...@open-xamu-co/ui-nuxt-v4.0.0-next.11) (2026-08-20)
+
+
+### Features
+
+* **nuxt:** remove nuxt-countries-api module requirement ([deea92a](https://github.com/xamu-co/ui/commit/deea92a1e14bcf861d102691289145e9e6b9def7))
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.9...@open-xamu-co/ui-nuxt-v4.0.0-next.10) (2026-07-03)
 
 
