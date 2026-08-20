@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.43](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.42...@open-xamu-co/ui-components-vue-v4.0.0-next.43) (2026-08-20)
+
+
+### Bug Fixes
+
+* select filter model ([d5325d0](https://github.com/xamu-co/ui/commit/d5325d0784888500de17856bc0a1f0078761d5d7))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.43"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.42](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.41...@open-xamu-co/ui-components-vue-v4.0.0-next.42) (2026-08-18)
 
 
