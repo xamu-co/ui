@@ -203,4 +203,9 @@ export interface iPaginationContentTableProps<
 	 * Prevent node functions from triggering refresh event (useful with firebase hydration)
 	 */
 	omitRefresh?: boolean;
+	/**
+	 * Paginate using route
+	 * @default true
+	 */
+	withRoute?: boolean;
 }

@@ -35,7 +35,11 @@
 					v-model="pagination"
 					v-bind="{ currentPage: content, withRoute, theme }"
 					:class="paginationClass"
-				/>
+				>
+					<template v-if="$slots.paginationActions" #actions="actionsSlots">
+						<slot name="paginationActions" v-bind="actionsSlots"></slot>
+					</template>
+				</PaginationSimple>
 			</LoaderContentFetch>
 		</suspense>
 	</BaseErrorBoundary>
