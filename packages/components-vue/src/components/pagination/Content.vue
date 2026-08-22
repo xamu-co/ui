@@ -24,7 +24,7 @@
 				<slot
 					v-bind="{
 						hydrateNodes,
-						content: processContent(content.edges.map(({ node }) => node)),
+						content: processContent(getNodes(content.edges)),
 						pagination,
 						currentPage: content,
 						refresh,
@@ -146,6 +146,25 @@
 			return transform(result);
 		};
 	};
+
+	const nodesCache = new WeakMap<object, any[]>();
+
+	/**
+	 * Retrieve nodes from edges, using cache
+	 *
+	 * @param edges Page edges
+	 * @returns Nodes
+	 */
+	function getNodes(edges: iPageEdge<T, C>[] = []): T[] {
+		if (!edges) return [];
+		if (nodesCache.has(edges)) return nodesCache.get(edges)!;
+
+		const nodes = edges.map(({ node }) => node);
+
+		nodesCache.set(edges, nodes);
+
+		return nodes;
+	}
 
 	function isContent(c?: iPage<T, C>): boolean {
 		return !!c?.edges?.length;

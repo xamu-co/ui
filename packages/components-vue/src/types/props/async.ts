@@ -155,7 +155,7 @@ export interface iPaginationContentTableProps<
 	 * Required to dedupe caching
 	 */
 	url: string;
-	page: iGetPage<Ti>;
+	page: iGetPage<Ti, any>;
 	defaults?: Record<string, any>;
 	/** Map node data as required */
 	mapNode?: (node: Ti) => TMi;

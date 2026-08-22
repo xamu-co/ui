@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts" generic="T, P extends any[] = any[]">
-	import { ref, watch, computed, onActivated, onDeactivated } from "vue";
+	import { ref, watch, computed, onActivated, onDeactivated, markRaw } from "vue";
 	import isEqual from "lodash-es/isEqual";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
@@ -141,8 +141,12 @@
 			}
 
 			firstLoad.value = true;
+			newData = newData ?? props.fallback ?? null;
 
-			return { data: newData ?? props.fallback ?? null };
+			// Mark returned fetched data as raw inside the asyncData handler
+			if (newData && typeof newData === "object") newData = markRaw(newData);
+
+			return { data: newData };
 		},
 		{
 			default: () => ({ data: props.fallback ?? null }),
@@ -152,11 +156,20 @@
 		}
 	);
 
-	/** Unwrap the results */
+	/**
+	 * Unwrap the results.
+	 * Wraps object payloads in markRaw to avoid deep Vue Proxy tracking overhead on read-only fetched data.
+	 */
 	const content = computed<T | null>({
-		get: () => data.value?.data ?? null,
-		set: (val: T | null) => {
-			data.value = { data: val };
+		get: () => {
+			const value = data.value?.data ?? null;
+
+			return value && typeof value === "object" ? markRaw(value) : value;
+		},
+		set: (newValue: T | null) => {
+			const value = newValue ?? null;
+
+			data.value = { data: value && typeof value === "object" ? markRaw(value) : value };
 		},
 	});
 

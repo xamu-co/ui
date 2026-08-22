@@ -29,11 +29,7 @@
 				@update:model-value="$emit('update:model-value', $event)"
 			/>
 			<!-- Future inner loop input -->
-			<FormInputLoop
-				v-else
-				:key="getFormInputOptionsLength(input.options) + models.length"
-				v-bind="{ models, input, theme, readonly }"
-			>
+			<FormInputLoop v-else :key="input.name" v-bind="{ models, input, theme, readonly }">
 				<template #default="{ i }">
 					<!-- Flexible input type -->
 					<div
@@ -43,24 +39,8 @@
 						<!-- Recursion -->
 						<Input
 							v-for="(model, index) in models[i].value"
-							:key="
-								[
-									getFormInputOptionsLength(input.options),
-									input.defaults?.[i]?.placeholder,
-									input.defaults?.[i]?.type,
-									i + Number(index),
-								].join('-')
-							"
-							:input="
-								input
-									.clone({
-										...input.defaults[Number(index)], // sub input
-										multiple: false,
-										defaults: undefined,
-										values: [models[i].value[index]],
-									})
-									.setRerender($forceUpdate)
-							"
+							:key="`${input.name}-${i}-${index}`"
+							:input="getSubInput(i, Number(index))"
 							:theme="theme"
 							class="--width-180:md --flx"
 							:invalid="invalid"
@@ -123,7 +103,6 @@
 					<FormInputNValues
 						v-else-if="input.type === eFT.PHONE || input.type === eFT.CELLPHONE"
 						v-bind="{ loading, errors, refresh, theme }"
-						:key="indicativesArr.length"
 						:content="!!indicativesArr.length"
 						:model="models[i].value"
 						:label="t('form_awaiting_countries')"
@@ -152,7 +131,6 @@
 					<FormInputNValues
 						v-else-if="input.type === eFT.LOCATION"
 						v-bind="{ loading, errors, refresh, theme }"
-						:key="statesArr?.length"
 						:content="!!countriesArr.length"
 						:model="models[i].value"
 						:label="t('form_awaiting_countries')"
@@ -162,7 +140,6 @@
 						<FormInputCountriesAPI
 							v-slot="{ statesReq, citiesReq }"
 							v-bind="{ theme, states, countries, loading, errors, refresh }"
-							:key="`${defaultCountry}-${countriesArr.length}-${statesArr?.length}`"
 							:model="models[i].value"
 						>
 							<SelectFilter
@@ -321,14 +298,14 @@
 	</BaseErrorBoundary>
 </template>
 <script setup lang="ts">
-	import { computed, reactive, defineAsyncComponent } from "vue";
+	import { computed, defineAsyncComponent } from "vue";
 	import isEqual from "lodash-es/isEqual";
 	import snakeCase from "lodash-es/snakeCase";
 	import omit from "lodash-es/omit";
 
 	import type { iInvalidInput, iSelectOption, tFormInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType as eFT } from "@open-xamu-co/ui-common-enums";
-	import { useI18n, useForm, getFormInputOptionsLength } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n, useForm } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseBox from "../base/Box.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
@@ -447,9 +424,9 @@
 	 * should be returning the minimum of values
 	 */
 	const models = computed(() => {
-		return props.modelValue.map((value, valueIndex) =>
+		return props.modelValue.map((_, valueIndex) =>
 			computed({
-				get: () => (Array.isArray(value) ? reactive(value) : value),
+				get: () => props.modelValue[valueIndex],
 				set: (newValue) => {
 					emit("update:model-value", props.modelValue.toSpliced(valueIndex, 1, newValue));
 				},
@@ -465,7 +442,24 @@
 	});
 
 	function updateArrModel(modelIndex: number, valuePosition: number, newValue: any) {
-		models.value[modelIndex].value.splice(valuePosition, 1, newValue);
+		const currentModelValue = models.value[modelIndex]?.value;
+		const currentArr = Array.isArray(currentModelValue) ? [...currentModelValue] : [];
+
+		currentArr.splice(valuePosition, 1, newValue);
+		models.value[modelIndex].value = currentArr;
+	}
+
+	function getSubInput(modelIndex: number, defaultIndex: number) {
+		const defaultConfig = props.input.defaults?.[defaultIndex] || {};
+		const currentValue = models.value[modelIndex]?.value;
+		const subValue = Array.isArray(currentValue) ? currentValue[defaultIndex] : currentValue;
+
+		return props.input.clone({
+			...defaultConfig,
+			multiple: false,
+			defaults: undefined,
+			values: subValue !== undefined ? [subValue] : undefined,
+		});
 	}
 
 	function stateToOption(state: iState): iSelectOption {

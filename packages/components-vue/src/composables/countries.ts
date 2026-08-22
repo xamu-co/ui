@@ -1,3 +1,5 @@
+import { markRaw } from "vue";
+
 import type { iCity, iCountry, iState } from "../types/countries";
 import useFetchUtils from "./fetch";
 import { useHelpers } from "./utils";
@@ -20,7 +22,8 @@ export default function useCountries() {
 
 			if (error) throw new Error(error);
 
-			return data;
+			// Mark static country list as raw to prevent deep reactivity proxy overhead
+			return data ? markRaw(data) : [];
 		}
 
 		async function getCountry(country: string): Promise<iCountry & { states: iState[] }> {

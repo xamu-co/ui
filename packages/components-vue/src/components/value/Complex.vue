@@ -44,7 +44,7 @@
 					<template #default="{ model, invertedTheme }">
 						<TableSimple
 							v-if="model"
-							:nodes="remapValues(value)"
+							:nodes="tableNodes"
 							:theme="invertedTheme"
 							:modal-props="{ theme, ...modalProps }"
 							v-bind="{ classes, properties }"
@@ -187,7 +187,7 @@
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
 	import LoaderSimple from "../loader/Simple.vue";
 
-	import { defineAsyncComponent } from "vue";
+	import { computed, defineAsyncComponent } from "vue";
 
 	import type { iTablePropertyMeta, iValueComplexProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
@@ -232,11 +232,13 @@
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
 
-	function remapValues(values: unknown[]): Record<string, any>[] {
-		return values.map((value) => {
+	const tableNodes = computed<Record<string, any>[]>(() => {
+		if (!Array.isArray(props.value)) return [];
+
+		return props.value.map((value) => {
 			return typeof value === "object" && value !== null ? value : { value };
 		});
-	}
+	});
 
 	/**
 	 * Creates given node

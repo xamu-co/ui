@@ -41,7 +41,7 @@
 					</ActionLink>
 				</div>
 			</th>
-			<template v-for="(meta, metaIndex) in propertiesMeta" :key="metaIndex">
+			<template v-for="(meta, metaIndex) in propertiesMeta" :key="meta.value">
 				<th
 					v-if="!meta.hidden"
 					scope="col"

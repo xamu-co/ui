@@ -1,4 +1,13 @@
-import { isRef, onActivated, onDeactivated, ref, watch, type Ref, type WatchSource } from "vue";
+import {
+	isRef,
+	onActivated,
+	onDeactivated,
+	ref,
+	shallowRef,
+	watch,
+	type Ref,
+	type WatchSource,
+} from "vue";
 
 interface iAsyncData<T, E> {
 	data: Ref<T | null>;
@@ -36,8 +45,9 @@ export default function useAsyncDataFn<T, E = any>(
 	optionsOrHandler?: tAsyncDataHandler<T> | AsyncDataOptions<T>,
 	options?: AsyncDataOptions<T>
 ): iAsyncData<T, E> {
-	const data = ref(null) as Ref<T | null>;
-	const error = ref(null) as Ref<E | null>;
+	// Use shallowRef to avoid deep reactivity tracking overhead on fetched payloads
+	const data = shallowRef(null) as Ref<T | null>;
+	const error = shallowRef(null) as Ref<E | null>;
 	/** Whether component was deactivated by keep-alive */
 	const deactivated = ref(false);
 	let handler: tAsyncDataHandler<T>;

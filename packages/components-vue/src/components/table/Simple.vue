@@ -87,6 +87,7 @@
 	import {
 		computed,
 		getCurrentInstance,
+		markRaw,
 		onActivated,
 		onDeactivated,
 		ref,
@@ -97,6 +98,7 @@
 	import upperFirst from "lodash-es/upperFirst";
 	import snakeCase from "lodash-es/snakeCase";
 	import startCase from "lodash-es/startCase";
+	import isEqual from "lodash-es/isEqual";
 	import { Md5 } from "ts-md5";
 
 	import type { iNodeFn, iNodeFnResponse, tOrder } from "@open-xamu-co/ui-common-types";
@@ -165,13 +167,19 @@
 	 */
 	const mappedNodes = computed<iMappedNodes<T, TM>>(() => {
 		const newNodes: iMappedNodes<T, TM> = { nodes: [], length: 0, withChildren: false };
+		const mappedList = props.mapNodes(props.nodes); // Run once
 
-		props.nodes.forEach((node, index) => {
-			const [mappedNode] = props.mapNodes([node]);
-
+		mappedList.forEach((mappedNode, mappedIndex) => {
 			// Filter out invalid nodes
 			if (!mappedNode || !Object.keys(mappedNode).length) return;
 
+			let index = props.nodes.findIndex(
+				(n) => (n?.id !== undefined && n.id === mappedNode?.id) || isEqual(n, mappedNode)
+			);
+
+			if (index === -1) index = mappedIndex;
+
+			const node = props.nodes[index] ?? (mappedNode as unknown as T);
 			const disableCreateNodeChildren = props.disableCreateNodeChildren?.(node);
 			const showNodeChildren = props.showNodeChildren?.(node);
 			const visibility: iNodeVisibility = {
@@ -188,7 +196,8 @@
 			const createNodeChildrenAndRefresh = makeCreateNodeChildrenAndRefresh(index);
 
 			newNodes.nodes.push({
-				node: mappedNode,
+				// Mark mapped node as raw object to prevent deep reactivity proxying on read-only table row nodes
+				node: markRaw(mappedNode),
 				index,
 				visibility,
 				hydrateNode,
@@ -821,11 +830,19 @@
 				oldNodes.nodes.length !== newNodes.nodes.length ||
 				oldRoute !== newRoute
 			) {
-				selectedNodes.value = Array.from({ length: newNodes.nodes.length }, () => false);
-				openNodes.value = Array.from(
-					{ length: newNodes.nodes.length },
-					() => !!props.childrenVisibility
-				);
+				// Avoid unnecessary resets
+				if (selectedNodes.value.length !== newNodes.nodes.length) {
+					selectedNodes.value = Array.from(
+						{ length: newNodes.nodes.length },
+						() => false
+					);
+				}
+				if (openNodes.value.length !== newNodes.nodes.length) {
+					openNodes.value = Array.from(
+						{ length: newNodes.nodes.length },
+						() => !!props.childrenVisibility
+					);
+				}
 			}
 		},
 		{ immediate: true }

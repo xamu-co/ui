@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeAll } from "vitest";
 import { mount } from "@vue/test-utils";
 import { nextTick } from "vue";
+
 import type { iFormOption } from "@open-xamu-co/ui-common-types";
 
 import SelectFilter from "../Filter.vue";

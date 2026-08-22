@@ -1,49 +1,39 @@
 import type { StoryObj } from "@storybook/vue3-vite";
+import { expect, waitFor, userEvent, within } from "storybook/test";
 import { ref } from "vue";
 
 import type { GenericMeta } from "../../types/storybook";
+import largeNodes from "../table/nodes.json" with { type: "json" };
 
 import PaginationContentTable from "./ContentTable.vue";
-import { expect, waitFor, userEvent, within } from "storybook/test";
 
-import type { tOrderBy, iPagination, iPage, iGetPage } from "@open-xamu-co/ui-common-types";
+import type { tOrderBy, iGetPage } from "@open-xamu-co/ui-common-types";
 
-interface iSector {
-	id: number;
-	name: string;
-	description: string;
-	categories?: string[];
-}
-
-async function page(_params?: iPagination) {
-	const response: iPage<iSector, number> = {
-		edges: [
-			{
-				cursor: 1,
-				node: {
-					id: 1,
-					name: "Sector Original 1",
-					description: "Descripción Original 1",
-				},
-			},
-			{
-				cursor: 2,
-				node: {
-					id: 2,
-					name: "Sector Original 2",
-					description: "Descripción Original 2",
-				},
-			},
-		],
-		pageInfo: {
-			pageNumber: 1,
-			hasNextPage: false,
-			hasPreviousPage: false,
+function makePage(nodes?: Record<string, any>[]): iGetPage<Record<string, any>, number> {
+	nodes ||= [
+		{
+			id: 1,
+			name: "Sector Original 1",
+			description: "Descripción Original 1",
 		},
-		totalCount: 2,
-	};
+		{
+			id: 2,
+			name: "Sector Original 2",
+			description: "Descripción Original 2",
+		},
+	];
 
-	return Promise.resolve(response);
+	return function () {
+		return Promise.resolve({
+			edges: nodes.map((node, index) => ({ cursor: index + 1, node })),
+			pageInfo: {
+				pageNumber: 1,
+				hasNextPage: false,
+				hasPreviousPage: false,
+			},
+			totalCount: 2,
+		});
+	};
 }
 
 const meta: GenericMeta<typeof PaginationContentTable> = {
@@ -54,32 +44,38 @@ const meta: GenericMeta<typeof PaginationContentTable> = {
 
 type Story = StoryObj<typeof meta>;
 
-const mockedPage: iGetPage<any> = () => {
-	return Promise.resolve({
-		edges: [],
-		pageInfo: {
-			hasNextPage: false,
-			hasPreviousPage: false,
-		},
-		totalCount: 0,
-	});
-};
-
 export const Sample: Story = {
 	args: {
-		url: "any:path",
-		page: mockedPage,
+		url: "sample:path",
+		page: makePage(),
 	},
 };
 
 export const Data: Story = {
 	args: {
-		url: "any:path",
+		url: "data:path",
 	},
 	render: (args) => ({
 		components: { PaginationContentTable },
 		setup() {
 			const sort = ref<tOrderBy>();
+			const page = makePage();
+
+			return { args, sort, page };
+		},
+		template: `<PaginationContentTable v-bind="args" :page="page" />`,
+	}),
+};
+
+export const LargeData: Story = {
+	args: {
+		url: "large-data:path",
+	},
+	render: (args) => ({
+		components: { PaginationContentTable },
+		setup() {
+			const sort = ref<tOrderBy>();
+			const page = makePage(largeNodes);
 
 			return { args, sort, page };
 		},
@@ -98,8 +94,10 @@ export const Hydration: Story = {
 	render: (args) => ({
 		components: { PaginationContentTable },
 		setup() {
-			function updateNode(node: iSector) {
-				const updatedNode: iSector = {
+			const page = makePage();
+
+			function updateNode(node: Record<string, any>) {
+				const updatedNode: Record<string, any> = {
 					...node,
 					name: `${node.name} (Hydrated)`,
 					description: "Description Updated Via Hydrate",
