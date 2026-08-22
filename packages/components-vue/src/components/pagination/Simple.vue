@@ -19,7 +19,7 @@
 						<SelectSimple
 							v-model="firstModel"
 							:theme="theme"
-							class="--maxWidthVw-60"
+							class="--maxWidth-90"
 							name="first"
 							:title="t('pagination')"
 							:aria-label="t('pagination')"
@@ -34,12 +34,12 @@
 								:disabled="!pageInfo?.hasPreviousPage"
 								:tooltip="t('previous')"
 								:aria-label="t('previous')"
-								round=":sm-inv"
+								round=":md-inv"
 								@click="handlePrevious"
 							>
 								<IconFa name="arrow-left" />
 								<IconFa name="arrow-left" regular />
-								<span class="--hidden-full:sm-inv">{{ t("previous") }}</span>
+								<span class="--hidden-full:md-inv">{{ t("previous") }}</span>
 							</ActionButtonToggle>
 						</li>
 						<li>
@@ -48,16 +48,19 @@
 								:disabled="!pageInfo?.hasNextPage"
 								:tooltip="t('next')"
 								:aria-label="t('next')"
-								round=":sm-inv"
+								round=":md-inv"
 								@click="setAt(pageInfo?.nextCursor)"
 							>
-								<span class="--hidden-full:sm-inv">{{ t("next") }}</span>
+								<span class="--hidden-full:md-inv">{{ t("next") }}</span>
 								<IconFa name="arrow-right" />
 								<IconFa name="arrow-left" regular />
 							</ActionButtonToggle>
 						</li>
 					</template>
 				</ul>
+			</li>
+			<li v-if="$slots.actions">
+				<slot name="actions" v-bind="{ currentPage, pagination: modelValue }"></slot>
 			</li>
 		</ul>
 	</nav>

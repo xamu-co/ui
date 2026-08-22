@@ -25,7 +25,6 @@
 			></slot>
 		</div>
 		<PaginationContent
-			v-slot="{ content, currentPage, pagination }"
 			v-bind="{
 				page,
 				url,
@@ -39,82 +38,87 @@
 			pagination-class="flx --flxRow-wrap --flx-end-center --gap-5 --gap-10:sm --gap:md"
 			class="flx --flxColumn --gap-10"
 			hide-controls="single"
-			with-route
+			:with-route="withRoute"
 			@refresh="emittedRefresh = $event"
 			@has-content="hasContent"
 		>
-			<!-- Tabulated data -->
-			<div class="flx --flxColumn --flx-start-stretch --gap-10">
-				<BaseErrorBoundary
-					at="PaginationContentTable:TableSimple"
-					:theme="theme"
-					:error-message="renderErrorMessage"
-				>
-					<TableSimple
-						:nodes="content"
-						:refresh="refreshData"
-						:class="tableClass"
-						v-bind="{
-							theme,
-							mapNodes,
-							pageInfo: currentPage.pageInfo,
-							hydrateNodes: emittedHydrateNodes,
-							...tableProps,
-							modalProps: {
-								invertTheme: true,
-								class: modalClass ?? tableClass,
-								...tableProps?.modalProps,
-							},
-							withRoute: pagination,
-						}"
+			<template #default="{ content, currentPage, pagination }">
+				<!-- Tabulated data -->
+				<div class="flx --flxColumn --flx-start-stretch --gap-10">
+					<BaseErrorBoundary
+						at="PaginationContentTable:TableSimple"
+						:theme="theme"
+						:error-message="renderErrorMessage"
 					>
-						<template
-							v-if="emittedHasContent && $slots.headActions"
-							#headActions="headActionsScope"
+						<TableSimple
+							:nodes="content"
+							:refresh="refreshData"
+							:class="tableClass"
+							v-bind="{
+								theme,
+								mapNodes,
+								pageInfo: currentPage.pageInfo,
+								hydrateNodes: emittedHydrateNodes,
+								...tableProps,
+								modalProps: {
+									invertTheme: true,
+									class: modalClass ?? tableClass,
+									...tableProps?.modalProps,
+								},
+								withRoute: pagination,
+							}"
 						>
-							<div
-								key="internal-head-actions"
-								class="flx --flxRow --flx-start-center --gap-10 --gap:md"
+							<template
+								v-if="emittedHasContent && $slots.headActions"
+								#headActions="headActionsScope"
 							>
+								<div
+									key="internal-head-actions"
+									class="flx --flxRow --flx-start-center --gap-10 --gap:md"
+								>
+									<slot
+										name="headActions"
+										v-bind="{
+											...headActionsScope,
+											refreshData,
+											hasContent: emittedHasContent,
+											hydrateData: emittedHydrateNodes,
+											createNodeAndRefresh,
+										}"
+									></slot>
+								</div>
+							</template>
+							<template v-if="$slots.tableChildren" #default="tableChildrenScope">
 								<slot
-									name="headActions"
+									name="tableChildren"
 									v-bind="{
-										...headActionsScope,
+										...tableChildrenScope,
 										refreshData,
 										hasContent: emittedHasContent,
 										hydrateData: emittedHydrateNodes,
 										createNodeAndRefresh,
 									}"
 								></slot>
-							</div>
-						</template>
-						<template v-if="$slots.tableChildren" #default="tableChildrenScope">
-							<slot
-								name="tableChildren"
-								v-bind="{
-									...tableChildrenScope,
-									refreshData,
-									hasContent: emittedHasContent,
-									hydrateData: emittedHydrateNodes,
-									createNodeAndRefresh,
-								}"
-							></slot>
-						</template>
-						<template v-if="$slots.tableModifyActions" #modifyActions="modifyScope">
-							<slot name="tableModifyActions" v-bind="modifyScope"></slot>
-						</template>
-						<template
-							v-if="$slots.tableModifyDropdownActions"
-							#modifyDropdownActions="modifyDropdownScope"
-						>
-							<slot
-								name="tableModifyDropdownActions"
-								v-bind="modifyDropdownScope"
-							></slot>
-						</template>
-					</TableSimple>
-				</BaseErrorBoundary>
-			</div>
+							</template>
+							<template v-if="$slots.tableModifyActions" #modifyActions="modifyScope">
+								<slot name="tableModifyActions" v-bind="modifyScope"></slot>
+							</template>
+							<template
+								v-if="$slots.tableModifyDropdownActions"
+								#modifyDropdownActions="modifyDropdownScope"
+							>
+								<slot
+									name="tableModifyDropdownActions"
+									v-bind="modifyDropdownScope"
+								></slot>
+							</template>
+						</TableSimple>
+					</BaseErrorBoundary>
+				</div>
+			</template>
+			<template v-if="$slots.paginationActions" #paginationActions="paginationActionsSlots">
+				<slot name="paginationActions" v-bind="paginationActionsSlots"></slot>
+			</template>
 		</PaginationContent>
 	</BaseErrorBoundary>
 </template>
@@ -142,6 +146,7 @@
 
 	const props = withDefaults(defineProps<iPaginationContentTableProps<T, TM>>(), {
 		mapNode: (node: T) => node as unknown as TM,
+		withRoute: true,
 	});
 	const emit = defineEmits<{ (e: "create-node-and-refresh", fn: iNodeFn<T, []>): void }>();
 
