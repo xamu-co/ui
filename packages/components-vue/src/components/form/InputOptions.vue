@@ -2,7 +2,6 @@
 	<slot
 		v-if="!!optionsArrayLength || input.optionsFilter"
 		v-bind="{ options: input.optionsFilter ? optionsWithReducer : baseOptions }"
-		:key="input.optionsFilter ? `async-${input.name}` : optionsArrayLength"
 	></slot>
 	<p v-else class="--txtColor-danger">
 		{{ input.meta?.swal?.missing_options || t("form_required_options") }}

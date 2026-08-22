@@ -1,10 +1,11 @@
 import type { StoryObj } from "@storybook/vue3-vite";
+import { expect, waitFor } from "storybook/test";
 
 import type { GenericMeta } from "../../types/storybook";
+import largeNodes from "./nodes.json" with { type: "json" };
 
 import TableSimple from "./Simple.vue";
 import ActionButtonLink from "../action/ButtonLink.vue";
-import { expect, waitFor } from "storybook/test";
 
 const nodes = [
 	{
@@ -129,6 +130,10 @@ export const Sample: Story = {
 
 export const Empty: Story = {
 	args: { nodes: [] },
+};
+
+export const Large: Story = {
+	args: { nodes: largeNodes },
 };
 
 export const Opaque: Story = {

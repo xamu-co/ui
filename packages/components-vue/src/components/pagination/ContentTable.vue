@@ -162,10 +162,17 @@
 		content?: T[] | null,
 		hydrateNodes?: (newContent: T[] | null, newErrors?: unknown) => void
 	) {
+		const valueChanged = emittedHasContent.value !== value;
+		const contentChanged = emittedContent.value !== content;
+
 		emittedHasContent.value = value;
 		emittedContent.value = content;
 		emittedHydrateNodes.value = hydrateNodes;
-		emit("create-node-and-refresh", createNodeAndRefresh);
+
+		// Prevent emit if there are no changes
+		if (valueChanged || contentChanged) {
+			emit("create-node-and-refresh", createNodeAndRefresh);
+		}
 	}
 
 	function refreshData() {

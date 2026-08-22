@@ -29,7 +29,7 @@
 								{{ getSuggestedTitle(input) }}
 							</p>
 							<FormInput
-								:key="`input-${input.name}-${getFormInputOptionsLength(input.options)}`"
+								:key="`input-${input.name}`"
 								v-bind="{
 									...content,
 									...countriesAndStatesReq,
@@ -85,7 +85,7 @@
 	} from "@open-xamu-co/ui-common-types";
 	import type { tFormInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
-	import { useI18n, getFormInputOptionsLength } from "@open-xamu-co/ui-common-helpers";
+	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseWrapper from "../base/Wrapper.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";

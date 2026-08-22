@@ -56,12 +56,13 @@
 						type: 'text',
 						placeholder: placeholder || t('select_filter_options'),
 						disabled: (!!modelValue && !isInvalid) || disabled,
-						invalid: isInvalid,
+						invalid: isInvalid && !pendingSelectOptions,
 						icon,
 						iconProps,
 					}"
 					role="combobox"
 					class="--flx"
+					:theme="theme"
 					@focus="() => setModel(true)"
 				/>
 			</form>
@@ -93,7 +94,17 @@
 						</div>
 						<InputText
 							v-model="search"
-							v-bind="{ icon, placeholder, theme }"
+							autocomplete="off"
+							v-bind="{
+								...properties,
+								type: 'text',
+								placeholder: placeholder || t('select_filter_options'),
+								disabled: (!!modelValue && !isInvalid) || disabled,
+								invalid: isInvalid && !pendingSelectOptions,
+								icon,
+								iconProps,
+							}"
+							role="combobox"
 							class="--width-100"
 							input-classes="--pRight-30"
 							:theme="theme"
