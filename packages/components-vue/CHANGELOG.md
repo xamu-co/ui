@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.44](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.43...@open-xamu-co/ui-components-vue-v4.0.0-next.44) (2026-08-22)
+
+
+### Bug Fixes
+
+* **vue:** reduce recursion & use shallow refs for fetched content ([eaff612](https://github.com/xamu-co/ui/commit/eaff6123caf3466a96f82b6c199f69dccd152262))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.44"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.43](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.42...@open-xamu-co/ui-components-vue-v4.0.0-next.43) (2026-08-20)
 
 
