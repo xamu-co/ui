@@ -1,5 +1,21 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.45](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.44...@open-xamu-co/ui-components-vue-v4.0.0-next.45) (2026-08-22)
+
+
+### Bug Fixes
+
+* **vue:** expose with route prop for content table ([1e00134](https://github.com/xamu-co/ui/commit/1e00134350a71b6cecb16e877de2b3630f618940))
+* **vue:** prevent rerenders from non array options ([ce1f457](https://github.com/xamu-co/ui/commit/ce1f457933b8cbd70429188404b15b3a9a911dda))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.45"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.44](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.43...@open-xamu-co/ui-components-vue-v4.0.0-next.44) (2026-08-22)
 
 
