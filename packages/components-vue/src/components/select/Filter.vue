@@ -13,7 +13,7 @@
 				v-if="isModal"
 				class="--flxJustify-start"
 				:class="{ '--width-100': !compact }"
-				:theme="theme"
+				:theme="toggleTheme || theme"
 				:disabled="disabled"
 				@click="() => setModel(true)"
 			>
@@ -40,7 +40,7 @@
 						:title="t('select_restablish_field')"
 						tooltip-position="left"
 						tooltip-as-text
-						:theme="theme"
+						:theme="toggleTheme || theme"
 						:disabled="disabled"
 						class="--index-1"
 						@click.prevent="() => setFilter(undefined, setModel)"
@@ -62,7 +62,7 @@
 					}"
 					role="combobox"
 					class="--flx"
-					:theme="theme"
+					:theme="toggleTheme || theme"
 					@focus="() => setModel(true)"
 				/>
 			</form>
@@ -170,7 +170,9 @@
 	import type {
 		iFormIconProps,
 		iFormOption,
-		tOptionsLoaderFn,
+		tProp,
+		tThemeModifier,
+		tThemeTuple,
 	} from "@open-xamu-co/ui-common-types";
 	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
@@ -203,6 +205,7 @@
 		 * @private
 		 */
 		modelValue?: string | number;
+		toggleTheme?: tThemeTuple | tProp<tThemeModifier>;
 	}
 
 	/**
@@ -234,33 +237,6 @@
 	/** Local model for the filter */
 	const search = ref<string>();
 
-	/**
-	 * Loader for the options.
-	 * Always a function, even when a static list is provided.
-	 */
-	const optionsLoader = computed<tOptionsLoaderFn>(() => {
-		const rawOptions = props.options;
-
-		if (rawOptions && !Array.isArray(rawOptions)) return rawOptions;
-
-		const list = (rawOptions || []).map(toOption);
-
-		// Fuzzy like search
-		return (query) => {
-			if (!query) return list;
-
-			const lowerQuery = deburr(String(query)).toLowerCase();
-
-			return list.filter(({ alias, value }) => {
-				if (String(props.modelValue) === String(value)) return true;
-
-				const aliasStr = deburr(String(alias || value)).toLowerCase();
-
-				return aliasStr.includes(lowerQuery);
-			});
-		};
-	});
-
 	/** Prefer a predictable identifier */
 	const selectFilterName = computed(() => {
 		if (props.name) return props.name;
@@ -285,13 +261,36 @@
 	const { data: selectOptions, pending: pendingSelectOptions } = useAsyncDataLocal<iFormOption[]>(
 		selectFilterName.value,
 		async (_, { signal } = {}) => {
-			/** Fallbacks search to selected value */
+			// Fallbacks search to selected value
 			const query = search.value || props.modelValue;
-			const result = await Promise.resolve(optionsLoader.value(query, signal));
+			const rawOptions = props.options || [];
 
-			return result || [];
+			// Run option loader function if provided
+			if (!Array.isArray(rawOptions)) {
+				const result = await rawOptions(query, signal);
+
+				return result || [];
+			}
+
+			const list = rawOptions.map(toOption);
+
+			if (!query) return list; // Return all options when no query
+
+			const lowerQuery = deburr(String(query)).toLowerCase();
+
+			// Fuzzy like search
+			return list.filter(({ alias, value }) => {
+				if (String(props.modelValue) === String(value)) return true;
+
+				const aliasStr = deburr(String(alias || value)).toLowerCase();
+
+				return aliasStr.includes(lowerQuery);
+			});
 		},
-		{ default: () => [], watch: [search, () => props.options] }
+		{
+			default: () => [],
+			watch: [search, () => (Array.isArray(props.options) ? props.options : [])],
+		}
 	);
 
 	const selectedOption = computed(() => {
