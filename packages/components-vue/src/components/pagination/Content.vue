@@ -47,6 +47,7 @@
 
 <script setup lang="ts" generic="T, C extends string | number = string, R = never">
 	import { computed, getCurrentInstance, inject, ref, type Ref } from "vue";
+	import isEqual from "lodash-es/isEqual";
 
 	import type {
 		iGetPage,
@@ -99,7 +100,7 @@
 	const hydrateNodes = ref<(newContent: T[] | null, newErrors?: unknown) => void>();
 
 	const pagination = computed<iPagination>({
-		get() {
+		get(prev) {
 			if (props.withRoute && router) {
 				const { orderBy, first, at } = propsPagination.value;
 				const route = router.currentRoute.value;
@@ -107,11 +108,23 @@
 				const routeAt = route.query.at;
 				const routeOrderBy = useOrderBy(route.query.orderBy);
 
-				return {
+				const next: iPagination = {
 					orderBy: routeOrderBy.length ? routeOrderBy : orderBy,
 					first: Number(routeFirst ?? first),
 					at: routeAt ?? at,
 				};
+
+				// Preserve old pagination if possible
+				if (
+					prev &&
+					prev.first === next.first &&
+					prev.at === next.at &&
+					isEqual(prev.orderBy, next.orderBy)
+				) {
+					return prev;
+				}
+
+				return next;
 			}
 
 			return propsPagination.value;

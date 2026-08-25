@@ -10,7 +10,7 @@ import viteConfig from "./vite.config";
  * Coverage threshold for tests
  * TODO: Increase vue tests coverage to 80%
  */
-const coverage = 56;
+const coverage = 60;
 const dirname =
 	typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
@@ -22,13 +22,21 @@ export default mergeConfig(
 			coverage: {
 				provider: "v8",
 				thresholds: {
-					// Percentages from latest tests (04/07/2026)
-					lines: coverage, // 72.45%
-					functions: coverage, // 66.81%
-					branches: coverage, // 61.08%
-					statements: coverage, // 68.98%
+					// Percentages from latest tests (25/08/2026)
+					lines: coverage, // 73.62%
+					functions: coverage, // 67.28%
+					branches: coverage, // 61.42%
+					statements: coverage, // 71.24%
 				},
-				exclude: [...coverageConfigDefaults.exclude, "e2e/**", ".storybook/**"],
+				exclude: [
+					...coverageConfigDefaults.exclude,
+					"**/node_modules/**",
+					"e2e/**",
+					".storybook/**",
+					"storybook-static/**",
+					"coverage/**",
+					"**/dist/**",
+				],
 			},
 			projects: [
 				{
@@ -65,7 +73,14 @@ export default mergeConfig(
 					},
 				},
 			],
-			exclude: [...configDefaults.exclude, "e2e/**", ".storybook/**"],
+			exclude: [
+				...configDefaults.exclude,
+				"e2e/**",
+				".storybook/**",
+				"storybook-static/**",
+				"coverage/**",
+				"**/dist/**",
+			],
 		},
 	})
 );

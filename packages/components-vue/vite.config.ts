@@ -25,8 +25,6 @@ export default defineConfig({
 				index: path.resolve(__dirname, "./src"),
 				// plugin
 				plugin: path.resolve(__dirname, "./src/plugin"),
-				// theme
-				// theme: path.resolve(__dirname, "./src/composables/theme"),
 			},
 			name: "@open-xamu-co/ui-components-vue",
 			formats: ["es", "cjs"],

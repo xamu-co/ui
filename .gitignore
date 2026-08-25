@@ -11,3 +11,4 @@ package-lock.json
 *storybook.log
 storybook-static
 coverage
+*.config.js

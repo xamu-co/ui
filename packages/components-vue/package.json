@@ -8,9 +8,9 @@
     "build": "yarn build:entries && yarn build:types",
     "dev": "storybook dev",
     "typecheck": "vue-tsc --build",
-    "test": "vitest run --coverage",
+    "test": "vitest run --bail=1 --coverage",
     "storybook:build": "storybook build",
-    "storybook:test": "vitest run --project=storybook --coverage"
+    "storybook:test": "yarn test --project=storybook"
   },
   "repository": {
     "type": "git",

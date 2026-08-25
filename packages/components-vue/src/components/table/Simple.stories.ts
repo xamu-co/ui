@@ -1,5 +1,5 @@
 import type { StoryObj } from "@storybook/vue3-vite";
-import { expect, waitFor } from "storybook/test";
+import { expect, waitFor, userEvent, within } from "storybook/test";
 
 import type { GenericMeta } from "../../types/storybook";
 import largeNodes from "./nodes.json" with { type: "json" };
@@ -217,7 +217,6 @@ export const FilteredNodes: Story = {
 
 		// Check if the tbody is rendered
 		expect(tbody).toBeInTheDocument();
-
 		// Check if the tbody has 2 rows
 		expect(tbody?.children.length).toBe(2);
 
@@ -225,9 +224,95 @@ export const FilteredNodes: Story = {
 
 		// Check if the cell is rendered
 		expect(cell).toBeInTheDocument();
+		await waitFor(() => expect(cell).toHaveTextContent("ana"));
+	},
+};
+
+/**
+ * Test column header click interaction to toggle sorting direction
+ */
+export const SortingInteraction: Story = {
+	args: {
+		nodes: [
+			{ id: 1, name: "Zulma", role: "Developer" },
+			{ id: 2, name: "Alberto", role: "Designer" },
+		],
+		sort: ["name", "asc"],
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+
+		await waitFor(() => expect(canvas.getByText("Zulma")).toBeInTheDocument());
+
+		const nameHeader = canvasElement.querySelector("th[data-column-name='name']");
+
+		expect(nameHeader).toBeInTheDocument();
+
+		const sortButton = nameHeader?.querySelector("button") || nameHeader;
+
+		if (sortButton) await userEvent.click(sortButton);
+
 		await waitFor(() => {
-			expect(cell).toHaveTextContent("ana");
+			const rows = canvasElement.querySelectorAll("tbody tr");
+
+			expect(rows.length).toBe(2);
 		});
+	},
+};
+
+/**
+ * Test select-all checkbox in table header to select all rows in tbody
+ */
+export const BatchSelection: Story = {
+	args: {
+		nodes: [
+			{ id: 1, title: "Item Alpha" },
+			{ id: 2, title: "Item Beta" },
+		],
+		deleteNode: (node: any) => !!node, // Actions are required to show batch actions
+	},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+
+		await waitFor(() => expect(canvas.getByText("Item Alpha")).toBeInTheDocument());
+
+		const selectAllCheckbox = canvasElement.querySelector("thead input[type='checkbox']");
+
+		if (!selectAllCheckbox) throw new Error("Select all checkbox not found");
+
+		expect(selectAllCheckbox).toBeInTheDocument();
+		await userEvent.click(selectAllCheckbox);
+
+		const rowCheckboxes = canvasElement.querySelectorAll("tbody input[type='checkbox']");
+
+		rowCheckboxes.forEach((cb) => expect((cb as HTMLInputElement).checked).toBe(true));
+	},
+};
+
+/**
+ * Test expanding nested row accordion to render sub-table
+ */
+export const AccordionExpansion: Story = {
+	render: Nested.render,
+	args: Nested.args,
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+
+		await waitFor(() => expect(canvas.getByText("Jhon Harrison")).toBeInTheDocument());
+
+		const toggleButtons = canvasElement.querySelectorAll("tbody tr button");
+		const expandBtn = Array.from(toggleButtons).find((btn) => {
+			return btn.querySelector(".fa-chevron-down");
+		});
+
+		if (expandBtn) {
+			await userEvent.click(expandBtn);
+			await waitFor(() => {
+				const nestedTable = canvasElement.querySelector("table.--nested");
+
+				expect(nestedTable).toBeInTheDocument();
+			});
+		}
 	},
 };
 

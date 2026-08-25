@@ -40,6 +40,7 @@ export const Sample: Story = {
 			const statesCount = canvas.getByTitle("States Count");
 			const citiesCount = canvas.getByTitle("Cities Count");
 
+			// Mocked responses
 			expect(statesCount).toHaveTextContent("1");
 			expect(citiesCount).toHaveTextContent("1");
 		});

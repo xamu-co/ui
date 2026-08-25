@@ -2,12 +2,12 @@ import type { StoryObj } from "@storybook/vue3-vite";
 import { expect, waitFor, userEvent, within } from "storybook/test";
 import { ref } from "vue";
 
+import type { tOrderBy, iGetPage } from "@open-xamu-co/ui-common-types";
+
 import type { GenericMeta } from "../../types/storybook";
 import largeNodes from "../table/nodes.json" with { type: "json" };
 
 import PaginationContentTable from "./ContentTable.vue";
-
-import type { tOrderBy, iGetPage } from "@open-xamu-co/ui-common-types";
 
 function makePage(nodes?: Record<string, any>[]): iGetPage<Record<string, any>, number> {
 	nodes ||= [
@@ -134,6 +134,55 @@ export const Hydration: Story = {
 			() => {
 				expect(canvas.getByText("Sector Original 1 (Hydrated)")).toBeInTheDocument();
 			},
+			{ timeout: 5000 }
+		);
+	},
+};
+
+/**
+ * Test dynamic node creation and refresh flow using headActions slot
+ */
+export const CreateNodeFlow: Story = {
+	args: {
+		url: "test:create:node",
+		createNode: () =>
+			Promise.resolve([
+				{
+					id: 100,
+					name: "Sector Creado Dinámicamente",
+					description: "Nuevo Sector",
+				},
+			]),
+	},
+	render: (args) => ({
+		components: { PaginationContentTable },
+		setup() {
+			const page = makePage();
+
+			return { args, page };
+		},
+		template: `
+			<PaginationContentTable v-bind="args" :page="page">
+				<template #headActions="{ createNodeAndRefresh }">
+					<button data-testid="create-btn" @click="() => createNodeAndRefresh()">
+						Crear Registro Test
+					</button>
+				</template>
+			</PaginationContentTable>
+		`,
+	}),
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+
+		await waitFor(() => expect(canvas.getByText("Sector Original 1")).toBeInTheDocument());
+
+		const createBtn = canvas.getByTestId("create-btn");
+
+		expect(createBtn).toBeInTheDocument();
+
+		await userEvent.click(createBtn);
+		await waitFor(
+			() => expect(canvas.getByText("Sector Creado Dinámicamente")).toBeInTheDocument(),
 			{ timeout: 5000 }
 		);
 	},
