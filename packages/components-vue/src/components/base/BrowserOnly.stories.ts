@@ -7,6 +7,7 @@ const meta: Meta<typeof BrowserOnly> = {
 	title: "Base/Browser Only",
 	component: BrowserOnly,
 	args: {},
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

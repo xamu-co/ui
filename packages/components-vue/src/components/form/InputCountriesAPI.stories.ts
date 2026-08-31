@@ -10,6 +10,7 @@ const meta: Meta<typeof InputCountriesAPI> = {
 	args: {
 		model: ["CO", "VAC", "Cali"],
 	},
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

@@ -40,6 +40,7 @@ const meta: GenericMeta<typeof PaginationContentTable> = {
 	title: "Pagination/Pagination ContentTable",
 	component: PaginationContentTable,
 	args: {},
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

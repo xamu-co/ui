@@ -107,6 +107,7 @@ const meta: GenericMeta<typeof TableSimple> = {
 	title: "Table",
 	component: TableSimple,
 	args: { nodes, modalProps: { class: "--txtColor", invertTheme: true } },
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

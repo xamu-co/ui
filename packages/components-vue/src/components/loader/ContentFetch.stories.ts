@@ -9,6 +9,7 @@ const meta: GenericMeta<typeof LoaderContentFetch> = {
 	title: "Loader/Loader Content Fetch",
 	component: LoaderContentFetch,
 	args: {},
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;
