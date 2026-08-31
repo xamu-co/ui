@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.46](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.45...@open-xamu-co/ui-components-vue-v4.0.0-next.46) (2026-08-31)
+
+
+### Bug Fixes
+
+* **vue:** set responsive to undefined as default on dropdowns ([43ed153](https://github.com/xamu-co/ui/commit/43ed153b830ad6275538325930f87a2fc8611e06))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.46"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0-next.45](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.44...@open-xamu-co/ui-components-vue-v4.0.0-next.45) (2026-08-22)
 
 
