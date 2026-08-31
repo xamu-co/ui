@@ -10,6 +10,7 @@ const meta: Meta<typeof SelectChoice> = {
 	title: "Select/Select Choice",
 	component: SelectChoice,
 	args: { options: ["Single option"] },
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

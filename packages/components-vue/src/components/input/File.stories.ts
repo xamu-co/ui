@@ -9,6 +9,7 @@ const meta: Meta<typeof InputFile> = {
 	title: "Input/Input File",
 	component: InputFile,
 	args: { modelValue: [] },
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

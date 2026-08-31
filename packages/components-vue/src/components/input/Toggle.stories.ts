@@ -7,6 +7,7 @@ const meta: Meta<typeof InputToggle> = {
 	title: "Input/Input Toggle",
 	component: InputToggle,
 	args: { label: "Toggle checkbox" },
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

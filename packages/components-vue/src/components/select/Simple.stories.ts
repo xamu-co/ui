@@ -16,6 +16,7 @@ const meta: Meta<typeof SelectSimple> = {
 	title: "Select/Select Simple",
 	component: SelectSimple,
 	args: { options },
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

@@ -12,6 +12,7 @@ const meta: Meta<typeof FormStages> = {
 	component: FormStages,
 	args: {},
 	excludeStories: /.*Data$/,
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

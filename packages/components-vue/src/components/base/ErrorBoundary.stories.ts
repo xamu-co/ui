@@ -7,6 +7,7 @@ const meta: Meta<typeof ErrorBoundary> = {
 	title: "Base/Error Boundary",
 	component: ErrorBoundary,
 	args: {},
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

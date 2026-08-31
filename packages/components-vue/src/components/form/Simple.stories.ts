@@ -15,6 +15,7 @@ const meta: GenericMeta<typeof FormSimple> = {
 	title: "Form/Form Simple",
 	component: FormSimple,
 	args: {},
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

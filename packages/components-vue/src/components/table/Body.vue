@@ -289,6 +289,7 @@
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
 	import { computed, inject, defineAsyncComponent } from "vue";
 	import omit from "lodash-es/omit";
+	import isEqual from "lodash-es/isEqual";
 
 	import type { iPluginOptions, tThemeTuple } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -340,7 +341,11 @@
 		return (page - 1) * first;
 	});
 
-	const dropdownProps = computed(() => {
-		return omit(props.modalProps || {}, "class");
+	const dropdownProps = computed<Record<string, any>>((prev) => {
+		const next = omit(props.modalProps || {}, "class");
+
+		if (prev && isEqual(next, prev)) return prev;
+
+		return next;
 	});
 </script>

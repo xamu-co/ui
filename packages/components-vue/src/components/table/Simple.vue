@@ -165,7 +165,7 @@
 	 * Mapped nodes
 	 * Keeps the original node and the mapped node if any (filtered)
 	 */
-	const mappedNodes = computed<iMappedNodes<T, TM>>(() => {
+	const mappedNodes = computed<iMappedNodes<T, TM>>((prev) => {
 		const newNodes: iMappedNodes<T, TM> = { nodes: [], length: 0, withChildren: false };
 		const mappedList = props.mapNodes(props.nodes); // Run once
 
@@ -206,6 +206,30 @@
 			newNodes.length++;
 		});
 
+		// Preserve old mappedNodes if possible
+		if (
+			prev &&
+			prev.length === newNodes.length &&
+			prev.withChildren === newNodes.withChildren &&
+			prev.nodes.every((item, i) => {
+				const {
+					node,
+					index,
+					visibility: { childrenCount, disableCreateNodeChildren, showNodeChildren },
+				} = newNodes.nodes[i];
+
+				return (
+					item.node === node &&
+					item.index === index &&
+					item.visibility.childrenCount === childrenCount &&
+					item.visibility.disableCreateNodeChildren === disableCreateNodeChildren &&
+					item.visibility.showNodeChildren === showNodeChildren
+				);
+			})
+		) {
+			return prev;
+		}
+
 		return newNodes;
 	});
 
@@ -228,24 +252,39 @@
 	 *
 	 * TODO: require & use order getter fn instead
 	 */
-	const ordering = computed(() => {
+	const ordering = computed<Record<string, tOrder>>((prevOrdering) => {
 		const [sortKey = "id", sortValue = "desc"] = Array.isArray(props.sort) ? props.sort : [];
-		let orderBy: Record<string, tOrder> = { [sortKey]: sortValue };
+		let newOrdering: Record<string, tOrder> = { [sortKey]: sortValue };
 
 		if (props.withRoute && router) {
 			const route = router.currentRoute.value;
-			const routeOrderBy = useOrderBy(route.query.orderBy);
+			const routeOrdering = useOrderBy(route.query.orderBy);
 
-			if (!routeOrderBy.length) return orderBy;
+			if (!routeOrdering.length) {
+				if (
+					prevOrdering &&
+					prevOrdering[sortKey] === sortValue &&
+					Object.keys(prevOrdering).length === 1
+				) {
+					return prevOrdering;
+				}
 
-			orderBy = routeOrderBy.reduce<Record<string, tOrder>>((acc, [key, value]) => {
+				return newOrdering;
+			}
+
+			newOrdering = routeOrdering.reduce<Record<string, tOrder>>((acc, [key, value]) => {
 				acc[key] = value || "desc";
 
 				return acc;
 			}, {});
 		}
 
-		return orderBy;
+		// Prefer previous ordering if possible
+		if (prevOrdering && isEqual(newOrdering, prevOrdering)) {
+			return prevOrdering;
+		}
+
+		return newOrdering;
 	});
 	const isReadOnly = computed<boolean>(() => {
 		return (
@@ -265,7 +304,7 @@
 	 * Get meta from mapped nodes
 	 * This one assumes all objects within nodes are all the same
 	 */
-	const propertiesMeta = computed<iTablePropertyMeta<T>[]>(() => {
+	const propertiesMeta = computed<iTablePropertyMeta<T>[]>((prevMeta) => {
 		if (!mappedNodes.value.nodes.length) return [];
 
 		const mappedNode: TM = mappedNodes.value.nodes[0].node;
@@ -288,6 +327,20 @@
 			if (!["id", props.childrenCountKey].includes(meta.value)) properties.push(meta);
 		}
 
+		// Prefer previous propertiesMeta if possible
+		if (
+			prevMeta &&
+			prevMeta.length === properties.length &&
+			prevMeta.every(
+				(item, i) =>
+					item.value === properties[i].value &&
+					item.alias === properties[i].alias &&
+					item.canSort === properties[i].canSort
+			)
+		) {
+			return prevMeta;
+		}
+
 		return properties;
 	});
 	/** Prefer a predictable identifier */
@@ -305,27 +358,46 @@
 		return metaBased ? Md5.hashStr(`table-${childrenBased}-${metaBased}`) : fallbackId;
 	});
 
-	const childrenProps = computed<iTableChildProps<T, TM>>(() => ({
-		...props,
-		mappedNodes: mappedNodes.value,
-		tableId: tableId.value,
-		propertiesMeta: propertiesMeta.value,
-		isReadOnly: isReadOnly.value,
-		ordering: ordering.value,
-		selectedNodes: selectedNodes.value,
-		selectedNodesCount: selectedNodesCount.value,
-		openNodes: openNodes.value,
-		openNodesCount: openNodesCount.value,
-		canShowChildren,
-		setOrdering,
-		openAll,
-		selectAll,
-		toggleChildren,
-		updateNodeAndRefresh,
-		cloneNodeAndRefresh,
-		deleteNodeAndRefresh,
-		deleteNodesAndRefresh,
-	}));
+	const childrenProps = computed<iTableChildProps<T, TM>>((prevProps) => {
+		const newChildrenProps: iTableChildProps<T, TM> = {
+			...props,
+			mappedNodes: mappedNodes.value,
+			tableId: tableId.value,
+			propertiesMeta: propertiesMeta.value,
+			isReadOnly: isReadOnly.value,
+			ordering: ordering.value,
+			selectedNodes: selectedNodes.value,
+			selectedNodesCount: selectedNodesCount.value,
+			openNodes: openNodes.value,
+			openNodesCount: openNodesCount.value,
+			canShowChildren,
+			setOrdering,
+			openAll,
+			selectAll,
+			toggleChildren,
+			updateNodeAndRefresh,
+			cloneNodeAndRefresh,
+			deleteNodeAndRefresh,
+			deleteNodesAndRefresh,
+		};
+
+		if (
+			prevProps &&
+			prevProps.mappedNodes === newChildrenProps.mappedNodes &&
+			prevProps.tableId === newChildrenProps.tableId &&
+			prevProps.propertiesMeta === newChildrenProps.propertiesMeta &&
+			prevProps.isReadOnly === newChildrenProps.isReadOnly &&
+			prevProps.ordering === newChildrenProps.ordering &&
+			prevProps.selectedNodes === newChildrenProps.selectedNodes &&
+			prevProps.selectedNodesCount === newChildrenProps.selectedNodesCount &&
+			prevProps.openNodes === newChildrenProps.openNodes &&
+			prevProps.openNodesCount === newChildrenProps.openNodesCount
+		) {
+			return prevProps;
+		}
+
+		return newChildrenProps;
+	});
 
 	/**
 	 * Whether the conditions to show children are met

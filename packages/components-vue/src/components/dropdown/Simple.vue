@@ -119,6 +119,7 @@
 	const props = withDefaults(defineProps<iDropdownProps>(), {
 		theme: eColors.SECONDARY,
 		classes: "flx --flxColumn --flx-start-stretch",
+		responsiveRange: undefined,
 	});
 	const emit = defineEmits<{
 		(e: "update:model-value", value: boolean): any;

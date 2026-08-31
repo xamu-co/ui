@@ -10,7 +10,7 @@ const meta: Meta<typeof ActionButton> = {
 	title: "Action/Action Button",
 	component: ActionButton,
 	args: { default: "Action Button" },
-	tags: ["stable"],
+	tags: ["test", "stable"],
 };
 
 type Story = StoryObj<typeof meta>;

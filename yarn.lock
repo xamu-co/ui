@@ -11266,13 +11266,6 @@ nunjucks@^3.1.7, nunjucks@^3.2.4:
     asap "^2.0.3"
     commander "^5.1.0"
 
-nuxt-countries-api@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/nuxt-countries-api/-/nuxt-countries-api-3.0.0.tgz#5fe74f9066e3b843c613a034398316dd7d9a35b9"
-  integrity sha512-yufCaKRi18kNQg22qU8DsVca2MN3mtCkaOlXY1fEG94hstoLJiHcgs5niCEloznT2s0yByZ+bc2whD1aVNOFUg==
-  dependencies:
-    "@nuxt/kit" "^3.20.2"
-
 nuxt@^3.20.2:
   version "3.20.2"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.20.2.tgz#3ea40738a640329d3f819e0409377796010b9bdd"

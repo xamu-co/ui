@@ -7,6 +7,7 @@ const meta: Meta<typeof InputText> = {
 	title: "Input/Input Text",
 	component: InputText,
 	args: { icon: "cubes", placeholder: "What is your name?" },
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;

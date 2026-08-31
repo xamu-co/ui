@@ -41,6 +41,11 @@
     ],
     "exclude": [
         "playground",
+        "__tests__",
+        "node_modules",
+        "dist",
+        "coverage",
+        ".nuxt"
     ],
     "references": [
         {
