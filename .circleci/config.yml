@@ -6,7 +6,7 @@ version: 2.1
 defaults: &defaults
     working_directory: ~/repo
     docker:
-        - image: cimg/node:22.22.2
+        - image: cimg/node:24.21.0
     environment:
         HUSKY: 0
 
@@ -24,8 +24,10 @@ release: &release
               name: Install dependencies
               command: yarn
         - run:
-              name: Release to npm
-              command: yarn release
+              name: Release to npm with OIDC
+              command: |
+                  export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+                  yarn release
 
 jobs:
     setup:
