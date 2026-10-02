@@ -12,7 +12,7 @@ import type {
 	tFormAutocomplete,
 	tFormIcon,
 	tOptionsLoaderFn,
-} from "./types";
+} from "./types.js";
 
 export declare abstract class tFormInputDefault<
 	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple,
