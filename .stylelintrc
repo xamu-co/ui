@@ -18,6 +18,7 @@
       "media-feature-range-notation": "prefix",
       "color-function-alias-notation": null,
       "selector-id-pattern": null,
+      "no-invalid-position-declaration": null,
       "rule-empty-line-before": [
          "never-multi-line",
          {
