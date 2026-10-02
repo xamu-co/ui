@@ -1,5 +1,24 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v4.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v4.0.0-next.13...@open-xamu-co/ui-common-types-v4.0.0-next.14) (2026-10-02)
+
+
+### Bug Fixes
+
+* **types:** preserve import extension for node compatibility ([d76c94a](https://github.com/xamu-co/ui/commit/d76c94a82edfa436f5929a9f29124db6603ed4f2))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "4.0.0-next.14"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v4.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v4.0.0-next.12...@open-xamu-co/ui-common-types-v4.0.0-next.13) (2026-08-18)
 
 
