@@ -302,4 +302,49 @@ describe("FormInput", () => {
 			unique: true,
 		});
 	});
+
+	it("should generate only a single input value when limiting numbers of a single number input", () => {
+		// Single number input with min/max bounds limiting the numeric range
+		const numberInput = new FormInput({
+			name: "age",
+			type: eFormType.NUMBER,
+			min: 18,
+			max: 65,
+		});
+
+		expect(numberInput.min).toBe(18);
+		expect(numberInput.max).toBe(65);
+		expect(numberInput.multiple).toBe(false);
+		expect(numberInput.values).toEqual([""]);
+		expect(numberInput.values.length).toBe(1);
+
+		// Single number input with pre-existing value should preserve it
+		const numberInputWithValue = new FormInput({
+			name: "age",
+			type: eFormType.NUMBER,
+			min: 18,
+			max: 65,
+			values: [25],
+		});
+
+		expect(numberInputWithValue.values).toEqual([25]);
+		expect(numberInputWithValue.values.length).toBe(1);
+
+		// Resetting values with undefined should restore a single default value
+		numberInputWithValue.values = undefined;
+		expect(numberInputWithValue.values).toEqual([""]);
+		expect(numberInputWithValue.values.length).toBe(1);
+
+		// Multiple number input should still respect min as minimum count of values
+		const multiNumberInput = new FormInput({
+			name: "scores",
+			type: eFormType.NUMBER,
+			multiple: true,
+			min: 3,
+			max: 5,
+		});
+
+		expect(multiNumberInput.values).toEqual(["", "", ""]);
+		expect(multiNumberInput.values.length).toBe(3);
+	});
 });
