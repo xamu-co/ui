@@ -196,11 +196,14 @@ export class FormInput<
 			// Autoset values if required
 			if (this.required && !this._values.length) this.autosetValues();
 		} else if (this.type !== eFormType.FILE) {
-			const length = Math.max(1, this.min); // Negative values fallback
-			const values = Array(length).fill(getDefault(formInput.type, formInput.defaults));
+			// Prevent rendering multiple values with min/max if number type is used
+			const length =
+				this.type === eFormType.NUMBER && !this.multiple ? 1 : Math.max(1, this.min);
+
+			if (this._values.length >= length) return;
 
 			// Use defaults
-			if (this._values.length < length) this._values = values;
+			this._values = Array(length).fill(getDefault(this.type, formInput.defaults));
 		}
 	}
 
@@ -230,11 +233,14 @@ export class FormInput<
 				// Autoset values if required
 				if (this.required && !this._values.length) this.autosetValues();
 			} else if (this.type !== eFormType.FILE) {
-				const length = Math.max(1, this.min); // negative values fallback
-				const values = Array(length).fill(getDefault(this.type, this.defaults));
+				// Prevent rendering multiple values with min/max if number type is used
+				const length =
+					this.type === eFormType.NUMBER && !this.multiple ? 1 : Math.max(1, this.min);
 
-				// use defaults
-				if (this._values.length < length) this._values = values;
+				if (this._values.length >= length) return;
+
+				// Use defaults
+				this._values = Array(length).fill(getDefault(this.type, this.defaults));
 			}
 		} else {
 			/** Get unique values if enabled */
