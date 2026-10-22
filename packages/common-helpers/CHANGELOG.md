@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.16...@open-xamu-co/ui-common-helpers-v4.0.0-next.17) (2026-10-22)
+
+
+### Bug Fixes
+
+* **helpers:** prevent creating multiple values for number inputs ([f5bcaeb](https://github.com/xamu-co/ui/commit/f5bcaeb2113474b44213115d1ce614b76e180451))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.17"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v4.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.15...@open-xamu-co/ui-common-helpers-v4.0.0-next.16) (2026-08-19)
 
 
