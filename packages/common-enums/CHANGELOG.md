@@ -1,5 +1,39 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v4.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.1.0...@open-xamu-co/ui-common-enums-v4.0.0) (2026-10-23)
+
+
+### Bug Fixes
+
+* allow more image types on file input ([73d39bc](https://github.com/xamu-co/ui/commit/73d39bc95c32f801233d442870512f1fc6ac1fe5))
+
+
+### Features
+
+* **nuxt:** extend nuxt support ([702a9b3](https://github.com/xamu-co/ui/commit/702a9b37716a11a3742e4fe0a423e32ad9ef7c48))
+* **vue:** support date, datetime & time inputs ([a115eca](https://github.com/xamu-co/ui/commit/a115ecae09dfd895cf73d99eaeaea5b792832cd4))
+* code editor support ([b08239d](https://github.com/xamu-co/ui/commit/b08239ddef1dd5bc928db630211cddd11ae1ea47))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** node22 required
+* renamed mime types exports
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-enums" version "4.0.0"[0m
+[34mUpdating "common-types"[0m
+[34mSuccesfully updated "common-types" package[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-enums-v4.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v4.0.0-next.3...@open-xamu-co/ui-common-enums-v4.0.0-next.4) (2026-07-01)
 
 
