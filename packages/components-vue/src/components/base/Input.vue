@@ -12,7 +12,11 @@
 			required,
 			disabled: disabled || null,
 			tabindex: (disabled && '-1') || tabindex || null,
-			...(useChecked ? { checked: modelValue ?? !!$attrs.checked } : { value: modelValue }),
+			...(useChecked
+				? { checked: modelValue ?? !!$attrs.checked }
+				: props.type !== 'file'
+					? { value: modelValue }
+					: {}),
 		}"
 		@input="handleInput"
 		@change="emit('change', $event)"
@@ -21,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed } from "vue";
+	import { computed, useId } from "vue";
 	import deburr from "lodash-es/deburr";
 	import { Md5 } from "ts-md5";
 
@@ -46,13 +50,20 @@
 	defineOptions({ name: "BaseInput", inheritAttrs: false });
 
 	const props = defineProps<iBaseInputProps>();
-	const emit = defineEmits(["update:model-value", "change"]);
+	const emit = defineEmits<{
+		(e: "update:model-value", value: unknown): any;
+		(e: "change", value: Event): any;
+	}>();
+
+	const fallbackId = useId();
 
 	/** Prefer a predictable identifier */
 	const inputId = computed(() => {
+		if (props.id) return props.id;
+
 		const seed = deburr(props.name || props.placeholder || props.title);
 
-		return props.id || Md5.hashStr(`input-${seed}`);
+		return seed ? Md5.hashStr(`input-${seed}`) : fallbackId;
 	});
 	const useChecked = computed(() => {
 		return props.type === "checkbox" || props.type === "radio";

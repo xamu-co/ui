@@ -1,45 +1,52 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+import type { ModuleDependencyMeta } from "nuxt/schema";
 import {
 	defineNuxtModule,
 	addPlugin,
 	addComponent,
 	createResolver,
-	installModule,
 	addImports,
 	addImportsDir,
+	addTemplate,
 } from "@nuxt/kit";
 import upperFirst from "lodash-es/upperFirst";
 import camelCase from "lodash-es/camelCase";
+import omit from "lodash-es/omit";
 
 import locale from "@open-xamu-co/ui-common-helpers/en";
 import { componentNames } from "@open-xamu-co/ui-common-enums";
 
-import type { XamuModuleOptions } from "./types";
+import type { Stylesheet, XamuModuleOptions } from "./types";
+
+export * from "./types";
 
 /**
  * Preload stylesheet and once loaded call them
  * @param {string} href - Resource url
  * @returns {object} Link object
  */
-function getStyleSheetPreload(href: string) {
+export function getStyleSheetPreload(href: Stylesheet) {
 	return {
 		rel: "preload",
 		as: "style" as const,
 		onload: "this.onload=null;this.rel='stylesheet'",
-		href,
+		href: typeof href === "string" ? href : href.href,
+		tagPriority: typeof href === "object" ? href.tagPriority : undefined,
 	};
 }
 
-const stylesheets: string[] = [
+const stylesheets: Stylesheet[] = [
 	"https://unpkg.com/@fortawesome/fontawesome-free@^6/css/all.min.css",
 	"https://unpkg.com/sweetalert2@^11/dist/sweetalert2.min.css",
 ];
 
+/**
+ * Nuxt module for @open-xamu-co/ui
+ */
 export default defineNuxtModule<XamuModuleOptions>({
 	meta: {
 		name: "@open-xamu-co/ui-nuxt",
 		configKey: "xamu",
-		compatibility: { nuxt: "^3.0.0" },
+		compatibility: { nuxt: ">=3.0.0" },
 	},
 	defaults: {
 		// Set plugin defaults
@@ -49,18 +56,62 @@ export default defineNuxtModule<XamuModuleOptions>({
 		locale,
 		lang: "en",
 		first: 10,
-		countriesUrl: "/_countries",
+		swal: {
+			overrides: {
+				customClass: {
+					confirmButton: ["bttn"],
+					cancelButton: ["bttnToggle"],
+					denyButton: ["link"],
+				},
+			},
+			preventOverrides: {
+				customClass: {
+					confirmButton: ["bttn", "--tm-danger-light"],
+					cancelButton: ["bttnToggle"],
+					denyButton: ["link"],
+				},
+			},
+		},
 	},
-	async setup(moduleOptions, nuxt) {
-		const { globalComponents, componentPrefix, image, countriesUrl } = moduleOptions;
-		const { resolve, resolvePath } = createResolver(import.meta.url);
+	async setup({ logger, ...moduleOptions }, nuxt) {
+		const { globalComponents, componentPrefix } = moduleOptions;
+		const { resolve } = createResolver(import.meta.url);
 		const runtimePath = resolve("./runtime");
 
 		// Setup nuxt options
-		nuxt.options.vite.resolve = { ...nuxt.options.vite.resolve, preserveSymlinks: true };
-
-		// @ts-ignore Inject plugin options
-		nuxt.options.appConfig.xamu = moduleOptions;
+		nuxt.options.vite.resolve = {
+			...nuxt.options.vite.resolve,
+			preserveSymlinks: true,
+			dedupe: [
+				...(nuxt.options.vite.resolve?.dedupe || []),
+				"@open-xamu-co/ui-components-vue",
+			],
+		};
+		nuxt.options.vite.optimizeDeps ||= {};
+		nuxt.options.vite.optimizeDeps.include = [
+			...(nuxt.options.vite.optimizeDeps.include || []),
+			"@open-xamu-co/ui-common-enums",
+			"@open-xamu-co/ui-common-helpers",
+			"@open-xamu-co/ui-components-vue",
+			"lodash-es/capitalize",
+			"lodash-es/debounce",
+			"lodash-es/isEqual",
+			"lodash-es/omit",
+			"lodash-es/startCase",
+			"vue-router-better-scroller",
+		];
+		nuxt.options.runtimeConfig.public.xamu = omit(moduleOptions, [
+			"image",
+			"imageHost",
+			"disableCSSMeta",
+		]);
+		nuxt.options.router.options = {
+			...nuxt.options.router.options,
+			linkActiveClass: "is--route",
+			linkExactActiveClass: "is--routeExact",
+			scrollBehaviorType: "smooth",
+		};
+		nuxt.options.app.keepalive = true;
 
 		if (!moduleOptions.disableCSSMeta) {
 			// inject css meta tags
@@ -74,42 +125,29 @@ export default defineNuxtModule<XamuModuleOptions>({
 			);
 		}
 
-		// Register components config plugin
-		addPlugin(resolve(runtimePath, "plugins", "config"));
-
-		await installModule("@nuxt/image", {
-			provider: "ipx",
-			presets: { avatar: { modifiers: { width: 60, height: 60 } } },
-			format: ["webp", "jpg"],
-			// override defaults
-			...image,
+		// Logger
+		addTemplate({
+			filename: "ui-nuxt.mjs",
+			getContents: () => `
+				/** Logger is present */
+				export const withLogger = ${!!logger};
+				export function useXamuUILogger(...args) {
+					return (${logger?.toString() || "() => {}"})(...args)
+				}
+			`,
 		});
 
-		if (
-			countriesUrl &&
-			!countriesUrl?.includes("countries.xamu.com.co") &&
-			!moduleOptions.disableCountriesModule
-		) {
-			let pathname = countriesUrl;
-
-			try {
-				pathname = new URL(countriesUrl).pathname;
-			} catch (err) {
-				// Do nothing, will crash if pathname only
-			}
-
-			await installModule("nuxt-countries-api", { base: pathname });
-		}
+		// Register components config plugin
+		addPlugin(resolve(runtimePath, "plugins", "config"));
 
 		// Filter and register components if enabled
 		if (globalComponents) {
 			const components = Array.isArray(globalComponents) ? globalComponents : componentNames;
-			const filePath = await resolvePath("@open-xamu-co/ui-components-vue"); // node_modules/@open-xamu-co/ui-components-vue/dist/index.mjs
 
 			components.forEach((name) => {
 				addComponent({
 					name: upperFirst(camelCase(componentPrefix)) + name,
-					filePath,
+					filePath: "@open-xamu-co/ui-components-vue",
 					export: name,
 					mode: "all",
 				});
@@ -123,7 +161,28 @@ export default defineNuxtModule<XamuModuleOptions>({
 			from: "@open-xamu-co/ui-components-vue",
 		});
 
+		// Markdown composable
+		addImports({
+			name: "useMarkdown",
+			as: "useMarkdown",
+			from: "@open-xamu-co/ui-components-vue",
+		});
+
 		// Other composables, config required
 		addImportsDir(resolve(runtimePath, "composables"));
+	},
+	moduleDependencies() {
+		const dependencies: Record<string, ModuleDependencyMeta<Record<string, unknown>>> = {
+			"@nuxt/image": {
+				version: ">=1.0.0",
+				defaults: {
+					provider: "ipx",
+					presets: { avatar: { modifiers: { width: 60, height: 60 } } },
+					format: ["webp", "jpg"],
+				},
+			},
+		};
+
+		return dependencies;
 	},
 });

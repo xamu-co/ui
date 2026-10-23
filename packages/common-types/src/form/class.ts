@@ -7,16 +7,16 @@ import type {
 import type {
 	iFormInput,
 	iFormInputDefault,
+	iFormOption,
 	iFormValue,
 	tFormAutocomplete,
 	tFormIcon,
-} from "./types";
-import type { iSelectOption } from "../values.js";
+	tOptionsLoaderFn,
+} from "./types.js";
 
 export declare abstract class tFormInputDefault<
 	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple,
-> implements iFormInputDefault<T>
-{
+> implements iFormInputDefault<T> {
 	// public
 	public type: T;
 	// public readonly
@@ -32,24 +32,25 @@ export declare abstract class tFormInputDefault<
 	public setRerender(rerender: (fi?: Partial<iFormInputDefault<T>>) => void): this;
 }
 
-export declare class tFormInput<
-		V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
-		T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
-			| eFormTypeBase
-			| eFormTypeSimple
-			| eFormTypeComplex,
-	>
+export declare abstract class tFormInput<
+	V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
+	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
+		eFormTypeBase | eFormTypeSimple | eFormTypeComplex,
+>
 	extends tFormInputDefault<T>
 	implements iFormInput<V, T>
 {
 	// public readonly
 	public readonly name: string;
 	public readonly title?: string;
-	public readonly multiple: boolean;
-	public readonly min: number;
-	public readonly max: number;
+	public readonly optionsFilter?: tOptionsLoaderFn;
 	// public
-	public options: iSelectOption[];
+	public multiple: boolean;
+	public unique: boolean;
+	public min: number;
+	public max: number;
+	public meta?: Record<string, any>;
+	public options: iFormOption[];
 	public values: V[];
 	public defaults?: [
 		iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>,

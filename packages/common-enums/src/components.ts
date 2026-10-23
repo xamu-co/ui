@@ -24,6 +24,8 @@ export const componentNames = [
 	"InputText",
 	"InputToggle",
 	"InputColor",
+	"InputCode",
+	"InputTime",
 	// select
 	"Select",
 	"SelectFilter",
@@ -35,6 +37,7 @@ export const componentNames = [
 	// box
 	"BoxAction",
 	"BoxMessage",
+	"BoxEditor",
 	// loader
 	"Loader",
 	"LoaderContent",

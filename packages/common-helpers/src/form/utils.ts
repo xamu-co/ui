@@ -15,7 +15,7 @@ import {
 } from "@open-xamu-co/ui-common-enums";
 
 /**
- * Wheter or not value is empty
+ * Whether or not value is empty
  * @param value any value
  * @returns {boolean}
  */
@@ -142,7 +142,7 @@ export function getFormInputsInvalids(inputs: tFormInput[]): iInvalidInput[] {
 /**
  * Reduces FormInput values into an object
  * @param inputs FormInput array
- * @param plainValues wheter or not to remove unnecesary arrays
+ * @param plainValues whether or not to remove unnecesary arrays
  * @returns
  */
 export function getFormInputsValues<V extends Record<string, any>>(

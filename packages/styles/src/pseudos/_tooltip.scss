@@ -183,13 +183,13 @@
 			&[data-#{utils.$pseudo-tooltip}-p="bottom"],
 			&[data-#{utils.$pseudo-tooltip}-position="bottom"],
 			&:not(
-					[data-#{utils.$pseudo-tooltip}-position],
-					[data-#{utils.$pseudo-tooltip}-p],
-					[data-#{utils.$pseudo-tooltip}-bottom],
-					[data-#{utils.$pseudo-tooltip}-top],
-					[data-#{utils.$pseudo-tooltip}-left],
-					[data-#{utils.$pseudo-tooltip}-right]
-				) {
+				[data-#{utils.$pseudo-tooltip}-position],
+				[data-#{utils.$pseudo-tooltip}-p],
+				[data-#{utils.$pseudo-tooltip}-bottom],
+				[data-#{utils.$pseudo-tooltip}-top],
+				[data-#{utils.$pseudo-tooltip}-left],
+				[data-#{utils.$pseudo-tooltip}-right]
+			) {
 				&::before {
 					bottom: 0;
 					left: 50%;

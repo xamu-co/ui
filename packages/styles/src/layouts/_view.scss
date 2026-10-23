@@ -25,11 +25,9 @@
 			//
 			// @group Modifiers
 			@layer defaults {
-				& {
-					// @defaults minHeight
-					min-height: 60vh;
-					min-height: 60dvh;
-				}
+				// @defaults minHeight
+				min-height: 60vh;
+				min-height: 60dvh;
 			}
 
 			&.#{utils.$prefix-default}--minHeight-100 {
@@ -38,13 +36,10 @@
 			}
 
 			> .#{utils.$layout-holder} {
-				@include utils.flex-box(column, nowrap, center, stretch);
-
 				@layer defaults {
-					&:not([class*="--gap"]) > :not(:last-child) {
-						// @defaults mBottom
-						margin-bottom: 2rem;
-					}
+					@include utils.flex-box(column, nowrap, center, stretch);
+
+					gap: 2rem;
 				}
 			}
 		}

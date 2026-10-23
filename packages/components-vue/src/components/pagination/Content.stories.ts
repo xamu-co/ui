@@ -1,14 +1,16 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { StoryObj } from "@storybook/vue3-vite";
+
+import type { GenericMeta } from "../../types/storybook";
 
 import Content from "./Content.vue";
 
-const meta = {
+const meta: GenericMeta<typeof Content> = {
 	title: "Pagination/Pagination Content",
-	component: Content as Record<keyof typeof Content, unknown>,
+	component: Content,
 	args: {},
-} satisfies Meta<typeof Content>;
+};
 
-type Story = StoryObj<typeof Content>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
 	args: {},

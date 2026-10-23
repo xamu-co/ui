@@ -1,17 +1,24 @@
 <template>
+	<!-- Wrapper allows for the relative positioning of the dropdown -->
 	<BaseWrapper :wrap="!!$slots.toggle" :wrapper="el" :class="$attrs.class">
-		<div
-			v-if="$slots.toggle"
-			ref="toggleRef"
-			class="only--active toggle--dropdown"
-			:class="{ 'is--active': localModel }"
-		>
-			<slot name="toggle" v-bind="{ model, setModel }"></slot>
-		</div>
-		<Modal
+		<ModalSimple
 			v-model="localModel"
 			v-bind="{ ...modalProps, theme, invertTheme, disabled: !isModal }"
 		>
+			<template v-if="$slots.toggle" #toggle="{ modalRef }">
+				<div
+					ref="toggleRef"
+					class="only--active toggle--dropdown"
+					:class="{ 'is--active': localModel }"
+					:aria-expanded="localModel"
+					aria-haspopup="true"
+				>
+					<slot
+						name="toggle"
+						v-bind="{ model, setModel, isModal, modalRef, toggleRef, dropdownRef }"
+					></slot>
+				</div>
+			</template>
 			<template #default="{ modalRef }">
 				<div ref="dropdownRef" :class="dropdownClasses">
 					<slot
@@ -20,6 +27,7 @@
 							isModal,
 							setModel,
 							modalRef,
+							toggleRef,
 							dropdownRef,
 							invertedTheme: invertedThemeValues,
 						}"
@@ -51,7 +59,7 @@
 					}"
 				></slot>
 			</template>
-		</Modal>
+		</ModalSimple>
 	</BaseWrapper>
 </template>
 
@@ -59,9 +67,10 @@
 	import { computed, ref, watch, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
 
 	import { useUtils } from "@open-xamu-co/ui-common-helpers";
+	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	import BaseWrapper from "../base/Wrapper.vue";
-	import Modal from "../modal/Simple.vue";
+	import ModalSimple from "../modal/Simple.vue";
 
 	import type { vComponent } from "../../types/plugin";
 	import type { iModalProps, iUseModifiersProps, iUseThemeProps } from "../../types/props";
@@ -69,7 +78,6 @@
 	import useModifiers from "../../composables/modifiers";
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
-	import { eColors } from "@open-xamu-co/ui-common-enums";
 
 	type tAlignFirstX = "right" | "left";
 	type tAlignFirstY = "top" | "bottom";
@@ -93,6 +101,11 @@
 		modalProps?: iModalProps;
 		/** Dropdown el classes */
 		classes?: string;
+		/**
+		 * Breakpoint range. When to switch to a modal
+		 * @default tabletMqRange (md)
+		 */
+		responsiveRange?: boolean;
 	}
 
 	/**
@@ -106,8 +119,12 @@
 	const props = withDefaults(defineProps<iDropdownProps>(), {
 		theme: eColors.SECONDARY,
 		classes: "flx --flxColumn --flx-start-stretch",
+		responsiveRange: undefined,
 	});
-	const emit = defineEmits(["close", "update:model-value"]);
+	const emit = defineEmits<{
+		(e: "update:model-value", value: boolean): any;
+		(e: "close"): any;
+	}>();
 
 	const { getModifierClasses: GMC } = useHelpers(useUtils);
 	const { themeClasses, invertedThemeValues } = useTheme(props, true);
@@ -118,7 +135,7 @@
 	const toggleRef = ref<HTMLElement>();
 	const dropdownRef = ref<HTMLElement>();
 	const isModal = ref(false);
-	const model = ref<boolean>(props.modelValue);
+	const model = ref<boolean>(!!props.modelValue);
 	const dropdownClasses = computed<string[]>(() => {
 		const classes = [props.classes];
 
@@ -138,21 +155,27 @@
 	});
 
 	function setModel(value = !model.value) {
-		if (value) return openDropdown();
+		// Avoid unnecessary updates
+		if (!!value === !!model.value) return;
 
-		closeDropdown();
-	}
+		if (value) {
+			document.addEventListener("click", clickOutside, true);
+			document.addEventListener("keydown", handleKeydown, true);
+			model.value = true;
 
-	function openDropdown() {
-		document.addEventListener("click", clickOutside, true);
-		model.value = true;
-	}
+			return;
+		}
 
-	function closeDropdown() {
 		emit("close");
 		emit("update:model-value", (model.value = false));
 		document.removeEventListener("click", clickOutside, true);
+		document.removeEventListener("keydown", handleKeydown, true);
 	}
+
+	function handleKeydown(e: KeyboardEvent) {
+		if (e.key === "Escape") setModel(false);
+	}
+
 	function clickOutside(e: MouseEvent) {
 		const target = e.target as HTMLElement;
 		const toggle = toggleRef.value;
@@ -160,7 +183,7 @@
 
 		if (dropdown === target || dropdown?.contains(target) || toggle?.contains(target)) return;
 
-		closeDropdown();
+		setModel(false);
 	}
 
 	/**
@@ -174,11 +197,11 @@
 	// lifecycle
 	onMounted(() => {
 		watch(
-			tabletMqRange,
+			() => props.responsiveRange ?? tabletMqRange.value,
 			(value) => {
 				isModal.value = value && props.modelValue !== null;
 
-				if (localModel.value) closeDropdown();
+				if (localModel.value) setModel(false);
 			},
 			{ immediate: true }
 		);
@@ -186,7 +209,7 @@
 		if (!router?.currentRoute) return;
 
 		// close on route change
-		watch(router.currentRoute, closeDropdown, { immediate: false });
+		watch(router.currentRoute, () => setModel(false), { immediate: false });
 	});
-	onBeforeUnmount(closeDropdown);
+	onBeforeUnmount(() => setModel(false));
 </script>

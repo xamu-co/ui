@@ -10,7 +10,7 @@ import { useHelpers } from "../composables/utils";
 interface iAllUseThemeProps extends iUseThemeProps, iUseThemeTooltipProps {}
 
 /** Return theme tuple */
-function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemeTuple {
+export function getThemeValues(values: tThemeTuple | tProp<tThemeModifier>): tThemeTuple {
 	if (Array.isArray(values)) {
 		return [values[0], values[1] || eColors.LIGHT];
 	} else if (typeof values === "object" && values !== null) {

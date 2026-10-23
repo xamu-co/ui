@@ -29,7 +29,8 @@
 	import useBrowser from "../../composables/browser";
 
 	interface iActionButtonLinkProps
-		extends iActionProps,
+		extends
+			iActionProps,
 			iUseModifiersProps,
 			iUseStateProps,
 			iUseThemeProps,
@@ -42,6 +43,10 @@
 		 * Reverse behavior
 		 */
 		linkButton?: boolean;
+		/**
+		 * Breakpoint to switch between button and link
+		 */
+		breakpoint?: "mobile" | "tablet" | "laptop";
 	}
 
 	/**
@@ -55,13 +60,29 @@
 
 	defineOptions({ name: "ActionButtonLink", inheritAttrs: false });
 
-	const props = defineProps<iActionButtonLinkProps>();
+	const props = withDefaults(defineProps<iActionButtonLinkProps>(), {
+		breakpoint: "tablet",
+	});
 
-	const { tabletMqRange } = useBrowser();
+	const { mobileMqRange, tabletMqRange, laptopMqRange } = useBrowser();
 
 	const isButton = computed<boolean>(() => {
-		if (props.linkButton) return !tabletMqRange.value;
+		let breakpointMqRange: boolean;
 
-		return tabletMqRange.value;
+		switch (props.breakpoint) {
+			case "mobile":
+				breakpointMqRange = mobileMqRange.value;
+				break;
+			case "tablet":
+				breakpointMqRange = tabletMqRange.value;
+				break;
+			case "laptop":
+				breakpointMqRange = laptopMqRange.value;
+				break;
+		}
+
+		if (props.linkButton) return !breakpointMqRange;
+
+		return breakpointMqRange;
 	});
 </script>

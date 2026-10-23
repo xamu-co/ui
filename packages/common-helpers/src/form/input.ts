@@ -1,14 +1,17 @@
 import type { IconName } from "@fortawesome/fontawesome-common-types";
 import isEqual from "lodash-es/isEqual";
+import camelCase from "lodash-es/camelCase";
+import upperFirst from "lodash-es/upperFirst";
 
 import type {
 	iFormInput,
 	iFormInputDefault,
+	iFormOption,
 	iFormValue,
-	iSelectOption,
 	tFormAutocomplete,
 	tFormIcon,
 	tFormInputDefault,
+	tOptionsLoaderFn,
 } from "@open-xamu-co/ui-common-types";
 import {
 	eFormType,
@@ -56,6 +59,8 @@ function getDefault<V extends iFormValue | iFormValue[]>(
 	]
 ): V {
 	switch (type) {
+		case eFormType.BOOLEAN:
+			return false as V;
 		case eFormType.LOCATION:
 			// 3 values
 			return Array(3).fill("") as V;
@@ -85,12 +90,11 @@ function isChoiceType(type: eFormTypeBase | eFormTypeSimple | eFormTypeComplex):
 
 export abstract class FormInputDefault<
 	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex = eFormTypeSimple.TEXT,
-> implements tFormInputDefault<T>
-{
+> implements tFormInputDefault<T> {
 	// public
 	public type: T;
+	public required: boolean;
 	// public readonly
-	public readonly required: boolean;
 	public readonly placeholder: string;
 	public readonly icon?: tFormIcon;
 	public readonly autocomplete?: tFormAutocomplete;
@@ -121,29 +125,31 @@ export abstract class FormInputDefault<
 }
 
 export class FormInput<
-		V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
-		T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
-			| eFormTypeBase
-			| eFormTypeSimple
-			| eFormTypeComplex,
-	>
+	V extends iFormValue | iFormValue[] = iFormValue | iFormValue[],
+	T extends eFormTypeBase | eFormTypeSimple | eFormTypeComplex =
+		eFormTypeBase | eFormTypeSimple | eFormTypeComplex,
+>
 	extends FormInputDefault<T>
 	implements iFormInput<V, T>
 {
 	// private
-	private _options: iSelectOption[];
+	private _options: iFormOption[];
 	private _values: V[];
 	private _defaults?: [
 		iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>,
 		iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>,
 		...iFormInputDefault<eFormTypeBase | eFormTypeSimple | eFormTypeComplex>[],
 	];
+	// public
+	public multiple: boolean;
+	public unique: boolean;
+	public min: number;
+	public max: number;
+	public meta: { [x: string]: any; actionSlotName: string };
 	// public readonly
 	public readonly name: string;
 	public readonly title?: string;
-	public readonly multiple: boolean;
-	public readonly min: number;
-	public readonly max: number;
+	public readonly optionsFilter?: tOptionsLoaderFn;
 
 	/**
 	 * Form input constructor
@@ -161,46 +167,55 @@ export class FormInput<
 
 		this.name = formInput.name;
 		this.multiple = formInput.multiple ?? false;
+		this.unique = formInput.unique ?? true;
 		this.title = formInput.title;
-		this._options = formInput.options?.map(toOption) ?? [];
+
+		// Initialize options array, skip if function
+		if (Array.isArray(formInput.options)) {
+			this._options = formInput.options.map(toOption);
+			this.optionsFilter = undefined;
+		} else {
+			this._options = [];
+			this.optionsFilter = formInput.options;
+		}
+
 		this._defaults = formInput.defaults;
 		this.min = formInput.min ?? 1;
+		this.meta = {
+			...formInput.meta,
+			actionSlotName: `inputActions${upperFirst(camelCase(formInput.name))}`,
+		};
 
-		// max cannot be lower than min or more than options if they exist
+		// Max cannot be lower than min or more than options if they exist
 		const maxValue = this._options.length || formInput.max || 9e9;
 
 		this.max = maxValue < this.min ? this.min : maxValue;
 		this._values = formInput.values ||= [];
 
 		if (isChoiceType(this.type)) {
-			// autoset single value if required
-			if (this.required && !this._values.length) {
-				const values = this.options.map(({ value }) => value);
-
-				this._values = values.slice(0, Math.max(1, this.min)) as V[];
-			}
+			// Autoset values if required
+			if (this.required && !this._values.length) this.autosetValues();
 		} else if (this.type !== eFormType.FILE) {
-			const length = Math.max(1, this.min); // negative values fallback
-			const values = Array(length).fill(getDefault(formInput.type, formInput.defaults));
+			// Prevent rendering multiple values with min/max if number type is used
+			const length =
+				this.type === eFormType.NUMBER && !this.multiple ? 1 : Math.max(1, this.min);
 
-			// use defaults
-			if (this._values.length < length) this._values = values;
+			if (this._values.length >= length) return;
+
+			// Use defaults
+			this._values = Array(length).fill(getDefault(this.type, formInput.defaults));
 		}
 	}
 
-	get options(): iSelectOption[] {
+	get options(): iFormOption[] {
 		return this._options;
 	}
-	set options(updatedOptions: iSelectOption[] | undefined) {
+	set options(updatedOptions: iFormOption[] | undefined) {
 		this._options = updatedOptions || [];
 
 		if (isChoiceType(this.type)) {
-			// autoset single value if required
-			if (this.required && !this._values.length) {
-				const values = <V[]>this.options.map(({ value }) => value);
-
-				this._values = values.slice(0, Math.max(1, this.min));
-			}
+			// Autoset values if required
+			if (this.required && !this._values.length) this.autosetValues();
 		}
 
 		this.rerender();
@@ -215,23 +230,30 @@ export class FormInput<
 			this._values = [];
 
 			if (isChoiceType(this.type)) {
-				// autoset single value if required
-				if (this.required && !this._values.length) {
-					const values = <V[]>this.options.map(({ value }) => value);
-
-					this._values = values.slice(0, Math.max(1, this.min));
-				}
+				// Autoset values if required
+				if (this.required && !this._values.length) this.autosetValues();
 			} else if (this.type !== eFormType.FILE) {
-				const length = Math.max(1, this.min); // negative values fallback
-				const values = Array(length).fill(getDefault(this.type, this.defaults));
+				// Prevent rendering multiple values with min/max if number type is used
+				const length =
+					this.type === eFormType.NUMBER && !this.multiple ? 1 : Math.max(1, this.min);
 
-				// use defaults
-				if (this._values.length < length) this._values = values;
+				if (this._values.length >= length) return;
+
+				// Use defaults
+				this._values = Array(length).fill(getDefault(this.type, this.defaults));
 			}
 		} else {
-			// run hook on values change
-			Promise.resolve(this._onUpdatedValues?.(updatedValues)).then((values) => {
-				this._values = values ?? updatedValues;
+			/** Get unique values if enabled */
+			const uniqueValues = this.unique ? [...new Set(updatedValues)] : updatedValues;
+
+			this._values = uniqueValues;
+
+			// Run hook on values change, do not await
+			Promise.resolve(this._onUpdatedValues?.(uniqueValues)).then((values) => {
+				if (!values) return;
+
+				// Set unique values if enabled
+				this._values = this.unique ? [...new Set(values)] : values;
 			});
 		}
 	}
@@ -242,6 +264,22 @@ export class FormInput<
 	set defaults(updatedDefaults) {
 		this._defaults = updatedDefaults;
 		this.rerender();
+	}
+
+	/** Autoset values */
+	private autosetValues() {
+		// Autoset if there are no options filter
+		if (this.optionsFilter) return;
+
+		const autosetValuesArr = [];
+
+		for (let i = 0; i < Math.max(1, this.min); i++) {
+			const option = this._options[i];
+
+			autosetValuesArr.push((option?.value || "") as V);
+		}
+
+		this._values = autosetValuesArr as V[];
 	}
 
 	/**
@@ -280,26 +318,32 @@ export class FormInput<
 	 * Clone this object
 	 */
 	public clone(
-		overrides?: Omit<iFormInput<V, T>, "name"> & { name?: string },
+		{ values, ...overrides }: Omit<iFormInput<V, T>, "name"> & { name?: string } = {},
 		onUpdatedValues?: (
 			updatedValues: V[]
 		) => V[] | undefined | void | Promise<V[] | undefined | void>
 	): FormInput<V, T> {
 		const oldFormInput: iFormInput<V, T> = {
 			...this,
-			options: this.options,
-			values: this.values,
-			defaults: this.defaults,
+			options: this.optionsFilter || this.options,
+			values: [...this.values],
+			meta: { ...this.meta },
+			defaults: this.defaults ? [...this.defaults] : undefined,
 		};
 
-		return new FormInput(
+		const clonedInput = new FormInput(
 			{ ...oldFormInput, ...overrides },
 			onUpdatedValues ?? this._onUpdatedValues,
 			this.rerender
 		);
+
+		// overwrite values if provided, trigger onUpdatedValues hook
+		if (values) clonedInput.values = values;
+
+		return clonedInput;
 	}
 
-	public isEqual(other: FormInput): boolean {
+	public isEqual(other: FormInput<any, any>): boolean {
 		return isEqual(FormInput.getObject(this), FormInput.getObject(other));
 	}
 
@@ -324,6 +368,7 @@ export class FormInput<
 			defaults: input.defaults,
 			title: input.title,
 			multiple: input.multiple,
+			unique: input.unique,
 		};
 	}
 }

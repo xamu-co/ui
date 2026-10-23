@@ -23,6 +23,7 @@
 			@include module.action-border-styles using($radius) {
 				border-radius: 0.4 * $radius;
 			}
+			@include module.action-outline-styles;
 			@include module.action-theme-union-styles;
 			@include module.action-disabled-styles(false);
 		}

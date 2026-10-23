@@ -1,5 +1,294 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v5.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.15...@open-xamu-co/ui-styles-v5.0.0-next.16) (2026-08-18)
+
+
+### Features
+
+* **vue:** input text classes ([99dab51](https://github.com/xamu-co/ui/commit/99dab51471572d7c553d7653a5551a01b59d9416))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.16"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.14...@open-xamu-co/ui-styles-v5.0.0-next.15) (2026-08-04)
+
+
+### Bug Fixes
+
+* **styles:** list & navigation should not require nav element ([da84076](https://github.com/xamu-co/ui/commit/da840768db2d5548686d6026b4e8b6a8b91469cf))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.15"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.13...@open-xamu-co/ui-styles-v5.0.0-next.14) (2026-07-25)
+
+
+### Bug Fixes
+
+* remove unmmantained postcss-precision ([c7229ee](https://github.com/xamu-co/ui/commit/c7229eeb4894c80055ee658425fb98269c72d675))
+* **vue:** improved WCAG 2.1 AA accessibility ([ad952ef](https://github.com/xamu-co/ui/commit/ad952ef66783bc8a203d0de42efcc993aa5ded2b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.14"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.12...@open-xamu-co/ui-styles-v5.0.0-next.13) (2026-07-22)
+
+
+### Bug Fixes
+
+* **styles:** allow overriding back transition ([2bfec4a](https://github.com/xamu-co/ui/commit/2bfec4a722194d9461f0a6b5305aa6d779e8d9f5))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.13"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.11...@open-xamu-co/ui-styles-v5.0.0-next.12) (2026-07-12)
+
+
+### Bug Fixes
+
+* **vue:** prevent auto select when using options filter ([e49d84c](https://github.com/xamu-co/ui/commit/e49d84c42940bb2b7c00032c4ccf84824d65eea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.12"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.10...@open-xamu-co/ui-styles-v5.0.0-next.11) (2026-07-12)
+
+
+### Bug Fixes
+
+* **vue:** form stages with proven functionality ([5cf3fb7](https://github.com/xamu-co/ui/commit/5cf3fb715327e2a60709df4924f267e3eecabea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.11"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.9...@open-xamu-co/ui-styles-v5.0.0-next.10) (2026-07-03)
+
+
+### Bug Fixes
+
+* **nuxt:** get asyncData from context ([8c5616a](https://github.com/xamu-co/ui/commit/8c5616a85a41b69d44efb5319c152358fcda74b7))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** loaderContentFetch requires suspense
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.10"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.8...@open-xamu-co/ui-styles-v5.0.0-next.9) (2026-06-25)
+
+
+### Bug Fixes
+
+* **styles:** prefer shorter wrap classes ([2ebe52b](https://github.com/xamu-co/ui/commit/2ebe52b61fda9afa567abf7724cabddaaee26cb4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.9"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.7...@open-xamu-co/ui-styles-v5.0.0-next.8) (2026-06-25)
+
+
+### Features
+
+* **styles:** extend text wrap properties ([8726c64](https://github.com/xamu-co/ui/commit/8726c646a542deab57674d176da1cb7be77c4d36))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.8"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.6...@open-xamu-co/ui-styles-v5.0.0-next.7) (2026-06-16)
+
+
+### Features
+
+* **vue:** support date, datetime & time inputs ([a115eca](https://github.com/xamu-co/ui/commit/a115ecae09dfd895cf73d99eaeaea5b792832cd4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.7"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.5...@open-xamu-co/ui-styles-v5.0.0-next.6) (2026-05-14)
+
+
+### Bug Fixes
+
+* **collapse:** target indicator modifier ([9860062](https://github.com/xamu-co/ui/commit/986006200559aa48d2345931cb3d3d075f14d3c1))
+* **vue:** fixes & refactoring for async options handling ([f4d51bf](https://github.com/xamu-co/ui/commit/f4d51bf69ff8e9e8f62c0e645fd3596fb96bc642))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.6"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.4...@open-xamu-co/ui-styles-v5.0.0-next.5) (2026-05-08)
+
+
+### Bug Fixes
+
+* **styles:** flex direction as global modifier ([cff2c42](https://github.com/xamu-co/ui/commit/cff2c429b88579518522984d0d0aeea2bee80994))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.5"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.3...@open-xamu-co/ui-styles-v5.0.0-next.4) (2026-01-18)
+
+
+### Bug Fixes
+
+* view holder default gap ([ada2fc3](https://github.com/xamu-co/ui/commit/ada2fc333db3dac6be153f4e497eb33f0de351e1))
+
+
+### Features
+
+* code editor support ([b08239d](https://github.com/xamu-co/ui/commit/b08239ddef1dd5bc928db630211cddd11ae1ea47))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.4"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.2...@open-xamu-co/ui-styles-v5.0.0-next.3) (2026-01-06)
+
+
+### Features
+
+* expose stylesheet preload function on module ([56dbf1f](https://github.com/xamu-co/ui/commit/56dbf1fe6b2fa12b6776add6dcda86524ea84fd1))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.3"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0-next.1...@open-xamu-co/ui-styles-v5.0.0-next.2) (2025-12-30)
+
+
+### Bug Fixes
+
+* stylelint setup ([04b38e7](https://github.com/xamu-co/ui/commit/04b38e7c809fa4b6b226b8245ae477887274062f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.2"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-styles-v5.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0-next.8...@open-xamu-co/ui-styles-v5.0.0-next.1) (2025-12-17)
+
+
+### Bug Fixes
+
+* table layout ([f90b338](https://github.com/xamu-co/ui/commit/f90b338207a13a7ece14e19e71a8e593d2911a46))
+
+
+### BREAKING CHANGES
+
+* no-overrides to no-theme-override
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.0-next.1"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v4.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.0.0...@open-xamu-co/ui-styles-v4.1.0) (2025-12-16)
 
 

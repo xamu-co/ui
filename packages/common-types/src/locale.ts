@@ -84,12 +84,20 @@ export type tLocaleInput = {
 	select_placeholder: string;
 	/** @example "Restablish field" */
 	select_restablish_field: string;
-	/** @example "Type or Double click for options" */
+	/** @example "Type for options" */
 	select_filter_options: string;
+	/** @example "Searching..." */
+	select_filter_searching: string;
+	/** @example "Type something first | No coincidences" */
+	select_filter_no_content: string;
+	/** @example "Select {value}" */
+	select_filter_select_value: string;
 	/** @example "{count} of {amount}" */
 	file_one_of_amount: string;
 	/** @example "Delete file | Delete files" */
 	file_delete_files: string;
+	/** @example "Delete file (> {maxSize}MB)" */
+	file_delete_heavy_file: string;
 	/** @example "Thumbnail" */
 	file_thumb: string;
 	/** @example "Choose a file | Choose files" */
@@ -109,10 +117,14 @@ export type tLocaleInput = {
 		file_limit: string;
 		/** @example "This field only allows {amount} file | This field only allows {amount} files" */
 		file_limit_text: string;
+		/** @example "Unsupported format" */
+		file_unsupported_format: string;
+		/** @example "This field only does not allow that file type" */
+		file_unsupported_format_text: string;
 		/** @example "Wrong format" */
-		file_wrong_format_image: string;
-		/** @example "This field only allows image files" */
-		file_wrong_format_image_text: string;
+		file_wrong_format: string;
+		/** @example "This field only allows "{types}" files" */
+		file_wrong_format_text: string;
 		/** @example "File too big" */
 		file_too_big: string;
 		/** @example "The file exceeds the allowed size" */
@@ -176,6 +188,12 @@ export type tLocaleForm = {
 	form_cellphone: string;
 	/** @example "ID number" */
 	form_id_number: string;
+	/** @example "Date" */
+	form_date: string;
+	/** @example "Date & time" */
+	form_datetime: string;
+	/** @example "Time" */
+	form_time: string;
 	/** @example "Complete the field" */
 	form_complete_the_field: string;
 	/** @example "Location" */
@@ -198,6 +216,18 @@ export type tLocaleForm = {
 	form_no_values: string;
 	/** @example "New value" */
 	form_new_value: string;
+	/** @example "Rendered text" */
+	form_editor_preview: string;
+	/** @example "See rendered text" */
+	form_editor_see_preview: string;
+	/** @example "Bold" */
+	form_editor_bold: string;
+	/** @example "Italic" */
+	form_editor_italic: string;
+	/** @example "Link" */
+	form_editor_link: string;
+	/** @example "Add URL" */
+	form_editor_link_add_url: string;
 	// swal: {};
 };
 
@@ -297,6 +327,8 @@ export type tLocaleTable = {
  * @localeType
  */
 export type tLocalePagination = {
+	/** @example "Pagination" */
+	pagination: string;
 	/** @example "No items | Single item | {count} items" */
 	pagination_items: string;
 	/** @example "No pages | Single page | {count} pages" */

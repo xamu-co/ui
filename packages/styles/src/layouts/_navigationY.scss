@@ -2,7 +2,7 @@
 
 @mixin navigation-y {
 	@layer definitions {
-		nav.#{utils.$layout-navigation-y} {
+		.#{utils.$layout-navigation-y} {
 			background-color: utils.color(light, 0.9);
 			width: auto;
 
@@ -19,9 +19,7 @@
 			// @group Statuses
 			&:not(.#{utils.$prefix-default}--sub) {
 				@layer defaults {
-					& {
-						gap: 1rem;
-					}
+					gap: 1rem;
 				}
 
 				@include utils.flex-box(column, nowrap, space-between, center);
@@ -52,9 +50,7 @@
 		ol {
 			&.#{utils.$layout-navigation-y}-menu-list {
 				@layer defaults {
-					& {
-						gap: 1rem;
-					}
+					gap: 1rem;
 				}
 
 				@include utils.flex-box(column, nowrap, center, flex-start);

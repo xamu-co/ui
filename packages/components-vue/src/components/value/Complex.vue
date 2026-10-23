@@ -25,7 +25,7 @@
 					<b :class="`--txtColor-${themeValues[0]}`">{{ value.length }}</b>
 					⋅
 				</div>
-				<Modal
+				<ModalSimple
 					v-if="value.every((v) => typeof v === 'object') || value.length > 3"
 					class="--txtSize"
 					:title="property?.alias"
@@ -44,16 +44,17 @@
 					<template #default="{ model, invertedTheme }">
 						<TableSimple
 							v-if="model"
-							:nodes="remapValues(value)"
+							:nodes="tableNodes"
 							:theme="invertedTheme"
 							:modal-props="{ theme, ...modalProps }"
-							:classes="classes"
+							v-bind="{ classes, properties }"
 							:clone-node="property?.cloneNode || undefined"
 							:update-node="property?.updateNode"
 							:delete-node="property?.deleteNode"
+							:prefer-id="property?.preferId"
 						/>
 					</template>
-				</Modal>
+				</ModalSimple>
 				<div v-else class="flx --flxRow --flx-start-center --gap-5">
 					<template v-for="(childValue, childIndex) in value" :key="childIndex">
 						<ValueSimple
@@ -109,7 +110,7 @@
 				</template>
 			</div>
 			<!-- Any other object -->
-			<Modal
+			<ModalSimple
 				v-else
 				class="--txtSize"
 				:title="property?.alias"
@@ -150,6 +151,7 @@
 							value,
 							node,
 							property,
+							properties,
 							readonly,
 							theme: invertedTheme,
 							modalProps: { theme, ...modalProps },
@@ -158,7 +160,7 @@
 						verbose
 					/>
 				</template>
-			</Modal>
+			</ModalSimple>
 		</template>
 		<!-- Plain value -->
 		<ValueSimple
@@ -183,14 +185,30 @@
 	import ActionLink from "../action/Link.vue";
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonToggle from "../action/ButtonToggle.vue";
-	import ValueSimple from "./Simple.vue";
-	import ValueList from "./List.vue";
-	import Modal from "../modal/Simple.vue";
-	import TableSimple from "../table/Simple.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 
-	import type { iValueComplexProps } from "../../types/props";
+	import { computed, defineAsyncComponent } from "vue";
+
+	import type { iTablePropertyMeta, iValueComplexProps } from "../../types/props";
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
+
+	const ValueSimple = defineAsyncComponent({
+		loader: () => import("./Simple.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const ValueList = defineAsyncComponent({
+		loader: () => import("./List.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const ModalSimple = defineAsyncComponent({
+		loader: () => import("../modal/Simple.vue"),
+		loadingComponent: LoaderSimple,
+	});
+	const TableSimple = defineAsyncComponent({
+		loader: () => import("../table/Simple.vue"),
+		loadingComponent: LoaderSimple,
+	});
 
 	/**
 	 * Complex value
@@ -200,17 +218,27 @@
 
 	defineOptions({ name: "ValueComplex", inheritAttrs: false });
 
-	const props = defineProps<iValueComplexProps>();
+	const props = defineProps<
+		iValueComplexProps & {
+			/**
+			 * Inherited table properties (Cell properties)
+			 * @internal
+			 */
+			properties?: Omit<iTablePropertyMeta<any>, "canSort">[];
+		}
+	>();
 
 	const { themeValues } = useTheme(props);
 	const { t, tet } = useHelpers(useI18n);
 	const Swal = useHelpers(useSwal);
 
-	function remapValues(values: unknown[]): Record<string, any>[] {
-		return values.map((value) => {
+	const tableNodes = computed<Record<string, any>[]>(() => {
+		if (!Array.isArray(props.value)) return [];
+
+		return props.value.map((value) => {
 			return typeof value === "object" && value !== null ? value : { value };
 		});
-	}
+	});
 
 	/**
 	 * Creates given node

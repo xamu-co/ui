@@ -9,10 +9,7 @@ const sort = {
  */
 module.exports = {
 	developtment: {
-		plugins: [
-			require("postcss-merge-at-rules")({}), // flatten & merge
-			require("postcss-sort-media-queries")(sort),
-		],
+		plugins: [require("postcss-sort-media-queries")(sort)],
 	},
 	production: {
 		map: false,
@@ -27,9 +24,7 @@ module.exports = {
 					},
 				],
 			}),
-			require("postcss-merge-at-rules")({}), // flatten & merge
 			require("postcss-sort-media-queries")(sort),
-			require("postcss-precision")({}),
 		],
 		env: "production",
 		preset: {

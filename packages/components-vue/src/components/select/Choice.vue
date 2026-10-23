@@ -5,7 +5,6 @@
 			v-for="option in choiceOptions"
 			:key="`choice-${option.value}-${option.alias}-${options?.length}`"
 			:theme="theme"
-			:aria-label="option.alias || option.value"
 			:active="modelValue?.includes(option.value)"
 			:title="modelValue?.includes(option.value) ? t('select_selected') : ''"
 			:disabled="
@@ -49,9 +48,6 @@
 
 <script setup lang="ts">
 	import { computed } from "vue";
-	import isHexColor from "validator/lib/isHexColor";
-	import isRgbColor from "validator/lib/isRgbColor";
-	import isHSL from "validator/lib/isHSL";
 
 	import { toOption, useI18n } from "@open-xamu-co/ui-common-helpers";
 
@@ -65,15 +61,12 @@
 		iUseThemeProps,
 		iSelectProps,
 	} from "../../types/props";
-	import { useHelpers } from "../../composables/utils";
+	import { isColor, useHelpers } from "../../composables/utils";
 	import useTheme from "../../composables/theme";
 	import type { iFormOption } from "@open-xamu-co/ui-common-types";
 
 	interface iSelectSimpleProps
-		extends iSelectProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iSelectProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		/**
 		 * Vue model value
 		 * @private
@@ -94,13 +87,22 @@
 	defineOptions({ name: "SelectChoice", inheritAttrs: false });
 
 	const props = defineProps<iSelectSimpleProps>();
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits<{ (e: "update:model-value", value: (string | number)[]): any }>();
 
 	const { t } = useHelpers(useI18n);
 	const { themeValues } = useTheme(props, true);
 
 	const choiceOptions = computed<iFormOption[]>(() => {
-		return (props.options || []).map(toOption).filter(({ hidden }) => !hidden);
+		// Only use array type, skip if function
+		if (!Array.isArray(props.options)) return [];
+
+		return props.options.reduce<iFormOption[]>((acc, current) => {
+			const option = toOption(current);
+
+			if (!option.hidden) acc.push(option);
+
+			return acc;
+		}, []);
 	});
 
 	function choose(value: string | number) {
@@ -122,9 +124,5 @@
 		const value = String(option.alias || option.value);
 
 		return value.length <= 2 || !!option.pattern;
-	}
-
-	function isColor(color: string): boolean {
-		return isHexColor(color) || isRgbColor(color) || isHSL(color);
 	}
 </script>

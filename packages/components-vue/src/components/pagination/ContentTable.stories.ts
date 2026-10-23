@@ -1,88 +1,192 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { StoryObj } from "@storybook/vue3-vite";
+import { expect, waitFor, userEvent, within } from "storybook/test";
 import { ref } from "vue";
+
+import type { tOrderBy, iGetPage } from "@open-xamu-co/ui-common-types";
+
+import type { GenericMeta } from "../../types/storybook";
+import largeNodes from "../table/nodes.json" with { type: "json" };
 
 import PaginationContentTable from "./ContentTable.vue";
 
-import type { tOrderBy, iPagination, iFormResponse, iPage } from "@open-xamu-co/ui-common-types";
+function makePage(nodes?: Record<string, any>[]): iGetPage<Record<string, any>, number> {
+	nodes ||= [
+		{
+			id: 1,
+			name: "Sector Original 1",
+			description: "Descripción Original 1",
+		},
+		{
+			id: 2,
+			name: "Sector Original 2",
+			description: "Descripción Original 2",
+		},
+	];
 
-const meta = {
+	return function () {
+		return Promise.resolve({
+			edges: nodes.map((node, index) => ({ cursor: index + 1, node })),
+			pageInfo: {
+				pageNumber: 1,
+				hasNextPage: false,
+				hasPreviousPage: false,
+			},
+			totalCount: 2,
+		});
+	};
+}
+
+const meta: GenericMeta<typeof PaginationContentTable> = {
 	title: "Pagination/Pagination ContentTable",
-	component: PaginationContentTable as Record<keyof typeof PaginationContentTable, unknown>,
+	component: PaginationContentTable,
 	args: {},
-} satisfies Meta<typeof PaginationContentTable>;
+	tags: ["test"],
+};
 
-type Story = StoryObj<typeof PaginationContentTable>;
+type Story = StoryObj<typeof meta>;
 
 export const Sample: Story = {
-	args: {},
+	args: {
+		url: "sample:path",
+		page: makePage(),
+	},
 };
 
 export const Data: Story = {
+	args: {
+		url: "data:path",
+	},
 	render: (args) => ({
 		components: { PaginationContentTable },
 		setup() {
-			interface iSector {
-				id: number;
-				name: string;
-				description: string;
-				categories: string[];
-			}
-
 			const sort = ref<tOrderBy>();
-
-			const page = async (
-				_params?: iPagination
-			): Promise<iPage<iSector, number> | undefined> => {
-				const data: iFormResponse<iPage<iSector, number>> = {
-					response: {
-						edges: [
-							{
-								cursor: 2,
-								node: {
-									id: 2,
-									name: "Agropecuario",
-									description: "Este es el sector agropecuario",
-									categories: [],
-								},
-							},
-							{
-								cursor: 1,
-								node: {
-									id: 1,
-									name: "Tecnológico",
-									description:
-										"Este sector incluye todo tipo de electrodomésticos y dispositivos.",
-									categories: [],
-								},
-							},
-						],
-						pageInfo: {
-							pageNumber: 1,
-							hasNextPage: false,
-							hasPreviousPage: false,
-						},
-						totalCount: 2,
-					},
-					invalidInputs: [],
-					withErrors: false,
-					requestHadErrors: false,
-					validationHadErrors: false,
-				};
-
-				return new Promise((resolve) => {
-					setTimeout(() => {
-						resolve(data.response);
-					}, 3000);
-				});
-			};
+			const page = makePage();
 
 			return { args, sort, page };
 		},
+		template: `<PaginationContentTable v-bind="args" :page="page" />`,
+	}),
+};
+
+export const LargeData: Story = {
+	args: {
+		url: "large-data:path",
+	},
+	render: (args) => ({
+		components: { PaginationContentTable },
+		setup() {
+			const sort = ref<tOrderBy>();
+			const page = makePage(largeNodes);
+
+			return { args, sort, page };
+		},
+		template: `<PaginationContentTable v-bind="args" :page="page" />`,
+	}),
+};
+
+export const Hydration: Story = {
+	args: {
+		url: "test:hydration:path",
+		swal: {
+			createdTitle: "Creado",
+			createdText: "El registro fue creado",
+		},
+	},
+	render: (args) => ({
+		components: { PaginationContentTable },
+		setup() {
+			const page = makePage();
+
+			function updateNode(node: Record<string, any>) {
+				const updatedNode: Record<string, any> = {
+					...node,
+					name: `${node.name} (Hydrated)`,
+					description: "Description Updated Via Hydrate",
+				};
+
+				// Return promise with fresh data for hydration
+				return Promise.resolve([updatedNode]);
+			}
+
+			return { args: { ...args, tableProps: { updateNode } }, page };
+		},
+		template: `<PaginationContentTable v-bind="args" :page="page" />`,
+	}),
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+
+		// Wait for table to render with initial data
+		await waitFor(() => {
+			expect(canvas.getByText("Sector Original 1")).toBeInTheDocument();
+		});
+
+		// Find update (edit) buttons
+		const updateButtons = canvasElement.querySelectorAll(
+			"button[title='Actualizar'], button[aria-label='Actualizar'], button[data-tooltip='Actualizar'], button .fa-pencil"
+		);
+		const editButton = updateButtons[0]?.closest("button") || updateButtons[0];
+
+		if (editButton) {
+			await userEvent.click(editButton);
+		}
+
+		// Validate that table cell reactively hydrated with new text
+		await waitFor(
+			() => {
+				expect(canvas.getByText("Sector Original 1 (Hydrated)")).toBeInTheDocument();
+			},
+			{ timeout: 5000 }
+		);
+	},
+};
+
+/**
+ * Test dynamic node creation and refresh flow using headActions slot
+ */
+export const CreateNodeFlow: Story = {
+	args: {
+		url: "test:create:node",
+		createNode: () =>
+			Promise.resolve([
+				{
+					id: 100,
+					name: "Sector Creado Dinámicamente",
+					description: "Nuevo Sector",
+				},
+			]),
+	},
+	render: (args) => ({
+		components: { PaginationContentTable },
+		setup() {
+			const page = makePage();
+
+			return { args, page };
+		},
 		template: `
-			<PaginationContentTable v-bind="args" :page="page" :transform="getPageFromResponse" />
+			<PaginationContentTable v-bind="args" :page="page">
+				<template #headActions="{ createNodeAndRefresh }">
+					<button data-testid="create-btn" @click="() => createNodeAndRefresh()">
+						Crear Registro Test
+					</button>
+				</template>
+			</PaginationContentTable>
 		`,
 	}),
-	args: {},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+
+		await waitFor(() => expect(canvas.getByText("Sector Original 1")).toBeInTheDocument());
+
+		const createBtn = canvas.getByTestId("create-btn");
+
+		expect(createBtn).toBeInTheDocument();
+
+		await userEvent.click(createBtn);
+		await waitFor(
+			() => expect(canvas.getByText("Sector Creado Dinámicamente")).toBeInTheDocument(),
+			{ timeout: 5000 }
+		);
+	},
 };
 
 export default meta;

@@ -1,5 +1,326 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.16...@open-xamu-co/ui-common-helpers-v4.0.0-next.17) (2026-10-22)
+
+
+### Bug Fixes
+
+* **helpers:** prevent creating multiple values for number inputs ([f5bcaeb](https://github.com/xamu-co/ui/commit/f5bcaeb2113474b44213115d1ce614b76e180451))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.17"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.15...@open-xamu-co/ui-common-helpers-v4.0.0-next.16) (2026-08-19)
+
+
+### Bug Fixes
+
+* **vue:** use upper first for proper pascal case ([920f7d1](https://github.com/xamu-co/ui/commit/920f7d12d2cadad0b87196445ee708f740093558))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.16"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.14...@open-xamu-co/ui-common-helpers-v4.0.0-next.15) (2026-08-18)
+
+
+### Bug Fixes
+
+* **vue:** granular input slots ([719bb39](https://github.com/xamu-co/ui/commit/719bb399856ab63d2397b9099da1fed3829aa902))
+
+
+### Features
+
+* **vue:** refactor select filter using dropdown ([21556c8](https://github.com/xamu-co/ui/commit/21556c80fe097e34b6d419e284b12192a27fdf1b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.15"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.13...@open-xamu-co/ui-common-helpers-v4.0.0-next.14) (2026-07-25)
+
+
+### Bug Fixes
+
+* **vue:** improved WCAG 2.1 AA accessibility ([ad952ef](https://github.com/xamu-co/ui/commit/ad952ef66783bc8a203d0de42efcc993aa5ded2b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.14"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.12...@open-xamu-co/ui-common-helpers-v4.0.0-next.13) (2026-07-23)
+
+
+### Bug Fixes
+
+* **helpers:** on update values hook not firing ([f820906](https://github.com/xamu-co/ui/commit/f8209067234ae8ecd50b572de4f0a97455d05a77))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.13"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.11...@open-xamu-co/ui-common-helpers-v4.0.0-next.12) (2026-07-22)
+
+
+### Bug Fixes
+
+* **vue:** optimized thumbnail generation for larger files ([07aa96d](https://github.com/xamu-co/ui/commit/07aa96db05607e5c13f85497dd410570fa4689ac))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.12"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.10...@open-xamu-co/ui-common-helpers-v4.0.0-next.11) (2026-07-12)
+
+
+### Bug Fixes
+
+* **vue:** prevent auto select when using options filter ([e49d84c](https://github.com/xamu-co/ui/commit/e49d84c42940bb2b7c00032c4ccf84824d65eea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.11"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.9...@open-xamu-co/ui-common-helpers-v4.0.0-next.10) (2026-07-03)
+
+
+### Bug Fixes
+
+* **nuxt:** get asyncData from context ([8c5616a](https://github.com/xamu-co/ui/commit/8c5616a85a41b69d44efb5319c152358fcda74b7))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** loaderContentFetch requires suspense
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.10"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.8...@open-xamu-co/ui-common-helpers-v4.0.0-next.9) (2026-07-01)
+
+
+### Features
+
+* **nuxt:** extend nuxt support ([702a9b3](https://github.com/xamu-co/ui/commit/702a9b37716a11a3742e4fe0a423e32ad9ef7c48))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** node22 required
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.9"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.7...@open-xamu-co/ui-common-helpers-v4.0.0-next.8) (2026-06-16)
+
+
+### Features
+
+* **vue:** support date, datetime & time inputs ([a115eca](https://github.com/xamu-co/ui/commit/a115ecae09dfd895cf73d99eaeaea5b792832cd4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.8"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.6...@open-xamu-co/ui-common-helpers-v4.0.0-next.7) (2026-05-14)
+
+
+### Bug Fixes
+
+* **vue:** fixes & refactoring for async options handling ([f4d51bf](https://github.com/xamu-co/ui/commit/f4d51bf69ff8e9e8f62c0e645fd3596fb96bc642))
+
+
+### Features
+
+* **forms:** accept async function for input options ([e8ebf68](https://github.com/xamu-co/ui/commit/e8ebf688f4fd71bd049883eb2961b36be579b1c2))
+* **vue:** select filter with async options ([c36568c](https://github.com/xamu-co/ui/commit/c36568cfe7e68d0902b3cc8035c50d3dc99d22c5))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.7"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.5...@open-xamu-co/ui-common-helpers-v4.0.0-next.6) (2026-05-03)
+
+
+### Features
+
+* **helpers:** expose private forminput attributes ([61bf89d](https://github.com/xamu-co/ui/commit/61bf89d592266559a1a6befda0cdee7dbd323967))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.6"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.4...@open-xamu-co/ui-common-helpers-v4.0.0-next.5) (2026-04-17)
+
+
+### Features
+
+* support video & audio files ([7ffb235](https://github.com/xamu-co/ui/commit/7ffb23596c7cc286c39ecea34796d1d17ea963ff))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.5"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.3...@open-xamu-co/ui-common-helpers-v4.0.0-next.4) (2026-01-18)
+
+
+### Features
+
+* code editor support ([b08239d](https://github.com/xamu-co/ui/commit/b08239ddef1dd5bc928db630211cddd11ae1ea47))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.4"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.2...@open-xamu-co/ui-common-helpers-v4.0.0-next.3) (2026-01-08)
+
+
+### Bug Fixes
+
+* whether typos ([1adadf7](https://github.com/xamu-co/ui/commit/1adadf77d5bc1d985c158dd9b8bd36837f724ac0))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.3"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0-next.1...@open-xamu-co/ui-common-helpers-v4.0.0-next.2) (2026-01-01)
+
+
+### Bug Fixes
+
+* allow more image types on file input ([73d39bc](https://github.com/xamu-co/ui/commit/73d39bc95c32f801233d442870512f1fc6ac1fe5))
+* do not mix original node with cloned node data ([25a513a](https://github.com/xamu-co/ui/commit/25a513a4765e3565a17da666b040a83def6d939d))
+
+
+### BREAKING CHANGES
+
+* renamed mime types exports
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.2"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-common-helpers-v4.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.1.0-next.8...@open-xamu-co/ui-common-helpers-v4.0.0-next.1) (2025-12-17)
+
+
+### Bug Fixes
+
+* table layout ([f90b338](https://github.com/xamu-co/ui/commit/f90b338207a13a7ece14e19e71a8e593d2911a46))
+
+
+### BREAKING CHANGES
+
+* no-overrides to no-theme-override
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.0.0-next.1"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v3.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v3.0.1...@open-xamu-co/ui-common-helpers-v3.1.0) (2025-12-16)
 
 

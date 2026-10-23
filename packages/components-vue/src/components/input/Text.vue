@@ -1,6 +1,6 @@
 <template>
 	<div :class="$attrs.class" class="flx --flxRow --flx-center --gap-5">
-		<BaseWrapper :wrap="!!icon && !textarea" :disabled="disabled" :class="inputClasses">
+		<BaseWrapper :wrap="!!icon && !textarea" :disabled="disabled" :class="textInputClasses">
 			<BaseInput
 				v-model="model"
 				v-bind="{
@@ -13,8 +13,13 @@
 						pattern: '[0-9]*',
 						oninput: 'this.value = this.value.replace(/[^0-9]/g,\'\')',
 					}),
-					...(!isNumber && { min: undefined, max: undefined }),
-					...(!(!!icon && !textarea) && { class: inputClasses }),
+					...(!isNumber && {
+						min: undefined,
+						max: undefined,
+						minLength: props.required ? props.min : undefined,
+						maxLength: props.max,
+					}),
+					...(!(!!icon && !textarea) && { class: textInputClasses }),
 				}"
 			/>
 			<IconFa v-if="!!icon && !textarea" v-bind="iconProps" :name="icon ?? 'user-group'" />
@@ -24,7 +29,6 @@
 				:disabled="disabled || Number(model) <= minValue"
 				:size="size"
 				:theme="textInputTheme"
-				:aria-label="t('decrease')"
 				:tooltip="t('decrease')"
 				tooltip-position="left"
 				tooltip-as-text
@@ -76,10 +80,7 @@
 	import { useHelpers } from "../../composables/utils";
 
 	interface iInputTextProps
-		extends iInputProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iInputProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		type?: tTextInputType;
 		placeholder?: string;
 		/**
@@ -97,6 +98,7 @@
 		 * @private
 		 */
 		modelValue?: number | string;
+		inputClasses?: string;
 	}
 
 	/**
@@ -111,7 +113,9 @@
 	defineOptions({ name: "InputText", inheritAttrs: false });
 
 	const props = defineProps<iInputTextProps>();
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits<{
+		(e: "update:model-value", value: string | number): any;
+	}>();
 
 	const { t } = useHelpers(useI18n);
 	const { modifiersClasses } = useModifiers(props);
@@ -137,8 +141,14 @@
 		},
 		set: debounce((value) => emit("update:model-value", value), 300),
 	});
-	const inputClasses = computed(() => {
-		return [modifiersClasses.value, stateClasses.value, themeClasses.value, "iTxt"];
+	const textInputClasses = computed(() => {
+		return [
+			modifiersClasses.value,
+			stateClasses.value,
+			themeClasses.value,
+			"iTxt",
+			props.inputClasses,
+		];
 	});
 	const textInputTheme = computed(() => {
 		return props.invalid ? dangerThemeValues.value : themeValues.value;

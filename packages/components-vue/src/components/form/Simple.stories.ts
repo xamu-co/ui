@@ -1,17 +1,21 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
-import type { iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
+import type { StoryObj } from "@storybook/vue3-vite";
+import { within, userEvent, expect, waitFor } from "storybook/test";
 import { ref } from "vue";
 
+import type { iInvalidInput, tFormInput } from "@open-xamu-co/ui-common-types";
 import { FormInput, useForm } from "@open-xamu-co/ui-common-helpers";
-import { eFormType } from "@open-xamu-co/ui-common-enums";
+import { eFormType, eFormTypeBase, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
+
+import type { GenericMeta } from "../../types/storybook";
 
 import FormSimple from "./Simple.vue";
 import ActionButton from "../action/Button.vue";
 
-const meta: Meta = {
+const meta: GenericMeta<typeof FormSimple> = {
 	title: "Form/Form Simple",
-	component: FormSimple as any,
+	component: FormSimple,
 	args: {},
+	tags: ["test"],
 };
 
 type Story = StoryObj<typeof meta>;
@@ -22,9 +26,9 @@ export const Sample: Story = {
 
 export const WithInputs: Story = {
 	render: (args) => ({
-		components: { FormSimple },
+		components: { FormSimple: FormSimple as any },
 		setup() {
-			const inputs: tFormInput[] = [
+			const inputs = ref<tFormInput[]>([
 				new FormInput({
 					values: [""],
 					name: "firstName",
@@ -43,15 +47,21 @@ export const WithInputs: Story = {
 				}),
 				new FormInput({
 					required: true,
-					options: [{ value: 1, alias: "Payment on Delivery" }],
+					options: [
+						{ value: 1, alias: "Payment on Delivery" },
+						{ value: 2, alias: "Credit Card" },
+						{ value: 3, alias: "Debit Card" },
+						{ value: 4, alias: "Gift Card" },
+						{ value: 5, alias: "Paypal" },
+					],
 					type: eFormType.SELECT_FILTER,
 					placeholder: "Search payment methods",
 					icon: "credit-card",
 					autocomplete: "off",
 					name: "paymentMethodIds",
 					multiple: true,
-					min: 0,
-					title: "Choose one or several payment methods",
+					min: 1,
+					title: "Choose one payment method",
 				}),
 				new FormInput({
 					options: [
@@ -78,7 +88,7 @@ export const WithInputs: Story = {
 					title: "Business logo",
 					max: 3,
 				}),
-			];
+			]);
 			const invalid = ref<iInvalidInput[]>([]);
 
 			return { args, inputs, invalid };
@@ -86,11 +96,36 @@ export const WithInputs: Story = {
 		template: `<FormSimple v-bind="args" v-model="inputs" v-model:invalid="invalid" />`,
 	}),
 	args: {},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		// Find First Name input (wait for Suspense to resolve)
+		const firstNameInput = await waitFor(() =>
+			canvas.getByPlaceholderText("What is your first name?...")
+		);
+
+		expect(firstNameInput).toBeInTheDocument();
+		expect(firstNameInput).toHaveValue("");
+		// Type First Name
+		await userEvent.type(firstNameInput, "Jane");
+		expect(firstNameInput).toHaveValue("Jane");
+
+		// Find nullable checkbox
+		const toggleLabel = canvas.getByText("Is this field optional in the offer?");
+
+		expect(toggleLabel).toBeInTheDocument();
+
+		const checkbox = canvas.getByRole("checkbox", { hidden: true });
+
+		expect(checkbox).not.toBeChecked();
+		// Click nullable checkbox
+		await userEvent.click(checkbox);
+		expect(checkbox).toBeChecked();
+	},
 };
 
 export const WithLocationField: Story = {
 	render: (args) => ({
-		components: { FormSimple, ActionButton },
+		components: { FormSimple: FormSimple as any, ActionButton },
 		setup() {
 			const { getResponse } = useForm();
 			const inputs = ref<tFormInput[]>([
@@ -156,9 +191,132 @@ export const WithPhoneField: Story = {
 	},
 };
 
+enum eWithSwitchingType {
+	LESSON = "LESSON",
+	EVALUATION = "EVALUATION",
+}
+
+const VIDEO_TITLE = "Video de la lección";
+const TIMEOUT_TITLE = "Tiempo límite en segundos (0 = sin límite)";
+
+export const WithSwitchingInputs: Story = {
+	render: (args) => ({
+		components: { FormSimple: FormSimple as any },
+		setup() {
+			/**
+			 * Video input
+			 * Only visible if the content type is lesson
+			 */
+			const videoInput = new FormInput<File, eFormTypeBase | eFormTypeSimple>({
+				values: [],
+				name: "video",
+				min: 1,
+				max: 1,
+				title: VIDEO_TITLE,
+				type: eFormType.HIDDEN,
+				icon: "video",
+				meta: {
+					accept: ["video/*"],
+					/** 1GB in bytes */
+					maxFileSize: 1_000_000_000,
+				},
+			});
+			/**
+			 * Timeout input
+			 * Only visible if the content type is evaluation
+			 */
+			const timeoutInput = new FormInput<number, eFormTypeBase | eFormTypeSimple>({
+				values: [60],
+				name: "timeout",
+				title: TIMEOUT_TITLE,
+				placeholder: "Ej: 60",
+				type: eFormType.HIDDEN,
+				min: 0,
+			});
+			const inputs = ref<tFormInput[]>([
+				new FormInput(
+					{
+						values: [eWithSwitchingType.LESSON],
+						name: "type",
+						required: true,
+						title: "Tipo de contenido",
+						options: [
+							{
+								value: eWithSwitchingType.LESSON,
+								alias: "Lección",
+							},
+							{
+								value: eWithSwitchingType.EVALUATION,
+								alias: "Evaluación",
+							},
+						],
+						type: eFormType.CHOICE,
+					},
+					async ([type]) => {
+						if (Array.isArray(type)) return;
+
+						// Update inputs type based on the content type
+						switch (type) {
+							case eWithSwitchingType.LESSON:
+								// Require video for lesson
+								videoInput.type = eFormType.FILE;
+								videoInput.required = true;
+								// Hide timeout and questions
+								timeoutInput.type = eFormType.HIDDEN;
+								break;
+							case eWithSwitchingType.EVALUATION:
+								// Hide video
+								videoInput.type = eFormType.HIDDEN;
+								videoInput.required = false;
+								// Require timeout and questions
+								timeoutInput.type = eFormType.NUMBER;
+								break;
+						}
+					}
+				),
+				videoInput,
+				timeoutInput,
+			]);
+
+			return { args, inputs };
+		},
+		template: '<FormSimple v-bind="args" v-model="inputs" />',
+	}),
+	args: {},
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		// Wait for Suspense to resolve
+		const evaluationButton = await waitFor(() => canvas.getByText("Evaluación"));
+
+		// Initially only the type input should be visible
+		expect(canvas.queryByText(/Video de la lección/)).not.toBeInTheDocument();
+		expect(canvas.queryByText(TIMEOUT_TITLE)).not.toBeInTheDocument();
+
+		// Click evaluation button
+		await userEvent.click(evaluationButton);
+
+		// Check evaluation inputs visibility
+		await waitFor(() => {
+			expect(canvas.queryByText(/Video de la lección/)).not.toBeInTheDocument();
+			expect(canvas.getByText(TIMEOUT_TITLE)).toBeInTheDocument();
+		});
+
+		// Re-query lesson button and click it
+		const lessonButton = canvas.getByText("Lección");
+
+		await userEvent.click(lessonButton);
+
+		// Check lesson inputs visibility
+		await waitFor(() => {
+			expect(canvas.getByText(/Video de la lección/)).toBeInTheDocument();
+			expect(canvas.queryByText(TIMEOUT_TITLE)).not.toBeInTheDocument();
+		});
+	},
+};
+
 export const Make: Story = {
 	render: (args) => ({
-		components: { FormSimple },
+		components: { FormSimple: FormSimple as any },
 		setup() {
 			const inputs = ref<tFormInput[]>([]);
 			const invalid = ref<iInvalidInput[]>([]);

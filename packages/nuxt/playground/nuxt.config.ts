@@ -15,8 +15,8 @@ function getStyleSheetPreload(href: string) {
 }
 
 export default defineNuxtConfig({
+	compatibilityDate: "2025-12-16",
 	app: {
-		keepalive: true,
 		head: {
 			title: "Nuxt module playground",
 			meta: [
@@ -41,35 +41,12 @@ export default defineNuxtConfig({
 			],
 		},
 	},
-	router: {
-		options: {
-			linkActiveClass: "is--route",
-			linkExactActiveClass: "is--routeExact",
-			scrollBehaviorType: "smooth",
-		},
-	},
 	css: ["@open-xamu-co/ui-styles/dist/index.min.css"],
 	modules: ["../src/module"],
 	xamu: {
 		locale,
 		lang: "es",
 		country: "co",
-		swal: {
-			overrides: {
-				customClass: {
-					confirmButton: ["bttn"],
-					cancelButton: ["bttnToggle"],
-					denyButton: ["link"],
-				},
-			},
-			preventOverrides: {
-				customClass: {
-					confirmButton: ["bttn", "--tm-danger-light"],
-					cancelButton: ["bttnToggle"],
-					denyButton: ["link"],
-				},
-			},
-		},
 		image: {
 			domains: ["firebasestorage.googleapis.com"],
 			alias: { firebase: "https://firebasestorage.googleapis.com" },

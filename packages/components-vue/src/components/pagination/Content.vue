@@ -1,42 +1,53 @@
 <template>
-	<LoaderContentFetch
-		v-slot="{ content, refresh }"
-		:hydratable-promise="patchedHydratablePromise"
-		:payload="[{ ...pagination, ...defaults }]"
-		:class="$attrs.class"
-		v-bind="{
-			preventAutoload,
-			theme,
-			noContentMessage,
-			label,
-			isContent,
-			url,
-			ignoreErrors,
-			client,
-		}"
-		@refresh="$emit('refresh', $event)"
-		@has-content="hasContent"
-	>
-		<slot
-			v-bind="{
-				hydrateNodes,
-				content: processContent(content.edges.map(({ node }) => node)),
-				pagination,
-				currentPage: content,
-				refresh,
-			}"
-		></slot>
-		<PaginationSimple
-			v-if="!hideControls"
-			v-model="pagination"
-			v-bind="{ currentPage: content, withRoute, theme }"
-			:class="paginationClass"
-		/>
-	</LoaderContentFetch>
+	<BaseErrorBoundary at="PaginationContent">
+		<suspense>
+			<template #fallback><LoaderSimple :theme="theme" /></template>
+			<LoaderContentFetch
+				v-slot="{ content, refresh }"
+				:hydratable-promise="patchedHydratablePromise"
+				:payload="[{ ...pagination, ...defaults }]"
+				:class="$attrs.class"
+				v-bind="{
+					preventAutoload,
+					theme,
+					noContentMessage,
+					label,
+					isContent,
+					url,
+					ignoreErrors,
+					client,
+					cache,
+				}"
+				@refresh="$emit('refresh', $event)"
+				@has-content="hasContent"
+			>
+				<slot
+					v-bind="{
+						hydrateNodes,
+						content: processContent(getNodes(content.edges)),
+						pagination,
+						currentPage: content,
+						refresh,
+					}"
+				></slot>
+				<PaginationSimple
+					v-if="showControls(content.totalCount, pagination.first)"
+					v-model="pagination"
+					v-bind="{ currentPage: content, withRoute, theme }"
+					:class="paginationClass"
+				>
+					<template v-if="$slots.paginationActions" #actions="actionsSlots">
+						<slot name="paginationActions" v-bind="actionsSlots"></slot>
+					</template>
+				</PaginationSimple>
+			</LoaderContentFetch>
+		</suspense>
+	</BaseErrorBoundary>
 </template>
 
 <script setup lang="ts" generic="T, C extends string | number = string, R = never">
 	import { computed, getCurrentInstance, inject, ref, type Ref } from "vue";
+	import isEqual from "lodash-es/isEqual";
 
 	import type {
 		iGetPage,
@@ -46,82 +57,13 @@
 		iPluginOptions,
 	} from "@open-xamu-co/ui-common-types";
 
+	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 	import LoaderContentFetch from "../loader/ContentFetch.vue";
 	import PaginationSimple from "./Simple.vue";
 
-	import type { iUseThemeProps } from "../../types/props";
+	import type { iPaginationContentProps } from "../../types/props";
 	import { useOrderBy } from "../../composables/utils";
-
-	export interface iPCProps<Ti, Ci extends string | number = string, Ri = never>
-		extends iPagination,
-			iUseThemeProps {
-		/**
-		 * Function used to fetch the page
-		 */
-		page?: Ri extends iGetPage<Ti, Ci>
-			? iGetPage<Ti, Ci>
-			: (params?: iPagination) => Promise<Ri | undefined>;
-		/**
-		 * Function used to fetch the page and hydrate the content
-		 */
-		hydratablePage?: (
-			content: Ref<iPage<Ti, Ci> | null | undefined>,
-			errors: Ref<unknown>
-		) => Ri extends iGetPage<Ti, Ci>
-			? iGetPage<Ti, Ci>
-			: (params?: iPagination) => Promise<Ri | undefined>;
-		/**
-		 * Path used as key for the cache
-		 */
-		url?: string;
-		/**
-		 * paginate using route
-		 *
-		 * @example "?orderBy=id:asc" single order property
-		 * @example "?orderBy=id:asc&orderBy=createdAt" multiple order properties
-		 */
-		withRoute?: boolean;
-		/**
-		 * hide pagination buttons
-		 */
-		hideControls?: boolean;
-		preventAutoload?: boolean;
-		/**
-		 * Additional parameters to send every request
-		 */
-		defaults?: Record<string, any>;
-		noContentMessage?: string;
-		/**
-		 * Loader label
-		 */
-		label?: string;
-		/**
-		 * When additional operations are required on fetched data
-		 *
-		 * Raw promise payload
-		 */
-		transform?: (r: Ri) => iPage<Ti, Ci> | undefined;
-		/**
-		 * When additional operations are required on content
-		 *
-		 * Nodes arr only
-		 */
-		processContent?: (n: NoInfer<Ti>[]) => NoInfer<Ti>[];
-		/**
-		 * Ignore errors and display existing content.
-		 */
-		ignoreErrors?: boolean;
-		/**
-		 * Whether to fetch data on client side only
-		 */
-		client?: boolean;
-		/**
-		 * Additional class for the pagination
-		 *
-		 * @example --txtColor
-		 */
-		paginationClass?: string | string[] | Record<string, boolean>;
-	}
 
 	/**
 	 * Menu de paginacion
@@ -134,10 +76,18 @@
 
 	defineOptions({ name: "PaginationContent", inheritAttrs: false });
 
-	const props = withDefaults(defineProps<iPCProps<T, C, R>>(), {
+	const props = withDefaults(defineProps<iPaginationContentProps<T, C, R>>(), {
 		processContent: (c: T[]) => c,
 	});
-	const emit = defineEmits(["refresh", "has-content"]);
+	const emit = defineEmits<{
+		(e: "refresh", fn: () => any): void;
+		(
+			e: "has-content",
+			isContent: boolean,
+			newContent: T[],
+			hydrate: (newContent: T[] | null, newErrors?: unknown) => void
+		): void;
+	}>();
 
 	const { first: defaultFirst, cursorEncoder } = inject<iPluginOptions>("xamu") || {};
 	const router = getCurrentInstance()?.appContext.config.globalProperties.$router;
@@ -150,7 +100,7 @@
 	const hydrateNodes = ref<(newContent: T[] | null, newErrors?: unknown) => void>();
 
 	const pagination = computed<iPagination>({
-		get() {
+		get(prev) {
 			if (props.withRoute && router) {
 				const { orderBy, first, at } = propsPagination.value;
 				const route = router.currentRoute.value;
@@ -158,11 +108,23 @@
 				const routeAt = route.query.at;
 				const routeOrderBy = useOrderBy(route.query.orderBy);
 
-				return {
+				const next: iPagination = {
 					orderBy: routeOrderBy.length ? routeOrderBy : orderBy,
 					first: Number(routeFirst ?? first),
 					at: routeAt ?? at,
 				};
+
+				// Preserve old pagination if possible
+				if (
+					prev &&
+					prev.first === next.first &&
+					prev.at === next.at &&
+					isEqual(prev.orderBy, next.orderBy)
+				) {
+					return prev;
+				}
+
+				return next;
 			}
 
 			return propsPagination.value;
@@ -184,6 +146,9 @@
 
 	/**
 	 * Patched promise, with optional hydration
+	 *
+	 * @param content Content ref
+	 * @param errors Errors ref
 	 */
 	const patchedHydratablePromise = (
 		content: Ref<iPage<T, C> | null | undefined>,
@@ -191,25 +156,50 @@
 	): iGetPage<T, C> => {
 		const page = props.hydratablePage?.(content, errors) || props.page;
 
-		return async (v) => {
+		return async (v, signal) => {
 			const transform: (r: any) => iPage<T, C> | undefined = props.transform || ((v) => v);
-			const result = await page?.(v);
+			const result = await page?.(v, signal);
 
 			return transform(result);
 		};
 	};
 
+	const nodesCache = new WeakMap<object, any[]>();
+
+	/**
+	 * Retrieve nodes from edges, using cache
+	 *
+	 * @param edges Page edges
+	 * @returns Nodes
+	 */
+	function getNodes(edges: iPageEdge<T, C>[] = []): T[] {
+		if (!edges) return [];
+		if (nodesCache.has(edges)) return nodesCache.get(edges)!;
+
+		const nodes = edges.map(({ node }) => node);
+
+		nodesCache.set(edges, nodes);
+
+		return nodes;
+	}
+
 	function isContent(c?: iPage<T, C>): boolean {
 		return !!c?.edges?.length;
 	}
 
-	/** Override emit to handle node hydration */
+	/**
+	 * Override emit to handle node hydration
+	 *
+	 * @param value Content is available
+	 * @param page Current page
+	 * @param hydratePage Function to hydrate nodes
+	 */
 	function hasContent(
 		value: boolean,
 		page?: iPage<T, C> | null,
 		hydratePage?: (newContent: iPage<T, C> | null, newErrors?: unknown) => void
 	) {
-		function hydrateNodesFn(newContent: T[] | null, newErrors?: unknown) {
+		hydrateNodes.value = function (newContent: T[] | null, newErrors?: unknown) {
 			if (!page || !hydratePage) return;
 
 			const edges: iPageEdge<T, C>[] = (newContent || []).map((node) => {
@@ -217,14 +207,26 @@
 
 				return { node, cursor };
 			});
+			const diff = edges.length - (page.edges?.length || 0);
+			const totalCount = Math.max(0, (page.totalCount || 0) + diff);
 
-			hydratePage({ ...page, edges }, newErrors);
-		}
-
-		hydrateNodes.value = hydrateNodesFn;
+			hydratePage({ ...page, edges, totalCount }, newErrors);
+		};
 
 		const nodes = (page?.edges || []).map(({ node }) => node);
 
-		emit("has-content", value, nodes, hydrateNodesFn);
+		emit("has-content", value, nodes, hydrateNodes.value);
+	}
+
+	/**
+	 * Check if pagination controls should be shown
+	 *
+	 * @param totalCount Count of items
+	 * @param first Number of items per page
+	 */
+	function showControls(totalCount: number, first = defaultFirst || 10) {
+		if (!props.hideControls) return true;
+
+		return props.hideControls === "single" ? totalCount > first : true;
 	}
 </script>

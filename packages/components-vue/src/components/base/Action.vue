@@ -4,6 +4,7 @@
 		v-bind="{ ...$attrs, ...props, ...getHref }"
 		:type="currentTag === 'button' && !to && !href ? type || 'button' : null"
 		:tabindex="(props.disabled && '-1') || props.tabindex || null"
+		:aria-disabled="props.disabled ? 'true' : undefined"
 		:class="classes"
 	>
 		<slot>

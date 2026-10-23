@@ -3,6 +3,7 @@
 		:class="[modifiersClasses, stateClasses, themeClasses]"
 		class="iSelect"
 		v-bind="{ ...$attrs, ...props }"
+		role="combobox"
 	/>
 </template>
 
@@ -20,10 +21,7 @@
 	import useTheme from "../../composables/theme";
 
 	interface iSelectSimpleProps
-		extends iSelectProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {}
+		extends iSelectProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {}
 
 	/**
 	 * Select element with filtering

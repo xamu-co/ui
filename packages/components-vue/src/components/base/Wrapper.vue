@@ -1,6 +1,6 @@
 <template>
 	<component :is="wrapper" v-if="wrap" v-slot="elSlots" v-bind="{ ...$attrs, ...$slots }">
-		<slot v-bind="{ ...elSlots }"></slot>
+		<slot v-bind="elSlots || {}"></slot>
 	</component>
 	<slot v-else></slot>
 </template>
@@ -23,7 +23,7 @@
 	defineOptions({ name: "BaseWrapper", inheritAttrs: false });
 	withDefaults(
 		defineProps<{
-			/** Wheter or not render the wrapper */
+			/** Whether or not render the wrapper */
 			wrap: boolean;
 			/** Component or tag to render as wrapper */
 			wrapper?: vComponent | typeof Teleport | string;

@@ -7,19 +7,7 @@ export type tComponent = (typeof componentNames)[number];
 export type tLogger = (at: string, ...logs: unknown[]) => any;
 
 export type tSupportedLangs =
-	| "kr"
-	| "pt"
-	| "nl"
-	| "hr"
-	| "fa"
-	| "de"
-	| "es"
-	| "en"
-	| "fr"
-	| "ja"
-	| "it"
-	| "cn"
-	| "tr";
+	"kr" | "pt" | "nl" | "hr" | "fa" | "de" | "es" | "en" | "fr" | "ja" | "it" | "cn" | "tr";
 
 export interface iPluginOptions<ComponentType = unknown> {
 	/**

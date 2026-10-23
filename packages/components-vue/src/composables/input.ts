@@ -46,6 +46,12 @@ export default function useInput({ input }: { input: tFormInput }) {
 				case eFormType.PHONE:
 				case eFormType.CELLPHONE:
 					return "tel";
+				case eFormType.DATE:
+					return "date";
+				case eFormType.DATETIME:
+					return "datetime-local";
+				case eFormType.TIME:
+					return "time";
 				default:
 					return "text";
 			}
@@ -79,6 +85,12 @@ export default function useInput({ input }: { input: tFormInput }) {
 					return [p("form_cellphone")][index];
 				case eFormType.ID:
 					return [p("form_id_number")][index];
+				case eFormType.DATE:
+					return [p("form_date")][index];
+				case eFormType.DATETIME:
+					return [p("form_datetime")][index];
+				case eFormType.TIME:
+					return [p("form_time")][index];
 				default:
 					return [p("form_complete_the_field")][index];
 			}

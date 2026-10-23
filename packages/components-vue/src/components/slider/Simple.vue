@@ -1,6 +1,5 @@
 <template>
 	<LoaderContent
-		ref="wrapperRef"
 		:loading="loading"
 		content
 		class="xamu-slider"
@@ -30,7 +29,7 @@
 			>
 				<li v-if="controls === 'full'">
 					<ActionButton
-						:aria-label="t('previous')"
+						:tooltip="t('previous')"
 						:theme="theme"
 						round
 						@click.prevent="debouncedTab(true)"
@@ -57,7 +56,7 @@
 				</li>
 				<li v-if="controls === 'full'">
 					<ActionButton
-						:aria-label="t('next')"
+						:tooltip="t('next')"
 						:theme="theme"
 						round
 						@click.prevent="debouncedTab(false)"
@@ -149,7 +148,6 @@
 	const { isBrowser } = useHelpers(useUtils);
 
 	const loading = ref(true);
-	const wrapperRef = ref<HTMLElement>();
 	const sliderContainerRef = ref<HTMLElement>();
 	const sliderRef = ref<HTMLElement>();
 	const running = ref(false);

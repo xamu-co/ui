@@ -24,7 +24,7 @@
 
 // return value with dash
 @function dashed($string) {
-	@return if($string == "", $string, $string + "-");
+	@return if(sass($string == ""): $string; else: $string + "-");
 }
 
 // coverts color to rgb, making it compatible with custom vars and opacity

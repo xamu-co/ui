@@ -4,12 +4,12 @@
 			v-for="(
 				{ node, index, visibility, hydrateNode, createNodeChildrenAndRefresh }, mappedIndex
 			) in mappedNodes.nodes"
-			:key="index"
+			:key="node.id ?? index"
 		>
 			<!-- Row item (Shows the item data) -->
 			<tr
 				class="--txtAlign"
-				:class="[`--txtSize-${size}`, { ['is--selected']: selectedNodes[index][0] }]"
+				:class="[`--txtSize-${size}`, { ['is--selected']: selectedNodes[mappedIndex] }]"
 			>
 				<th
 					v-if="mappedNodes.length > 1 || $slots.default"
@@ -27,7 +27,7 @@
 						<InputToggle
 							v-if="!isReadOnly"
 							:id="tableId + String(node.id ?? index)"
-							v-model="selectedNodes[mappedIndex][0]"
+							v-model="selectedNodes[mappedIndex]"
 							:theme="theme || themeValues"
 							:title="t('table_select')"
 							:size="size"
@@ -58,6 +58,7 @@
 										updateNode: (n: any) => meta.updateNode?.(n, nodes[index]),
 									}),
 								},
+								properties,
 								node: nodes[index],
 								mappedNode: node,
 								readonly: isReadOnly,
@@ -68,6 +69,12 @@
 								omitRefresh,
 								size,
 								hydrateNode,
+								nodeIndex: index,
+								updateNodeAndRefresh,
+								cloneNodeAndRefresh,
+								deleteNodeAndRefresh,
+								deleteNodesAndRefresh,
+								show: canShowChildren(visibility, mappedIndex),
 							}"
 						/>
 					</td>
@@ -89,6 +96,8 @@
 						<slot
 							name="modifyActions"
 							v-bind="{
+								refresh,
+								nodeIndex: index,
 								node: nodes[index],
 								mappedNode: node,
 								updateNodeAndRefresh,
@@ -106,7 +115,7 @@
 							:theme="theme || themeValues"
 							:size="size"
 							round
-							:disabled="selectedNodes.some(([n]) => n)"
+							:disabled="!!selectedNodesCount"
 							@click="() => updateNodeAndRefresh(nodes[index])"
 						>
 							<IconFa name="pencil" />
@@ -116,16 +125,16 @@
 							class="flx --flxRow --flx-center"
 							:position="['left', 'center']"
 							:size="size"
-							v-bind="{ theme: theme || themeValues, ...modalProps }"
+							v-bind="{ theme: theme || themeValues, ...dropdownProps }"
 						>
 							<template #toggle="{ setModel }">
 								<ActionLink
 									class="--pX-10"
-									:aria-label="t('table_options')"
+									:tooltip="t('table_options')"
 									:title="t('table_options')"
 									:theme="theme || themeValues"
 									:size="size"
-									:disabled="selectedNodes.some(([n]) => n)"
+									:disabled="!!selectedNodesCount"
 									toggle="dropdown"
 									@click="() => setModel()"
 								>
@@ -138,22 +147,18 @@
 										<ActionLink
 											:theme="invertedTheme"
 											:size="size"
-											:aria-label="t('table_duplicate')"
 											@click="
 												() => cloneNodeAndRefresh(nodes[index], setModel)
 											"
 										>
 											<IconFa name="clone" />
-											<span>
-												{{ t("table_duplicate") }}
-											</span>
+											<span>{{ t("table_duplicate") }}</span>
 										</ActionLink>
 									</li>
 									<li v-if="!!deleteNode">
 										<ActionLink
 											:theme="dangerThemeValues"
 											:size="size"
-											:aria-label="t('table_delete')"
 											@click="
 												() =>
 													deleteNodeAndRefresh(
@@ -164,12 +169,14 @@
 											"
 										>
 											<IconFa name="trash-can" />
-											<span>{{ t("table_delete") }}</span>
+											<span>{{ tableDeleteText || t("table_delete") }}</span>
 										</ActionLink>
 									</li>
 									<slot
 										name="modifyDropdownActions"
 										v-bind="{
+											refresh,
+											nodeIndex: index,
 											node: nodes[index],
 											mappedNode: node,
 											updateNodeAndRefresh,
@@ -187,38 +194,12 @@
 			</tr>
 			<!-- Row item children (Nested table) -->
 			<template v-if="$slots.default">
-				<!-- Row item children content -->
-				<tr class="no--hover --width-100">
-					<td :colspan="propertiesMeta.length + 2">
-						<BaseBox
-							v-show="canShowChildren(visibility, mappedIndex)"
-							:theme="theme || themeValues"
-							class="--gap-none --p-10 --maxWidth-100"
-							transparent
-							solid
-						>
-							<slot
-								v-bind="{
-									node: nodes[index],
-									mappedNode: node,
-									updateNodeAndRefresh,
-									cloneNodeAndRefresh,
-									deleteNodeAndRefresh,
-									deleteNodesAndRefresh,
-									createNodeChildrenAndRefresh,
-									show: canShowChildren(visibility, mappedIndex),
-									hydrateParentNode: hydrateNode,
-								}"
-							></slot>
-						</BaseBox>
-					</td>
-				</tr>
 				<!-- Row item children actions (Acts as a divider of rows when item children are hidden) -->
 				<tr class="no--hover">
 					<th class="--sticky --pX-10 --pY-5 --vAlign">
 						<div class="flx --flxRow --flx-end-center --gap-10 --bdr">
 							<ActionLink
-								:theme="theme || themeValues"
+								:theme="nodesDividerThemeValues"
 								:size="size"
 								:active="canShowChildren(visibility, mappedIndex)"
 								:tooltip="
@@ -245,7 +226,7 @@
 							</ActionLink>
 							<ActionButtonLink
 								v-if="createNodeChildren"
-								:theme="theme || themeValues"
+								:theme="nodesDividerThemeValues"
 								:size="size"
 								:disabled="visibility.disableCreateNodeChildren"
 								:tooltip="
@@ -268,8 +249,36 @@
 					</th>
 					<td :colspan="propertiesMeta.length + 1" class="--pY-5 --index-1 --pRight">
 						<div class="--width-100 --pRight --boxSizing --overflow-hidden">
-							<hr :class="`--tm-${themeValues[0]}`" />
+							<hr :class="`--tm-${nodesDividerThemeValues[0]}`" />
 						</div>
+					</td>
+				</tr>
+				<!-- Row item children content -->
+				<tr class="no--hover --width-100">
+					<td :colspan="propertiesMeta.length + 2">
+						<BaseBox
+							v-show="canShowChildren(visibility, mappedIndex)"
+							:theme="nodesDividerThemeValues"
+							class="--gap-5 --p-10 --maxWidth-100"
+							transparent
+							solid
+						>
+							<slot
+								v-bind="{
+									refresh,
+									nodeIndex: index,
+									node: nodes[index],
+									mappedNode: node,
+									updateNodeAndRefresh,
+									cloneNodeAndRefresh,
+									deleteNodeAndRefresh,
+									deleteNodesAndRefresh,
+									createNodeChildrenAndRefresh,
+									show: canShowChildren(visibility, mappedIndex),
+									hydrateParentNode: hydrateNode,
+								}"
+							></slot>
+						</BaseBox>
 					</td>
 				</tr>
 			</template>
@@ -278,9 +287,11 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
-	import { computed, inject } from "vue";
+	import { computed, inject, defineAsyncComponent } from "vue";
+	import omit from "lodash-es/omit";
+	import isEqual from "lodash-es/isEqual";
 
-	import type { iPluginOptions } from "@open-xamu-co/ui-common-types";
+	import type { iPluginOptions, tThemeTuple } from "@open-xamu-co/ui-common-types";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -288,18 +299,18 @@
 	import ActionButton from "../action/Button.vue";
 	import ActionButtonLink from "../action/ButtonLink.vue";
 	import InputToggle from "../input/Toggle.vue";
-	import ValueComplex from "../value/Complex.vue";
 	import Dropdown from "../dropdown/Simple.vue";
 	import BaseBox from "../base/Box.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 
-	import type { iTableChildProps } from "../../types/props";
-	import useTheme from "../../composables/theme";
+	import type { iTableBodyProps } from "../../types/props";
+	import useTheme, { getThemeValues } from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
 
-	export interface iTableBodyProps<
-		Ti extends Record<string, any>,
-		TMi extends Record<string, any> = Ti,
-	> extends iTableChildProps<Ti, TMi> {}
+	const ValueComplex = defineAsyncComponent({
+		loader: () => import("../value/Complex.vue"),
+		loadingComponent: LoaderSimple,
+	});
 
 	/**
 	 * Table body
@@ -315,6 +326,10 @@
 	const { themeValues, dangerThemeValues } = useTheme(props);
 	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
 
+	const nodesDividerThemeValues = computed<tThemeTuple>(() => {
+		return getThemeValues(props.nodesDividerTheme || themeValues.value);
+	});
+
 	const pageNumber = computed(() => {
 		const page = props.pageInfo?.pageNumber || 1;
 		let first = defaultFirst || 0;
@@ -324,5 +339,13 @@
 		}
 
 		return (page - 1) * first;
+	});
+
+	const dropdownProps = computed<Record<string, any>>((prev) => {
+		const next = omit(props.modalProps || {}, "class");
+
+		if (prev && isEqual(next, prev)) return prev;
+
+		return next;
 	});
 </script>

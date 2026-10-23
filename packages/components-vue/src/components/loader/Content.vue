@@ -39,7 +39,7 @@
 		</template>
 		<LoaderSimple v-else-if="!noLoader" key="loader-no-content" :label="label" :theme="theme" />
 	</div>
-	<BaseWrapper v-else :wrap="!unwrap" :el="el" v-bind="$attrs">
+	<BaseWrapper v-else :wrap="!unwrap" :wrapper="el" v-bind="$attrs">
 		<div class="back --overlay" :class="{ 'is--active': loading && !noLoader }">
 			<LoaderSimple key="loader-content" :label="label" :theme="theme" />
 		</div>

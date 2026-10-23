@@ -84,24 +84,18 @@
 				@include utils.flex-box(row, nowrap, center, center);
 
 				@layer defaults {
-					& {
-						gap: 1rem;
-					}
+					gap: 1rem;
 				}
 
 				@if utils.$allow-responsive {
 					@media (width <= utils.$querie-smartphone) {
 						@layer defaults {
-							& {
-								gap: 0.3rem;
-							}
+							gap: 0.3rem;
 						}
 					}
 					@media (width <= utils.$querie-tablet) {
 						@layer defaults {
-							& {
-								gap: 0.5rem;
-							}
+							gap: 0.5rem;
 						}
 					}
 				}

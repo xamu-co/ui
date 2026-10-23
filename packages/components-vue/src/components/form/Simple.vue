@@ -5,45 +5,62 @@
 			v-if="model.length"
 			class="flx --flxColumn --flx-start-stretch --gap-10 --maxWidth-full"
 		>
-			<legend v-if="title">
-				<h4>{{ title }}:</h4>
-			</legend>
-			<BaseWrapper
-				v-slot="{ content, ...countriesAndStatesReq } = {}"
-				:wrapper="LoaderContentFetch"
-				:wrap="withLocationInput || withPhoneInput"
-				:theme="theme"
-				:label="t('form_loading_countries')"
-				:promise="getCountriesAndStates"
-				:url="`/countries${defaultCountry ? '?states' : ''}`"
-				:fallback="{ countries: [], states: [] }"
-				ignore-errors
-				unwrap
-			>
-				<template v-for="(input, inputIndex) in model" :key="inputIndex">
-					<div
-						v-if="input && model[inputIndex] && input.type !== eFormType.HIDDEN"
-						class="flx --flxColumn --flx-start-stretch --gap-5"
-					>
-						<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
-							{{ getSuggestedTitle(input) }}
-						</p>
-						<FormInput
-							:key="`input-${input.name}-${input.options.length}`"
-							v-bind="{
-								...content,
-								...countriesAndStatesReq,
-								readonly,
-								theme,
-								input,
-							}"
-							:invalid="getInvalid(input.name)"
-							:model-value="model[inputIndex].values"
-							@update:model-value="updateValues(inputIndex, $event)"
-						/>
-					</div>
-				</template>
-			</BaseWrapper>
+			<h4 v-if="title">{{ title }}:</h4>
+			<suspense>
+				<template #fallback><LoaderSimple :theme="theme" /></template>
+				<BaseWrapper
+					v-slot="{ content, ...countriesAndStatesReq } = {}"
+					:wrapper="LoaderContentFetch"
+					:wrap="withLocationInput || withPhoneInput"
+					:theme="theme"
+					:label="t('form_loading_countries')"
+					:promise="getCountriesAndStates"
+					:url="`/countries${defaultCountry ? '?states' : ''}`"
+					:fallback="{ countries: [], states: [] }"
+					ignore-errors
+					unwrap
+				>
+					<template v-for="(input, inputIndex) in model" :key="input?.name || inputIndex">
+						<div
+							v-if="input && model[inputIndex] && input.type !== eFormType.HIDDEN"
+							class="flx --flxColumn --flx-start-stretch --gap-5"
+						>
+							<p v-if="getSuggestedTitle(input)" class="--txtSize-sm">
+								{{ getSuggestedTitle(input) }}
+							</p>
+							<FormInput
+								:key="`input-${input.name}`"
+								v-bind="{
+									...content,
+									...countriesAndStatesReq,
+									readonly,
+									theme,
+									input,
+								}"
+								:invalid="getInvalid(input.name)"
+								:model-value="model[inputIndex].values"
+								@update:model-value="updateValues(inputIndex, $event)"
+							>
+								<template
+									v-if="$slots.inputActions || $slots[input.meta!.actionSlotName]"
+									#inputActions="inputActionsSlots"
+								>
+									<slot
+										v-if="$slots.inputActions"
+										name="inputActions"
+										v-bind="inputActionsSlots"
+									></slot>
+									<slot
+										v-else-if="$slots[input.meta!.actionSlotName]"
+										:name="input.meta!.actionSlotName"
+										v-bind="inputActionsSlots"
+									></slot>
+								</template>
+							</FormInput>
+						</div>
+					</template>
+				</BaseWrapper>
+			</suspense>
 		</component>
 		<slot v-else>
 			<!-- No inputs given -->
@@ -57,10 +74,15 @@
 </template>
 
 <script setup lang="ts" generic="P extends any[] = any[]">
-	import { computed, ref, watch } from "vue";
+	import { computed, defineAsyncComponent, ref, watch, type WritableComputedRef } from "vue";
 	import isEqual from "lodash-es/isEqual";
 
-	import type { iInvalidInput } from "@open-xamu-co/ui-common-types";
+	import type {
+		iInvalidInput,
+		tProp,
+		tThemeModifier,
+		tThemeTuple,
+	} from "@open-xamu-co/ui-common-types";
 	import type { tFormInput } from "@open-xamu-co/ui-common-types";
 	import { eFormType, eFormTypeSimple } from "@open-xamu-co/ui-common-enums";
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
@@ -68,31 +90,18 @@
 	import BaseWrapper from "../base/Wrapper.vue";
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import BaseBox from "../base/Box.vue";
+	import LoaderSimple from "../loader/Simple.vue";
 	import FormInput from "./Input.vue";
-	import LoaderContentFetch from "../loader/ContentFetch.vue";
 
-	import type { iUseThemeProps } from "../../types/props";
 	import type { iState } from "../../types/countries";
+	import type { iFormSimple } from "../../types/props";
 	import useCountries from "../../composables/countries";
 	import { useHelpers } from "../../composables/utils";
 
-	export interface iFormSimple<P extends any[]> extends iUseThemeProps {
-		title?: string;
-		emptyMessage?: string;
-		modelValue?: tFormInput[];
-		noForm?: boolean;
-		invalid?: iInvalidInput[];
-		/**
-		 * If the make function requires a payload
-		 */
-		payload?: P;
-		/**
-		 * Make model
-		 */
-		make?: ((...args: P) => tFormInput[]) | ((...args: P) => Promise<tFormInput[]>);
-		/** Make all inputs read only by disabling them */
-		readonly?: boolean;
-	}
+	const LoaderContentFetch = defineAsyncComponent({
+		loader: () => import("../loader/ContentFetch.vue"),
+		loadingComponent: LoaderSimple,
+	});
 
 	/**
 	 * Factory component for forms
@@ -101,11 +110,26 @@
 	 */
 
 	defineOptions({ name: "FormSimple", inheritAttrs: true });
+	defineSlots<{
+		default: () => any;
+		inputActions: (scope: {
+			input: tFormInput;
+			models: WritableComputedRef<any, any>[];
+			theme?: tThemeTuple | tProp<tThemeModifier>;
+			readonly: boolean;
+		}) => any;
+		[x: `inputActions${string}`]: (scope: {
+			input: tFormInput;
+			models: WritableComputedRef<any, any>[];
+			theme?: tThemeTuple | tProp<tThemeModifier>;
+			readonly: boolean;
+		}) => any;
+	}>();
 
 	const props = defineProps<iFormSimple<P>>();
 	const emit = defineEmits<{
-		"update:invalid": [iInvalidInput[]];
-		"update:model-value": [tFormInput[]];
+		(e: "update:invalid", value: iInvalidInput[]): any;
+		(e: "update:model-value", value: tFormInput[]): any;
 	}>();
 
 	const { t, tet } = useHelpers(useI18n);
@@ -143,10 +167,9 @@
 		if (!model.value[index]) return;
 
 		// update values
-		model.value[index].values = values;
 		emit(
 			"update:model-value",
-			(props.modelValue || []).toSpliced(index, 1, model.value[index])
+			(props.modelValue || []).toSpliced(index, 1, model.value[index].clone({ values }))
 		);
 
 		if (!props.invalid?.length) return;
@@ -169,12 +192,11 @@
 			const { type, options, required } = input;
 
 			// omit non required if options are not present
-			if (
-				eFormTypeSimple.SELECT === type ||
-				eFormTypeSimple.SELECT_FILTER === type ||
-				eFormTypeSimple.CHOICE === type
-			) {
+			if (eFormTypeSimple.SELECT === type || eFormTypeSimple.CHOICE === type) {
 				if (!options?.length && !required) return null;
+			}
+			if (eFormTypeSimple.SELECT_FILTER === type) {
+				if (!options?.length && !input.optionsFilter && !required) return null;
 			}
 
 			return input;

@@ -21,11 +21,9 @@
 
 			@layer defaults {
 				// @defaults margin
-				& {
-					height: 2px;
-					width: auto;
-					margin: 0 -0.4rem;
-				}
+				height: 2px;
+				width: auto;
+				margin: 0 -0.4rem;
 			}
 
 			&:last-child:not(:nth-child(2), :only-child) {
@@ -55,11 +53,9 @@
 				@include utils.extend-viewports-classes {
 					@layer defaults {
 						// @defaults margin
-						& {
-							width: 2px;
-							height: auto;
-							margin: -0.4rem 0;
-						}
+						width: 2px;
+						height: auto;
+						margin: -0.4rem 0;
 					}
 				}
 			}

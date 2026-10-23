@@ -62,9 +62,13 @@ export const localeInput: tLocaleInput = {
 	select_selected: "Selected",
 	select_placeholder: "--SELECT--",
 	select_restablish_field: "Restablish field",
-	select_filter_options: "Type or Double click for options",
+	select_filter_options: "Type for options",
+	select_filter_searching: "Searching...",
+	select_filter_no_content: "Type something first | No coincidences",
+	select_filter_select_value: "Select {value}",
 	file_one_of_amount: "{count} of {amount}",
 	file_delete_files: "Delete file | Delete files",
+	file_delete_heavy_file: "Delete file (> {maxSize}MB)",
 	file_thumb: "Thumbnail",
 	file_choose_file: "Choose a file | Choose files",
 	file_or_drop_files_here: "Or drop it here | Or drop them here",
@@ -76,8 +80,10 @@ export const localeInput: tLocaleInput = {
 		file_limit: "File limit",
 		file_limit_text:
 			"This field only allows {amount} file | This field only allows {amount} files",
-		file_wrong_format_image: "Wrong format",
-		file_wrong_format_image_text: "This field only allows image files",
+		file_unsupported_format: "Unsupported format",
+		file_unsupported_format_text: "This field only does not allow that file type",
+		file_wrong_format: "Wrong format",
+		file_wrong_format_text: 'This field only allows "{types}" files',
 		file_too_big: "File too big",
 		file_too_big_text: "The file exceeds the allowed size",
 		file_unknown_error: "Something went wrong",
@@ -120,6 +126,9 @@ export const localeForm: tLocaleForm = {
 	form_phone_line: "Phone line",
 	form_cellphone: "Cellphone number",
 	form_id_number: "ID number",
+	form_date: "Date",
+	form_datetime: "Date & time",
+	form_time: "Time",
 	form_complete_the_field: "Complete the field",
 	form_location: "Location",
 	form_invalid_field: "This field is invalid, fill it properly",
@@ -131,6 +140,12 @@ export const localeForm: tLocaleForm = {
 	form_invalid_data: "Invalid data",
 	form_no_values: "No values",
 	form_new_value: "New value",
+	form_editor_preview: "Rendered text",
+	form_editor_see_preview: "See rendered text",
+	form_editor_bold: "Bold",
+	form_editor_italic: "Italic",
+	form_editor_link: "Link",
+	form_editor_link_add_url: "Add URL",
 	// swal: {},
 };
 
@@ -197,6 +212,7 @@ export const localeTable: tLocaleTable = {
  * @locale en
  */
 export const localePagination: tLocalePagination = {
+	pagination: "Pagination",
 	pagination_items: "No items | Single item | {count} items",
 	pagination_pages: "No pages | Single page | {count} pages",
 	pagination_page: "Page {count} of",

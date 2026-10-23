@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
         "outDir": "./dist",
         "rootDir": "./src",
         "module": "ESNext",
@@ -36,6 +35,11 @@
     "include": [
         "src/*.ts",
         "src/**/*.ts",
+    ],
+    "exclude": [
+        "src/**/__tests__/**",
+        "src/**/*.test.ts",
+        "dist"
     ],
     "references": [
         {

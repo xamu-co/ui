@@ -1,95 +1,98 @@
 <template>
 	<!-- Action bar -->
-	<thead>
-		<tr
-			v-if="(!isReadOnly && nodes.length > 1) || withDefaultSlot || $slots.headActions"
-			class="no--hover"
-		>
-			<td :colspan="propertiesMeta.length + 2">
-				<!-- Sticky scrolling fix  -->
-				<table :id="`bulk_${tableId}`" class="tbl tbl-helper" :class="themeClasses">
-					<tbody>
-						<tr class="no--hover">
-							<th v-if="withDefaultSlot || $slots.headActions" class="--sticky">
-								<div
-									class="flx --flxRow --flx-start-center --gap-10 --gap:md --flx"
+	<table
+		v-if="(!isReadOnly && nodes.length > 1) || withDefaultSlot || $slots.headActions"
+		:id="`${tableId}_actions`"
+		class="tbl --minWidth-100 table-actions"
+		:class="[{ '--nested': nested }, themeClasses, $attrs.class]"
+		style="z-index: 2"
+	>
+		<thead>
+			<tr class="no--hover">
+				<td :colspan="propertiesMeta.length + 2">
+					<!-- Sticky scrolling fix  -->
+					<table :id="`bulk_${tableId}`" class="tbl tbl-helper" :class="themeClasses">
+						<tbody>
+							<tr class="no--hover">
+								<th v-if="withDefaultSlot || $slots.headActions" class="--sticky">
+									<div
+										class="flx --flxRow --flx-start-center --gap-10 --gap:md --flx"
+									>
+										<ActionButtonLink
+											v-if="
+												withDefaultSlot &&
+												mappedNodes.length > 1 &&
+												mappedNodes.withChildren
+											"
+											:theme="theme"
+											:active="openNodesCount === openNodes.length"
+											no-theme-override
+											breakpoint="laptop"
+											round=":lg-inv"
+											@click="
+												() => openAll(openNodesCount !== openNodes.length)
+											"
+										>
+											<span class="--hidden-full:lg-inv">
+												{{
+													openNodesCount === openNodes.length
+														? t("table_hide_all")
+														: t("table_show_all")
+												}}
+											</span>
+											<IconFa class="--indicator" name="chevron-up" />
+										</ActionButtonLink>
+										<slot
+											name="headActions"
+											v-bind="{
+												nodes,
+												mappedNodes,
+												updateNodeAndRefresh,
+												cloneNodeAndRefresh,
+												deleteNodeAndRefresh,
+												deleteNodesAndRefresh,
+											}"
+										></slot>
+									</div>
+								</th>
+								<td :colspan="propertiesMeta.length" width="99%"></td>
+								<th
+									v-if="!isReadOnly && nodes.length > 1 && deleteNode"
+									class="--sticky"
+									colspan="0"
+									width="1px"
 								>
-									<ActionButtonLink
-										v-if="
-											withDefaultSlot &&
-											mappedNodes.length > 1 &&
-											mappedNodes.withChildren
-										"
-										:theme="theme"
-										:active="openNodesCount === selectedNodes.length"
-										round=":sm-inv"
-										@click="
-											() =>
-												toggleAll(
-													!(openNodesCount === selectedNodes.length),
-													1
-												)
-										"
+									<div
+										class="flx --flxRow --flx-end-center --gap-10 --gap:md --flx"
 									>
-										<span class="--hidden-full:sm-inv">
-											{{
-												openNodesCount === selectedNodes.length
-													? t("table_hide_all")
-													: t("table_show_all")
-											}}
-										</span>
-										<IconFa class="--indicator" name="chevron-up" />
-									</ActionButtonLink>
-									<slot
-										name="headActions"
-										v-bind="{
-											nodes,
-											mappedNodes,
-											updateNodeAndRefresh,
-											cloneNodeAndRefresh,
-											deleteNodeAndRefresh,
-											deleteNodesAndRefresh,
-										}"
-									></slot>
-								</div>
-							</th>
-							<td :colspan="propertiesMeta.length" width="99%"></td>
-							<th
-								v-if="!isReadOnly && nodes.length > 1 && deleteNode"
-								class="--sticky"
-								colspan="0"
-								width="1px"
-							>
-								<div class="flx --flxRow --flx-end-center --gap-10 --gap:md --flx">
-									<ActionButton
-										:tooltip="t('table_delete')"
-										tooltip-as-text
-										tooltip-position="bottom"
-										:theme="dangerThemeValues"
-										:disabled="!selectedNodes.some(([n]) => n)"
-										round=":sm-inv"
-										@click="() => deleteNodesAndRefresh()"
-									>
-										<span class="--hidden-full:sm-inv">
-											{{
-												selectedNodesCount === selectedNodes.length
-													? t("delete_all")
-													: t("delete", selectedNodesCount)
-											}}
-										</span>
-										<IconFa name="trash-can" />
-									</ActionButton>
-								</div>
-							</th>
-						</tr>
-					</tbody>
-				</table>
-			</td>
-		</tr>
-	</thead>
+										<ActionButton
+											:tooltip="tableDeleteText || t('table_delete')"
+											tooltip-as-text
+											tooltip-position="bottom"
+											:theme="dangerThemeValues"
+											:disabled="!selectedNodesCount"
+											round=":lg-inv"
+											@click="() => deleteNodesAndRefresh()"
+										>
+											<span class="--hidden-full:lg-inv">
+												{{ batchDeleteText }}
+											</span>
+											<IconFa name="trash-can" />
+										</ActionButton>
+									</div>
+								</th>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</thead>
+	</table>
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>, TM extends Record<string, any> = T">
+	import { computed } from "vue";
+
 	import { useI18n } from "@open-xamu-co/ui-common-helpers";
 
 	import IconFa from "../icon/Fa.vue";
@@ -119,4 +122,16 @@
 
 	const { t } = useHelpers(useI18n);
 	const { themeClasses, dangerThemeValues } = useTheme(props);
+
+	const batchDeleteText = computed(() => {
+		if (props.selectedNodesCount === props.selectedNodes.length) {
+			return props.deleteAllText || t("delete_all");
+		}
+
+		if (!props.deleteText) return t("delete", props.selectedNodesCount);
+
+		const tAlt = useI18n({ locale: { delete: props.deleteText } });
+
+		return tAlt.t("delete", props.selectedNodesCount);
+	});
 </script>

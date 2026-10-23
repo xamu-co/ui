@@ -17,6 +17,7 @@
 			@include module.action-alert-styles;
 			@include module.action-size-styles;
 			@include module.action-border-styles;
+			@include module.action-outline-styles;
 			@include module.action-capitalize-styles;
 			@include module.action-disabled-styles;
 
@@ -70,27 +71,28 @@
 			//
 			// @group Modifiers
 			@include module.extend-themes using($name, $value, $is-default) {
-				--cl: #{module.color($name)};
-				--bg: #{module.color($name, 0.1)};
+				--cl: #{module.color($name)}; // Text color
+				--bg: #{module.color($name, 0.1)}; // Background color
+				--ou: #{module.color($name, 0.3)}; // Outline color
 
 				&:hover {
-					--bc: #{module.color($name, 0.3)};
+					--bc: #{module.color($name, 0.3)}; // Border color
 				}
 				&.#{module.$status-is-alert},
 				&.#{module.$status-is-active} {
-					--bg: #{module.color($name, 0.5)};
+					--bg: #{module.color($name, 0.5)}; // Background color
 				}
 				&.#{module.$status-is-alert}:after {
-					--bc: #{module.color($name)};
-					--bg: #{module.color(light)};
+					--bc: #{module.color($name)}; // Border color
+					--bg: #{module.color(light)}; // Background color
 				}
 				&.#{module.$status-is-route-exact}:not(
 						.#{module.$status-no-route},
 						.#{module.$status-no-route-exact}
 					) {
-					--cl: #{module.color(light)};
-					--bg: #{module.color($name, 0.5)};
-					--bc: #{module.color(light, 0.3)};
+					--cl: #{module.color(light)}; // Text color
+					--bg: #{module.color($name, 0.5)}; // Background color
+					--bc: #{module.color(light, 0.3)}; // Border color
 				}
 			}
 

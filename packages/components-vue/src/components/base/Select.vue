@@ -19,7 +19,7 @@
 			v-for="({ value, alias, disabled, hidden }, index) in selectOptions"
 			:key="index"
 			v-bind="{ value, disabled, hidden }"
-			v-memo="[options]"
+			v-memo="[value, modelValue === value, selectOptions.length]"
 			:selected="modelValue === value"
 		>
 			{{ alias || value }}
@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-	import { computed, watch } from "vue";
+	import { computed, watch, useId } from "vue";
 	import deburr from "lodash-es/deburr";
 	import omit from "lodash-es/omit";
 	import { Md5 } from "ts-md5";
@@ -46,6 +46,11 @@
 		 * @private
 		 */
 		modelValue?: string | number;
+		/**
+		 * Options filter is being used
+		 * @private
+		 */
+		optionsFilter?: boolean;
 	}
 
 	/**
@@ -59,18 +64,22 @@
 	defineOptions({ name: "BaseSelect", inheritAttrs: false });
 
 	const props = defineProps<iBaseSelectProps>();
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits<{ (e: "update:model-value", value: string | number): any }>();
 
 	const { t } = useHelpers(useI18n);
+	const fallbackId = useId();
 
 	const selectOptions = computed<iFormOption[]>(() => {
-		return (props.options ?? []).map(toOption);
+		// Only use array type, skip if function
+		return Array.isArray(props.options) ? props.options.map(toOption) : [];
 	});
 	/** Prefer a predictable identifier */
 	const selectId = computed(() => {
+		if (props.id) return props.id;
+
 		const seed = deburr(props.name || props.placeholder || props.title);
 
-		return props.id || Md5.hashStr(`select-${seed}`);
+		return seed ? Md5.hashStr(`select-${seed}`) : fallbackId;
 	});
 
 	function handleInput(e: Event) {
@@ -83,7 +92,10 @@
 	watch(
 		selectOptions,
 		(options) => {
-			// set single option as value if required
+			// Bypass auto select if optionsFilter is used
+			if (props.optionsFilter) return;
+
+			// Set single option as value if required
 			if (props.required && options.length === 1 && props.modelValue !== options[0].value) {
 				emit("update:model-value", options[0].value);
 			}

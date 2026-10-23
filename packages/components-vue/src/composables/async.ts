@@ -1,4 +1,13 @@
-import { isRef, onActivated, onDeactivated, ref, watch, type Ref, type WatchSource } from "vue";
+import {
+	isRef,
+	onActivated,
+	onDeactivated,
+	ref,
+	shallowRef,
+	watch,
+	type Ref,
+	type WatchSource,
+} from "vue";
 
 interface iAsyncData<T, E> {
 	data: Ref<T | null>;
@@ -12,31 +21,33 @@ type AsyncDataOptions<T> = {
 	transform?: (input: T) => T | Promise<T>;
 	watch?: WatchSource[];
 	server?: boolean;
+	getCachedData?: () => T | null;
 };
 
-type tAsyncDataHandler<T> = (nuxtApp?: any) => Promise<T>;
+type tAsyncDataHandler<T> = (nuxtApp?: any, options?: { signal?: AbortSignal }) => Promise<T>;
 
 /**
  * Replicate nuxt sync data
  *
  * @see https://nuxt.com/docs/api/composables/use-async-data#type
  */
-export function useAsyncDataFn<T, E>(
+export default function useAsyncDataFn<T, E = any>(
 	handler: tAsyncDataHandler<T>,
 	options?: AsyncDataOptions<T>
 ): iAsyncData<T, E>;
-export function useAsyncDataFn<T, E>(
+export default function useAsyncDataFn<T, E = any>(
 	key: string,
 	handler: tAsyncDataHandler<T>,
 	options?: AsyncDataOptions<T>
 ): iAsyncData<T, E>;
-export function useAsyncDataFn<T, E>(
+export default function useAsyncDataFn<T, E = any>(
 	handlerOrKey: string | tAsyncDataHandler<T>,
 	optionsOrHandler?: tAsyncDataHandler<T> | AsyncDataOptions<T>,
 	options?: AsyncDataOptions<T>
 ): iAsyncData<T, E> {
-	const data = ref(null) as Ref<T | null>;
-	const error = ref(null) as Ref<E | null>;
+	// Use shallowRef to avoid deep reactivity tracking overhead on fetched payloads
+	const data = shallowRef(null) as Ref<T | null>;
+	const error = shallowRef(null) as Ref<E | null>;
 	/** Whether component was deactivated by keep-alive */
 	const deactivated = ref(false);
 	let handler: tAsyncDataHandler<T>;

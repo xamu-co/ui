@@ -34,9 +34,7 @@
 				overflow: hidden auto;
 
 				@layer defaults {
-					& {
-						padding: 0.1rem 0;
-					}
+					padding: 0.1rem 0;
 				}
 			}
 
@@ -49,9 +47,7 @@
 					box-sizing: content-box;
 
 					@layer defaults {
-						& {
-							width: min(100%, 100vw);
-						}
+						width: min(100%, 100vw);
 					}
 
 					@if utils.$allow-responsive {
@@ -59,10 +55,8 @@
 						@media (width <= utils.$querie-tablet) {
 							&:has(:only-child) {
 								@layer defaults {
-									& {
-										width: calc(min(100%, 100vw) + 2rem);
-										margin: 0 -1rem;
-									}
+									width: calc(min(100%, 100vw) + 2rem);
+									margin: 0 -1rem;
 								}
 
 								> :only-child {
@@ -142,10 +136,8 @@
 									);
 
 									@layer defaults {
-										& {
-											// @defaults width
-											width: auto;
-										}
+										// @defaults width
+										width: auto;
 									}
 									&.#{utils.$layout-grid}:after {
 										width: 1px;

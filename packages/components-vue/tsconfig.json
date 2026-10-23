@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
         "outDir": "./dist",
         "rootDir": "./src",
         "module": "ESNext",
@@ -14,7 +13,8 @@
         ],
         "types": [
             "node",
-            "vite/client"
+            "vite/client",
+            "jsdom"
         ],
         /* Compilation */
         "useDefineForClassFields": true,
@@ -41,6 +41,11 @@
     ],
     "exclude": [
         "playground",
+        "__tests__",
+        "node_modules",
+        "dist",
+        "coverage",
+        ".nuxt"
     ],
     "references": [
         {

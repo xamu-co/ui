@@ -1,0 +1,81 @@
+@use "module";
+
+// flexbox direction
+// Used as well by grid layout
+// TODO: Replace -reverse with -wrap-reverse
+//
+// @group modifiers
+@mixin flex-direction {
+	@layer modifiers {
+		.#{module.$prefix-default}--flxRow {
+			&,
+			&-wrap,
+			&-reverse,
+			&-nowrap {
+				@include module.extend-viewports-classes($viewports: module.$viewports) {
+					flex-direction: row;
+				}
+			}
+		}
+		.#{module.$prefix-default}--flxRowReverse {
+			&,
+			&-wrap,
+			&-reverse,
+			&-nowrap {
+				@include module.extend-viewports-classes($viewports: module.$viewports) {
+					flex-direction: row-reverse;
+				}
+			}
+		}
+
+		// flexbox flex container
+		//
+		// @group Modifiers
+		.#{module.$prefix-default}--flxColumn {
+			&,
+			&-wrap,
+			&-reverse,
+			&-nowrap {
+				@include module.extend-viewports-classes($viewports: module.$viewports) {
+					flex-direction: column;
+				}
+			}
+		}
+		.#{module.$prefix-default}--flxColumnReverse {
+			&,
+			&-wrap,
+			&-reverse,
+			&-nowrap {
+				@include module.extend-viewports-classes($viewports: module.$viewports) {
+					flex-direction: column-reverse;
+				}
+			}
+		}
+
+		// an union could be a shorter solution, but is a huge breaking change
+		.#{module.$prefix-default}--flxRow,
+		.#{module.$prefix-default}--flxColumn,
+		.#{module.$prefix-default}--flxRowReverse,
+		.#{module.$prefix-default}--flxColumnReverse {
+			&-wrap {
+				@include module.extend-viewports-classes($viewports: module.$viewports) {
+					flex-wrap: wrap;
+				}
+			}
+
+			&-reverse {
+				@include module.extend-viewports-classes($viewports: module.$viewports) {
+					flex-wrap: wrap-reverse;
+				}
+			}
+
+			// default
+			&,
+			&-nowrap {
+				@include module.extend-viewports-classes($viewports: module.$viewports) {
+					flex-wrap: nowrap;
+				}
+			}
+		}
+	}
+}

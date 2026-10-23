@@ -58,10 +58,7 @@
 	import useTheme from "../../composables/theme";
 
 	interface iInputColorProps
-		extends iInputProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iInputProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		/**
 		 * @private
 		 */
@@ -79,7 +76,7 @@
 	defineOptions({ name: "InputColor", inheritAttrs: false });
 
 	const props = defineProps<iInputColorProps>();
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits<{ (e: "update:model-value", value?: string | number): any }>();
 
 	const { modifiersClasses } = useModifiers(props);
 	const { stateClasses } = useState(props);

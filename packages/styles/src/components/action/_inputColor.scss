@@ -23,6 +23,7 @@
 					border-radius: $radius;
 				}
 			}
+			@include module.action-outline-styles;
 			@include module.action-disabled-styles;
 
 			&::-webkit-color-swatch-wrapper {
@@ -46,10 +47,11 @@
 				//
 				// @group Modifiers
 				@include module.extend-themes using($name, $value, $is-default) {
-					--bg: #{module.color($name, 0.1)};
-					--bc: #{module.color($name, 0.05)};
-					--cl: #{module.color($name)};
-					--cl-a: #{module.color($name, 0.5)};
+					--bg: #{module.color($name, 0.1)}; // Background color
+					--bc: #{module.color($name, 0.05)}; // Border color
+					--cl: #{module.color($name)}; // Text color
+					--cl-a: #{module.color($name, 0.5)}; // Active text color
+					--ou: #{module.color($name, 0.3)}; // Outline color
 				}
 			}
 

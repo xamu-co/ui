@@ -1,5 +1,163 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.10...@open-xamu-co/ui-nuxt-v4.0.0-next.11) (2026-08-20)
+
+
+### Features
+
+* **nuxt:** remove nuxt-countries-api module requirement ([deea92a](https://github.com/xamu-co/ui/commit/deea92a1e14bcf861d102691289145e9e6b9def7))
+
+
+
+
+
+No version update required
+
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.9...@open-xamu-co/ui-nuxt-v4.0.0-next.10) (2026-07-03)
+
+
+### Bug Fixes
+
+* **nuxt:** get asyncData from context ([8c5616a](https://github.com/xamu-co/ui/commit/8c5616a85a41b69d44efb5319c152358fcda74b7))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** loaderContentFetch requires suspense
+
+
+
+
+
+No version update required
+
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.8...@open-xamu-co/ui-nuxt-v4.0.0-next.9) (2026-07-01)
+
+
+### Features
+
+* **nuxt:** extend nuxt support ([702a9b3](https://github.com/xamu-co/ui/commit/702a9b37716a11a3742e4fe0a423e32ad9ef7c48))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** node22 required
+
+
+
+
+
+No version update required
+
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.7...@open-xamu-co/ui-nuxt-v4.0.0-next.8) (2026-01-21)
+
+
+### Features
+
+* expose useMarkdown composable ([b66ede9](https://github.com/xamu-co/ui/commit/b66ede9b28c3bfb7c811e4528fd7cfa42e7e3221))
+
+
+
+
+
+No version update required
+
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.6...@open-xamu-co/ui-nuxt-v4.0.0-next.7) (2026-01-18)
+
+
+### Bug Fixes
+
+* **module:** set deprecation flag for image config ([7539079](https://github.com/xamu-co/ui/commit/75390791f28bd68e5f19ff5e217c6fcf8e216ef6))
+
+
+
+
+
+No version update required
+
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.5...@open-xamu-co/ui-nuxt-v4.0.0-next.6) (2026-01-08)
+
+
+### Bug Fixes
+
+* remove unscoped schema ([31ab5d4](https://github.com/xamu-co/ui/commit/31ab5d48bf9355cf8ba9d7ae38c2e092b4bda5c8))
+
+
+
+
+
+No version update required
+
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.4...@open-xamu-co/ui-nuxt-v4.0.0-next.5) (2026-01-08)
+
+
+### Bug Fixes
+
+* avoid logger serialization ([8056197](https://github.com/xamu-co/ui/commit/8056197fcb076d7b2a3aad95443b5e71edbbd23c))
+
+
+
+
+
+No version update required
+
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.3...@open-xamu-co/ui-nuxt-v4.0.0-next.4) (2026-01-07)
+
+
+### Bug Fixes
+
+* use runtime config to inject xamu ([c57a1af](https://github.com/xamu-co/ui/commit/c57a1af31d54b2a839314f22d04d650ae972c14d))
+
+
+
+
+
+No version update required
+
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.2...@open-xamu-co/ui-nuxt-v4.0.0-next.3) (2026-01-07)
+
+
+### Bug Fixes
+
+* dedupe components ([03e9aae](https://github.com/xamu-co/ui/commit/03e9aae469c280cd5f0391b05c870652a1be4572))
+
+
+
+
+
+No version update required
+
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.1...@open-xamu-co/ui-nuxt-v4.0.0-next.2) (2026-01-06)
+
+
+### Features
+
+* expose stylesheet preload function on module ([56dbf1f](https://github.com/xamu-co/ui/commit/56dbf1fe6b2fa12b6776add6dcda86524ea84fd1))
+
+
+
+
+
+No version update required
+
+# [@open-xamu-co/ui-nuxt-v4.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0-next.4...@open-xamu-co/ui-nuxt-v4.0.0-next.1) (2025-12-17)
+
+
+### Bug Fixes
+
+* table layout ([f90b338](https://github.com/xamu-co/ui/commit/f90b338207a13a7ece14e19e71a8e593d2911a46))
+
+
+### BREAKING CHANGES
+
+* no-overrides to no-theme-override
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v3.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.0.0...@open-xamu-co/ui-nuxt-v3.1.0) (2025-12-16)
 
 

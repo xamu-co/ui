@@ -1,4 +1,7 @@
 import { inject } from "vue";
+import isHexColor from "validator/lib/isHexColor";
+import isRgbColor from "validator/lib/isRgbColor";
+import isHSL from "validator/lib/isHSL";
 
 import type { iNodeFnResponse, tOrder, tOrderBy } from "@open-xamu-co/ui-common-types";
 
@@ -40,14 +43,15 @@ export function useOrderBy(orderByParam: any): tOrderBy[] {
 
 export async function useResolveNodeFn<T extends Record<string, any>>(
 	promise:
-		| boolean
-		| undefined
-		| iNodeFnResponse<T>
-		| Promise<boolean | undefined | iNodeFnResponse<T>>
+		boolean | undefined | iNodeFnResponse<T> | Promise<boolean | undefined | iNodeFnResponse<T>>
 ): Promise<iNodeFnResponse<T>> {
 	const resolve = await promise;
 
 	if (Array.isArray(resolve)) return resolve;
 
 	return [resolve];
+}
+
+export function isColor(color: string): boolean {
+	return isHexColor(color) || isRgbColor(color) || isHSL(color);
 }

@@ -1,5 +1,820 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.46](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.45...@open-xamu-co/ui-components-vue-v4.0.0-next.46) (2026-08-31)
+
+
+### Bug Fixes
+
+* **vue:** set responsive to undefined as default on dropdowns ([43ed153](https://github.com/xamu-co/ui/commit/43ed153b830ad6275538325930f87a2fc8611e06))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.46"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.45](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.44...@open-xamu-co/ui-components-vue-v4.0.0-next.45) (2026-08-22)
+
+
+### Bug Fixes
+
+* **vue:** expose with route prop for content table ([1e00134](https://github.com/xamu-co/ui/commit/1e00134350a71b6cecb16e877de2b3630f618940))
+* **vue:** prevent rerenders from non array options ([ce1f457](https://github.com/xamu-co/ui/commit/ce1f457933b8cbd70429188404b15b3a9a911dda))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.45"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.44](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.43...@open-xamu-co/ui-components-vue-v4.0.0-next.44) (2026-08-22)
+
+
+### Bug Fixes
+
+* **vue:** reduce recursion & use shallow refs for fetched content ([eaff612](https://github.com/xamu-co/ui/commit/eaff6123caf3466a96f82b6c199f69dccd152262))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.44"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.43](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.42...@open-xamu-co/ui-components-vue-v4.0.0-next.43) (2026-08-20)
+
+
+### Bug Fixes
+
+* select filter model ([d5325d0](https://github.com/xamu-co/ui/commit/d5325d0784888500de17856bc0a1f0078761d5d7))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.43"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.42](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.41...@open-xamu-co/ui-components-vue-v4.0.0-next.42) (2026-08-18)
+
+
+### Bug Fixes
+
+* **vue:** granular input slots ([719bb39](https://github.com/xamu-co/ui/commit/719bb399856ab63d2397b9099da1fed3829aa902))
+
+
+### Features
+
+* **vue:** input loop slot ([e37aadc](https://github.com/xamu-co/ui/commit/e37aadc3e74ed3409275fbac1fa442863bb7d08d))
+* **vue:** input text classes ([99dab51](https://github.com/xamu-co/ui/commit/99dab51471572d7c553d7653a5551a01b59d9416))
+* **vue:** refactor select filter using dropdown ([21556c8](https://github.com/xamu-co/ui/commit/21556c80fe097e34b6d419e284b12192a27fdf1b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.42"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.41](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.40...@open-xamu-co/ui-components-vue-v4.0.0-next.41) (2026-08-16)
+
+
+### Bug Fixes
+
+* **vue:** prefer ids as keys on table ([d0269e0](https://github.com/xamu-co/ui/commit/d0269e0a0cc32db2a157eaf174687cda82f9a0b0))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.41"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.40](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.39...@open-xamu-co/ui-components-vue-v4.0.0-next.40) (2026-08-04)
+
+
+### Bug Fixes
+
+* **styles:** list & navigation should not require nav element ([da84076](https://github.com/xamu-co/ui/commit/da840768db2d5548686d6026b4e8b6a8b91469cf))
+* **vue:** display modify column for tables with modify slots ([da201a6](https://github.com/xamu-co/ui/commit/da201a6f219be2f23b5a921c1abcb3a09d8d3b63))
+
+
+### Features
+
+* **vue:** allow overriding table deletion labels ([6a624c1](https://github.com/xamu-co/ui/commit/6a624c121760d411e7384c912d34d862a8597139))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.40"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.39](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.38...@open-xamu-co/ui-components-vue-v4.0.0-next.39) (2026-07-25)
+
+
+### Bug Fixes
+
+* **vue:** improved WCAG 2.1 AA accessibility ([ad952ef](https://github.com/xamu-co/ui/commit/ad952ef66783bc8a203d0de42efcc993aa5ded2b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.39"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.38](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.37...@open-xamu-co/ui-components-vue-v4.0.0-next.38) (2026-07-24)
+
+
+### Bug Fixes
+
+* **vue:** make typed events more flexible ([48e0957](https://github.com/xamu-co/ui/commit/48e0957cf0378521d28c2333abb3239dfaecfa50))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.38"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.37](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.36...@open-xamu-co/ui-components-vue-v4.0.0-next.37) (2026-07-23)
+
+
+### Bug Fixes
+
+* **helpers:** on update values hook not firing ([f820906](https://github.com/xamu-co/ui/commit/f8209067234ae8ecd50b572de4f0a97455d05a77))
+
+
+### Features
+
+* **vue:** typed component events ([1e81c2c](https://github.com/xamu-co/ui/commit/1e81c2c9705367013049fb3057f291c9c15eaae2))
+
+
+### BREAKING CHANGES
+
+* **vue:** Strict types may be undessired
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.37"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.36](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.35...@open-xamu-co/ui-components-vue-v4.0.0-next.36) (2026-07-22)
+
+
+### Bug Fixes
+
+* **vue:** optimized thumbnail generation for larger files ([07aa96d](https://github.com/xamu-co/ui/commit/07aa96db05607e5c13f85497dd410570fa4689ac))
+
+
+### Features
+
+* **vue:** collapse is-open scoped slots ([371332c](https://github.com/xamu-co/ui/commit/371332c18d571a06d186e7d3ed2d7cedae05080f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.36"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.35](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.34...@open-xamu-co/ui-components-vue-v4.0.0-next.35) (2026-07-12)
+
+
+### Bug Fixes
+
+* **vue:** prevent auto select when using options filter ([e49d84c](https://github.com/xamu-co/ui/commit/e49d84c42940bb2b7c00032c4ccf84824d65eea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.35"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.34](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.33...@open-xamu-co/ui-components-vue-v4.0.0-next.34) (2026-07-12)
+
+
+### Features
+
+* **vue:** better responsive with icon fallback ([2243424](https://github.com/xamu-co/ui/commit/224342451fee71be9549d2537a79afb2e4338816))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.34"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.33](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.32...@open-xamu-co/ui-components-vue-v4.0.0-next.33) (2026-07-12)
+
+
+### Bug Fixes
+
+* **vue:** form stages with proven functionality ([5cf3fb7](https://github.com/xamu-co/ui/commit/5cf3fb715327e2a60709df4924f267e3eecabea4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.33"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.32](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.31...@open-xamu-co/ui-components-vue-v4.0.0-next.32) (2026-07-08)
+
+
+### Bug Fixes
+
+* **vue:** use the proper async data within select filter ([40bbae3](https://github.com/xamu-co/ui/commit/40bbae318661e94f1fd589dd1a01b8d3283ed02f))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.32"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.31](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.30...@open-xamu-co/ui-components-vue-v4.0.0-next.31) (2026-07-04)
+
+
+### Bug Fixes
+
+* **vue:** add suspense for forms with loadercontentfetch ([a5520bf](https://github.com/xamu-co/ui/commit/a5520bf14fb4e0b527e4360faaca3a76cc794c67))
+* **vue:** preserve wrapper reactivity ([4e5443a](https://github.com/xamu-co/ui/commit/4e5443a893dd5e0194903dd8e8836462ebf013e8))
+
+
+### Features
+
+* **vue:** async requirements for form & table components ([e2611bd](https://github.com/xamu-co/ui/commit/e2611bd08644e4d99a7360e13960d61deb0c9253))
+* **vue:** async value components ([bdc8634](https://github.com/xamu-co/ui/commit/bdc863490f1c73241e67277a7df36db629cbea37))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.31"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.30](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.29...@open-xamu-co/ui-components-vue-v4.0.0-next.30) (2026-07-03)
+
+
+### Bug Fixes
+
+* **nuxt:** get asyncData from context ([8c5616a](https://github.com/xamu-co/ui/commit/8c5616a85a41b69d44efb5319c152358fcda74b7))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** loaderContentFetch requires suspense
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.30"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.29](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.28...@open-xamu-co/ui-components-vue-v4.0.0-next.29) (2026-07-01)
+
+
+### Bug Fixes
+
+* **vue:** time wrapper ([999e183](https://github.com/xamu-co/ui/commit/999e183315a1194e9fa016aeafe89852645d1178))
+
+
+### Features
+
+* **nuxt:** extend nuxt support ([702a9b3](https://github.com/xamu-co/ui/commit/702a9b37716a11a3742e4fe0a423e32ad9ef7c48))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** node22 required
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.29"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.28](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.27...@open-xamu-co/ui-components-vue-v4.0.0-next.28) (2026-06-25)
+
+
+### Bug Fixes
+
+* **vue:** support minLength & maxLength on inputs ([82a0159](https://github.com/xamu-co/ui/commit/82a015900528b545d5665694d4e32e49b0f14b39))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.28"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.27](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.26...@open-xamu-co/ui-components-vue-v4.0.0-next.27) (2026-06-16)
+
+
+### Bug Fixes
+
+* **vue:** add missing theme to input n values ([d4d8911](https://github.com/xamu-co/ui/commit/d4d891189836af2f0aae78a039eeda65436b1b9b))
+
+
+### Features
+
+* **vue:** support date, datetime & time inputs ([a115eca](https://github.com/xamu-co/ui/commit/a115ecae09dfd895cf73d99eaeaea5b792832cd4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.27"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.26](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.25...@open-xamu-co/ui-components-vue-v4.0.0-next.26) (2026-06-16)
+
+
+### Bug Fixes
+
+* **vue:** expose table action slots on pagination table ([e8bb34a](https://github.com/xamu-co/ui/commit/e8bb34a195fb012a75154d5d021e3564fb4bbaaa))
+* **vue:** rollback table properties behavior ([458c207](https://github.com/xamu-co/ui/commit/458c207f7a4ef973641c84992b3a8b16a53afbb1))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.26"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.25](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.24...@open-xamu-co/ui-components-vue-v4.0.0-next.25) (2026-06-15)
+
+
+### Bug Fixes
+
+* pass table functions to cell component ([64f37f1](https://github.com/xamu-co/ui/commit/64f37f1898d9db144628d350ea7d73f177696eb7))
+* **vue:** add missing theme to filter select loader ([f358add](https://github.com/xamu-co/ui/commit/f358add4bea5c05bd4878640e46c92b703f1ec47))
+
+
+### Features
+
+* **vue:** prefer table properties ([f7ac337](https://github.com/xamu-co/ui/commit/f7ac337af3d80230a01b3a2afeecd4c027471183))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.25"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.24](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.23...@open-xamu-co/ui-components-vue-v4.0.0-next.24) (2026-05-19)
+
+
+### Bug Fixes
+
+* **vue:** correct theme type for pagination table ([b477292](https://github.com/xamu-co/ui/commit/b47729259b1a065015357a1f8140873587443a21))
+* **vue:** deselect deleted items ([199f50e](https://github.com/xamu-co/ui/commit/199f50e679140b79d3ea8b7ad205679390d3508b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.24"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.23](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.22...@open-xamu-co/ui-components-vue-v4.0.0-next.23) (2026-05-14)
+
+
+### Bug Fixes
+
+* **collapse:** target indicator modifier ([9860062](https://github.com/xamu-co/ui/commit/986006200559aa48d2345931cb3d3d075f14d3c1))
+* **vue:** fixes & refactoring for async options handling ([f4d51bf](https://github.com/xamu-co/ui/commit/f4d51bf69ff8e9e8f62c0e645fd3596fb96bc642))
+
+
+### Features
+
+* **forms:** accept async function for input options ([e8ebf68](https://github.com/xamu-co/ui/commit/e8ebf688f4fd71bd049883eb2961b36be579b1c2))
+* **vue:** select filter with async options ([c36568c](https://github.com/xamu-co/ui/commit/c36568cfe7e68d0902b3cc8035c50d3dc99d22c5))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.23"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.22](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.21...@open-xamu-co/ui-components-vue-v4.0.0-next.22) (2026-05-11)
+
+
+### Bug Fixes
+
+* **vue:** allow setting max file size from input meta ([876d45e](https://github.com/xamu-co/ui/commit/876d45ed27005fa3188b2806c93f8d04c9692e42))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.22"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.21](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.20...@open-xamu-co/ui-components-vue-v4.0.0-next.21) (2026-05-10)
+
+
+### Bug Fixes
+
+* **vue:** modify input values within collapse ([6f73559](https://github.com/xamu-co/ui/commit/6f735593703dd8613f8fc10e75761886f31dcbaa))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.21"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.20](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.19...@open-xamu-co/ui-components-vue-v4.0.0-next.20) (2026-05-09)
+
+
+### Features
+
+* **vue:** pass down abort signal on fetch components ([c6063c2](https://github.com/xamu-co/ui/commit/c6063c2818a40a14033b20ddc827b1fc673a4e9b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.20"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.19](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.18...@open-xamu-co/ui-components-vue-v4.0.0-next.19) (2026-05-09)
+
+
+### Bug Fixes
+
+* **vue:** optional assertion on input swal label ([9c486a4](https://github.com/xamu-co/ui/commit/9c486a4ee5dcda84013898c43988b8567b630e78))
+
+
+### Features
+
+* **vue:** header slot for collapse ([96467f6](https://github.com/xamu-co/ui/commit/96467f66626f05ba8e5b5e984813ea7fb99ed6a5))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.19"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.18](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.17...@open-xamu-co/ui-components-vue-v4.0.0-next.18) (2026-05-03)
+
+
+### Features
+
+* **vue:** inherit value table properties from table ([4cc8108](https://github.com/xamu-co/ui/commit/4cc8108c0269f1940dbc0bfa95ecc5c15699905e))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.18"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.17](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.16...@open-xamu-co/ui-components-vue-v4.0.0-next.17) (2026-05-03)
+
+
+### Bug Fixes
+
+* **vue:** avoid passing classes to table dropdown ([4c9c71d](https://github.com/xamu-co/ui/commit/4c9c71da0bf08dbbecc4bf7ba0f1b2159e31b7ca))
+* **vue:** include hydration errors ([b61e884](https://github.com/xamu-co/ui/commit/b61e884669b32b8935bd8afb213c88f682ae01d5))
+* **vue:** prefer missing options text from meta ([31eb61b](https://github.com/xamu-co/ui/commit/31eb61b9c41221d76b2eadcd2b9b0af754e1e3de))
+* **vue:** prefer prop for select filter placeholder ([594a2c4](https://github.com/xamu-co/ui/commit/594a2c4a9ee198de512c2b7d5805d4e01460a11d))
+* **vue:** prevent duplicate options on select ([f8a8c4f](https://github.com/xamu-co/ui/commit/f8a8c4f28d9b71f64d69674811c765e21a0bc093))
+* handle missing media on file input ([3bf4d1d](https://github.com/xamu-co/ui/commit/3bf4d1d739d70e87254511c942f8064810e93716))
+* show scrollbar on box editor ([0c6b991](https://github.com/xamu-co/ui/commit/0c6b99121bd942ed26c53a867644ce521cdc8399))
+* **vue:** unconditionally hydrate on node deletion ([1f4269f](https://github.com/xamu-co/ui/commit/1f4269f020645d951db85244d7f68bdfb358296f))
+
+
+### Features
+
+* **vue:** new modal slot to preserve save button ([5c52b40](https://github.com/xamu-co/ui/commit/5c52b406a85bbb12c7460c912774e8b8a1b5c55a))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.17"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.16](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.15...@open-xamu-co/ui-components-vue-v4.0.0-next.16) (2026-04-18)
+
+
+### Features
+
+* **vue:** nodesDividerTheme ([db4ea76](https://github.com/xamu-co/ui/commit/db4ea760ee64ee9f28998966fa100a856091aa9c))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.16"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.15](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.14...@open-xamu-co/ui-components-vue-v4.0.0-next.15) (2026-04-17)
+
+
+### Bug Fixes
+
+* **vue:** mixed node selection & children visibility ([c83c1cb](https://github.com/xamu-co/ui/commit/c83c1cb236e766daf7c3c9242f6d95789e7609ec))
+
+
+### BREAKING CHANGES
+
+* **vue:** splitted table toggling functions
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.15"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.13...@open-xamu-co/ui-components-vue-v4.0.0-next.14) (2026-04-17)
+
+
+### Features
+
+* preferId for properties tables ([c442c66](https://github.com/xamu-co/ui/commit/c442c66e5f4be5788109ecac0f1610367f4da88d))
+* support video & audio files ([7ffb235](https://github.com/xamu-co/ui/commit/7ffb23596c7cc286c39ecea34796d1d17ea963ff))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.14"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.13](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.12...@open-xamu-co/ui-components-vue-v4.0.0-next.13) (2026-04-10)
+
+
+### Bug Fixes
+
+* accept nodeFn on table pagination ([f334b10](https://github.com/xamu-co/ui/commit/f334b10c9ad8d5a1fd29a4ca05a9f72dfa5e8697))
+* use wrapper prop instead of el in loader content ([0d5fa02](https://github.com/xamu-co/ui/commit/0d5fa02e9d2da6258e3c93c805cd3d42aa8eccec))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.13"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.12](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.11...@open-xamu-co/ui-components-vue-v4.0.0-next.12) (2026-04-05)
+
+
+### Bug Fixes
+
+* **vue:** missing theme bindings in editor ([829ef9a](https://github.com/xamu-co/ui/commit/829ef9abec2213cc06952bf1636a13962fb296a2))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.12"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.10...@open-xamu-co/ui-components-vue-v4.0.0-next.11) (2026-04-03)
+
+
+### Bug Fixes
+
+* **vue:** conditional editor linewrapping & invert box action inner theme ([654f6e1](https://github.com/xamu-co/ui/commit/654f6e1921f731145a91092ee7a49fadc8b4c455))
+* **vue:** editor with on form ([d9a2879](https://github.com/xamu-co/ui/commit/d9a287904df981afa7dfb89c16e25899443cfc94))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.11"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.10](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.9...@open-xamu-co/ui-components-vue-v4.0.0-next.10) (2026-01-21)
+
+
+### Bug Fixes
+
+* **vue:** replace broken component import ([59da4be](https://github.com/xamu-co/ui/commit/59da4be748c3833ece2c9248a998f0130e9df1fa))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.10"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.9](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.8...@open-xamu-co/ui-components-vue-v4.0.0-next.9) (2026-01-21)
+
+
+### Features
+
+* expose useMarkdown composable ([b66ede9](https://github.com/xamu-co/ui/commit/b66ede9b28c3bfb7c811e4528fd7cfa42e7e3221))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.9"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.8](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.7...@open-xamu-co/ui-components-vue-v4.0.0-next.8) (2026-01-21)
+
+
+### Bug Fixes
+
+* **vue:** properly handle filtered table nodes ([d07540b](https://github.com/xamu-co/ui/commit/d07540b9220731dc345e13080fc322f724869981))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.8"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.7](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.6...@open-xamu-co/ui-components-vue-v4.0.0-next.7) (2026-01-20)
+
+
+### Bug Fixes
+
+* **vue:** allow tableProps.mapNodes to override mapNode ([3ba5d00](https://github.com/xamu-co/ui/commit/3ba5d00f6f45a5bafc2e6f5e5247d8688eab5ada))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.7"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.6](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.5...@open-xamu-co/ui-components-vue-v4.0.0-next.6) (2026-01-18)
+
+
+### Bug Fixes
+
+* bump core dependencies ([3d88b97](https://github.com/xamu-co/ui/commit/3d88b97491601c8cfbeb558d5ef5e24ba4e55f08))
+
+
+### Features
+
+* code editor support ([b08239d](https://github.com/xamu-co/ui/commit/b08239ddef1dd5bc928db630211cddd11ae1ea47))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.6"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.5](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.4...@open-xamu-co/ui-components-vue-v4.0.0-next.5) (2026-01-08)
+
+
+### Bug Fixes
+
+* whether typos ([1adadf7](https://github.com/xamu-co/ui/commit/1adadf77d5bc1d985c158dd9b8bd36837f724ac0))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.5"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.3...@open-xamu-co/ui-components-vue-v4.0.0-next.4) (2026-01-06)
+
+
+### Features
+
+* expose stylesheet preload function on module ([56dbf1f](https://github.com/xamu-co/ui/commit/56dbf1fe6b2fa12b6776add6dcda86524ea84fd1))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.4"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.2...@open-xamu-co/ui-components-vue-v4.0.0-next.3) (2026-01-01)
+
+
+### Bug Fixes
+
+* allow more image types on file input ([73d39bc](https://github.com/xamu-co/ui/commit/73d39bc95c32f801233d442870512f1fc6ac1fe5))
+* do not mix original node with cloned node data ([25a513a](https://github.com/xamu-co/ui/commit/25a513a4765e3565a17da666b040a83def6d939d))
+* restore table mehods typings ([9e4a7a7](https://github.com/xamu-co/ui/commit/9e4a7a72b42fb0b6d3144f931932367603abeb9e))
+
+
+### Features
+
+* stream like hydration ([cb7f694](https://github.com/xamu-co/ui/commit/cb7f6940643dc358ab863fd4bf692db495e23aee))
+
+
+### BREAKING CHANGES
+
+* renamed mime types exports
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.3"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0-next.1...@open-xamu-co/ui-components-vue-v4.0.0-next.2) (2025-12-30)
+
+
+### Features
+
+* conditionally hide content table pagination ([5b29ef4](https://github.com/xamu-co/ui/commit/5b29ef4828fc4247b6f55609737ccee265668701))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.2"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
+# [@open-xamu-co/ui-components-vue-v4.0.0-next.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0-next.36...@open-xamu-co/ui-components-vue-v4.0.0-next.1) (2025-12-17)
+
+
+### Bug Fixes
+
+* direct types on stories meta ([2f3609b](https://github.com/xamu-co/ui/commit/2f3609b7109851cac845fe343c20bdc459ddf5a4))
+* table layout ([f90b338](https://github.com/xamu-co/ui/commit/f90b338207a13a7ece14e19e71a8e593d2911a46))
+
+
+### Features
+
+* invert table children divider for better ux ([eb237c1](https://github.com/xamu-co/ui/commit/eb237c1300c6f5b10e15baa132ce5fc46a9bfa91))
+* setup vue test with 40% coverage ([618545e](https://github.com/xamu-co/ui/commit/618545e30439ec1c8e03e4469e4b21585c6f2a23))
+
+
+### BREAKING CHANGES
+
+* no-overrides to no-theme-override
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.0-next.1"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v3.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.0.1...@open-xamu-co/ui-components-vue-v3.1.0) (2025-12-16)
 
 

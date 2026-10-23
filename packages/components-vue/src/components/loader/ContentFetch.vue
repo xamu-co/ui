@@ -25,64 +25,15 @@
 </template>
 
 <script setup lang="ts" generic="T, P extends any[] = any[]">
-	import { ref, watch, type Ref, computed, onActivated, onDeactivated, inject } from "vue";
+	import { ref, watch, computed, onActivated, onDeactivated, markRaw } from "vue";
 	import isEqual from "lodash-es/isEqual";
-
-	import { useUtils } from "@open-xamu-co/ui-common-helpers";
 
 	import BaseErrorBoundary from "../base/ErrorBoundary.vue";
 	import LoaderContent from "./Content.vue";
 
-	import type { vComponent } from "../../types/plugin";
-	import type { iUseThemeProps } from "../../types/props";
-	import type { iVuePluginOptions } from "../../types/plugin";
-	import { useAsyncDataFn } from "../../composables/async";
-	import { useHelpers } from "../../composables/utils";
+	import type { iLoaderContentFetchProps } from "../../types/props";
+	import useAsyncDataFn from "../../composables/async";
 	import useFetchUtils from "../../composables/fetch";
-
-	export interface iLoaderContentFetchProps<Ti, Pi extends any[]> extends iUseThemeProps {
-		noContentMessage?: string;
-		/** Loader label */
-		label?: string;
-		/** Hide loader */
-		noLoader?: boolean;
-		fallback?: NoInfer<Ti>;
-		/** Remove loader wrapper element */
-		unwrap?: boolean;
-		/**
-		 * URL to fetch from
-		 *
-		 * Used as key if promise or hydratablePromise are provided.
-		 * Make sure to use preventAutoload to avoid invalid fetching.
-		 */
-		url?: false | string;
-		promise?: false | ((...args: Pi) => Promise<Ti>);
-		/**
-		 * Hydrate values after promise if resolved
-		 * Useful with firebase
-		 *
-		 * @see https://firebase.google.com/docs/database/
-		 *
-		 * Hydration is conditioned to the context (disabled, loading...)
-		 */
-		hydratablePromise?:
-			| false
-			| ((content: Ref<Ti | null>, errors: Ref<unknown>) => (...args: Pi) => Promise<Ti>);
-		payload?: Pi;
-		/**
-		 * Component or tag to render on loader
-		 */
-		loaderEl?: vComponent | string;
-		preventAutoload?: boolean;
-		/** Additional content validation before rendering fetched data */
-		isContent?: (c?: NoInfer<Ti>) => boolean;
-		/** Ignore errors and display existing content */
-		ignoreErrors?: boolean;
-		/**
-		 * Whether to fetch data on client side only
-		 */
-		client?: boolean;
-	}
 
 	/**
 	 * Content loader with data fetching
@@ -90,94 +41,137 @@
 	 * Resolves a promise and display or hide content while it is loading
 	 *
 	 * @component
-	 * @example
-	 * <LoaderContentFetch></LoaderContentFetch>
+	 * @example Because of await, suspense is required
+	 * <suspense>
+	 * 	<LoaderContentFetch :promise="fetchData" />
+	 * 	<template #fallback>
+	 * 		<Loader />
+	 * 	</template>
+	 * </suspense>
 	 */
 
 	defineOptions({ name: "LoaderContentFetch", inheritAttrs: false });
 
-	const props = defineProps<iLoaderContentFetchProps<T, P>>();
-	const emit = defineEmits(["refresh", "has-content", "hydrate"]);
+	const props = withDefaults(defineProps<iLoaderContentFetchProps<T, P>>(), {
+		cache: true,
+	});
+	const emit = defineEmits<{
+		(e: "refresh", fn: () => any): void;
+		(
+			e: "has-content",
+			isContent: boolean,
+			newContent: T | null,
+			hydrate: (newContent: T | null, newErrors?: unknown) => void
+		): void;
+		(e: "hydrate", fn: (newContent: T | null, newErrors?: unknown) => void): void;
+	}>();
 
-	const { logger } = useHelpers(useUtils);
 	const { useFetch } = useFetchUtils();
-	const { internals } = inject<iVuePluginOptions>("xamu") || {};
-	const useAsyncData: typeof useAsyncDataFn = internals?.useAsyncData ?? useAsyncDataFn;
+
+	let useAsyncDataLocal: typeof useAsyncDataFn;
+
+	try {
+		// @ts-expect-error useAsyncData is only available in nuxt context
+		useAsyncDataLocal = useAsyncData;
+	} catch (err) {
+		useAsyncDataLocal = useAsyncDataFn;
+	}
 
 	const firstLoad = ref(false);
 	/** Whether component was deactivated by keep-alive */
 	const deactivated = ref(false);
 
+	/**
+	 * Use Nuxt useAsyncData to fetch data
+	 * We wrap the results to avoid non cacheable null responses
+	 * Await to trigger SSR in nuxt contexts
+	 */
 	const {
-		data: content,
+		data,
 		pending: loading,
 		error: errors,
 		refresh,
-	} = useAsyncData(
+	} = await useAsyncDataLocal(
 		props.url || "",
-		async (): Promise<T | null> => {
+		async (_, { signal } = {}): Promise<{ data: T | null }> => {
 			let newData: T | null = null;
 
-			try {
-				if (!props.promise && !props.hydratablePromise && !props.url) return null;
-				if (props.preventAutoload) {
-					// is promise like
-					const pl = props.promise !== undefined || props.hydratablePromise !== undefined;
+			if (!props.promise && !props.hydratablePromise && !props.url) return { data: null };
 
-					// Prevent on first load or if url is used as key
-					if (!firstLoad.value || (!!props.url && pl)) return null;
-				}
-				if (props.promise || props.hydratablePromise) {
-					const payload = <P>(props.payload || []);
+			if (props.preventAutoload) {
+				// Is promise like
+				const pl = props.promise !== undefined || props.hydratablePromise !== undefined;
 
-					if (props.promise) {
-						newData = await props.promise(...payload);
-					} else if (props.hydratablePromise) {
-						/**
-						 * Hydrate content
-						 * Returns the actual content & allows for hydration
-						 */
-						const hydrateContent = computed({
-							get: () => content.value ?? null,
-							set: (newContent) => hydrate(newContent ?? null, errors.value),
-						});
-						/**
-						 * Hydrate errors
-						 * Returns the actual errors & allows for hydration
-						 */
-						const hydrateErrors = computed({
-							get: () => errors.value ?? null,
-							set: (newErrors) => hydrate(content.value ?? null, newErrors),
-						});
+				// Prevent on first load or if url is used as key
+				if (!firstLoad.value || (!!props.url && pl)) return { data: null };
+			}
 
-						newData = await props.hydratablePromise(
-							hydrateContent,
-							hydrateErrors
-						)(...payload);
-					}
-				} else if (props.url) {
-					const response = await useFetch<any>(props.url);
-					const data = "data" in response ? response.data : response;
+			const payload = <P>(props.payload || []);
 
-					if (response.error) throw new Error(response.error);
-					if (data) newData = data;
-				}
-			} catch (err) {
-				logger("LoaderContentFetch:useAsyncData", err);
+			if (props.promise) {
+				newData = await props.promise(...payload, signal);
+			} else if (props.hydratablePromise) {
+				/**
+				 * Hydrate content
+				 * Returns the actual content & allows for hydration
+				 */
+				const hydrateContent = computed({
+					get: () => content.value ?? null,
+					set: (newContent) => hydrate(newContent ?? null, errors.value),
+				});
+				/**
+				 * Hydrate errors
+				 * Returns the actual errors & allows for hydration
+				 */
+				const hydrateErrors = computed({
+					get: () => errors.value ?? null,
+					set: (newErrors) => hydrate(content.value ?? null, newErrors),
+				});
 
-				throw err; // throw error anyway, asyncData will intercept it
+				newData = await props.hydratablePromise(hydrateContent, hydrateErrors)(
+					...payload,
+					signal
+				);
+			} else if (props.url) {
+				const response = await useFetch<any>(props.url, ...payload);
+				const data = "data" in response ? response.data : response;
+
+				if (response.error) throw new Error(response.error);
+				if (data) newData = data;
 			}
 
 			firstLoad.value = true;
+			newData = newData ?? props.fallback ?? null;
 
-			return newData ?? props.fallback ?? null;
+			// Mark returned fetched data as raw inside the asyncData handler
+			if (newData && typeof newData === "object") newData = markRaw(newData);
+
+			return { data: newData };
 		},
 		{
-			default: () => props.fallback,
+			default: () => ({ data: props.fallback ?? null }),
 			watch: [() => props.url, () => props.preventAutoload],
 			server: !props.client,
+			getCachedData: props.cache ? undefined : () => null,
 		}
 	);
+
+	/**
+	 * Unwrap the results.
+	 * Wraps object payloads in markRaw to avoid deep Vue Proxy tracking overhead on read-only fetched data.
+	 */
+	const content = computed<T | null>({
+		get: () => {
+			const value = data.value?.data ?? null;
+
+			return value && typeof value === "object" ? markRaw(value) : value;
+		},
+		set: (newValue: T | null) => {
+			const value = newValue ?? null;
+
+			data.value = { data: value && typeof value === "object" ? markRaw(value) : value };
+		},
+	});
 
 	/**
 	 * Whether content was hydrated

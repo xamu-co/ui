@@ -6,6 +6,7 @@
 			modifiersClasses,
 			stateClasses,
 			themeClasses,
+			GMC(input ?? false, { modifier: 'input' }),
 			GMC(button ?? false, { modifier: 'button' }),
 			{ ' --opaque': opaque },
 			{ ' --square': square },
@@ -36,9 +37,9 @@
 		 * Component or tag to render
 		 */
 		el?: vComponent | string;
-		/**
-		 * less padding
-		 */
+		/** Input like visuals */
+		input?: boolean;
+		/** Button like visuals */
 		button?: boolean;
 		dashed?: boolean;
 		solid?: boolean;

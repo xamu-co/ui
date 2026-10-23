@@ -50,27 +50,21 @@
 		.#{module.$prefix-default}--txtDecoration {
 			&-none {
 				@include module.extend-viewports-classes {
-					& {
-						text-decoration: none;
-					}
+					text-decoration: none;
 				}
 			}
 
 			&-under,
 			&-underline {
 				@include module.extend-viewports-classes {
-					& {
-						text-decoration: underline;
-					}
+					text-decoration: underline;
 				}
 			}
 
 			&-through,
 			&-lineThrough {
 				@include module.extend-viewports-classes {
-					& {
-						text-decoration: line-through;
-					}
+					text-decoration: line-through;
 				}
 			}
 		}

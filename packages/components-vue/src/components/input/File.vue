@@ -7,23 +7,55 @@
 		<div v-if="thumbnails.length" class="flx --flxRow --flx-start-center --gap-10">
 			<ul class="flx --flxRow-wrap --flx-start-center --gap-10">
 				<li
-					v-for="(thumb, thumb_index) in thumbnails"
+					v-for="({ type, source }, thumb_index) in thumbnails"
 					:key="thumb_index"
 					class="flx --flxRow --flx-start-center --gap-5"
 				>
-					<BaseAction
-						class="avatar --index --bdr flx --flx-center"
-						:tooltip="t('file_delete_files', 1)"
+					<ActionLink
+						:tooltip="
+							source
+								? t('file_delete_files', 1)
+								: t('file_delete_heavy_file', {
+										maxSize: Math.round(thumbnailMaxSize / 1024 / 1024),
+									})
+						"
 						tooltip-position="bottom"
 						@click.prevent="(e: Event) => removeFile(thumb_index, e)"
 					>
-						<div class="back">
-							<BaseImg :src="thumb" :alt="t('file_thumb')" />
-						</div>
-						<ActionLink :theme="eColors.LIGHT" class="--shadow">
-							<IconFa name="xmark" :size="20" />
-						</ActionLink>
-					</BaseAction>
+						<figure class="avatar --size-sm --index --bdr flx --flxRow --flx-center">
+							<div
+								class="back flx --flxRow --flx-center"
+								@mouseenter="playMedia"
+								@mouseleave="pauseMedia"
+							>
+								<img
+									v-if="type == eMimeType.IMAGE && source"
+									:src="source"
+									:alt="t('file_thumb')"
+								/>
+								<video
+									v-else-if="type == eMimeType.VIDEO && source"
+									:src="source"
+									:alt="t('file_thumb')"
+									loop
+								></video>
+								<audio
+									v-else-if="type == eMimeType.AUDIO && source"
+									:src="source"
+									:alt="t('file_thumb')"
+									loop
+								></audio>
+								<IconFa v-else :name="'file'" :size="30" />
+							</div>
+							<ActionLink
+								:theme="eColors.LIGHT"
+								class="--shadow"
+								style="pointer-events: none"
+							>
+								<IconFa name="xmark" />
+							</ActionLink>
+						</figure>
+					</ActionLink>
 				</li>
 			</ul>
 			<span class="--txtWrap-nowrap">
@@ -38,13 +70,12 @@
 		<!-- Do not hide input (Apple issue) -->
 		<BaseInput
 			v-slot="{ id }"
-			ref="fileInput"
 			class="--hidden"
 			v-bind="{
 				...$attrs,
 				...omit(props, ['modelValue', 'size']),
 				type: 'file',
-				accept: (accept ?? ['image/*']).join(','),
+				accept: accept.join(','),
 				capture,
 				multiple: maxAmount > 1,
 				disabled,
@@ -84,7 +115,6 @@
 							<!-- Show button on mobile -->
 							<ActionButton
 								:theme="fileInputTheme.themeValues"
-								:aria-label="t('file_choose_file', maxAmount)"
 								tag="label"
 								:for="id"
 								class="--hidden-full:md"
@@ -111,10 +141,13 @@
 					<p>{{ t("file_completed") }}</p>
 					<ActionButton
 						:theme="fileInputTheme.themeValues"
-						:aria-label="t('file_delete_files', maxAmount)"
+						round=":sm-inv"
 						@click.prevent="setFiles()"
 					>
-						{{ t("file_delete_files", maxAmount) }}
+						<IconFa name="xmark" hidden="-full:sm" />
+						<span class="--hidden-full:sm-inv">
+							{{ t("file_delete_files", maxAmount) }}
+						</span>
 					</ActionButton>
 				</BaseBox>
 			</template>
@@ -133,23 +166,55 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, computed, watch } from "vue";
+	import { ref, computed, watch, toRaw, onBeforeUnmount } from "vue";
 	import debounce from "lodash-es/debounce";
 	import omit from "lodash-es/omit";
 
-	import { eColors, eSizes } from "@open-xamu-co/ui-common-enums";
+	import { eColors, eMimeType, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {
 		fileMatchesMimeTypes,
-		standardImageMimeTypes,
 		renameFile,
-		getBase64FromImageFile,
 		useUtils,
 		useSwal,
 		useI18n,
+		// Images
+		gifMimeTypeA,
+		gifMimeTypeB,
+		heicMimeType,
+		heifMimeType,
+		heicSequenceMimeType,
+		heifSequenceMimeType,
+		webpMimeType,
+		bmpMimeType,
+		iconMimeTypeA,
+		iconMimeTypeB,
+		jpegMimeType,
+		pngMimeType,
+		// Videos
+		mp4MimeType,
+		webmMimeType,
+		oggMimeType,
+		mkvMimeType,
+		movMimeType,
+		aviMimeType,
+		flvMimeType,
+		wmvMimeType,
+		mpegMimeType,
+		threegpMimeType,
+		// Audios
+		mp3Id3MimeType,
+		mp3SyncMimeType,
+		wavMimeType,
+		flacMimeType,
+		aacMimeType,
+		m4aMimeType,
+		oggAudioMimeType,
+		webmAudioMimeType,
+		wmaMimeType,
+		aiffMimeType,
+		midiMimeType,
 	} from "@open-xamu-co/ui-common-helpers";
 
-	import BaseImg from "../base/Img.vue";
-	import BaseAction from "../base/Action.vue";
 	import BaseInput from "../base/Input.vue";
 	import BaseBox from "../base/Box.vue";
 	import IconFa from "../icon/Fa.vue";
@@ -164,12 +229,10 @@
 	} from "../../types/props";
 	import useTheme from "../../composables/theme";
 	import { useHelpers } from "../../composables/utils";
+	import type { iMime } from "@open-xamu-co/ui-common-types";
 
 	interface iInputFileProps
-		extends iInputProps,
-			iUseModifiersProps,
-			iUseStateProps,
-			iUseThemeProps {
+		extends iInputProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		filePrefix?: string;
 		min?: number;
 		max?: number;
@@ -187,6 +250,11 @@
 		 * Capture files directly from camera
 		 */
 		capture?: "environment" | "user";
+		/**
+		 * Max file size in bytes above which no thumbnail is generated.
+		 * Defaults to 100 MB.
+		 */
+		thumbnailMaxSize?: number;
 		// PRIVATE
 		modelValue: File[];
 	}
@@ -195,6 +263,12 @@
 		originalEvent: {
 			dataTransfer: DataTransfer;
 		};
+	}
+
+	interface iThumbnail {
+		type: eMimeType;
+		/** The playable asset */
+		source: string;
 	}
 
 	/**
@@ -208,8 +282,11 @@
 
 	defineOptions({ name: "InputFile", inheritAttrs: false });
 
-	const props = defineProps<iInputFileProps>();
-	const emit = defineEmits(["update:model-value"]);
+	const props = withDefaults(defineProps<iInputFileProps>(), {
+		accept: () => ["image/*"],
+		thumbnailMaxSize: 100 * 1024 * 1024,
+	});
+	const emit = defineEmits<{ (e: "update:model-value", value: File[]): any }>();
 
 	const { t } = useHelpers(useI18n);
 	const { isBrowser, logger } = useHelpers(useUtils);
@@ -225,13 +302,175 @@
 		};
 	});
 
-	const fileInput = ref<HTMLInputElement>();
-	const thumbnails = ref<string[]>([]);
+	const thumbnails = ref<iThumbnail[]>([]);
 	const isAdvancedUpload = ref(false);
 	const isLoading = ref(false);
 	const isDragover = ref(false);
+
 	const maxAmount = computed(() => props.max ?? 100);
 	const maxFileSize = computed(() => props.maxSize ?? 1e7);
+	/**
+	 * Accept mime types
+	 *
+	 * All by default
+	 * TODO: Allow for multiple file types
+	 */
+	const acceptMimes = computed(() => {
+		const types: iMime[] = [];
+		const names: eMimeType[] = [];
+
+		function matchAccept(type: eMimeType, extension: string) {
+			return (
+				props.accept.includes("*") ||
+				props.accept.includes(`${type}/*`) ||
+				props.accept.includes(`.${extension}`)
+			);
+		}
+
+		let withImages = false;
+		let withVideos = false;
+		let withAudios = false;
+
+		// Image formats
+		if (matchAccept(eMimeType.IMAGE, "gif")) {
+			// Animated gifs
+			types.push(gifMimeTypeA, gifMimeTypeB);
+
+			withImages = true;
+		}
+		if (
+			matchAccept(eMimeType.IMAGE, "heic") ||
+			matchAccept(eMimeType.IMAGE, "heif") ||
+			matchAccept(eMimeType.IMAGE, "heics") ||
+			matchAccept(eMimeType.IMAGE, "heifs")
+		) {
+			// Apple image formats
+			types.push(heicMimeType, heifMimeType, heicSequenceMimeType, heifSequenceMimeType);
+
+			withImages = true;
+		}
+		if (
+			matchAccept(eMimeType.IMAGE, "webp") ||
+			matchAccept(eMimeType.IMAGE, "bmp") ||
+			matchAccept(eMimeType.IMAGE, "ico")
+		) {
+			// Non standard formats
+			types.push(webpMimeType, bmpMimeType, iconMimeTypeA, iconMimeTypeB);
+
+			withImages = true;
+		}
+		if (
+			matchAccept(eMimeType.IMAGE, "jpg") ||
+			matchAccept(eMimeType.IMAGE, "jpeg") ||
+			matchAccept(eMimeType.IMAGE, "png")
+		) {
+			// Standard formats
+			types.push(jpegMimeType, pngMimeType);
+
+			withImages = true;
+		}
+
+		// Video formats
+		if (
+			matchAccept(eMimeType.VIDEO, "mp4") ||
+			matchAccept(eMimeType.VIDEO, "webm") ||
+			matchAccept(eMimeType.VIDEO, "ogv") ||
+			matchAccept(eMimeType.VIDEO, "ogg")
+		) {
+			// Standard web video formats
+			types.push(mp4MimeType, webmMimeType, oggMimeType);
+
+			withVideos = true;
+		}
+		if (matchAccept(eMimeType.VIDEO, "mkv") || matchAccept(eMimeType.VIDEO, "mov")) {
+			// Modern container formats
+			types.push(mkvMimeType, movMimeType);
+
+			withVideos = true;
+		}
+		if (
+			matchAccept(eMimeType.VIDEO, "avi") ||
+			matchAccept(eMimeType.VIDEO, "flv") ||
+			matchAccept(eMimeType.VIDEO, "wmv") ||
+			matchAccept(eMimeType.VIDEO, "mpeg") ||
+			matchAccept(eMimeType.VIDEO, "mpg")
+		) {
+			// Legacy formats
+			types.push(aviMimeType, flvMimeType, wmvMimeType, mpegMimeType);
+
+			withVideos = true;
+		}
+		if (matchAccept(eMimeType.VIDEO, "3gp")) {
+			// Mobile formats
+			types.push(threegpMimeType);
+
+			withVideos = true;
+		}
+
+		// Audio formats
+		if (
+			matchAccept(eMimeType.AUDIO, "mp3") ||
+			matchAccept(eMimeType.AUDIO, "wav") ||
+			matchAccept(eMimeType.AUDIO, "aac")
+		) {
+			// Standard audio formats
+			types.push(mp3Id3MimeType, mp3SyncMimeType, wavMimeType, aacMimeType);
+
+			withAudios = true;
+		}
+		if (
+			matchAccept(eMimeType.AUDIO, "flac") ||
+			matchAccept(eMimeType.AUDIO, "aiff") ||
+			matchAccept(eMimeType.AUDIO, "aif")
+		) {
+			// Lossless audio formats
+			types.push(flacMimeType, aiffMimeType);
+
+			withAudios = true;
+		}
+		if (
+			matchAccept(eMimeType.AUDIO, "m4a") ||
+			matchAccept(eMimeType.AUDIO, "oga") ||
+			matchAccept(eMimeType.AUDIO, "ogg") ||
+			matchAccept(eMimeType.AUDIO, "weba")
+		) {
+			// Modern compressed audio formats
+			types.push(m4aMimeType, oggAudioMimeType, webmAudioMimeType);
+
+			withAudios = true;
+		}
+		if (
+			matchAccept(eMimeType.AUDIO, "wma") ||
+			matchAccept(eMimeType.AUDIO, "mid") ||
+			matchAccept(eMimeType.AUDIO, "midi")
+		) {
+			// Legacy / specialized formats
+			types.push(wmaMimeType, midiMimeType);
+
+			withAudios = true;
+		}
+
+		if (withImages) names.push(eMimeType.IMAGE);
+		if (withVideos) names.push(eMimeType.VIDEO);
+		if (withAudios) names.push(eMimeType.AUDIO);
+
+		return { types, names };
+	});
+
+	function playMedia(e: Event) {
+		const media = (e.target as HTMLElement).querySelector("video, audio");
+
+		(media as HTMLMediaElement)?.play?.();
+	}
+
+	function pauseMedia(e: Event) {
+		const media = (e.target as HTMLElement).querySelector("video, audio");
+
+		(media as HTMLMediaElement)?.pause?.();
+	}
+
+	/** Tracks active Object URLs keyed by the raw File reference */
+	const objectUrlCache = new Map<File, string>();
 
 	/**
 	 * setFiles
@@ -278,34 +517,48 @@
 					break;
 				}
 
-				// TODO: Allow for multiple file types
-				// validate file "mime type"
-				const isImage = await fileMatchesMimeTypes(filesArr[i], standardImageMimeTypes);
+				if (acceptMimes.value.types.length) {
+					// Validate file "mime type"
+					const matchMime = await fileMatchesMimeTypes(
+						filesArr[i],
+						acceptMimes.value.types
+					);
 
-				// 50MB max file size
-				if (!isImage) {
-					// not image
-					Swal.fire({
-						title: t("swal.file_wrong_format_image"),
-						text: t("swal.file_wrong_format_image_text"),
-						icon: "warning",
-						target: event,
-					});
-				} else {
-					// is image file
-					if (filesArr[i].size < maxFileSize.value) {
-						const fileName = `${props.filePrefix ?? "image"}_${i}`;
-
-						savedFiles.push(renameFile(filesArr[i], fileName));
-					} else {
-						// file too big
+					// 50MB max file size
+					if (!matchMime) {
+						// Not valid mime type
 						Swal.fire({
-							title: t("swal.file_too_big"),
-							text: t("swal.file_too_big_text"),
+							title: t("swal.file_wrong_format"),
+							text: t("swal.file_wrong_format_text", {
+								types: acceptMimes.value.names.join(", "),
+							}),
 							icon: "warning",
 							target: event,
 						});
+					} else {
+						// File is valid mime type
+						if (filesArr[i].size < maxFileSize.value) {
+							const fileName = `${props.filePrefix ?? matchMime}_${i}`;
+
+							savedFiles.push(renameFile(filesArr[i], fileName));
+						} else {
+							// file too big
+							Swal.fire({
+								title: t("swal.file_too_big"),
+								text: t("swal.file_too_big_text"),
+								icon: "warning",
+								target: event,
+							});
+						}
 					}
+				} else {
+					// Unsupported file type
+					Swal.fire({
+						title: t("swal.file_unsupported_format"),
+						text: t("swal.file_unsupported_format_text"),
+						icon: "warning",
+						target: event,
+					});
 				}
 			}
 
@@ -394,12 +647,52 @@
 
 	watch(
 		() => props.modelValue,
-		async (newFiles) => {
-			// TODO: optimize thumbnails generation for larger filesets
-			thumbnails.value = await Promise.all(
-				newFiles.map((file) => getBase64FromImageFile(file))
-			);
+		(newFiles) => {
+			const rawNewFiles = newFiles.reduce<File[]>((acc, file) => {
+				file = toRaw(file);
+
+				if (file instanceof File) acc.push(file);
+
+				return acc;
+			}, []);
+
+			// Revoke Object URLs for files that are no longer in the list
+			for (const [cachedFile, url] of objectUrlCache) {
+				if (!rawNewFiles.includes(cachedFile)) {
+					URL.revokeObjectURL(url);
+					objectUrlCache.delete(cachedFile);
+				}
+			}
+
+			// Build thumbnails, reusing cached URLs for existing files
+			thumbnails.value = rawNewFiles.map((file) => {
+				const [type] = file.type.split("/");
+
+				// Skip thumbnail for files exceeding the size threshold
+				if (file.size > props.thumbnailMaxSize) {
+					return { type: type as eMimeType, source: "" };
+				}
+
+				// Reuse existing URL or create a new one
+				if (!objectUrlCache.has(file)) {
+					objectUrlCache.set(file, URL.createObjectURL(file));
+				}
+
+				return {
+					type: type as eMimeType,
+					source: objectUrlCache.get(file)!,
+				};
+			});
 		},
 		{ immediate: true }
 	);
+
+	onBeforeUnmount(() => {
+		// Revoke all remaining Object URLs to free browser memory
+		for (const url of objectUrlCache.values()) {
+			URL.revokeObjectURL(url);
+		}
+
+		objectUrlCache.clear();
+	});
 </script>

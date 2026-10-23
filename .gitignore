@@ -10,3 +10,5 @@ package-lock.json
 .nuxt
 *storybook.log
 storybook-static
+coverage
+*.config.js

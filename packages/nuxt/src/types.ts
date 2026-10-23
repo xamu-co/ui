@@ -8,6 +8,8 @@ import type { iVuePluginOptions } from "@open-xamu-co/ui-components-vue/plugin";
 export interface XamuModuleOptions extends Omit<iVuePluginOptions, "internals"> {
 	/**
 	 * Nuxt image module options
+	 *
+	 * @deprecated Use @nuxt/image module options instead
 	 */
 	image?: Partial<NuxtImageOptions>;
 	/**
@@ -17,18 +19,18 @@ export interface XamuModuleOptions extends Omit<iVuePluginOptions, "internals"> 
 	 */
 	disableCSSMeta?: boolean;
 	/**
-	 * Disable NUXT countries module
+	 * Logger function
+	 *
+	 * A virtual file is created to bypass nuxt serialization, so the context may not be as expected
 	 */
-	disableCountriesModule?: boolean;
+	logger?: iVuePluginOptions["logger"];
 }
 
-declare module "nuxt/schema" {
-	interface AppConfigInput {
-		xamu?: XamuModuleOptions;
-	}
-}
+export type Stylesheet = string | { href: string; tagPriority?: number };
+
+// Do not use unscoped schema
 declare module "@nuxt/schema" {
-	interface AppConfigInput {
-		xamu?: XamuModuleOptions;
+	interface PublicRuntimeConfig {
+		xamu: XamuModuleOptions;
 	}
 }

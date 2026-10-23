@@ -6,6 +6,18 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
 	plugins: [vue()],
 	resolve: { dedupe: ["vue"] },
+	server: {
+		watch: {
+			ignored: [
+				"**/node_modules/**",
+				"**/dist/**",
+				"**/.git/**",
+				"**/.cache/**",
+				"**/.nuxt/**",
+				"**/storybook-static/**",
+			],
+		},
+	},
 	build: {
 		lib: {
 			entry: {
@@ -13,8 +25,6 @@ export default defineConfig({
 				index: path.resolve(__dirname, "./src"),
 				// plugin
 				plugin: path.resolve(__dirname, "./src/plugin"),
-				// theme
-				theme: path.resolve(__dirname, "./src/composables/theme"),
 			},
 			name: "@open-xamu-co/ui-components-vue",
 			formats: ["es", "cjs"],
@@ -25,6 +35,9 @@ export default defineConfig({
 				"vue",
 				"lodash-es",
 				"sweetalert2",
+				"ts-md5",
+				"validator",
+				"vue-color",
 				"@open-xamu-co/ui-common-enums",
 				"@open-xamu-co/ui-common-helpers",
 			],

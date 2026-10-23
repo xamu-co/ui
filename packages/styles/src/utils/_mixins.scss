@@ -12,11 +12,11 @@
 	assumes variables have already been imported
 */
 
-$default-viewports: if(
-	variables.$allow-responsive-classes-all-viewports,
-	variables.$viewports,
-	variables.$common-viewports
-);
+$default-viewports: variables.$viewports;
+
+@if variables.$allow-responsive-classes-all-viewports {
+	$default-viewports: variables.$allow-responsive-classes-all-viewports;
+}
 
 // Viewport extend
 // This mixin is used to extend classes with responsive behavior based on viewport sizes.
@@ -34,9 +34,7 @@ $default-viewports: if(
 	$omit-non-media: false
 ) {
 	@if not $omit-non-media {
-		& {
-			@content;
-		}
+		@content;
 	}
 	@if variables.$allow-responsive-classes {
 		@each $name, $viewport in $viewports {
@@ -148,7 +146,11 @@ $default-viewports: if(
 
 	@include extend-maps(variables.$font-sizes, $selector, $default, $default-selector)
 		using($name, $value, $is-default) {
-		$unit: if($i > 1, $i, 2);
+		$unit: 2;
+
+		@if $i > 1 {
+			$unit: $i;
+		}
 
 		@if $is-default {
 			@content ($value, $unit);
@@ -230,12 +232,10 @@ $default-viewports: if(
 // flexbox en una sola linea
 // ej: row, nowrap, space-around, strecth
 @mixin flex-box($t, $m, $j, $a, $d: flex) {
-	& {
-		display: $d;
-		flex-flow: $t $m;
-		justify-content: $j;
-		align-items: $a;
-	}
+	display: $d;
+	flex-flow: $t $m;
+	justify-content: $j;
+	align-items: $a;
 }
 
 // Mixin printing a linear-gradient

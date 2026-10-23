@@ -3,17 +3,9 @@
 		:el="BaseAction"
 		v-bind="{ ...$attrs, ...props, ...tooltipAttributes }"
 		:invert-theme="false"
-		:aria-label="label"
 		button
 	>
-		<BaseBox
-			v-if="icon || src"
-			:theme="themeValues"
-			:invert-theme="invertTheme"
-			square
-			opaque
-			with-color
-		>
+		<BaseBox v-if="icon || src" :theme="invertedThemeValues" square opaque with-color>
 			<IconFa v-if="icon" v-bind="{ size: 35, ...iconProps, name: icon }" />
 			<BaseImg
 				v-else-if="src"
@@ -50,7 +42,8 @@
 	import useTheme from "../../composables/theme";
 
 	interface iBoxActionProps
-		extends iActionProps,
+		extends
+			iActionProps,
 			iUseModifiersProps,
 			iUseStateProps,
 			iUseThemeProps,
@@ -89,5 +82,5 @@
 
 	const props = defineProps<iBoxActionProps>();
 
-	const { tooltipAttributes, themeValues } = useTheme(props, true);
+	const { tooltipAttributes, invertedThemeValues } = useTheme(props, true);
 </script>

@@ -11,9 +11,23 @@ export interface iSelectOption {
  *
  * Action result, event and callback
  */
-export type iNodeFnResponse<T extends Record<string, any> = never> = [
-	(boolean | T)?,
-	Event?,
+export type iNodeFnResponse<
+	T extends Record<string, any> = never,
+	E extends Record<string, any> = Record<string, any>,
+> = [(boolean | T)?, (Event & Partial<CustomEvent<E>>)?, (() => void)?];
+
+/**
+ * Stream like response from node functions
+ *
+ * Action result, event and callback
+ * Can accept an stream like array for multiple updates (hydration)
+ */
+export type iNodeFnResponseStream<
+	T extends Record<string, any> = never,
+	E extends Record<string, any> = Record<string, any>,
+> = [
+	(boolean | T | [boolean | T, ...Promise<boolean | T>[]])?,
+	(Event & Partial<CustomEvent<E>>)?,
 	(() => void)?,
 ];
 
@@ -31,6 +45,23 @@ export type iNodeFn<T extends Record<string, any>, Ta extends [T?, ...any[]] = [
 ) => boolean | undefined | iNodeFnResponse<T> | Promise<boolean | undefined | iNodeFnResponse<T>>;
 
 /**
+ * Funtions that uses a node and perform some action
+ *
+ * Useful for table actions like creating, updating and deleting nodes
+ *
+ * Undefined would mean no action was performed
+ * True or an T type object would mean action was performed successfully
+ * False would mean action failed
+ */
+export type iNodeStreamFn<T extends Record<string, any>, Ta extends [T?, ...any[]] = [T]> = (
+	...args: Ta
+) =>
+	| boolean
+	| undefined
+	| iNodeFnResponseStream<T>
+	| Promise<boolean | undefined | iNodeFnResponseStream<T>>;
+
+/**
  * Used on Table and related components
  *
  * @action Any task performed at each row cell (property)
@@ -41,6 +72,11 @@ export interface iProperty<
 	P extends Record<string, any> = Record<string, any>,
 	ComponentType = unknown,
 > extends iSelectOption {
+	/**
+	 * Prefer to use the node's id instead of the value
+	 * Useful for object like properties
+	 */
+	preferId?: boolean;
 	/**
 	 * Function to create a node within the relation
 	 * The parent is given since the node doesn't exist yet
@@ -88,4 +124,7 @@ export interface iProperty<
 	onImageError?: (data?: any) => void;
 }
 
+/**
+ * Function to order properties
+ */
 export type tPropertyOrderFn = (a: [string, any], b: [string, any]) => -1 | 0 | 1;

@@ -1,62 +1,69 @@
 <template>
-	<ul
-		v-if="currentPage && modelValue"
-		:class="
-			$attrs.class ||
-			'flx --flxRow-wrap --flx-center --gap-5 --gap-10:sm --gap:md --width-fit'
-		"
-	>
-		<li v-if="modelValue.first">
-			<p class="--txtSize-sm">
-				{{ t("pagination_items", currentPage.totalCount) }}
-				⋅
-				{{ pageCountText }}
-			</p>
-		</li>
-		<li v-if="!hidePageLength && currentPage.totalCount > 5">
-			<ul class="flx --flxRow-wrap --flx-center --gap-5 --gap:sm">
-				<li>
-					<SelectSimple
-						id="first"
-						v-model="firstModel"
-						:theme="theme"
-						class="--maxWidthVw-60"
-						name="first"
-						:options="[5, 10, 25, 50, 100]"
-					/>
-				</li>
-				<template v-if="currentPage.totalCount > currentPage.edges.length">
+	<nav v-if="currentPage && modelValue" :aria-label="t('pagination')">
+		<ul
+			:class="
+				$attrs.class ||
+				'flx --flxRow-wrap --flx-center --gap-5 --gap-10:sm --gap:md --width-fit'
+			"
+		>
+			<li v-if="modelValue.first">
+				<p class="--txtSize-sm">
+					{{ t("pagination_items", currentPage.totalCount) }}
+					⋅
+					{{ pageCountText }}
+				</p>
+			</li>
+			<li v-if="!hidePageLength && currentPage.totalCount > 5">
+				<ul class="flx --flxRow-wrap --flx-center --gap-5 --gap:sm">
 					<li>
-						<!-- Reset at if coming from second page -->
-						<ActionButtonToggle
+						<SelectSimple
+							v-model="firstModel"
 							:theme="theme"
-							:aria-label="t('previous')"
-							:disabled="!pageInfo?.hasPreviousPage"
-							round=":sm-inv"
-							@click="setAt(pageNumber > 2 ? pageInfo?.previousCursor : undefined)"
-						>
-							<IconFa name="arrow-left" />
-							<IconFa name="arrow-left" regular />
-							<span class="--hidden-full:sm-inv">{{ t("previous") }}</span>
-						</ActionButtonToggle>
+							class="--maxWidth-90"
+							name="first"
+							:title="t('pagination')"
+							:aria-label="t('pagination')"
+							:options="[5, 10, 25, 50, 100]"
+						/>
 					</li>
-					<li>
-						<ActionButtonToggle
-							:theme="theme"
-							:aria-label="t('next')"
-							:disabled="!pageInfo?.hasNextPage"
-							round=":sm-inv"
-							@click="setAt(pageInfo?.nextCursor)"
-						>
-							<span class="--hidden-full:sm-inv">{{ t("next") }}</span>
-							<IconFa name="arrow-right" />
-							<IconFa name="arrow-left" regular />
-						</ActionButtonToggle>
-					</li>
-				</template>
-			</ul>
-		</li>
-	</ul>
+					<template v-if="currentPage.totalCount > currentPage.edges.length">
+						<li>
+							<!-- Reset at if coming from second page -->
+							<ActionButtonToggle
+								:theme="theme"
+								:disabled="!pageInfo?.hasPreviousPage"
+								:tooltip="t('previous')"
+								:aria-label="t('previous')"
+								round=":md-inv"
+								@click="handlePrevious"
+							>
+								<IconFa name="arrow-left" />
+								<IconFa name="arrow-left" regular />
+								<span class="--hidden-full:md-inv">{{ t("previous") }}</span>
+							</ActionButtonToggle>
+						</li>
+						<li>
+							<ActionButtonToggle
+								:theme="theme"
+								:disabled="!pageInfo?.hasNextPage"
+								:tooltip="t('next')"
+								:aria-label="t('next')"
+								round=":md-inv"
+								@click="setAt(pageInfo?.nextCursor)"
+							>
+								<span class="--hidden-full:md-inv">{{ t("next") }}</span>
+								<IconFa name="arrow-right" />
+								<IconFa name="arrow-left" regular />
+							</ActionButtonToggle>
+						</li>
+					</template>
+				</ul>
+			</li>
+			<li v-if="$slots.actions">
+				<slot name="actions" v-bind="{ currentPage, pagination: modelValue }"></slot>
+			</li>
+		</ul>
+	</nav>
 </template>
 
 <script setup lang="ts" generic="T, C extends string | number">
@@ -94,7 +101,7 @@
 
 	defineOptions({ name: "PaginationSimple", inheritAttrs: false });
 
-	const emit = defineEmits(["update:model-value"]);
+	const emit = defineEmits<{ (e: "update:model-value", value: iPagination): any }>();
 	const props = defineProps<iPaginationSimpleProps<T, C>>();
 
 	const { first: defaultFirst } = inject<iPluginOptions>("xamu") || {};
@@ -135,5 +142,9 @@
 	 */
 	function setAt(at?: string | number) {
 		emit("update:model-value", { ...props.modelValue, at });
+	}
+
+	function handlePrevious() {
+		setAt(pageNumber.value > 2 ? pageInfo.value?.previousCursor : undefined);
 	}
 </script>
