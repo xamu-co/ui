@@ -1,5 +1,55 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-types-v4.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v3.1.0...@open-xamu-co/ui-common-types-v4.0.0) (2026-10-23)
+
+
+### Bug Fixes
+
+* **nuxt:** get asyncData from context ([8c5616a](https://github.com/xamu-co/ui/commit/8c5616a85a41b69d44efb5319c152358fcda74b7))
+* **types:** preserve import extension for node compatibility ([d76c94a](https://github.com/xamu-co/ui/commit/d76c94a82edfa436f5929a9f29124db6603ed4f2))
+* **vue:** fixes & refactoring for async options handling ([f4d51bf](https://github.com/xamu-co/ui/commit/f4d51bf69ff8e9e8f62c0e645fd3596fb96bc642))
+* **vue:** granular input slots ([719bb39](https://github.com/xamu-co/ui/commit/719bb399856ab63d2397b9099da1fed3829aa902))
+* **vue:** improved WCAG 2.1 AA accessibility ([ad952ef](https://github.com/xamu-co/ui/commit/ad952ef66783bc8a203d0de42efcc993aa5ded2b))
+* **vue:** optimized thumbnail generation for larger files ([07aa96d](https://github.com/xamu-co/ui/commit/07aa96db05607e5c13f85497dd410570fa4689ac))
+* allow more image types on file input ([73d39bc](https://github.com/xamu-co/ui/commit/73d39bc95c32f801233d442870512f1fc6ac1fe5))
+* do not mix original node with cloned node data ([25a513a](https://github.com/xamu-co/ui/commit/25a513a4765e3565a17da666b040a83def6d939d))
+* table layout ([f90b338](https://github.com/xamu-co/ui/commit/f90b338207a13a7ece14e19e71a8e593d2911a46))
+
+
+### Features
+
+* **forms:** accept async function for input options ([e8ebf68](https://github.com/xamu-co/ui/commit/e8ebf688f4fd71bd049883eb2961b36be579b1c2))
+* **nuxt:** extend nuxt support ([702a9b3](https://github.com/xamu-co/ui/commit/702a9b37716a11a3742e4fe0a423e32ad9ef7c48))
+* **vue:** pass down abort signal on fetch components ([c6063c2](https://github.com/xamu-co/ui/commit/c6063c2818a40a14033b20ddc827b1fc673a4e9b))
+* **vue:** refactor select filter using dropdown ([21556c8](https://github.com/xamu-co/ui/commit/21556c80fe097e34b6d419e284b12192a27fdf1b))
+* **vue:** select filter with async options ([c36568c](https://github.com/xamu-co/ui/commit/c36568cfe7e68d0902b3cc8035c50d3dc99d22c5))
+* **vue:** support date, datetime & time inputs ([a115eca](https://github.com/xamu-co/ui/commit/a115ecae09dfd895cf73d99eaeaea5b792832cd4))
+* code editor support ([b08239d](https://github.com/xamu-co/ui/commit/b08239ddef1dd5bc928db630211cddd11ae1ea47))
+* conditionally hide content table pagination ([5b29ef4](https://github.com/xamu-co/ui/commit/5b29ef4828fc4247b6f55609737ccee265668701))
+* preferId for properties tables ([c442c66](https://github.com/xamu-co/ui/commit/c442c66e5f4be5788109ecac0f1610367f4da88d))
+* stream like hydration ([cb7f694](https://github.com/xamu-co/ui/commit/cb7f6940643dc358ab863fd4bf692db495e23aee))
+* support video & audio files ([7ffb235](https://github.com/xamu-co/ui/commit/7ffb23596c7cc286c39ecea34796d1d17ea963ff))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** loaderContentFetch requires suspense
+* **nuxt:** node22 required
+* renamed mime types exports
+* no-overrides to no-theme-override
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-types" version "4.0.0"[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-types-v4.0.0-next.14](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-types-v4.0.0-next.13...@open-xamu-co/ui-common-types-v4.0.0-next.14) (2026-10-02)
 
 
