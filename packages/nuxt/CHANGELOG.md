@@ -1,5 +1,39 @@
 Xamu UI
 
+# [@open-xamu-co/ui-nuxt-v4.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v3.1.0...@open-xamu-co/ui-nuxt-v4.0.0) (2026-10-23)
+
+
+### Bug Fixes
+
+* **module:** set deprecation flag for image config ([7539079](https://github.com/xamu-co/ui/commit/75390791f28bd68e5f19ff5e217c6fcf8e216ef6))
+* **nuxt:** get asyncData from context ([8c5616a](https://github.com/xamu-co/ui/commit/8c5616a85a41b69d44efb5319c152358fcda74b7))
+* avoid logger serialization ([8056197](https://github.com/xamu-co/ui/commit/8056197fcb076d7b2a3aad95443b5e71edbbd23c))
+* dedupe components ([03e9aae](https://github.com/xamu-co/ui/commit/03e9aae469c280cd5f0391b05c870652a1be4572))
+* remove unscoped schema ([31ab5d4](https://github.com/xamu-co/ui/commit/31ab5d48bf9355cf8ba9d7ae38c2e092b4bda5c8))
+* table layout ([f90b338](https://github.com/xamu-co/ui/commit/f90b338207a13a7ece14e19e71a8e593d2911a46))
+* use runtime config to inject xamu ([c57a1af](https://github.com/xamu-co/ui/commit/c57a1af31d54b2a839314f22d04d650ae972c14d))
+
+
+### Features
+
+* **nuxt:** extend nuxt support ([702a9b3](https://github.com/xamu-co/ui/commit/702a9b37716a11a3742e4fe0a423e32ad9ef7c48))
+* **nuxt:** remove nuxt-countries-api module requirement ([deea92a](https://github.com/xamu-co/ui/commit/deea92a1e14bcf861d102691289145e9e6b9def7))
+* expose stylesheet preload function on module ([56dbf1f](https://github.com/xamu-co/ui/commit/56dbf1fe6b2fa12b6776add6dcda86524ea84fd1))
+* expose useMarkdown composable ([b66ede9](https://github.com/xamu-co/ui/commit/b66ede9b28c3bfb7c811e4528fd7cfa42e7e3221))
+
+
+### BREAKING CHANGES
+
+* **nuxt:** loaderContentFetch requires suspense
+* **nuxt:** node22 required
+* no-overrides to no-theme-override
+
+
+
+
+
+No version update required
+
 # [@open-xamu-co/ui-nuxt-v4.0.0-next.11](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-nuxt-v4.0.0-next.10...@open-xamu-co/ui-nuxt-v4.0.0-next.11) (2026-08-20)
 
 
