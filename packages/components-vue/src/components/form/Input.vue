@@ -92,7 +92,9 @@
 						/>
 						<InputText
 							v-model="models[i].value[1]"
-							v-bind="inputProps"
+							v-bind="omit(inputProps, ['min', 'max'])"
+							:min="input.meta?.minLength"
+							:max="input.meta?.maxLength"
 							:invalid="isInvalidByValidation"
 							:theme="theme"
 							:disabled="readonly"
