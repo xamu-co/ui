@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0...@open-xamu-co/ui-components-vue-v4.0.1) (2026-10-29)
+
+
+### Bug Fixes
+
+* **vue:** prevent options from limiting text length of id input ([0a7058b](https://github.com/xamu-co/ui/commit/0a7058bdd73575fe6006f8d7cc786260c11d9466))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.1"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v3.1.0...@open-xamu-co/ui-components-vue-v4.0.0) (2026-10-23)
 
 
