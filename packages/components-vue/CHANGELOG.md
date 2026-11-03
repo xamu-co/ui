@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.2...@open-xamu-co/ui-components-vue-v4.0.3) (2026-11-03)
+
+
+### Bug Fixes
+
+* support setting min max for dates ([0e05392](https://github.com/xamu-co/ui/commit/0e053923e854e86312153f44ce5db940798a64ea))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.3"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.1...@open-xamu-co/ui-components-vue-v4.0.2) (2026-11-03)
 
 
