@@ -265,6 +265,8 @@
 						:theme="theme"
 						:disabled="readonly"
 						:placeholder="getInputPlaceholder()"
+						:min="input.meta?.minDate"
+						:max="input.meta?.maxDate"
 						class="--maxWidth-full --flx"
 					/>
 					<!-- Future outer loop input -->
