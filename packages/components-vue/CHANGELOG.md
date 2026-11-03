@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.0.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.1...@open-xamu-co/ui-components-vue-v4.0.2) (2026-11-03)
+
+
+### Bug Fixes
+
+* **vue:** prevent min, max from affecting nested inputs ([22c543b](https://github.com/xamu-co/ui/commit/22c543b61d5de4433c8f8771a313d94eb6c2c10d))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.0.2"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.0...@open-xamu-co/ui-components-vue-v4.0.1) (2026-10-29)
 
 
