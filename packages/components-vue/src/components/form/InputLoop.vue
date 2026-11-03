@@ -42,7 +42,7 @@
 					:theme="theme"
 					:disabled="readonly"
 					:size="eSizes.XS"
-					class="--txtSize-sm"
+					class="input-loop-add-value --txtSize-sm"
 					@click="input.addValue()"
 				>
 					{{ t("add") }}
@@ -55,7 +55,7 @@
 				:theme="theme"
 				:disabled="readonly || !input.multiple || input.max <= models.length"
 				:size="eSizes.XS"
-				class="--txtSize-sm"
+				class="input-loop-new-value --txtSize-sm"
 				@click="input.addValue()"
 			>
 				<span>{{ t("form_new_value") }}</span>
