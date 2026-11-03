@@ -461,6 +461,8 @@
 			multiple: false,
 			defaults: undefined,
 			values: subValue !== undefined ? [subValue] : undefined,
+			min: undefined,
+			max: undefined,
 		});
 	}
 
