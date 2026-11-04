@@ -210,7 +210,20 @@
 			const diff = edges.length - (page.edges?.length || 0);
 			const totalCount = Math.max(0, (page.totalCount || 0) + diff);
 
-			hydratePage({ ...page, edges, totalCount }, newErrors);
+			hydratePage(
+				{
+					pageInfo: {
+						...(page.pageInfo || {
+							hasNextPage: false,
+							hasPreviousPage: false,
+							pageNumber: 1,
+						}),
+					},
+					edges,
+					totalCount,
+				},
+				newErrors
+			);
 		};
 
 		const nodes = (page?.edges || []).map(({ node }) => node);
