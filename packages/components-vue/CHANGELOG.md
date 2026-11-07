@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.4...@open-xamu-co/ui-components-vue-v4.1.0) (2026-11-07)
+
+
+### Bug Fixes
+
+* **vue:** conditionally include extension for input files ([8068aa3](https://github.com/xamu-co/ui/commit/8068aa369fe37409093bc0316fd686ee18737682))
+* **vue:** conditionally include original file name ([fea33d8](https://github.com/xamu-co/ui/commit/fea33d8ada7321e6ca1b0b501841f737b90eb618))
+
+
+### Features
+
+* support document file types ([3462615](https://github.com/xamu-co/ui/commit/3462615d914b8837866f631b6438d793f623f977))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.1.0"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.0.4](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.3...@open-xamu-co/ui-components-vue-v4.0.4) (2026-11-04)
 
 
