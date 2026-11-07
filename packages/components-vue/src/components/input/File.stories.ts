@@ -181,11 +181,16 @@ export const AcceptSpecificMime: Story = {
 				}
 			);
 
+			watch(model, (val) => {
+				// @ts-expect-error Replace this with a better render implementation
+				args.modelValue = val;
+			});
+
 			return { args, model };
 		},
 		template: '<InputFile v-bind="args" v-model="model" />',
 	}),
-	play: async ({ canvasElement }) => {
+	play: async ({ canvasElement, args }) => {
 		const canvas = within(canvasElement);
 		const input = canvasElement.querySelector('input[type="file"]') as HTMLInputElement;
 
@@ -210,6 +215,11 @@ export const AcceptSpecificMime: Story = {
 
 			expect(thumbnail).toBeInTheDocument();
 			expect(thumbnail?.src).toMatch(/^blob:/);
+		});
+
+		// Verify prepended original safe name: profile_avatar_0.png
+		await waitFor(() => {
+			expect(args.modelValue?.[0]?.name).toBe("profile_avatar_0.png");
 		});
 	},
 };
@@ -245,18 +255,23 @@ export const AcceptDocumentsAndCompressed: Story = {
 				}
 			);
 
+			watch(model, (val) => {
+				// @ts-expect-error Replace this with a better render implementation
+				args.modelValue = val;
+			});
+
 			return { args, model };
 		},
 		template: '<InputFile v-bind="args" v-model="model" />',
 	}),
-	play: async ({ canvasElement }) => {
+	play: async ({ canvasElement, args }) => {
 		const canvas = within(canvasElement);
 		const input = canvasElement.querySelector('input[type="file"]') as HTMLInputElement;
 
 		expect(input).toBeInTheDocument();
 
 		// Upload a valid PDF file
-		const pdfFile = new File([PDF_HEADER], "document.pdf", { type: "application/pdf" });
+		const pdfFile = new File([PDF_HEADER], "my document.pdf", { type: "application/pdf" });
 
 		await userEvent.upload(input, pdfFile);
 
@@ -310,6 +325,13 @@ export const AcceptDocumentsAndCompressed: Story = {
 			const txtIcon = canvasElement.querySelector(".fa-file-lines");
 
 			expect(txtIcon).toBeInTheDocument();
+		});
+
+		// Verify renamed file names: {snakeCase(rawBaseName)_}{filePrefix}_{i}{ext}
+		await waitFor(() => {
+			expect(args.modelValue?.[0]?.name).toBe("my_document_doc_0.pdf");
+			expect(args.modelValue?.[1]?.name).toBe("archive_doc_0.zip");
+			expect(args.modelValue?.[2]?.name).toBe("notes_doc_0.txt");
 		});
 	},
 };
