@@ -19,6 +19,8 @@ type Story = StoryObj<typeof meta>;
  * without loading actual image data.
  */
 const PNG_HEADER = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 0, 0, 0, 0, 0]);
+const PDF_HEADER = new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x37]);
+const ZIP_HEADER = new Uint8Array([0x50, 0x4b, 0x03, 0x04, 0x14, 0x00]);
 
 /**
  * Files larger than the thumbnailMaxSize threshold must not generate an Object URL thumbnail.
@@ -158,6 +160,157 @@ export const AcceptVideo: Story = {
 		expect(input).toBeInTheDocument();
 		// Verify the native input has the correct accept attribute
 		expect(input.getAttribute("accept")).toContain("video/");
+	},
+};
+
+export const AcceptSpecificMime: Story = {
+	args: {
+		accept: ["image/png"],
+		filePrefix: "avatar",
+		max: 1,
+	},
+	render: (args) => ({
+		components: { InputFile },
+		setup() {
+			const model = ref(args.modelValue || []);
+
+			watch(
+				() => args.modelValue,
+				(val) => {
+					model.value = val || [];
+				}
+			);
+
+			return { args, model };
+		},
+		template: '<InputFile v-bind="args" v-model="model" />',
+	}),
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvasElement.querySelector('input[type="file"]') as HTMLInputElement;
+
+		expect(input).toBeInTheDocument();
+		expect(input.getAttribute("accept")).toBe("image/png");
+
+		// Upload valid PNG file
+		const file = new File([PNG_HEADER], "profile.png", { type: "image/png" });
+
+		await userEvent.upload(input, file);
+
+		// Verify count display
+		await waitFor(() => {
+			const statusText = canvas.getByText(/1\s+(de|of)\s+1/i);
+
+			expect(statusText).toBeInTheDocument();
+		});
+
+		// Verify that a thumbnail <img> is rendered
+		await waitFor(() => {
+			const thumbnail = canvasElement.querySelector("img");
+
+			expect(thumbnail).toBeInTheDocument();
+			expect(thumbnail?.src).toMatch(/^blob:/);
+		});
+	},
+};
+
+export const AcceptDocumentsAndCompressed: Story = {
+	args: {
+		accept: [
+			"application/pdf",
+			"image/*",
+			"audio/*",
+			".zip",
+			".rar",
+			".doc",
+			".docx",
+			".xls",
+			".xlsx",
+			".ppt",
+			".pptx",
+			".txt",
+		],
+		filePrefix: "doc",
+		max: 3,
+	},
+	render: (args) => ({
+		components: { InputFile },
+		setup() {
+			const model = ref(args.modelValue || []);
+
+			watch(
+				() => args.modelValue,
+				(val) => {
+					model.value = val || [];
+				}
+			);
+
+			return { args, model };
+		},
+		template: '<InputFile v-bind="args" v-model="model" />',
+	}),
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvasElement.querySelector('input[type="file"]') as HTMLInputElement;
+
+		expect(input).toBeInTheDocument();
+
+		// Upload a valid PDF file
+		const pdfFile = new File([PDF_HEADER], "document.pdf", { type: "application/pdf" });
+
+		await userEvent.upload(input, pdfFile);
+
+		// Verify count display for 1 file
+		await waitFor(() => {
+			const statusText = canvas.getByText(/1\s+(de|of)\s+3/i);
+
+			expect(statusText).toBeInTheDocument();
+		});
+
+		// Verify PDF icon is rendered (fa-file-pdf)
+		await waitFor(() => {
+			const pdfIcon = canvasElement.querySelector(".fa-file-pdf");
+
+			expect(pdfIcon).toBeInTheDocument();
+		});
+
+		// Upload a valid ZIP file
+		const zipFile = new File([ZIP_HEADER], "archive.zip", { type: "application/zip" });
+
+		await userEvent.upload(input, zipFile);
+
+		// Verify count display for 2 files
+		await waitFor(() => {
+			const statusText = canvas.getByText(/2\s+(de|of)\s+3/i);
+
+			expect(statusText).toBeInTheDocument();
+		});
+
+		// Verify ZIP icon is rendered (fa-file-zipper)
+		await waitFor(() => {
+			const zipIcon = canvasElement.querySelector(".fa-file-zipper");
+
+			expect(zipIcon).toBeInTheDocument();
+		});
+
+		// Upload a valid TXT file
+		const txtFile = new File(["Hello plain text"], "notes.txt", { type: "text/plain" });
+
+		await userEvent.upload(input, txtFile);
+
+		// Verify count display for 3 files
+		await waitFor(() => {
+			const statusText = canvas.getByText(/3\s+(de|of)\s+3/i);
+
+			expect(statusText).toBeInTheDocument();
+		});
+
+		// Verify TXT icon is rendered (fa-file-lines)
+		await waitFor(() => {
+			const txtIcon = canvasElement.querySelector(".fa-file-lines");
+
+			expect(txtIcon).toBeInTheDocument();
+		});
 	},
 };
 

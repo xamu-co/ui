@@ -104,5 +104,6 @@
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "dependencies": {}
 }
