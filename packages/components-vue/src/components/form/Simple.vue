@@ -9,7 +9,7 @@
 			<suspense>
 				<template #fallback><LoaderSimple :theme="theme" /></template>
 				<BaseWrapper
-					v-slot="{ content, ...countriesAndStatesReq } = {}"
+					v-slot="countriesAndStatesReq"
 					:wrapper="LoaderContentFetch"
 					:wrap="withLocationInput || withPhoneInput"
 					:theme="theme"
@@ -31,8 +31,8 @@
 							<FormInput
 								:key="`input-${input.name}`"
 								v-bind="{
-									...content,
-									...countriesAndStatesReq,
+									...countriesAndStatesReq.content,
+									...omit(countriesAndStatesReq, 'content'),
 									readonly,
 									theme,
 									input,
@@ -76,6 +76,7 @@
 <script setup lang="ts" generic="P extends any[] = any[]">
 	import { computed, defineAsyncComponent, ref, watch, type WritableComputedRef } from "vue";
 	import isEqual from "lodash-es/isEqual";
+	import omit from "lodash-es/omit";
 
 	import type {
 		iInvalidInput,

@@ -169,6 +169,7 @@
 	import { ref, computed, watch, toRaw, onBeforeUnmount } from "vue";
 	import debounce from "lodash-es/debounce";
 	import omit from "lodash-es/omit";
+	import snakeCase from "lodash-es/snakeCase";
 
 	import { eColors, eMimeType, eSizes } from "@open-xamu-co/ui-common-enums";
 	import {
@@ -248,8 +249,9 @@
 	interface iInputFileProps
 		extends iInputProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
 		/**
-		 * Optional prefix for renamed files (e.g. 'avatar' -> 'avatar_0.png').
-		 * If omitted, defaults to the matched media type (e.g. 'image_0.png').
+		 * Optional prefix for renamed files. Files are renamed following the format:
+		 * `{nombreOriginalSeguroCondicional_}{filePrefix ?? matchMime}_{index}{extensionCondicional}`
+		 * (e.g. 'my_photo_avatar_0.png' or 'my_photo_image_0.png').
 		 */
 		filePrefix?: string;
 		/**
@@ -283,6 +285,10 @@
 		thumbnailMaxSize?: number;
 		// PRIVATE
 		modelValue: File[];
+		/**
+		 * Restore old behavior (Name was omitted from file names)
+		 */
+		withoutName?: boolean;
 		/**
 		 * Restore old behavior (Extension was omitted from file names)
 		 */
@@ -689,11 +695,28 @@
 						// File is valid mime type
 						if (filesArr[i].size < maxFileSize.value) {
 							const dotIndex = filesArr[i].name.lastIndexOf(".");
+							const rawBaseName =
+								dotIndex > 0
+									? filesArr[i].name.slice(0, dotIndex)
+									: dotIndex === 0
+										? ""
+										: filesArr[i].name;
+							const safeOriginalName = snakeCase(rawBaseName);
+							const originalNamePrefix =
+								!props.withoutName && safeOriginalName
+									? `${safeOriginalName}_`
+									: "";
+							const standarName = `${props.filePrefix ?? matchMime}_${i}`;
 							const extension =
 								!props.withoutExtension && dotIndex > 0
 									? filesArr[i].name.slice(dotIndex)
 									: "";
-							const fileName = `${props.filePrefix ?? matchMime}_${i}${extension}`;
+							/**
+							 * New file name
+							 * Conditionally prepend old file name (snakeCase)
+							 * Conditionally append original file extension
+							 */
+							const fileName = `${originalNamePrefix}${standarName}${extension}`;
 
 							savedFiles.push(renameFile(filesArr[i], fileName));
 						} else {
