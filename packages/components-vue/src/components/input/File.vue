@@ -233,30 +233,46 @@
 
 	interface iInputFileProps
 		extends iInputProps, iUseModifiersProps, iUseStateProps, iUseThemeProps {
+		/**
+		 * Optional prefix for renamed files (e.g. 'avatar' -> 'avatar_0.png').
+		 * If omitted, defaults to the matched media type (e.g. 'image_0.png').
+		 */
 		filePrefix?: string;
+		/**
+		 * Minimum number of files required.
+		 */
 		min?: number;
+		/**
+		 * Maximum number of files allowed.
+		 * @default 100
+		 */
 		max?: number;
 		/**
-		 * max file size in bytes
+		 * Maximum file size in bytes per file.
+		 * @default 10000000 (10 MB)
 		 */
 		maxSize?: number;
 		/**
-		 * Match files type
-		 *
-		 * default: all image types
+		 * Accepted file formats, wildcards or MIME types (e.g. ['image/*', 'video/mp4', '.png']).
+		 * @default ["image/*"]
 		 */
 		accept?: string[];
 		/**
-		 * Capture files directly from camera
+		 * Capture files directly from camera / microphone.
 		 */
 		capture?: "environment" | "user";
 		/**
-		 * Max file size in bytes above which no thumbnail is generated.
-		 * Defaults to 100 MB.
+		 * Maximum file size in bytes above which no thumbnail is generated.
+		 * Conserves browser memory by falling back to generic icon.
+		 * @default 104857600 (100 MB)
 		 */
 		thumbnailMaxSize?: number;
 		// PRIVATE
 		modelValue: File[];
+		/**
+		 * Restore old behavior (Extension was omitted from file names)
+		 */
+		withoutExtension?: boolean;
 	}
 
 	interface iDropEvent extends DragEvent {
@@ -319,11 +335,31 @@
 		const types: iMime[] = [];
 		const names: eMimeType[] = [];
 
-		function matchAccept(type: eMimeType, extension: string) {
+		/**
+		 * Checks whether the given MIME category, extension, or specific MIME types
+		 * match the accepted formats defined in props.accept.
+		 *
+		 * Supports:
+		 * - Global wildcard: '*'
+		 * - Category wildcard: `${type}/*` (e.g. 'image/*')
+		 * - Extension: `.${extension}` or `${extension}` (e.g. '.png' or 'png')
+		 * - Exact MIME types: e.g. 'image/png', 'video/mp4'
+		 *
+		 * @param type - High-level MIME category enum (e.g. eMimeType.IMAGE)
+		 * @param extension - File extension without dot (e.g. 'png', 'jpg')
+		 * @param mimeTypes - Specific MIME type strings to match (e.g. 'image/png')
+		 */
+		function matchAccept(type: eMimeType, extension: string, ...mimeTypes: string[]) {
+			const normalizedAccept = props.accept.map((a) => a.trim().toLowerCase());
+			const ext = extension.toLowerCase();
+			const typeWildcard = `${type.toLowerCase()}/*`;
+
 			return (
-				props.accept.includes("*") ||
-				props.accept.includes(`${type}/*`) ||
-				props.accept.includes(`.${extension}`)
+				normalizedAccept.includes("*") ||
+				normalizedAccept.includes(typeWildcard) ||
+				normalizedAccept.includes(`.${ext}`) ||
+				normalizedAccept.includes(ext) ||
+				mimeTypes.some((mime) => normalizedAccept.includes(mime.toLowerCase()))
 			);
 		}
 
@@ -332,17 +368,17 @@
 		let withAudios = false;
 
 		// Image formats
-		if (matchAccept(eMimeType.IMAGE, "gif")) {
+		if (matchAccept(eMimeType.IMAGE, "gif", gifMimeTypeA.mime, gifMimeTypeB.mime)) {
 			// Animated gifs
 			types.push(gifMimeTypeA, gifMimeTypeB);
 
 			withImages = true;
 		}
 		if (
-			matchAccept(eMimeType.IMAGE, "heic") ||
-			matchAccept(eMimeType.IMAGE, "heif") ||
-			matchAccept(eMimeType.IMAGE, "heics") ||
-			matchAccept(eMimeType.IMAGE, "heifs")
+			matchAccept(eMimeType.IMAGE, "heic", heicMimeType.mime) ||
+			matchAccept(eMimeType.IMAGE, "heif", heifMimeType.mime) ||
+			matchAccept(eMimeType.IMAGE, "heics", heicSequenceMimeType.mime) ||
+			matchAccept(eMimeType.IMAGE, "heifs", heifSequenceMimeType.mime)
 		) {
 			// Apple image formats
 			types.push(heicMimeType, heifMimeType, heicSequenceMimeType, heifSequenceMimeType);
@@ -350,9 +386,9 @@
 			withImages = true;
 		}
 		if (
-			matchAccept(eMimeType.IMAGE, "webp") ||
-			matchAccept(eMimeType.IMAGE, "bmp") ||
-			matchAccept(eMimeType.IMAGE, "ico")
+			matchAccept(eMimeType.IMAGE, "webp", webpMimeType.mime) ||
+			matchAccept(eMimeType.IMAGE, "bmp", bmpMimeType.mime) ||
+			matchAccept(eMimeType.IMAGE, "ico", iconMimeTypeA.mime, iconMimeTypeB.mime)
 		) {
 			// Non standard formats
 			types.push(webpMimeType, bmpMimeType, iconMimeTypeA, iconMimeTypeB);
@@ -360,9 +396,9 @@
 			withImages = true;
 		}
 		if (
-			matchAccept(eMimeType.IMAGE, "jpg") ||
-			matchAccept(eMimeType.IMAGE, "jpeg") ||
-			matchAccept(eMimeType.IMAGE, "png")
+			matchAccept(eMimeType.IMAGE, "jpg", "image/jpeg", "image/jpg") ||
+			matchAccept(eMimeType.IMAGE, "jpeg", jpegMimeType.mime) ||
+			matchAccept(eMimeType.IMAGE, "png", pngMimeType.mime)
 		) {
 			// Standard formats
 			types.push(jpegMimeType, pngMimeType);
@@ -372,27 +408,30 @@
 
 		// Video formats
 		if (
-			matchAccept(eMimeType.VIDEO, "mp4") ||
-			matchAccept(eMimeType.VIDEO, "webm") ||
+			matchAccept(eMimeType.VIDEO, "mp4", mp4MimeType.mime) ||
+			matchAccept(eMimeType.VIDEO, "webm", webmMimeType.mime) ||
 			matchAccept(eMimeType.VIDEO, "ogv") ||
-			matchAccept(eMimeType.VIDEO, "ogg")
+			matchAccept(eMimeType.VIDEO, "ogg", oggMimeType.mime)
 		) {
 			// Standard web video formats
 			types.push(mp4MimeType, webmMimeType, oggMimeType);
 
 			withVideos = true;
 		}
-		if (matchAccept(eMimeType.VIDEO, "mkv") || matchAccept(eMimeType.VIDEO, "mov")) {
+		if (
+			matchAccept(eMimeType.VIDEO, "mkv", mkvMimeType.mime) ||
+			matchAccept(eMimeType.VIDEO, "mov", movMimeType.mime)
+		) {
 			// Modern container formats
 			types.push(mkvMimeType, movMimeType);
 
 			withVideos = true;
 		}
 		if (
-			matchAccept(eMimeType.VIDEO, "avi") ||
-			matchAccept(eMimeType.VIDEO, "flv") ||
-			matchAccept(eMimeType.VIDEO, "wmv") ||
-			matchAccept(eMimeType.VIDEO, "mpeg") ||
+			matchAccept(eMimeType.VIDEO, "avi", aviMimeType.mime) ||
+			matchAccept(eMimeType.VIDEO, "flv", flvMimeType.mime) ||
+			matchAccept(eMimeType.VIDEO, "wmv", wmvMimeType.mime) ||
+			matchAccept(eMimeType.VIDEO, "mpeg", mpegMimeType.mime) ||
 			matchAccept(eMimeType.VIDEO, "mpg")
 		) {
 			// Legacy formats
@@ -400,7 +439,7 @@
 
 			withVideos = true;
 		}
-		if (matchAccept(eMimeType.VIDEO, "3gp")) {
+		if (matchAccept(eMimeType.VIDEO, "3gp", threegpMimeType.mime)) {
 			// Mobile formats
 			types.push(threegpMimeType);
 
@@ -409,9 +448,9 @@
 
 		// Audio formats
 		if (
-			matchAccept(eMimeType.AUDIO, "mp3") ||
-			matchAccept(eMimeType.AUDIO, "wav") ||
-			matchAccept(eMimeType.AUDIO, "aac")
+			matchAccept(eMimeType.AUDIO, "mp3", mp3Id3MimeType.mime) ||
+			matchAccept(eMimeType.AUDIO, "wav", wavMimeType.mime) ||
+			matchAccept(eMimeType.AUDIO, "aac", aacMimeType.mime)
 		) {
 			// Standard audio formats
 			types.push(mp3Id3MimeType, mp3SyncMimeType, wavMimeType, aacMimeType);
@@ -419,8 +458,8 @@
 			withAudios = true;
 		}
 		if (
-			matchAccept(eMimeType.AUDIO, "flac") ||
-			matchAccept(eMimeType.AUDIO, "aiff") ||
+			matchAccept(eMimeType.AUDIO, "flac", flacMimeType.mime) ||
+			matchAccept(eMimeType.AUDIO, "aiff", aiffMimeType.mime) ||
 			matchAccept(eMimeType.AUDIO, "aif")
 		) {
 			// Lossless audio formats
@@ -429,10 +468,10 @@
 			withAudios = true;
 		}
 		if (
-			matchAccept(eMimeType.AUDIO, "m4a") ||
+			matchAccept(eMimeType.AUDIO, "m4a", m4aMimeType.mime) ||
 			matchAccept(eMimeType.AUDIO, "oga") ||
-			matchAccept(eMimeType.AUDIO, "ogg") ||
-			matchAccept(eMimeType.AUDIO, "weba")
+			matchAccept(eMimeType.AUDIO, "ogg", oggAudioMimeType.mime) ||
+			matchAccept(eMimeType.AUDIO, "weba", webmAudioMimeType.mime)
 		) {
 			// Modern compressed audio formats
 			types.push(m4aMimeType, oggAudioMimeType, webmAudioMimeType);
@@ -440,9 +479,9 @@
 			withAudios = true;
 		}
 		if (
-			matchAccept(eMimeType.AUDIO, "wma") ||
+			matchAccept(eMimeType.AUDIO, "wma", wmaMimeType.mime) ||
 			matchAccept(eMimeType.AUDIO, "mid") ||
-			matchAccept(eMimeType.AUDIO, "midi")
+			matchAccept(eMimeType.AUDIO, "midi", midiMimeType.mime)
 		) {
 			// Legacy / specialized formats
 			types.push(wmaMimeType, midiMimeType);
@@ -538,7 +577,12 @@
 					} else {
 						// File is valid mime type
 						if (filesArr[i].size < maxFileSize.value) {
-							const fileName = `${props.filePrefix ?? matchMime}_${i}`;
+							const dotIndex = filesArr[i].name.lastIndexOf(".");
+							const extension =
+								!props.withoutExtension && dotIndex > 0
+									? filesArr[i].name.slice(dotIndex)
+									: "";
+							const fileName = `${props.filePrefix ?? matchMime}_${i}${extension}`;
 
 							savedFiles.push(renameFile(filesArr[i], fileName));
 						} else {
@@ -667,9 +711,13 @@
 			// Build thumbnails, reusing cached URLs for existing files
 			thumbnails.value = rawNewFiles.map((file) => {
 				const [type] = file.type.split("/");
+				const isPreviewable =
+					type === eMimeType.IMAGE ||
+					type === eMimeType.VIDEO ||
+					type === eMimeType.AUDIO;
 
-				// Skip thumbnail for files exceeding the size threshold
-				if (file.size > props.thumbnailMaxSize) {
+				// Skip thumbnail for files exceeding the size threshold or non-previewable files
+				if (file.size > props.thumbnailMaxSize || !isPreviewable) {
 					return { type: type as eMimeType, source: "" };
 				}
 

@@ -20,6 +20,7 @@
 				:disabled="readonly"
 				class="--maxWidth-full --flx"
 				:file-prefix="snakeCase(input.placeholder)"
+				:without-extension="input.meta?.withoutExtension"
 				:max-size="input.meta?.maxFileSize"
 				:capture="input.meta?.capture"
 				:model-value="modelValue"

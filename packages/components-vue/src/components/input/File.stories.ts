@@ -161,4 +161,55 @@ export const AcceptVideo: Story = {
 	},
 };
 
+export const AcceptSpecificMime: Story = {
+	args: {
+		accept: ["image/png"],
+		filePrefix: "avatar",
+		max: 1,
+	},
+	render: (args) => ({
+		components: { InputFile },
+		setup() {
+			const model = ref(args.modelValue || []);
+
+			watch(
+				() => args.modelValue,
+				(val) => {
+					model.value = val || [];
+				}
+			);
+
+			return { args, model };
+		},
+		template: '<InputFile v-bind="args" v-model="model" />',
+	}),
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const input = canvasElement.querySelector('input[type="file"]') as HTMLInputElement;
+
+		expect(input).toBeInTheDocument();
+		expect(input.getAttribute("accept")).toBe("image/png");
+
+		// Upload valid PNG file
+		const file = new File([PNG_HEADER], "profile.png", { type: "image/png" });
+
+		await userEvent.upload(input, file);
+
+		// Verify count display
+		await waitFor(() => {
+			const statusText = canvas.getByText(/1\s+(de|of)\s+1/i);
+
+			expect(statusText).toBeInTheDocument();
+		});
+
+		// Verify that a thumbnail <img> is rendered
+		await waitFor(() => {
+			const thumbnail = canvasElement.querySelector("img");
+
+			expect(thumbnail).toBeInTheDocument();
+			expect(thumbnail?.src).toMatch(/^blob:/);
+		});
+	},
+};
+
 export default meta;
