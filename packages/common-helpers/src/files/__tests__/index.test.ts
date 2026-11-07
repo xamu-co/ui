@@ -13,6 +13,18 @@ import {
 	mp3Id3MimeType,
 	wavMimeType,
 	mp4MimeType,
+	pdfMimeType,
+	docMimeType,
+	docxMimeType,
+	xlsMimeType,
+	xlsxMimeType,
+	pptMimeType,
+	pptxMimeType,
+	txtMimeType,
+	txtUtf8BomMimeType,
+	zipMimeType,
+	rarMimeTypeA,
+	rarMimeTypeB,
 } from "../index";
 
 describe("files helpers", () => {
@@ -69,6 +81,112 @@ describe("files helpers", () => {
 			const result = await fileMatchesMimeTypes(file, [mp4MimeType]);
 
 			expect(result).toBe(eMimeType.VIDEO);
+		});
+
+		it("should return eMimeType.DOCUMENT for a valid PDF header", async () => {
+			const pdfHeader = new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x37]);
+			const file = new File([pdfHeader], "doc.pdf", { type: "application/pdf" });
+			const result = await fileMatchesMimeTypes(file, [pdfMimeType]);
+
+			expect(result).toBe(eMimeType.DOCUMENT);
+		});
+
+		it("should return eMimeType.DOCUMENT for legacy Office documents (.doc, .xls, .ppt)", async () => {
+			const olecfHeader = new Uint8Array([
+				0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1, 0x00, 0x00,
+			]);
+
+			const docFile = new File([olecfHeader], "contract.doc", {
+				type: "application/msword",
+			});
+			const xlsFile = new File([olecfHeader], "balance.xls", {
+				type: "application/vnd.ms-excel",
+			});
+			const pptFile = new File([olecfHeader], "slides.ppt", {
+				type: "application/vnd.ms-powerpoint",
+			});
+
+			expect(await fileMatchesMimeTypes(docFile, [docMimeType])).toBe(eMimeType.DOCUMENT);
+			expect(await fileMatchesMimeTypes(xlsFile, [xlsMimeType])).toBe(eMimeType.DOCUMENT);
+			expect(await fileMatchesMimeTypes(pptFile, [pptMimeType])).toBe(eMimeType.DOCUMENT);
+		});
+
+		it("should return eMimeType.DOCUMENT for OpenXML Office documents (.docx, .xlsx, .pptx)", async () => {
+			const zipHeader = new Uint8Array([0x50, 0x4b, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00]);
+
+			const docxFile = new File([zipHeader], "report.docx", {
+				type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+			});
+			const xlsxFile = new File([zipHeader], "sheet.xlsx", {
+				type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+			});
+			const pptxFile = new File([zipHeader], "presentation.pptx", {
+				type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+			});
+
+			expect(await fileMatchesMimeTypes(docxFile, [docxMimeType])).toBe(eMimeType.DOCUMENT);
+			expect(await fileMatchesMimeTypes(xlsxFile, [xlsxMimeType])).toBe(eMimeType.DOCUMENT);
+			expect(await fileMatchesMimeTypes(pptxFile, [pptxMimeType])).toBe(eMimeType.DOCUMENT);
+		});
+
+		it("should return eMimeType.COMPRESSED for ZIP archives", async () => {
+			const zipHeader = new Uint8Array([0x50, 0x4b, 0x03, 0x04, 0x14, 0x00]);
+			const file = new File([zipHeader], "archive.zip", { type: "application/zip" });
+			const result = await fileMatchesMimeTypes(file, [zipMimeType]);
+
+			expect(result).toBe(eMimeType.COMPRESSED);
+		});
+
+		it("should disambiguate between .zip and .docx sharing the same PK magic bytes", async () => {
+			const zipHeader = new Uint8Array([0x50, 0x4b, 0x03, 0x04, 0x14, 0x00]);
+			const zipFile = new File([zipHeader], "archive.zip", { type: "application/zip" });
+			const docxFile = new File([zipHeader], "report.docx", {
+				type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+			});
+
+			// If only docx is accepted, zip must fail
+			expect(await fileMatchesMimeTypes(zipFile, [docxMimeType])).toBe(false);
+			// If only zip is accepted, docx must fail
+			expect(await fileMatchesMimeTypes(docxFile, [zipMimeType])).toBe(false);
+		});
+
+		it("should return eMimeType.COMPRESSED for RAR archives (v4 and v5)", async () => {
+			const rar4Header = new Uint8Array([
+				0x52, 0x61, 0x72, 0x21, 0x1a, 0x07, 0x00, 0x00, 0x00,
+			]);
+			const rar5Header = new Uint8Array([
+				0x52, 0x61, 0x72, 0x21, 0x1a, 0x07, 0x01, 0x00, 0x00,
+			]);
+
+			const rar4File = new File([rar4Header], "old.rar", { type: "application/vnd.rar" });
+			const rar5File = new File([rar5Header], "new.rar", { type: "application/vnd.rar" });
+
+			expect(await fileMatchesMimeTypes(rar4File, [rarMimeTypeA])).toBe(eMimeType.COMPRESSED);
+			expect(await fileMatchesMimeTypes(rar5File, [rarMimeTypeB])).toBe(eMimeType.COMPRESSED);
+		});
+
+		it("should return eMimeType.DOCUMENT for plain text files (.txt)", async () => {
+			const textBytes = new TextEncoder().encode("Hello world! Plain text document.");
+			const file = new File([textBytes], "notes.txt", { type: "text/plain" });
+			const result = await fileMatchesMimeTypes(file, [txtMimeType]);
+
+			expect(result).toBe(eMimeType.DOCUMENT);
+		});
+
+		it("should return eMimeType.DOCUMENT for UTF-8 BOM text files", async () => {
+			const bomBytes = new Uint8Array([0xef, 0xbb, 0xbf, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x21]);
+			const file = new File([bomBytes], "bom.txt", { type: "text/plain" });
+			const result = await fileMatchesMimeTypes(file, [txtUtf8BomMimeType]);
+
+			expect(result).toBe(eMimeType.DOCUMENT);
+		});
+
+		it("should reject a file disguised as .txt containing binary null bytes", async () => {
+			const binaryBytes = new Uint8Array([0x4d, 0x5a, 0x00, 0x00, 0x00, 0x00]);
+			const fakeFile = new File([binaryBytes], "fake.txt", { type: "text/plain" });
+			const result = await fileMatchesMimeTypes(fakeFile, [txtMimeType]);
+
+			expect(result).toBe(false);
 		});
 
 		it("should return false for unrecognized/mismatched bytes", async () => {

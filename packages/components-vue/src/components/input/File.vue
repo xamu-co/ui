@@ -7,7 +7,7 @@
 		<div v-if="thumbnails.length" class="flx --flxRow --flx-start-center --gap-10">
 			<ul class="flx --flxRow-wrap --flx-start-center --gap-10">
 				<li
-					v-for="({ type, source }, thumb_index) in thumbnails"
+					v-for="({ type, source, file }, thumb_index) in thumbnails"
 					:key="thumb_index"
 					class="flx --flxRow --flx-start-center --gap-5"
 				>
@@ -45,7 +45,7 @@
 									:alt="t('file_thumb')"
 									loop
 								></audio>
-								<IconFa v-else :name="'file'" :size="30" />
+								<IconFa v-else :name="getFileIcon(file)" :size="30" />
 							</div>
 							<ActionLink
 								:theme="eColors.LIGHT"
@@ -213,8 +213,22 @@
 		wmaMimeType,
 		aiffMimeType,
 		midiMimeType,
+		// Documents
+		pdfMimeType,
+		docMimeType,
+		docxMimeType,
+		xlsMimeType,
+		xlsxMimeType,
+		pptMimeType,
+		pptxMimeType,
+		txtMimeType,
+		txtUtf8BomMimeType,
+		// Compressed
+		zipMimeTypes,
+		rarMimeTypes,
 	} from "@open-xamu-co/ui-common-helpers";
 
+	import type { IconName } from "@fortawesome/fontawesome-common-types";
 	import BaseInput from "../base/Input.vue";
 	import BaseBox from "../base/Box.vue";
 	import IconFa from "../icon/Fa.vue";
@@ -285,6 +299,7 @@
 		type: eMimeType;
 		/** The playable asset */
 		source: string;
+		file?: File;
 	}
 
 	/**
@@ -366,6 +381,8 @@
 		let withImages = false;
 		let withVideos = false;
 		let withAudios = false;
+		let withDocuments = false;
+		let withCompressed = false;
 
 		// Image formats
 		if (matchAccept(eMimeType.IMAGE, "gif", gifMimeTypeA.mime, gifMimeTypeB.mime)) {
@@ -489,12 +506,106 @@
 			withAudios = true;
 		}
 
+		// Document formats
+		if (matchAccept(eMimeType.DOCUMENT, "pdf", pdfMimeType.mime)) {
+			types.push(pdfMimeType);
+
+			withDocuments = true;
+		}
+		if (
+			matchAccept(eMimeType.DOCUMENT, "doc", docMimeType.mime) ||
+			matchAccept(eMimeType.DOCUMENT, "docx", docxMimeType.mime)
+		) {
+			types.push(docMimeType, docxMimeType);
+
+			withDocuments = true;
+		}
+		if (
+			matchAccept(eMimeType.DOCUMENT, "xls", xlsMimeType.mime) ||
+			matchAccept(eMimeType.DOCUMENT, "xlsx", xlsxMimeType.mime)
+		) {
+			types.push(xlsMimeType, xlsxMimeType);
+
+			withDocuments = true;
+		}
+		if (
+			matchAccept(eMimeType.DOCUMENT, "ppt", pptMimeType.mime) ||
+			matchAccept(eMimeType.DOCUMENT, "pptx", pptxMimeType.mime)
+		) {
+			types.push(pptMimeType, pptxMimeType);
+
+			withDocuments = true;
+		}
+		if (matchAccept(eMimeType.DOCUMENT, "txt", txtMimeType.mime, "text/*")) {
+			types.push(txtUtf8BomMimeType, txtMimeType);
+
+			withDocuments = true;
+		}
+
+		// Compressed formats
+		if (
+			matchAccept(
+				eMimeType.COMPRESSED,
+				"zip",
+				"application/zip",
+				"application/x-zip-compressed"
+			)
+		) {
+			types.push(...zipMimeTypes);
+
+			withCompressed = true;
+		}
+		if (
+			matchAccept(
+				eMimeType.COMPRESSED,
+				"rar",
+				"application/vnd.rar",
+				"application/x-rar-compressed"
+			)
+		) {
+			types.push(...rarMimeTypes);
+
+			withCompressed = true;
+		}
+
 		if (withImages) names.push(eMimeType.IMAGE);
 		if (withVideos) names.push(eMimeType.VIDEO);
 		if (withAudios) names.push(eMimeType.AUDIO);
+		if (withDocuments) names.push(eMimeType.DOCUMENT);
+		if (withCompressed) names.push(eMimeType.COMPRESSED);
 
 		return { types, names };
 	});
+
+	/**
+	 * Determines the appropriate FontAwesome icon based on file extension
+	 */
+	function getFileIcon(file?: File): IconName {
+		if (!file) return "file";
+
+		const ext = file.name.split(".").pop()?.toLowerCase();
+
+		switch (ext) {
+			case "pdf":
+				return "file-pdf";
+			case "doc":
+			case "docx":
+				return "file-word";
+			case "xls":
+			case "xlsx":
+				return "file-excel";
+			case "ppt":
+			case "pptx":
+				return "file-powerpoint";
+			case "txt":
+				return "file-lines";
+			case "zip":
+			case "rar":
+				return "file-zipper";
+			default:
+				return "file";
+		}
+	}
 
 	function playMedia(e: Event) {
 		const media = (e.target as HTMLElement).querySelector("video, audio");
@@ -718,7 +829,7 @@
 
 				// Skip thumbnail for files exceeding the size threshold or non-previewable files
 				if (file.size > props.thumbnailMaxSize || !isPreviewable) {
-					return { type: type as eMimeType, source: "" };
+					return { type: type as eMimeType, source: "", file };
 				}
 
 				// Reuse existing URL or create a new one
@@ -729,6 +840,7 @@
 				return {
 					type: type as eMimeType,
 					source: objectUrlCache.get(file)!,
+					file,
 				};
 			});
 		},
