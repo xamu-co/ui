@@ -1,5 +1,26 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-enums-v4.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v4.0.0...@open-xamu-co/ui-common-enums-v4.1.0) (2026-11-07)
+
+
+### Features
+
+* support document file types ([3462615](https://github.com/xamu-co/ui/commit/3462615d914b8837866f631b6438d793f623f977))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-enums" version "4.1.0"[0m
+[34mUpdating "common-types"[0m
+[34mSuccesfully updated "common-types" package[0m
+[34mUpdating "common-helpers"[0m
+[34mSuccesfully updated "common-helpers" package[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-enums-v4.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-enums-v3.1.0...@open-xamu-co/ui-common-enums-v4.0.0) (2026-10-23)
 
 
