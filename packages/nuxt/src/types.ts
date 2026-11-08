@@ -26,7 +26,7 @@ export interface XamuModuleOptions extends Omit<iVuePluginOptions, "internals"> 
 	logger?: iVuePluginOptions["logger"];
 }
 
-export type Stylesheet = string | { href: string; tagPriority?: number };
+export type Stylesheet = string | { href: string; tagPriority?: "high" | "critical" | "low" };
 
 // Do not use unscoped schema
 declare module "@nuxt/schema" {

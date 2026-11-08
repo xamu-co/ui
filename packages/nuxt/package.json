@@ -23,9 +23,16 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/module.d.mts",
-      "import": "./dist/module.mjs",
-      "default": "./dist/module.mjs"
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
+    }
+  },
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ]
     }
   },
   "files": [
@@ -37,15 +44,16 @@
   },
   "scripts": {
     "build": "yarn build:prepack && nuxt-module-build build",
-    "build:prepack": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "dev": "nuxi dev playground",
-    "dev:build": "nuxi build playground",
+    "build:prepack": "nuxt-module-build build && nuxt prepare playground",
+    "dev": "yarn dev:prepare && nuxt dev playground",
+    "dev:build": "yarn countries && nuxt build playground && node scripts/postbuild.cjs",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare layground",
     "test": "vitest run",
     "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@nuxt/image": "^1.10.0",
-    "@nuxt/kit": "^3.20.2",
+    "@nuxt/image": "^2.1.0",
+    "@nuxt/kit": "^4.6.3",
     "@open-xamu-co/ui-common-enums": "link:../common-enums",
     "@open-xamu-co/ui-common-helpers": "link:../common-helpers",
     "@open-xamu-co/ui-components-vue": "link:../components-vue",
@@ -53,13 +61,13 @@
     "sweetalert2": "^11.11.1"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^3.1.1",
-    "@nuxt/module-builder": "^1.0.2",
-    "@nuxt/schema": "^3.20.2",
-    "@nuxt/test-utils": "^3.21.0",
+    "@nuxt/devtools": "^3.4.2",
+    "@nuxt/module-builder": "^1.0.3",
+    "@nuxt/schema": "^4.6.3",
+    "@nuxt/test-utils": "^4.3.3",
     "@open-xamu-co/ui-common-types": "link:../common-types",
     "@open-xamu-co/ui-styles": "link:../styles",
     "@types/lodash-es": "^4.14.192",
-    "nuxt": "^3.20.2"
+    "nuxt": "^4.6.3"
   }
 }

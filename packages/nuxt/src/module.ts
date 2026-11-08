@@ -26,11 +26,11 @@ export * from "./types";
  */
 export function getStyleSheetPreload(href: Stylesheet) {
 	return {
-		rel: "preload",
+		rel: "preload" as const,
 		as: "style" as const,
 		onload: "this.onload=null;this.rel='stylesheet'",
 		href: typeof href === "string" ? href : href.href,
-		tagPriority: typeof href === "object" ? href.tagPriority : undefined,
+		tagPriority: typeof href === "object" ? href.tagPriority : "low",
 	};
 }
 
