@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-styles-v5.0.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v5.0.0...@open-xamu-co/ui-styles-v5.0.1) (2026-11-09)
+
+
+### Bug Fixes
+
+* **styles:** prevent single grid column overflow ([894a21f](https://github.com/xamu-co/ui/commit/894a21fab9a964f79a7695b0c901cea895fad871))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-styles" version "5.0.1"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-styles-v5.0.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-styles-v4.1.0...@open-xamu-co/ui-styles-v5.0.0) (2026-10-23)
 
 
