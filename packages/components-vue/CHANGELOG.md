@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.1.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.1.0...@open-xamu-co/ui-components-vue-v4.1.1) (2026-11-09)
+
+
+### Bug Fixes
+
+* **vue:** bind properties to select filter modal button ([6e46807](https://github.com/xamu-co/ui/commit/6e468075cfd4c17d60532501ce462f3c3b90500b))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.1.1"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.0.4...@open-xamu-co/ui-components-vue-v4.1.0) (2026-11-07)
 
 
