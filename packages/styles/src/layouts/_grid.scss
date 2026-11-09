@@ -145,7 +145,7 @@
 
 				&-single {
 					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
-						grid-template-rows: 1fr;
+						grid-template-rows: minmax(100%, 1fr);
 					}
 				}
 
@@ -206,7 +206,7 @@
 
 				&-single {
 					@include utils.extend-viewports-classes($viewports: utils.$viewports) {
-						grid-template-columns: 1fr;
+						grid-template-columns: minmax(100%, 1fr);
 					}
 				}
 

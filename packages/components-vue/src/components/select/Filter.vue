@@ -11,6 +11,7 @@
 		<template #toggle="{ setModel, isModal }">
 			<ActionButton
 				v-if="isModal"
+				v-bind="properties"
 				class="--flxJustify-start"
 				:class="{ '--width-100': !compact }"
 				:theme="toggleTheme || theme"
