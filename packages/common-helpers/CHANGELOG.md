@@ -1,5 +1,22 @@
 Xamu UI
 
+# [@open-xamu-co/ui-common-helpers-v4.1.1](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.1.0...@open-xamu-co/ui-common-helpers-v4.1.1) (2026-11-13)
+
+
+### Bug Fixes
+
+* **inputs:** use modal for color & allow setting min,max & meta for default inputs ([609a229](https://github.com/xamu-co/ui/commit/609a2291f2d86f88ac41ea34fc1b6927a29942d4))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-common-helpers" version "4.1.1"[0m
+[34mUpdating "components-vue"[0m
+[34mSuccesfully updated "components-vue" package[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-common-helpers-v4.1.0](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-common-helpers-v4.0.0...@open-xamu-co/ui-common-helpers-v4.1.0) (2026-11-07)
 
 
