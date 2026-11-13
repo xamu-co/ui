@@ -1,17 +1,19 @@
 <template>
-	<DropdownSimple
+	<ModalSimple
 		class="--display-inline-block"
 		:position="['bottom', 'center']"
 		:theme="theme"
+		:target="target"
+		:disabled="disabled"
 		invert-theme
 	>
-		<template #toggle="{ setModel }">
+		<template #toggle="{ toggleModal }">
 			<BaseInput
 				v-model="model"
 				:class="[modifiersClasses, stateClasses, themeClasses]"
 				class="iColor"
 				v-bind="{ ...$attrs, ...omit(props, ['modelValue', 'size']), type: 'color' }"
-				@click.prevent="() => setModel()"
+				@click.prevent="() => toggleModal()"
 			/>
 		</template>
 		<template #default="{ model: showPicker }">
@@ -32,20 +34,20 @@
 					'#F78DA7',
 					'#9900EF',
 				]"
-				class="iColor-picker"
+				class="iColor-picker --pBottom"
 				tabindex="0"
 			/>
 		</template>
-	</DropdownSimple>
+	</ModalSimple>
 </template>
 
 <script setup lang="ts">
-	import { computed } from "vue";
+	import { computed, type RendererElement } from "vue";
 	import omit from "lodash-es/omit";
 	import { TwitterPicker } from "vue-color";
 
 	import BaseInput from "../base/Input.vue";
-	import DropdownSimple from "../dropdown/Simple.vue";
+	import ModalSimple from "../modal/Simple.vue";
 
 	import type {
 		iUseModifiersProps,
@@ -63,6 +65,14 @@
 		 * @private
 		 */
 		modelValue?: number | string;
+		/**
+		 * Target element to append the modal to
+		 *
+		 * Another modal could be the target so it appears nested
+		 *
+		 * @default body
+		 */
+		target?: string | RendererElement;
 	}
 
 	/**

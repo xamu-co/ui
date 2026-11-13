@@ -121,6 +121,18 @@ export interface iFormInputDefault<
 	placeholder?: string;
 	icon?: IconName | tFormIcon;
 	autocomplete?: tFormAutocomplete;
+	/**
+	 * if muliple is set to true this optional value would be the required minimun amount of values
+	 */
+	min?: number;
+	/**
+	 * if multiple is set to true this optional value would be the mandatory maximun amount of values
+	 */
+	max?: number;
+	/**
+	 * Additional input metadata
+	 */
+	meta?: Record<string, any>;
 }
 
 export type tOptionsLoaderFn =
@@ -172,18 +184,6 @@ export interface iFormInput<
 	 * If multiple options are accepted, whether to accept or not duplicate values.
 	 */
 	unique?: boolean;
-	/**
-	 * if muliple is set to true this optional value would be the required minimun amount of values
-	 */
-	min?: number;
-	/**
-	 * if multiple is set to true this optional value would be the mandatory maximun amount of values
-	 */
-	max?: number;
-	/**
-	 * Additional input metadata
-	 */
-	meta?: Record<string, any>;
 }
 
 /**

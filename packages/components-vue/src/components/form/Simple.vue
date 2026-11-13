@@ -29,16 +29,18 @@
 								{{ getSuggestedTitle(input) }}
 							</p>
 							<FormInput
-								:key="`input-${input.name}`"
+								:key="`input-${input.name}-${input.type}`"
 								v-bind="{
 									...countriesAndStatesReq.content,
 									...omit(countriesAndStatesReq, 'content'),
+									target,
 									readonly,
 									theme,
 									input,
 								}"
 								:invalid="getInvalid(input.name)"
 								:model-value="model[inputIndex].values"
+								class="--flx"
 								@update:model-value="updateValues(inputIndex, $event)"
 							>
 								<template

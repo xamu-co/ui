@@ -1,6 +1,10 @@
 <template>
 	<BaseErrorBoundary at="FormInput" :theme="theme">
-		<div v-if="input.type !== eFT.HIDDEN" class="flx --flxColumn --flx-start --flx --gap-5">
+		<div
+			v-if="input.type !== eFT.HIDDEN"
+			class="flx --flxColumn --flx-start --gap-5"
+			:class="[$attrs.class, input.meta?.inputClasses]"
+		>
 			<FormInputOptions
 				v-if="!input.defaults && input.type === eFT.CHOICE"
 				v-slot="{ options }"
@@ -36,17 +40,17 @@
 					<!-- Flexible input type -->
 					<div
 						v-if="input.defaults && input.defaults.length >= 2"
-						class="flx --flxRow-wrap --flx-start-stretch --flx --gap-5"
+						class="input-recursion flx --flxRow-wrap --flx-start-stretch --flx --gap-5"
 					>
 						<!-- Recursion -->
 						<Input
 							v-for="(model, index) in models[i].value"
-							:key="`${input.name}-${i}-${index}`"
+							:key="`${input.name}-${input.type}-${i}-${index}`"
 							:input="getSubInput(i, Number(index))"
 							:theme="theme"
-							class="--width-180:md --flx"
 							:invalid="invalid"
 							:model-value="[model]"
+							:target="target"
 							:disabled="readonly"
 							@update:model-value="updateArrModel(i, Number(index), $event[0])"
 						/>
@@ -246,6 +250,7 @@
 						v-model="models[i].value"
 						v-bind="inputProps"
 						:theme="theme"
+						:target="target"
 						:disabled="readonly"
 					/>
 					<BoxEditor
@@ -304,7 +309,7 @@
 	</BaseErrorBoundary>
 </template>
 <script setup lang="ts">
-	import { computed, defineAsyncComponent } from "vue";
+	import { computed, defineAsyncComponent, type RendererElement } from "vue";
 	import isEqual from "lodash-es/isEqual";
 	import snakeCase from "lodash-es/snakeCase";
 	import omit from "lodash-es/omit";
@@ -371,6 +376,14 @@
 		refresh?: (...args: any[]) => any;
 		/** Make all inputs read only by disabling them */
 		readonly?: boolean;
+		/**
+		 * Target element to append the modal to
+		 *
+		 * Another modal could be the target so it appears nested
+		 *
+		 * @default body
+		 */
+		target?: string | RendererElement;
 	}
 
 	/**
@@ -465,8 +478,10 @@
 			multiple: false,
 			defaults: undefined,
 			values: subValue !== undefined ? [subValue] : undefined,
-			min: undefined,
-			max: undefined,
+			meta: {
+				...defaultConfig.meta,
+				inputClasses: defaultConfig.meta?.inputClasses ?? "--width-180:md --flx",
+			},
 		});
 	}
 

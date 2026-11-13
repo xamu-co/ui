@@ -94,6 +94,9 @@ export abstract class FormInputDefault<
 	// public
 	public type: T;
 	public required: boolean;
+	public min: number;
+	public max: number;
+	public meta: { [x: string]: any; inputClasses?: string };
 	// public readonly
 	public readonly placeholder: string;
 	public readonly icon?: tFormIcon;
@@ -107,6 +110,13 @@ export abstract class FormInputDefault<
 		this.required = formInput.required ?? false;
 		this.placeholder = formInput.placeholder || "";
 		this.autocomplete = formInput.autocomplete;
+		this.min = formInput.min ?? 1;
+		this.meta = formInput.meta || {};
+
+		// Max cannot be lower than min or more than options if they exist
+		const maxValue = formInput.max || 9e9;
+
+		this.max = maxValue < this.min ? this.min : maxValue;
 
 		if (formInput.icon) this.icon = getIcon(formInput.icon, formInput.type);
 	}
@@ -143,9 +153,7 @@ export class FormInput<
 	// public
 	public multiple: boolean;
 	public unique: boolean;
-	public min: number;
-	public max: number;
-	public meta: { [x: string]: any; actionSlotName: string };
+	public meta: { [x: string]: any; inputClasses?: string; actionSlotName: string };
 	// public readonly
 	public readonly name: string;
 	public readonly title?: string;
@@ -180,7 +188,6 @@ export class FormInput<
 		}
 
 		this._defaults = formInput.defaults;
-		this.min = formInput.min ?? 1;
 		this.meta = {
 			...formInput.meta,
 			actionSlotName: `inputActions${upperFirst(camelCase(formInput.name))}`,
