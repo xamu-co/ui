@@ -19,6 +19,9 @@ export declare abstract class tFormInputDefault<
 > implements iFormInputDefault<T> {
 	// public
 	public type: T;
+	public min: number;
+	public max: number;
+	public meta?: Record<string, any>;
 	// public readonly
 	public readonly required: boolean;
 	public readonly placeholder: string;
@@ -47,9 +50,6 @@ export declare abstract class tFormInput<
 	// public
 	public multiple: boolean;
 	public unique: boolean;
-	public min: number;
-	public max: number;
-	public meta?: Record<string, any>;
 	public options: iFormOption[];
 	public values: V[];
 	public defaults?: [
