@@ -1,5 +1,20 @@
 Xamu UI
 
+# [@open-xamu-co/ui-components-vue-v4.1.3](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.1.2...@open-xamu-co/ui-components-vue-v4.1.3) (2026-11-14)
+
+
+### Bug Fixes
+
+* **vue:** move useslots outside computed on slider ([eff9535](https://github.com/xamu-co/ui/commit/eff95359c91a3f0d0e245de42df6ae42eb0331c2))
+
+
+
+
+
+[34mUpdating dependant packages with "@open-xamu-co/ui-components-vue" version "4.1.3"[0m
+[34mUpdating "nuxt"[0m
+[34mSuccesfully updated "nuxt" package[0m
+
 # [@open-xamu-co/ui-components-vue-v4.1.2](https://github.com/xamu-co/ui/compare/@open-xamu-co/ui-components-vue-v4.1.1...@open-xamu-co/ui-components-vue-v4.1.2) (2026-11-13)
 
 
