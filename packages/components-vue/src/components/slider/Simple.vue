@@ -146,6 +146,7 @@
 	const { disableAutoAnimate } = inject<iPluginOptions>("xamu") || {};
 	const { t } = useHelpers(useI18n);
 	const { isBrowser } = useHelpers(useUtils);
+	const slots = useSlots();
 
 	const loading = ref(true);
 	const sliderContainerRef = ref<HTMLElement>();
@@ -161,7 +162,7 @@
 	});
 
 	const sliderTag = computed(() => {
-		const children = useSlots().default?.() || [];
+		const children = slots.default?.() || [];
 
 		return children.length && children[0].type === "li" ? "ul" : "div";
 	});
